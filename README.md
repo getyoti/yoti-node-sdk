@@ -25,8 +25,6 @@ If you are using NPM, you need to add the following dependency:
     "yoti-node-sdk" : "1.0.0"
 }
 ```
-_We are not yet on NPM, so, for the moment, in order to use the SDK you need to clone this repo and run_ `npm link` _from the repo root. Finally run _`npm link yoti-node-sdk` _from your project directory._
-
 
 ## Client initialisation
 The YotiClient is the SDK entry point. To initialise it you need include the following snippet inside your endpoint initialisation section:
