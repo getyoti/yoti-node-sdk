@@ -1,8 +1,8 @@
 {
 	"name": "yoti-node-sdk",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Yoti NodeJS SDK for back-end integration",
-	"author": "Yoti LTD",
+	"author": "Yoti LTD <tech@yoti.com> (https://www.yoti.com/developers)",
 	"scripts": {
 		"test": "mocha test/*.spec.js"
 	},
