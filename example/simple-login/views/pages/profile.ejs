@@ -1,0 +1,33 @@
+<html>
+<head>
+	<title>Welcome</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>User id</td>
+			<td><%= userId %></td>
+		</tr>
+		<tr>
+			<td>Name</td>
+			<td><%= profile.givenNames %></td>
+		</tr>
+		<tr>
+			<td>Surname</td>
+			<td><%= profile.familyName %></td>
+		</tr>
+		<tr>
+			<td>Date of birth</td>
+			<td><%= profile.dateOfBirth %></td>
+		</tr>
+		<tr>
+			<td>Gender</td>
+			<td><%= profile.gender %></td>
+		</tr>
+		<tr>
+			<td>Selfie</td>
+			<td><img width="200" alt="some image" src="<%=  profile.selfie %>" /></td>
+		</tr>	
+	</table>
+</body>
+</html>

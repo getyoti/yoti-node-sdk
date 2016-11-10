@@ -1,0 +1,25 @@
+{
+	"name": "yoti-node-sdk",
+	"version": "1.0.0",
+	"description": "Yoti NodeJS SDK for back-end integration",
+	"author": "Yoti LTD",
+	"scripts": {
+		"test": "mocha test/*.spec.js"
+	},
+	"dependencies": {
+		"node-forge": "0.6.39",
+		"superagent": "2.0.0",
+		"base64-url": "1.2.2",
+    	"protobufjs": "5.0.1",
+    	"ursa": "0.9.4",
+    	"uuid": "2.0.2"
+	},
+  	"devDependencies": {
+    	"chai": "3.5.0",
+    	"sinon": "1.17.4",
+    	"mocha": "2.5.3",
+    	"mocha-sinon": "1.1.5",
+        "nock": "8.0.0",    	
+    	"sinon-chai": "2.8.0"
+   	}
+}

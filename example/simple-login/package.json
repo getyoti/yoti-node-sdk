@@ -1,0 +1,12 @@
+{
+  "name": "yoti-node-sdk-simple-login",
+  "version": "0.0.1",
+  "description": "A Yoti client example",
+  "private": true,
+  "author": "Yoti LTD",
+  "scripts": {},
+  "dependencies": {
+    "yoti-node-sdk" : "1.0.0",
+    "ejs": "^2.4.2"
+  }
+}
