@@ -26,6 +26,18 @@ If you are using NPM, you need to add the following dependency:
 }
 ```
 
+### Windows installation
+If you're planning on using the Node SDK on Windows, you'll need to install a few dependencies first:
+
+* [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) (normal version, not light)
+in the same bitness as your Node.js installation.
+    * OpenSSL must be installed in its specific directory (`C:\OpenSSL-Win32` or `C:\OpenSSL-Win64`)
+    * The latest version of OpenSSL (v1.1.x) does not have the `libeay32.dll` file. Install v1.0.2 instead.
+    * If you get `Error: The specified module could not be found.`, copy `libeay32.dll` from the OpenSSL bin directory to this module's bin directory, or to `Windows\System32`.
+* [node-gyp](https://github.com/nodejs/node-gyp) (`npm install -g node-gyp`)
+   * But first, install [Python 2.7](http://www.python.org/download/).
+   * And a compatible version of [Visual Studio](https://www.visualstudio.com/downloads/). Visual Studio Community is free and includes all the dependencies you need to get started.
+
 ## Client initialisation
 The YotiClient is the SDK entry point. To initialise it you need include the following snippet inside your endpoint initialisation section:
 ```javascript
