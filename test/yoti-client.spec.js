@@ -16,12 +16,14 @@ const encryptedYotiToken = "c31Db4y6ClxSWy26xDpa9LEX3ZTUuR-rKaAhjQWnmKilR20Ishky
 
 
 const response = fs.readFileSync('./test/payload.json', 'utf8')
+const responseContentNull = fs.readFileSync('./test/payload-other-party-null.json', 'utf8')
+const responseContentNonExistent = fs.readFileSync('./test/payload-other-party-non-existent.json', 'utf8')
+const responseContentEmptyObj = fs.readFileSync('./test/payload-other-party-empty-object.json', 'utf8')
 
 const selfie = fs.readFileSync('./test/selfie.txt', 'utf8')
 const phoneNumber = '+447474747474';
 const userId = 'Hig2yAT79cWvseSuXcIuCLa5lNkAPy70rxetUaeHlTJGmiwc/g1MWdYWYrexWvPU';
 const profileService = require('../src/profile_service')
-let getRequest;
 
 describe('Call Yoti client', function() {
 	beforeEach(done => {
@@ -67,7 +69,146 @@ describe('Call Yoti client', function() {
 				assert.equal(profile.phoneNumber, phoneNumber)
 				assert.equal(profile.selfie, selfie)
 				assert.equal(outcome, 'SUCCESS')
-				
+
+				done()
+			})
+			.catch(done)
+	})
+})
+
+describe('Call Yoti client with no data in profile', function() {
+	beforeEach(done => {
+		nock(`${config.server.configuration.connectApi}`).get(new RegExp('^/api/v1/profile/')).reply(200, responseContentNull);
+		done()
+	})
+
+	afterEach(done => {
+		nock.cleanAll();
+		done()
+	})
+
+	it('fetch and decrypt the empty profile providing the correct userId and outcome', done => {
+		let yotiClient = new YotiClient('stub-app-id', privateKeyFile)
+		yotiClient.getActivityDetails(encryptedYotiToken)
+			.then(activityDetails => {
+				let profile = activityDetails.getUserProfile()
+				let outcome = activityDetails.getOutcome()
+
+				assert.notEqual(profile, undefined)
+				assert.deepEqual(profile, {})
+				assert.equal(activityDetails.getUserId(), userId)
+				assert.equal(outcome, 'SUCCESS')
+
+				done()
+			})
+			.catch(done)
+	})
+
+
+	it('should get an empty receipt from an empty profile share', done => {
+		profileService.getReceipt('blah', privateKeyFile, 'stub-app-id')
+			.then(activityDetails => {
+				let profile = activityDetails.getUserProfile()
+				let outcome = activityDetails.getOutcome()
+
+				assert.notEqual(profile, undefined)
+				assert.deepEqual(profile, {})
+				assert.equal(activityDetails.getUserId(), userId)
+				assert.equal(outcome, 'SUCCESS')
+
+				done()
+			})
+			.catch(done)
+	})
+})
+
+describe('Call Yoti client containing empty object in profile attribute in the response', function() {
+	beforeEach(done => {
+		nock(`${config.server.configuration.connectApi}`).get(new RegExp('^/api/v1/profile/')).reply(200, responseContentEmptyObj);
+		done()
+	})
+
+	afterEach(done => {
+		nock.cleanAll();
+		done()
+	})
+
+	it('fetch and decrypt the empty profile providing the correct userId and outcome', done => {
+		let yotiClient = new YotiClient('stub-app-id', privateKeyFile)
+		yotiClient.getActivityDetails(encryptedYotiToken)
+			.then(activityDetails => {
+				let profile = activityDetails.getUserProfile()
+				let outcome = activityDetails.getOutcome()
+
+				assert.notEqual(profile, undefined)
+				assert.deepEqual(profile, {})
+				assert.equal(activityDetails.getUserId(), userId)
+				assert.equal(outcome, 'SUCCESS')
+
+				done()
+			})
+			.catch(done)
+	})
+
+
+	it('should get an empty receipt from an empty profile share', done => {
+		profileService.getReceipt('blah', privateKeyFile, 'stub-app-id')
+			.then(activityDetails => {
+				let profile = activityDetails.getUserProfile()
+				let outcome = activityDetails.getOutcome()
+
+				assert.notEqual(profile, undefined)
+				assert.deepEqual(profile, {})
+				assert.equal(activityDetails.getUserId(), userId)
+				assert.equal(outcome, 'SUCCESS')
+
+				done()
+			})
+			.catch(done)
+	})
+})
+
+
+
+describe('Call Yoti client with no profile attribute existent in the response', function() {
+	beforeEach(done => {
+		nock(`${config.server.configuration.connectApi}`).get(new RegExp('^/api/v1/profile/')).reply(200, responseContentNonExistent);
+		done()
+	})
+
+	afterEach(done => {
+		nock.cleanAll();
+		done()
+	})
+
+	it('fetch and decrypt the empty profile providing the correct userId and outcome', done => {
+		let yotiClient = new YotiClient('stub-app-id', privateKeyFile)
+		yotiClient.getActivityDetails(encryptedYotiToken)
+			.then(activityDetails => {
+				let profile = activityDetails.getUserProfile()
+				let outcome = activityDetails.getOutcome()
+
+				assert.notEqual(profile, undefined)
+				assert.deepEqual(profile, {})
+				assert.equal(activityDetails.getUserId(), userId)
+				assert.equal(outcome, 'SUCCESS')
+
+				done()
+			})
+			.catch(done)
+	})
+
+	it('should get an empty receipt from an empty profile share', done => {
+		profileService.getReceipt('blah', privateKeyFile, 'stub-app-id')
+			.then(activityDetails => {
+				let profile = activityDetails.getUserProfile()
+				let outcome = activityDetails.getOutcome()
+
+				assert.notEqual(profile, undefined)
+				assert.deepEqual(profile, {})
+				assert.equal(activityDetails.getUserId(), userId)
+				assert.equal(outcome, 'SUCCESS')
+
 				done()
 			})
 			.catch(done)
