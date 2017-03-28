@@ -79,12 +79,17 @@ function getRSASignatureForMessage(message, pem) {
 }
 
 function decryptCurrentUserReceipt(receipt, pem, callback) {
-  let unwrappedKey = unwrapKey(receipt.wrapped_receipt_key, pem);
-  let decodedData = protoRoot.decodeEncryptedData(new Buffer(receipt.other_party_profile_content, 'base64'))
-  let iv = forge.util.decode64(decodedData.iv);
-  let cipherText = forge.util.decode64(decodedData.cipherText);
+  if(receipt.other_party_profile_content && Object.keys(receipt.other_party_profile_content).length > 0) {
+      let unwrappedKey = unwrapKey(receipt.wrapped_receipt_key, pem);
+      let decodedData = protoRoot.decodeEncryptedData(new Buffer(receipt.other_party_profile_content, 'base64'))
+      let iv = forge.util.decode64(decodedData.iv);
+      let cipherText = forge.util.decode64(decodedData.cipherText);
 
-  return decipherProfile(cipherText, forge.util.decode64(unwrappedKey), iv);
+      return decipherProfile(cipherText, forge.util.decode64(unwrappedKey), iv);
+  } else {
+      console.log('no decrypted data')
+      return []
+  }
 }
 
 function decipherProfile(cipherText, key, iv, callback) {
