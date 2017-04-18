@@ -110,7 +110,7 @@ function decipherProfile(cipherText, key, iv, callback) {
 }
 
 function unwrapKey(wrappedKey, pem) {
-  let wrappedKeyBuffer = Buffer.from(wrappedKey, 'base64');
+  let wrappedKeyBuffer = new Buffer(wrappedKey, 'base64');
   let privateKey = ursa.createPrivateKey(pem);
   let unwrappedKey = privateKey.decrypt(wrappedKeyBuffer, 'base64', 'base64', ursa.RSA_PKCS1_PADDING);
 
