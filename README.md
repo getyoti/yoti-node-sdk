@@ -77,14 +77,15 @@ in the same bitness as your Node.js installation.
 ## Installing the SDK
 
 To import the Yoti SDK inside your project, you can use your favourite dependency management system.
-If you are using NPM, you need to add the following dependency:
+If you are using NPM, you can use `npm install -S -E yoti-node-sdk` to set the Yoti SDK as a dependancy.
+
+Your package.json file will then be updated to include:
 
 ```json
 "dependencies": {
-    "yoti-node-sdk" : "1.0.2"
-}
-```
-Use the following command: npm install -S yoti-node-sdk
+     "yoti-node-sdk" : "1.0.2"
+ }
+ ```
 
 ## Configuration
 
@@ -160,7 +161,6 @@ Update your Callback URL in our Yoti Dashboard and you should be good to go!
 
 ## Running the example
 
-If would like to test the SDK use the following command:
 ```npm test
 ```
 
@@ -172,7 +172,7 @@ If would like to test the SDK use the following command:
         * [X] Photo `selfie`
         * [X] Given Names `givenNames`
         * [X] Family Name `familyName`
-        * [X] Mobile Number `mobNum`
+        * [X] Mobile Number `phoneNumber`
         * [X] Email address `emailAddress`
         * [X] Date of Birth `dateOfBirth`
         * [X] Address `postalAddress`
