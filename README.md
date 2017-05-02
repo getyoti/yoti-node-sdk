@@ -26,13 +26,10 @@ How to retrieve a Yoti profile using the token
 7) [Handling users](#handling-users)-
 How to manage users
 
-8) [Running the example](running-the-example)-
-Run the example command
-
-9) [API Coverage](#api-coverage)-
+8) [API Coverage](#api-coverage)-
 Attributes defined
 
-10) [Support](#support)-
+9) [Support](#support)-
 Please feel free to reach out
 
 ## An Architectural view
@@ -87,7 +84,7 @@ The YotiClient is the SDK entry point. To initialise it you need include the fol
 
 ```javascript
 const YotiClient = require('yoti-node-sdk')
-const CLIENT_SDK_ID = 'CLIENT_SDK_ID'
+const CLIENT_SDK_ID = 'your sdk id'
 const PEM = fs.readFileSync(__dirname + "/keys/your-application-pem-file.pem");
 var yotiClient = new YotiClient(CLIENT_SDK_ID, PEM)
 ```
@@ -153,16 +150,20 @@ The `profile` object provides a set of attributes corresponding to user attribut
 
 Update your Callback URL in our Yoti Dashboard and you should be good to go!
 
-## Running the example
-
-```npm test
-```
-
 ## API Coverage
 
+In order to get the users information, the Node SDK will decrypt the token in the callback URL. Use the following code to do this:
+
+```javascript
+yotiClient.getActivityDetails(token).then((activityDetails) => {
+	let profile = activityDetails.getUserProfile();
+	// Use the table below to retrieve specific attributes from the profile object
+}
+```
+
 * Activity Details
-    * [X] User ID `user_id`
-    * [X] Profile
+    * [X] User ID `.getUserId()`
+    * [X] Profile `.getUserProfile()`
         * [X] Photo `selfie`
         * [X] Given Names `givenNames`
         * [X] Family Name `familyName`
