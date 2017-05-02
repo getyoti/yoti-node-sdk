@@ -50,16 +50,10 @@ Yoti also allows you to enable user details verification from your mobile app by
 
 ## References
 
-* [AES-256 symmetric encryption][]
-* [RSA pkcs asymmetric encryption][]
-* [Protocol buffers][]
-* [Base64 data][]
-
-[AES-256 symmetric encryption]:   https://en.wikipedia.org/wiki/Advanced_Encryption_Standard
-[RSA pkcs asymmetric encryption]: https://en.wikipedia.org/wiki/RSA_(cryptosystem)
-[Protocol buffers]:               https://en.wikipedia.org/wiki/Protocol_Buffers
-[Base64 data]:                    https://en.wikipedia.org/wiki/Base64
-
+* [AES-256 symmetric encryption](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
+* [RSA pkcs asymmetric encryption](https://en.wikipedia.org/wiki/RSA_(cryptosystem))
+* [Protocol buffers](https://en.wikipedia.org/wiki/Protocol_Buffers)
+* [Base64 data](https://en.wikipedia.org/wiki/Base64)                 
 
 ## Requirements
 
@@ -93,8 +87,8 @@ The YotiClient is the SDK entry point. To initialise it you need include the fol
 
 ```javascript
 const YotiClient = require('yoti-node-sdk')
-const APPLICATION_ID = 'your-app-id'
-const PEM = fs.readFileSync("path/to/your-application-pem-file.pem")
+const CLIENT_SDK_ID = 'CLIENT_SDK_ID'
+const PEM = fs.readFileSync(__dirname + "/keys/your-application-pem-file.pem");
 var yotiClient = new YotiClient(CLIENT_SDK_ID, PEM)
 ```
 Where:
@@ -186,5 +180,5 @@ Please provide the following the get you up and working as quick as possible:
 
 - Computer Type
 - OS Version
-- Version of Go being used
+- Version of Node being used
 - Screenshot
