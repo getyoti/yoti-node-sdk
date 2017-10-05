@@ -43,11 +43,13 @@ exports.getReceipt = (token, pem, applicationId) => {
     let timestamp =  Date.now();
     let endpoint = `/profile/${token}`;
     let messageSignature = getRSASignatureForMessage(`GET&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}`, pem);
+    let sdkIdentifier = 'Node';
 
     return new Promise((resolve, reject) => {
     	superagent.get(`${server.configuration.connectApi}${endpoint}`)
             .set('X-Yoti-Auth-Key', authKey)
             .set('X-Yoti-Auth-Digest', messageSignature)
+            .set('X-SDK', sdkIdentifier)
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .query({nonce: nonce})
