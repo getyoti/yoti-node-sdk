@@ -40,7 +40,7 @@ The endpoint can be configured in Yoti Dashboard when you create/update your app
 The image below shows how your application back-end and Yoti integrate in the context of a Login flow.
 Yoti SDK carries out for you steps 6, 7 ,8 and the profile decryption in step 9.
 
-![alt text](https://github.com/getyoti/node/raw/master/login_flow.png "Login flow")
+![alt text](https://github.com/getyoti/yoti-node-sdk/raw/master/login_flow.png "Login flow")
 
 
 Yoti also allows you to enable user details verification from your mobile app by means of the Android (TBA) and iOS (TBA) SDKs. In that scenario, your Yoti-enabled mobile app is playing both the role of the browser and the Yoti app. By the way, your back-end doesn't need to handle these cases in a significantly different way. You might just decide to handle the `User-Agent` header in order to provide different responses for web and mobile clients.
@@ -108,7 +108,7 @@ Where:
 
 Please do not open the pem file as this might corrupt the key and you will need to create a new application.
 
-[Example reference](https://github.com/getyoti/node/blob/master/example/simple-login/index.js)
+[Example reference](https://github.com/getyoti/yoti-node-sdk/blob/master/example/simple-login/index.js)
 
 ## Profile retrieval
 
@@ -131,7 +131,7 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
 	}
 })
 ```
-[Example reference](https://github.com/getyoti/node/blob/master/example/simple-login/index.js)
+[Example reference](https://github.com/getyoti/yoti-node-sdk/blob/master/example/simple-login/index.js)
 
 ## Handling users
 
