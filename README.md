@@ -79,13 +79,13 @@ npm test
 ## Installing the SDK
 
 To import the Yoti SDK inside your project, you can use your favourite dependency management system.
-If you are using NPM, you can use `npm install -S -E yoti-node-sdk` to set the Yoti SDK as a dependency.
+If you are using NPM, you can use `npm install -S -E yoti` to set the Yoti SDK as a dependency.
 
 Your package.json file will then be updated to include:
 
 ```json
 "dependencies": {
-     "yoti-node-sdk" : "2.0.0"
+     "yoti" : "2.0.0"
  }
  ```
 
@@ -94,7 +94,7 @@ Your package.json file will then be updated to include:
 The YotiClient is the SDK entry point. To initialise it you need include the following snippet inside your endpoint initialisation section:
 
 ```javascript
-const YotiClient = require('yoti-node-sdk')
+const YotiClient = require('yoti')
 const CLIENT_SDK_ID = 'your sdk id'
 const PEM = fs.readFileSync(__dirname + "/keys/your-application-pem-file.pem");
 var yotiClient = new YotiClient(CLIENT_SDK_ID, PEM)

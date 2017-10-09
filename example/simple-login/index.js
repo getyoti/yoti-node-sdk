@@ -8,7 +8,7 @@ const fs         = require('fs')
 const ejs        = require('ejs')
 const app        = express()
 
-const YotiClient = require('yoti-node-sdk')
+const YotiClient = require('yoti')
 
 
 const port = process.env.PORT || 9443
