@@ -59,22 +59,33 @@ If you're planning on using the Node SDK on Windows, you'll need to install a fe
 * [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) (normal version, not light)
 in the same bitness as your Node.js installation.
     * OpenSSL must be installed in its specific directory (`C:\OpenSSL-Win32` or `C:\OpenSSL-Win64`)
-    * The latest version of OpenSSL (v1.1.x) does not have the `libeay32.dll` file. Install v1.0.2 instead.
+    * The latest version of OpenSSL (v1.1.x) does not have the `libeay32.dll` file. **Install v1.0.2 instead**.
     * If you get `Error: The specified module could not be found.`, copy `libeay32.dll` from the OpenSSL bin directory to this module's bin directory, or to `Windows\System32`.
 * [node-gyp](https://github.com/nodejs/node-gyp) (`npm install -g node-gyp`)
    * Either install Microsoft's [windows-build-tools](https://github.com/felixrieseberg/windows-build-tools) using `npm install --global --production windows-build-tools`
    * Or manually install [Python 2.7](http://www.python.org/download/) and [Visual Studio](https://www.visualstudio.com/downloads/) (or modify an existing installation) and select Common Tools for Visual C++ during setup.
 
+## Working on the SDK
+
+To install the required packages run:
+```shell
+npm install
+```
+To run the tests run:
+```shell
+npm test
+```
+
 ## Installing the SDK
 
 To import the Yoti SDK inside your project, you can use your favourite dependency management system.
-If you are using NPM, you can use `npm install -S -E yoti-node-sdk` to set the Yoti SDK as a dependancy.
+If you are using NPM, you can use `npm install -S -E yoti` to set the Yoti SDK as a dependency.
 
 Your package.json file will then be updated to include:
 
 ```json
 "dependencies": {
-     "yoti-node-sdk" : "1.0.2"
+     "yoti" : "2.0.0"
  }
  ```
 
@@ -83,7 +94,7 @@ Your package.json file will then be updated to include:
 The YotiClient is the SDK entry point. To initialise it you need include the following snippet inside your endpoint initialisation section:
 
 ```javascript
-const YotiClient = require('yoti-node-sdk')
+const YotiClient = require('yoti')
 const CLIENT_SDK_ID = 'your sdk id'
 const PEM = fs.readFileSync(__dirname + "/keys/your-application-pem-file.pem");
 var yotiClient = new YotiClient(CLIENT_SDK_ID, PEM)
