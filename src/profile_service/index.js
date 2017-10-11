@@ -49,7 +49,7 @@ exports.getReceipt = (token, pem, applicationId) => {
     	superagent.get(`${server.configuration.connectApi}${endpoint}`)
             .set('X-Yoti-Auth-Key', authKey)
             .set('X-Yoti-Auth-Digest', messageSignature)
-            .set('X-SDK', sdkIdentifier)
+            .set('X-Yoti-SDK', sdkIdentifier)
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .query({nonce: nonce})
