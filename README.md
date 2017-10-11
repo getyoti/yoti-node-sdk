@@ -29,7 +29,10 @@ How to manage users
 8) [API Coverage](#api-coverage)-
 Attributes defined
 
-9) [Support](#support)-
+9) [Working on the SDK](#working-on-the-SDK)-
+Working on the SDK
+
+10) [Support](#support)-
 Please feel free to reach out
 
 ## An Architectural view
