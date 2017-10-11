@@ -85,7 +85,7 @@ Your package.json file will then be updated to include:
 
 ```json
 "dependencies": {
-     "yoti" : "2.0.0"
+     "yoti" : "x.x.x"
  }
  ```
 
