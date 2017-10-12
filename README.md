@@ -29,7 +29,10 @@ How to manage users
 8) [API Coverage](#api-coverage)-
 Attributes defined
 
-9) [Support](#support)-
+9) [Working on the SDK](#working-on-the-SDK)-
+Working on the SDK
+
+10) [Support](#support)-
 Please feel free to reach out
 
 ## An Architectural view
@@ -65,21 +68,14 @@ in the same bitness as your Node.js installation.
    * Either install Microsoft's [windows-build-tools](https://github.com/felixrieseberg/windows-build-tools) using `npm install --global --production windows-build-tools`
    * Or manually install [Python 2.7](http://www.python.org/download/) and [Visual Studio](https://www.visualstudio.com/downloads/) (or modify an existing installation) and select Common Tools for Visual C++ during setup.
 
-## Working on the SDK
-
-To install the required packages run:
-```shell
-npm install
-```
-To run the tests run:
-```shell
-npm test
-```
 
 ## Installing the SDK
 
 To import the Yoti SDK inside your project, you can use your favourite dependency management system.
-If you are using NPM, you can use `npm install -S -E yoti` to set the Yoti SDK as a dependency.
+If you are using NPM, you can use the following command to set the Yoti SDK as a dependency:
+```shell
+npm install -S -E yoti
+```
 
 Your package.json file will then be updated to include:
 
@@ -184,6 +180,19 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
         * [X] Address `postalAddress`
         * [X] Gender `gender`
         * [X] Nationality `nationality`
+
+
+## Working on the SDK
+
+To install the required packages run:
+```shell
+npm install
+```
+To run the tests run:
+```shell
+npm test
+```
+
 
 ## Support
 
