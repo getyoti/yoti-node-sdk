@@ -4,6 +4,10 @@
   "description": "Yoti NodeJS SDK for back-end integration",
   "author": "Yoti LTD <tech@yoti.com> (https://www.yoti.com/developers)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getyoti/yoti-node-sdk.git"
+  },
   "scripts": {
     "test": "mocha test/*.spec.js"
   },
