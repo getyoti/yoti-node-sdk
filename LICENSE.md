@@ -1,5 +1,5 @@
 # MIT License
-**Copyright &copy; 2017 Yoti Ltd**
+Copyright &copy; 2017 Yoti Ltd
 
 * * *
 
