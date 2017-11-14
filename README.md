@@ -1,38 +1,40 @@
 Yoti NodeJS SDK
 =============
 
-Welcome to the Yoti NodeJS SDK. This repo contains the tools and step by step instructions you need to quickly integrate your NodeJS back-end with Yoti so that your users can share their identity details with your application in a secure and trusted way.    
+Welcome to the Yoti NodeJS SDK. This repo contains the tools and step by step instructions you need to quickly integrate your NodeJS back-end with Yoti so that your users can share their identity details with your application in a secure and trusted way.
 
 ## Table of Contents
 
 1) [An Architectural view](#an-architectural-view) -
 High level overview of integration
 
-2) [References](#references)-
+2) [References](#references) -
 Guides before you start
 
-3) [Requirements](#requirements)-
+3) [Requirements](#requirements) -
 Check you have what you need
 
-4) [Installing the SDK](#installing-the-sdk)-
+4) [Installing the SDK](#installing-the-sdk) -
 How to install our SDK
 
-5) [Configuration](#configuration)-
+5) [Configuration](#configuration) -
 How to initialise your configuration
 
-6) [Profile Retrieval](#profile-retrieval)-
+6) [Profile Retrieval](#profile-retrieval) -
 How to retrieve a Yoti profile using the token
 
-7) [Handling users](#handling-users)-
+7) [Handling users](#handling-users) -
 How to manage users
 
-8) [API Coverage](#api-coverage)-
+8) [API Coverage](#api-coverage) -
 Attributes defined
 
-9) [Working on the SDK](#working-on-the-SDK)-
+9) [Running the example](#running-the-example)
+
+10) [Working on the SDK](#working-on-the-SDK)-
 Working on the SDK
 
-10) [Support](#support)-
+11) [Support](#support)-
 Please feel free to reach out
 
 ## An Architectural View
@@ -53,7 +55,7 @@ Yoti also allows you to enable user details verification from your mobile app by
 * [AES-256 symmetric encryption](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
 * [RSA pkcs asymmetric encryption](https://en.wikipedia.org/wiki/RSA_(cryptosystem))
 * [Protocol buffers](https://en.wikipedia.org/wiki/Protocol_Buffers)
-* [Base64 data](https://en.wikipedia.org/wiki/Base64)                 
+* [Base64 data](https://en.wikipedia.org/wiki/Base64)
 
 ## Requirements
 
@@ -156,6 +158,17 @@ No matter if the user is a new or an existing one, Yoti will always provide her/
 The `profile` object provides a set of attributes corresponding to user attributes. Whether the attributes are present or not depends on the settings you have applied to your app on Yoti Dashboard.
 
 Update your Callback URL in our Yoti Dashboard and you should be good to go!
+
+## Running the example
+
+The example can be found in the [example folder](example).
+For it to work you will need a working callback URL that your browser can redirect to. The callback URL will be: `https://localhost:9443/profile`.
+
+* rename the [.env.example](example/simple-login/.env.example) file to `.env` and fill in the required configuration values
+* install the dependencies with `npm install`
+* start the server `node index.js`
+
+Visiting the `https://localhost:9443` should show a Yoti Connect button
 
 ## API Coverage
 
