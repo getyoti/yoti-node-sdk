@@ -5,7 +5,7 @@ Welcome to the Yoti NodeJS SDK. This repo contains the tools and step by step in
 
 ## Table of Contents
 
-1) [An Architectural view](#an-architectural-view) -
+1) [An Architectural View](#an-architectural-view) -
 High level overview of integration
 
 2) [References](#references) -
@@ -23,18 +23,18 @@ How to initialise your configuration
 6) [Profile Retrieval](#profile-retrieval) -
 How to retrieve a Yoti profile using the token
 
-7) [Handling users](#handling-users) -
+7) [Handling Users](#handling-users) -
 How to manage users
 
-8) [API Coverage](#api-coverage) -
+8) [Running the Example](#running-the-example)
+
+9) [API Coverage](#api-coverage) -
 Attributes defined
 
-9) [Running the example](#running-the-example)
-
-10) [Working on the SDK](#working-on-the-SDK)-
+10) [Working on the SDK](#working-on-the-sdk) -
 Working on the SDK
 
-11) [Support](#support)-
+11) [Support](#support) -
 Please feel free to reach out
 
 ## An Architectural View
@@ -159,7 +159,7 @@ The `profile` object provides a set of attributes corresponding to user attribut
 
 Update your Callback URL in our Yoti Dashboard and you should be good to go!
 
-## Running the example
+## Running the Example
 
 The example can be found in the [example folder](example).
 For it to work you will need a working callback URL that your browser can redirect to. The callback URL will be: `https://localhost:9443/profile`.
