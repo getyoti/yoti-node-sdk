@@ -32,6 +32,7 @@ var yotiClient = new YotiClient(configDictionary.CLIENT_SDK_ID, PEM_KEY)
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+app.use('/static', express.static('static'))
 
 var router = express.Router()
 
@@ -52,10 +53,18 @@ router.get('/profile', function(req, res) {
 
 	let promise = yotiClient.getActivityDetails(token)
 	promise.then((activityDetails) => {
-		res.render('pages/profile', {
-			userId  : activityDetails.getUserId(),
-			profile : activityDetails.getUserProfile()
-		})
+		var profile = activityDetails.getUserProfile()
+		var selfie = profile.selfie;			
+
+		if (typeof selfie != 'undefined') {
+			saveImage(selfie)
+				.then(function() {
+					res.render('pages/profile', {
+						userId  : activityDetails.getUserId(),
+						profile : profile
+					})
+				})
+		}
 	}).catch((err) => {
 		console.error(err)
 		res.render('pages/error', {
@@ -80,4 +89,20 @@ console.log('Server running on https://localhost:' + port)
 function ThrowErrorIfConfigValueMissing(configKey, configValue) {
     if (typeof configValue == 'undefined')
         throw new Error('no config value retrieved for ' + configKey)
+}
+
+function saveImage(selfieDate) {
+	return new Promise(function(res, rej) {
+		try {
+			var base64Data = selfieDate.replace(/^data:image\/jpeg;base64,/, "");
+			
+			require("fs").writeFileSync(
+				"static\\YotiSelfie.jpeg",
+				base64Data,
+				'base64')	
+			res()		  
+		} catch (error) {
+			rej(error)
+		}
+	})
 }

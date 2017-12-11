@@ -9,8 +9,16 @@
 			<td><%= userId %></td>
 		</tr>
 		<tr>
-			<td>Selfie</td>
-			<td><img width="200" alt="selfie" src="<%=  profile.selfie %>" /></td>
+			<td>Selfie from Base64 Data</td>
+			<td><img width="200" alt="selfie" src="<%= profile.selfie %>" /></td>
+		</tr>
+		<tr>
+			<td>Download Selfie</td>
+			<td><a href="<%= profile.selfie %>" download="YotiSelfie.jpeg" target="_blank">Download Selfie</a></td>
+		</tr>
+		<tr>
+			<td>Saved Selfie</td>
+			<td><img width="200" alt="selfie" src="/static/YotiSelfie.jpeg" /></td>
 		</tr>
 		<tr>
 			<td>Given Names</td>
