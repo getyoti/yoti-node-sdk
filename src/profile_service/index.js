@@ -1,14 +1,12 @@
 'use strict'
 
-const crypto = require('crypto');
-const ursa = require('ursa');
-const superagent = require('superagent');
-const uuid = require('uuid');
-const forge = require('node-forge');
-const server = require('../../config').server;
-const protoRoot = require('../proto-root').initializeProtoBufObjects();
+const yotiRequest = require('../yoti_request');
+const RequestPayload = require('../request_payload');
+//const ursa = require('ursa');
+//const forge = require('node-forge');
+//const protoRoot = require('../proto-root').initializeProtoBufObjects();
 
-const ActivityDetails = function (parsedResponse, decryptedProfile) {
+/*const ActivityDetails = function (parsedResponse, decryptedProfile) {
 		
 		this.parsedResponse = parsedResponse;
 		this.decryptedProfile = decryptedProfile;
@@ -35,17 +33,16 @@ ActivityDetails.prototype = {
 	getOutcome : function() {
 		return this.receipt.sharing_outcome;
 	}
-}
+}*/
+
+const Payload = new RequestPayload.Payload('');
 
 exports.getReceipt = (token, pem, applicationId) => {
-    let authKey = getAuthKeyFromPem(pem);
-    let nonce = uuid.v4();
-    let timestamp =  Date.now();
     let endpoint = `/profile/${token}`;
-    let messageSignature = getRSASignatureForMessage(`GET&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}`, pem);
-    let sdkIdentifier = 'Node';
 
-    return new Promise((resolve, reject) => {
+    return yotiRequest.makeRequest('GET', endpoint, pem, applicationId, Payload.getByteArray());
+
+    /*return new Promise((resolve, reject) => {
     	superagent.get(`${server.configuration.connectApi}${endpoint}`)
             .set('X-Yoti-Auth-Key', authKey)
             .set('X-Yoti-Auth-Digest', messageSignature)
@@ -70,15 +67,25 @@ exports.getReceipt = (token, pem, applicationId) => {
                 return reject(err)
             })
            
-    })
+    })*/
 }
 
-function getRSASignatureForMessage(message, pem) {
+/*function getRSASignatureForMessage(message, pem) {
   let sign = crypto.createSign('RSA-SHA256');
   sign.update(message);
   let base64SignedMessage = sign.sign(pem).toString('base64');
   return base64SignedMessage;
 }
+
+function getAuthKeyFromPem(pem) {
+  var privateKey = forge.pki.privateKeyFromPem(pem);
+  var publicKey = forge.pki.setRsaPublicKey(privateKey.n, privateKey.e);
+  var subjectPublicKeyInfo = forge.pki.publicKeyToAsn1(publicKey);
+  var p12Der = forge.asn1.toDer(subjectPublicKeyInfo).getBytes();
+  var p12b64 = forge.util.encode64(p12Der);
+  return p12b64;
+}
+
 
 function decryptCurrentUserReceipt(receipt, pem, callback) {
   if(receipt.other_party_profile_content && Object.keys(receipt.other_party_profile_content).length > 0) {
@@ -117,13 +124,4 @@ function unwrapKey(wrappedKey, pem) {
   let unwrappedKey = privateKey.decrypt(wrappedKeyBuffer, 'base64', 'base64', ursa.RSA_PKCS1_PADDING);
 
   return unwrappedKey
-}
-
-function getAuthKeyFromPem(pem) {
-  var privateKey = forge.pki.privateKeyFromPem(pem);
-  var publicKey = forge.pki.setRsaPublicKey(privateKey.n, privateKey.e);
-  var subjectPublicKeyInfo = forge.pki.publicKeyToAsn1(publicKey);
-  var p12Der = forge.asn1.toDer(subjectPublicKeyInfo).getBytes();
-  var p12b64 = forge.util.encode64(p12Der);
-  return p12b64;
-}
+}*/
