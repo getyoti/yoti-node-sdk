@@ -1,10 +1,11 @@
 'use strict'
 
 const uuid = require('uuid');
-const crypto = require('crypto');
 const superagent = require('superagent');
-const forge = require('node-forge');
 const server = require('../../config').server;
+const yotiCommon = require('../yoti_common');
+const RequestPayload = require('../request_payload');
+
 
 const YotiResponse = function (parsedResponse, receipt) {
     this.parsedResponse = parsedResponse;
@@ -21,59 +22,80 @@ YotiResponse.prototype = {
   }
 }
 
-exports.makeRequest = (httpMethod, endpoint, pem, applicationId, payload) => {
-    let authKey = getAuthKeyFromPem(pem);
+let Payload = RequestPayload.Payload;
+
+exports.makeRequest = (httpMethod, endpoint, pem, applicationId, Payload) => {
+    let authKey = yotiCommon.getAuthKeyFromPem(pem);
     let nonce = uuid.v4();
     let timestamp =  Date.now();
     let sdkIdentifier = 'Node';
-    console.log('Signing the request message');
-    console.log('Payload ' + payload);
+    let messageToSign;
+    let request;
+    let payloadString = Payload.getByteArray();
+    let payloadJSON = JSON.stringify(Payload.getRawData());
 
-    let messageSignature = getRSASignatureForMessage(`${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&payload=${payload}`, pem);
+
+    console.log('Signing the request message');
+    console.log('Payload ' + payloadString);
 
     return new Promise((resolve, reject) => {
         console.log('Making Http method ' + httpMethod + ' request');
-        superagent.get(`${server.configuration.connectApi}${endpoint}`)
-        .set('X-Yoti-Auth-Key', authKey)
-        .set('X-Yoti-Auth-Digest', messageSignature)
-        .set('X-Yoti-SDK', sdkIdentifier)
-        .set('Content-Type', 'application/json')
-        .set('Accept', 'application/json')
-        .query({nonce: nonce})
-        .query({timestamp: timestamp})
-        .query({appId: applicationId})
-        .query({payload: payload})
-        .then(response => {
-            if (response) {
-                let parsedResponse = JSON.parse(response.text);
-                let receipt = parsedResponse.receipt;
-                console.log('Processing the request response');
-                resolve(new YotiResponse(parsedResponse, receipt));
-            } else {
-                console.log('error retrieving user profile');
-                return reject(null)
+        // Initiate the right request
+        switch(httpMethod) {
+          case 'POST', 'PUT', 'PATCH':
+            // Build message to sign
+            messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&payload=${payloadString}`;
+            // Get the right request method
+            if(httpMethod === 'POST') {
+              request = superagent.post(`${server.configuration.connectApi}${endpoint}`);
             }
-        })
-        .catch(err => {
-            console.log('error getting receipt from connect api: ' +  err.message);
-            return reject(err)
-        })
-    })
-}
+            else if (httpMethod === 'PUT') {
+              request = superagent.put(`${server.configuration.connectApi}${endpoint}`);
+            } else {
+              request = superagent.patch(`${server.configuration.connectApi}${endpoint}`);
+            }
 
-function getRSASignatureForMessage(message, pem) {
-    let sign = crypto.createSign('RSA-SHA256');
-    sign.update(message);
-    let base64SignedMessage = sign.sign(pem).toString('base64');
-    return base64SignedMessage;
-}
+            request
+                .query({nonce: nonce})
+                .query({timestamp: timestamp})
+                .query({appId: applicationId})
+                .query({payload: payloadString})
+                .send(payloadJSON);
+            break;
 
-function getAuthKeyFromPem(pem) {
-    var privateKey = forge.pki.privateKeyFromPem(pem);
-    var publicKey = forge.pki.setRsaPublicKey(privateKey.n, privateKey.e);
-    var subjectPublicKeyInfo = forge.pki.publicKeyToAsn1(publicKey);
-    var p12Der = forge.asn1.toDer(subjectPublicKeyInfo).getBytes();
-    var p12b64 = forge.util.encode64(p12Der);
-    return p12b64;
+          default :
+
+            // Build message to sign
+            messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&payload=${payloadString}`;
+            request = superagent.get(`${server.configuration.connectApi}${endpoint}`)
+                .query({nonce: nonce})
+                .query({timestamp: timestamp})
+                .query({appId: applicationId})
+                .query({payload: payloadString});
+        }
+
+        let messageSignature = yotiCommon.getRSASignatureForMessage(messageToSign, pem);
+
+        request.set('X-Yoti-Auth-Key', authKey)
+          .set('X-Yoti-Auth-Digest', messageSignature)
+          .set('X-Yoti-SDK', sdkIdentifier)
+          .set('Content-Type', 'application/json')
+          .set('Accept', 'application/json')
+          .then(response => {
+              if (response) {
+                  let parsedResponse = JSON.parse(response.text);
+                  let receipt = parsedResponse.receipt;
+                  console.log('Processing the request response');
+                  resolve(new YotiResponse(parsedResponse, receipt));
+              } else {
+                  console.log('error retrieving user profile');
+                  return reject(null)
+              }
+          })
+          .catch(err => {
+              console.log('error getting receipt from connect api: ' +  err.message);
+              return reject(err)
+          });
+    });
 }
 
