@@ -41,7 +41,7 @@ exports.getReceipt = (token, pem, applicationId) => {
   let httpMethod = 'GET';
 
   return new Promise((resolve, reject) => {
-    yotiRequest.makeRequest(httpMethod, endpoint, pem, applicationId, Payload.getByteArray())
+    yotiRequest.makeRequest(httpMethod, endpoint, pem, applicationId, Payload)
         .then(response => {
           if(response) {
             let receipt = response.getReceipt();
