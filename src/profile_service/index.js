@@ -55,7 +55,7 @@ exports.getReceipt = (token, pem, applicationId) => {
           }
         }).catch((err) => {
           console.log('error retrieving request data : ' + err.message);
-          return reject(error);
+          return reject(err);
         });
   });
 }
