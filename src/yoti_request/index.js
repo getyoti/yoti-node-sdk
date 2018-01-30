@@ -63,8 +63,19 @@ exports.makeRequest = (httpMethod, endpoint, pem, applicationId, Payload) => {
                 .send(payloadJSON);
             break;
 
-          default :
+          case 'DELETE':
+            // Build message to sign
+            messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&payload=${payloadString}`;
+            request = superagent.put(`${server.configuration.connectApi}${endpoint}`)
+                .query({nonce: nonce})
+                .query({timestamp: timestamp})
+                .query({appId: applicationId})
+                .query({payload: payloadString})
+                .send(payloadJSON);
 
+
+          default :
+            // Make default message request
             // Build message to sign
             messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&payload=${payloadString}`;
             request = superagent.get(`${server.configuration.connectApi}${endpoint}`)
