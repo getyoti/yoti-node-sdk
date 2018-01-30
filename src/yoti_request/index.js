@@ -26,7 +26,9 @@ exports.makeRequest = (httpMethod, endpoint, pem, applicationId, payload) => {
     let nonce = uuid.v4();
     let timestamp =  Date.now();
     let sdkIdentifier = 'Node';
-    console.log('Signing the message');
+    console.log('Signing the request message');
+    console.log('Payload ' + payload);
+
     let messageSignature = getRSASignatureForMessage(`${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&payload=${payload}`, pem);
 
     return new Promise((resolve, reject) => {
@@ -45,15 +47,15 @@ exports.makeRequest = (httpMethod, endpoint, pem, applicationId, payload) => {
             if (response) {
                 let parsedResponse = JSON.parse(response.text);
                 let receipt = parsedResponse.receipt;
-                console.log('Resolving the response');
+                console.log('Processing the request response');
                 resolve(new YotiResponse(parsedResponse, receipt));
             } else {
-                console.log('Error retrieving user profile');
+                console.log('error retrieving user profile');
                 return reject(null)
             }
         })
         .catch(err => {
-            console.error('error getting receipt from connect api: ' +  err.message);
+            console.log('error getting receipt from connect api: ' +  err.message);
             return reject(err)
         })
     })
