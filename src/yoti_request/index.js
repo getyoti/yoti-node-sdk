@@ -89,10 +89,9 @@ exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
               if (response) {
                   let parsedResponse = JSON.parse(response.text);
                   let receipt = parsedResponse.receipt;
-                  resolve(new YotiResponse(parsedResponse, receipt));
-              } else {
-                  return reject(null)
+                  return resolve(new YotiResponse(parsedResponse, receipt));
               }
+              return reject(null);
           })
           .catch(err => {
               console.log('Error getting receipt from connect api: ' +  err.message);
