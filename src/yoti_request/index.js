@@ -23,7 +23,7 @@ YotiResponse.prototype = {
   }
 }
 
-exports.makeRequest = (httpMethod, endpoint, pem, applicationId, Payload) => {
+exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
 
     // Make sure Payload is an object
     if(!Payload) {
@@ -42,9 +42,9 @@ exports.makeRequest = (httpMethod, endpoint, pem, applicationId, Payload) => {
     let request;
     let payloadString = Payload.getByteArray();
     let payloadJSON = JSON.stringify(Payload.getRawData());
-    let endpointPath = `${server.configuration.connectApi}${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&${payloadString}`;
+    let endpointPath = `${server.configuration.connectApi}${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${appId}&${payloadString}`;
     // Build message to sign
-    let messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&${payloadString}`;
+    let messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${appId}&${payloadString}`;
 
     return new Promise((resolve, reject) => {
         // Initiate the right request
@@ -66,11 +66,11 @@ exports.makeRequest = (httpMethod, endpoint, pem, applicationId, Payload) => {
 
           case 'DELETE':
             // Build message to sign
-            messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}`;
+            messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${appId}`;
             request = superagent.delete(`${server.configuration.connectApi}${endpoint}`)
                 .query({nonce})
                 .query({timestamp})
-                .query({appId: applicationId});
+                .query({appId});
             break;
 
           default :
