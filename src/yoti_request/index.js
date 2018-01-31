@@ -25,36 +25,35 @@ exports.makeRequest = (httpMethod, endpoint, pem, applicationId, Payload) => {
 
     // Make sure Payload is an object
     if(!Payload) {
-      throw 'Payload should be an object of type RequestPayload';
+      throw new Error('Payload should be an object of type RequestPayload');
     }
 
     let authKey = yotiCommon.getAuthKeyFromPem(pem);
     let nonce = uuid.v4();
     let timestamp =  Date.now();
     let sdkIdentifier = 'Node';
-    let messageToSign;
     let request;
     let payloadString = Payload.getByteArray();
     let payloadJSON = JSON.stringify(Payload.getRawData());
     let endpointPath = `${server.configuration.connectApi}${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&${payloadString}`;
+    // Build message to sign
+    let messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&${payloadString}`;
 
     return new Promise((resolve, reject) => {
-        console.log('Making Http method ' + httpMethod + ' request');
         // Initiate the right request
         switch(httpMethod) {
-          case 'POST', 'PUT', 'PATCH':
-            // Build message to sign
-            messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&${payloadString}`;
-            // Get the right request method
-            if(httpMethod === 'POST') {
-              request = superagent.post(endpointPath);
-            }
-            else if (httpMethod === 'PUT') {
-              request = superagent.put(endpointPath);
-            } else {
-              request = superagent.patch(endpointPath);
-            }
+          case 'POST':
+            request = superagent.post(endpointPath);
+            request.send(payloadJSON);
+            break;
 
+          case 'PUT':
+            request = superagent.put(endpointPath);
+            request.send(payloadJSON);
+            break;
+
+          case 'PATCH':
+            request = superagent.patch(endpointPath);
             request.send(payloadJSON);
             break;
 
@@ -62,15 +61,13 @@ exports.makeRequest = (httpMethod, endpoint, pem, applicationId, Payload) => {
             // Build message to sign
             messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}`;
             request = superagent.delete(`${server.configuration.connectApi}${endpoint}`)
-                .query({nonce: nonce})
-                .query({timestamp: timestamp})
+                .query({nonce})
+                .query({timestamp})
                 .query({appId: applicationId});
-
+            break;
 
           default :
             // Make default message request
-            // Build message to sign
-            messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&${payloadString}`;
             request = superagent.get(endpointPath);
         }
 
@@ -85,15 +82,13 @@ exports.makeRequest = (httpMethod, endpoint, pem, applicationId, Payload) => {
               if (response) {
                   let parsedResponse = JSON.parse(response.text);
                   let receipt = parsedResponse.receipt;
-                  console.log('Processing the request response');
                   resolve(new YotiResponse(parsedResponse, receipt));
               } else {
-                  console.log('error retrieving user profile');
                   return reject(null)
               }
           })
           .catch(err => {
-              console.log('error getting receipt from connect api: ' +  err.message);
+              console.log('Error getting receipt from connect api: ' +  err.message);
               return reject(err)
           });
     });
