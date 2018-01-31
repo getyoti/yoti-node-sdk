@@ -4,7 +4,6 @@ const uuid = require('uuid');
 const superagent = require('superagent');
 const server = require('../../config').server;
 const yotiCommon = require('../yoti_common');
-const RequestPayload = require('../request_payload');
 
 
 const YotiResponse = function (parsedResponse, receipt) {
@@ -22,9 +21,13 @@ YotiResponse.prototype = {
   }
 }
 
-let Payload = RequestPayload.Payload;
-
 exports.makeRequest = (httpMethod, endpoint, pem, applicationId, Payload) => {
+
+    // Make sure Payload is an object
+    if(!Payload) {
+      throw 'Payload should be an object of type RequestPayload';
+    }
+
     let authKey = yotiCommon.getAuthKeyFromPem(pem);
     let nonce = uuid.v4();
     let timestamp =  Date.now();
@@ -34,10 +37,6 @@ exports.makeRequest = (httpMethod, endpoint, pem, applicationId, Payload) => {
     let payloadString = Payload.getByteArray();
     let payloadJSON = JSON.stringify(Payload.getRawData());
     let endpointPath = `${server.configuration.connectApi}${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&${payloadString}`;
-
-
-    console.log('Signing the request message');
-    console.log('Payload ' + payloadString);
 
     return new Promise((resolve, reject) => {
         console.log('Making Http method ' + httpMethod + ' request');
