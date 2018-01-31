@@ -1,57 +1,46 @@
 <html>
 <head>
 	<title>Welcome</title>
+	<link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
-	<table>
-		<tr>
-			<td>User id</td>
-			<td><%= userId %></td>
-		</tr>
-		<tr>
-			<td>Selfie from Base64 Data</td>
-			<td><img width="200" alt="selfie" src="<%= profile.selfie %>" /></td>
-		</tr>
-		<tr>
-			<td>Download Selfie</td>
-			<td><a href="<%= profile.selfie %>" download="YotiSelfie.jpeg" target="_blank">Download Selfie</a></td>
-		</tr>
-		<tr>
-			<td>Saved Selfie</td>
-			<td><img width="200" alt="selfie" src="/static/YotiSelfie.jpeg" /></td>
-		</tr>
-		<tr>
-			<td>Given Names</td>
-			<td><%= profile.givenNames %></td>
-		</tr>
-		<tr>
-			<td>Family Name</td>
-			<td><%= profile.familyName %></td>
-		</tr>
-		<tr>
-			<td>Phone Number</td>
-			<td><%= profile.phoneNumber %></td>
-		</tr>
-		<tr>
-			<td>Date of birth</td>
-			<td><%= profile.dateOfBirth %></td>
-		</tr>
-		<tr>
-			<td>Postal Address</td>
-			<td><%= profile.postalAddress %></td>
-		</tr>
-		<tr>
-			<td>Email Address</td>
-			<td><%= profile.emailAddress %></td>
-		</tr>
-		<tr>
-			<td>Nationality</td>
-			<td><%= profile.nationality %></td>
-		</tr>
-		<tr>
-			<td>Gender</td>
-			<td><%= profile.gender %></td>
-		</tr>
-	</table>
+	<p><h1>Yoti User Profile</h1></p>
+	<dl>
+		<dt>User id</dt>
+		<dd><%= userId %></dd>
+
+		<dt>Given Name(s)</dt>
+		<dd><%= profile.givenNames %></dd>
+
+		<dt>Family Name</dt>
+		<dd><%= profile.familyName %></dd>
+
+		<dt>Phone Number</dt>
+		<dd><%= profile.phoneNumber %></dd>
+
+		<dt>Date of birth</dt>
+		<dd><%= profile.dateOfBirth %></dd>
+
+		<dt>Postal Address</dt>
+		<dd><%= profile.postalAddress %></dd>
+
+		<dt>Email Address</dt>
+		<dd><%= profile.emailAddress %></dd>
+
+		<dt>Nationality</dt>
+		<dd><%= profile.nationality %></dd>
+
+		<dt>Gender</dt>
+		<dd><%= profile.gender %></dd>
+
+		<dt>Selfie from Base64 Data</dt>
+		<dd><img alt="selfie" src="<%= profile.selfie %>" /></dd>
+
+		<dt>Saved Selfie</dt>
+		<dd><img alt="selfie" src="/static/YotiSelfie.jpeg" /></dd>
+
+		<dt>Download Selfie</dt>
+		<dd><a href="<%= profile.selfie %>" download="YotiSelfie.jpeg" target="_blank">Download Selfie</a></dd>
+	</dl>
 </body>
 </html>
