@@ -1,0 +1,23 @@
+{
+  "name": "yoti-node-sdk-simple-login",
+  "version": "1.0.0",
+  "description": "A Yoti client example",
+  "private": true,
+  "author": "Yoti LTD",
+  "scripts": {},
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
+    "ejs": "^2.5.7",
+    "eslint": "^4.13.1",
+    "express": "^4.16.2",
+    "yoti": "^2.0.4"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
+  }
+}
