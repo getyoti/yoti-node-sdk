@@ -33,6 +33,7 @@ exports.makeRequest = (httpMethod, endpoint, pem, applicationId, Payload) => {
     let request;
     let payloadString = Payload.getByteArray();
     let payloadJSON = JSON.stringify(Payload.getRawData());
+    let endpointPath = `${server.configuration.connectApi}${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&${payloadString}`;
 
 
     console.log('Signing the request message');
@@ -44,45 +45,34 @@ exports.makeRequest = (httpMethod, endpoint, pem, applicationId, Payload) => {
         switch(httpMethod) {
           case 'POST', 'PUT', 'PATCH':
             // Build message to sign
-            messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&payload=${payloadString}`;
+            messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&${payloadString}`;
             // Get the right request method
             if(httpMethod === 'POST') {
-              request = superagent.post(`${server.configuration.connectApi}${endpoint}`);
+              request = superagent.post(endpointPath);
             }
             else if (httpMethod === 'PUT') {
-              request = superagent.put(`${server.configuration.connectApi}${endpoint}`);
+              request = superagent.put(endpointPath);
             } else {
-              request = superagent.patch(`${server.configuration.connectApi}${endpoint}`);
+              request = superagent.patch(endpointPath);
             }
 
-            request
-                .query({nonce: nonce})
-                .query({timestamp: timestamp})
-                .query({appId: applicationId})
-                .query({payload: payloadString})
-                .send(payloadJSON);
+            request.send(payloadJSON);
             break;
 
           case 'DELETE':
             // Build message to sign
-            messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&payload=${payloadString}`;
-            request = superagent.put(`${server.configuration.connectApi}${endpoint}`)
+            messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}`;
+            request = superagent.delete(`${server.configuration.connectApi}${endpoint}`)
                 .query({nonce: nonce})
                 .query({timestamp: timestamp})
-                .query({appId: applicationId})
-                .query({payload: payloadString})
-                .send(payloadJSON);
+                .query({appId: applicationId});
 
 
           default :
             // Make default message request
             // Build message to sign
-            messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&payload=${payloadString}`;
-            request = superagent.get(`${server.configuration.connectApi}${endpoint}`)
-                .query({nonce: nonce})
-                .query({timestamp: timestamp})
-                .query({appId: applicationId})
-                .query({payload: payloadString});
+            messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}&${payloadString}`;
+            request = superagent.get(endpointPath);
         }
 
         let messageSignature = yotiCommon.getRSASignatureForMessage(messageToSign, pem);
