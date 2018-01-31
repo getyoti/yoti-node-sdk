@@ -93,7 +93,7 @@ exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
               }
               return reject(null);
           })
-          .catch(err => {
+          .catch((err) => {
               console.log('Error getting receipt from connect api: ' +  err.message);
               return reject(err)
           });
