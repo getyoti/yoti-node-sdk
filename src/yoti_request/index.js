@@ -30,6 +30,7 @@ exports.makeRequest = (httpMethod, endpoint, pem, applicationId, Payload) => {
       throw new Error('Payload should be an object of type RequestPayload');
     }
 
+    // Check if request method is supported
     if(supportedMethods.indexOf(httpMethod) === -1) {
       throw new Error('Http method ' + httpMethod + ' is not supported');
     }
