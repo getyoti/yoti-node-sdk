@@ -34,12 +34,12 @@ ActivityDetails.prototype = {
 
 const Payload = new RequestPayload.Payload('');
 
-exports.getReceipt = (token, pem, applicationId) => {
+exports.getReceipt = (token, pem, appId) => {
   let endpoint = `/profile/${token}`;
   let httpMethod = 'GET';
 
   return new Promise((resolve, reject) => {
-    yotiRequest.makeRequest(httpMethod, endpoint, pem, applicationId, Payload)
+    yotiRequest.makeRequest(httpMethod, endpoint, pem, appId, Payload)
         .then(response => {
           if(response) {
             let receipt = response.getReceipt();
