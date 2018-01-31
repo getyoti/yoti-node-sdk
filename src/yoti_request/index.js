@@ -2,8 +2,10 @@
 
 const uuid = require('uuid');
 const superagent = require('superagent');
-const server = require('../../config').server;
+const { server } = require('../../config');
 const yotiCommon = require('../yoti_common');
+
+let supportedMethods = ["POST", "PUT", "PATCH", "GET"];
 
 
 const YotiResponse = function (parsedResponse, receipt) {
@@ -26,6 +28,10 @@ exports.makeRequest = (httpMethod, endpoint, pem, applicationId, Payload) => {
     // Make sure Payload is an object
     if(!Payload) {
       throw new Error('Payload should be an object of type RequestPayload');
+    }
+
+    if(supportedMethods.indexOf(httpMethod) === -1) {
+      throw new Error('Http method ' + httpMethod + ' is not supported');
     }
 
     let authKey = yotiCommon.getAuthKeyFromPem(pem);
