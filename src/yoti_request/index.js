@@ -42,42 +42,29 @@ exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
     let request;
     let payloadString = Payload.getByteArray();
     let payloadJSON = JSON.stringify(Payload.getRawData());
-    let endpointPath = `${server.configuration.connectApi}${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${appId}&${payloadString}`;
-    // Build message to sign
-    let messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${appId}&${payloadString}`;
+    let payloadBase64 = '';
+    let endpointPath = `${server.configuration.connectApi}${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${appId}`;
 
     return new Promise((resolve, reject) => {
         // Initiate the right request
         switch(httpMethod) {
-          case 'POST':
-            request = superagent.post(endpointPath);
-            request.send(payloadJSON);
-            break;
-
-          case 'PUT':
-            request = superagent.put(endpointPath);
-            request.send(payloadJSON);
-            break;
-
-          case 'PATCH':
-            request = superagent.patch(endpointPath);
+          case 'POST', 'PUT', 'PATCH':
+            payloadBase64 = `&${payloadString}`;
+            request = superagent(httpMethod, endpointPath);
             request.send(payloadJSON);
             break;
 
           case 'DELETE':
-            // Build message to sign
-            messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${appId}`;
-            request = superagent.delete(`${server.configuration.connectApi}${endpoint}`)
-                .query({nonce})
-                .query({timestamp})
-                .query({appId});
+            request = superagent(httpMethod, endpointPath);
             break;
 
           default :
             // Make default message request
-            request = superagent.get(endpointPath);
+            request = superagent(httpMethod, endpointPath);
         }
 
+        // Build message to sign
+        let messageToSign = `${httpMethod}&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${appId}${payloadBase64}`;
         let messageSignature = yotiCommon.getRSASignatureForMessage(messageToSign, pem);
 
         request.set('X-Yoti-Auth-Key', authKey)
