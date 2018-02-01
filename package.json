@@ -19,8 +19,7 @@
     "ursa": "0.9.4",
     "uuid": "2.0.2",
     "convert-string": "0.1.0",
-    "node-serialize": "0.0.4",
-    "urlsafe-base64": "1.0.0"
+    "node-serialize": "0.0.4"
   },
   "devDependencies": {
     "chai": "3.5.0",
