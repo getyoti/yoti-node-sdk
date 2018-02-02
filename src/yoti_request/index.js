@@ -5,7 +5,7 @@ const superagent = require('superagent');
 const { server } = require('../../config');
 const yotiCommon = require('../yoti_common');
 
-let supportedMethods = ["POST", "PUT", "PATCH", "GET"];
+let supportedMethods = ["POST", "PUT", "PATCH", "GET", "DELETE"];
 
 
 const YotiResponse = function (parsedResponse, receipt) {
