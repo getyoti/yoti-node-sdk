@@ -46,20 +46,16 @@ exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
     let endpointPath = `${server.configuration.connectApi}${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${appId}`;
 
     return new Promise((resolve, reject) => {
-        // Initiate the right request
         switch(httpMethod) {
-          case 'POST', 'PUT', 'PATCH':
+          case 'POST':
+          case 'PUT':
+          case 'PATCH':
             payloadBase64 = `&${payloadString}`;
             request = superagent(httpMethod, endpointPath);
             request.send(payloadJSON);
             break;
 
-          case 'DELETE':
-            request = superagent(httpMethod, endpointPath);
-            break;
-
           default :
-            // Make default message request
             request = superagent(httpMethod, endpointPath);
         }
 
