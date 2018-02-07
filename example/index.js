@@ -67,6 +67,9 @@ router.get('/profile', (req, res) => {
         .then(() => {
           res.render('pages/profile', {
             userId: activityDetails.getUserId(),
+            // This key uses the  format: age[Over|Under]:[1-999] and is dynamically
+            // generated based on the dashboard attribute Age / Verify Condition
+            ageVerified: profile['ageOver:18'],
             profile,
           });
         });

@@ -194,20 +194,20 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
 }
 
 ```
-
 * Activity Details
   * [X] User ID `.getUserId()`
   * [X] Profile `.getUserProfile()`
     * [X] Photo `selfie`
+    * [X] Full Name `fullName`
     * [X] Given Names `givenNames`
     * [X] Family Name `familyName`
     * [X] Mobile Number `phoneNumber`
     * [X] Email address `emailAddress`
-    * [X] Date of Birth `dateOfBirth`
+    * [X] Age / Date of Birth `dateOfBirth`
+    * [X] Age / Verify Condition `age[Over|Under]:[1-999]`
     * [X] Address `postalAddress`
     * [X] Gender `gender`
     * [X] Nationality `nationality`
-
 
 ## Working on the SDK
 
