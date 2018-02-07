@@ -6,25 +6,31 @@
 <body>
 	<p><h1>Yoti User Profile</h1></p>
 	<dl>
-		<dt>User id</dt>
+		<dt>User ID</dt>
 		<dd><%= userId %></dd>
 
-		<dt>Given Name(s)</dt>
+		<dt>Full name</dt>
+		<dd><%= profile.fullName %></dd>
+
+		<dt>Given name(s)</dt>
 		<dd><%= profile.givenNames %></dd>
 
-		<dt>Family Name</dt>
+		<dt>Family name</dt>
 		<dd><%= profile.familyName %></dd>
 
-		<dt>Phone Number</dt>
+		<dt>Phone number</dt>
 		<dd><%= profile.phoneNumber %></dd>
 
 		<dt>Date of birth</dt>
 		<dd><%= profile.dateOfBirth %></dd>
 
-		<dt>Postal Address</dt>
+		<dt>Age verified</dt>
+		<dd><%= ageVerified %></dd>
+
+		<dt>Postal address</dt>
 		<dd><%= profile.postalAddress %></dd>
 
-		<dt>Email Address</dt>
+		<dt>Email address</dt>
 		<dd><%= profile.emailAddress %></dd>
 
 		<dt>Nationality</dt>
@@ -33,13 +39,13 @@
 		<dt>Gender</dt>
 		<dd><%= profile.gender %></dd>
 
-		<dt>Selfie from Base64 Data</dt>
+		<dt>Selfie from Base64 data</dt>
 		<dd><img alt="selfie" src="<%= profile.selfie %>" /></dd>
 
-		<dt>Saved Selfie</dt>
+		<dt>Saved selfie</dt>
 		<dd><img alt="selfie" src="/static/YotiSelfie.jpeg" /></dd>
 
-		<dt>Download Selfie</dt>
+		<dt>Download selfie</dt>
 		<dd><a href="<%= profile.selfie %>" download="YotiSelfie.jpeg" target="_blank">Download Selfie</a></dd>
 	</dl>
 </body>
