@@ -176,7 +176,7 @@ Update your Callback URL in our Yoti Dashboard and you should be good to go!
 The example can be found in the [example folder](example).
 For it to work you will need a working callback URL that your browser can redirect to. The callback URL will be: `https://localhost:9443/profile`.
 
-* rename the [.env.example](example/simple-login/.env.example) file to `.env` and fill in the required configuration values
+* rename the [.env.example](example/.env.example) file to `.env` and fill in the required configuration values
 * install the dependencies with `npm install`
 * start the server `node index.js`
 
