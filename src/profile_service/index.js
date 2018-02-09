@@ -1,12 +1,8 @@
 'use strict'
 
-const crypto = require('crypto');
-const ursa = require('ursa');
-const superagent = require('superagent');
-const uuid = require('uuid');
-const forge = require('node-forge');
-const server = require('../../config').server;
-const protoRoot = require('../proto-root').initializeProtoBufObjects();
+const yotiRequest = require('../yoti_request');
+const RequestPayload = require('../request_payload');
+const yotiCommon = require('../yoti_common');
 
 const ActivityDetails = function (parsedResponse, decryptedProfile) {
 		
@@ -19,9 +15,8 @@ const ActivityDetails = function (parsedResponse, decryptedProfile) {
 			 let propName = Object.getOwnPropertyNames(current)[0]
 			 acc[propName] = current[propName]
 			 return acc
-		 }, {})
-		 
-	  }
+		 }, {});
+}
 
 ActivityDetails.prototype = {
 	getUserId : function() {
@@ -37,93 +32,26 @@ ActivityDetails.prototype = {
 	}
 }
 
-exports.getReceipt = (token, pem, applicationId) => {
-    let authKey = getAuthKeyFromPem(pem);
-    let nonce = uuid.v4();
-    let timestamp =  Date.now();
-    let endpoint = `/profile/${token}`;
-    let messageSignature = getRSASignatureForMessage(`GET&${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${applicationId}`, pem);
-    let sdkIdentifier = 'Node';
+const Payload = new RequestPayload.Payload('');
 
-    return new Promise((resolve, reject) => {
-    	superagent.get(`${server.configuration.connectApi}${endpoint}`)
-            .set('X-Yoti-Auth-Key', authKey)
-            .set('X-Yoti-Auth-Digest', messageSignature)
-            .set('X-Yoti-SDK', sdkIdentifier)
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json')
-            .query({nonce: nonce})
-            .query({timestamp: timestamp})
-            .query({appId: applicationId})
-            .then(response => {
-                if (response) {
-                  let parsedResponse = JSON.parse(response.text);
-                  let receipt = parsedResponse.receipt;
-                  let decryptedProfile = decryptCurrentUserReceipt(receipt, pem) 
-                  resolve(new ActivityDetails(parsedResponse, decryptedProfile));
-                } else {
-                	return reject(null)
-                }
-            })
-            .catch(err => {
-                console.error('error getting receipt from connect api: ' +  err.message);
-                return reject(err)
-            })
-           
-    })
-}
+exports.getReceipt = (token, pem, appId) => {
+  let endpoint = `/profile/${token}`;
+  let httpMethod = 'GET';
 
-function getRSASignatureForMessage(message, pem) {
-  let sign = crypto.createSign('RSA-SHA256');
-  sign.update(message);
-  let base64SignedMessage = sign.sign(pem).toString('base64');
-  return base64SignedMessage;
-}
-
-function decryptCurrentUserReceipt(receipt, pem, callback) {
-  if(receipt.other_party_profile_content && Object.keys(receipt.other_party_profile_content).length > 0) {
-      let unwrappedKey = unwrapKey(receipt.wrapped_receipt_key, pem);
-      let decodedData = protoRoot.decodeEncryptedData(new Buffer(receipt.other_party_profile_content, 'base64'))
-      let iv = forge.util.decode64(decodedData.iv);
-      let cipherText = forge.util.decode64(decodedData.cipherText);
-
-      return decipherProfile(cipherText, forge.util.decode64(unwrappedKey), iv);
-  } else {
-      console.log('no decrypted data')
-      return []
-  }
-}
-
-function decipherProfile(cipherText, key, iv, callback) {
-  let decipher = forge.cipher.createDecipher('AES-CBC', key),
-      data = forge.util.createBuffer()
-
-  data.putBytes(cipherText)
-
-  decipher.start({iv: iv})
-  decipher.update(data)
-  decipher.finish()
-
-  let cipherTextAsBytes = decipher.output.getBytes();
-
-  let attributeList = protoRoot.decodeAttributeList(new Buffer(forge.util.encode64(cipherTextAsBytes), 'base64'))
-  return attributeList;
-
-}
-
-function unwrapKey(wrappedKey, pem) {
-  let wrappedKeyBuffer = new Buffer(wrappedKey, 'base64');
-  let privateKey = ursa.createPrivateKey(pem);
-  let unwrappedKey = privateKey.decrypt(wrappedKeyBuffer, 'base64', 'base64', ursa.RSA_PKCS1_PADDING);
-
-  return unwrappedKey
-}
-
-function getAuthKeyFromPem(pem) {
-  var privateKey = forge.pki.privateKeyFromPem(pem);
-  var publicKey = forge.pki.setRsaPublicKey(privateKey.n, privateKey.e);
-  var subjectPublicKeyInfo = forge.pki.publicKeyToAsn1(publicKey);
-  var p12Der = forge.asn1.toDer(subjectPublicKeyInfo).getBytes();
-  var p12b64 = forge.util.encode64(p12Der);
-  return p12b64;
+  return new Promise((resolve, reject) => {
+    yotiRequest.makeRequest(httpMethod, endpoint, pem, appId, Payload)
+        .then(response => {
+          if(response) {
+            let receipt = response.getReceipt();
+            let parsedResponse = response.getParsedResponse();
+            let decryptedProfile = yotiCommon.decryptCurrentUserReceipt(receipt, pem);
+            return resolve(new ActivityDetails(parsedResponse, decryptedProfile));
+          }
+          console.log('Error getting response data');
+          return reject(null);
+        }).catch((err) => {
+          console.log('Error retrieving request data : ' + err.message);
+          return reject(err);
+        });
+  });
 }
