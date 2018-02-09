@@ -1,6 +1,6 @@
 'use strict'
 
-const convertString = require('convert-string');
+const utf8 = require('utf8');
 const serialize = require('node-serialize');
 
 exports.Payload = class Payload {
@@ -8,16 +8,16 @@ exports.Payload = class Payload {
         this.data = data;
     }
 
-    getByteArray() {
-        let payloadData = this.data;
-        if( typeof payloadData !== 'string' ) {
-          payloadData = serialize.serialize(payloadData);
+    getPayloadJSON() {
+        let data = this.data;
+        if(typeof data === 'string') {
+            data = utf8.encode(data);
         }
-        // Convert payload data to byte array
-        let byteArray = convertString.UTF8.stringToBytes(payloadData);
-        let byteString = serialize.serialize(byteArray);
-        // Convert to buffer and base64 encode it
-        return new Buffer(byteString || '').toString('base64');
+        return JSON.stringify(this.data);
+    }
+
+    getBase64Payload() {
+        return this.getPayloadJSON().toBase64();
     }
 
     getRawData() {

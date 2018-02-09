@@ -40,8 +40,7 @@ exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
     let timestamp =  Date.now();
     let sdkIdentifier = 'Node';
     let request;
-    let payloadString = Payload.getByteArray();
-    let payloadJSON = JSON.stringify(Payload.getRawData());
+    let payloadJSON = Payload.getPayloadJSON();
     let payloadBase64 = '';
     let endpointPath = `${server.configuration.connectApi}${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${appId}`;
 
@@ -50,7 +49,7 @@ exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
           case 'POST':
           case 'PUT':
           case 'PATCH':
-            payloadBase64 = `&${payloadString}`;
+            payloadBase64 = `&${Payload.getBase64Payload()}`;
             request = superagent(httpMethod, endpointPath);
             request.send(payloadJSON);
             break;
