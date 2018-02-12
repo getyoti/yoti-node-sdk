@@ -1,8 +1,5 @@
 'use strict'
 
-const utf8 = require('utf8');
-const serialize = require('node-serialize');
-
 exports.Payload = class Payload {
     constructor(data) {
         this.data = data;
@@ -11,13 +8,13 @@ exports.Payload = class Payload {
     getPayloadJSON() {
         let data = this.data;
         if(typeof data === 'string') {
-            data = utf8.encode(data);
+            data = new Buffer(data).toString('utf8');
         }
-        return JSON.stringify(this.data);
+        return JSON.stringify(data);
     }
 
     getBase64Payload() {
-        return this.getPayloadJSON().toBase64();
+        return new Buffer(this.getPayloadJSON()).toString('base64');
     }
 
     getRawData() {

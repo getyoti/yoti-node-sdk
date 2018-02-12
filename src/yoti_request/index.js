@@ -2,7 +2,7 @@
 
 const uuid = require('uuid');
 const superagent = require('superagent');
-const { server } = require('../../config');
+const server = require('../../config').server;
 const yotiCommon = require('../yoti_common');
 
 let supportedMethods = ["POST", "PUT", "PATCH", "GET", "DELETE"];
@@ -76,7 +76,7 @@ exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
               return reject(null);
           })
           .catch((err) => {
-              console.log('Error getting receipt from connect api: ' +  err.message);
+              console.log('Error getting data from connect api: ' +  err.message);
               return reject(err)
           });
     });
