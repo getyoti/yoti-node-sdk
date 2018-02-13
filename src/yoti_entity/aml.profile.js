@@ -13,7 +13,7 @@ exports.AmlProfile = class AmlProfile {
     this.amlAddress = amlAddress;
     this.ssn = ssn;
 
-    this.checkAmlAddress(amlAddress);
+    AmlProfile.checkAmlAddress(amlAddress);
   }
 
   /**
