@@ -1,7 +1,7 @@
 'use strict'
 
 const yotiRequest = require('../yoti_request');
-const RequestPayload = require('../request_payload');
+const RequestPayload = require('../yoti_request/payload');
 const yotiCommon = require('../yoti_common');
 
 const ActivityDetails = function (parsedResponse, decryptedProfile) {
