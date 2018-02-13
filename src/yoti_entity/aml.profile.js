@@ -13,6 +13,7 @@ exports.AmlProfile = class AmlProfile {
     this.amlAddress = amlAddress;
     this.ssn = ssn;
 
+    // Check if amlAddress is an object.
     AmlProfile.checkAmlAddress(amlAddress);
   }
 
