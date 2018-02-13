@@ -27,7 +27,7 @@ exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
 
     // Make sure Payload is an object
     if(!Payload) {
-      throw new Error('Payload should be an object of type RequestPayload');
+      throw new Error('Payload should be an object of type Request/Payload');
     }
 
     // Check if request method is supported
@@ -47,9 +47,9 @@ exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
     return new Promise((resolve, reject) => {
         request = superagent(httpMethod, endpointPath);
 
-        // Check if the method can include Payload data in the request body
-        // and the signed message.
-        if (yotiCommon.canSendPayload(httpMethod)) {
+        // Check if this method can include payload data in the request body
+        // and in the signed message.
+        if (yotiCommon.requestCanSendPayload(httpMethod)) {
           payloadBase64 = `&${Payload.getBase64Payload()}`;
           request.send(payloadJSON);
         }

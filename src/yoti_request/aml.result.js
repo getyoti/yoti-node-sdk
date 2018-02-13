@@ -98,6 +98,11 @@ exports.AmlResult = class AmlResult {
     return data;
   }
 
+  /**
+   * Returns a string representing the object.
+   *
+   * @returns {string}
+   */
   toString () {
     return JSON.stringify(this.getData());
   }

@@ -31,7 +31,7 @@ function unwrapKey(wrappedKey, pem){
   return unwrappedKey
 }
 
-exports.canSendPayload = (httpMethod) => {
+exports.requestCanSendPayload = (httpMethod) => {
   // Check if request method can send payload
   if(methodsThatIncludePayload.indexOf(httpMethod) === -1) {
     return false;

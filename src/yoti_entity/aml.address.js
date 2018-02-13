@@ -9,28 +9,39 @@ exports.AmlAddress = class AmlAddress {
     this.country = country;
     this.postcode = postcode;
 
+    // Check if country is an object
     this.checkCountry();
   }
 
+  /**
+   * @param country
+   */
   setCountry (country) {
     this.country = country;
   }
 
+  /**
+   * @returns country
+   */
   getCountry () {
     return this.country;
   }
 
+  /**
+   * @param postcode
+   */
   setPostcode (postcode) {
     this.postcode = postcode;
   }
 
+  /**
+   * @returns postcode
+   */
   getPostcode () {
     return this.postcode;
   }
 
   /**
-   * Get address data.
-   *
    * @returns {{}}
    */
   getData () {
@@ -47,10 +58,15 @@ exports.AmlAddress = class AmlAddress {
   checkCountry () {
     // Make sure Country is an object
     if(!this.country) {
-      throw new Error('Country should be an object of type Country');
+      throw new Error('Country should be an object Entity/Country');
     }
   }
 
+  /**
+   * Returns a string representing the object.
+   *
+   * @returns {string}
+   */
   toString () {
     return JSON.stringify(this.getData());
   }

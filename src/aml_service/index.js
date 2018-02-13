@@ -1,21 +1,21 @@
 'use strict'
 
-const YotiRequest = require('../yoti_request');
+const yotiRequest = require('../yoti_request');
 const AmlResult = require('../yoti_request/aml.result').AmlResult;
-const RequestPayload = require('../yoti_request/payload');
+const Payload = require('../yoti_request/payload').Payload;
 
 exports.performAmlCheck = (amlProfile, pem, appId) => {
-  let endpoint = `/aml-check`;
+  let endpoint = '/aml-check';
   let httpMethod = 'POST';
 
   if (!amlProfile) {
-    throw new Error('Error - amlProfile should be an object of type AmlProfile');
+    throw new Error('Error - AmlProfile should be an object of type Entity/AmlProfile');
   }
 
-  let PayloadObj = new RequestPayload.Payload(amlProfile.getData());
+  let PayloadObj = new Payload(amlProfile.getData());
 
   return new Promise((resolve, reject) => {
-    YotiRequest.makeRequest(httpMethod, endpoint, pem, appId, PayloadObj)
+    yotiRequest.makeRequest(httpMethod, endpoint, pem, appId, PayloadObj)
         .then(response => {
           if (response) {
             // This will throw an error if the error message is included in the response.

@@ -16,51 +16,77 @@ exports.AmlProfile = class AmlProfile {
     this.checkAmlAddress(amlAddress);
   }
 
+  /**
+   * @param givenNames
+   */
   setGivenNames (givenNames) {
     this.givenNames = givenNames;
   }
 
+  /**
+   * @returns {*}
+   */
   getGivenNames () {
     return this.givenNames;
   }
 
+  /**
+   * @param familyName
+   */
   setFamilyName (familyName) {
     this.familyName = familyName;
   }
 
+  /**
+   * @returns familyName
+   */
   getFamilyName () {
     return this.familyName;
   }
 
+  /**
+   * @param amlAddress
+   */
   setAmlAddress (amlAddress) {
-    this.checkAmlAddress(amlAddress);
+    AmlProfile.checkAmlAddress(amlAddress);
     this.amlAddress = amlAddress;
   }
 
+  /**
+   * @returns amlAddress
+   */
   getAmlAddress () {
     return this.amlAddress;
   }
 
+  /**
+   * @param ssn
+   */
   setSsn (ssn) {
     this.ssn = ssn;
   }
 
+  /**
+   * @returns ssn
+   */
   getSsn () {
     return this.ssn;
   }
 
   /**
+   * Check if amlAddress is an object.
    *
    * @param amlAddress
    */
-  checkAmlAddress (amlAddress) {
+  static checkAmlAddress (amlAddress) {
     // Make sure AmlAddress is an object
     if(!amlAddress) {
-      throw new Error('AmlAddress should be an object of type AmlAddress');
+      throw new Error('AmlAddress should be an object of type Entity/AmlAddress');
     }
   }
 
   /**
+   * Get profile data.
    *
    * @returns {{}}
    */
@@ -74,6 +100,11 @@ exports.AmlProfile = class AmlProfile {
     return data;
   }
 
+  /**
+   * Returns a string representing the object.
+   *
+   * @returns {string}
+   */
   toString () {
     return JSON.stringify(this.getData());
   }
