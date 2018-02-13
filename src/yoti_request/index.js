@@ -45,17 +45,13 @@ exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
     let endpointPath = `${server.configuration.connectApi}${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${appId}`;
 
     return new Promise((resolve, reject) => {
-        switch(httpMethod) {
-          case 'POST':
-          case 'PUT':
-          case 'PATCH':
-            payloadBase64 = `&${Payload.getBase64Payload()}`;
-            request = superagent(httpMethod, endpointPath);
-            request.send(payloadJSON);
-            break;
+        request = superagent(httpMethod, endpointPath);
 
-          default :
-            request = superagent(httpMethod, endpointPath);
+        // Check if the method can include Payload data in the request body
+        // and the signed message.
+        if (yotiCommon.canSendPayload(httpMethod)) {
+          payloadBase64 = `&${Payload.getBase64Payload()}`;
+          request.send(payloadJSON);
         }
 
         // Build message to sign

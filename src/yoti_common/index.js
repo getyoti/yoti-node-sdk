@@ -5,6 +5,8 @@ const crypto = require('crypto');
 const forge = require('node-forge');
 const protoRoot = require('../proto-root').initializeProtoBufObjects();
 
+let methodsThatIncludePayload = ['POST', 'PUT', 'PATCH'];
+
 function decipherProfile(cipherText, key, iv){
   let decipher = forge.cipher.createDecipher('AES-CBC', key),
       data = forge.util.createBuffer()
@@ -27,6 +29,15 @@ function unwrapKey(wrappedKey, pem){
   let unwrappedKey = privateKey.decrypt(wrappedKeyBuffer, 'base64', 'base64', ursa.RSA_PKCS1_PADDING);
 
   return unwrappedKey
+}
+
+exports.canSendPayload = (httpMethod) => {
+  // Check if request method can send payload
+  if(methodsThatIncludePayload.indexOf(httpMethod) === -1) {
+    return false;
+  }
+
+  return true;
 }
 
 exports.getRSASignatureForMessage = (message, pem) => {

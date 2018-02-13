@@ -1,11 +1,8 @@
 'use strict';
 
 const ursa = require('ursa');
-const fs = require('fs');
 const profileService = require('../profile_service');
-
-var pem;
-var applicationId;
+const amlService = require('../aml_service');
 
 exports.YotiClient = class YotiClient {
 	constructor(applicationId, pem) {
@@ -22,11 +19,15 @@ exports.YotiClient = class YotiClient {
 		}
 		return profileService.getReceipt(decryptedToken, this.pem, this.applicationId);
 	}
+
+	performAmlCheck (amlProfile) {
+		return amlService.performAmlCheck(amlProfile, this.pem, this.applicationId);
+	}
 }
 
 function decryptToken(encryptedConnectToken, pem) {
 	let privateKey = ursa.createPrivateKey(pem);
-	var decryptedToken;
+	let decryptedToken;
 	try{
 		decryptedToken = privateKey.decrypt(encryptedConnectToken, 'base64', 'utf8', ursa.RSA_PKCS1_PADDING);
 	} catch (err) {

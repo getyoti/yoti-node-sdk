@@ -49,6 +49,10 @@ exports.AmlProfile = class AmlProfile {
     return this.ssn;
   }
 
+  /**
+   *
+   * @param amlAddress
+   */
   checkAmlAddress (amlAddress) {
     // Make sure AmlAddress is an object
     if(!amlAddress) {
@@ -56,13 +60,18 @@ exports.AmlProfile = class AmlProfile {
     }
   }
 
+  /**
+   *
+   * @returns {{}}
+   */
   getData () {
-    return {
-      'given_names': this.givenNames,
-      'family_name': this.familyName,
-      'ssn': this.ssn,
-      'address': this.amlAddress.getData()
-    };
+    let data = {};
+    data[GIVEN_NAMES_ATTR] = this.givenNames;
+    data[FAMILY_NAME_ATTR] = this.familyName;
+    data[SSN_ATTR] = this.ssn;
+    data[ADDRESS_ATTR] = this.amlAddress.getData();
+
+    return data;
   }
 
   toString () {

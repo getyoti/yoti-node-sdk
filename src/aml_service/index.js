@@ -18,7 +18,7 @@ exports.performAmlCheck = (amlProfile, pem, appId) => {
     yotiRequest.makeRequest(httpMethod, endpoint, pem, appId, Payload)
         .then(response => {
           if (response) {
-            // This will throw an error if the error message is included.
+            // This will throw an error if the error message is included in the response.
             AmlResult.checkAmlError(response.getParsedResponse());
             return resolve(new AmlResult(response.getParsedResponse()));
           }

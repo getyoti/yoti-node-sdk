@@ -28,15 +28,24 @@ exports.AmlAddress = class AmlAddress {
     return this.postcode;
   }
 
+  /**
+   * Get address data.
+   *
+   * @returns {{}}
+   */
   getData () {
-    return {
-      'post_code': this.postcode,
-      'country': this.country.getCode()
-    };
+    let data = {};
+    data[POSTCODE_ATTR] = this.postcode;
+    data[COUNTRY_ATTR] = this.country.getCode();
+
+    return data;
   }
 
+  /**
+   * Check if country is an object.
+   */
   checkCountry () {
-    // Make sure Payload is an object
+    // Make sure Country is an object
     if(!this.country) {
       throw new Error('Country should be an object of type Country');
     }
