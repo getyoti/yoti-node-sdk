@@ -185,7 +185,7 @@ Yoti will provide a boolean result on the following checks:
 * Watch list - Verify against watch lists from the Office of Foreign Assets Control
 
 To use this functionality you must ensure:
-* Your application is assigned to your Organisation in the Yoti Dashboard - please see [here]('https://www.yoti.com/developers/documentation') for further information.
+* Your application is assigned to your Organisation in the Yoti Dashboard - please see [here](https://www.yoti.com/developers/documentation) for further information.
 * Within your application please ensure that you have selected the 'given names' and 'family name' attributes from the data tab. This is the minimum requirement for the AML check.
 
 The AML check uses a simplified view of the User Profile.  You need only provide the following:
