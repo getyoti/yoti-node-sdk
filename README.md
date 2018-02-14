@@ -215,9 +215,9 @@ let amlProfile = new YotiEntity.AmlProfile('Edward Richard George', 'Heath', aml
 // Perform the check
 yotiClient.performAmlCheck(amlProfile).then((amlResult) => {
   // handle success
-  console.log('On PEP list ' + amlResult.isOnPepList());
-  console.log("\nOn FRAUD list " + amlResult.isOnFraudList());
-  console.log("\nOn WATCH list " + amlResult.isOnWatchList());
+  console.log(amlResult.isOnPepList());
+  console.log(amlResult.isOnFraudList());
+  console.log(amlResult.isOnWatchList());
   
   // Or
   console.log(amlResult);
