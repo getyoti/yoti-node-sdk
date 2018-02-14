@@ -21,7 +21,7 @@ exports.Payload = class Payload {
   /**
    * Get payload as a Base64 string.
    *
-   * @returns {String}
+   * @returns {string}
    */
   getBase64Payload() {
     return new Buffer(this.getPayloadJSON()).toString('base64');
