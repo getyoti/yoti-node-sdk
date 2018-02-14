@@ -81,7 +81,6 @@ exports.AmlProfile = class AmlProfile {
    * @param amlAddress
    */
   static checkAmlAddress (amlAddress) {
-    // Make sure AmlAddress is an object
     if(!amlAddress) {
       throw new Error('AmlAddress should be an object of type Entity/AmlAddress');
     }

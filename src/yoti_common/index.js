@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const forge = require('node-forge');
 const protoRoot = require('../proto-root').initializeProtoBufObjects();
 
+// Request methods that can include payload data.
 let methodsThatIncludePayload = ['POST', 'PUT', 'PATCH'];
 
 function decipherProfile(cipherText, key, iv){

@@ -13,7 +13,6 @@ exports.AmlResult = class AmlResult {
    * @param rawResult
    */
   static checkAttributes (rawResult) {
-
     if (!rawResult instanceof Array) {
       throw new Error('Result Data should be an array');
     }
