@@ -25,15 +25,18 @@ How to retrieve a Yoti profile using the token
 7) [Handling Users](#handling-users) -
 How to manage users
 
-8) [Running the Example](#running-the-example)
+8) [AML Integration](#aml-integration) -
+How to integrate with Yoti's AML (Anti Money Laundering) service
 
-9) [API Coverage](#api-coverage) -
+9) [Running the Example](#running-the-example)
+
+10) [API Coverage](#api-coverage) -
 Attributes defined
 
-10) [Working on the SDK](#working-on-the-sdk) -
+11) [Working on the SDK](#working-on-the-sdk) -
 Working on the SDK
 
-11) [Support](#support) -
+12) [Support](#support) -
 Please feel free to reach out
 
 ## An Architectural View
@@ -94,9 +97,10 @@ The YotiClient is the SDK entry point. To initialise it you need include the fol
 ```javascript
 
 const YotiClient = require('yoti')
+const YotiEntity = require('yoti/src/yoti_entity');
 const CLIENT_SDK_ID = 'your sdk id'
 const PEM = fs.readFileSync(__dirname + "/keys/your-application-pem-file.pem");
-var yotiClient = new YotiClient(CLIENT_SDK_ID, PEM)
+let yotiClient = new YotiClient(CLIENT_SDK_ID, PEM)
 
 ```
 
@@ -170,6 +174,56 @@ No matter if the user is a new or an existing one, Yoti will always provide her/
 The `profile` object provides a set of attributes corresponding to user attributes. Whether the attributes are present or not depends on the settings you have applied to your app on Yoti Dashboard.
 
 Update your Callback URL in our Yoti Dashboard and you should be good to go!
+
+## AML Integration
+
+Yoti provides an AML (Anti Money Laundering) check service to allow a deeper KYC process to prevent fraud. This is a chargeable service, so please contact [sdksupport@yoti.com](mailto:sdksupport@yoti.com) for more information.
+
+Yoti will provide a boolean result on the following checks:
+* PEP list - Verify against Politically Exposed Persons list
+* Fraud list - Verify against  US Social Security Administration Fraud (SSN Fraud) list
+* Watch list - Verify against watch lists from the Office of Foreign Assets Control
+
+To use this functionality you must ensure:
+* Your application is assigned to your Organisation in the Yoti Dashboard - please see [here]('https://www.yoti.com/developers/documentation') for further information.
+* Within your application please ensure that you have selected the 'given names' and 'family name' attributes from the data tab. This is the minimum requirement for the AML check.
+
+The AML check uses a simplified view of the User Profile.  You need only provide the following:
+* profile.givenNames
+* profile.familyName
+* Country of residence - you will need to collect this from the user yourself
+
+To check a US citizen, you must provide two more attributes in addition to the three above:
+* Social Security Number - you will need to collect this from the user yourself
+* Postcode/Zip code
+
+### Consent
+Performing an Aml check on a person *requires* their consent.
+**You must ensure you have user consent *before* using this service.**
+
+### Code Example
+
+Given a YotiClient initialised with your SDK ID and KeyPair (see [Configuration](#configuration)) performing an AML check is a straightforward case of providing basic profile data.
+
+```javascript
+
+let country = new YotiEntity.Country('GBR');
+let amlAddress = new YotiEntity.AmlAddress(country, 'E1 6DB');
+let amlProfile = new YotiEntity.AmlProfile('Edward Richard George', 'Heath', amlAddress);
+
+yotiClient.performAmlCheck(amlProfile).then((amlResult) => {
+  console.log('On PEP list ' + amlResult.isOnPepList());
+  console.log("\nOn FRAUD list " + amlResult.isOnFraudList());
+  console.log("\nOn WATCH list " + amlResult.isOnWatchList());
+  console.log("\n");
+  
+  // Or
+  console.log(amlResult);
+}).catch((err) => {
+  console.error(err);
+})
+
+```
 
 ## Running the Example
 
