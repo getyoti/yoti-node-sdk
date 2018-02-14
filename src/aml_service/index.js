@@ -72,7 +72,6 @@ exports.performAmlCheck = (amlProfile, pem, appId) => {
           try {
             // This will throw an error if the error message is included in the response.
             AmlResultClass.checkAmlError(response.getParsedResponse());
-            // Check if all expected attributes are included in the result.
             AmlResultClass.checkAttributes(response.getParsedResponse());
             return resolve(new AmlResultObj(response.getParsedResponse()));
           } catch (err) {
