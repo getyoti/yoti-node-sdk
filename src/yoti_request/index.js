@@ -64,12 +64,14 @@ exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
           .set('Content-Type', 'application/json')
           .set('Accept', 'application/json')
           .then(response => {
-              if (response) {
+              try {
                   let parsedResponse = JSON.parse(response.text);
                   let receipt = parsedResponse.receipt;
                   return resolve(new YotiResponse(parsedResponse, receipt));
               }
-              return reject(null);
+              catch (err) {
+                return reject(err);
+              }
           })
           .catch((err) => {
               console.log('Error getting data from connect api: ' +  err.message);

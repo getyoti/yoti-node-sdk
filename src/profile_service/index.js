@@ -41,14 +41,16 @@ exports.getReceipt = (token, pem, appId) => {
   return new Promise((resolve, reject) => {
     yotiRequest.makeRequest(httpMethod, endpoint, pem, appId, PayloadObj)
         .then(response => {
-          if (response) {
+          try {
             let receipt = response.getReceipt();
             let parsedResponse = response.getParsedResponse();
             let decryptedProfile = yotiCommon.decryptCurrentUserReceipt(receipt, pem);
             return resolve(new ActivityDetails(parsedResponse, decryptedProfile));
           }
-          console.log('Error getting response data');
-          return reject(null);
+          catch (err) {
+            console.log('Error getting response data: ' + err.message);
+            return reject(err);
+          }
         }).catch((err) => {
           console.log('Error retrieving request data : ' + err.message);
           return reject(err);

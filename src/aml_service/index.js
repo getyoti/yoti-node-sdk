@@ -69,15 +69,16 @@ exports.performAmlCheck = (amlProfile, pem, appId) => {
   return new Promise((resolve, reject) => {
     yotiRequest.makeRequest(httpMethod, endpoint, pem, appId, PayloadObj)
         .then(response => {
-          if (response) {
+          try {
             // This will throw an error if the error message is included in the response.
             AmlResultClass.checkAmlError(response.getParsedResponse());
             // Check if all expected attributes are included in the result.
             AmlResultClass.checkAttributes(response.getParsedResponse());
             return resolve(new AmlResultObj(response.getParsedResponse()));
+          } catch (err) {
+            console.log('Error getting response data : ' + err.message);
+            return reject(err);
           }
-          console.log('Error getting response data');
-          return reject(null);
         }).catch((err) => {
         console.log('Error retrieving request data : ' + err.message);
         return reject(err);
