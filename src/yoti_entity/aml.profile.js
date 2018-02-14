@@ -1,5 +1,6 @@
 'use strict'
 
+// AML profile attributes
 const GIVEN_NAMES_ATTR  = 'given_names';
 const FAMILY_NAME_ATTR  = 'family_name';
 const SSN_ATTR          = 'ssn';

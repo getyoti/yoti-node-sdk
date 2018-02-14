@@ -1,5 +1,6 @@
 'use strict'
 
+// AML address attributes
 const POSTCODE_ATTR = 'post_code';
 const COUNTRY_ATTR = 'country';
 
