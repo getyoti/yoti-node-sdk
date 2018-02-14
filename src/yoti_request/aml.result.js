@@ -33,7 +33,7 @@ exports.AmlResult = class AmlResult {
    * @param amlResult
    */
   static checkAmlError (amlResult) {
-    if (amlResult && amlResult.hasOwnProperty('errors')) {
+    if (amlResult && amlResult.hasOwnProperty('errors') && amlResult.hasOwnProperty('code')) {
       let code = amlResult['code'];
       let message = code + amlResult['errors'][0]['property'] + ' ' + amlResult['errors'][0]['message'];
       throw new Error(message);
