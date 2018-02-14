@@ -218,7 +218,6 @@ yotiClient.performAmlCheck(amlProfile).then((amlResult) => {
   console.log('On PEP list ' + amlResult.isOnPepList());
   console.log("\nOn FRAUD list " + amlResult.isOnFraudList());
   console.log("\nOn WATCH list " + amlResult.isOnWatchList());
-  console.log("\n");
   
   // Or
   console.log(amlResult);
