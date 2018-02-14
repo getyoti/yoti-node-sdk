@@ -189,8 +189,8 @@ To use this functionality you must ensure:
 * Within your application please ensure that you have selected the 'Given Name(s)' and 'Family Name' attributes from the Data tab. This is the minimum requirement for the AML check.
 
 The AML check uses a simplified view of the User Profile.  You need only provide the following:
-* profile.givenNames
-* profile.familyName
+* Given Name(s)
+* Family Name
 * Country of residence - you will need to collect this from the user yourself
 
 To check a US citizen, you must provide two more attributes in addition to the three above:
@@ -207,10 +207,12 @@ Given a YotiClient initialised with your SDK ID and KeyPair (see [Configuration]
 
 ```javascript
 
+// Initiate user profile data.
 let country = new YotiEntity.Country('GBR');
 let amlAddress = new YotiEntity.AmlAddress(country, 'E1 6DB');
 let amlProfile = new YotiEntity.AmlProfile('Edward Richard George', 'Heath', amlAddress);
 
+// Perform the check
 yotiClient.performAmlCheck(amlProfile).then((amlResult) => {
   // handle success
   console.log('On PEP list ' + amlResult.isOnPepList());
