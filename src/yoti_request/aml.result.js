@@ -1,5 +1,6 @@
 'use strict'
 
+// AML result attributes
 const ON_PEP_LIST_ATTR = 'on_pep_list';
 const ON_FRAUD_LIST_ATTR = 'on_fraud_list';
 const ON_WATCH_LIST_ATTR = 'on_watch_list';
