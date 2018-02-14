@@ -58,7 +58,7 @@ exports.AmlAddress = class AmlAddress {
   checkCountry () {
     // Make sure country is an object
     if(!this.country) {
-      throw new Error('Country should be an object Entity/Country');
+      throw new Error('Country should be an object of type Entity/Country');
     }
   }
 
