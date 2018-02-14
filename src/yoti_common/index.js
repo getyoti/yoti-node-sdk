@@ -32,7 +32,7 @@ function unwrapKey(wrappedKey, pem){
 }
 
 exports.requestCanSendPayload = (httpMethod) => {
-  // Check if request method can send payload
+  // Check if the request method can send payload data
   if(methodsThatIncludePayload.indexOf(httpMethod) === -1) {
     return false;
   }

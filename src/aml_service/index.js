@@ -5,7 +5,6 @@ const AmlResultClass = require('../yoti_request/aml.result').AmlResult;
 const Payload = require('../yoti_request/payload').Payload;
 
 const AmlResultObj = function(rawResult){
-
   this.onPepList = rawResult['on_pep_list'];
   this.onFraudList = rawResult['on_fraud_list'];
   this.onWatchList = rawResult['on_watch_list'];
