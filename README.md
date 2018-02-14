@@ -212,6 +212,7 @@ let amlAddress = new YotiEntity.AmlAddress(country, 'E1 6DB');
 let amlProfile = new YotiEntity.AmlProfile('Edward Richard George', 'Heath', amlAddress);
 
 yotiClient.performAmlCheck(amlProfile).then((amlResult) => {
+  // handle success
   console.log('On PEP list ' + amlResult.isOnPepList());
   console.log("\nOn FRAUD list " + amlResult.isOnFraudList());
   console.log("\nOn WATCH list " + amlResult.isOnWatchList());
@@ -220,6 +221,7 @@ yotiClient.performAmlCheck(amlProfile).then((amlResult) => {
   // Or
   console.log(amlResult);
 }).catch((err) => {
+  // handle unhappy path
   console.error(err);
 })
 
