@@ -1,8 +1,6 @@
 'use strict'
 
 const constants = require('../yoti_common/constants');
-const POSTCODE_ATTR = constants.POSTCODE_ATTR;
-const COUNTRY_ATTR = constants.COUNTRY_ATTR;
 
 exports.AmlAddress = class AmlAddress {
 
@@ -46,8 +44,8 @@ exports.AmlAddress = class AmlAddress {
    */
   getData () {
     let data = {};
-    data[POSTCODE_ATTR] = this.postcode;
-    data[COUNTRY_ATTR] = this.countryCode;
+    data[constants.POSTCODE_ATTR] = this.postcode;
+    data[constants.COUNTRY_ATTR] = this.countryCode;
 
     return data;
   }

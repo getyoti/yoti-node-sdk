@@ -1,10 +1,6 @@
 'use strict'
 
 const constants = require('../yoti_common/constants');
-const GIVEN_NAMES_ATTR = constants.GIVEN_NAMES_ATTR;
-const FAMILY_NAME_ATTR = constants.FAMILY_NAME_ATTR;
-const SSN_ATTR         = constants.SSN_ATTR;
-const ADDRESS_ATTR     = constants.ADDRESS_ATTR;
 
 exports.AmlProfile = class AmlProfile {
 
@@ -14,7 +10,7 @@ exports.AmlProfile = class AmlProfile {
     this.amlAddress = amlAddress;
     this.ssn = ssn;
 
-    AmlProfile.checkAmlAddress(amlAddress);
+    AmlProfile.validateAmlAddress(amlAddress);
   }
 
   /**
@@ -49,7 +45,7 @@ exports.AmlProfile = class AmlProfile {
    * @param amlAddress
    */
   setAmlAddress (amlAddress) {
-    AmlProfile.checkAmlAddress(amlAddress);
+    AmlProfile.validateAmlAddress(amlAddress);
     this.amlAddress = amlAddress;
   }
 
@@ -79,7 +75,7 @@ exports.AmlProfile = class AmlProfile {
    *
    * @param amlAddress
    */
-  static checkAmlAddress (amlAddress) {
+  static validateAmlAddress (amlAddress) {
     if(!amlAddress) {
       throw new Error('AmlAddress should be an object of Type/AmlAddress');
     }
@@ -92,10 +88,10 @@ exports.AmlProfile = class AmlProfile {
    */
   getData () {
     let data = {};
-    data[GIVEN_NAMES_ATTR] = this.givenNames;
-    data[FAMILY_NAME_ATTR] = this.familyName;
-    data[SSN_ATTR] = this.ssn;
-    data[ADDRESS_ATTR] = this.amlAddress.getData();
+    data[constants.GIVEN_NAMES_ATTR] = this.givenNames;
+    data[constants.FAMILY_NAME_ATTR] = this.familyName;
+    data[constants.SSN_ATTR] = this.ssn;
+    data[constants.ADDRESS_ATTR] = this.amlAddress.getData();
 
     return data;
   }

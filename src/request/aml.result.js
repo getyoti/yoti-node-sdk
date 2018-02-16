@@ -1,9 +1,6 @@
 'use strict'
 
 const constants = require('../yoti_common/constants');
-const ON_PEP_LIST_ATTR = constants.ON_PEP_LIST_ATTR;
-const ON_FRAUD_LIST_ATTR = constants.ON_FRAUD_LIST_ATTR;
-const ON_WATCH_LIST_ATTR = constants.ON_WATCH_LIST_ATTR;
 
 exports.AmlResult = class AmlResult {
 
@@ -17,7 +14,11 @@ exports.AmlResult = class AmlResult {
       throw new Error('Result Data should be an array');
     }
 
-    let expectedElements = [ON_PEP_LIST_ATTR, ON_FRAUD_LIST_ATTR, ON_WATCH_LIST_ATTR];
+    let expectedElements = [
+        constants.ON_PEP_LIST_ATTR,
+        constants.ON_FRAUD_LIST_ATTR,
+        constants.ON_WATCH_LIST_ATTR
+    ];
 
     for (let x = 0; x < expectedElements.length; x++) {
       let attr = expectedElements[x];

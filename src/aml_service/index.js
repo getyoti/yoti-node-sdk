@@ -4,14 +4,11 @@ const httpRequest = require('../request');
 const AmlResultClass = require('../request/aml.result').AmlResult;
 const {Payload} = require('../request/payload');
 const constants = require('../yoti_common/constants');
-const ON_PEP_LIST_ATTR = constants.ON_PEP_LIST_ATTR;
-const ON_FRAUD_LIST_ATTR = constants.ON_FRAUD_LIST_ATTR;
-const ON_WATCH_LIST_ATTR = constants.ON_WATCH_LIST_ATTR;
 
 const AmlResult = function(rawResult){
-  this.isOnPepList = rawResult[ON_PEP_LIST_ATTR];
-  this.isOnFraudList = rawResult[ON_FRAUD_LIST_ATTR];
-  this.isOnWatchList = rawResult[ON_WATCH_LIST_ATTR];
+  this.isOnPepList = rawResult[constants.ON_PEP_LIST_ATTR];
+  this.isOnFraudList = rawResult[constants.ON_FRAUD_LIST_ATTR];
+  this.isOnWatchList = rawResult[constants.ON_WATCH_LIST_ATTR];
 }
 
 AmlResult.prototype = {
@@ -21,11 +18,12 @@ AmlResult.prototype = {
    * @returns {{}}
    */
   getData () {
-    return {
-      ON_PEP_LIST_ATTR: this.isOnPepList,
-      ON_FRAUD_LIST_ATTR: this.isOnFraudList,
-      ON_WATCH_LIST_ATTR: this.isOnWatchList
-    };
+    let data = {};
+    data[constants.ON_PEP_LIST_ATTR] = this.isOnPepList;
+    data[constants.ON_FRAUD_LIST_ATTR] = this.isOnFraudList;
+    data[constants.ON_WATCH_LIST_ATTR] = this.isOnWatchList;
+
+    return data;
   },
 
   toString () {
