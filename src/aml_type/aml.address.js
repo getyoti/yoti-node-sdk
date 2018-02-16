@@ -1,31 +1,30 @@
 'use strict'
 
-// AML address attributes
-const POSTCODE_ATTR = 'post_code';
-const COUNTRY_ATTR = 'country';
+const constants = require('../yoti_common/constants');
+const POSTCODE_ATTR = constants.POSTCODE_ATTR;
+const COUNTRY_ATTR = constants.COUNTRY_ATTR;
 
 exports.AmlAddress = class AmlAddress {
 
-  constructor (country, postcode = '') {
-    this.country = country;
+  constructor (countryCode, postcode = '') {
+    this.countryCode = countryCode;
     this.postcode = postcode;
 
-    // Check if country is an object
-    this.checkCountry();
+    this.checkCountryCode();
   }
 
   /**
-   * @param country
+   * @param countryCode
    */
-  setCountry (country) {
-    this.country = country;
+  setCountryCode (countryCode) {
+    this.countryCode = countryCode;
   }
 
   /**
    * @returns country
    */
-  getCountry () {
-    return this.country;
+  getCountryCode () {
+    return this.countryCode;
   }
 
   /**
@@ -48,17 +47,14 @@ exports.AmlAddress = class AmlAddress {
   getData () {
     let data = {};
     data[POSTCODE_ATTR] = this.postcode;
-    data[COUNTRY_ATTR] = this.country.getCode();
+    data[COUNTRY_ATTR] = this.countryCode;
 
     return data;
   }
 
-  /**
-   * Check if country is an object.
-   */
-  checkCountry () {
-    if(!this.country) {
-      throw new Error('Country should be an object of type Entity/Country');
+  checkCountryCode () {
+    if(this.countryCode === '') {
+      throw new Error('CountryCode cannot be empty');
     }
   }
 

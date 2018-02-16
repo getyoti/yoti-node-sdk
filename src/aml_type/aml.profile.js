@@ -1,10 +1,10 @@
 'use strict'
 
-// AML profile attributes
-const GIVEN_NAMES_ATTR  = 'given_names';
-const FAMILY_NAME_ATTR  = 'family_name';
-const SSN_ATTR          = 'ssn';
-const ADDRESS_ATTR      = 'address';
+const constants = require('../yoti_common/constants');
+const GIVEN_NAMES_ATTR = constants.GIVEN_NAMES_ATTR;
+const FAMILY_NAME_ATTR = constants.FAMILY_NAME_ATTR;
+const SSN_ATTR         = constants.SSN_ATTR;
+const ADDRESS_ATTR     = constants.ADDRESS_ATTR;
 
 exports.AmlProfile = class AmlProfile {
 
@@ -14,7 +14,6 @@ exports.AmlProfile = class AmlProfile {
     this.amlAddress = amlAddress;
     this.ssn = ssn;
 
-    // Check if amlAddress is an object.
     AmlProfile.checkAmlAddress(amlAddress);
   }
 
@@ -82,7 +81,7 @@ exports.AmlProfile = class AmlProfile {
    */
   static checkAmlAddress (amlAddress) {
     if(!amlAddress) {
-      throw new Error('AmlAddress should be an object of type Entity/AmlAddress');
+      throw new Error('AmlAddress should be an object of Type/AmlAddress');
     }
   }
 

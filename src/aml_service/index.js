@@ -1,43 +1,20 @@
 'use strict'
 
-const yotiRequest = require('../yoti_request');
-const AmlResultClass = require('../yoti_request/aml.result').AmlResult;
-const Payload = require('../yoti_request/payload').Payload;
+const httpRequest = require('../request');
+const AmlResultClass = require('../request/aml.result').AmlResult;
+const {Payload} = require('../request/payload');
+const constants = require('../yoti_common/constants');
+const ON_PEP_LIST_ATTR = constants.ON_PEP_LIST_ATTR;
+const ON_FRAUD_LIST_ATTR = constants.ON_FRAUD_LIST_ATTR;
+const ON_WATCH_LIST_ATTR = constants.ON_WATCH_LIST_ATTR;
 
-const AmlResultObj = function(rawResult){
-  this.onPepList = rawResult['on_pep_list'];
-  this.onFraudList = rawResult['on_fraud_list'];
-  this.onWatchList = rawResult['on_watch_list'];
+const AmlResult = function(rawResult){
+  this.isOnPepList = rawResult[ON_PEP_LIST_ATTR];
+  this.isOnFraudList = rawResult[ON_FRAUD_LIST_ATTR];
+  this.isOnWatchList = rawResult[ON_WATCH_LIST_ATTR];
 }
 
-AmlResultObj.prototype = {
-  /**
-   * Check if user is a politically exposed person.
-   *
-   * @returns {exports.AmlResult.isOnPepList}
-   */
-  isOnPepList() {
-    return this.onPepList;
-  },
-
-  /**
-   * Check if user is on a fraud list.
-   *
-   * @returns {exports.AmlResult.isOnFraudList}
-   */
-  isOnFraudList () {
-    return this.onFraudList;
-  },
-
-  /**
-   * Check if user is on a watch list.
-   *
-   * @returns {exports.AmlResult.isOnWatchList}
-   */
-  isOnWatchList () {
-    return this.onWatchList;
-  },
-
+AmlResult.prototype = {
   /**
    * Get result data.
    *
@@ -45,9 +22,9 @@ AmlResultObj.prototype = {
    */
   getData () {
     return {
-      'on_pep_list': this.isOnPepList(),
-      'on_fraud_list': this.isOnFraudList(),
-      'on_watch_list': this.isOnWatchList()
+      ON_PEP_LIST_ATTR: this.isOnPepList,
+      ON_FRAUD_LIST_ATTR: this.isOnFraudList,
+      ON_WATCH_LIST_ATTR: this.isOnWatchList
     };
   },
 
@@ -61,19 +38,20 @@ exports.performAmlCheck = (amlProfile, pem, appId) => {
   let httpMethod = 'POST';
 
   if (!amlProfile) {
-    throw new Error('Error - AmlProfile should be an object of type Entity/AmlProfile');
+    throw new Error('Error - AmlProfile should be an object of type Type/AmlProfile');
   }
 
-  let PayloadObj = new Payload(amlProfile.getData());
+  let payload = new Payload(amlProfile.getData());
 
   return new Promise((resolve, reject) => {
-    yotiRequest.makeRequest(httpMethod, endpoint, pem, appId, PayloadObj)
+    httpRequest.makeRequest(httpMethod, endpoint, pem, appId, payload)
         .then(response => {
           try {
+            let parsedResponse = response.getParsedResponse();
             // This will throw an error if the error message is included in the response.
-            AmlResultClass.checkAmlError(response.getParsedResponse());
-            AmlResultClass.checkAttributes(response.getParsedResponse());
-            return resolve(new AmlResultObj(response.getParsedResponse()));
+            AmlResultClass.checkAmlError(parsedResponse);
+            AmlResultClass.checkAttributes(parsedResponse);
+            return resolve(new AmlResult(parsedResponse));
           } catch (err) {
             console.log('Error getting response data : ' + err.message);
             return reject(err);

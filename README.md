@@ -30,11 +30,11 @@ How to integrate with Yoti's AML (Anti Money Laundering) service
 
 9) [Running the Example](#running-the-example)
 
-10) [API Coverage](#api-coverage) -
-Attributes defined
-
-11) [Working on the SDK](#working-on-the-sdk) -
+10) [Working on the SDK](#working-on-the-sdk) -
 Working on the SDK
+
+11) [API Coverage](#api-coverage) -
+Attributes defined
 
 12) [Support](#support) -
 Please feel free to reach out
@@ -97,7 +97,8 @@ The YotiClient is the SDK entry point. To initialise it you need include the fol
 ```javascript
 
 const YotiClient = require('yoti')
-const YotiEntity = require('yoti/src/yoti_entity');
+const {AmlAddress} = require('yoti/src/aml_type');
+const {AmlProfile} = require('yoti/src/aml_type');
 const CLIENT_SDK_ID = 'your sdk id'
 const PEM = fs.readFileSync(__dirname + "/keys/your-application-pem-file.pem");
 let yotiClient = new YotiClient(CLIENT_SDK_ID, PEM)
@@ -199,7 +200,7 @@ For the AML check you will need to provide the following:
 
 ### Consent
 
-Performing an Aml check on a person *requires* their consent.
+Performing an AML check on a person *requires* their consent.
 **You must ensure you have user consent *before* using this service.**
 
 ### Code Example
@@ -209,21 +210,18 @@ Given a YotiClient initialised with your SDK ID and KeyPair (see [Configuration]
 ```javascript
 
 // Initiate user profile data.
-let country = new YotiEntity.Country('GBR');
-let amlAddress = new YotiEntity.AmlAddress(country, 'E1 6DB');
-let amlProfile = new YotiEntity.AmlProfile('Edward Richard George', 'Heath', amlAddress);
 
-// Perform the check
+let amlAddress = new AmlAddress('GBR');
+let amlProfile = new AmlProfile('Edward Richard George', 'Heath', amlAddress);
+
 yotiClient.performAmlCheck(amlProfile).then((amlResult) => {
-  // handle success
-  console.log(amlResult.isOnPepList());
-  console.log(amlResult.isOnFraudList());
-  console.log(amlResult.isOnWatchList());
+  console.log(amlResult.isOnPepList);
+  console.log(amlResult.isOnFraudList);
+  console.log(amlResult.isOnWatchList);
   
   // Or
   console.log(amlResult);
 }).catch((err) => {
-  // handle unhappy path
   console.error(err);
 })
 
@@ -239,6 +237,24 @@ For it to work you will need a working callback URL that your browser can redire
 * start the server `node index.js`
 
 Visiting the `https://localhost:9443` should show a Yoti Connect button
+
+## Working on the SDK
+
+To install the required packages run:
+
+```shell
+
+npm install
+
+```
+
+To run the tests run:
+
+```shell
+
+npm test
+
+```
 
 ## API Coverage
 
@@ -266,24 +282,6 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
     * [X] Address `postalAddress`
     * [X] Gender `gender`
     * [X] Nationality `nationality`
-
-## Working on the SDK
-
-To install the required packages run:
-
-```shell
-
-npm install
-
-```
-
-To run the tests run:
-
-```shell
-
-npm test
-
-```
 
 ## Support
 

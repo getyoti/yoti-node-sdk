@@ -2,10 +2,10 @@
 
 const uuid = require('uuid');
 const superagent = require('superagent');
-const server = require('../../config').server;
+const {server} = require('../../config');
 const yotiCommon = require('../yoti_common');
 
-let supportedMethods = ["POST", "PUT", "PATCH", "GET", "DELETE"];
+let supportedMethods = ['POST', 'PUT', 'PATCH', 'GET', 'DELETE'];
 
 
 const YotiResponse = function (parsedResponse, receipt) {
@@ -32,7 +32,7 @@ exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
 
     // Check if request method is supported
     if(supportedMethods.indexOf(httpMethod) === -1) {
-      throw new Error('Http method ' + httpMethod + ' is not supported');
+      throw new Error('HTTP method ' + httpMethod + ' is not supported');
     }
 
     let authKey = yotiCommon.getAuthKeyFromPem(pem);
@@ -74,7 +74,7 @@ exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
               }
           })
           .catch((err) => {
-              console.log('Error getting data from connect api: ' +  err.message);
+              console.log('Error getting data from Connect API: ' +  err.message);
               return reject(err)
           });
     });

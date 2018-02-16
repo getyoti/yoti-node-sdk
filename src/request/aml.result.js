@@ -1,9 +1,9 @@
 'use strict'
 
-// AML result attributes
-const ON_PEP_LIST_ATTR = 'on_pep_list';
-const ON_FRAUD_LIST_ATTR = 'on_fraud_list';
-const ON_WATCH_LIST_ATTR = 'on_watch_list';
+const constants = require('../yoti_common/constants');
+const ON_PEP_LIST_ATTR = constants.ON_PEP_LIST_ATTR;
+const ON_FRAUD_LIST_ATTR = constants.ON_FRAUD_LIST_ATTR;
+const ON_WATCH_LIST_ATTR = constants.ON_WATCH_LIST_ATTR;
 
 exports.AmlResult = class AmlResult {
 
@@ -19,8 +19,8 @@ exports.AmlResult = class AmlResult {
 
     let expectedElements = [ON_PEP_LIST_ATTR, ON_FRAUD_LIST_ATTR, ON_WATCH_LIST_ATTR];
 
-    for (let key in expectedElements) {
-      let attr = expectedElements[key];
+    for (let x = 0; x < expectedElements.length; x++) {
+      let attr = expectedElements[x];
       if (!rawResult.hasOwnProperty(attr)) {
         throw new Error('Missing attribute in the result ' + attr);
       }

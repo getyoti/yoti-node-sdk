@@ -1,8 +1,8 @@
 'use strict'
 
-const yotiRequest = require('../yoti_request');
+const httpRequest = require('../request');
 const yotiCommon = require('../yoti_common');
-const Payload = require('../yoti_request/payload').Payload;
+const {Payload} = require('../request/payload');
 
 const ActivityDetails = function (parsedResponse, decryptedProfile) {
 		
@@ -32,14 +32,14 @@ ActivityDetails.prototype = {
 	}
 }
 
-const PayloadObj = new Payload('');
+const payload = new Payload('');
 
 exports.getReceipt = (token, pem, appId) => {
   let endpoint = `/profile/${token}`;
   let httpMethod = 'GET';
 
   return new Promise((resolve, reject) => {
-    yotiRequest.makeRequest(httpMethod, endpoint, pem, appId, PayloadObj)
+    httpRequest.makeRequest(httpMethod, endpoint, pem, appId, payload)
         .then(response => {
           try {
             let receipt = response.getReceipt();
