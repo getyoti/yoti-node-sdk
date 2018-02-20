@@ -5,12 +5,10 @@ const constants = require('../yoti_common/constants');
 exports.AmlProfile = class AmlProfile {
 
   constructor (givenNames, familyName, amlAddress, ssn = '') {
-    this.givenNames = givenNames;
-    this.familyName = familyName;
-    this.amlAddress = amlAddress;
-    this.ssn = ssn;
-
-    AmlProfile.validateAmlAddress(amlAddress);
+    this.setGivenNames(givenNames);
+    this.setFamilyName(familyName);
+    this.setAmlAddress(amlAddress);
+    this.setSsn(ssn);
   }
 
   /**

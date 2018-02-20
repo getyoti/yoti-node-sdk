@@ -5,16 +5,15 @@ const constants = require('../yoti_common/constants');
 exports.AmlAddress = class AmlAddress {
 
   constructor (countryCode, postcode = '') {
-    this.countryCode = countryCode;
-    this.postcode = postcode;
-
-    this.checkCountryCode();
+    this.setCountryCode(countryCode);
+    this.setPostcode(postcode);
   }
 
   /**
    * @param countryCode
    */
   setCountryCode (countryCode) {
+    this.validateCountryCode(countryCode);
     this.countryCode = countryCode;
   }
 
@@ -50,8 +49,11 @@ exports.AmlAddress = class AmlAddress {
     return data;
   }
 
-  checkCountryCode () {
-    if(this.countryCode === '') {
+  /**
+   * @param countryCode
+   */
+  validateCountryCode (countryCode) {
+    if(countryCode === '') {
       throw new Error('CountryCode cannot be empty');
     }
   }

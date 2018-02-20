@@ -29,15 +29,21 @@ exports.AmlResult = class AmlResult {
   }
 
   /**
-   * Check if the response contains an error.
+   * Process and extract the error message sent from Connect API
    *
-   * @param amlResult
+   * @param Error
+   *
+   * @returns {string}
    */
-  static checkAmlError (amlResult) {
-    if (amlResult && amlResult.hasOwnProperty('errors') && amlResult.hasOwnProperty('code')) {
-      let code = amlResult['code'];
-      let message = code + amlResult['errors'][0]['property'] + ' ' + amlResult['errors'][0]['message'];
-      throw new Error(message);
+  static processAmlError (Error) {
+    if (Error.response && Error.response.text) {
+      let AmlError = JSON.parse(Error.response.text);
+      if (AmlError.hasOwnProperty('errors') && AmlError.hasOwnProperty('code')) {
+        let message = AmlError.code + ' - ' + AmlError.errors[0]['message'];
+        return message;
+      }
     }
+
+    return Error.message;
   }
 }

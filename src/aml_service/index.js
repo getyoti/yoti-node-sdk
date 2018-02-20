@@ -36,7 +36,7 @@ exports.performAmlCheck = (amlProfile, pem, appId) => {
   let httpMethod = 'POST';
 
   if (!amlProfile) {
-    throw new Error('Error - AmlProfile should be an object of type Type/AmlProfile');
+    throw new Error('Error - AmlProfile should be an object of Type/AmlProfile');
   }
 
   let payload = new Payload(amlProfile.getData());
@@ -46,17 +46,17 @@ exports.performAmlCheck = (amlProfile, pem, appId) => {
         .then(response => {
           try {
             let parsedResponse = response.getParsedResponse();
-            // This will throw an error if the error message is included in the response.
-            AmlResultClass.checkAmlError(parsedResponse);
             AmlResultClass.checkAttributes(parsedResponse);
             return resolve(new AmlResult(parsedResponse));
           } catch (err) {
             console.log('Error getting response data : ' + err.message);
             return reject(err);
           }
-        }).catch((err) => {
-        console.log('Error retrieving request data : ' + err.message);
-        return reject(err);
-    });
+        })
+        .catch((err) => {
+          console.log('Error retrieving request data : ' + err);
+          let errorMessage = AmlResultClass.processAmlError(err);
+          return reject(new Error(errorMessage));
+        });
   });
 }
