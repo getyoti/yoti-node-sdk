@@ -39,7 +39,7 @@ describe('Test Payload class' , function() {
     expect(payloadJSON).to.equal(expectedPayloadJSON);
   });
 
-  it('should return the base64 Payload', function() {
+  it('should return the base64Payload string', function() {
     let base64Payload = amlPayload.getBase64Payload();
     expect(base64Payload).to.equal(expectedBase64Payload);
   });
@@ -62,9 +62,9 @@ describe('Test performAmlCheck service', function() {
   it('should return a successful result from performAmlCheck call', done => {
     amlService.performAmlCheck(amlProfile, privateKeyFile, 'stub-app-id')
         .then(amlResult => {
-          assert.equal(amlResult.isOnPepList, true);
-          assert.equal(amlResult.isOnFraudList, false);
-          assert.equal(amlResult.isOnWatchList, false);
+          expect(amlResult.isOnPepList).to.equal(true);
+          expect(amlResult.isOnFraudList).to.equal(false);
+          expect(amlResult.isOnWatchList).to.equal(false);
 
           done();
         })
@@ -101,9 +101,9 @@ describe('Test performAmlCheck from client', function() {
     let yotiClient = new YotiClient('stub-app-id', privateKeyFile)
     yotiClient.performAmlCheck(amlProfile)
         .then(amlResult => {
-          assert.equal(amlResult.isOnPepList, true);
-          assert.equal(amlResult.isOnFraudList, false);
-          assert.equal(amlResult.isOnWatchList, false);
+          expect(amlResult.isOnPepList).to.equal(true);
+          expect(amlResult.isOnFraudList).to.equal(false);
+          expect(amlResult.isOnWatchList).to.equal(false);
 
           done();
         })
@@ -116,7 +116,7 @@ let amlProfile2 = new AmlProfile('Edward Richard George', 'Heath', amlAddress2);
 let amlPayload2 = new Payload(amlProfile2.getData());
 let expectedErrorMessage = 'PAYLOAD_VALIDATION - country must be specified as an ISO-3166 3-letter code';
 
-describe('Test perform AML check with 2-letter country code', function() {
+describe('Test performAmlCheck with 2-letter country code', function() {
   beforeEach(done => {
     nock(`${config.server.configuration.connectApi}`)
         .post(new RegExp('^/api/v1/aml-check?'), amlPayload2.getPayloadJSON())
