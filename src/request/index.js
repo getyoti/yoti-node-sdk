@@ -7,7 +7,6 @@ const yotiCommon = require('../yoti_common');
 
 let supportedMethods = ['POST', 'PUT', 'PATCH', 'GET', 'DELETE'];
 
-
 const YotiResponse = function (parsedResponse, receipt) {
     this.parsedResponse = parsedResponse;
     this.receipt = receipt;
@@ -24,7 +23,6 @@ YotiResponse.prototype = {
 }
 
 exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
-
     // Make sure payload is an object
     if(!Payload) {
       throw new Error('Payload should be an object of type Request/Payload');

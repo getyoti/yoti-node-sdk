@@ -12,7 +12,6 @@ const {Payload} = require('../src/request/payload');
 const request = require('../src/request');
 const amlService = require('../src/aml_service');
 const yotiCommon = require('../src/yoti_common');
-
 const config = require('../config');
 
 const privateKeyFile = fs.readFileSync('./test/keys/node-sdk-test.pem', 'utf8');
@@ -111,7 +110,6 @@ describe('Test performAmlCheck from client', function() {
         .catch(done);
   });
 });
-
 
 let amlAddress2 = new AmlAddress('UK');
 let amlProfile2 = new AmlProfile('Edward Richard George', 'Heath', amlAddress2);
