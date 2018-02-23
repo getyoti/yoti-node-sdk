@@ -1,29 +1,32 @@
-'use strict'
+'use strict';
 
 const constants = require('../yoti_common/constants');
 
-exports.AmlResult = class AmlResult {
+function hasProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
 
+module.exports.AmlResult = class AmlResult {
   /**
    * Check if all expected attributes are included in the result.
    *
    * @param rawResult
    */
-  static checkAttributes (rawResult) {
-    if (!rawResult instanceof Array) {
-      throw new Error('Result Data should be an array');
+  static checkAttributes(rawResult) {
+    if (!(rawResult instanceof Object)) {
+      throw new Error('Result Data should be an object');
     }
 
-    let expectedElements = [
-        constants.ON_PEP_LIST_ATTR,
-        constants.ON_FRAUD_LIST_ATTR,
-        constants.ON_WATCH_LIST_ATTR
+    const expectedElements = [
+      constants.ON_PEP_LIST_ATTR,
+      constants.ON_FRAUD_LIST_ATTR,
+      constants.ON_WATCH_LIST_ATTR,
     ];
 
-    for (let x = 0; x < expectedElements.length; x++) {
-      let attr = expectedElements[x];
-      if (!rawResult.hasOwnProperty(attr)) {
-        throw new Error('Missing attribute in the result ' + attr);
+    for (let x = 0; x < expectedElements.length; x += 1) {
+      const attr = expectedElements[x];
+      if (!hasProperty(rawResult, attr)) {
+        throw new Error(`Missing attribute in the result ${attr}`);
       }
     }
   }
@@ -35,15 +38,14 @@ exports.AmlResult = class AmlResult {
    *
    * @returns {string}
    */
-  static processAmlError (Error) {
+  static processAmlError(Error) {
     if (Error.response && Error.response.text) {
-      let AmlError = JSON.parse(Error.response.text);
-      if (AmlError.hasOwnProperty('errors') && AmlError.hasOwnProperty('code')) {
-        let message = AmlError.code + ' - ' + AmlError.errors[0]['message'];
+      const AmlError = JSON.parse(Error.response.text);
+      if (hasProperty(AmlError, 'errors') && hasProperty(AmlError, 'code')) {
+        const message = `${AmlError.code} - ${AmlError.errors[0].message}`;
         return message;
       }
     }
-
     return Error.message;
   }
-}
+};

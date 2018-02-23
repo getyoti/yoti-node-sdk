@@ -4,6 +4,9 @@
   "description": "A Yoti client example",
   "private": true,
   "author": "Yoti LTD",
+  "engines": {
+    "node": ">=8.9.4"
+  },
   "scripts": {},
   "dependencies": {
     "body-parser": "^1.18.2",

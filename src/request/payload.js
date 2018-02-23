@@ -1,6 +1,8 @@
-'use strict'
+'use strict';
 
-exports.Payload = class Payload {
+const Buffer = require('safe-buffer').Buffer;
+
+module.exports.Payload = class Payload {
   constructor(data) {
     this.data = data;
   }
@@ -12,8 +14,8 @@ exports.Payload = class Payload {
    */
   getPayloadJSON() {
     let data = this.data;
-    if(typeof data === 'string') {
-      data = new Buffer(data).toString('utf8');
+    if (typeof data === 'string') {
+      data = Buffer.from(data, 'utf8');
     }
     return JSON.stringify(data);
   }
@@ -24,7 +26,7 @@ exports.Payload = class Payload {
    * @returns {string}
    */
   getBase64Payload() {
-    return new Buffer(this.getPayloadJSON()).toString('base64');
+    return Buffer.from(this.getPayloadJSON()).toString('base64');
   }
 
   /**
@@ -35,4 +37,4 @@ exports.Payload = class Payload {
   getRawData() {
     return this.data;
   }
-}
+};

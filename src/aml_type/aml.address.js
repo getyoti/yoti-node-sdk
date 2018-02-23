@@ -1,48 +1,49 @@
-'use strict'
+'use strict';
 
 const constants = require('../yoti_common/constants');
 
-exports.AmlAddress = class AmlAddress {
-
-  constructor (countryCode, postcode = '') {
+module.exports.AmlAddress = class AmlAddress {
+  constructor(countryCode, postcode) {
     this.setCountryCode(countryCode);
-    this.setPostcode(postcode);
+    if (typeof postcode !== 'undefined') {
+      this.setPostcode(postcode);
+    }
   }
 
   /**
    * @param countryCode
    */
-  setCountryCode (countryCode) {
-    this.validateCountryCode(countryCode);
+  setCountryCode(countryCode) {
+    this.validateCountryCode();
     this.countryCode = countryCode;
   }
 
   /**
    * @returns country
    */
-  getCountryCode () {
+  getCountryCode() {
     return this.countryCode;
   }
 
   /**
    * @param postcode
    */
-  setPostcode (postcode) {
+  setPostcode(postcode) {
     this.postcode = postcode;
   }
 
   /**
    * @returns postcode
    */
-  getPostcode () {
+  getPostcode() {
     return this.postcode;
   }
 
   /**
    * @returns {{}}
    */
-  getData () {
-    let data = {};
+  getData() {
+    const data = {};
     data[constants.POSTCODE_ATTR] = this.postcode;
     data[constants.COUNTRY_ATTR] = this.countryCode;
 
@@ -52,8 +53,8 @@ exports.AmlAddress = class AmlAddress {
   /**
    * @param countryCode
    */
-  validateCountryCode (countryCode) {
-    if(countryCode === '') {
+  validateCountryCode() {
+    if (this.countryCode === '') {
       throw new Error('CountryCode cannot be empty');
     }
   }
@@ -63,7 +64,7 @@ exports.AmlAddress = class AmlAddress {
    *
    * @returns {string}
    */
-  toString () {
+  toString() {
     return JSON.stringify(this.getData());
   }
-}
+};

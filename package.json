@@ -8,19 +8,28 @@
     "type": "git",
     "url": "https://github.com/getyoti/yoti-node-sdk.git"
   },
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "scripts": {
+    "lint": "node_modules/.bin/eslint src/*.js src/**/*.js tests/*.spec.js example/index.js",
     "test": "istanbul cover _mocha tests/*.spec.js"
   },
   "dependencies": {
-    "node-forge": "0.6.39",
-    "superagent": "2.0.0",
     "base64-url": "1.2.2",
+    "node-forge": "0.6.39",
     "protobufjs": "5.0.1",
+    "safe-buffer": "^5.1.1",
+    "superagent": "2.0.0",
     "ursa": "0.9.4",
     "uuid": "2.0.2"
   },
   "devDependencies": {
     "chai": "3.5.0",
+    "eslint": "^4.18.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.0",
     "istanbul": "0.4.5",
     "mocha": "2.5.3",
     "nock": "8.0.0"

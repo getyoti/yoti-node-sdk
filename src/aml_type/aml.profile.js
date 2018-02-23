@@ -1,48 +1,49 @@
-'use strict'
+'use strict';
 
 const constants = require('../yoti_common/constants');
 
-exports.AmlProfile = class AmlProfile {
-
-  constructor (givenNames, familyName, amlAddress, ssn = '') {
+module.exports.AmlProfile = class AmlProfile {
+  constructor(givenNames, familyName, amlAddress, ssn) {
     this.setGivenNames(givenNames);
     this.setFamilyName(familyName);
     this.setAmlAddress(amlAddress);
-    this.setSsn(ssn);
+    if (typeof ssn !== 'undefined') {
+      this.setSsn(ssn);
+    }
   }
 
   /**
    * @param givenNames
    */
-  setGivenNames (givenNames) {
+  setGivenNames(givenNames) {
     this.givenNames = givenNames;
   }
 
   /**
    * @returns {*}
    */
-  getGivenNames () {
+  getGivenNames() {
     return this.givenNames;
   }
 
   /**
    * @param familyName
    */
-  setFamilyName (familyName) {
+  setFamilyName(familyName) {
     this.familyName = familyName;
   }
 
   /**
    * @returns familyName
    */
-  getFamilyName () {
+  getFamilyName() {
     return this.familyName;
   }
 
   /**
    * @param amlAddress
    */
-  setAmlAddress (amlAddress) {
+  setAmlAddress(amlAddress) {
     AmlProfile.validateAmlAddress(amlAddress);
     this.amlAddress = amlAddress;
   }
@@ -50,21 +51,21 @@ exports.AmlProfile = class AmlProfile {
   /**
    * @returns amlAddress
    */
-  getAmlAddress () {
+  getAmlAddress() {
     return this.amlAddress;
   }
 
   /**
    * @param ssn
    */
-  setSsn (ssn) {
+  setSsn(ssn) {
     this.ssn = ssn;
   }
 
   /**
    * @returns ssn
    */
-  getSsn () {
+  getSsn() {
     return this.ssn;
   }
 
@@ -73,8 +74,8 @@ exports.AmlProfile = class AmlProfile {
    *
    * @param amlAddress
    */
-  static validateAmlAddress (amlAddress) {
-    if(!amlAddress) {
+  static validateAmlAddress(amlAddress) {
+    if (!amlAddress) {
       throw new Error('AmlAddress should be an object of Type/AmlAddress');
     }
   }
@@ -84,8 +85,8 @@ exports.AmlProfile = class AmlProfile {
    *
    * @returns {{}}
    */
-  getData () {
-    let data = {};
+  getData() {
+    const data = {};
     data[constants.GIVEN_NAMES_ATTR] = this.givenNames;
     data[constants.FAMILY_NAME_ATTR] = this.familyName;
     data[constants.SSN_ATTR] = this.ssn;
@@ -99,8 +100,7 @@ exports.AmlProfile = class AmlProfile {
    *
    * @returns {string}
    */
-  toString () {
+  toString() {
     return JSON.stringify(this.getData());
   }
-}
-
+};

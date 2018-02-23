@@ -1,20 +1,22 @@
-'use strict'
+'use strict';
 
 module.exports = {
 
-    decodeAttributeList: function (binaryData) {
-        let attributesList = this.builder.attrpubapi_v1.AttributeList.decode(binaryData)
-        
-        let attrList = attributesList.get('attributes').map(attribute => {
-            let value = this.convertValueBasedOnContentType(attribute.getValue(), attribute.getContentType())
+  decodeAttributeList(binaryData) {
+    const attributesList = this.builder.attrpubapi_v1.AttributeList.decode(binaryData);
 
-            return {[this.toCamelCase(attribute.getName())]: value}
-        })
+    const attrList = attributesList.get('attributes').map((attribute) => {
+      const value = this.convertValueBasedOnContentType(
+        attribute.getValue(),
+        attribute.getContentType()
+      );
 
-        return attrList
-    },
+      return { [this.toCamelCase(attribute.getName())]: value };
+    });
 
-    encodeAttributeList: function (notificationData) {
-        return new this.builder.attrpubapi_v1.AttributeList(notificationData).toArrayBuffer()
-    }
-}
+    return attrList;
+  },
+  encodeAttributeList(notificationData) {
+    return new this.builder.attrpubapi_v1.AttributeList(notificationData).toArrayBuffer();
+  },
+};

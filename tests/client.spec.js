@@ -1,12 +1,12 @@
-const { expect } = require('chai');
+const expect = require('chai').expect;
 const nock = require('nock');
 const fs = require('fs');
 
 const config = require('../config');
 const Client = require('..');
-const { AmlAddress } = require('../src/aml_type');
-const { AmlProfile } = require('../src/aml_type');
-const { Payload } = require('../src/request/payload');
+const AmlAddress = require('../src/aml_type').AmlAddress;
+const AmlProfile = require('../src/aml_type').AmlProfile;
+const Payload = require('../src/request/payload').Payload;
 
 const privateKeyFile = fs.readFileSync('./tests/keys/node-sdk-test.pem', 'utf8');
 const yotiClient = new Client('stub-app-id', privateKeyFile);

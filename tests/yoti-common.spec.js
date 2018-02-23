@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+const expect = require('chai').expect;
 const fs = require('fs');
 
 const yotiCommon = require('../src/yoti_common');

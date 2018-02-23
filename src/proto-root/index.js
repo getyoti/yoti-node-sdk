@@ -1,5 +1,5 @@
-'use strict'
+'use strict';
 
-const init = require('./init')
+const init = require('./init');
 
-exports.initializeProtoBufObjects = ()=>  init.getInstance()
+module.exports.initializeProtoBufObjects = () => init.getInstance();
