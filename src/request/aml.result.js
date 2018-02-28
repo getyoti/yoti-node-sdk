@@ -41,8 +41,12 @@ module.exports.AmlResult = class AmlResult {
   static processAmlError(Error) {
     if (Error.response && Error.response.text) {
       const AmlError = JSON.parse(Error.response.text);
-      if (hasProperty(AmlError, 'errors') && hasProperty(AmlError, 'code')) {
-        const message = `${AmlError.code} - ${AmlError.errors[0].message}`;
+      if (hasProperty(AmlError, 'message') && hasProperty(AmlError, 'code')) {
+        let message = `${AmlError.code} - ${AmlError.message}`;
+        if (hasProperty(AmlError, 'errors') && AmlError.errors !== null) {
+          message = `${message}: ${JSON.stringify(AmlError.errors)}`;
+        }
+
         return message;
       }
     }
