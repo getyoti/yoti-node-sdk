@@ -1,0 +1,10 @@
+{
+  "code":"PAYLOAD_VALIDATION",
+  "message":"There were errors validating the payload",
+  "errors":[
+    {
+      "property":"address.country",
+      "message":"country must be specified as an ISO-3166 3-letter code"
+    }
+  ]
+}

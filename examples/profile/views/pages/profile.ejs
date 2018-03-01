@@ -1,0 +1,50 @@
+<html>
+<head>
+  <title>Welcome</title>
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+<body>
+  <h2><a href="/">Home</a></h2>
+  <h2>Yoti User Profile</h2>
+  <dl>
+    <dt>User ID</dt>
+    <dd><%= userId %></dd>
+
+    <dt>Full name</dt>
+    <dd><%= profile.fullName %></dd>
+
+    <dt>Given name(s)</dt>
+    <dd><%= profile.givenNames %></dd>
+
+    <dt>Family name</dt>
+    <dd><%= profile.familyName %></dd>
+
+    <dt>Phone number</dt>
+    <dd><%= profile.phoneNumber %></dd>
+
+    <dt>Date of birth</dt>
+    <dd><%= profile.dateOfBirth %></dd>
+
+    <dt>Age verified</dt>
+    <dd><%= ageVerified %></dd>
+
+    <dt>Postal address</dt>
+    <dd><%= profile.postalAddress %></dd>
+
+    <dt>Email address</dt>
+    <dd><%= profile.emailAddress %></dd>
+
+    <dt>Nationality</dt>
+    <dd><%= profile.nationality %></dd>
+
+    <dt>Gender</dt>
+    <dd><%= profile.gender %></dd>
+
+    <dt>Selfie as base64 URI</dt>
+    <dd><img alt="selfie" src="<%= profile.selfie %>" /></dd>
+
+    <dt>Selfie as image file</dt>
+    <dd><img alt="selfie" src="/static/YotiSelfie.jpeg" /></dd>
+  </dl>
+</body>
+</html>

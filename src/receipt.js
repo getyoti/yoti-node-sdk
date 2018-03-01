@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
-var receipt = {};
+const receipt = {};
 
-export function withWrappedReceiptKey(wrappedReceiptKey) {
-	receipt.wrapped_receipt_key = wrappedReceiptKey
-	return receipt
-}
+module.export.withWrappedReceiptKey = (wrappedReceiptKey) => {
+  receipt.wrapped_receipt_key = wrappedReceiptKey;
+  return receipt;
+};
