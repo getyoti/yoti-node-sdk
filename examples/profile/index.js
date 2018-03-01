@@ -4,7 +4,7 @@ const https = require('https');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
-const YotiClient = require('yoti');
+const Yoti = require('yoti');
 
 const app = express();
 const port = process.env.PORT || 9443;
@@ -33,7 +33,7 @@ function saveImage(selfieDate) {
     }
   });
 }
-const yoti = new YotiClient(config.CLIENT_SDK_ID, config.PEM_KEY);
+const yotiClient = new Yoti.Client(config.CLIENT_SDK_ID, config.PEM_KEY);
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -57,7 +57,7 @@ router.get('/profile', (req, res) => {
     return;
   }
 
-  const promise = yoti.getActivityDetails(token);
+  const promise = yotiClient.getActivityDetails(token);
   promise.then((activityDetails) => {
     const profile = activityDetails.getUserProfile();
     const { selfie } = profile;

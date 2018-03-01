@@ -28,15 +28,12 @@ How to manage users
 8) [AML Integration](#aml-integration) -
 How to integrate with Yoti's AML (Anti Money Laundering) service
 
-9) [Running the Example](#running-the-example)
+9) [Running the Examples](#running-the-examples)
 
-10) [Working on the SDK](#working-on-the-sdk) -
-Working on the SDK
-
-11) [API Coverage](#api-coverage) -
+10) [API Coverage](#api-coverage) -
 Attributes defined
 
-12) [Support](#support) -
+11) [Support](#support) -
 Please feel free to reach out
 
 ## An Architectural View
@@ -47,7 +44,7 @@ The endpoint can be configured in Yoti Dashboard when you create/update your app
 The image below shows how your application back-end and Yoti integrate in the context of a Login flow.
 Yoti SDK carries out for you steps 6, 7 ,8 and the profile decryption in step 9.
 
-![alt text](https://github.com/getyoti/yoti-node-sdk/raw/master/login_flow.png "Login flow")
+![alt text](login_flow.png "Login flow")
 
 Yoti also allows you to enable user details verification from your mobile app by means of the Android (TBA) and iOS (TBA) SDKs. In that scenario, your Yoti-enabled mobile app is playing both the role of the browser and the Yoti app. By the way, your back-end doesn't need to handle these cases in a significantly different way. You might just decide to handle the `User-Agent` header in order to provide different responses for web and mobile clients.
 
@@ -97,11 +94,9 @@ The YotiClient is the SDK entry point. To initialise it you need include the fol
 ```javascript
 
 const YotiClient = require('yoti')
-const {AmlAddress} = require('yoti/src/aml_type');
-const {AmlProfile} = require('yoti/src/aml_type');
 const CLIENT_SDK_ID = 'your sdk id'
 const PEM = fs.readFileSync(__dirname + "/keys/your-application-pem-file.pem");
-let yotiClient = new YotiClient(CLIENT_SDK_ID, PEM)
+let yotiClient = new Yoti.Client(CLIENT_SDK_ID, PEM)
 
 ```
 
@@ -114,7 +109,23 @@ Where:
 
 Please do not open the pem file as this might corrupt the key and you will need to create a new application.
 
-[Example reference](https://github.com/getyoti/yoti-node-sdk/blob/master/example/simple-login/index.js)
+[Example reference](examples/profile/index.js)
+
+### Upgrading from SDK version 2.x.x
+
+The way the Yoti SDK client is initialised got changed in version 3. Please make sure you update your code if you're upgrading the npm package.
+
+```javascript
+
+// SDK version < 3
+const Yoti = require('yoti')
+const yotiClient = new Yoti(CLIENT_SDK_ID, PEM)
+
+// SDK version >= 3
+const Yoti = require('yoti')
+const yotiClient = new Yoti.Client(CLIENT_SDK_ID, PEM)
+
+```
 
 ## Profile Retrieval
 
@@ -143,7 +154,7 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
 
 ```
 
-[Example reference](https://github.com/getyoti/yoti-node-sdk/blob/master/example/simple-login/index.js)
+[Example reference](examples/profile/index.js)
 
 ## Handling Users
 
@@ -186,7 +197,7 @@ Yoti will provide a boolean result on the following checks:
 * Fraud list - Verify against  US Social Security Administration Fraud (SSN Fraud) list
 * Watch list - Verify against watch lists from the Office of Foreign Assets Control
 
-To use this functionality you must ensure your application is assigned to your Organisation in the Yoti Dashboard - please see here for further information.
+To use this functionality you must ensure your application is assigned to your organisation in the Yoti Dashboard - please see here for further information.
 
 For the AML check you will need to provide the following:
 
@@ -203,7 +214,7 @@ For the AML check you will need to provide the following:
 Performing an AML check on a person *requires* their consent.
 **You must ensure you have user consent *before* using this service.**
 
-### Code Example
+### Code example
 
 Given a YotiClient initialised with your SDK ID and KeyPair (see [Configuration](#configuration)) performing an AML check is a straightforward case of providing basic profile data.
 
@@ -211,8 +222,8 @@ Given a YotiClient initialised with your SDK ID and KeyPair (see [Configuration]
 
 // Initiate user profile data.
 
-let amlAddress = new AmlAddress('GBR');
-let amlProfile = new AmlProfile('Edward Richard George', 'Heath', amlAddress);
+let amlAddress = new Yoti.AmlAddress('GBR');
+let amlProfile = new Yoti.AmlProfile('Edward Richard George', 'Heath', amlAddress);
 
 yotiClient.performAmlCheck(amlProfile).then((amlResult) => {
   console.log(amlResult.isOnPepList);
@@ -227,34 +238,26 @@ yotiClient.performAmlCheck(amlProfile).then((amlResult) => {
 
 ```
 
-## Running the Example
+## Running the Examples
 
-The example can be found in the [example folder](example).
+### Fetching the profile
+
+The example can be found [here](examples/profile).
 For it to work you will need a working callback URL that your browser can redirect to. The callback URL will be: `https://localhost:9443/profile`.
 
-* rename the [.env.example](example/.env.example) file to `.env` and fill in the required configuration values
+* rename the [.env.example](examples/profile/.env.example) file to `.env` and fill in the required configuration values
 * install the dependencies with `npm install`
 * start the server `node index.js`
 
 Visiting the `https://localhost:9443` should show a Yoti Connect button
 
-## Working on the SDK
+### Performing an AML check
 
-To install the required packages run:
+The example can be found [here](examples/aml-check).
 
-```shell
-
-npm install
-
-```
-
-To run the tests run:
-
-```shell
-
-npm test
-
-```
+* rename the [.env.example](examples/aml-check/.env.example) file to `.env` and fill in the required configuration values
+* install the dependencies with `npm install`
+* run the script with `node aml.js` or  `node aml-usa.js`
 
 ## API Coverage
 

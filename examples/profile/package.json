@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "A Yoti client example",
   "private": true,
-  "author": "Yoti LTD",
+  "author": "Yoti LTD <tech@yoti.com> (https://www.yoti.com/developers)",
+  "license": "MIT",
   "engines": {
     "node": ">=8.9.4"
   },
@@ -12,11 +13,13 @@
     "body-parser": "1.18.2",
     "dotenv": "5.0.0",
     "ejs": "2.5.7",
+    "express": "4.16.2",
+    "yoti": "^2.0.4"
+  },
+  "devDependencies": {
     "eslint": "4.18.1",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-plugin-import": "2.9.0",
-    "eslint-plugin-node": "6.0.1",
-    "express": "4.16.2",
-    "yoti": "^2.0.4"
+    "eslint-plugin-node": "6.0.1"
   }
 }

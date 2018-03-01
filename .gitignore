@@ -1,4 +1,4 @@
 node_modules
 .env
-example/static/YotiSelfie.jpeg
+examples/profile/static/YotiSelfie.jpeg
 coverage

@@ -46,7 +46,7 @@ describe('amlService', () => {
 
     context('with an invalid profile response', () => {
       const amlCheckError = fs.readFileSync('./tests/responses/aml-check-error.json', 'utf8');
-      const expectedErrorMessage = 'PAYLOAD_VALIDATION - country must be specified as an ISO-3166 3-letter code';
+      const expectedErrorMessage = 'PAYLOAD_VALIDATION - There were errors validating the payload: [{"property":"address.country","message":"country must be specified as an ISO-3166 3-letter code"}]';
 
       beforeEach((done) => {
         nock(`${config.server.configuration.connectApi}`)

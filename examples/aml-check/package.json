@@ -1,0 +1,23 @@
+{
+  "name": "yoti-node-sdk-aml-check-example",
+  "version": "1.0.0",
+  "description": "A Yoti AML check example",
+  "main": "app.js",
+  "private": true,
+  "author": "Yoti LTD <tech@yoti.com> (https://www.yoti.com/developers)",
+  "license": "MIT",
+  "engines": {
+    "node": ">=8.9.4"
+  },
+  "scripts": {},
+  "dependencies": {
+    "dotenv": "5.0.0",
+    "yoti": "3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "4.18.1",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-plugin-import": "2.9.0",
+    "eslint-plugin-node": "6.0.1"
+  }
+}
