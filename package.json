@@ -1,6 +1,6 @@
 {
   "name": "yoti",
-  "version": "2.0.4",
+  "version": "3.0.0",
   "description": "Yoti NodeJS SDK for back-end integration",
   "author": "Yoti LTD <tech@yoti.com> (https://www.yoti.com/developers)",
   "license": "MIT",
