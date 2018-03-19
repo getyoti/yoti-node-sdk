@@ -14,7 +14,7 @@ module.exports.convertValueBasedOnContentType = (value, contentType) => {
   switch (contentType) {
     // UNDEFINED should not be seen, and is used as an error placeholder
     case UNDEFINED:
-      throw new Error('wrong content type');
+      throw new Error('Wrong content type');
     // STRING means the value is UTF-8 encoded text.
     case STRING:
       return value.toUTF8();

@@ -5,7 +5,7 @@ const attributeList = require('./proto.attribute.list');
 const commonEncryptedData = require('./proto.common.encrypted-data');
 
 const ProtoBuf = require('protobufjs');
-const serverConfig = require('../../config/config.protobuf');
+const serverConfig = require('../../config/protobuf');
 
 let instance;
 

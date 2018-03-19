@@ -25,7 +25,7 @@ describe('amlService', () => {
       const amlCheckResult = fs.readFileSync('./tests/responses/aml-check-result.json', 'utf8');
 
       beforeEach((done) => {
-        nock(`${config.server.configuration.connectApi}`)
+        nock(`${config.yoti.connectApi}`)
           .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadJSON())
           .reply(200, amlCheckResult);
         done();
@@ -49,7 +49,7 @@ describe('amlService', () => {
       const expectedErrorMessage = 'PAYLOAD_VALIDATION - There were errors validating the payload: [{"property":"address.country","message":"country must be specified as an ISO-3166 3-letter code"}]';
 
       beforeEach((done) => {
-        nock(`${config.server.configuration.connectApi}`)
+        nock(`${config.yoti.connectApi}`)
           .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadJSON())
           .reply(400, amlCheckError);
 

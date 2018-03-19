@@ -1,3 +1,3 @@
-'use strict'
+'use strict';
 
-exports.server = require('./environment')
+module.exports.yoti = require('./yoti');
