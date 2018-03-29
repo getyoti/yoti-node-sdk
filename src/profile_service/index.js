@@ -39,7 +39,7 @@ module.exports.getReceipt = (token, pem, appId) => {
           const decryptedProfile = yotiCommon.decryptCurrentUserReceipt(receipt, pem);
           return resolve(new ActivityDetails(parsedResponse, decryptedProfile));
         } catch (err) {
-          console.log(`Error getting response data: $${err.message}`);
+          console.log(`Error getting response data: ${err.message}`);
           return reject(err);
         }
       }).catch((err) => {

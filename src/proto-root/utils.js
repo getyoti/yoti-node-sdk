@@ -32,6 +32,6 @@ module.exports.imageUriBasedOnContentType = (value, contentType) => {
     case PNG:
       return `data:image/png;base64,${value.toBase64()}`;
     default:
-      return `data:image/jpeg;base64,${value.toBase64()}`;
+      return value.toBase64();
   }
 };
