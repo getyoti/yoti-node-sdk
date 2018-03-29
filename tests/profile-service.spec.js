@@ -23,7 +23,7 @@ describe('profileService', () => {
       const phoneNumber = '+447474747474';
 
       beforeEach((done) => {
-        nock(`${config.server.configuration.connectApi}`)
+        nock(`${config.yoti.connectApi}`)
           .get(new RegExp('^/api/v1/profile/'))
           .reply(200, response);
         done();
@@ -38,7 +38,8 @@ describe('profileService', () => {
             expect(profile).to.not.equal(undefined);
             expect(receipt.getUserId()).to.equal(userId);
             expect(profile.phoneNumber).to.equal(phoneNumber);
-            expect(profile.selfie).to.equal(selfie);
+            expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).to.equal(selfie);
+            expect(receipt.getBase64SelfieUri()).to.equal(selfie);
             expect(outcome).to.equal('SUCCESS');
 
             done();
@@ -51,7 +52,7 @@ describe('profileService', () => {
       const responseContentNull = fs.readFileSync('./tests/payloads/payload-other-party-null.json', 'utf8');
 
       beforeEach((done) => {
-        nock(`${config.server.configuration.connectApi}`)
+        nock(`${config.yoti.connectApi}`)
           .get(new RegExp('^/api/v1/profile/'))
           .reply(200, responseContentNull);
         done();
@@ -78,7 +79,7 @@ describe('profileService', () => {
       const responseContentEmptyObj = fs.readFileSync('./tests/payloads/payload-other-party-empty-object.json', 'utf8');
 
       beforeEach((done) => {
-        nock(`${config.server.configuration.connectApi}`)
+        nock(`${config.yoti.connectApi}`)
           .get(new RegExp('^/api/v1/profile/'))
           .reply(200, responseContentEmptyObj);
         done();
@@ -105,7 +106,7 @@ describe('profileService', () => {
       const responseContentNonExistent = fs.readFileSync('./tests/payloads/payload-other-party-non-existent.json', 'utf8');
 
       beforeEach((done) => {
-        nock(`${config.server.configuration.connectApi}`)
+        nock(`${config.yoti.connectApi}`)
           .get(new RegExp('^/api/v1/profile/'))
           .reply(200, responseContentNonExistent);
         done();

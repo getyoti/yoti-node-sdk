@@ -21,6 +21,7 @@ ActivityDetails.prototype = {
   getUserId() { return this.receipt.remember_me_id; },
   getUserProfile() { return this.profile; },
   getOutcome() { return this.receipt.sharing_outcome; },
+  getBase64SelfieUri() { return this.profile.base64SelfieUri; },
 };
 
 const payload = new Payload('');
@@ -38,7 +39,7 @@ module.exports.getReceipt = (token, pem, appId) => {
           const decryptedProfile = yotiCommon.decryptCurrentUserReceipt(receipt, pem);
           return resolve(new ActivityDetails(parsedResponse, decryptedProfile));
         } catch (err) {
-          console.log(`Error getting response data: $${err.message}`);
+          console.log(`Error getting response data: ${err.message}`);
           return reject(err);
         }
       }).catch((err) => {

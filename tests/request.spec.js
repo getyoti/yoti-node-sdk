@@ -21,7 +21,7 @@ describe('YotiResponse', () => {
 
     context('when making an AML check request', () => {
       beforeEach((done) => {
-        nock(`${config.server.configuration.connectApi}`)
+        nock(`${config.yoti.connectApi}`)
           .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadJSON())
           .reply(200, amlCheckResult);
         done();

@@ -2,7 +2,7 @@
 
 const uuid = require('uuid');
 const superagent = require('superagent');
-const server = require('../../config').server;
+const config = require('../../config');
 const yotiCommon = require('../yoti_common');
 
 const supportedMethods = ['POST', 'PUT', 'PATCH', 'GET', 'DELETE'];
@@ -35,7 +35,7 @@ module.exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
   let request;
   const payloadJSON = Payload.getPayloadJSON();
   let payloadBase64 = '';
-  const endpointPath = `${server.configuration.connectApi}${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${appId}`;
+  const endpointPath = `${config.yoti.connectApi}${endpoint}?nonce=${nonce}&timestamp=${timestamp}&appId=${appId}`;
 
   return new Promise((resolve, reject) => {
     request = superagent(httpMethod, endpointPath);

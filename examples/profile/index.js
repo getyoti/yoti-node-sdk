@@ -17,14 +17,12 @@ const config = {
   PEM_KEY: fs.readFileSync(process.env.YOTI_KEY_FILE_PATH), // The content of your Yoti .pem key
 };
 
-function saveImage(selfieDate) {
+function saveImage(selfie) {
   return new Promise((res, rej) => {
     try {
-      const base64Data = selfieDate.replace(/^data:image\/jpeg;base64,/, '');
-
       fs.writeFileSync(
         path.join(__dirname, 'static', 'YotiSelfie.jpeg'),
-        base64Data,
+        selfie.toBase64(),
         'base64',
       );
       res();
@@ -33,6 +31,7 @@ function saveImage(selfieDate) {
     }
   });
 }
+
 const yotiClient = new Yoti.Client(config.CLIENT_SDK_ID, config.PEM_KEY);
 
 app.set('view engine', 'ejs');
@@ -67,6 +66,7 @@ router.get('/profile', (req, res) => {
         .then(() => {
           res.render('pages/profile', {
             userId: activityDetails.getUserId(),
+            selfieUri: activityDetails.getBase64SelfieUri(),
             // This key uses the  format: age[Over|Under]:[1-999] and is dynamically
             // generated based on the dashboard attribute Age / Verify Condition
             ageVerified: profile['ageOver:18'],

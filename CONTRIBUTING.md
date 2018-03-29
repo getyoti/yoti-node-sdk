@@ -18,6 +18,7 @@ The following Node.js versions have been tested:
 * 6.13.0
 * 8.9.4
 * 9.5.0
+* 9.10.0
 
 To test a Node.js version. install [nvm](https://github.com/creationix/nvm) and run the following command:
 
