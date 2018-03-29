@@ -21,6 +21,7 @@ ActivityDetails.prototype = {
   getUserId() { return this.receipt.remember_me_id; },
   getUserProfile() { return this.profile; },
   getOutcome() { return this.receipt.sharing_outcome; },
+  getBase64SelfieUri() { return this.profile.base64SelfieUri; },
 };
 
 const payload = new Payload('');

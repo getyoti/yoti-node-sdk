@@ -43,7 +43,8 @@ describe('yotiClient', () => {
             expect(profile).to.not.equal(undefined);
             expect(activityDetails.getUserId()).to.equal(userId);
             expect(profile.phoneNumber).to.equal(phoneNumber);
-            expect(profile.selfie).to.equal(selfie);
+            expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).to.equal(selfie);
+            expect(activityDetails.getBase64SelfieUri()).to.equal(selfie);
             expect(outcome).to.equal('SUCCESS');
 
             done();
