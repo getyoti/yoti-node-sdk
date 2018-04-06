@@ -27,7 +27,7 @@ module.exports.Age = class Age {
       return;
     }
     const profile = this.profileData;
-    Object.keys(profile).forEach(function (key) {
+    Object.keys(profile).forEach((key) => {
       if (!this.attrValue && regex.exec(key) !== null) {
         this.attrValue = profile[key];
       }
