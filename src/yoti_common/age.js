@@ -23,13 +23,10 @@ module.exports.Age = class Age {
 
   extractAgeValue() {
     const regex = new RegExp(this.pattern);
-
     if (!(this.profileData instanceof Object)) {
       return;
     }
-
     const profile = this.profileData;
-
     Object.keys(profile).forEach(function (key) {
       if (!this.attrValue && regex.exec(key) !== null) {
         this.attrValue = profile[key];
