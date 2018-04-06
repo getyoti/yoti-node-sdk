@@ -69,7 +69,7 @@ router.get('/profile', (req, res) => {
             selfieUri: activityDetails.getBase64SelfieUri(),
             // This key uses the  format: age[Over|Under]:[1-999] and is dynamically
             // generated based on the dashboard attribute Age / Verify Condition
-            ageVerified: profile['ageOver:18'],
+            ageVerified: activityDetails.isAgeVerified(),
             profile,
           });
         });

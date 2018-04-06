@@ -3,6 +3,7 @@
 const httpRequest = require('../request');
 const yotiCommon = require('../yoti_common');
 const Payload = require('../request/payload').Payload;
+const Age = require('../yoti_common/age').Age;
 
 const ActivityDetails = function main(parsedResponse, decryptedProfile) {
   this.parsedResponse = parsedResponse;
@@ -22,6 +23,10 @@ ActivityDetails.prototype = {
   getUserProfile() { return this.profile; },
   getOutcome() { return this.receipt.sharing_outcome; },
   getBase64SelfieUri() { return this.profile.base64SelfieUri; },
+  isAgeVerified() {
+    const age = new Age(this.profile);
+    return age.isVerified();
+  },
 };
 
 const payload = new Payload('');
