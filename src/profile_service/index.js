@@ -2,8 +2,8 @@
 
 const httpRequest = require('../request');
 const yotiCommon = require('../yoti_common');
-const Payload = require('../request/payload').Payload;
 const Age = require('../yoti_common/age').Age;
+const Payload = require('../request/payload').Payload;
 
 const ActivityDetails = function main(parsedResponse, decryptedProfile) {
   this.parsedResponse = parsedResponse;
