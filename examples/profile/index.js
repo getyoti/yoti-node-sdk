@@ -67,8 +67,6 @@ router.get('/profile', (req, res) => {
           res.render('pages/profile', {
             userId: activityDetails.getUserId(),
             selfieUri: activityDetails.getBase64SelfieUri(),
-            // This is generated based on the dashboard attribute Age / Verify Condition
-            ageVerified: activityDetails.isAgeVerified(),
             profile,
           });
         });

@@ -16,6 +16,8 @@ const ActivityDetails = function main(parsedResponse, decryptedProfile) {
     acc[propName] = current[propName];
     return acc;
   }, {});
+  const age = new Age(this.profile);
+  this.profile.isAgeVerified = age.isVerified();
 };
 
 ActivityDetails.prototype = {
@@ -23,10 +25,6 @@ ActivityDetails.prototype = {
   getUserProfile() { return this.profile; },
   getOutcome() { return this.receipt.sharing_outcome; },
   getBase64SelfieUri() { return this.profile.base64SelfieUri; },
-  isAgeVerified() {
-    const age = new Age(this.profile);
-    return age.isVerified();
-  },
 };
 
 const payload = new Payload('');
