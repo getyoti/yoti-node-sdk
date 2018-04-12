@@ -17,7 +17,9 @@ const ActivityDetails = function main(parsedResponse, decryptedProfile) {
     return acc;
   }, {});
   const age = new Age(this.profile);
-  this.profile.isAgeVerified = age.isVerified();
+  if (age.isVerified() !== null) {
+    this.profile.isAgeVerified = age.isVerified();
+  }
 };
 
 ActivityDetails.prototype = {
