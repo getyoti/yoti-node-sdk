@@ -2,6 +2,7 @@
 
 const httpRequest = require('../request');
 const yotiCommon = require('../yoti_common');
+const Age = require('../yoti_common/age').Age;
 const Payload = require('../request/payload').Payload;
 
 const ActivityDetails = function main(parsedResponse, decryptedProfile) {
@@ -15,6 +16,10 @@ const ActivityDetails = function main(parsedResponse, decryptedProfile) {
     acc[propName] = current[propName];
     return acc;
   }, {});
+  const age = new Age(this.profile);
+  if (age.isVerified() !== null) {
+    this.profile.isAgeVerified = age.isVerified();
+  }
 };
 
 ActivityDetails.prototype = {

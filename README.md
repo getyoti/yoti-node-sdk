@@ -198,7 +198,7 @@ Yoti will provide a boolean result on the following checks:
 * Fraud list - Verify against  US Social Security Administration Fraud (SSN Fraud) list
 * Watch list - Verify against watch lists from the Office of Foreign Assets Control
 
-To use this functionality you must ensure your application is assigned to your organisation in the Yoti Dashboard - please see here for further information.
+To use this functionality you must ensure your application is assigned to your organisation in the Yoti Dashboard - please see [here](https://www.yoti.com/developers/documentation/#1-creating-an-organisation) for further information.
 
 For the AML check you will need to provide the following:
 
@@ -274,6 +274,7 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
 
 * Activity Details
   * [X] User ID `.getUserId()`
+  * [X] Base64 Selfie Uri `getBase64SelfieUri()`
   * [X] Profile `.getUserProfile()`
     * [X] Photo `selfie`
     * [X] Full Name `fullName`
@@ -282,7 +283,7 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
     * [X] Mobile Number `phoneNumber`
     * [X] Email address `emailAddress`
     * [X] Age / Date of Birth `dateOfBirth`
-    * [X] Age / Verify Condition `age[Over|Under]:[1-999]`
+    * [X] Age / Verify Condition `isAgeVerified`
     * [X] Address `postalAddress`
     * [X] Gender `gender`
     * [X] Nationality `nationality`
