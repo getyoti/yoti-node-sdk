@@ -20,8 +20,8 @@ module.exports.convertValueBasedOnContentType = (value, contentType) => {
     case DATE: // Date as string in RFC3339 format (YYYY-MM-DD).
       return value.toUTF8();
     case ByteBuffer: // Convert ByteArray to JSON
-      const structuredPostalAddress = new Buffer(value.toArrayBuffer()).toString();
-      return JSON.parse(structuredPostalAddress);
+      const attrValue = new Buffer(value.toArrayBuffer()).toString();
+      return JSON.parse(attrValue);
     default:
       return value;
   }
