@@ -7,6 +7,7 @@ const STRING = 1;
 const JPEG = 2;
 const DATE = 3;
 const PNG = 4;
+const ByteBuffer = 5;
 
 module.exports.toCamelCase = str => ProtoBuf.Util.toCamelCase(str);
 
@@ -18,6 +19,9 @@ module.exports.convertValueBasedOnContentType = (value, contentType) => {
     case STRING: // STRING means the value is UTF-8 encoded text.
     case DATE: // Date as string in RFC3339 format (YYYY-MM-DD).
       return value.toUTF8();
+    case ByteBuffer: // Convert ByteArray to JSON
+      const structuredPostalAddress = new Buffer(value.toArrayBuffer()).toString();
+      return JSON.parse(structuredPostalAddress);
     default:
       return value;
   }
