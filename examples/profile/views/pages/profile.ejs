@@ -1,4 +1,4 @@
-<html>
+<!DOCTYPE html>
 <head>
   <title>Welcome</title>
   <link rel="stylesheet" type="text/css" href="/static/style.css">
@@ -40,11 +40,13 @@
     <dt>Gender</dt>
     <dd><%= profile.gender %></dd>
 
+    <% if (typeof profile.selfie !== 'undefined') { %>
     <dt>Selfie as base64 URI</dt>
     <dd><img alt="selfie" src="<%= selfieUri %>" /></dd>
 
     <dt>Selfie as image file</dt>
     <dd><img alt="selfie" src="/static/YotiSelfie.jpeg" /></dd>
+    <% } %>
   </dl>
 </body>
 </html>
