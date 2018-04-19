@@ -19,9 +19,11 @@ module.exports.convertValueBasedOnContentType = (value, contentType) => {
     case STRING: // STRING means the value is UTF-8 encoded text.
     case DATE: // Date as string in RFC3339 format (YYYY-MM-DD).
       return value.toUTF8();
-    case BYTES: // Convert ByteArray to JSON
-      const attrValue = new Buffer(value.toArrayBuffer()).toString();
+    case BYTES: {
+      // Convert ByteArray to JSON
+      const attrValue = Buffer.from(value.toArrayBuffer()).toString();
       return JSON.parse(attrValue);
+    }
     default:
       return value;
   }
