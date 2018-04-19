@@ -62,15 +62,14 @@ router.get('/profile', (req, res) => {
     const { selfie } = profile;
 
     if (typeof selfie !== 'undefined') {
-      saveImage(selfie)
-        .then(() => {
-          res.render('pages/profile', {
-            userId: activityDetails.getUserId(),
-            selfieUri: activityDetails.getBase64SelfieUri(),
-            profile,
-          });
-        });
+      saveImage(selfie);
     }
+
+    res.render('pages/profile', {
+      userId: activityDetails.getUserId(),
+      selfieUri: activityDetails.getBase64SelfieUri(),
+      profile,
+    });
   }).catch((err) => {
     console.error(err);
     res.render('pages/error', {
