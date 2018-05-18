@@ -34,9 +34,6 @@ module.exports.AnchorProcessor = class AnchorProcessor {
             let anchorValue = anchorObj.value;
             // Convert Anchor value from ASN.1 format to a binary
             let anchorValueAsn1 = forge.asn1.fromDer(anchorValue.toString('binary'));
-            /*if (anchorsData[key] === undefined) {
-              anchorsData[key] = [];
-            }*/
             if (anchorValueAsn1) {
               anchorsData[key].push(anchorValueAsn1.value[0].value);
             }

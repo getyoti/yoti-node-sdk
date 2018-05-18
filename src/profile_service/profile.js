@@ -27,11 +27,11 @@ module.exports.Profile = class Profile {
     this.phoneNumber = null;
     this.phoneNumber = null;
     this.dateOfBirth = null;
+    this.ageVerified = null;
     this.postalAddress = null;
     this.structuredPostalAddress = null;
 
     this.profileData = Object.assign({}, profileData);
-
     Object.keys(this.profileData).forEach(function(key) {
       this.initiateAttribute(key, this.profileData[key]);
     }, this);
@@ -101,6 +101,22 @@ module.exports.Profile = class Profile {
    */
   getDateOfBirth() {
     return this.dateOfBirth;
+  }
+
+  /**
+   * @param ageVerified
+   */
+  setAgeVerified(ageVerified) {
+    if (ageVerified.orig_name === constants.ATTR_AGE_VERIFIED) {
+      this.ageVerified = new Attribute(ageVerified);
+    }
+  }
+
+  /**
+   * @returns {null|Attribute}
+   */
+  getAgeVerified() {
+    return this.ageVerified;
   }
 
   /**
@@ -222,9 +238,10 @@ module.exports.Profile = class Profile {
    * @param params
    */
   initiateAttribute(AttrName, params) {
-    //let args = Object.assign(params, {'name': AttrName});
     let AttrFunc = 'set' + AttrName[0].toUpperCase() + AttrName.slice(1);
-    this[AttrFunc].call(this, params);
+    if (AttrFunc) {
+      this[AttrFunc].call(this, params);
+    }
   }
 
   /**

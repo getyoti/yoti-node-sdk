@@ -1,5 +1,6 @@
 'use strict';
 
+const Age = require('../yoti_common/age').Age;
 const AnchorProcessor = require('../yoti_common/anchor.processor').AnchorProcessor;
 
 module.exports = {
@@ -24,12 +25,19 @@ module.exports = {
         'verifiers': anchors['verifiers']
       };
       attrList.push({ [this.toCamelCase(attrName)]: value });
-      let profileAttrName = this.toCamelCase(attrName);
-      profileAttributes[profileAttrName] = attrObj;
 
       if (attrName === 'selfie') {
         const imageUriValue = this.imageUriBasedOnContentType(attrValue, attrType);
         attrList.push({ base64SelfieUri: imageUriValue });
+      }
+
+      let profileAttrName = this.toCamelCase(attrName);
+      if (Age.hasCondition(profileAttrName)) {
+        let ageCondition = Object.assign({}, attrObj);
+        ageCondition.orig_name = 'age_verified';
+        profileAttributes[this.toCamelCase('age_verified')] = ageCondition;
+      } else {
+        profileAttributes[profileAttrName] = attrObj;
       }
     }
     attrList.push({ 'userProfile': profileAttributes });
