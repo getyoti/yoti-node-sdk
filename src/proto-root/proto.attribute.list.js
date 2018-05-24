@@ -6,6 +6,7 @@ const AnchorProcessor = require('../yoti_common/anchor.processor').AnchorProcess
 module.exports = {
 
   decodeAttributeList(binaryData) {
+
     const attributesList = this.builder.attrpubapi_v1.AttributeList.decode(binaryData);
     const attributes = attributesList.get('attributes');
     const attrList = [];
@@ -16,13 +17,14 @@ module.exports = {
       const attrName = attribute.getName();
       const attrValue = attribute.getValue();
       const attrType = attribute.getContentType();
-      const anchors = AnchorProcessor.process(attribute.anchors);
+      const processedAnchors = AnchorProcessor.process(attribute.anchors);
       const value = this.convertValueBasedOnContentType(attrValue, attrType);
+
       const attrObj = {
         'orig_name': attrName,
         'value': value,
-        'sources': anchors['sources'],
-        'verifiers': anchors['verifiers']
+        'sources': processedAnchors['sources'],
+        'verifiers': processedAnchors['verifiers'],
       };
       attrList.push({ [this.toCamelCase(attrName)]: value });
 
@@ -32,7 +34,7 @@ module.exports = {
       }
 
       let profileAttrName = this.toCamelCase(attrName);
-      if (Age.hasCondition(profileAttrName)) {
+      if (Age.conditionVerified(profileAttrName)) {
         let ageCondition = Object.assign({}, attrObj);
         ageCondition.orig_name = 'age_verified';
         profileAttributes[this.toCamelCase('age_verified')] = ageCondition;

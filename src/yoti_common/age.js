@@ -35,7 +35,7 @@ module.exports.Age = class Age {
     }, this);
   }
 
-  static hasCondition(attrName) {
+  static conditionVerified(attrName) {
     const regex = new RegExp(AGE_PATTERN);
     if (regex.exec(attrName) !== null) {
       return true;

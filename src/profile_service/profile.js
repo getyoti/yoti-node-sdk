@@ -38,7 +38,6 @@ module.exports.Profile = class Profile {
   }
 
   /**
-   *
    * @param fullName
    */
   setFullName(fullName) {
@@ -48,7 +47,6 @@ module.exports.Profile = class Profile {
   }
 
   /**
-   *
    * @returns {null|Attribute}
    */
   getFullName() {
@@ -229,6 +227,30 @@ module.exports.Profile = class Profile {
    */
   getStructuredPostalAddress() {
     return this.structuredPostalAddress;
+  }
+
+  /**
+   * Return attribute value as an object.
+   *
+   * @param attrName
+   *
+   * @returns {*}
+   */
+  getAttribute(attrName) {
+    if (this.propertyExists(this.profileData, attrName)) {
+      let attrObj = this.profileData[attrName];
+      if (attrObj instanceof Object) {
+        return new Attribute(attrObj)
+      }
+    }
+    return null;
+  }
+
+  propertyExists(obj, prop) {
+    if (prop && (obj instanceof Object)) {
+      return Object.prototype.hasOwnProperty.call(obj, prop);
+    }
+    return false;
   }
 
   /**

@@ -2,6 +2,27 @@
 
 const forge = require('node-forge');
 
+const AttributeAnchor = function main(anchorObj) {
+  this.value = anchorObj.value;
+  this.artifactSignature = anchorObj.artifactSignature;
+  this.subType = anchorObj.subType;
+  this.signature = anchorObj.signature;
+  this.signedTimeStamp = anchorObj.signedTimeStamp;
+  this.originServerCerts = anchorObj.originServerCerts;
+  this.associatedSource = anchorObj.associatedSource;
+};
+
+AttributeAnchor.prototype = {
+  getValue() { return this.value; },
+  getArtifactLink() { return this.artifactLink; },
+  getArtifactSignature() { this.artifactSignature; },
+  getSubType() { return this.subType; },
+  getSignature() { return this.signature; },
+  getSignedTimeStamp() { return this.signedTimeStamp; },
+  getOriginServerCerts() { return this.originServerCerts; },
+  getAssociatedSource() { return this.associatedSource; },
+};
+
 module.exports.AnchorProcessor = class AnchorProcessor {
 
   /**
@@ -15,17 +36,26 @@ module.exports.AnchorProcessor = class AnchorProcessor {
     const anchorsData = [];
     anchorsData['sources'] = [];
     anchorsData['verifiers'] = [];
+    let originAnchorObj = {
+      'value': '',
+      'artifactLink': '',
+      'artifactSignature': '',
+      'subType': '',
+      'signedTimeStamp': '',
+      'originServerCerts': '',
+      'associatedSource': '',
+    };
+
     for (let i = 0; i < anchors.length; i++) {
       let anchor = anchors[i];
       let certificateList = anchor.originServerCerts;
+      originAnchorObj = Object.assign(originAnchorObj, anchor);
 
       for (let n = 0; n < certificateList.length; n++) {
         let certArrayBuffer = certificateList[n];
-        let certBuffer = certArrayBuffer.toBuffer();
-        let anchorAsn1Obj = forge.asn1.fromDer(certBuffer.toString('binary'));
-        let certificateObj = forge.pki.certificateFromAsn1(anchorAsn1Obj);
+        let certificateObj = AnchorProcessor.convertCertToX509(certArrayBuffer);
         let extensionsData = certificateObj.extensions;
-        let anchorTypes = this.getAnchorTypes();
+        let anchorTypes = AnchorProcessor.getAnchorTypes();
 
         Object.keys(anchorTypes).forEach(function(key) {
           let oidIndex = AnchorProcessor.findOidIndex(extensionsData, {id: anchorTypes[key]});
@@ -35,14 +65,46 @@ module.exports.AnchorProcessor = class AnchorProcessor {
             // Convert Anchor value from ASN.1 format to a binary
             let anchorValueAsn1 = forge.asn1.fromDer(anchorValue.toString('binary'));
             if (anchorValueAsn1) {
-              anchorsData[key].push(anchorValueAsn1.value[0].value);
+              originAnchorObj.value = anchorValueAsn1.value[0].value;
+              originAnchorObj.originServerCerts = AnchorProcessor.convertCertListToX509(originAnchorObj.originServerCerts);
+              anchorsData[key].push(new AttributeAnchor(originAnchorObj));
             }
           }
         }, anchorsData);
       } // End for loop
     } // End for loop
-
     return anchorsData;
+  }
+
+  /**
+   * Convert certificate list to a list of X509 certificates.
+   *
+   * @param certificateList
+   *
+   * @returns {Array}
+   */
+  static convertCertListToX509(certificateList) {
+    let X509Certificates = [];
+    for (let c = 0; c < certificateList.length; c++) {
+      let certificateObj = AnchorProcessor.convertCertToX509(certificateList[c]);
+      if (certificateObj) {
+        X509Certificates.push(certificateObj);
+      }
+    }
+    return X509Certificates;
+  }
+
+  /**
+   * Convert certificate from byte arrays to X509 certificate.
+   *
+   * @param certArrayBuffer
+   *
+   * @returns {the|*}
+   */
+  static convertCertToX509(certArrayBuffer) {
+    let certBuffer = certArrayBuffer.toBuffer();
+    let anchorAsn1Obj = forge.asn1.fromDer(certBuffer.toString('binary'));
+    return forge.pki.certificateFromAsn1(anchorAsn1Obj);
   }
 
   /**
@@ -60,6 +122,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
         return soFar && el[key] === anchorOidObj[key];
       }, true);
       if(match) {
+
         result = index;
       }
     });
