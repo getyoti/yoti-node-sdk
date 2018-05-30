@@ -122,9 +122,9 @@ module.exports.Profile = class Profile {
     return null;
   }
 
-  propertyExists(obj, prop) {
-    if (prop && (obj instanceof Object)) {
-      return Object.prototype.hasOwnProperty.call(obj, prop);
+  propertyExists(profileData, prop) {
+    if (prop && (profileData instanceof Object)) {
+      return Object.prototype.hasOwnProperty.call(profileData, prop);
     }
     return false;
   }
