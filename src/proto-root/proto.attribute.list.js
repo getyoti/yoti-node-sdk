@@ -33,13 +33,12 @@ module.exports = {
         attrList.push({ base64SelfieUri: imageUriValue });
       }
 
-      let profileAttrName = this.toCamelCase(attrName);
-      if (Age.conditionVerified(profileAttrName)) {
+      if (Age.conditionVerified(this.toCamelCase(attrName))) {
         let ageCondition = Object.assign({}, attrObj);
         ageCondition.orig_name = 'age_verified';
-        profileAttributes[this.toCamelCase('age_verified')] = ageCondition;
+        profileAttributes['age_verified'] = ageCondition;
       } else {
-        profileAttributes[profileAttrName] = attrObj;
+        profileAttributes[attrName] = attrObj;
       }
     }
     attrList.push({ 'userProfile': profileAttributes });
