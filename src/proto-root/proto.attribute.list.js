@@ -21,7 +21,7 @@ module.exports = {
       const value = this.convertValueBasedOnContentType(attrValue, attrType);
 
       const attrObj = {
-        'orig_name': attrName,
+        'name': attrName,
         'value': value,
         'sources': processedAnchors['sources'],
         'verifiers': processedAnchors['verifiers'],
@@ -35,7 +35,7 @@ module.exports = {
 
       if (Age.conditionVerified(this.toCamelCase(attrName))) {
         let ageCondition = Object.assign({}, attrObj);
-        ageCondition.orig_name = 'age_verified';
+        ageCondition.name = 'age_verified';
         profileAttributes['age_verified'] = ageCondition;
       } else {
         profileAttributes[attrName] = attrObj;

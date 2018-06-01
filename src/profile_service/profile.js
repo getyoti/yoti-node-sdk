@@ -4,7 +4,7 @@ const constants = require('../yoti_common/constants');
 
 const Attribute = function main(attrObj) {
   this.value = attrObj.value;
-  this.name = attrObj.orig_name;
+  this.name = attrObj.name;
   this.sources = attrObj.sources;
   this.verifiers = attrObj.verifiers;
 };

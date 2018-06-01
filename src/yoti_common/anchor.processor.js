@@ -14,7 +14,6 @@ const AttributeAnchor = function main(anchorObj) {
 
 AttributeAnchor.prototype = {
   getValue() { return this.value; },
-  getArtifactLink() { return this.artifactLink; },
   getArtifactSignature() { this.artifactSignature; },
   getSubType() { return this.subType; },
   getSignature() { return this.signature; },
@@ -38,7 +37,6 @@ module.exports.AnchorProcessor = class AnchorProcessor {
     anchorsData['verifiers'] = [];
     let originAnchorObj = {
       'value': '',
-      'artifactLink': '',
       'artifactSignature': '',
       'subType': '',
       'signedTimeStamp': '',
@@ -48,11 +46,11 @@ module.exports.AnchorProcessor = class AnchorProcessor {
 
     for (let i = 0; i < anchors.length; i++) {
       let anchor = anchors[i];
-      let certificateList = anchor.originServerCerts;
+      let certificatesList = anchor.originServerCerts;
       originAnchorObj = Object.assign(originAnchorObj, anchor);
 
-      for (let n = 0; n < certificateList.length; n++) {
-        let certArrayBuffer = certificateList[n];
+      for (let n = 0; n < certificatesList.length; n++) {
+        let certArrayBuffer = certificatesList[n];
         let certificateObj = AnchorProcessor.convertCertToX509(certArrayBuffer);
         let extensionsData = certificateObj.extensions;
         let anchorTypes = AnchorProcessor.getAnchorTypes();
@@ -66,7 +64,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
             let anchorValueAsn1 = forge.asn1.fromDer(anchorValue.toString('binary'));
             if (anchorValueAsn1) {
               originAnchorObj.value = anchorValueAsn1.value[0].value;
-              originAnchorObj.originServerCerts = AnchorProcessor.convertCertListToX509(originAnchorObj.originServerCerts);
+              originAnchorObj.originServerCerts = AnchorProcessor.convertCertsListToX509(originAnchorObj.originServerCerts);
               anchorsData[key].push(new AttributeAnchor(originAnchorObj));
             }
           }
@@ -79,14 +77,14 @@ module.exports.AnchorProcessor = class AnchorProcessor {
   /**
    * Convert certificate list to a list of X509 certificates.
    *
-   * @param certificateList
+   * @param certificatesList
    *
    * @returns {Array}
    */
-  static convertCertListToX509(certificateList) {
+  static convertCertsListToX509(certificatesList) {
     let X509Certificates = [];
-    for (let c = 0; c < certificateList.length; c++) {
-      let certificateObj = AnchorProcessor.convertCertToX509(certificateList[c]);
+    for (let c = 0; c < certificatesList.length; c++) {
+      let certificateObj = AnchorProcessor.convertCertToX509(certificatesList[c]);
       if (certificateObj) {
         X509Certificates.push(certificateObj);
       }

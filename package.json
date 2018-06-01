@@ -22,7 +22,8 @@
     "safe-buffer": "5.1.1",
     "superagent": "3.8.2",
     "ursa": "0.9.4",
-    "uuid": "3.2.1"
+    "uuid": "3.2.1",
+    "bytebuffer": "^5.0.1"
   },
   "devDependencies": {
     "chai": "3.5.0",
