@@ -32,9 +32,16 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    * @returns {Array}
    */
   static process(anchors) {
+    // This will contain a list of anchor values as objects
     const anchorsData = [];
     anchorsData['sources'] = [];
     anchorsData['verifiers'] = [];
+
+    // This is used to make sure the anchors values are unique
+    const anchorValues = [];
+    anchorValues['sources'] = [];
+    anchorValues['verifiers'] = [];
+
     let originAnchorObj = {
       'value': '',
       'artifactSignature': '',
@@ -63,12 +70,17 @@ module.exports.AnchorProcessor = class AnchorProcessor {
             // Convert Anchor value from ASN.1 format to an object
             let anchorValueAsn1 = forge.asn1.fromDer(anchorValue.toString('binary'));
             if (anchorValueAsn1) {
-              originAnchorObj.value = anchorValueAsn1.value[0].value;
-              originAnchorObj.originServerCerts = AnchorProcessor.convertCertsListToX509(originAnchorObj.originServerCerts);
-              anchorsData[key].push(new AttributeAnchor(originAnchorObj));
+              let anchorValue = anchorValueAsn1.value[0].value;
+              // Make sure the anchor values are unique
+              if (!anchorValues[key].includes(anchorValue)) {
+                originAnchorObj.value = anchorValueAsn1.value[0].value;
+                originAnchorObj.originServerCerts = AnchorProcessor.convertCertsListToX509(originAnchorObj.originServerCerts);
+                anchorsData[key].push(new AttributeAnchor(originAnchorObj));
+                anchorValues[key].push(originAnchorObj.value);
+              }
             }
           }
-        }, anchorsData);
+        }, anchorsData, anchorValues); // End Object loop
       } // End for loop
     } // End for loop
     return anchorsData;

@@ -5,28 +5,76 @@ const forge = require('node-forge');
 const ByteBuffer = require("bytebuffer");
 const expect = require('chai').expect;
 
-const ppAnchorSource = fs.readFileSync('./tests/yoti-common/pp-anchor-source.txt', 'utf8');
-
 describe('anchorProcessor', () => {
   describe('#process', () => {
-    it('should return PASSPORT as source value', () => {
-      const expectedSourceValue = 'PASSPORT';
-      const attr2 = protoRoot.decodeEncryptedData(ppAnchorSource);
 
-      const iv = forge.util.decode64(attr2.iv);
-      const cipherText = forge.util.decode64(attr2.cipherText);
-      let ppanchor = Buffer.from(cipherText, 'binary');
+    context('when processing DL Source Anchor data', () => {
+      const dlSourceAnchor = fs.readFileSync('./tests/yoti-common/dl-source-anchor.txt', 'utf8');
 
-      const buf = new Buffer(ppanchor);
-      const byteBuffer = ByteBuffer.wrap(buf);
+      it('should return DRIVING_LICENCE as value', () => {
+        const expectedSourceValue = 'DRIVING_LICENCE';
+        const dlAnchorObj = parseAnchorData(dlSourceAnchor);
+        const anchorSources = AnchorProcessor.process([dlAnchorObj]);
+        const anchorValue = anchorSources['sources'][0].getValue();
 
-      const anchor = {
-        'originServerCerts': [byteBuffer]
-      };
-
-      const anchorSources = AnchorProcessor.process([anchor]);
-      const SourceValue = anchorSources['sources'][0].getValue();
-      expect(SourceValue).to.equal(expectedSourceValue);
+        expect(anchorValue).to.equal(expectedSourceValue);
+      });
     });
+
+    context('when processing Passport Source Anchor data', () => {
+      const ppSourceAnchor = fs.readFileSync('./tests/yoti-common/pp-source-anchor.txt', 'utf8');
+
+      it('should return PASSPORT as value', () => {
+        const expectedSourceValue = 'PASSPORT';
+        const ppAnchorObj = parseAnchorData(ppSourceAnchor);
+        const anchorSources = AnchorProcessor.process([ppAnchorObj]);
+        const anchorValue = anchorSources['sources'][0].getValue();
+
+        expect(anchorValue).to.equal(expectedSourceValue);
+      });
+    });
+
+    context('when processing duplicate Source Anchors', () => {
+      const ppSourceAnchor = fs.readFileSync('./tests/yoti-common/pp-source-anchor.txt', 'utf8');
+
+      it('should return a unique Anchor value', () => {
+        const expectedSourceValue = ['PASSPORT'];
+        const ppAnchorObj = parseAnchorData(ppSourceAnchor);
+        const anchorSources = AnchorProcessor.process([ppAnchorObj, ppAnchorObj]);
+
+        const anchorValues = [];
+        for(let i = 0; i < anchorSources['sources'].length; i++) {
+          anchorValues.push(anchorSources['sources'][i].getValue());
+        }
+
+        expect(JSON.stringify(anchorValues)).to.equal(JSON.stringify(expectedSourceValue));
+      });
+    });
+
+    context('when processing Verifier Anchor data', () => {
+      const verifierAnchor = fs.readFileSync('./tests/yoti-common/verifier-anchor.txt', 'utf8');
+
+      it('should return YOTI_ADMIN as value', () => {
+        const expectedAnchorValue = 'YOTI_ADMIN';
+        const AnchorObj = parseAnchorData(verifierAnchor);
+        const anchorVerifiers = AnchorProcessor.process([AnchorObj]);
+        const anchorValue = anchorVerifiers['verifiers'][0].getValue();
+
+        expect(anchorValue).to.equal(expectedAnchorValue);
+      });
+    });
+
   });
 });
+
+function parseAnchorData(anchorString) {
+  const decodedData = protoRoot.decodeEncryptedData(anchorString);
+  const cipherText = forge.util.decode64(decodedData.cipherText);
+  const AnchorBuf = Buffer.from(cipherText, 'binary');
+  const byteBuffer = ByteBuffer.wrap(AnchorBuf);
+  const AnchorObj = {
+    'originServerCerts': [byteBuffer]
+  };
+
+  return AnchorObj;
+}
