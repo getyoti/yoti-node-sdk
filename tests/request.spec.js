@@ -9,7 +9,7 @@ const AmlAddress = require('../src/aml_type').AmlAddress;
 const AmlProfile = require('../src/aml_type').AmlProfile;
 const Payload = require('../src/request/payload').Payload;
 
-const privateKeyFile = fs.readFileSync('./tests/keys/node-sdk-test.pem', 'utf8');
+const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 
 describe('YotiResponse', () => {
   describe('#makeRequest', () => {
@@ -17,7 +17,7 @@ describe('YotiResponse', () => {
     const amlProfile = new AmlProfile('Edward Richard George', 'Heath', amlAddress);
     const amlPayload = new Payload(amlProfile.getData());
 
-    const amlCheckResult = fs.readFileSync('./tests/responses/aml-check-result.json', 'utf8');
+    const amlCheckResult = fs.readFileSync('./tests/sample-data/responses/aml-check-result.json', 'utf8');
 
     context('when making an AML check request', () => {
       beforeEach((done) => {

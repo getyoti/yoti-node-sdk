@@ -8,7 +8,7 @@ const AmlAddress = require('../src/aml_type').AmlAddress;
 const AmlProfile = require('../src/aml_type').AmlProfile;
 const Payload = require('../src/request/payload').Payload;
 
-const privateKeyFile = fs.readFileSync('./tests/keys/node-sdk-test.pem', 'utf8');
+const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 
 describe('amlService', () => {
   const amlAddress = new AmlAddress('GBR');
@@ -22,7 +22,7 @@ describe('amlService', () => {
     });
 
     context('with a valid profile', () => {
-      const amlCheckResult = fs.readFileSync('./tests/responses/aml-check-result.json', 'utf8');
+      const amlCheckResult = fs.readFileSync('./tests/sample-data/responses/aml-check-result.json', 'utf8');
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
@@ -45,7 +45,7 @@ describe('amlService', () => {
     });
 
     context('with an invalid profile response', () => {
-      const amlCheckError = fs.readFileSync('./tests/responses/aml-check-error.json', 'utf8');
+      const amlCheckError = fs.readFileSync('./tests/sample-data/responses/aml-check-error.json', 'utf8');
       const expectedErrorMessage = 'PAYLOAD_VALIDATION - There were errors validating the payload: [{"property":"address.country","message":"country must be specified as an ISO-3166 3-letter code"}]';
 
       beforeEach((done) => {

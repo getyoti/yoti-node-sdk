@@ -9,7 +9,7 @@ describe('anchorProcessor', () => {
   describe('#process', () => {
 
     context('when processing DL Source Anchor data', () => {
-      const dlSourceAnchor = fs.readFileSync('./tests/yoti-common/dl-source-anchor.txt', 'utf8');
+      const dlSourceAnchor = fs.readFileSync('./tests/sample-data/yoti-common/dl-source-anchor.txt', 'utf8');
 
       it('should return DRIVING_LICENCE as value', () => {
         const expectedSourceValue = 'DRIVING_LICENCE';
@@ -22,7 +22,7 @@ describe('anchorProcessor', () => {
     });
 
     context('when processing Passport Source Anchor data', () => {
-      const ppSourceAnchor = fs.readFileSync('./tests/yoti-common/pp-source-anchor.txt', 'utf8');
+      const ppSourceAnchor = fs.readFileSync('./tests/sample-data/yoti-common/pp-source-anchor.txt', 'utf8');
 
       it('should return PASSPORT as value', () => {
         const expectedSourceValue = 'PASSPORT';
@@ -35,7 +35,7 @@ describe('anchorProcessor', () => {
     });
 
     context('when processing duplicate Source Anchors', () => {
-      const ppSourceAnchor = fs.readFileSync('./tests/yoti-common/pp-source-anchor.txt', 'utf8');
+      const ppSourceAnchor = fs.readFileSync('./tests/sample-data/yoti-common/pp-source-anchor.txt', 'utf8');
 
       it('should return a unique Anchor value', () => {
         const expectedSourceValue = ['PASSPORT'];
@@ -52,7 +52,7 @@ describe('anchorProcessor', () => {
     });
 
     context('when processing Verifier Anchor data', () => {
-      const verifierAnchor = fs.readFileSync('./tests/yoti-common/verifier-anchor.txt', 'utf8');
+      const verifierAnchor = fs.readFileSync('./tests/sample-data/yoti-common/verifier-anchor.txt', 'utf8');
 
       it('should return YOTI_ADMIN as value', () => {
         const expectedAnchorValue = 'YOTI_ADMIN';
