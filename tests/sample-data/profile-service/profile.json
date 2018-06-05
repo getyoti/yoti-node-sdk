@@ -1,0 +1,87 @@
+{
+  "gender":
+  { "name": "gender",
+    "value": "TEST MALE",
+    "sources": [],
+    "verifiers": []
+  },
+  "nationality":
+  {
+    "name": "nationality",
+    "value": "GBR",
+    "sources": [],
+    "verifiers": []
+  },
+  "phone_number":
+  {
+    "name": "phone_number",
+    "value": "+447474747474",
+    "sources": [],
+    "verifiers": []
+  },
+  "given_names":
+  {
+    "name": "given_names",
+    "value": "TEST GIVEN_NAMES",
+    "sources": [],
+    "verifiers": []
+  },
+  "full_name":
+  {
+    "name": "full_name",
+    "value": "TEST FULL_NAME",
+    "sources": [{
+      "value":"PASSPORT",
+      "artifactSignature":"",
+      "subType":"OCR",
+      "signature":"",
+      "signedTimeStamp":"",
+      "originServerCerts":[],
+      "associatedSource":""
+    }],
+    "verifiers": [{
+      "value":"YOTI_ADMIN",
+      "artifactSignature":"",
+      "subType":"",
+      "signature":"",
+      "signedTimeStamp":"",
+      "originServerCerts":[],
+      "associatedSource":""
+    }]
+  },
+  "postal_address":
+  {
+    "name": "postal_address",
+    "value": "TEST ADDRESS",
+    "sources": [],
+    "verifiers": []
+  },
+  "family_name":
+  {
+    "name": "family_name",
+    "value": "TEST FAMILY_NAME",
+    "sources": [],
+    "verifiers": []
+  },
+  "selfie":
+  {
+    "name": "selfie",
+    "value": "",
+    "sources": [],
+    "verifiers": []
+  },
+  "email_address":
+  {
+    "name": "email_address",
+    "value": "example@yoti.com",
+    "sources": [],
+    "verifiers": []
+  },
+  "age_verified":
+  {
+    "name": "age_verified",
+    "value": "true",
+    "sources": [],
+    "verifiers": []
+  }
+}
