@@ -113,18 +113,18 @@ module.exports.Profile = class Profile {
    * @returns {*}
    */
   getAttribute(attrName) {
-    if (this.propertyExists(this.profileData, attrName)) {
-      let attrObj = this.profileData[attrName];
+    if (this.propertyExists(attrName)) {
+      const attrObj = this.profileData[attrName];
       if (attrObj instanceof Object) {
-        return new Attribute(attrObj)
+        return new Attribute(attrObj);
       }
     }
     return null;
   }
 
-  propertyExists(profileData, prop) {
-    if (prop && (profileData instanceof Object)) {
-      return Object.prototype.hasOwnProperty.call(profileData, prop);
+  propertyExists(prop) {
+    if (prop && (this.profileData instanceof Object)) {
+      return Object.prototype.hasOwnProperty.call(this.profileData, prop);
     }
     return false;
   }

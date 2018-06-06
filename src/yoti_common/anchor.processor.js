@@ -14,7 +14,7 @@ const AttributeAnchor = function main(anchorObj) {
 
 AttributeAnchor.prototype = {
   getValue() { return this.value; },
-  getArtifactSignature() { this.artifactSignature; },
+  getArtifactSignature() { return this.artifactSignature; },
   getSubType() { return this.subType; },
   getSignature() { return this.signature; },
   getSignedTimeStamp() { return this.signedTimeStamp; },
@@ -23,7 +23,6 @@ AttributeAnchor.prototype = {
 };
 
 module.exports.AnchorProcessor = class AnchorProcessor {
-
   /**
    * Extract matching Attribute Anchors from list.
    *
@@ -34,47 +33,49 @@ module.exports.AnchorProcessor = class AnchorProcessor {
   static process(anchors) {
     // This will contain a list of anchor values as objects
     const anchorsData = [];
-    anchorsData['sources'] = [];
-    anchorsData['verifiers'] = [];
+    anchorsData.sources = [];
+    anchorsData.verifiers = [];
 
     // This is used to make sure the anchors values are unique
     const anchorValues = [];
-    anchorValues['sources'] = [];
-    anchorValues['verifiers'] = [];
+    anchorValues.sources = [];
+    anchorValues.verifiers = [];
 
     let originAnchorObj = {
-      'value': '',
-      'artifactSignature': '',
-      'subType': '',
-      'signedTimeStamp': '',
-      'originServerCerts': '',
-      'associatedSource': '',
+      value: '',
+      artifactSignature: '',
+      subType: '',
+      signedTimeStamp: '',
+      originServerCerts: '',
+      associatedSource: '',
     };
 
-    for (let i = 0; i < anchors.length; i++) {
-      let anchor = anchors[i];
-      let certificatesList = anchor.originServerCerts;
+    for (let i = 0; i < anchors.length; i += 1) {
+      const anchor = anchors[i];
+      const certificatesList = anchor.originServerCerts;
       originAnchorObj = Object.assign(originAnchorObj, anchor);
 
-      for (let n = 0; n < certificatesList.length; n++) {
-        let certArrayBuffer = certificatesList[n];
-        let certificateObj = AnchorProcessor.convertCertToX509(certArrayBuffer);
-        let extensionsData = certificateObj.extensions;
-        let anchorTypes = AnchorProcessor.getAnchorTypes();
+      for (let n = 0; n < certificatesList.length; n += 1) {
+        const certArrayBuffer = certificatesList[n];
+        const certificateObj = AnchorProcessor.convertCertToX509(certArrayBuffer);
+        const extensionsData = certificateObj.extensions;
+        const anchorTypes = AnchorProcessor.getAnchorTypes();
 
-        Object.keys(anchorTypes).forEach(function(key) {
-          let oidIndex = AnchorProcessor.findOidIndex(extensionsData, {id: anchorTypes[key]});
+        Object.keys(anchorTypes).forEach((key) => {
+          const oidIndex = AnchorProcessor.findOidIndex(extensionsData, { id: anchorTypes[key] });
           if (oidIndex !== -1) {
-            let anchorObj = extensionsData[oidIndex];
-            let anchorValue = anchorObj.value;
+            const anchorObj = extensionsData[oidIndex];
+            const anchorValue = anchorObj.value;
             // Convert Anchor value from ASN.1 format to an object
-            let anchorValueAsn1 = forge.asn1.fromDer(anchorValue.toString('binary'));
+            const anchorValueAsn1 = forge.asn1.fromDer(anchorValue.toString('binary'));
             if (anchorValueAsn1) {
-              let anchorValue = anchorValueAsn1.value[0].value;
+              const anchorParsedValue = anchorValueAsn1.value[0].value;
               // Make sure the anchor values are unique
-              if (!anchorValues[key].includes(anchorValue)) {
-                originAnchorObj.value = anchorValueAsn1.value[0].value;
-                originAnchorObj.originServerCerts = AnchorProcessor.convertCertsListToX509(originAnchorObj.originServerCerts);
+              if (!anchorValues[key].includes(anchorParsedValue)) {
+                originAnchorObj.value = anchorParsedValue;
+                const originServerCerts = originAnchorObj.originServerCerts;
+                const serverX509Certs = AnchorProcessor.convertCertsListToX509(originServerCerts);
+                originAnchorObj.originServerCerts = serverX509Certs;
                 anchorsData[key].push(new AttributeAnchor(originAnchorObj));
                 anchorValues[key].push(originAnchorObj.value);
               }
@@ -94,9 +95,9 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    * @returns {Array}
    */
   static convertCertsListToX509(certificatesList) {
-    let X509Certificates = [];
-    for (let c = 0; c < certificatesList.length; c++) {
-      let certificateObj = AnchorProcessor.convertCertToX509(certificatesList[c]);
+    const X509Certificates = [];
+    for (let c = 0; c < certificatesList.length; c += 1) {
+      const certificateObj = AnchorProcessor.convertCertToX509(certificatesList[c]);
       if (certificateObj) {
         X509Certificates.push(certificateObj);
       }
@@ -112,8 +113,8 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    * @returns {the|*}
    */
   static convertCertToX509(certArrayBuffer) {
-    let certBuffer = certArrayBuffer.toBuffer();
-    let anchorAsn1Obj = forge.asn1.fromDer(certBuffer.toString('binary'));
+    const certBuffer = certArrayBuffer.toBuffer();
+    const anchorAsn1Obj = forge.asn1.fromDer(certBuffer.toString('binary'));
     return forge.pki.certificateFromAsn1(anchorAsn1Obj);
   }
 
@@ -127,12 +128,11 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    */
   static findOidIndex(array, anchorOidObj) {
     let result = -1;
-    array.forEach(function(el, index) {
-      let match = Object.keys(anchorOidObj).reduce(function(soFar, key) {
+    array.forEach((el, index) => {
+      const match = Object.keys(anchorOidObj).reduce(function (soFar, key) {
         return soFar && el[key] === anchorOidObj[key];
       }, true);
-      if(match) {
-
+      if (match) {
         result = index;
       }
     });
@@ -141,8 +141,8 @@ module.exports.AnchorProcessor = class AnchorProcessor {
 
   static getAnchorTypes() {
     const types = {};
-    types['sources'] = '1.3.6.1.4.1.47127.1.1.1';
-    types['verifiers'] = '1.3.6.1.4.1.47127.1.1.2';
+    types.sources = '1.3.6.1.4.1.47127.1.1.1';
+    types.verifiers = '1.3.6.1.4.1.47127.1.1.2';
 
     return types;
   }

@@ -6,7 +6,6 @@ const AnchorProcessor = require('../yoti_common/anchor.processor').AnchorProcess
 module.exports = {
 
   decodeAttributeList(binaryData) {
-
     const attributesList = this.builder.attrpubapi_v1.AttributeList.decode(binaryData);
     const attributes = attributesList.get('attributes');
     const attrList = [];
@@ -18,15 +17,15 @@ module.exports = {
       const attrValue = attribute.getValue();
       const attrType = attribute.getContentType();
       const processedAnchors = AnchorProcessor.process(attribute.anchors);
-      const value = this.convertValueBasedOnContentType(attrValue, attrType);
+      const attrConvertedValue = this.convertValueBasedOnContentType(attrValue, attrType);
 
       const attrObj = {
-        'name': attrName,
-        'value': value,
-        'sources': processedAnchors['sources'],
-        'verifiers': processedAnchors['verifiers'],
+        name: attrName,
+        value: attrConvertedValue,
+        sources: processedAnchors.sources,
+        verifiers: processedAnchors.verifiers,
       };
-      attrList.push({ [this.toCamelCase(attrName)]: value });
+      attrList.push({ [this.toCamelCase(attrName)]: attrConvertedValue });
 
       if (attrName === 'selfie') {
         const imageUriValue = this.imageUriBasedOnContentType(attrValue, attrType);
@@ -34,14 +33,14 @@ module.exports = {
       }
 
       if (Age.conditionVerified(this.toCamelCase(attrName))) {
-        let ageCondition = Object.assign({}, attrObj);
+        const ageCondition = Object.assign({}, attrObj);
         ageCondition.name = 'age_verified';
-        profileAttributes['age_verified'] = ageCondition;
+        profileAttributes.age_verified = ageCondition;
       } else {
         profileAttributes[attrName] = attrObj;
       }
     }
-    attrList.push({ 'userProfile': profileAttributes });
+    attrList.push({ userProfile: profileAttributes });
 
     return attrList;
   },

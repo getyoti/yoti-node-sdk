@@ -2,12 +2,23 @@ const fs = require('fs');
 const AnchorProcessor = require('../src/yoti_common/anchor.processor').AnchorProcessor;
 const protoRoot = require('../src/proto-root').initializeProtoBufObjects();
 const forge = require('node-forge');
-const ByteBuffer = require("bytebuffer");
+const ByteBuffer = require('bytebuffer');
 const expect = require('chai').expect;
+
+function parseAnchorData(anchorString) {
+  const decodedData = protoRoot.decodeEncryptedData(anchorString);
+  const cipherText = forge.util.decode64(decodedData.cipherText);
+  const AnchorBuf = Buffer.from(cipherText, 'binary');
+  const byteBuffer = ByteBuffer.wrap(AnchorBuf);
+  const AnchorObj = {
+    originServerCerts: [byteBuffer],
+  };
+
+  return AnchorObj;
+}
 
 describe('anchorProcessor', () => {
   describe('#process', () => {
-
     context('when processing DL Source Anchor data', () => {
       const dlSourceAnchor = fs.readFileSync('./tests/sample-data/yoti-common/dl-source-anchor.txt', 'utf8');
 
@@ -15,7 +26,7 @@ describe('anchorProcessor', () => {
         const expectedSourceValue = 'DRIVING_LICENCE';
         const dlAnchorObj = parseAnchorData(dlSourceAnchor);
         const anchorSources = AnchorProcessor.process([dlAnchorObj]);
-        const anchorValue = anchorSources['sources'][0].getValue();
+        const anchorValue = anchorSources.sources[0].getValue();
 
         expect(anchorValue).to.equal(expectedSourceValue);
       });
@@ -28,7 +39,7 @@ describe('anchorProcessor', () => {
         const expectedSourceValue = 'PASSPORT';
         const ppAnchorObj = parseAnchorData(ppSourceAnchor);
         const anchorSources = AnchorProcessor.process([ppAnchorObj]);
-        const anchorValue = anchorSources['sources'][0].getValue();
+        const anchorValue = anchorSources.sources[0].getValue();
 
         expect(anchorValue).to.equal(expectedSourceValue);
       });
@@ -43,8 +54,8 @@ describe('anchorProcessor', () => {
         const anchorSources = AnchorProcessor.process([ppAnchorObj, ppAnchorObj]);
 
         const anchorValues = [];
-        for(let i = 0; i < anchorSources['sources'].length; i++) {
-          anchorValues.push(anchorSources['sources'][i].getValue());
+        for (let i = 0; i < anchorSources.sources.length; i += 1) {
+          anchorValues.push(anchorSources.sources[i].getValue());
         }
 
         expect(JSON.stringify(anchorValues)).to.equal(JSON.stringify(expectedSourceValue));
@@ -58,23 +69,10 @@ describe('anchorProcessor', () => {
         const expectedAnchorValue = 'YOTI_ADMIN';
         const AnchorObj = parseAnchorData(verifierAnchor);
         const anchorVerifiers = AnchorProcessor.process([AnchorObj]);
-        const anchorValue = anchorVerifiers['verifiers'][0].getValue();
+        const anchorValue = anchorVerifiers.verifiers[0].getValue();
 
         expect(anchorValue).to.equal(expectedAnchorValue);
       });
     });
-
   });
 });
-
-function parseAnchorData(anchorString) {
-  const decodedData = protoRoot.decodeEncryptedData(anchorString);
-  const cipherText = forge.util.decode64(decodedData.cipherText);
-  const AnchorBuf = Buffer.from(cipherText, 'binary');
-  const byteBuffer = ByteBuffer.wrap(AnchorBuf);
-  const AnchorObj = {
-    'originServerCerts': [byteBuffer]
-  };
-
-  return AnchorObj;
-}

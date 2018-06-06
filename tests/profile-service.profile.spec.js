@@ -1,6 +1,6 @@
 const fs = require('fs');
 const expect = require('chai').expect;
-const {Profile} = require('../src/profile_service/profile');
+const Profile = require('../src/profile_service/profile').Profile;
 
 const AttributeAnchor = function main(anchorObj) {
   this.value = anchorObj.value;
@@ -14,7 +14,7 @@ const AttributeAnchor = function main(anchorObj) {
 
 AttributeAnchor.prototype = {
   getValue() { return this.value; },
-  getArtifactSignature() { this.artifactSignature; },
+  getArtifactSignature() { return this.artifactSignature; },
   getSubType() { return this.subType; },
   getSignature() { return this.signature; },
   getSignedTimeStamp() { return this.signedTimeStamp; },
