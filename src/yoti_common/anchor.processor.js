@@ -32,14 +32,14 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    */
   static process(anchors) {
     // This will contain a list of anchor values as objects
-    const anchorsData = [];
-    anchorsData.sources = [];
-    anchorsData.verifiers = [];
-
-    // This is used to make sure the anchors values are unique
-    const anchorValues = [];
-    anchorValues.sources = [];
-    anchorValues.verifiers = [];
+    const anchorsData = {
+      sources: [],
+      verifiers: [],
+      processedValues: { // This is used to make sure the anchors values are unique
+        sources: [],
+        verifiers: [],
+      },
+    };
 
     let originAnchorObj = {
       value: '',
@@ -71,20 +71,23 @@ module.exports.AnchorProcessor = class AnchorProcessor {
             if (anchorValueAsn1) {
               const anchorParsedValue = anchorValueAsn1.value[0].value;
               // Make sure the anchor values are unique
-              if (!anchorValues[key].includes(anchorParsedValue)) {
+              if (!anchorsData.processedValues[key].includes(anchorParsedValue)) {
                 originAnchorObj.value = anchorParsedValue;
                 const originServerCerts = originAnchorObj.originServerCerts;
                 const serverX509Certs = AnchorProcessor.convertCertsListToX509(originServerCerts);
                 originAnchorObj.originServerCerts = serverX509Certs;
                 anchorsData[key].push(new AttributeAnchor(originAnchorObj));
-                anchorValues[key].push(originAnchorObj.value);
+                anchorsData.processedValues[key].push(originAnchorObj.value);
               }
             }
           }
-        }, anchorsData, anchorValues); // End Object loop
+        }, anchorsData); // End Object loop
       } // End for loop
     } // End for loop
-    return anchorsData;
+    const resultData = [];
+    resultData.sources = anchorsData.sources;
+    resultData.verifiers = anchorsData.verifiers;
+    return resultData;
   }
 
   /**
