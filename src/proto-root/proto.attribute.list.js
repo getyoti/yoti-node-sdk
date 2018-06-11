@@ -40,7 +40,7 @@ module.exports = {
         profileAttributes[attrName] = attrObj;
       }
     }
-    attrList.push({ userProfile: profileAttributes });
+    attrList.push({ extendedProfile: profileAttributes });
 
     return attrList;
   },

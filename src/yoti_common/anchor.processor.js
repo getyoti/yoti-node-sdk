@@ -81,9 +81,9 @@ module.exports.AnchorProcessor = class AnchorProcessor {
               }
             }
           }
-        }, anchorsData); // End Object loop
-      } // End for loop
-    } // End for loop
+        }, anchorsData);
+      }
+    }
     const resultData = [];
     resultData.sources = anchorsData.sources;
     resultData.verifiers = anchorsData.verifiers;

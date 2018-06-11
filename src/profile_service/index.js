@@ -20,8 +20,8 @@ const ActivityDetails = function main(parsedResponse, decryptedProfile) {
   }, {});
 
   // This is the new profile attribute
-  this.userProfile = new Profile(this.profile.userProfile);
-  delete this.profile.userProfile;
+  this.extendedProfile = new Profile(this.profile.extendedProfile);
+  delete this.profile.extendedProfile;
 
   const age = new Age(this.profile);
   if (age.isVerified() !== null) {
@@ -32,7 +32,7 @@ const ActivityDetails = function main(parsedResponse, decryptedProfile) {
 ActivityDetails.prototype = {
   getUserId() { return this.receipt.remember_me_id; },
   getUserProfile() { return this.profile; },
-  getProfile() { return this.userProfile; }, // This is the new profile object
+  getProfile() { return this.extendedProfile; }, // This is the new profile object
   getOutcome() { return this.receipt.sharing_outcome; },
   getBase64SelfieUri() { return this.profile.base64SelfieUri; },
 };
