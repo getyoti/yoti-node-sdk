@@ -186,8 +186,6 @@ No matter if the user is a new or an existing one, Yoti will always provide her/
 
 The `profile` object provides a set of attributes corresponding to user attributes. Whether the attributes are present or not depends on the settings you have applied to your app on Yoti Dashboard.
 
-Update your Callback URL in our Yoti Dashboard and you should be good to go!
-
 ## AML Integration
 
 Yoti provides an AML (Anti Money Laundering) check service to allow a deeper KYC process to prevent fraud. This is a chargeable service, so please contact [sdksupport@yoti.com](mailto:sdksupport@yoti.com) for more information.
@@ -244,11 +242,11 @@ yotiClient.performAmlCheck(amlProfile).then((amlResult) => {
 ### Fetching the profile
 
 The example can be found [here](examples/profile).
-For it to work you will need a working callback URL that your browser can redirect to. The callback URL will be: `https://localhost:9443/profile`.
-
-* rename the [.env.example](examples/profile/.env.example) file to `.env` and fill in the required configuration values
-* install the dependencies with `npm install`
-* start the server `node index.js`
+1. From the [Yoti Dashboard](https://www.yoti.com/dashboard/applications) set the application domain of your app to `localhost:9443`
+1. Set the scenario callback URL to `/profile`
+1. Rename the [.env.example](examples/profile/.env.example) file to `.env` and fill in the required configuration values
+1. Install the dependencies with `npm install`
+1. Start the server `node index.js`
 
 Visiting the `https://localhost:9443` should show a Yoti Connect button
 
