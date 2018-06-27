@@ -147,7 +147,7 @@ This is done as follows:
 
 yotiClient.getActivityDetails(token).then((activityDetails) => {
     if(activityDetails.getOutcome() == 'SUCCESS') {
-        profile = activityDetails.getUserProfile();
+        const profile = activityDetails.getProfile();
     } else {
         // handle unhappy path
     }
@@ -168,11 +168,15 @@ Here is an example of how this works:
 
 yotiClient.getActivityDetails(token).then((activityDetails) => {
     if(activityDetails.getOutcome() == 'SUCCESS') {
-        user = yourUserSearchFunction(activityDetails.getUserId());
+        const userProfile = activityDetails.getUserProfile(); // deprecated
+        const profile = activityDetails.getProfile();
+        const user = yourUserSearchFunction(activityDetails.getUserId());
         if(user) {
             // handle login
         } else {
             // handle registration
+            const givenNames = profile.getGivenNames().getValue();
+            const familyName = profile.getFamilyName().getValue();
         }
     } else {
         // handle unhappy path
@@ -185,6 +189,23 @@ Where `yourUserSearchFunction` is a piece of logic in your app that is supposed 
 No matter if the user is a new or an existing one, Yoti will always provide her/his profile, so you don't necessarily need to store it.
 
 The `profile` object provides a set of attributes corresponding to user attributes. Whether the attributes are present or not depends on the settings you have applied to your app on Yoti Dashboard.
+
+You can retrieve the sources and verifiers for each attribute as follows:
+
+```javascript
+const givenNamesSources = givenNames.getSources(); // list/array of anchors
+const givenNamesVerifiers = givenNames.getVerifiers(); // list/array of anchors
+```
+
+You can also retrieve further properties from these respective anchors in the following way:
+
+```javascript
+// Retrieving properties of the first anchor
+const value = givenNamesSources[0].getValue(); // string
+const subtype = givenNamesSources[0].getSubType(); // string
+const timestamp = givenNamesSources[0].getSignedTimeStamp().getTimestamp(); // Date object
+const originServerCerts = givenNamesSources[0].getOriginServerCerts(); // list of X509 certificates
+```
 
 ## AML Integration
 
@@ -221,8 +242,8 @@ Given a YotiClient initialised with your SDK ID and KeyPair (see [Configuration]
 
 // Initiate user profile data.
 
-let amlAddress = new Yoti.AmlAddress('GBR');
-let amlProfile = new Yoti.AmlProfile('Edward Richard George', 'Heath', amlAddress);
+const amlAddress = new Yoti.AmlAddress('GBR');
+const amlProfile = new Yoti.AmlProfile('Edward Richard George', 'Heath', amlAddress);
 
 yotiClient.performAmlCheck(amlProfile).then((amlResult) => {
   console.log(amlResult.isOnPepList);
@@ -265,15 +286,17 @@ In order to get the users information, the Node SDK will decrypt the token in th
 ```javascript
 
 yotiClient.getActivityDetails(token).then((activityDetails) => {
-    let profile = activityDetails.getUserProfile();
+    const userProfile = activityDetails.getUserProfile(); // deprecated
     // Use the table below to retrieve specific attributes from the profile object
-}
+})
 ```
 
 * Activity Details
   * [X] User ID `.getUserId()`
   * [X] Base64 Selfie Uri `getBase64SelfieUri()`
-  * [X] Profile `.getUserProfile()`
+  * [X] Profile `.getProfile()`
+    * [X] Full Name `getFullName().getValue()`
+  * [X] userProfile `.getUserProfile()`
     * [X] Photo `selfie`
     * [X] Full Name `fullName`
     * [X] Given Names `givenNames`
@@ -285,10 +308,6 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
     * [X] Address `postalAddress`
     * [X] Gender `gender`
     * [X] Nationality `nationality`
-  * [X] UserProfile `.getProfile()`
-    * [X] Full Name `.getFullName().getValue()`
-    * [X] Full Name - Source `.getFullName().getSources()[0].getValue()`
-    * [X] Full Name - Verifier `.getFullName().getVerifiers()[0].getValue()`
 
 ## Support
 

@@ -3,24 +3,18 @@
 const forge = require('node-forge');
 const protoRoot = require('../proto-root');
 
-const AttributeAnchor = function main(anchorObj) {
+const YotiAnchor = function main(anchorObj) {
   this.value = anchorObj.value;
-  this.artifactSignature = anchorObj.artifactSignature;
   this.subType = anchorObj.subType;
-  this.signature = anchorObj.signature;
   this.signedTimeStamp = anchorObj.signedTimeStamp;
   this.originServerCerts = anchorObj.originServerCerts;
-  this.associatedSource = anchorObj.associatedSource;
 };
 
-AttributeAnchor.prototype = {
+YotiAnchor.prototype = {
   getValue() { return this.value; },
-  getArtifactSignature() { return this.artifactSignature; },
   getSubType() { return this.subType; },
-  getSignature() { return this.signature; },
   getSignedTimeStamp() { return this.signedTimeStamp; },
   getOriginServerCerts() { return this.originServerCerts; },
-  getAssociatedSource() { return this.associatedSource; },
 };
 
 const YotiSignedTimeStamp = function main (timeStampObj) {
@@ -52,20 +46,19 @@ module.exports.AnchorProcessor = class AnchorProcessor {
       },
     };
 
-    let originAnchorObj = {
+    let anchorObj = {
       value: '',
-      artifactSignature: '',
       subType: '',
       signedTimeStamp: '',
       originServerCerts: '',
-      associatedSource: '',
     };
 
     for (let i = 0; i < anchors.length; i += 1) {
-      const anchor = anchors[i];
-      const certificatesList = anchor.originServerCerts;
-      originAnchorObj = Object.assign(originAnchorObj, anchor);
-      originAnchorObj.signedTimeStamp = this.processSignedTimeStamp(anchor.getSignedTimeStamp());
+      const protoAnchor = anchors[i];
+      const certificatesList = protoAnchor.originServerCerts;
+
+      anchorObj = Object.assign(anchorObj, protoAnchor);
+      anchorObj.signedTimeStamp = this.processSignedTimeStamp(protoAnchor.getSignedTimeStamp());
 
       for (let n = 0; n < certificatesList.length; n += 1) {
         const certArrayBuffer = certificatesList[n];
@@ -76,20 +69,20 @@ module.exports.AnchorProcessor = class AnchorProcessor {
         Object.keys(anchorTypes).forEach((key) => {
           const oidIndex = AnchorProcessor.findOidIndex(extensionsData, { id: anchorTypes[key] });
           if (oidIndex !== -1) {
-            const anchorObj = extensionsData[oidIndex];
-            const anchorValue = anchorObj.value;
+            const anchorExtension = extensionsData[oidIndex];
+            const anchorValue = anchorExtension.value;
             // Convert Anchor value from ASN.1 format to an object
-            const anchorValueAsn1 = forge.asn1.fromDer(anchorValue.toString('binary'));
-            if (anchorValueAsn1) {
-              const anchorParsedValue = anchorValueAsn1.value[0].value;
+            const extensionObj = forge.asn1.fromDer(anchorValue.toString('binary'));
+            if (extensionObj) {
+              const anchorParsedValue = extensionObj.value[0].value;
               // Make sure the anchor values are unique
               if (!anchorsData.processedValues[key].includes(anchorParsedValue)) {
-                originAnchorObj.value = anchorParsedValue;
-                const originServerCerts = originAnchorObj.originServerCerts;
+                anchorObj.value = anchorParsedValue;
+                const originServerCerts = anchorObj.originServerCerts;
                 const serverX509Certs = AnchorProcessor.convertCertsListToX509(originServerCerts);
-                originAnchorObj.originServerCerts = serverX509Certs;
-                anchorsData[key].push(new AttributeAnchor(originAnchorObj));
-                anchorsData.processedValues[key].push(originAnchorObj.value);
+                anchorObj.originServerCerts = serverX509Certs;
+                anchorsData[key].push(new YotiAnchor(anchorObj));
+                anchorsData.processedValues[key].push(anchorObj.value);
               }
             }
           }
@@ -106,15 +99,15 @@ module.exports.AnchorProcessor = class AnchorProcessor {
     const yotiSignedTimeStamp = new YotiSignedTimeStamp({version: 0, timestamp: 0});
 
     if (signedTimeStampByteBuffer) {
-      const signedTimeStampBuf = signedTimeStampByteBuffer.toBuffer();
-      const signedTimeStamp = protoRoot.initializeProtoBufObjects().decodeSignedTimeStamp(signedTimeStampBuf);
+      const signedTimeStampBuffer = signedTimeStampByteBuffer.toBuffer();
+      const signedTimeStamp = protoRoot.initializeProtoBufObjects().decodeSignedTimeStamp(signedTimeStampBuffer);
       const strTs = signedTimeStamp.timestamp.toString();
       const tsMicro = Number.parseInt(strTs);
       const tsMilliSeconds = Math.round(tsMicro/1000);
-      const date = new Date(tsMilliSeconds);
+      const dateTime = new Date(tsMilliSeconds);
 
       yotiSignedTimeStamp.version = signedTimeStamp.getVersion();
-      yotiSignedTimeStamp.timestamp = date;
+      yotiSignedTimeStamp.timestamp = dateTime;
     }
 
     return yotiSignedTimeStamp;
