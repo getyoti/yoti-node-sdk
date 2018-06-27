@@ -1,6 +1,7 @@
 'use strict';
 
 const forge = require('node-forge');
+const protoRoot = require('../proto-root');
 
 const AttributeAnchor = function main(anchorObj) {
   this.value = anchorObj.value;
@@ -20,6 +21,16 @@ AttributeAnchor.prototype = {
   getSignedTimeStamp() { return this.signedTimeStamp; },
   getOriginServerCerts() { return this.originServerCerts; },
   getAssociatedSource() { return this.associatedSource; },
+};
+
+const YotiSignedTimeStamp = function main (timeStampObj) {
+  this.version = timeStampObj.version;
+  this.timestamp = timeStampObj.timestamp;
+};
+
+YotiSignedTimeStamp.prototype = {
+  getVersion() { return this.version; },
+  getTimestamp() { return this.timestamp; }
 };
 
 module.exports.AnchorProcessor = class AnchorProcessor {
@@ -54,6 +65,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
       const anchor = anchors[i];
       const certificatesList = anchor.originServerCerts;
       originAnchorObj = Object.assign(originAnchorObj, anchor);
+      originAnchorObj.signedTimeStamp = this.processSignedTimeStamp(anchor.getSignedTimeStamp());
 
       for (let n = 0; n < certificatesList.length; n += 1) {
         const certArrayBuffer = certificatesList[n];
@@ -88,6 +100,24 @@ module.exports.AnchorProcessor = class AnchorProcessor {
     resultData.sources = anchorsData.sources;
     resultData.verifiers = anchorsData.verifiers;
     return resultData;
+  }
+
+  static processSignedTimeStamp(signedTimeStampByteBuffer) {
+    const yotiSignedTimeStamp = new YotiSignedTimeStamp({version: 0, timestamp: 0});
+
+    if (signedTimeStampByteBuffer) {
+      const signedTimeStampBuf = signedTimeStampByteBuffer.toBuffer();
+      const signedTimeStamp = protoRoot.initializeProtoBufObjects().decodeSignedTimeStamp(signedTimeStampBuf);
+      const strTs = signedTimeStamp.timestamp.toString();
+      const tsMicro = Number.parseInt(strTs);
+      const tsMilliSeconds = Math.round(tsMicro/1000);
+      const date = new Date(tsMilliSeconds);
+
+      yotiSignedTimeStamp.version = signedTimeStamp.getVersion();
+      yotiSignedTimeStamp.timestamp = date;
+    }
+
+    return yotiSignedTimeStamp;
   }
 
   /**
