@@ -2,24 +2,18 @@ const fs = require('fs');
 const expect = require('chai').expect;
 const Profile = require('../src/profile_service/profile').Profile;
 
-const AttributeAnchor = function main(anchorObj) {
+const YotiAnchor = function main(anchorObj) {
   this.value = anchorObj.value;
-  this.artifactSignature = anchorObj.artifactSignature;
   this.subType = anchorObj.subType;
-  this.signature = anchorObj.signature;
   this.signedTimeStamp = anchorObj.signedTimeStamp;
   this.originServerCerts = anchorObj.originServerCerts;
-  this.associatedSource = anchorObj.associatedSource;
 };
 
-AttributeAnchor.prototype = {
+YotiAnchor.prototype = {
   getValue() { return this.value; },
-  getArtifactSignature() { return this.artifactSignature; },
   getSubType() { return this.subType; },
-  getSignature() { return this.signature; },
   getSignedTimeStamp() { return this.signedTimeStamp; },
   getOriginServerCerts() { return this.originServerCerts; },
-  getAssociatedSource() { return this.associatedSource; },
 };
 
 let profileData = fs.readFileSync('./tests/sample-data/profile-service/profile.json', 'utf8');
@@ -28,12 +22,12 @@ profileData = JSON.parse(profileData);
 // Convert sources data into an Anchor Object
 let fullNameSources = profileData.full_name.sources;
 fullNameSources = JSON.parse(JSON.stringify(fullNameSources));
-profileData.full_name.sources = [new AttributeAnchor(fullNameSources[0])];
+profileData.full_name.sources = [new YotiAnchor(fullNameSources[0])];
 
 // Convert verifiers data into an Anchor Object
 let fullNameVerifiers = profileData.full_name.verifiers;
 fullNameVerifiers = JSON.parse(JSON.stringify(fullNameVerifiers));
-profileData.full_name.verifiers = [new AttributeAnchor(fullNameVerifiers[0])];
+profileData.full_name.verifiers = [new YotiAnchor(fullNameVerifiers[0])];
 
 describe('Profile', () => {
   const profileObj = new Profile(profileData);

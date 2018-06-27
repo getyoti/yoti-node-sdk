@@ -12,7 +12,7 @@ function parseAnchorData(anchorString) {
   const byteBuffer = ByteBuffer.wrap(AnchorBuf);
   const AnchorObj = {
     originServerCerts: [byteBuffer],
-    getSignedTimeStamp: function() {},
+    getSignedTimeStamp() {},
   };
 
   return AnchorObj;

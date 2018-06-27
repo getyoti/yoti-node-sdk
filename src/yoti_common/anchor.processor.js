@@ -96,13 +96,14 @@ module.exports.AnchorProcessor = class AnchorProcessor {
   }
 
   static processSignedTimeStamp(signedTimeStampByteBuffer) {
-    const yotiSignedTimeStamp = new YotiSignedTimeStamp({version: 0, timestamp: 0});
+    const yotiSignedTimeStamp = new YotiSignedTimeStamp({ version: 0, timestamp: 0 });
+    const protoInst = protoRoot.initializeProtoBufObjects();
 
     if (signedTimeStampByteBuffer) {
       const signedTimeStampBuffer = signedTimeStampByteBuffer.toBuffer();
-      const signedTimeStamp = protoRoot.initializeProtoBufObjects().decodeSignedTimeStamp(signedTimeStampBuffer);
+      const signedTimeStamp = protoInst.decodeSignedTimeStamp(signedTimeStampBuffer);
       const strTs = signedTimeStamp.timestamp.toString();
-      const tsMicro = Number.parseInt(strTs);
+      const tsMicro = Number(strTs);
       const tsMilliSeconds = Math.round(tsMicro/1000);
       const dateTime = new Date(tsMilliSeconds);
 
