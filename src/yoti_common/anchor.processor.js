@@ -37,65 +37,148 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    */
   static process(anchors) {
     // This will contain a list of anchor values as objects
-    const anchorsData = {
-      sources: [],
-      verifiers: [],
-      processedValues: { // This is used to make sure the anchors values are unique
-        sources: [],
-        verifiers: [],
-      },
-    };
-
-    let anchorObj = {
-      value: '',
-      subType: '',
-      signedTimeStamp: '',
-      originServerCerts: '',
-    };
-
+    let anchorsData = this.getResultFormat();
     for (let i = 0; i < anchors.length; i += 1) {
-      const protoAnchor = anchors[i];
-      const certificatesList = protoAnchor.originServerCerts;
-
-      anchorObj = Object.assign(anchorObj, protoAnchor);
-      anchorObj.signedTimeStamp = this.processSignedTimeStamp(protoAnchor.getSignedTimeStamp());
-
-      for (let n = 0; n < certificatesList.length; n += 1) {
-        const certArrayBuffer = certificatesList[n];
-        const certificateObj = AnchorProcessor.convertCertToX509(certArrayBuffer);
-        const extensionsData = certificateObj.extensions;
-        const anchorTypes = AnchorProcessor.getAnchorTypes();
-
-        Object.keys(anchorTypes).forEach((key) => {
-          const oidIndex = AnchorProcessor.findOidIndex(extensionsData, { id: anchorTypes[key] });
-          if (oidIndex !== -1) {
-            const anchorExtension = extensionsData[oidIndex];
-            const anchorValue = anchorExtension.value;
-            // Convert Anchor value from ASN.1 format to an object
-            const extensionObj = forge.asn1.fromDer(anchorValue.toString('binary'));
-            if (extensionObj) {
-              const anchorParsedValue = extensionObj.value[0].value;
-              // Make sure the anchor values are unique
-              if (!anchorsData.processedValues[key].includes(anchorParsedValue)) {
-                anchorObj.value = anchorParsedValue;
-                const originServerCerts = anchorObj.originServerCerts;
-                const serverX509Certs = AnchorProcessor.convertCertsListToX509(originServerCerts);
-                anchorObj.originServerCerts = serverX509Certs;
-                anchorsData[key].push(new YotiAnchor(anchorObj));
-                anchorsData.processedValues[key].push(anchorObj.value);
-              }
-            }
-          }
-        }, anchorsData);
-      }
+      const yotiAnchorsList = this.processSingleAnchor(anchors[i]);
+      anchorsData = this.mergeAnchorsList(anchorsData, yotiAnchorsList);
     }
-    const resultData = [];
-    resultData.sources = anchorsData.sources;
-    resultData.verifiers = anchorsData.verifiers;
-    return resultData;
+    return anchorsData;
   }
 
-  static processSignedTimeStamp(signedTimeStampByteBuffer) {
+  /**
+   * Return YotiAnchors list from protobuf anchor.
+   *
+   * @param anchorObj
+   *
+   * @returns {Array}
+   */
+  static processSingleAnchor(anchorObj) {
+    let anchorsList = this.getResultFormat();
+
+    if (!anchorObj instanceof Object) {
+      return anchorsList;
+    }
+
+    const certificatesList = anchorObj.originServerCerts;
+    const yotiSignedTimeStamp = this.processSignedTimeStamp(anchorObj.getSignedTimeStamp());
+    const serverX509Certs = AnchorProcessor.convertCertsListToX509(anchorObj.originServerCerts);
+    const subType = anchorObj.getSubType();
+
+    for (let j = 0; j < certificatesList.length; j += 1) {
+      const certAnchors = this.getOidsAnchorsByCertificate(
+        certificatesList[j],
+        subType,
+        yotiSignedTimeStamp,
+        serverX509Certs
+      );
+      anchorsList = this.mergeAnchorsList(anchorsList, certAnchors);
+    }
+    return anchorsList;
+  }
+
+  /**
+   * Get Oids anchors from a single certificate.
+   *
+   * @param certArrayBuffer
+   * @param subType
+   * @param yotiSignedTimeStamp
+   * @param X509Certs
+   *
+   * @returns {Array}
+   */
+  static getOidsAnchorsByCertificate(certArrayBuffer, subType, yotiSignedTimeStamp, X509Certs) {
+    const anchorsList = this.getResultFormat();
+
+    if (!certArrayBuffer) {
+      return anchorsList;
+    }
+
+    const certificateObj = AnchorProcessor.convertCertToX509(certArrayBuffer);
+    const extensionsData = certificateObj.extensions;
+    const anchorTypes = this.getAnchorTypes();
+    const anchorTypesMap = this.getAnchorTypesMap();
+
+    // Find anchor value for each anchor type => oid
+    for (let x = 0; x < anchorTypes.length; x += 1) {
+      const anchorType = anchorTypes[x];
+      const oid = anchorTypesMap[anchorType];
+      const yotiAnchor = this.getAnchorByOid(
+        extensionsData,
+        subType,
+        yotiSignedTimeStamp,
+        X509Certs,
+        oid
+      );
+
+      if (yotiAnchor !== null) {
+        anchorsList[anchorType].push(yotiAnchor);
+      }
+    }
+    return anchorsList;
+  }
+
+  /**
+   * Return YotiAnchor object.
+   *
+   * @param extensionsData
+   * @param subTypeParam
+   * @param yotiSignedTimeStamp
+   * @param serverX509Certs
+   * @param oid
+   *
+   * @returns {*}
+   */
+  static getAnchorByOid(extensionsData, subTypeParam, yotiSignedTimeStamp, serverX509Certs, oid)
+  {
+    let yotiAnchor = null;
+    if (extensionsData && oid) {
+      const anchorValue = this.getAnchorValueByOid(extensionsData, oid);
+      if (anchorValue !== null) {
+        yotiAnchor = new YotiAnchor({
+          value: anchorValue,
+          subType: subTypeParam,
+          signedTimeStamp: yotiSignedTimeStamp,
+          originServerCerts: serverX509Certs,
+        });
+      }
+    }
+    return yotiAnchor;
+  }
+
+  /**
+   * Return Anchor value.
+   *
+   * @param extensionsData
+   * @param oid
+   *
+   * @returns {*}
+   */
+  static getAnchorValueByOid(extensionsData, oid)
+  {
+    let anchorValue = null;
+
+    const oidIndex = AnchorProcessor.findOidIndex(extensionsData, { id: oid });
+    if (oidIndex !== -1) {
+      const anchorExtension = extensionsData[oidIndex];
+      const anchorEncodedValue = anchorExtension.value;
+      // Convert Anchor value from ASN.1 format to an object
+      const extensionObj = forge.asn1.fromDer(anchorEncodedValue.toString('binary'));
+      if (extensionObj) {
+        anchorValue = extensionObj.value[0].value;
+      }
+    }
+    return anchorValue;
+  }
+
+  /**
+   * Return Yoti signedTimeStamp.
+   *
+   * @param signedTimeStampByteBuffer
+   *
+   * @returns {main}
+   */
+  static processSignedTimeStamp(signedTimeStampByteBuffer)
+  {
     const yotiSignedTimeStamp = new YotiSignedTimeStamp({ version: 0, timestamp: 0 });
     const protoInst = protoRoot.initializeProtoBufObjects();
 
@@ -110,8 +193,26 @@ module.exports.AnchorProcessor = class AnchorProcessor {
       yotiSignedTimeStamp.version = signedTimeStamp.getVersion();
       yotiSignedTimeStamp.timestamp = dateTime;
     }
-
     return yotiSignedTimeStamp;
+  }
+
+  /**
+   * Merge arrays by anchor type.
+   *
+   * @param targetList
+   * @param sourceList
+   * @returns {*}
+   */
+  static mergeAnchorsList(targetList, sourceList) {
+    const anchorTypes = this.getAnchorTypes();
+
+    for (let i = 0; i < anchorTypes.length; i += 1) {
+      const anchorType = anchorTypes[i];
+      sourceList[anchorType].forEach(yotiAnchorObj => {
+        targetList[anchorType].push(yotiAnchorObj);
+      });
+    }
+    return targetList;
   }
 
   /**
@@ -121,10 +222,11 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @returns {Array}
    */
-  static convertCertsListToX509(certificatesList) {
+  static convertCertsListToX509(certificatesList)
+  {
     const X509Certificates = [];
-    for (let c = 0; c < certificatesList.length; c += 1) {
-      const certificateObj = AnchorProcessor.convertCertToX509(certificatesList[c]);
+    for (let j = 0; j < certificatesList.length; j += 1) {
+      const certificateObj = AnchorProcessor.convertCertToX509(certificatesList[j]);
       if (certificateObj) {
         X509Certificates.push(certificateObj);
       }
@@ -139,7 +241,8 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @returns {the|*}
    */
-  static convertCertToX509(certArrayBuffer) {
+  static convertCertToX509(certArrayBuffer)
+  {
     const certBuffer = certArrayBuffer.toBuffer();
     const anchorAsn1Obj = forge.asn1.fromDer(certBuffer.toString('binary'));
     return forge.pki.certificateFromAsn1(anchorAsn1Obj);
@@ -153,7 +256,8 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @returns {number}
    */
-  static findOidIndex(array, anchorOidObj) {
+  static findOidIndex(array, anchorOidObj)
+  {
     let result = -1;
     array.forEach((el, index) => {
       const match = Object.keys(anchorOidObj).reduce(function (soFar, key) {
@@ -166,11 +270,32 @@ module.exports.AnchorProcessor = class AnchorProcessor {
     return result;
   }
 
-  static getAnchorTypes() {
+  /**
+   * @returns {Array}
+   */
+  static getResultFormat()
+  {
+    const resultData = [];
+    resultData.sources = [];
+    resultData.verifiers = [];
+    return resultData;
+  }
+
+  static getAnchorTypesMap() {
     const types = {};
     types.sources = '1.3.6.1.4.1.47127.1.1.1';
     types.verifiers = '1.3.6.1.4.1.47127.1.1.2';
 
     return types;
+  }
+
+  /**
+   * @returns {string[]}
+   */
+  static getAnchorTypes() {
+    return [
+      'sources',
+      'verifiers',
+    ];
   }
 };
