@@ -1,6 +1,6 @@
 {
   "name": "yoti-node-sdk-client-example",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A Yoti client example",
   "private": true,
   "author": "Yoti LTD <tech@yoti.com> (https://www.yoti.com/developers)",
@@ -14,7 +14,7 @@
     "dotenv": "5.0.1",
     "ejs": "2.5.8",
     "express": "4.16.3",
-    "yoti": "^3.1.1"
+    "yoti": "^3.2.0"
   },
   "devDependencies": {
     "eslint": "4.19.1",

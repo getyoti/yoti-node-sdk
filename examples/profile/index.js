@@ -21,9 +21,9 @@ function saveImage(selfie) {
   return new Promise((res, rej) => {
     try {
       fs.writeFileSync(
-        path.join(__dirname, 'static', 'YotiSelfie.jpeg'),
-        selfie.toBase64(),
-        'base64',
+          path.join(__dirname, 'static', 'YotiSelfie.jpeg'),
+          selfie.toBase64(),
+          'base64',
       );
       res();
     } catch (error) {
@@ -58,8 +58,9 @@ router.get('/profile', (req, res) => {
 
   const promise = yotiClient.getActivityDetails(token);
   promise.then((activityDetails) => {
-    const profile = activityDetails.getUserProfile();
-    const { selfie } = profile;
+    const userProfile = activityDetails.getUserProfile();
+    const profile = activityDetails.getProfile();
+    const { selfie } = userProfile;
 
     if (typeof selfie !== 'undefined') {
       saveImage(selfie);
@@ -68,6 +69,7 @@ router.get('/profile', (req, res) => {
     res.render('pages/profile', {
       userId: activityDetails.getUserId(),
       selfieUri: activityDetails.getBase64SelfieUri(),
+      userProfile,
       profile,
     });
   }).catch((err) => {
