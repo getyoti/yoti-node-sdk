@@ -5,7 +5,7 @@ const fs = require('fs');
 const config = require('../config');
 const profileService = require('../src/profile_service');
 
-const privateKeyFile = fs.readFileSync('./tests/keys/node-sdk-test.pem', 'utf8');
+const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 
 describe('profileService', () => {
   afterEach((done) => {
@@ -17,9 +17,9 @@ describe('profileService', () => {
     const userId = 'Hig2yAT79cWvseSuXcIuCLa5lNkAPy70rxetUaeHlTJGmiwc/g1MWdYWYrexWvPU';
 
     context('when the profile has attributes', () => {
-      const response = fs.readFileSync('./tests/payloads/payload.json', 'utf8');
+      const response = fs.readFileSync('./tests/sample-data/payloads/payload.json', 'utf8');
 
-      const selfie = fs.readFileSync('./tests/fixtures/selfie.txt', 'utf8');
+      const selfie = fs.readFileSync('./tests/sample-data/fixtures/selfie.txt', 'utf8');
       const phoneNumber = '+447474747474';
 
       beforeEach((done) => {
@@ -49,7 +49,7 @@ describe('profileService', () => {
     });
 
     context('when the profile is empty', () => {
-      const responseContentNull = fs.readFileSync('./tests/payloads/payload-other-party-null.json', 'utf8');
+      const responseContentNull = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-null.json', 'utf8');
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
@@ -76,7 +76,7 @@ describe('profileService', () => {
     });
 
     context('when the profile contains an empty object', () => {
-      const responseContentEmptyObj = fs.readFileSync('./tests/payloads/payload-other-party-empty-object.json', 'utf8');
+      const responseContentEmptyObj = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-empty-object.json', 'utf8');
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
@@ -103,7 +103,7 @@ describe('profileService', () => {
     });
 
     context('when the response does not have profile attributes', () => {
-      const responseContentNonExistent = fs.readFileSync('./tests/payloads/payload-other-party-non-existent.json', 'utf8');
+      const responseContentNonExistent = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-non-existent.json', 'utf8');
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)

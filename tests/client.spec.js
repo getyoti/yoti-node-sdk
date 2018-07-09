@@ -8,13 +8,13 @@ const AmlAddress = require('../src/aml_type').AmlAddress;
 const AmlProfile = require('../src/aml_type').AmlProfile;
 const Payload = require('../src/request/payload').Payload;
 
-const privateKeyFile = fs.readFileSync('./tests/keys/node-sdk-test.pem', 'utf8');
+const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 const yotiClient = new yoti.Client('stub-app-id', privateKeyFile);
 
 describe('yotiClient', () => {
   const encryptedYotiToken = 'c31Db4y6ClxSWy26xDpa9LEX3ZTUuR-rKaAhjQWnmKilR20IshkysR5Y3Hh3R6hanOyxcu7fl5vbjikkGZZb3_iH6NjxmBXuGY_Fr23AhrHvGL9WMg4EtemVvr6VI2f_5H_PDhDpYUvv-YpEM0f_SReoVxGIc8VGfj1gukuhPyNJ9hs55-SDdUjN77JiA6FPcYZxEIaqQE_yT_c3Y4V72Jnq3RHbG0vL6SefSfY_fFsnx_HeddsJc10qJYCwAkdGzVzbJH2DQ2Swp821Gwyj9eNK54S6HvpIg7LclID7BtymG6z7cTNp3fXX7mgKYoQlh_DHmPmaiqyj398w424RBg==';
 
-  const selfie = fs.readFileSync('./tests/fixtures/selfie.txt', 'utf8');
+  const selfie = fs.readFileSync('./tests/sample-data/fixtures/selfie.txt', 'utf8');
   const phoneNumber = '+447474747474';
   const userId = 'Hig2yAT79cWvseSuXcIuCLa5lNkAPy70rxetUaeHlTJGmiwc/g1MWdYWYrexWvPU';
 
@@ -25,7 +25,7 @@ describe('yotiClient', () => {
 
   describe('#getActivityDetails', () => {
     context('when the profile has attributes', () => {
-      const responseContent = fs.readFileSync('./tests/payloads/payload.json', 'utf8');
+      const responseContent = fs.readFileSync('./tests/sample-data/payloads/payload.json', 'utf8');
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
@@ -54,7 +54,7 @@ describe('yotiClient', () => {
     });
 
     context('when the profile is empty', () => {
-      const responseContentNull = fs.readFileSync('./tests/payloads/payload-other-party-null.json', 'utf8');
+      const responseContentNull = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-null.json', 'utf8');
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
@@ -81,7 +81,7 @@ describe('yotiClient', () => {
     });
 
     context('when the profile contains an empty object', () => {
-      const responseContentEmptyObj = fs.readFileSync('./tests/payloads/payload-other-party-empty-object.json', 'utf8');
+      const responseContentEmptyObj = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-empty-object.json', 'utf8');
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
@@ -108,7 +108,7 @@ describe('yotiClient', () => {
     });
 
     context('when the response does not have profile attributes', () => {
-      const responseContentNonExistent = fs.readFileSync('./tests/payloads/payload-other-party-non-existent.json', 'utf8');
+      const responseContentNonExistent = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-non-existent.json', 'utf8');
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
@@ -139,7 +139,7 @@ describe('yotiClient', () => {
     const amlAddress = new AmlAddress('GBR');
     const amlProfile = new AmlProfile('Edward Richard George', 'Heath', amlAddress);
     const amlPayload = new Payload(amlProfile.getData());
-    const amlCheckResult = fs.readFileSync('./tests/responses/aml-check-result.json', 'utf8');
+    const amlCheckResult = fs.readFileSync('./tests/sample-data/responses/aml-check-result.json', 'utf8');
 
     beforeEach((done) => {
       nock(`${config.yoti.connectApi}`)

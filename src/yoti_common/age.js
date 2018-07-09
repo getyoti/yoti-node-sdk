@@ -1,9 +1,10 @@
 'use strict';
 
+const AGE_PATTERN = 'age(Under|Over):[1-9][0-9]';
+
 module.exports.Age = class Age {
   constructor(profileData) {
     this.profileData = profileData;
-    this.pattern = 'age(Under|Over):[1-9][0-9]';
     this.attrValue = null;
   }
 
@@ -22,7 +23,7 @@ module.exports.Age = class Age {
   }
 
   extractAgeValue() {
-    const regex = new RegExp(this.pattern);
+    const regex = new RegExp(AGE_PATTERN);
     if (!(this.profileData instanceof Object)) {
       return;
     }
@@ -32,5 +33,13 @@ module.exports.Age = class Age {
         this.attrValue = profile[key];
       }
     }, this);
+  }
+
+  static conditionVerified(attrName) {
+    const regex = new RegExp(AGE_PATTERN);
+    if (regex.exec(attrName) !== null) {
+      return true;
+    }
+    return false;
   }
 };
