@@ -40,13 +40,13 @@ module.exports.AnchorProcessor = class AnchorProcessor {
     let anchorsData = this.getResultFormat();
     for (let i = 0; i < anchors.length; i += 1) {
       const yotiAnchorsList = this.processSingleAnchor(anchors[i]);
-      anchorsData = this.mergeAnchorsList(anchorsData, yotiAnchorsList);
+      anchorsData = this.mergeAnchorsLists(anchorsData, yotiAnchorsList);
     }
     return anchorsData;
   }
 
   /**
-   * Return YotiAnchors list from protobuf anchor.
+   * Return YotiAnchors list from a protobuf anchor.
    *
    * @param anchorObj
    *
@@ -65,19 +65,19 @@ module.exports.AnchorProcessor = class AnchorProcessor {
     const subType = anchorObj.getSubType();
 
     for (let j = 0; j < certificatesList.length; j += 1) {
-      const certAnchors = this.getOidsAnchorsByCertificate(
+      const certAnchors = this.getAnchorsByCertificate(
         certificatesList[j],
         subType,
         yotiSignedTimeStamp,
         serverX509Certs
       );
-      anchorsList = this.mergeAnchorsList(anchorsList, certAnchors);
+      anchorsList = this.mergeAnchorsLists(anchorsList, certAnchors);
     }
     return anchorsList;
   }
 
   /**
-   * Get Oids anchors from a single certificate.
+   * Get anchors from a single certificate.
    *
    * @param certArrayBuffer
    * @param subType
@@ -86,7 +86,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @returns {Array}
    */
-  static getOidsAnchorsByCertificate(certArrayBuffer, subType, yotiSignedTimeStamp, X509Certs) {
+  static getAnchorsByCertificate(certArrayBuffer, subType, yotiSignedTimeStamp, X509Certs) {
     const anchorsList = this.getResultFormat();
 
     if (!certArrayBuffer) {
@@ -128,8 +128,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @returns {*}
    */
-  static getAnchorByOid(extensionsData, subTypeParam, yotiSignedTimeStamp, serverX509Certs, oid)
-  {
+  static getAnchorByOid(extensionsData, subTypeParam, yotiSignedTimeStamp, serverX509Certs, oid) {
     let yotiAnchor = null;
     if (extensionsData && oid) {
       const anchorValue = this.getAnchorValueByOid(extensionsData, oid);
@@ -153,8 +152,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @returns {*}
    */
-  static getAnchorValueByOid(extensionsData, oid)
-  {
+  static getAnchorValueByOid(extensionsData, oid) {
     let anchorValue = null;
 
     const oidIndex = AnchorProcessor.findOidIndex(extensionsData, { id: oid });
@@ -177,8 +175,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @returns {main}
    */
-  static processSignedTimeStamp(signedTimeStampByteBuffer)
-  {
+  static processSignedTimeStamp(signedTimeStampByteBuffer) {
     const yotiSignedTimeStamp = new YotiSignedTimeStamp({ version: 0, timestamp: 0 });
     const protoInst = protoRoot.initializeProtoBufObjects();
 
@@ -203,7 +200,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    * @param sourceList
    * @returns {*}
    */
-  static mergeAnchorsList(targetList, sourceList) {
+  static mergeAnchorsLists(targetList, sourceList) {
     const anchorTypes = this.getAnchorTypes();
 
     for (let i = 0; i < anchorTypes.length; i += 1) {
@@ -222,8 +219,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @returns {Array}
    */
-  static convertCertsListToX509(certificatesList)
-  {
+  static convertCertsListToX509(certificatesList) {
     const X509Certificates = [];
     for (let j = 0; j < certificatesList.length; j += 1) {
       const certificateObj = AnchorProcessor.convertCertToX509(certificatesList[j]);
@@ -241,8 +237,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @returns {the|*}
    */
-  static convertCertToX509(certArrayBuffer)
-  {
+  static convertCertToX509(certArrayBuffer) {
     const certBuffer = certArrayBuffer.toBuffer();
     const anchorAsn1Obj = forge.asn1.fromDer(certBuffer.toString('binary'));
     return forge.pki.certificateFromAsn1(anchorAsn1Obj);
@@ -256,8 +251,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @returns {number}
    */
-  static findOidIndex(array, anchorOidObj)
-  {
+  static findOidIndex(array, anchorOidObj) {
     let result = -1;
     array.forEach((el, index) => {
       const match = Object.keys(anchorOidObj).reduce(function (soFar, key) {
@@ -273,8 +267,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
   /**
    * @returns {Array}
    */
-  static getResultFormat()
-  {
+  static getResultFormat() {
     const resultData = [];
     resultData.sources = [];
     resultData.verifiers = [];
@@ -282,11 +275,10 @@ module.exports.AnchorProcessor = class AnchorProcessor {
   }
 
   static getAnchorTypesMap() {
-    const types = {};
-    types.sources = '1.3.6.1.4.1.47127.1.1.1';
-    types.verifiers = '1.3.6.1.4.1.47127.1.1.2';
-
-    return types;
+    return {
+      sources: '1.3.6.1.4.1.47127.1.1.1',
+      verifiers: '1.3.6.1.4.1.47127.1.1.2',
+    };
   }
 
   /**

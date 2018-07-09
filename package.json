@@ -1,6 +1,6 @@
 {
   "name": "yoti",
-  "version": "3.1.1",
+  "version": "3.2.0",
   "description": "Yoti NodeJS SDK for back-end integration",
   "author": "Yoti LTD <tech@yoti.com> (https://www.yoti.com/developers)",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "url": "https://github.com/getyoti/yoti-node-sdk.git"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=8.0.0"
   },
   "scripts": {
     "lint": "node_modules/.bin/eslint *.js src/*.js src/**/*.js tests/*.spec.js examples/**/*.js config/*.js",
