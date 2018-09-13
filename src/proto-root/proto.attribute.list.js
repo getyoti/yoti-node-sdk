@@ -1,6 +1,7 @@
 'use strict';
 
 const Age = require('../yoti_common/age').Age;
+const {AttributeConverter} = require('../yoti_common/attribute.converter');
 const AnchorProcessor = require('../yoti_common/anchor.processor').AnchorProcessor;
 
 module.exports = {
@@ -17,27 +18,34 @@ module.exports = {
       const attrValue = attribute.getValue();
       const attrType = attribute.getContentType();
       const processedAnchors = AnchorProcessor.process(attribute.anchors);
-      const attrConvertedValue = this.convertValueBasedOnContentType(attrValue, attrType);
+      const convertedValueByType = this.convertValueBasedOnContentType(attrValue, attrType);
+      const attrNameInCamelCase = this.toCamelCase(attrName);
 
-      const attrObj = {
-        name: attrName,
-        value: attrConvertedValue,
-        sources: processedAnchors.sources,
-        verifiers: processedAnchors.verifiers,
-      };
-      attrList.push({ [this.toCamelCase(attrName)]: attrConvertedValue });
+      attrList.push({ [attrNameInCamelCase]: convertedValueByType });
 
       if (attrName === 'selfie') {
         const imageUriValue = this.imageUriBasedOnContentType(attrValue, attrType);
         attrList.push({ base64SelfieUri: imageUriValue });
       }
 
-      if (Age.conditionVerified(this.toCamelCase(attrName))) {
-        const ageCondition = Object.assign({}, attrObj);
+      let attrData = null;
+      try {
+        const convertedValueByName = AttributeConverter.convertValueBaseOnAttributeName(convertedValueByType, attrName);
+        attrData = {
+          name: attrName,
+          value: convertedValueByName,
+          sources: processedAnchors.sources,
+          verifiers: processedAnchors.verifiers,
+        };
+      } catch(err) {
+        console.log(err.message);
+      }
+      profileAttributes[attrName] = attrData;
+
+      if (attrData && Age.conditionVerified(attrNameInCamelCase)) {
+        const ageCondition = Object.assign({}, attrData);
         ageCondition.name = 'age_verified';
         profileAttributes.age_verified = ageCondition;
-      } else {
-        profileAttributes[attrName] = attrObj;
       }
     }
     attrList.push({ extendedProfile: profileAttributes });
