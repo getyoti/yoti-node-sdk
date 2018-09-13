@@ -1,20 +1,7 @@
 'use strict';
 
 const constants = require('../yoti_common/constants');
-
-const Attribute = function main(attrObj) {
-  this.value = attrObj.value;
-  this.name = attrObj.name;
-  this.sources = attrObj.sources;
-  this.verifiers = attrObj.verifiers;
-};
-
-Attribute.prototype = {
-  getValue() { return this.value; },
-  getName() { return this.name; },
-  getSources() { return this.sources; },
-  getVerifiers() { return this.verifiers; },
-};
+const {Attribute} = require('../data_type/attribute');
 
 module.exports.Profile = class Profile {
   constructor(profileData) {
@@ -103,6 +90,13 @@ module.exports.Profile = class Profile {
    */
   getStructuredPostalAddress() {
     return this.getAttribute(constants.ATTR_STRUCTURED_POSTAL_ADDRESS);
+  }
+
+  /**
+   * @returns {null|DocumentDetails}
+   */
+  getDocumentDetails() {
+    return this.getAttribute(constants.ATTR_DOCUMENT_DETAILS);
   }
 
   /**

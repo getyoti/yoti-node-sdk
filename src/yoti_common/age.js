@@ -1,6 +1,6 @@
 'use strict';
 
-const AGE_PATTERN = 'age(Under|Over):[1-9][0-9]';
+const AGE_PATTERN = /^age(Under|Over):[1-9][0-9]*$/;
 
 module.exports.Age = class Age {
   constructor(profileData) {
@@ -37,9 +37,6 @@ module.exports.Age = class Age {
 
   static conditionVerified(attrName) {
     const regex = new RegExp(AGE_PATTERN);
-    if (regex.exec(attrName) !== null) {
-      return true;
-    }
-    return false;
+    return regex.exec(attrName) !== null;
   }
 };
