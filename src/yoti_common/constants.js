@@ -21,5 +21,6 @@ module.exports = Object.freeze({
   ATTR_SELFIE: 'selfie',
   ATTR_EMAIL_ADDRESS: 'email_address',
   ATTR_POSTAL_ADDRESS: 'postal_address',
+  ATTR_DOCUMENT_DETAILS: 'document_details',
   ATTR_STRUCTURED_POSTAL_ADDRESS: 'structured_postal_address',
 });
