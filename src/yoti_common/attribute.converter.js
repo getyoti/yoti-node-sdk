@@ -1,15 +1,15 @@
 'use strict';
 
 const constants = require('./constants');
-const {DocumentDetails} = require('../data_type/document.details');
+const { DocumentDetails } = require('../data_type/document.details');
 
 module.exports.AttributeConverter = class AttributeConverter {
-  static convertValueBaseOnAttributeName(value, attrName) {
+  static convertValueBasedOnAttributeName(value, attrName) {
     if (!value) {
       return null;
     }
 
-    switch(attrName) {
+    switch (attrName) {
       case constants.ATTR_DOCUMENT_DETAILS:
         return new DocumentDetails(value);
       default:

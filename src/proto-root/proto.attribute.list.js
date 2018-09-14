@@ -1,7 +1,7 @@
 'use strict';
 
 const Age = require('../yoti_common/age').Age;
-const {AttributeConverter} = require('../yoti_common/attribute.converter');
+const { AttributeConverter } = require('../yoti_common/attribute.converter');
 const AnchorProcessor = require('../yoti_common/anchor.processor').AnchorProcessor;
 
 module.exports = {
@@ -30,14 +30,17 @@ module.exports = {
 
       let attrData = null;
       try {
-        const convertedValueByName = AttributeConverter.convertValueBaseOnAttributeName(convertedValueByType, attrName);
+        const convertedValueByName = AttributeConverter.convertValueBasedOnAttributeName(
+          convertedValueByType,
+          attrName
+        );
         attrData = {
           name: attrName,
           value: convertedValueByName,
           sources: processedAnchors.sources,
           verifiers: processedAnchors.verifiers,
         };
-      } catch(err) {
+      } catch (err) {
         console.log(err.message);
       }
       profileAttributes[attrName] = attrData;
