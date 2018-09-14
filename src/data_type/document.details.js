@@ -27,6 +27,7 @@ module.exports.DocumentDetails = class DocumentDetails {
     this.type = parsedValues[TYPE_INDEX];
     this.issuingCountry = parsedValues[COUNTRY_INDEX];
     this.documentNumber = parsedValues[NUMBER_INDEX];
+
     if (parsedValues.length > EXPIRATION_INDEX) {
       const dateValue = parsedValues[EXPIRATION_INDEX];
       const dateObj = new Date(dateValue);
@@ -36,6 +37,7 @@ module.exports.DocumentDetails = class DocumentDetails {
       }
       this.expirationDate = dateValue !== '-' ? dateObj : null;
     }
+
     if (parsedValues.length > AUTHORITY_INDEX) {
       this.issuingAuthority = parsedValues[AUTHORITY_INDEX];
     }
