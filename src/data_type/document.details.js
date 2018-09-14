@@ -42,4 +42,20 @@ module.exports.DocumentDetails = class DocumentDetails {
       this.issuingAuthority = parsedValues[AUTHORITY_INDEX];
     }
   }
+
+  getType() {
+    return this.type;
+  }
+
+  getIssuingCountry() {
+    return this.issuingCountry;
+  }
+
+  getDocumentNumber() {
+    return this.documentNumber;
+  }
+
+  getExpirationDate() {
+    return this.expirationDate;
+  }
 };

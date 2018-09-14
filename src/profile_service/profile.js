@@ -1,7 +1,7 @@
 'use strict';
 
 const constants = require('../yoti_common/constants');
-const {Attribute} = require('../data_type/attribute');
+const { Attribute } = require('../data_type/attribute');
 
 module.exports.Profile = class Profile {
   constructor(profileData) {

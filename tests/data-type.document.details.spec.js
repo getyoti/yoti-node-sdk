@@ -1,26 +1,26 @@
 const expect = require('chai').expect;
-const {DocumentDetails} = require('../src/data_type/document.details');
+const { DocumentDetails } = require('../src/data_type/document.details');
 
 describe('documentDetails', () => {
-  context('when value is empty', (done) => {
+  context('when value is empty', () => {
     it('it should throw an exception', () => {
       try {
         const documentDetails = new DocumentDetails('');
-      } catch(err) {
+      } catch (err) {
         expect(err.message).to.equal('Invalid value for DocumentDetails');
       }
     });
   });
-  context('when value is less than 3 words', (done) => {
+  context('when value is less than 3 words', () => {
     it('it should throw an exception', () => {
       try {
         const documentDetails = new DocumentDetails('PASS_CARD GBR');
-      } catch(err) {
+      } catch (err) {
         expect(err.message).to.equal('Invalid value for DocumentDetails');
       }
     });
   });
-  context('when value is four words', (done) => {
+  context('when value is four words', () => {
     it('it should parse one optional attribute', () => {
       const documentDetails = new DocumentDetails('PASSPORT GBR 01234567 2020-01-01');
       expect(documentDetails.type).to.equal('PASSPORT');
@@ -29,7 +29,7 @@ describe('documentDetails', () => {
       expect(documentDetails.expirationDate.toISOString().slice(0,10)).to.equal('2020-01-01');
     });
   });
-  context('when value is five words', (done) => {
+  context('when value is five words', () => {
     it('it should parse two optional attributes', () => {
       const documentDetails = new DocumentDetails('DRIVING_LICENCE GBR 1234abc 2016-05-01 DVLA');
       expect(documentDetails.type).to.equal('DRIVING_LICENCE');
@@ -39,7 +39,7 @@ describe('documentDetails', () => {
       expect(documentDetails.issuingAuthority).to.equal('DVLA');
     });
   });
-  context('when value is more than five words', (done) => {
+  context('when value is more than five words', () => {
     it('it should parse only two optional attributes', () => {
       const documentDetails = new DocumentDetails('DRIVING_LICENCE GBR 1234abc 2016-05-01 DVLA someThirdAttribute');
       expect(documentDetails.type).to.equal('DRIVING_LICENCE');
@@ -49,25 +49,25 @@ describe('documentDetails', () => {
       expect(documentDetails.issuingAuthority).to.equal('DVLA');
     });
   });
-  context('when value has invalid country 13', (done) => {
+  context('when value has invalid country 13', () => {
     it('it should throw an exception', () => {
       try {
         const documentDetails = new DocumentDetails('PASSPORT 13 1234abc 2016-05-01');
-      } catch(err) {
+      } catch (err) {
         expect(err.message).to.equal('Invalid value for DocumentDetails');
       }
     });
   });
-  context('when value has invalid document number', (done) => {
+  context('when value has invalid document number', () => {
     it('it should throw an exception', () => {
       try {
         const documentDetails = new DocumentDetails('PASSPORT GBR $%^$%^£ 2016-05-01');
-      } catch(err) {
+      } catch (err) {
         expect(err.message).to.equal('Invalid value for DocumentDetails');
       }
     });
   });
-  context('when expiration Date is set to dash (-)', (done) => {
+  context('when expiration Date is set to dash (-)', () => {
     it('it should return NULL for date value', () => {
       const documentDetails = new DocumentDetails('PASS_CARD GBR 22719564893 - CITIZENCARD');
       expect(documentDetails.type).to.equal('PASS_CARD');
@@ -77,11 +77,11 @@ describe('documentDetails', () => {
       expect(documentDetails.issuingAuthority).to.equal('CITIZENCARD');
     });
   });
-  context('when there is an invalid date', (done) => {
+  context('when there is an invalid date', () => {
     it('it should throw an exception', () => {
       try {
         const documentDetails = new DocumentDetails('PASSPORT GBR 1234abc X016-05-01');
-      } catch(err) {
+      } catch (err) {
         expect(err.message).to.equal('Invalid Date');
       }
     });
