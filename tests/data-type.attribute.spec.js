@@ -1,12 +1,14 @@
 const fs = require('fs');
 const expect = require('chai').expect;
 const protoRoot = require('../src/proto-root').initializeProtoBufObjects();
+const AnchorProcessor = require('../src/yoti_common/anchor.processor').AnchorProcessor;
 
 const { Attribute } = require('../src/data_type/attribute');
 const { DocumentDetails } = require('../src/data_type/document.details');
 
 function parseAnchorData(anchorString) {
-  return protoRoot.builder.attrpubapi_v1.Anchor.decode(anchorString);
+  const anchorObj = protoRoot.builder.attrpubapi_v1.Anchor.decode(anchorString);
+  return AnchorProcessor.process([anchorObj]);
 }
 
 describe('Attribute', () => {
@@ -16,8 +18,8 @@ describe('Attribute', () => {
   const attributeObj = new Attribute({
     value: documentDetails,
     name: 'document_details',
-    sources: [parseAnchorData(dlSourceAnchor)],
-    verifiers: [parseAnchorData(verifierAnchor)],
+    sources: parseAnchorData(dlSourceAnchor)['sources'],
+    verifiers: parseAnchorData(verifierAnchor)['verifiers'],
   });
 
   context('Attribute.getValue()', () => {
@@ -33,6 +35,11 @@ describe('Attribute', () => {
   context('Attribute.getSources()[0]', () => {
     it('it should return an Anchor object', () => {
       expect(attributeObj.getSources()[0]).to.be.an('object');
+      expect(attributeObj.getSources()[0].getValue()).to.equal('DRIVING_LICENCE');
+      expect(attributeObj.getSources()[0].getSubType()).to.equal('');
+      expect(attributeObj.getSources()[0].getSignedTimeStamp().getTimestamp()
+          .toUTCString()).to.equal('Wed, 11 Apr 2018 12:13:03 GMT');
+      expect(attributeObj.getSources()[0].getOriginServerCerts()[0].signatureOid).to.equal('1.2.840.113549.1.1.11');
     });
   });
   context('Attribute.getVerifiers()[0]', () => {
