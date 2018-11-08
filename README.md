@@ -169,29 +169,28 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
 [Example reference](examples/profile/index.js)
 
 
-## Programmatic QR code creation
+## Dynamic Policy Generation
 
-Dynamic attribute list generation is a way of requesting non-static attribute lists for your application.
+Dynamic policy generation is a way of requesting non-static policies for your application
 
-This is useful when you want or need different permutations of attributes from Yoti, without having to create a new application.
+This is useful when you want or need different permutations of attributes from Yoti
 
 E.g:
-
+ 
 * Request 1: full-name and date-of-birth
 * Request 2: full-name and address
 
-This service will query Yoti for a QR Code/link associated with the requested attribute list.
+This service will query Yoti Core (via Connect) for a QR Code/link associated with the requested policy.
 
-This QR Code/link should then be embedded into your page using the Yoti widget to begin a share with Yoti.
+This QR Code/link should then be embedded into your page using the Connect widget to begin a share with Yoti.
 
 ```javascript
 
-yoticlient.getDynamicAttributeListQRCodeLink(dynamicAttributeListRequest)
-    .then((DynamicAttributeListResult) => {
-        const qrCode = DynamicAttributeListResult.getQRCodeLink();
-        const refId = DynamicAttributeListResult.getRefId();
-        const qr-code-div = document.getElementById('qr-code-div);
-        qr-code-div.innerHTML = qrCode;
+yoticlient.getDynamicPolicyQRCodeLink(dynamicPolicyRequest)
+    .then((dynamicPolicyResult) => {
+        const qrCode = dynamicPolicyResult.getQRCodeLink();
+        const refId = dynamicPolicyResult.getRefId();
+        // Perform operation with qrcode
     })
 
 ```
