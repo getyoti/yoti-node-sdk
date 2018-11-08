@@ -24,18 +24,21 @@ How to initialise your configuration
 6) [Profile Retrieval](#profile-retrieval) -
 How to retrieve a Yoti profile using the token
 
-7) [Handling Users](#handling-users) -
+7) [Dynamic Policy Generation](#dynamic-policy-generation) -
+How to retrieve a qrcode link for dynamic policies
+
+8) [Handling Users](#handling-users) -
 How to manage users
 
-8) [AML Integration](#aml-integration) -
+9) [AML Integration](#aml-integration) -
 How to integrate with Yoti's AML (Anti Money Laundering) service
 
-9) [Running the Examples](#running-the-examples)
+10) [Running the Examples](#running-the-examples)
 
-10) [API Coverage](#api-coverage) -
+11) [API Coverage](#api-coverage) -
 Attributes defined
 
-11) [Support](#support) -
+12) [Support](#support) -
 Please feel free to reach out
 
 ## An Architectural View
@@ -164,6 +167,34 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
 ```
 
 [Example reference](examples/profile/index.js)
+
+
+## Dynamic Policy Generation
+
+Dynamic policy generation is a way of requesting non-static policies for your application
+
+This is useful when you want or need different permutations of attributes from Yoti
+
+E.g:
+ 
+* Request 1: full-name and date-of-birth
+* Request 2: full-name and address
+
+This service will query Yoti Core (via Connect) for a QR Code/link associated with the requested policy.
+
+This QR Code/link should then be embedded into your page using the Connect widget to begin a share with Yoti.
+
+```javascript
+
+yoticlient.getDynamicPolicyQRCodeLink(dynamicPolicyRequest)
+    .then((dynamicPolicyResult) => {
+        const qrCode = dynamicPolicyResult.getQRCodeLink();
+        const refId = dynamicPolicyResult.getRefId();
+        // Perform operation with qrcode
+    })
+
+```
+
 
 ## Handling Users
 
