@@ -28,4 +28,12 @@ module.exports = Object.freeze({
   ATTR_APPLICATION_LOGO: 'application_logo',
   ATTR_APPLICATION_URL: 'application_url',
   ATTR_APPLICATION_RECEIPT_BGCOLOR: 'application_receipt_bgcolor',
+  CALLBACK_ENDPOINT: 'callback_endpoint',
+  QRCODE: 'qrcode',
+  REF_ID: 'ref_id',
+  POLICY: 'policy',
+  WANTED: 'wanted',
+  WANTED_AUTH_TYPES: 'wanted_auth_types',
+  WANTED_REMEMBER_ME: 'wanted_remember_me',
+  EXTENSIONS: 'extensions',
 });
