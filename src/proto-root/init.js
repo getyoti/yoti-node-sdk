@@ -34,7 +34,7 @@ function buildProtoBufObject() {
     commonEncryptedData,
     signedTimeStamp
 
-  );
+);
 }
 
 module.exports.getInstance = () => {

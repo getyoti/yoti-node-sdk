@@ -17,7 +17,7 @@ YotiAnchor.prototype = {
   getOriginServerCerts() { return this.originServerCerts; },
 };
 
-const YotiSignedTimeStamp = function main(timeStampObj) {
+const YotiSignedTimeStamp = function main (timeStampObj) {
   this.version = timeStampObj.version;
   this.timestamp = timeStampObj.timestamp;
 };
@@ -55,7 +55,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
   static processSingleAnchor(anchorObj) {
     let anchorsList = this.getResultFormat();
 
-    if (!(anchorObj instanceof Object)) {
+    if (!anchorObj instanceof Object) {
       return anchorsList;
     }
 
@@ -184,7 +184,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
       const signedTimeStamp = protoInst.decodeSignedTimeStamp(signedTimeStampBuffer);
       const strTs = signedTimeStamp.timestamp.toString();
       const tsMicro = Number(strTs);
-      const tsMilliSeconds = Math.round(tsMicro / 1000);
+      const tsMilliSeconds = Math.round(tsMicro/1000);
       const dateTime = new Date(tsMilliSeconds);
 
       yotiSignedTimeStamp.version = signedTimeStamp.getVersion();
@@ -205,7 +205,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
 
     for (let i = 0; i < anchorTypes.length; i += 1) {
       const anchorType = anchorTypes[i];
-      sourceList[anchorType].forEach((yotiAnchorObj) => {
+      sourceList[anchorType].forEach(yotiAnchorObj => {
         targetList[anchorType].push(yotiAnchorObj);
       });
     }
