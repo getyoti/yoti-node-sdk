@@ -57,6 +57,11 @@ Yoti also allows you to enable user details verification from your mobile app by
 
 ## Requirements
 
+### Node version 
+We currently support up to Node version 8, Node version 10 is not supported.
+
+### Windows users
+
 If you're planning on using the Node SDK on Windows, you'll need to install a few dependencies first:
 
 * [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) (normal version, not light) in the same bitness as your Node.js installation.
