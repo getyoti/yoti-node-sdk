@@ -17,6 +17,7 @@ describe('yotiClient', () => {
   const selfie = fs.readFileSync('./tests/sample-data/fixtures/selfie.txt', 'utf8');
   const phoneNumber = '+447474747474';
   const userId = 'Hig2yAT79cWvseSuXcIuCLa5lNkAPy70rxetUaeHlTJGmiwc/g1MWdYWYrexWvPU';
+  const parentRememberMeId = 'f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrNijH4k4qafTG0FSNUgQIvd2Z3Nx1j8';
 
   afterEach((done) => {
     nock.cleanAll();
@@ -42,6 +43,7 @@ describe('yotiClient', () => {
 
             expect(profile).to.not.equal(undefined);
             expect(activityDetails.getUserId()).to.equal(userId);
+            expect(activityDetails.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(profile.phoneNumber).to.equal(phoneNumber);
             expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).to.equal(selfie);
             expect(activityDetails.getBase64SelfieUri()).to.equal(selfie);
@@ -72,6 +74,7 @@ describe('yotiClient', () => {
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
             expect(activityDetails.getUserId()).to.equal(userId);
+            expect(activityDetails.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(outcome).to.equal('SUCCESS');
 
             done();
@@ -99,6 +102,7 @@ describe('yotiClient', () => {
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
             expect(activityDetails.getUserId()).to.equal(userId);
+            expect(activityDetails.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(outcome).to.equal('SUCCESS');
 
             done();
@@ -126,6 +130,7 @@ describe('yotiClient', () => {
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
             expect(activityDetails.getUserId()).to.equal(userId);
+            expect(activityDetails.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(outcome).to.equal('SUCCESS');
 
             done();
