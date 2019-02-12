@@ -50,26 +50,25 @@ describe('YotiResponse', () => {
         'Accept': 'application/json',
       };
       Object.keys(expectedHeaders).forEach(header => {
-        let headerValue = expectedHeaders[header];
-        let apiUri = new RegExp('^/api/v1/' + header + '/stub?');
-
         beforeEach((done) => {
+          let apiUri = new RegExp(`^/api/v1/${header}/stub?`);
+
           // Return success result when correct headers are provided.
-          nock(`${config.yoti.connectApi}` + '/' + header)
-            .matchHeader(header, headerValue)
+          nock(`${config.yoti.connectApi}/${header}`)
+            .matchHeader(header, expectedHeaders[header])
             .get(apiUri)
             .reply(200, {'result': 'correct header'});
 
           // Return failure result if the header isn't matched.
-          nock(`${config.yoti.connectApi}` + '/' + header)
+          nock(`${config.yoti.connectApi}/${header}`)
             .get(apiUri)
             .reply(200, {'result': 'incorrect header'});
 
           done();
         });
 
-        it('should have the correct ' + header + ' header', (done) => {
-          request.makeRequest('GET', '/' + header + '/stub', privateKeyFile, 'stub-app-id', new Payload(''))
+        it(`should have the correct ${header} header`, (done) => {
+          request.makeRequest('GET', `/${header}/stub`, privateKeyFile, 'stub-app-id', new Payload(''))
             .then((response) => {
               expect(response.parsedResponse.result).to.equal('correct header');
               done();
