@@ -11,6 +11,8 @@ const Payload = require('../src/request/payload').Payload;
 
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 
+const yotiPackage = require('../package.json');
+
 describe('YotiResponse', () => {
   describe('#makeRequest', () => {
     const amlAddress = new AmlAddress('GBR');
@@ -35,6 +37,45 @@ describe('YotiResponse', () => {
             done();
           })
           .catch(done);
+      });
+    });
+
+    context('when making an API request', () => {
+      const expectedHeaders = {
+        'X-Yoti-SDK': 'Node',
+        'X-Yoti-SDK-Version': yotiPackage.version,
+        'X-Yoti-Auth-Key': new RegExp('^[a-zA-Z0-9]+'),
+        'X-Yoti-Auth-Digest': new RegExp('^[a-zA-Z0-9]+'),
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+      Object.keys(expectedHeaders).forEach(header => {
+        let headerValue = expectedHeaders[header];
+        let apiUri = new RegExp('^/api/v1/' + header + '/stub?');
+
+        beforeEach((done) => {
+          // Return success result when correct headers are provided.
+          nock(`${config.yoti.connectApi}` + '/' + header)
+            .matchHeader(header, headerValue)
+            .get(apiUri)
+            .reply(200, {'result': 'correct header'});
+
+          // Return failure result if the header isn't matched.
+          nock(`${config.yoti.connectApi}` + '/' + header)
+            .get(apiUri)
+            .reply(200, {'result': 'incorrect header'});
+
+          done();
+        });
+
+        it('should have the correct ' + header + ' header', (done) => {
+          request.makeRequest('GET', '/' + header + '/stub', privateKeyFile, 'stub-app-id', new Payload(''))
+            .then((response) => {
+              expect(response.parsedResponse.result).to.equal('correct header');
+              done();
+            })
+            .catch(done);
+        });
       });
     });
   });
