@@ -298,6 +298,7 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
 
 * Activity Details
   * [X] User ID `.getUserId()`
+  * [X] Parent Remember Me ID `.getParentRememberMeId()`
   * [X] Base64 Selfie Uri `getBase64SelfieUri()`
   * [X] Profile `.getProfile()`
     * [X] Full Name `getFullName().getValue()`

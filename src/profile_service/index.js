@@ -31,6 +31,7 @@ const ActivityDetails = function main(parsedResponse, decryptedProfile) {
 
 ActivityDetails.prototype = {
   getUserId() { return this.receipt.remember_me_id; },
+  getParentRememberMeId() { return this.receipt.parent_remember_me_id; },
   getUserProfile() { return this.profile; },
   getProfile() { return this.extendedProfile; }, // This is the new profile object
   getOutcome() { return this.receipt.sharing_outcome; },
