@@ -47,22 +47,22 @@ describe('YotiResponse', () => {
         'X-Yoti-Auth-Key': new RegExp('^[a-zA-Z0-9]+'),
         'X-Yoti-Auth-Digest': new RegExp('^[a-zA-Z0-9]+'),
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        Accept: 'application/json',
       };
-      Object.keys(expectedHeaders).forEach(header => {
+      Object.keys(expectedHeaders).forEach((header) => {
         beforeEach((done) => {
-          let apiUri = new RegExp(`^/api/v1/${header}/stub?`);
+          const apiUri = new RegExp(`^/api/v1/${header}/stub?`);
 
           // Return success result when correct headers are provided.
-          nock(`${config.yoti.connectApi}/${header}`)
+          nock(`${config.yoti.connectApi}`)
             .matchHeader(header, expectedHeaders[header])
             .get(apiUri)
-            .reply(200, {'result': 'correct header'});
+            .reply(200, { result: 'correct header' });
 
           // Return failure result if the header isn't matched.
-          nock(`${config.yoti.connectApi}/${header}`)
+          nock(`${config.yoti.connectApi}`)
             .get(apiUri)
-            .reply(200, {'result': 'incorrect header'});
+            .reply(200, { result: 'incorrect header' });
 
           done();
         });
