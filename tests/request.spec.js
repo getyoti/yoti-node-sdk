@@ -44,8 +44,8 @@ describe('YotiResponse', () => {
       const expectedHeaders = {
         'X-Yoti-SDK': 'Node',
         'X-Yoti-SDK-Version': yotiPackage.version,
-        'X-Yoti-Auth-Key': new RegExp('^[a-zA-Z0-9]+'),
-        'X-Yoti-Auth-Digest': new RegExp('^[a-zA-Z0-9]+'),
+        'X-Yoti-Auth-Key': new RegExp('^[a-zA-Z0-9/+]{392}$'),
+        'X-Yoti-Auth-Digest': new RegExp('^[a-zA-Z0-9/+=]{344}$'),
         'Content-Type': 'application/json',
         Accept: 'application/json',
       };
