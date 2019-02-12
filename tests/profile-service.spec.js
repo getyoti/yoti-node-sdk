@@ -15,6 +15,7 @@ describe('profileService', () => {
 
   describe('#getReceipt', () => {
     const userId = 'Hig2yAT79cWvseSuXcIuCLa5lNkAPy70rxetUaeHlTJGmiwc/g1MWdYWYrexWvPU';
+    const parentRememberMeId = 'f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrNijH4k4qafTG0FSNUgQIvd2Z3Nx1j8';
 
     context('when the profile has attributes', () => {
       const response = fs.readFileSync('./tests/sample-data/payloads/payload.json', 'utf8');
@@ -37,6 +38,7 @@ describe('profileService', () => {
 
             expect(profile).to.not.equal(undefined);
             expect(receipt.getUserId()).to.equal(userId);
+            expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(profile.phoneNumber).to.equal(phoneNumber);
             expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).to.equal(selfie);
             expect(receipt.getBase64SelfieUri()).to.equal(selfie);
@@ -67,6 +69,7 @@ describe('profileService', () => {
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
             expect(receipt.getUserId()).to.equal(userId);
+            expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(outcome).to.equal('SUCCESS');
 
             done();
@@ -94,6 +97,7 @@ describe('profileService', () => {
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
             expect(receipt.getUserId()).to.equal(userId);
+            expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(outcome).to.equal('SUCCESS');
 
             done();
@@ -121,6 +125,7 @@ describe('profileService', () => {
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
             expect(receipt.getUserId()).to.equal(userId);
+            expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(outcome).to.equal('SUCCESS');
 
             done();

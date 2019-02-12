@@ -382,6 +382,20 @@ const userSelfie = profile.getSelfie();
       </td>
     </tr>
     <% } %>
+    <% if (userId) { %>
+    <tr>
+      <th scope="row">Remember Me ID</th>
+      <td colspan="3"><%= userId %></td>
+      <td></td>
+    </tr>
+    <% } %>
+    <% if (parentRememberMeId) { %>
+    <tr>
+      <th scope="row">Parent Remember Me ID</th>
+      <td colspan="3"><%= parentRememberMeId %></td>
+      <td></td>
+    </tr>
+    <% } %>
     <tr>
       <td class="table-dark">Name</td>
       <td class="table-dark">Value</td>
