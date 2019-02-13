@@ -3,6 +3,8 @@
 const Age = require('../yoti_common/age').Age;
 const { AttributeConverter } = require('../yoti_common/attribute.converter');
 const AnchorProcessor = require('../yoti_common/anchor.processor').AnchorProcessor;
+const constants = require('../yoti_common/constants');
+const Image = require('../data_type/image');
 
 module.exports = {
 
@@ -18,14 +20,17 @@ module.exports = {
       const attrValue = attribute.getValue();
       const attrType = attribute.getContentType();
       const processedAnchors = AnchorProcessor.process(attribute.anchors);
-      const convertedValueByType = this.convertValueBasedOnContentType(attrValue, attrType);
+      const convertedValueByType = AttributeConverter
+        .convertValueBasedOnContentType(attrValue, attrType);
       const attrNameInCamelCase = this.toCamelCase(attrName);
 
-      attrList.push({ [attrNameInCamelCase]: convertedValueByType });
-
-      if (attrName === 'selfie') {
-        const imageUriValue = this.imageUriBasedOnContentType(attrValue, attrType);
-        attrList.push({ base64SelfieUri: imageUriValue });
+      // Handle selfies for backwards compatibility.
+      if (attrName === constants.ATTR_SELFIE && convertedValueByType instanceof Image) {
+        attrList.push({ base64SelfieUri: convertedValueByType.getBase64Content() });
+        attrList.push({ [attrNameInCamelCase]: convertedValueByType.getContent() });
+      }
+      else {
+        attrList.push({ [attrNameInCamelCase]: convertedValueByType });
       }
 
       let attrData = null;
