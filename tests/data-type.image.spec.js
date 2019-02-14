@@ -38,8 +38,8 @@ imageTypes.forEach((type) => {
         expect(type.imageObj.getMimeType()).to.equal(type.mimeType);
       });
     });
-    context('when instatiated', () => {
-      it('it should be an instance of Image', () => {
+    context('when instantiated', () => {
+      it('should be an instance of Image', () => {
         expect(type.imageObj).to.be.an.instanceof(Image);
       });
     });

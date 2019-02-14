@@ -6,7 +6,7 @@
 module.exports = class Image {
   constructor(content) {
     if (new.target === Image) {
-      throw TypeError('new of abstract class Image');
+      throw TypeError('Image is an abstract class, so cannot be instantiated');
     }
     this.content = content;
   }
