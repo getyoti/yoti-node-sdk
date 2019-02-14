@@ -23,18 +23,18 @@ const imageTypes = [
 imageTypes.forEach((type) => {
   describe(`${type.imageObj.constructor.name}`, () => {
     context('#getContent()', () => {
-      it('it should return original image content', () => {
+      it('should return original image content', () => {
         expect(type.imageObj.getContent()).to.equal(imageContent);
       });
     });
     context('#getBase64Content()', () => {
-      it('it should return base64 image content', () => {
+      it('should return base64 image content', () => {
         const base64String = `data:${type.mimeType};base64,${imageContent.toBase64()}`;
         expect(type.imageObj.getBase64Content()).to.equal(base64String);
       });
     });
     context('#getMimeType()', () => {
-      it(`it should return ${type.mimeType}`, () => {
+      it(`should return ${type.mimeType}`, () => {
         expect(type.imageObj.getMimeType()).to.equal(type.mimeType);
       });
     });
