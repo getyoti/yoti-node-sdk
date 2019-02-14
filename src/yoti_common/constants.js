@@ -23,10 +23,4 @@ module.exports = Object.freeze({
   ATTR_POSTAL_ADDRESS: 'postal_address',
   ATTR_DOCUMENT_DETAILS: 'document_details',
   ATTR_STRUCTURED_POSTAL_ADDRESS: 'structured_postal_address',
-  CONTENT_TYPE_UNDEFINED: 0,
-  CONTENT_TYPE_STRING: 1,
-  CONTENT_TYPE_JPEG: 2,
-  CONTENT_TYPE_DATE: 3,
-  CONTENT_TYPE_PNG: 4,
-  CONTENT_TYPE_BYTES: 5,
 });
