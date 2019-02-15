@@ -4,11 +4,21 @@
  * Abstract Image attribute class.
  */
 module.exports = class Image {
-  constructor(content) {
+  /**
+   * Image constructor.
+   *
+   * @param {ByteBuffer} content
+   * @param {string} mimeType
+   */
+  constructor(content, mimeType) {
     if (new.target === Image) {
       throw TypeError('Image is an abstract class, so cannot be instantiated');
     }
+    if (typeof mimeType === 'undefined') {
+      throw TypeError(`${this.constructor.name} must pass mimeType to the Image constructor`);
+    }
     this.content = content;
+    this.mimeType = mimeType;
   }
 
   /**
@@ -30,11 +40,11 @@ module.exports = class Image {
   }
 
   /**
-   * Abstract method to return the image mime type.
+   * Get the image mime type.
    *
    * @returns {string}
    */
   getMimeType() {
-    throw new Error(`${this.constructor.name} must implement getMimeType()`);
+    return this.mimeType;
   }
 };
