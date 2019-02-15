@@ -7,14 +7,6 @@ const Image = require('./image');
  */
 module.exports = class ImagePng extends Image {
   constructor(value) {
-    super(value);
-    this.MIME_TYPE = 'image/png';
-  }
-
-  /**
-   * @inheritdoc
-   */
-  getMimeType() {
-    return this.MIME_TYPE;
+    super(value, 'image/png');
   }
 };
