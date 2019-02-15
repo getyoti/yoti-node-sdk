@@ -7,14 +7,6 @@ const Image = require('./image');
  */
 module.exports = class ImageJpeg extends Image {
   constructor(value) {
-    super(value);
-    this.MIME_TYPE = 'image/jpeg';
-  }
-
-  /**
-   * @inheritdoc
-   */
-  getMimeType() {
-    return this.MIME_TYPE;
+    super(value, 'image/jpeg');
   }
 };
