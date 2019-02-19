@@ -1,0 +1,33 @@
+{
+  "name": "yoti-sdk-e2e-tests",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "protractor conf.js",
+    "update": "node ./node_modules/protractor/bin/webdriver-manager update",
+    "report": "node ./html_report.js"
+  },
+  "author": "Jimmy Luu",
+  "license": "ISC",
+  "devDependencies": {
+    "asyncawait": "^1.0.7",
+    "babel-plugin-transform-async-to-generator": "6.24.1",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-import-export": "1.0.2",
+    "babel-register": "^6.26.0",
+    "chai": "^4.2.0",
+    "cucumber": "^5.1.0",
+    "cucumber-html-reporter": "^4.0.4",
+    "cucumber-pretty": "^1.5.0",
+    "fs": "0.0.1-security",
+    "jimp": "^0.6.0",
+    "jsqr": "^1.2.0",
+    "mocha": "^5.2.0",
+    "path": "^0.12.7",
+    "protractor": "^5.4.2",
+    "protractor-cucumber-framework": "^6.1.1",
+    "protractor-screenshot-utils": "^1.0.1",
+    "webdriver-manager": "^12.1.1"
+  }
+}
