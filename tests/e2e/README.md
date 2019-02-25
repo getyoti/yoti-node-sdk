@@ -1,4 +1,20 @@
-# Running UI tests
+# E2E test for SDK
+
+- The E2E test framework is made up of **protractor**, **protractor-cucumber** and **babel** as well as **babel plugins**
+to take advantage of ES6 syntax and be able to transpile into ES5
+- **JIMP (JavaScript Image Manipulation Program)** is the image manipulation library used to read the QR code image file
+- **JSQR** is the library used for decoding the QR code from the QR code image file
+- **protractor-screenshot-utils** is the library used to take a screenshot of the QR code only as opposed to the whole
+page screenshot
+
+
+## Feature files
+The E2E test is represented in the feature file:
+- The **feature file** contains scenarios which represent the tests
+- The **scenario** are made up of gherkin steps
+- The **steps** are **linked** to **step definition code**, which **maps** the step to the step definition.
+The step definition **calls the functions to execute**, when the cucumber test runner runs through the scenarios
+
 
 **Setup**
 
@@ -10,7 +26,7 @@ Then run
 ```
 webdriver-manager update
 ```
-This will install webdriver-manager which manages the browser drivers.
+This will use webdriver-manager which manages the installation of the browser drivers.
 
 **Instructions below will detail how to run the tests:**
 
@@ -31,20 +47,20 @@ To do this first run the ui tests, then run:
 npm run report
 ```
 
-The *HEADLESS* environment variable is used to define whether you want the ui tests to run in a headless chrome browser,
-not applicable for other browsers, only works in chrome.
+The **HEADLESS** environment variable is used to define whether you want the test to run in a headless chrome browser
 ```
 HEADLESS=true
 ```
 
-The *TIMEOUT* environment variable is used to define the cucumber step timeout, it is defined in milliseconds.
-Default timeout is 30000 milliseconds if a timeout is not specified.
-The run.sh script runs the tests with a timeout of 5 minutes
+The **TIMEOUT** environment variable is used to define the cucumber step timeout, it is defined in milliseconds.
+Default timeout is 300000 milliseconds if a timeout is not specified.
+
+If you choose to run the **`run.sh`** script, it runs the tests with a timeout of 5 minutes
 ```
-TIMEOUT=30000
+TIMEOUT=300000
 ```
 
-The *CONSOLE_LOG* environment variable is used to define whether you want the browser's console logs to be output
+The **CONSOLE_LOG** environment variable is used to define whether you want to display the browser's console to be output in the test report
 in the test report
 ```
 CONSOLE_LOG=true
