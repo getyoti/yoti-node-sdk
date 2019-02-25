@@ -1,6 +1,6 @@
 'use strict';
 
-const ursa = require('ursa');
+const NodeRSA = require('node-rsa');
 const crypto = require('crypto');
 const forge = require('node-forge');
 const protoRoot = require('../proto-root').initializeProtoBufObjects();
@@ -27,8 +27,8 @@ function decipherProfile(cipherText, key, iv) {
 
 function unwrapKey(wrappedKey, pem) {
   const wrappedKeyBuffer = Buffer.from(wrappedKey, 'base64');
-  const privateKey = ursa.createPrivateKey(pem);
-  const unwrappedKey = privateKey.decrypt(wrappedKeyBuffer, 'base64', 'base64', ursa.RSA_PKCS1_PADDING);
+  const privateKey = new NodeRSA(pem, 'pkcs1', {encryptionScheme: 'pkcs1'});
+  const unwrappedKey = privateKey.decrypt(wrappedKeyBuffer, 'base64');
 
   return unwrappedKey;
 }

@@ -1,14 +1,14 @@
 'use strict';
 
-const ursa = require('ursa');
+const NodeRSA = require('node-rsa');
 const profileService = require('../profile_service');
 const amlService = require('../aml_service');
 
 function decryptToken(encryptedConnectToken, pem) {
-  const privateKey = ursa.createPrivateKey(pem);
+  const privateKey = new NodeRSA(pem, 'pkcs1', {encryptionScheme: 'pkcs1'});
   let decryptedToken;
   try {
-    decryptedToken = privateKey.decrypt(encryptedConnectToken, 'base64', 'utf8', ursa.RSA_PKCS1_PADDING);
+    decryptedToken = privateKey.decrypt(encryptedConnectToken, 'base64');
   } catch (err) {
     throw new Error(`Could not decrypt token: ${encryptedConnectToken}`);
   }
