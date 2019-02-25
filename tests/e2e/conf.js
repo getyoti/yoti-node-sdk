@@ -1,16 +1,12 @@
-// use babel to transpile ES6 syntax to ES5
 require('babel-register');
 
-let screenShotUtils = require('protractor-screenshot-utils').ProtractorScreenShotUtils;
-
+const screenShotUtils = require('protractor-screenshot-utils').ProtractorScreenShotUtils;
 const fileUtils = require('./support/utils/file_utils');
 const directoryUtils = require('./support/utils/directory_utils');
 const chromeOptions = require('./support/utils/browser/chrome_options');
 
 exports.config = {
-    // only works with Chrome and Firefox
     directConnect: true,
-
     capabilities: {
         browserName: 'chrome',
         chromeOptions: {
@@ -18,20 +14,12 @@ exports.config = {
         },
         acceptInsecureCerts: true,
     },
-
-    // set to "custom" instead of cucumber.
     framework: 'custom',
-
-    // path relative to the current config file
     frameworkPath: require.resolve('protractor-cucumber-framework'),
-
     specs: [
         './features/*.feature',
     ],
-
-    // stops more noise being output to the console when the test fails
     ignoreUncaughtExceptions: true,
-
     /**
      * A callback function called once protractor is ready and available, and
      * before the specs are executed. If multiple capabilities are being run,
@@ -61,31 +49,12 @@ exports.config = {
        *    });
      */
     onPrepare: async () => {
-        // create report folder if it does not exist
         directoryUtils.createDirectory();
-
-        // non-angular web apps and sites should set ignoreSynchronization to true
         browser.ignoreSynchronization = true;
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
         global.screenShotUtils = new screenShotUtils({
             browserInstance: browser
         });
     },
-
-    /**
-     * A callback function called once configs are read but before any
-     * environment setup. This will only run once, and before onPrepare.
-     *
-     * You can specify a file containing code to run by setting beforeLaunch to
-     * the filename string.
-     *
-     * At this point, global variable 'protractor' object will NOT be set up,
-     * and globals from the test framework will NOT be available. The main
-     * purpose of this function should be to bring up test dependencies.
-     */
-    beforeLaunch: () => {
-    },
-
     /**
      * A callback function called once tests are finished. onComplete can
      * optionally return a promise, which Protractor will wait for before
@@ -97,28 +66,8 @@ exports.config = {
     onComplete: async () => {
         await browser.close();
     },
-
-    /**
-     * A callback function called once the tests have finished running and
-     * the WebDriver instance has been shut down. It is passed the exit code
-     * (0 if the tests passed). This is called once per capability.
-     */
-    onCleanUp: () => {
-    },
-
-    /**
-     * A callback function called once all tests have finished running and
-     * the WebDriver instance has been shut down. It is passed the exit code
-     * (0 if the tests passed). afterLaunch must return a promise if you want
-     * asynchronous code to be executed before the program exits.
-     * This is called only once before the program exits (after onCleanUp).
-     */
-    afterLaunch: () => {
-    },
-
     cucumberOpts: {
         strict: true,
-        // run all tags which are not tagged as ignore if no feature tags specified
         tags: process.env.TAGS || '~@ignore',
         require: [
             './support/world.js',
