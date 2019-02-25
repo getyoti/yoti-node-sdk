@@ -8,7 +8,7 @@ function decryptToken(encryptedConnectToken, pem) {
   const privateKey = new NodeRSA(pem, 'pkcs1', {encryptionScheme: 'pkcs1'});
   let decryptedToken;
   try {
-    decryptedToken = privateKey.decrypt(encryptedConnectToken, 'base64');
+    decryptedToken = privateKey.decrypt(encryptedConnectToken, 'utf8');
   } catch (err) {
     throw new Error(`Could not decrypt token: ${encryptedConnectToken}`);
   }
