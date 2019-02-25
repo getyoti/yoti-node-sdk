@@ -21,7 +21,7 @@
     "protobufjs": "^5.0.3",
     "safe-buffer": "^5.1.2",
     "superagent": "^3.8.3",
-    "ursa": "^0.9.4",
+    "node-rsa": "^1.0.3",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
