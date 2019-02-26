@@ -12,6 +12,7 @@ npm test
 
 The following Node.js versions have been tested:
 
+* 6.13.0
 * 8.9.4
 * 9.11.2
 * 10.15.1
