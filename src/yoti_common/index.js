@@ -27,7 +27,7 @@ function decipherProfile(cipherText, key, iv) {
 
 function unwrapKey(wrappedKey, pem) {
   const wrappedKeyBuffer = Buffer.from(wrappedKey, 'base64');
-  const privateKey = new NodeRSA(pem, 'pkcs1', {encryptionScheme: 'pkcs1'});
+  const privateKey = new NodeRSA(pem, 'pkcs1', { encryptionScheme: 'pkcs1' });
   const unwrappedKey = privateKey.decrypt(wrappedKeyBuffer, 'base64');
 
   return unwrappedKey;
