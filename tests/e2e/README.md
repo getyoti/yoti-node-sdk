@@ -27,8 +27,9 @@ const data = await decodeQRCode(qrCode, 'yoti-connections-qr-code.png');
 ## Feature Files
 The E2E test is represented in the feature file:
 - The **feature file** contains scenarios which represent the tests
-- The **scenario** are made up of gherkin steps
-- The **steps** are **linked** to **step definition code**, which **maps** the step to the step definition. When the cucumber test runner runs through the scenarios it will run through the steps and the step definition **will call the function to execute**
+- The **scenarios** are made up of **steps**
+- The **steps** are **mapped** to **step definition code**. When the cucumber test runner runs through
+the scenarios it will run through the steps and the step definition **will call functions to execute**
 - The functions that interact with the pages are represented by the **page object classes**
 
 
