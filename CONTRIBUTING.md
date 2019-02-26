@@ -12,21 +12,16 @@ npm test
 
 The following Node.js versions have been tested:
 
-* 4.0.0
-* 4.8.7
-* 5.12.0
-* 6.13.0
 * 8.9.4
-* 9.5.0
-* 9.10.0
+* 9.11.2
+* 10.15.1
+* 11.10.0
 
 To test a Node.js version. install [nvm](https://github.com/creationix/nvm) and run the following command:
 
 ```shell
-nvm use <version> && npm rebuild && npm test
+nvm use <version> && npm test
 ```
-
-The `npm rebuild` requirement is necesary because the [ursa module](https://www.npmjs.com/package/ursa) needs to be recompiled against a different `Node.js` version.
 
 ## Code coverage
 
