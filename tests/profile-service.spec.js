@@ -37,7 +37,6 @@ describe('profileService', () => {
             const outcome = receipt.getOutcome();
 
             expect(profile).to.not.equal(undefined);
-            expect(receipt.getUserId()).to.equal(rememberMeId);
             expect(receipt.getRememberMeId()).to.equal(rememberMeId);
             expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(profile.phoneNumber).to.equal(phoneNumber);
@@ -69,7 +68,6 @@ describe('profileService', () => {
 
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
-            expect(receipt.getUserId()).to.equal(rememberMeId);
             expect(receipt.getRememberMeId()).to.equal(rememberMeId);
             expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(outcome).to.equal('SUCCESS');
@@ -98,7 +96,6 @@ describe('profileService', () => {
 
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
-            expect(receipt.getUserId()).to.equal(rememberMeId);
             expect(receipt.getRememberMeId()).to.equal(rememberMeId);
             expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(outcome).to.equal('SUCCESS');
@@ -127,7 +124,6 @@ describe('profileService', () => {
 
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
-            expect(receipt.getUserId()).to.equal(rememberMeId);
             expect(receipt.getRememberMeId()).to.equal(rememberMeId);
             expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(outcome).to.equal('SUCCESS');

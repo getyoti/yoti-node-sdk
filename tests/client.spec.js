@@ -42,7 +42,6 @@ describe('yotiClient', () => {
             const outcome = activityDetails.getOutcome();
 
             expect(profile).to.not.equal(undefined);
-            expect(activityDetails.getUserId()).to.equal(rememberMeId);
             expect(activityDetails.getRememberMeId()).to.equal(rememberMeId);
             expect(activityDetails.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(profile.phoneNumber).to.equal(phoneNumber);
@@ -74,7 +73,6 @@ describe('yotiClient', () => {
 
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
-            expect(activityDetails.getUserId()).to.equal(rememberMeId);
             expect(activityDetails.getRememberMeId()).to.equal(rememberMeId);
             expect(activityDetails.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(outcome).to.equal('SUCCESS');
@@ -103,7 +101,6 @@ describe('yotiClient', () => {
 
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
-            expect(activityDetails.getUserId()).to.equal(rememberMeId);
             expect(activityDetails.getRememberMeId()).to.equal(rememberMeId);
             expect(activityDetails.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(outcome).to.equal('SUCCESS');
@@ -132,7 +129,6 @@ describe('yotiClient', () => {
 
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
-            expect(activityDetails.getUserId()).to.equal(rememberMeId);
             expect(activityDetails.getRememberMeId()).to.equal(rememberMeId);
             expect(activityDetails.getParentRememberMeId()).to.equal(parentRememberMeId);
             expect(outcome).to.equal('SUCCESS');

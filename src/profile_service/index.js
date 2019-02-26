@@ -31,13 +31,6 @@ const ActivityDetails = function main(parsedResponse, decryptedProfile) {
 
 ActivityDetails.prototype = {
   /**
-   * Return the Remember Me ID.
-   *
-   * @deprecated Replaced by getRememberMeId()
-   */
-  getUserId() { return this.getRememberMeId(); },
-
-  /**
    * Return the Remember Me ID, which is a unique, stable identifier for
    * a user in the context of an application.
    *
