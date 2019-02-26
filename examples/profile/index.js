@@ -67,7 +67,7 @@ router.get('/profile', (req, res) => {
     }
 
     res.render('pages/profile', {
-      userId: activityDetails.getUserId(),
+      rememberMeId: activityDetails.getRememberMeId(),
       parentRememberMeId: activityDetails.getParentRememberMeId(),
       selfieUri: activityDetails.getBase64SelfieUri(),
       userProfile,
