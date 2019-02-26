@@ -5,7 +5,7 @@ const profileService = require('../profile_service');
 const amlService = require('../aml_service');
 
 function decryptToken(encryptedConnectToken, pem) {
-  const privateKey = new NodeRSA(pem, 'pkcs1', {encryptionScheme: 'pkcs1'});
+  const privateKey = new NodeRSA(pem, 'pkcs1', { encryptionScheme: 'pkcs1' });
   let decryptedToken;
   try {
     decryptedToken = privateKey.decrypt(encryptedConnectToken, 'utf8');
