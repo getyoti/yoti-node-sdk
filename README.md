@@ -175,7 +175,7 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
     if(activityDetails.getOutcome() == 'SUCCESS') {
         const userProfile = activityDetails.getUserProfile(); // deprecated
         const profile = activityDetails.getProfile();
-        const user = yourUserSearchFunction(activityDetails.getUserId());
+        const user = yourUserSearchFunction(activityDetails.getRememberMeId());
         if(user) {
             // handle login
         } else {
@@ -190,7 +190,7 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
 
 ```
 
-Where `yourUserSearchFunction` is a piece of logic in your app that is supposed to find a user, given a userId.
+Where `yourUserSearchFunction` is a piece of logic in your app that is supposed to find a user, given a _Remember Me ID_.
 No matter if the user is a new or an existing one, Yoti will always provide her/his profile, so you don't necessarily need to store it.
 
 The `profile` object provides a set of attributes corresponding to user attributes. Whether the attributes are present or not depends on the settings you have applied to your app on Yoti Dashboard.
@@ -297,7 +297,7 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
 ```
 
 * Activity Details
-  * [X] User ID `.getUserId()`
+  * [X] Remember Me ID `.getRememberMeId()`
   * [X] Parent Remember Me ID `.getParentRememberMeId()`
   * [X] Base64 Selfie Uri `getBase64SelfieUri()`
   * [X] Profile `.getProfile()`
