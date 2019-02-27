@@ -190,7 +190,7 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
 
 ```
 
-Where `yourUserSearchFunction` is a piece of logic in your app that is supposed to find a user, given a _Remember Me Id_.
+Where `yourUserSearchFunction` is a piece of logic in your app that is supposed to find a user, given a _Remember Me ID_.
 No matter if the user is a new or an existing one, Yoti will always provide her/his profile, so you don't necessarily need to store it.
 
 The `profile` object provides a set of attributes corresponding to user attributes. Whether the attributes are present or not depends on the settings you have applied to your app on Yoti Dashboard.
