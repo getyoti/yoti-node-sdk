@@ -58,7 +58,7 @@ Yoti also allows you to enable user details verification from your mobile app by
 ## Requirements
 
 ### Node version 
-We currently support up to Node version 8, Node version 10 is not supported.
+We currently support up to Node version 11.
 
 ### Windows users
 
