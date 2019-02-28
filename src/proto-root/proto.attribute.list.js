@@ -28,8 +28,7 @@ module.exports = {
       if (attrName === constants.ATTR_SELFIE && convertedValueByType instanceof Image) {
         attrList.push({ base64SelfieUri: convertedValueByType.getBase64Content() });
         attrList.push({ [attrNameInCamelCase]: convertedValueByType.getContent() });
-      }
-      else {
+      } else {
         attrList.push({ [attrNameInCamelCase]: convertedValueByType });
       }
 

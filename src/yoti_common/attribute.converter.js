@@ -4,6 +4,7 @@ const constants = require('./constants');
 const { DocumentDetails } = require('../data_type/document.details');
 const ImagePng = require('../data_type/image.png');
 const ImageJpeg = require('../data_type/image.jpeg');
+
 const CONTENT_TYPE_UNDEFINED = 0;
 const CONTENT_TYPE_STRING = 1;
 const CONTENT_TYPE_JPEG = 2;
