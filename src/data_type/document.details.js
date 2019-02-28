@@ -16,7 +16,7 @@ module.exports.DocumentDetails = class DocumentDetails {
   validateData(value) {
     const regex = new RegExp(VALIDATION_PATTERN);
     if (!regex.test(value)) {
-      throw new Error('Invalid value for DocumentDetails');
+      throw new Error(`Invalid value for ${this.constructor.name}`);
     }
   }
 
@@ -32,7 +32,7 @@ module.exports.DocumentDetails = class DocumentDetails {
       const dateValue = parsedValues[EXPIRATION_INDEX];
       const dateObj = new Date(dateValue);
 
-      if (dateValue !== '-' && isNaN(dateObj.getFullYear())) {
+      if (dateValue !== '-' && Number.isNaN(dateObj.getFullYear())) {
         throw new Error('Invalid Date');
       }
       this.expirationDate = dateValue !== '-' ? dateObj : null;

@@ -18,8 +18,8 @@ describe('Attribute', () => {
   const attributeObj = new Attribute({
     value: documentDetails,
     name: 'document_details',
-    sources: parseAnchorData(dlSourceAnchor)['sources'],
-    verifiers: parseAnchorData(verifierAnchor)['verifiers'],
+    sources: parseAnchorData(dlSourceAnchor).sources,
+    verifiers: parseAnchorData(verifierAnchor).verifiers,
   });
 
   context('Attribute.getValue()', () => {
@@ -38,7 +38,7 @@ describe('Attribute', () => {
       expect(attributeObj.getSources()[0].getValue()).to.equal('DRIVING_LICENCE');
       expect(attributeObj.getSources()[0].getSubType()).to.equal('');
       expect(attributeObj.getSources()[0].getSignedTimeStamp().getTimestamp()
-          .toUTCString()).to.equal('Wed, 11 Apr 2018 12:13:03 GMT');
+        .toUTCString()).to.equal('Wed, 11 Apr 2018 12:13:03 GMT');
       expect(attributeObj.getSources()[0].getOriginServerCerts()[0].signatureOid).to.equal('1.2.840.113549.1.1.11');
     });
   });

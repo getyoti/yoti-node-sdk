@@ -1,23 +1,31 @@
 const expect = require('chai').expect;
 const { DocumentDetails } = require('../src/data_type/document.details');
 
+/**
+ * Check that provided value is invalid.
+ *
+ * @param {string} value
+ * @param {string} exceptionMessage
+ */
+const assertInvalidDocumentDetails = (value, exceptionMessage) => {
+  let documentDetails = null;
+  try {
+    documentDetails = new DocumentDetails(value);
+  } catch (err) {
+    expect(err.message).to.equal(exceptionMessage);
+  }
+  expect(documentDetails).to.equal(null);
+};
+
 describe('documentDetails', () => {
   context('when value is empty', () => {
     it('it should throw an exception', () => {
-      try {
-        const documentDetails = new DocumentDetails('');
-      } catch (err) {
-        expect(err.message).to.equal('Invalid value for DocumentDetails');
-      }
+      assertInvalidDocumentDetails('', 'Invalid value for DocumentDetails');
     });
   });
   context('when value is less than 3 words', () => {
     it('it should throw an exception', () => {
-      try {
-        const documentDetails = new DocumentDetails('PASS_CARD GBR');
-      } catch (err) {
-        expect(err.message).to.equal('Invalid value for DocumentDetails');
-      }
+      assertInvalidDocumentDetails('PASS_CARD GBR', 'Invalid value for DocumentDetails');
     });
   });
   context('when value is four words', () => {
@@ -26,7 +34,7 @@ describe('documentDetails', () => {
       expect(documentDetails.type).to.equal('PASSPORT');
       expect(documentDetails.issuingCountry).to.equal('GBR');
       expect(documentDetails.documentNumber).to.equal('01234567');
-      expect(documentDetails.expirationDate.toISOString().slice(0,10)).to.equal('2020-01-01');
+      expect(documentDetails.expirationDate.toISOString().slice(0, 10)).to.equal('2020-01-01');
     });
   });
   context('when value is five words', () => {
@@ -51,20 +59,12 @@ describe('documentDetails', () => {
   });
   context('when value has invalid country 13', () => {
     it('it should throw an exception', () => {
-      try {
-        const documentDetails = new DocumentDetails('PASSPORT 13 1234abc 2016-05-01');
-      } catch (err) {
-        expect(err.message).to.equal('Invalid value for DocumentDetails');
-      }
+      assertInvalidDocumentDetails('PASSPORT 13 1234abc 2016-05-01', 'Invalid value for DocumentDetails');
     });
   });
   context('when value has invalid document number', () => {
     it('it should throw an exception', () => {
-      try {
-        const documentDetails = new DocumentDetails('PASSPORT GBR $%^$%^£ 2016-05-01');
-      } catch (err) {
-        expect(err.message).to.equal('Invalid value for DocumentDetails');
-      }
+      assertInvalidDocumentDetails('PASSPORT GBR $%^$%^£ 2016-05-01', 'Invalid value for DocumentDetails');
     });
   });
   context('when expiration Date is set to dash (-)', () => {
@@ -79,11 +79,7 @@ describe('documentDetails', () => {
   });
   context('when there is an invalid date', () => {
     it('it should throw an exception', () => {
-      try {
-        const documentDetails = new DocumentDetails('PASSPORT GBR 1234abc X016-05-01');
-      } catch (err) {
-        expect(err.message).to.equal('Invalid Date');
-      }
+      assertInvalidDocumentDetails('PASSPORT GBR 1234abc X016-05-01', 'Invalid Date');
     });
   });
 });
