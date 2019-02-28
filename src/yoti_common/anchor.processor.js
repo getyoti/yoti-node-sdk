@@ -24,7 +24,7 @@ const YotiSignedTimeStamp = function main(timeStampObj) {
 
 YotiSignedTimeStamp.prototype = {
   getVersion() { return this.version; },
-  getTimestamp() { return this.timestamp; }
+  getTimestamp() { return this.timestamp; },
 };
 
 module.exports.AnchorProcessor = class AnchorProcessor {
@@ -254,9 +254,10 @@ module.exports.AnchorProcessor = class AnchorProcessor {
   static findOidIndex(array, anchorOidObj) {
     let result = -1;
     array.forEach((el, index) => {
-      const match = Object.keys(anchorOidObj).reduce(function (soFar, key) {
-        return soFar && el[key] === anchorOidObj[key];
-      }, true);
+      const match = Object.keys(anchorOidObj).reduce(
+        (soFar, key) => soFar && el[key] === anchorOidObj[key],
+        true
+      );
       if (match) {
         result = index;
       }
