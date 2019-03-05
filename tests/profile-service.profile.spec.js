@@ -89,4 +89,27 @@ describe('Profile', () => {
       expect(verifierValue).to.equal(expectedValue);
     });
   });
+
+  describe('#getPostalAddress', () => {
+    const expectedValue = 'TEST ADDRESS';
+    it('should return postal_address value', () => {
+      expect(profileObj.getPostalAddress().getValue()).to.equal(expectedValue);
+    });
+  });
+
+  describe('#getStructuredPostalAddress', () => {
+    const expectedValue = {
+      address_format: 1,
+      building_number: '123',
+      address_line1: '123 TEST ADDRESS',
+      town_city: 'LONDON',
+      postal_code: 'AB1 2CD',
+      country_iso: 'GBR',
+      country: 'United Kingdom',
+      formatted_address: '123 TEST ADDRESS\nLONDON\nAB1 2CD\nUnited Kingdom',
+    };
+    it('should return structured_postal_address value', () => {
+      expect(profileObj.getStructuredPostalAddress().getValue()).to.eql(expectedValue);
+    });
+  });
 });

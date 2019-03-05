@@ -6,6 +6,7 @@ const phoneNumber = profile.getPhoneNumber();
 const dateOfBirth = profile.getDateOfBirth();
 const ageCondition = profile.getAgeVerified();
 const postalAddress = profile.getPostalAddress();
+const structuredPostalAddress = profile.getStructuredPostalAddress();
 const emailAddress = profile.getEmailAddress();
 const nationality = profile.getNationality();
 const gender = profile.getGender();
@@ -272,6 +273,43 @@ const userSelfie = profile.getSelfie();
       </td>
     </tr>
     <% } %>
+    <% if (structuredPostalAddress) { %>
+      <tr>
+        <th scope="row">Structured Address</th>
+        <td>
+          <table class="table">
+            <% Object.keys(structuredPostalAddress.getValue()).forEach((key) => { %>
+              <tr class="row no-gutters">
+                <td class="col-md-3"><%= key %></td>
+                <td class="col-md-6"><%= structuredPostalAddress.getValue()[key] %></td>
+              </tr>
+            <% }); %>
+          </table>
+        </td>
+        <td colspan="3">
+          <table class="table">
+            <tbody>
+            <% for(let i = 0; i < structuredPostalAddress.getSources().length; i += 1) { %>
+            <% let source = structuredPostalAddress.getSources()[i] %>
+            <tr class="row no-gutters">
+              <td class="col-md-3">Source</td>
+              <td class="col-md-6"><%= source.getValue() %></td>
+              <td class="col-md-3"><%= source.getSubType() %></td>
+            </tr>
+            <% } %>
+            <% for(let i = 0; i < structuredPostalAddress.getVerifiers().length; i += 1) { %>
+            <% let verifier = structuredPostalAddress.getVerifiers()[i] %>
+            <tr class="row no-gutters">
+              <td class="col-md-3">Verifier</td>
+              <td class="col-md-6"><%= verifier.getValue() %></td>
+              <td class="col-md-3"><%= verifier.getSubType() %></td>
+            </tr>
+            <% } %>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <% } %>
     <% if (gender) { %>
     <tr>
       <th scope="row">Gender</th>
