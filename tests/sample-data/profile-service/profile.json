@@ -56,6 +56,22 @@
     "sources": [],
     "verifiers": []
   },
+  "structured_postal_address":
+  {
+    "name": "structured_postal_address",
+    "value": {
+      "address_format": 1,
+      "building_number": "123",
+      "address_line1": "123 TEST ADDRESS",
+      "town_city": "LONDON",
+      "postal_code": "AB1 2CD",
+      "country_iso": "GBR",
+      "country": "United Kingdom",
+      "formatted_address": "123 TEST ADDRESS\nLONDON\nAB1 2CD\nUnited Kingdom"
+    },
+    "sources": [],
+    "verifiers": []
+  },
   "family_name":
   {
     "name": "family_name",
