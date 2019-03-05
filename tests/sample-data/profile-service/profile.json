@@ -63,7 +63,10 @@
       "address_format": 1,
       "building_number": "123",
       "address_line1": "123 TEST ADDRESS",
-      "town_city": "LONDON",
+      "town_city": {
+        "city": "TEST CITY",
+        "town": "TEST TOWN"
+      },
       "postal_code": "AB1 2CD",
       "country_iso": "GBR",
       "country": "United Kingdom",
