@@ -103,4 +103,10 @@ describe('Profile', () => {
         .to.eql(profileData.structured_postal_address.value);
     });
   });
+
+  describe('#getDocumentImages', () => {
+    it('should return document_images value', () => {
+      expect(profileObj.getDocumentImages().getValue()).to.eql(profileData.document_images.value);
+    });
+  });
 });
