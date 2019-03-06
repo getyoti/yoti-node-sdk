@@ -100,6 +100,13 @@ module.exports.Profile = class Profile {
   }
 
   /**
+   * @returns {null|Attribute}
+   */
+  getDocumentImages() {
+    return this.getAttribute(constants.ATTR_DOCUMENT_IMAGES);
+  }
+
+  /**
    * Return Attribute object.
    *
    * @param attrName

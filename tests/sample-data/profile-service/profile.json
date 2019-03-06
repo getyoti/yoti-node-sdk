@@ -102,5 +102,15 @@
     "value": "true",
     "sources": [],
     "verifiers": []
+  },
+  "document_images":
+  {
+    "name": "document_images",
+    "value": [
+      "value_1",
+      "value_2"
+    ],
+    "sources": [],
+    "verifiers": []
   }
 }
