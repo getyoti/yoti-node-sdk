@@ -5,6 +5,8 @@ const { DocumentDetails } = require('../data_type/document.details');
 const ImagePng = require('../data_type/image.png');
 const ImageJpeg = require('../data_type/image.jpeg');
 const protoRoot = require('../proto-root');
+const MultiValue = require('../data_type/multi.value');
+const DocumentImages = require('../data_type/document.images');
 
 const CONTENT_TYPE_UNDEFINED = 0;
 const CONTENT_TYPE_STRING = 1;
@@ -23,6 +25,8 @@ module.exports.AttributeConverter = class AttributeConverter {
     switch (attrName) {
       case constants.ATTR_DOCUMENT_DETAILS:
         return new DocumentDetails(value);
+      case constants.ATTR_DOCUMENT_IMAGES:
+        return new DocumentImages(value);
       default:
         return value;
     }
@@ -61,7 +65,7 @@ module.exports.AttributeConverter = class AttributeConverter {
             multiValueItem.contentType
           ));
         });
-        return multiValueArray;
+        return new MultiValue(multiValueArray);
       }
       default:
         return value;
