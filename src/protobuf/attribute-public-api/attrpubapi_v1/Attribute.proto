@@ -1,4 +1,4 @@
-//syntax = "proto2";
+syntax = "proto3";
 
 package attrpubapi_v1;
 
@@ -17,6 +17,10 @@ enum ContentType {
 	DATE = 3;
 
 	PNG = 4;
+
+	MULTI_VALUE = 6;
+
+	INT = 7;
 }
 
 
@@ -43,4 +47,13 @@ message Anchor {
 	optional bytes signature = 5;
 
 	optional bytes signed_time_stamp = 6;
+}
+
+message MultiValue {
+
+	message Value {
+		ContentType content_type = 1;
+		bytes data = 2;
+	}
+	repeated Value values = 1;
 }

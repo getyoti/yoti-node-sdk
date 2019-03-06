@@ -4,6 +4,7 @@ const constants = require('./constants');
 const { DocumentDetails } = require('../data_type/document.details');
 const ImagePng = require('../data_type/image.png');
 const ImageJpeg = require('../data_type/image.jpeg');
+const protoRoot = require('../proto-root');
 
 const CONTENT_TYPE_UNDEFINED = 0;
 const CONTENT_TYPE_STRING = 1;
@@ -11,6 +12,7 @@ const CONTENT_TYPE_JPEG = 2;
 const CONTENT_TYPE_DATE = 3;
 const CONTENT_TYPE_PNG = 4;
 const CONTENT_TYPE_BYTES = 5;
+const CONTENT_TYPE_MULTI_VALUE = 6;
 
 module.exports.AttributeConverter = class AttributeConverter {
   static convertValueBasedOnAttributeName(value, attrName) {
@@ -47,6 +49,20 @@ module.exports.AttributeConverter = class AttributeConverter {
         return new ImageJpeg(value);
       case CONTENT_TYPE_PNG:
         return new ImagePng(value);
+      case CONTENT_TYPE_MULTI_VALUE: {
+        // Decode multi value.
+        const protoInst = protoRoot.initializeProtoBufObjects();
+        const multiValue = protoInst.builder.attrpubapi_v1.MultiValue.decode(value);
+        // Build array of attribute values.
+        const multiValueArray = [];
+        multiValue.values.forEach((multiValueItem) => {
+          multiValueArray.push(AttributeConverter.convertValueBasedOnContentType(
+            Buffer.from(multiValueItem.data.toArrayBuffer()),
+            multiValueItem.contentType
+          ));
+        });
+        return multiValueArray;
+      }
       default:
         return value;
     }
