@@ -27,14 +27,16 @@ const getTestValues = () => [
 ];
 
 describe('MultiValue', () => {
-  context('Should allow nesting', () => {
-    const multiValue = new MultiValue(getTestValues());
-    const thirdLevelMultiValue = multiValue.getItems()[5].getItems()[5];
+  context('#getItems', () => {
+    it('should return provided array of items', () => {
+      const multiValue = new MultiValue(getTestValues());
+      const thirdLevelMultiValue = multiValue.getItems()[5].getItems()[5];
 
-    expect(thirdLevelMultiValue).to.be.instanceOf(MultiValue);
-    expect(thirdLevelMultiValue.getItems().length).to.equal(5);
-    expect(thirdLevelMultiValue.getItems()[0]).to.be.instanceOf(ImageJpeg);
-    expect(thirdLevelMultiValue.getItems()[1]).to.be.instanceOf(ImagePng);
+      expect(thirdLevelMultiValue).to.be.instanceOf(MultiValue);
+      expect(thirdLevelMultiValue.getItems().length).to.equal(5);
+      expect(thirdLevelMultiValue.getItems()[0]).to.be.instanceOf(ImageJpeg);
+      expect(thirdLevelMultiValue.getItems()[1]).to.be.instanceOf(ImagePng);
+    });
   });
   context('#applyFilters', () => {
     it('should apply filters to all multi values', () => {
