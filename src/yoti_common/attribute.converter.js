@@ -31,7 +31,7 @@ module.exports.AttributeConverter = class AttributeConverter {
         }
         return value
           .filterInstance(Image)
-          .getValues();
+          .getItems();
       default:
         return value;
     }
