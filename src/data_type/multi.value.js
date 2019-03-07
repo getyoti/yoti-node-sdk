@@ -14,7 +14,7 @@ module.exports = class MultiValue {
   }
 
   /**
-   * Filter values by their type.
+   * Filter values by their instance type.
    *
    * @param {*} type
    */
@@ -26,7 +26,7 @@ module.exports = class MultiValue {
   /**
    * Filter values by their constructor name.
    *
-   * @param {*} type
+   * @param {String} type
    */
   filterType(type) {
     this.filterTypes.push(type);
@@ -38,15 +38,33 @@ module.exports = class MultiValue {
    */
   applyFilters() {
     this.values = this.values.filter((value) => {
-      let allowedInstance = true;
-      let allowedType = true;
+      // Allow value if no filters have been applied.
+      if (this.filterInstances.length === 0 && this.filterTypes.length === 0) {
+        return true;
+      }
+
+      // Check instance.
+      let allowedInstance = false;
       if (this.filterInstances.length > 0) {
         allowedInstance = this.filterInstances.find(type => value instanceof type);
       }
+
+      // Check constructor name (class).
+      let allowedType = false;
       if (this.filterTypes.length > 0) {
         allowedType = this.filterTypes.find(type => value.constructor.name === type);
       }
-      return allowedType && allowedInstance;
+
+      return allowedType || allowedInstance;
+    });
+
+    // Apply filters on allow nested MultiValue items.
+    this.values.forEach((value) => {
+      if (value instanceof MultiValue) {
+        this.filterInstances.forEach(type => value.filterInstance(type));
+        this.filterTypes.forEach(type => value.filterType(type));
+        value.applyFilters();
+      }
     });
   }
 
