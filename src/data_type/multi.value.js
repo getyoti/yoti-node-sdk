@@ -58,7 +58,7 @@ module.exports = class MultiValue {
       return allowedType || allowedInstance;
     });
 
-    // Apply filters on allow nested MultiValue items.
+    // Apply filters on all nested MultiValue items.
     this.values.forEach((value) => {
       if (value instanceof MultiValue) {
         this.filterInstances.forEach(type => value.filterInstance(type));
