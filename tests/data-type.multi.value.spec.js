@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const MultiValue = require('../src/data_type/multi.value');
+const Image = require('../src/data_type/image');
 const ImageJpeg = require('../src/data_type/image.jpeg');
 const ImagePng = require('../src/data_type/image.png');
 
@@ -36,6 +37,12 @@ describe('MultiValue', () => {
       // Reset filters.
       multiValue.resetFilters();
       expect(multiValue.getValues()).to.eql(testValues);
+
+      // Allow any Image.
+      multiValue.filterInstance(Image);
+      expect(multiValue.getValues().length).to.equal(2);
+      expect(multiValue.getValues()[0]).to.be.instanceOf(ImageJpeg);
+      expect(multiValue.getValues()[1]).to.be.instanceOf(ImagePng);
     });
   });
   context('#filterType()', () => {
