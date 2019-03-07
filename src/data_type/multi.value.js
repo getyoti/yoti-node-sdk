@@ -37,7 +37,7 @@ module.exports = class MultiValue {
    * Apply all filters.
    */
   applyFilters() {
-    this.items = this.items.filter((value) => {
+    this.items = this.originalItems.filter((value) => {
       // Allow value if no filters have been applied.
       if (this.filterInstances.length === 0 && this.filterTypes.length === 0) {
         return true;
@@ -72,7 +72,6 @@ module.exports = class MultiValue {
    * Reset to original values.
    */
   resetFilters() {
-    this.items = this.originalItems;
     this.filterInstances = [];
     this.filterTypes = [];
   }
@@ -81,7 +80,6 @@ module.exports = class MultiValue {
    * @returns {Array} List of filtered items.
    */
   getItems() {
-    this.items = this.originalItems;
     this.applyFilters();
     return this.items;
   }
