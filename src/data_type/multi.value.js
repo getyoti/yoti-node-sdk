@@ -4,11 +4,11 @@ module.exports = class MultiValue {
   /**
    * MultiValue constructor.
    *
-   * @param {array} values
+   * @param {array} items
    */
-  constructor(values) {
-    this.originalValues = values;
-    this.values = values;
+  constructor(items) {
+    this.originalItems = items;
+    this.items = items;
     this.filterInstances = [];
     this.filterTypes = [];
   }
@@ -37,7 +37,7 @@ module.exports = class MultiValue {
    * Apply all filters.
    */
   applyFilters() {
-    this.values = this.values.filter((value) => {
+    this.items = this.items.filter((value) => {
       // Allow value if no filters have been applied.
       if (this.filterInstances.length === 0 && this.filterTypes.length === 0) {
         return true;
@@ -59,7 +59,7 @@ module.exports = class MultiValue {
     });
 
     // Apply filters on all nested MultiValue items.
-    this.values.forEach((value) => {
+    this.items.forEach((value) => {
       if (value instanceof MultiValue) {
         this.filterInstances.forEach(type => value.filterInstance(type));
         this.filterTypes.forEach(type => value.filterType(type));
@@ -72,17 +72,17 @@ module.exports = class MultiValue {
    * Reset to original values.
    */
   resetFilters() {
-    this.values = this.originalValues;
+    this.items = this.originalItems;
     this.filterInstances = [];
     this.filterTypes = [];
   }
 
   /**
-   * @returns {Array} List of filtered values.
+   * @returns {Array} List of filtered items.
    */
-  getValues() {
-    this.values = this.originalValues;
+  getItems() {
+    this.items = this.originalItems;
     this.applyFilters();
-    return this.values;
+    return this.items;
   }
 };

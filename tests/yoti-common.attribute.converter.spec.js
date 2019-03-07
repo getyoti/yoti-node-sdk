@@ -29,9 +29,9 @@ describe('attributeConverter', () => {
   describe('#convertValueBasedOnContentType', () => {
     it('should return multi value object', () => {
       const multiValue = getMultiValue();
-      expect(multiValue.getValues().length).to.equal(2);
+      expect(multiValue.getItems().length).to.equal(2);
       expect(multiValue).to.be.instanceOf(MultiValue);
-      multiValue.getValues().forEach((item) => {
+      multiValue.getItems().forEach((item) => {
         expect(item).to.be.instanceOf(ImageJpeg);
         expect(item.getMimeType()).to.equal('image/jpeg');
       });
