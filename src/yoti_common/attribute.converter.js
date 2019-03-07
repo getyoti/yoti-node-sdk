@@ -2,11 +2,11 @@
 
 const constants = require('./constants');
 const { DocumentDetails } = require('../data_type/document.details');
-const ImagePng = require('../data_type/image.png');
+const Image = require('../data_type/image');
 const ImageJpeg = require('../data_type/image.jpeg');
+const ImagePng = require('../data_type/image.png');
 const protoRoot = require('../proto-root');
 const MultiValue = require('../data_type/multi.value');
-const DocumentImages = require('../data_type/document.images');
 
 const CONTENT_TYPE_UNDEFINED = 0;
 const CONTENT_TYPE_STRING = 1;
@@ -26,7 +26,9 @@ module.exports.AttributeConverter = class AttributeConverter {
       case constants.ATTR_DOCUMENT_DETAILS:
         return new DocumentDetails(value);
       case constants.ATTR_DOCUMENT_IMAGES:
-        return new DocumentImages(value);
+        return value
+          .filterInstance(Image)
+          .getValues();
       default:
         return value;
     }
@@ -56,16 +58,15 @@ module.exports.AttributeConverter = class AttributeConverter {
       case CONTENT_TYPE_MULTI_VALUE: {
         // Decode multi value.
         const protoInst = protoRoot.initializeProtoBufObjects();
-        const multiValue = protoInst.builder.attrpubapi_v1.MultiValue.decode(value);
-        // Build array of attribute values.
-        const multiValueArray = [];
-        multiValue.values.forEach((multiValueItem) => {
-          multiValueArray.push(AttributeConverter.convertValueBasedOnContentType(
-            Buffer.from(multiValueItem.data.toArrayBuffer()),
-            multiValueItem.contentType
+        const protoMultiValue = protoInst.builder.attrpubapi_v1.MultiValue.decode(value);
+        const items = [];
+        protoMultiValue.values.forEach((item) => {
+          items.push(AttributeConverter.convertValueBasedOnContentType(
+            Buffer.from(item.data.toArrayBuffer()),
+            item.contentType
           ));
         });
-        return new MultiValue(multiValueArray);
+        return new MultiValue(items);
       }
       default:
         return value;
