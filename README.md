@@ -302,6 +302,19 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
   * [X] Base64 Selfie Uri `getBase64SelfieUri()`
   * [X] Profile `.getProfile()`
     * [X] Full Name `getFullName().getValue()`
+    * [X] Given Names `getGivenNames().getValue()`
+    * [X] Family Name `getFamilyName().getValue()`
+    * [X] Age / Date of Birth `getDateOfBirth().getValue()`
+    * [X] Age / Verify Condition `getAgeVerified().getValue()`
+    * [X] Gender `getGender().getValue()`
+    * [X] Nationality `getNationality().getValue()`
+    * [X] Mobile Number `getPhoneNumber().getValue()`
+    * [X] Photo `getSelfie().getValue()`
+    * [X] Email Address `getEmailAddress().getValue()`
+    * [X] Address `getPostalAddress().getValue()`
+    * [X] Structured Address `getStructuredPostalAddress().getValue()`
+    * [X] Document Details `getDocumentDetails().getValue()`
+    * [X] Document Images `getDocumentImages().getValue()`
   * [X] userProfile `.getUserProfile()`
     * [X] Photo `selfie`
     * [X] Full Name `fullName`
