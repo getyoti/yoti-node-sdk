@@ -26,6 +26,9 @@ module.exports.AttributeConverter = class AttributeConverter {
       case constants.ATTR_DOCUMENT_DETAILS:
         return new DocumentDetails(value);
       case constants.ATTR_DOCUMENT_IMAGES:
+        if (!(value instanceof MultiValue)) {
+          return null;
+        }
         return value
           .filterInstance(Image)
           .getValues();
