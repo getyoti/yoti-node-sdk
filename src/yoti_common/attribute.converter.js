@@ -58,21 +58,23 @@ module.exports.AttributeConverter = class AttributeConverter {
         return new ImageJpeg(value);
       case CONTENT_TYPE_PNG:
         return new ImagePng(value);
-      case CONTENT_TYPE_MULTI_VALUE: {
-        // Decode multi value.
-        const protoInst = protoRoot.initializeProtoBufObjects();
-        const protoMultiValue = protoInst.builder.attrpubapi_v1.MultiValue.decode(value);
-        const items = [];
-        protoMultiValue.values.forEach((item) => {
-          items.push(AttributeConverter.convertValueBasedOnContentType(
-            Buffer.from(item.data.toArrayBuffer()),
-            item.contentType
-          ));
-        });
-        return new MultiValue(items);
-      }
+      case CONTENT_TYPE_MULTI_VALUE:
+        return AttributeConverter.convertMultiValue(value);
       default:
         return value;
     }
+  }
+
+  static convertMultiValue(value) {
+    const protoInst = protoRoot.initializeProtoBufObjects();
+    const protoMultiValue = protoInst.builder.attrpubapi_v1.MultiValue.decode(value);
+    const items = [];
+    protoMultiValue.values.forEach((item) => {
+      items.push(AttributeConverter.convertValueBasedOnContentType(
+        Buffer.from(item.data.toArrayBuffer()),
+        item.contentType
+      ));
+    });
+    return new MultiValue(items);
   }
 };
