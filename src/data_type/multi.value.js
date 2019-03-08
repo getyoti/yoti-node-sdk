@@ -39,20 +39,10 @@ module.exports = class MultiValue {
   applyFilters() {
     this.items = this.originalItems;
 
-    if (this.filterInstances.length > 0 || this.filterTypes.length > 0) {
-      this.items = this.items.filter((value) => {
-        // Check instance.
-        let allowedInstance = false;
-        if (this.filterInstances.length > 0) {
-          allowedInstance = this.filterInstances.find(type => value instanceof type);
-        }
-        // Check constructor name (class).
-        let allowedType = false;
-        if (this.filterTypes.length > 0) {
-          allowedType = this.filterTypes.find(type => value.constructor.name === type);
-        }
-        return allowedType || allowedInstance;
-      });
+    if (this.hasFilters()) {
+      this.items = this
+        .items
+        .filter(value => this.allowedType(value) || this.allowedInstance(value));
     }
 
     // Apply filters on all nested MultiValue items.
@@ -63,6 +53,39 @@ module.exports = class MultiValue {
         value.applyFilters();
       }
     });
+  }
+
+  /**
+   * Check if this MultiValue has been filtered.
+   */
+  hasFilters() {
+    return this.filterInstances.length > 0 || this.filterTypes.length > 0;
+  }
+
+  /**
+   * Check instance.
+   *
+   * @param {*} value
+   */
+  allowedInstance(value) {
+    let allowedInstance = false;
+    if (this.filterInstances.length > 0) {
+      allowedInstance = this.filterInstances.find(type => value instanceof type);
+    }
+    return allowedInstance;
+  }
+
+  /**
+   * Check constructor name (class).
+   *
+   * @param {*} value
+   */
+  allowedType(value) {
+    let allowedType = false;
+    if (this.filterTypes.length > 0) {
+      allowedType = this.filterTypes.find(type => value.constructor.name === type);
+    }
+    return allowedType;
   }
 
   /**
