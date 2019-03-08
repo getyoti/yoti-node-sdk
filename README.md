@@ -291,7 +291,7 @@ In order to get the users information, the Node SDK will decrypt the token in th
 ```javascript
 
 yotiClient.getActivityDetails(token).then((activityDetails) => {
-    const userProfile = activityDetails.getUserProfile(); // deprecated
+    const userProfile = activityDetails.getProfile();
     // Use the table below to retrieve specific attributes from the profile object
 })
 ```
@@ -315,18 +315,6 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
     * [X] Structured Address `getStructuredPostalAddress().getValue()`
     * [X] Document Details `getDocumentDetails().getValue()`
     * [X] Document Images `getDocumentImages().getValue()`
-  * [X] userProfile `.getUserProfile()`
-    * [X] Photo `selfie`
-    * [X] Full Name `fullName`
-    * [X] Given Names `givenNames`
-    * [X] Family Name `familyName`
-    * [X] Mobile Number `phoneNumber`
-    * [X] Email address `emailAddress`
-    * [X] Age / Date of Birth `dateOfBirth`
-    * [X] Age / Verify Condition `isAgeVerified`
-    * [X] Address `postalAddress`
-    * [X] Gender `gender`
-    * [X] Nationality `nationality`
 
 ## Support
 
