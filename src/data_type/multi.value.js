@@ -37,26 +37,23 @@ module.exports = class MultiValue {
    * Apply all filters.
    */
   applyFilters() {
-    this.items = this.originalItems.filter((value) => {
-      // Allow value if no filters have been applied.
-      if (this.filterInstances.length === 0 && this.filterTypes.length === 0) {
-        return true;
-      }
+    this.items = this.originalItems;
 
-      // Check instance.
-      let allowedInstance = false;
-      if (this.filterInstances.length > 0) {
-        allowedInstance = this.filterInstances.find(type => value instanceof type);
-      }
-
-      // Check constructor name (class).
-      let allowedType = false;
-      if (this.filterTypes.length > 0) {
-        allowedType = this.filterTypes.find(type => value.constructor.name === type);
-      }
-
-      return allowedType || allowedInstance;
-    });
+    if (this.filterInstances.length > 0 || this.filterTypes.length > 0) {
+      this.items = this.items.filter((value) => {
+        // Check instance.
+        let allowedInstance = false;
+        if (this.filterInstances.length > 0) {
+          allowedInstance = this.filterInstances.find(type => value instanceof type);
+        }
+        // Check constructor name (class).
+        let allowedType = false;
+        if (this.filterTypes.length > 0) {
+          allowedType = this.filterTypes.find(type => value.constructor.name === type);
+        }
+        return allowedType || allowedInstance;
+      });
+    }
 
     // Apply filters on all nested MultiValue items.
     this.items.forEach((value) => {
