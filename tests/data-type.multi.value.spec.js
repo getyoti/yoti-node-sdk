@@ -30,12 +30,7 @@ describe('MultiValue', () => {
   context('#getItems', () => {
     it('should return provided array of items', () => {
       const multiValue = new MultiValue(getTestValues());
-      const thirdLevelMultiValue = multiValue.getItems()[5].getItems()[5];
-
-      expect(thirdLevelMultiValue).to.be.instanceOf(MultiValue);
-      expect(thirdLevelMultiValue.getItems().length).to.equal(5);
-      expect(thirdLevelMultiValue.getItems()[0]).to.be.instanceOf(ImageJpeg);
-      expect(thirdLevelMultiValue.getItems()[1]).to.be.instanceOf(ImagePng);
+      expect(multiValue.getItems()).to.eql(getTestValues());
     });
   });
   context('#applyFilters', () => {
@@ -54,10 +49,13 @@ describe('MultiValue', () => {
       // Second level.
       const secondLevelMultiValue = multiValue.getItems()[1];
       expect(secondLevelMultiValue.getItems().length).to.equal(2);
+      expect(secondLevelMultiValue.getItems()[0]).to.be.instanceOf(ImageJpeg);
+      expect(secondLevelMultiValue.getItems()[1]).to.be.instanceOf(MultiValue);
 
       // Third level.
       const thirdLevelMultiValue = secondLevelMultiValue.getItems()[1];
       expect(thirdLevelMultiValue.getItems().length).to.equal(1);
+      expect(thirdLevelMultiValue.getItems()[0]).to.be.instanceOf(ImageJpeg);
     });
     it('should allow combination of instance and type filters', () => {
       const multiValue = new MultiValue(getTestValues());
