@@ -17,6 +17,8 @@ module.exports = class MultiValue {
    * Filter values by their instance type.
    *
    * @param {*} type
+   *
+   * @returns {MultiValue}
    */
   filterInstance(type) {
     this.filterInstances.push(type);
@@ -27,6 +29,8 @@ module.exports = class MultiValue {
    * Filter values by their constructor name.
    *
    * @param {String} type
+   *
+   * @returns {MultiValue}
    */
   filterType(type) {
     this.filterTypes.push(type);

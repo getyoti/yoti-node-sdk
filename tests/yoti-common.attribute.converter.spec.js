@@ -150,4 +150,20 @@ describe('attributeConverter', () => {
       });
     });
   });
+  describe('Document Images', () => {
+    it('should be immutable', () => {
+      const documentImages = AttributeConverter
+        .convertValueBasedOnAttributeName(
+          convertSampleMultiValue(),
+          constants.ATTR_DOCUMENT_IMAGES
+        );
+
+      // Attempt to change a document image.
+      documentImages[0] = 'not allowed';
+
+      expect(documentImages.length).to.equal(2);
+      expect(documentImages[0]).to.be.instanceOf(ImageJpeg);
+      expect(documentImages[0].getMimeType()).to.equal('image/jpeg');
+    });
+  });
 });
