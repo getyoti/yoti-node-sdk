@@ -6,7 +6,7 @@ const ImageJpeg = require('../src/data_type/image.jpeg');
 const ImagePng = require('../src/data_type/image.png');
 const MultiValue = require('../src/data_type/multi.value');
 const constants = require('../src/yoti_common/constants');
-const ByteBuffer = require('bytebuffer');
+const Buffer = require('safe-buffer').Buffer;
 
 const sampleMultiValueAttribute = fs.readFileSync('./tests/sample-data/fixtures/attributes/multi-value.txt', 'utf8');
 const protoInst = protoRoot.initializeProtoBufObjects();
@@ -40,10 +40,20 @@ const convertSampleMultiValue = () => {
  * @param {String} contentType
  * @param {String} value
  */
-const createTestMultiValueValue = (contentType, value) => ({
-  contentType,
-  data: ByteBuffer.fromUTF8(value),
-});
+const createTestMultiValueValue = (contentType, value) => {
+  const multiValueValue = protoInst
+    .builder
+    .attrpubapi_v1
+    .MultiValue
+    .Value;
+
+  const encoded = multiValueValue.encode({
+    contentType,
+    data: Buffer.from(value, 'utf8'),
+  });
+
+  return multiValueValue.decode(encoded);
+};
 
 /**
  * Creates a test MultiValue attribute.
