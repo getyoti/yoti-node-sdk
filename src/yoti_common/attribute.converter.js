@@ -71,7 +71,7 @@ module.exports.AttributeConverter = class AttributeConverter {
     const items = [];
     protoMultiValue.values.forEach((item) => {
       items.push(AttributeConverter.convertValueBasedOnContentType(
-        Buffer.from(item.data.toArrayBuffer()),
+        item.data,
         item.contentType
       ));
     });
