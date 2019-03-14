@@ -29,9 +29,9 @@ module.exports.AttributeConverter = class AttributeConverter {
         if (!(value instanceof MultiValue)) {
           return null;
         }
-        return value
+        return Object.freeze(value
           .filterInstance(Image)
-          .getItems();
+          .getItems());
       default:
         return value;
     }
