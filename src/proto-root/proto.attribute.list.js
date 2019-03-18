@@ -20,20 +20,21 @@ module.exports = {
       const attrValue = attribute.getValue();
       const attrType = attribute.getContentType();
       const processedAnchors = AnchorProcessor.process(attribute.anchors);
-      const convertedValueByType = AttributeConverter
-        .convertValueBasedOnContentType(attrValue, attrType);
       const attrNameInCamelCase = this.toCamelCase(attrName);
-
-      // Handle selfies for backwards compatibility.
-      if (attrName === constants.ATTR_SELFIE && convertedValueByType instanceof Image) {
-        attrList.push({ base64SelfieUri: convertedValueByType.getBase64Content() });
-        attrList.push({ [attrNameInCamelCase]: convertedValueByType.getContent() });
-      } else {
-        attrList.push({ [attrNameInCamelCase]: convertedValueByType });
-      }
 
       let attrData = null;
       try {
+        const convertedValueByType = AttributeConverter
+          .convertValueBasedOnContentType(attrValue, attrType);
+
+        // Handle selfies for backwards compatibility.
+        if (attrName === constants.ATTR_SELFIE && convertedValueByType instanceof Image) {
+          attrList.push({ base64SelfieUri: convertedValueByType.getBase64Content() });
+          attrList.push({ [attrNameInCamelCase]: convertedValueByType.getContent() });
+        } else {
+          attrList.push({ [attrNameInCamelCase]: convertedValueByType });
+        }
+
         const convertedValueByName = AttributeConverter.convertValueBasedOnAttributeName(
           convertedValueByType,
           attrName
