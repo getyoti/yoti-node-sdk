@@ -38,8 +38,9 @@ module.exports.AttributeConverter = class AttributeConverter {
   }
 
   static convertValueBasedOnContentType(value, contentType) {
-    if (!value) {
-      return null;
+    if (!value ||
+      (contentType !== CONTENT_TYPE_STRING && !value.limit)) {
+      throw new Error('Warning: value is NULL');
     }
 
     switch (contentType) {
