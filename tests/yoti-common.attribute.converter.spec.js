@@ -150,6 +150,24 @@ describe('attributeConverter', () => {
       });
     });
   });
+  describe('#convertValueBasedOnAttributeName', () => {
+    it('should fail when list of images could not be decoded', () => {
+      let exceptionMessage = null;
+      try {
+        const documentImages = AttributeConverter
+        .convertValueBasedOnAttributeName(
+          {},
+          constants.ATTR_DOCUMENT_IMAGES
+        );
+      }
+      catch (err) {
+        exceptionMessage = err.message;
+      }
+
+      expect(exceptionMessage).to.equal('Document Images could not be decoded');
+      expect(typeof documentImages).to.equal('undefined');
+    });
+  });
   describe('Document Images', () => {
     it('should be immutable', () => {
       const documentImages = AttributeConverter
