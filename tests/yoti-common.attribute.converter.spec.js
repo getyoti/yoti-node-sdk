@@ -153,19 +153,19 @@ describe('attributeConverter', () => {
   describe('#convertValueBasedOnAttributeName', () => {
     it('should fail when list of images could not be decoded', () => {
       let exceptionMessage = null;
+      let documentImages = null;
       try {
-        const documentImages = AttributeConverter
-        .convertValueBasedOnAttributeName(
-          {},
-          constants.ATTR_DOCUMENT_IMAGES
-        );
-      }
-      catch (err) {
+        documentImages = AttributeConverter
+          .convertValueBasedOnAttributeName(
+            {},
+            constants.ATTR_DOCUMENT_IMAGES
+          );
+      } catch (err) {
         exceptionMessage = err.message;
       }
 
       expect(exceptionMessage).to.equal('Document Images could not be decoded');
-      expect(typeof documentImages).to.equal('undefined');
+      expect(documentImages).to.equal(null);
     });
   });
   describe('Document Images', () => {
