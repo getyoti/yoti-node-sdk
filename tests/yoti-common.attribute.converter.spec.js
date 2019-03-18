@@ -13,7 +13,9 @@ const protoInst = protoRoot.initializeProtoBufObjects();
 
 const CONTENT_TYPE_STRING = 1;
 const CONTENT_TYPE_JPEG = 2;
+const CONTENT_TYPE_DATE = 3;
 const CONTENT_TYPE_PNG = 4;
+const CONTENT_TYPE_BYTES = 5;
 const CONTENT_TYPE_MULTI_VALUE = 6;
 
 /**
@@ -60,16 +62,7 @@ const createTestMultiValueValue = (contentType, value) => {
  *
  * @returns {ByteBuffer}
  */
-const createTestMultiValue = () => {
-  const multiValueItems = {
-    values: [
-      createTestMultiValueValue(CONTENT_TYPE_JPEG, 'image_1'),
-      createTestMultiValueValue(CONTENT_TYPE_PNG, 'image_2'),
-      createTestMultiValueValue(CONTENT_TYPE_STRING, 'string 1'),
-      createTestMultiValueValue(CONTENT_TYPE_STRING, ''),
-    ],
-  };
-
+const createTestMultiValue = (multiValueItems) => {
   const nestedProtoMultiValue = protoInst
     .builder
     .attrpubapi_v1
@@ -89,6 +82,37 @@ const createTestMultiValue = () => {
     .encode(multiValueItems);
 
   return protoMultiValue;
+};
+
+/**
+ * Array of non-string content types.
+ */
+const nonStringContentTypes = [
+  CONTENT_TYPE_JPEG,
+  CONTENT_TYPE_DATE,
+  CONTENT_TYPE_PNG,
+  CONTENT_TYPE_BYTES,
+  CONTENT_TYPE_MULTI_VALUE,
+];
+
+/**
+ * Creates a test attribute.
+ *
+ * @param {String} contentType
+ * @param {String} value
+ */
+const createTestAttribute = (contentType, value) => {
+  const attribute = protoInst
+    .builder
+    .attrpubapi_v1
+    .Attribute;
+
+  const encoded = attribute.encode({
+    contentType,
+    value: Buffer.from(value, 'utf8'),
+  });
+
+  return attribute.decode(encoded);
 };
 
 /**
@@ -116,7 +140,13 @@ describe('attributeConverter', () => {
     });
     it('should include all content types', () => {
       const multiValue = AttributeConverter.convertValueBasedOnContentType(
-        createTestMultiValue(),
+        createTestMultiValue({
+          values: [
+            createTestMultiValueValue(CONTENT_TYPE_JPEG, 'image_1'),
+            createTestMultiValueValue(CONTENT_TYPE_PNG, 'image_2'),
+            createTestMultiValueValue(CONTENT_TYPE_STRING, 'string 1'),
+          ],
+        }),
         CONTENT_TYPE_MULTI_VALUE
       );
       // Check top-level items.
@@ -124,15 +154,68 @@ describe('attributeConverter', () => {
       expect(items[0]).to.be.instanceOf(ImageJpeg);
       expect(items[1]).to.be.instanceOf(ImagePng);
       expect(items[2]).to.equal('string 1');
-      expect(items[3]).to.equal('');
-      expect(items[4]).to.be.instanceOf(MultiValue);
+      expect(items[3]).to.be.instanceOf(MultiValue);
 
       // Check nested MultiValue.
-      const nestedItems = items[4].getItems();
+      const nestedItems = items[3].getItems();
       expect(nestedItems[0]).to.be.instanceOf(ImageJpeg);
       expect(nestedItems[1]).to.be.instanceOf(ImagePng);
       expect(nestedItems[2]).to.equal('string 1');
-      expect(nestedItems[3]).to.equal('');
+    });
+    it('should return empty string values', () => {
+      const protoAttr = createTestAttribute(CONTENT_TYPE_STRING, '');
+      const value = AttributeConverter.convertValueBasedOnContentType(
+        protoAttr.value,
+        CONTENT_TYPE_STRING
+      );
+      expect(value).to.equal('');
+    });
+    it('should not allow empty non-string values', () => {
+      nonStringContentTypes.forEach((contentType) => {
+        const protoAttr = createTestAttribute(contentType, '');
+        let errMessage = null;
+        try {
+          AttributeConverter.convertValueBasedOnContentType(
+            protoAttr.value,
+            contentType
+          );
+        } catch (err) {
+          errMessage = err.message;
+        }
+        expect(errMessage).to.equal('Warning: value is NULL', `Content Type: ${contentType}`);
+      });
+    });
+    it('should empty string MultiValue values', () => {
+      const multiValue = AttributeConverter.convertValueBasedOnContentType(
+        createTestMultiValue({
+          values: [
+            createTestMultiValueValue(CONTENT_TYPE_STRING, ''),
+            createTestMultiValueValue(CONTENT_TYPE_PNG, 'image_2'),
+          ],
+        }),
+        CONTENT_TYPE_MULTI_VALUE
+      );
+      expect(multiValue.getItems()[0]).to.equal('');
+      expect(multiValue.getItems()[1]).to.be.instanceOf(ImagePng);
+    });
+    it('should not allow empty non-string MultiValue values', () => {
+      nonStringContentTypes.forEach((contentType) => {
+        let errMessage = null;
+        try {
+          AttributeConverter.convertValueBasedOnContentType(
+            createTestMultiValue({
+              values: [
+                createTestMultiValueValue(contentType, ''),
+                createTestMultiValueValue(CONTENT_TYPE_PNG, 'image_2'),
+              ],
+            }),
+            CONTENT_TYPE_MULTI_VALUE
+          );
+        } catch (err) {
+          errMessage = err.message;
+        }
+        expect(errMessage).to.equal('Warning: value is NULL', `Content Type: ${contentType}`);
+      });
     });
   });
   describe('#convertValueBasedOnAttributeName', () => {
