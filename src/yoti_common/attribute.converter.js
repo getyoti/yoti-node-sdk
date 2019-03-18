@@ -27,11 +27,11 @@ module.exports.AttributeConverter = class AttributeConverter {
         return new DocumentDetails(value);
       case constants.ATTR_DOCUMENT_IMAGES:
         if (!(value instanceof MultiValue)) {
-          return null;
+          throw new Error('Document Images could not be decoded');
         }
-        return Object.freeze(value
-          .filterInstance(Image)
-          .getItems());
+        return value
+          .allowInstance(Image)
+          .getItems();
       default:
         return value;
     }
