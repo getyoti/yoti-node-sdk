@@ -40,8 +40,8 @@ describe('MultiValue', () => {
 
       // Apply filters.
       multiValue
-        .filterInstance(ImageJpeg)
-        .filterInstance(MultiValue);
+        .allowInstance(ImageJpeg)
+        .allowInstance(MultiValue);
 
       // First level.
       expect(multiValue.getItems().length).to.equal(2);
@@ -61,11 +61,10 @@ describe('MultiValue', () => {
       const multiValue = new MultiValue(getTestValues());
       expect(multiValue.getItems()).to.eql(getTestValues());
 
-      // Allow ImageJpeg instances, Array and MultiValue.
       multiValue
-        .filterInstance(ImageJpeg)
-        .filterType('Array')
-        .filterType('MultiValue');
+        .allowInstance(ImageJpeg)
+        .allowType('Array')
+        .allowType('MultiValue');
       expect(multiValue.getItems().length).to.equal(3);
       expect(multiValue.getItems()[0]).to.be.instanceOf(ImageJpeg);
       expect(multiValue.getItems()[1]).to.eql(['test', 'array']);
@@ -84,23 +83,11 @@ describe('MultiValue', () => {
       const multiValue = new MultiValue(getTestValues());
       expect(multiValue.getItems()).to.eql(getTestValues());
 
-      // Allow only ImageJpeg.
-      multiValue.filterInstance(ImageJpeg);
+      multiValue.allowInstance(ImageJpeg);
       expect(multiValue.getItems().length).to.equal(1);
       expect(multiValue.getItems()[0]).to.be.instanceOf(ImageJpeg);
 
-      // Also allow ImagePng.
-      multiValue.filterInstance(ImagePng);
-      expect(multiValue.getItems().length).to.equal(2);
-      expect(multiValue.getItems()[0]).to.be.instanceOf(ImageJpeg);
-      expect(multiValue.getItems()[1]).to.be.instanceOf(ImagePng);
-
-      // Reset filters.
-      multiValue.resetFilters();
-      expect(multiValue.getItems()).to.eql(getTestValues());
-
-      // Allow any Image.
-      multiValue.filterInstance(Image);
+      multiValue.allowInstance(ImagePng);
       expect(multiValue.getItems().length).to.equal(2);
       expect(multiValue.getItems()[0]).to.be.instanceOf(ImageJpeg);
       expect(multiValue.getItems()[1]).to.be.instanceOf(ImagePng);
@@ -111,32 +98,15 @@ describe('MultiValue', () => {
       const multiValue = new MultiValue(getTestValues());
       expect(multiValue.getItems()).to.eql(getTestValues());
 
-      // Allow String and Object.
       multiValue
-        .filterType('String')
-        .filterType('Object');
+        .allowType('String')
+        .allowType('Object');
       expect(multiValue.getItems().length).to.equal(2);
       expect(multiValue.getItems()[0]).to.equal('test string');
       expect(multiValue.getItems()[1]).to.eql({ name: 'test object' });
 
-      // Also allow Arrays.
-      multiValue.filterType('Array');
+      multiValue.allowType('Array');
       expect(multiValue.getItems().length).to.equal(3);
-
-      // Reset filters.
-      multiValue.resetFilters();
-      expect(multiValue.getItems()).to.eql(getTestValues());
-
-      // Allow only ImageJpeg.
-      multiValue.filterType('ImageJpeg');
-      expect(multiValue.getItems().length).to.equal(1);
-      expect(multiValue.getItems()[0]).to.be.instanceOf(ImageJpeg);
-
-      // Also allow Strings.
-      multiValue.filterType('String');
-      expect(multiValue.getItems().length).to.equal(2);
-      expect(multiValue.getItems()[0]).to.be.instanceOf(ImageJpeg);
-      expect(multiValue.getItems()[1]).to.equal('test string');
     });
   });
 });
