@@ -78,7 +78,7 @@ describe('MultiValue', () => {
       expect(secondLevelMultiValue.getItems()[2]).to.be.instanceOf(MultiValue);
     });
   });
-  context('#filterInstance()', () => {
+  context('#allowInstance()', () => {
     it('should filter values by instance', () => {
       const multiValue = new MultiValue(getTestValues());
       expect(multiValue.getItems()).to.eql(getTestValues());
@@ -93,7 +93,7 @@ describe('MultiValue', () => {
       expect(multiValue.getItems()[1]).to.be.instanceOf(ImagePng);
     });
   });
-  context('#filterType()', () => {
+  context('#allowType()', () => {
     it('should filter values by type', () => {
       const multiValue = new MultiValue(getTestValues());
       expect(multiValue.getItems()).to.eql(getTestValues());
