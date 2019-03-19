@@ -17,6 +17,7 @@ const CONTENT_TYPE_DATE = 3;
 const CONTENT_TYPE_PNG = 4;
 const CONTENT_TYPE_BYTES = 5;
 const CONTENT_TYPE_MULTI_VALUE = 6;
+const CONTENT_TYPE_INT = 7;
 
 /**
  * Converts and return the sample proto MultiValue attribute.
@@ -93,6 +94,7 @@ const nonStringContentTypes = [
   CONTENT_TYPE_PNG,
   CONTENT_TYPE_BYTES,
   CONTENT_TYPE_MULTI_VALUE,
+  CONTENT_TYPE_INT,
 ];
 
 /**
@@ -183,6 +185,17 @@ describe('attributeConverter', () => {
           errMessage = err.message;
         }
         expect(errMessage).to.equal('Warning: value is NULL', `Content Type: ${contentType}`);
+      });
+    });
+    it('should return integer values', () => {
+      const integers = [0, 1, 123, -10, -1];
+      integers.forEach((integer) => {
+        const protoAttr = createTestAttribute(CONTENT_TYPE_INT, integer.toString(10));
+        const value = AttributeConverter.convertValueBasedOnContentType(
+          protoAttr.value,
+          CONTENT_TYPE_INT
+        );
+        expect(value).to.equal(integer);
       });
     });
     it('should allow empty string MultiValue values', () => {

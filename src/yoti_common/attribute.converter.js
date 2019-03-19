@@ -15,6 +15,7 @@ const CONTENT_TYPE_DATE = 3;
 const CONTENT_TYPE_PNG = 4;
 const CONTENT_TYPE_BYTES = 5;
 const CONTENT_TYPE_MULTI_VALUE = 6;
+const CONTENT_TYPE_INT = 7;
 
 module.exports.AttributeConverter = class AttributeConverter {
   static convertValueBasedOnAttributeName(value, attrName) {
@@ -61,6 +62,8 @@ module.exports.AttributeConverter = class AttributeConverter {
         return new ImagePng(value);
       case CONTENT_TYPE_MULTI_VALUE:
         return AttributeConverter.convertMultiValue(value);
+      case CONTENT_TYPE_INT:
+        return parseInt(value.toUTF8(), 10);
       default:
         return value;
     }
