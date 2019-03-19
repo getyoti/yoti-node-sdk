@@ -46,7 +46,7 @@ module.exports = {
           verifiers: processedAnchors.verifiers,
         };
       } catch (err) {
-        console.log(err.message);
+        console.log(`${err.message} (Attribute: ${attrName})`);
       }
       profileAttributes[attrName] = attrData;
 
