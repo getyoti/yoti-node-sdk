@@ -185,7 +185,7 @@ describe('attributeConverter', () => {
         expect(errMessage).to.equal('Warning: value is NULL', `Content Type: ${contentType}`);
       });
     });
-    it('should empty string MultiValue values', () => {
+    it('should allow empty string MultiValue values', () => {
       const multiValue = AttributeConverter.convertValueBasedOnContentType(
         createTestMultiValue({
           values: [
