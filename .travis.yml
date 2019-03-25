@@ -13,7 +13,7 @@ os:
   - linux
   - osx
 
-before_script:
+install:
   - npm install --only=dev
   - cd ./examples/aml-check && npm update && cd ../../
   - cd ./examples/profile && npm update && cd ../../
