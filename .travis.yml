@@ -14,7 +14,7 @@ os:
   - osx
 
 install:
-  - npm install --only=dev
+  - npm install
   - cd ./examples/aml-check && npm update && cd ../../
   - cd ./examples/profile && npm update && cd ../../
 
