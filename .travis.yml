@@ -6,16 +6,21 @@ node_js:
   - "10"
   - "11"
 
+cache: npm
+  
 os:
   - windows
   - linux
   - osx
 
 before_script:
-  - npm install --dev
+  - npm install --only=dev
   - cd ./examples/aml-check && npm update && cd ../../
   - cd ./examples/profile && npm update && cd ../../
 
 script:
-  - npm run lint
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then
+      npm run lint
+    fi
   - npm test
+  
