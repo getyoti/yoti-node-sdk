@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "8"
+  - "9"
+  - "10"
+  - "11"
+
+before_script:
+  - npm install --dev
+  - cd ./examples/aml-check && npm update && cd ../../
+  - cd ./examples/profile && npm update && cd ../../
+
+script:
+  - npm run lint
+  - npm test
