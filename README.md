@@ -316,7 +316,6 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
     * [X] Address `getPostalAddress().getValue()`
     * [X] Structured Address `getStructuredPostalAddress().getValue()`
     * [X] Document Details `getDocumentDetails().getValue()`
-    * [X] Document Images `getDocumentImages().getValue()`
 
 ## Support
 
