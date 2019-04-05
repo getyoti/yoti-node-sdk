@@ -16,12 +16,12 @@
     "test": "node_modules/.bin/istanbul cover node_modules/.bin/mocha tests/*.spec.js"
   },
   "dependencies": {
-    "base64-url": "^2.2.0",
+    "base64-url": "^2.2.1",
     "node-forge": "^0.7.6",
+    "node-rsa": "^1.0.3",
     "protobufjs": "^5.0.3",
     "safe-buffer": "^5.1.2",
     "superagent": "^3.8.3",
-    "node-rsa": "^1.0.3",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
