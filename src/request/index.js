@@ -55,7 +55,7 @@ module.exports.makeRequest = (httpMethod, endpoint, pem, appId, Payload) => {
     request.set('X-Yoti-Auth-Key', authKey)
       .set('X-Yoti-Auth-Digest', messageSignature)
       .set('X-Yoti-SDK', sdkIdentifier)
-      .set('X-Yoti-SDK-Version', yotiPackage.version)
+      .set('X-Yoti-SDK-Version', `${sdkIdentifier}-${yotiPackage.version}`)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .then((response) => {
