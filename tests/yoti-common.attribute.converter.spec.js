@@ -11,6 +11,7 @@ const Buffer = require('safe-buffer').Buffer;
 const sampleMultiValueAttribute = fs.readFileSync('./tests/sample-data/fixtures/attributes/multi-value.txt', 'utf8');
 const protoInst = protoRoot.initializeProtoBufObjects();
 
+const CONTENT_TYPE_UNDEFINED = 0;
 const CONTENT_TYPE_STRING = 1;
 const CONTENT_TYPE_JPEG = 2;
 const CONTENT_TYPE_DATE = 3;
@@ -131,7 +132,7 @@ const assertIsExpectedImage = (image, mimeType, base64Last10) => {
   expect(base64String.substr(base64String.length - 10)).to.equal(base64Last10);
 };
 
-describe('attributeConverter', () => {
+describe('AttributeConverter', () => {
   describe('#convertValueBasedOnContentType', () => {
     it('should return multi value object', () => {
       const multiValue = convertSampleMultiValue();
@@ -140,7 +141,7 @@ describe('attributeConverter', () => {
       assertIsExpectedImage(multiValue.getItems()[0], 'image/jpeg', 'vWgD//2Q==');
       assertIsExpectedImage(multiValue.getItems()[1], 'image/jpeg', '38TVEH/9k=');
     });
-    it('should include all content types', () => {
+    it('should include all content types for multi value', () => {
       const multiValue = AttributeConverter.convertValueBasedOnContentType(
         createTestMultiValue({
           values: [
@@ -171,6 +172,30 @@ describe('attributeConverter', () => {
         CONTENT_TYPE_STRING
       );
       expect(value).to.equal('');
+    });
+    it('should return UTF-8 encoded strings', () => {
+      const protoAttr = createTestAttribute(CONTENT_TYPE_STRING, 'test string');
+      const value = AttributeConverter.convertValueBasedOnContentType(
+        protoAttr.value,
+        CONTENT_TYPE_STRING
+      );
+      expect(value).to.equal('test string');
+    });
+    it('should return UTF-8 encoded strings for undefined content type', () => {
+      const protoAttr = createTestAttribute(CONTENT_TYPE_UNDEFINED, 'test undefined string');
+      const value = AttributeConverter.convertValueBasedOnContentType(
+        protoAttr.value,
+        CONTENT_TYPE_UNDEFINED
+      );
+      expect(value).to.equal('test undefined string');
+    });
+    it('should return UTF-8 encoded strings for unknown content types', () => {
+      const protoAttr = createTestAttribute(100, 'test unknown string');
+      const value = AttributeConverter.convertValueBasedOnContentType(
+        protoAttr.value,
+        100
+      );
+      expect(value).to.equal('test unknown string');
     });
     it('should not allow empty non-string values', () => {
       nonStringContentTypes.forEach((contentType) => {
