@@ -8,7 +8,6 @@ const ImagePng = require('../data_type/image.png');
 const protoRoot = require('../proto-root');
 const MultiValue = require('../data_type/multi.value');
 
-const CONTENT_TYPE_UNDEFINED = 0;
 const CONTENT_TYPE_STRING = 1;
 const CONTENT_TYPE_JPEG = 2;
 const CONTENT_TYPE_DATE = 3;
@@ -45,9 +44,6 @@ module.exports.AttributeConverter = class AttributeConverter {
     }
 
     switch (contentType) {
-      // UNDEFINED should not be seen, and is used as an error placeholder
-      case CONTENT_TYPE_UNDEFINED:
-        throw new Error('Wrong content type');
       case CONTENT_TYPE_STRING: // STRING means the value is UTF-8 encoded text.
       case CONTENT_TYPE_DATE: // Date as string in RFC3339 format (YYYY-MM-DD).
         return value.toUTF8();
@@ -65,7 +61,8 @@ module.exports.AttributeConverter = class AttributeConverter {
       case CONTENT_TYPE_INT:
         return parseInt(value.toUTF8(), 10);
       default:
-        return value;
+        console.log(`Unknown Content Type '${contentType}', parsing as a String`);
+        return value.toUTF8();
     }
   }
 
