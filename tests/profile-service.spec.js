@@ -31,7 +31,7 @@ describe('profileService', () => {
       });
 
       it('should get the receipt', (done) => {
-        profileService.getReceipt('blah', privateKeyFile, 'stub-app-id')
+        profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
           .then((receipt) => {
             const profile = receipt.getUserProfile();
             const outcome = receipt.getOutcome();
@@ -62,7 +62,7 @@ describe('profileService', () => {
       });
 
       it('should get an empty receipt from an empty profile share', (done) => {
-        profileService.getReceipt('blah', privateKeyFile, 'stub-app-id')
+        profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
           .then((receipt) => {
             const profile = receipt.getUserProfile();
             const outcome = receipt.getOutcome();
@@ -91,7 +91,7 @@ describe('profileService', () => {
       });
 
       it('should get an empty receipt from an empty profile share', (done) => {
-        profileService.getReceipt('blah', privateKeyFile, 'stub-app-id')
+        profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
           .then((receipt) => {
             const profile = receipt.getUserProfile();
             const outcome = receipt.getOutcome();
@@ -120,7 +120,7 @@ describe('profileService', () => {
       });
 
       it('should get an empty receipt from an empty profile share', (done) => {
-        profileService.getReceipt('blah', privateKeyFile, 'stub-app-id')
+        profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
           .then((receipt) => {
             const profile = receipt.getUserProfile();
             const outcome = receipt.getOutcome();
