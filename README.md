@@ -24,8 +24,8 @@ How to initialise your configuration
 6) [Profile Retrieval](#profile-retrieval) -
 How to retrieve a Yoti profile using the token
 
-7) [Dynamic Policy Generation](#dynamic-policy-generation) -
-How to retrieve a qrcode link for dynamic policies
+7) [Programmatic QR code creation](#dynamic-profile-attribute-requests) -
+How to retrieve a QR Code link by defining the requested user profile attributes programmatically
 
 8) [Handling Users](#handling-users) -
 How to manage users
@@ -169,28 +169,29 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
 [Example reference](examples/profile/index.js)
 
 
-## Dynamic Policy Generation
+## Programmatic QR code creation
 
-Dynamic policy generation is a way of requesting non-static policies for your application
+Dynamic attribute list generation is a way of requesting non-static attribute lists for your application.
 
-This is useful when you want or need different permutations of attributes from Yoti
+This is useful when you want or need different permutations of attributes from Yoti, without having to create a new application.
 
 E.g:
- 
+
 * Request 1: full-name and date-of-birth
 * Request 2: full-name and address
 
-This service will query Yoti Core (via Connect) for a QR Code/link associated with the requested policy.
+This service will query Yoti for a QR Code/link associated with the requested attribute list.
 
-This QR Code/link should then be embedded into your page using the Connect widget to begin a share with Yoti.
+This QR Code/link should then be embedded into your page using the Yoti widget to begin a share with Yoti.
 
 ```javascript
 
-yoticlient.getDynamicPolicyQRCodeLink(dynamicPolicyRequest)
-    .then((dynamicPolicyResult) => {
-        const qrCode = dynamicPolicyResult.getQRCodeLink();
-        const refId = dynamicPolicyResult.getRefId();
-        // Perform operation with qrcode
+yoticlient.getDynamicAttributeListQRCodeLink(dynamicAttributeListRequest)
+    .then((DynamicAttributeListResult) => {
+        const qrCode = DynamicAttributeListResult.getQRCodeLink();
+        const refId = DynamicAttributeListResult.getRefId();
+        const qr-code-div = document.getElementById('qr-code-div);
+        qr-code-div.innerHTML = qrCode;
     })
 
 ```

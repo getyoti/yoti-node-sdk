@@ -5,17 +5,17 @@ const { Payload } = require("../request/payload");
 const constant = require("../yoti_common/constants");
 
 const {
-    DynamicPolicyRequest,
-    DynamicPolicyResult,
-    Policy
-} = require("./dynamic.policy");
+    DynamicAttributeListRequest,
+    DynamicAttributeListResult,
+    AttributeList,
+} = require("./dynamic.attribute.list");
 
-const getDynamicPolicy = (dynamicSharingRequest, pem, appId) => {
+const getDynamicAttributeList = (dynamicSharingRequest, pem, appId) => {
     const endPoint = `/qrcodes/apps/${appId}`;
     const httpMethod = "POST";
 
     if (!dynamicSharingRequest) {
-        throw new Error("Error - dynamic sharing request should not be empty");
+        throw new Error("Error - dynamic attribute list request should not be empty");
     }
 
     const payload = new Payload(dynamicSharingRequest.getData());
@@ -23,25 +23,25 @@ const getDynamicPolicy = (dynamicSharingRequest, pem, appId) => {
     return new Promise((resolve, reject) => {
         httpRequest.makeRequest(httpMethod, endPoint, pem, appId, payload)
             .then((response) => {
-                try { 
+                try {
                     const parsedResponse = response.getParsedResponse();
-                    DynamicPolicyResult.checkAttributes(parsedResponse);
-                    return resolve(new DynamicPolicyResult(parsedResponse));
+                    DynamicAttributeListResult.checkAttributes(parsedResponse);
+                    return resolve(new DynamicAttributeListResult(parsedResponse));
                 } catch(err) {
                     console.log(`Error getting response data :: ${err}`);
                     return reject(err);
                 }
             })
             .catch((err) => {
-                console.log(`Error retriving requested data: ${err}`);
+                console.log(`Error retrieving requested data: ${err}`);
                 return reject(err);
             })
     });
 }
 
 module.exports = {
-    DynamicPolicyRequest,
-    DynamicPolicyResult,
-    Policy,
-    getDynamicPolicy,
+    DynamicAttributeListRequest,
+    DynamicAttributeListResult,
+    AttributeList,
+    getDynamicAttributeList,
 };

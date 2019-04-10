@@ -3,7 +3,7 @@
 const NodeRSA = require('node-rsa');
 const profileService = require('../profile_service');
 const amlService = require('../aml_service');
-const dynamicPolicyService = require('../dynamic_policy_service');
+const dynamicAttributeListService = require('../dynamic_attribute_list_service');
 
 function decryptToken(encryptedConnectToken, pem) {
   const privateKey = new NodeRSA(pem, 'pkcs1', { encryptionScheme: 'pkcs1' });
@@ -37,15 +37,15 @@ module.exports.YotiClient = class YotiClient {
   }
 
   /**
-   * @desc given a dynamic sharing request get a custom qr code denoted by the
-   * policy stated in the request.
-   * @param {*} dynamicSharingRequest is the request that contains the policy.
-   * @returns {Promise} constaining a dynamic
+   * @desc given a dynamic attribute list request get a custom QR code denoted by the
+   * dynamic attribute list stated in the request.
+   * @param {*} dynamicAttributeListRequest is the request that contains the attribute list.
+   * @returns {Promise} containing a dynamic attribute list
    */
-  getDynamicPolicyQRCodeLink(dynamicPolicyRequest) {
-    // Build a dynbanic service, that gets the service
-    return dynamicPolicyService.getDynamicPolicy(
-      dynamicPolicyRequest,
+  getQRCodeLink(dynamicAttributeListRequest) {
+    // Build a dynamic service, that gets the service
+    return dynamicAttributeListService.getDynamicAttributeList(
+      dynamicAttributeListRequest,
       this.pem,
       this.applicationId,
     );
