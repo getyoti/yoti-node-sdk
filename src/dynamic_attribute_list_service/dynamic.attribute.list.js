@@ -25,18 +25,18 @@ const validateWanted = (wanted) => {
 
 /**
  * Verify the type of remember-me.
- * @param {*} rememberMe 
+ * @param {*} rememberMe
  */
-const validateRememberMe = (rememberMe) => {
-    if (typeof(rememberMe) !== "boolean") {
-        const errorMessage = `type of policy ${constants.WANTED_REMEMBER_ME} should be a boolean`;
+const validateRememberMe = (isRememberMeWanted) => {
+    if (typeof(isRememberMeWanted) !== "boolean") {
+        const errorMessage = `type of attributeList ${constants.WANTED_REMEMBER_ME} should be a boolean`;
         throw new Error(errorMessage);
     }
 }
 
 /**
- * @desc validate authType is an array of boolean.
- * @param {*} authTypes 
+ * @desc validate authType is an array of booleans.
+ * @param {*} authTypes
  */
 const validateWantedAuthTypes = (authTypes) => {
     if (!Array.isArray(authTypes)) {
@@ -46,44 +46,44 @@ const validateWantedAuthTypes = (authTypes) => {
 }
 
 /**
- * 
- * @param {*} wanted wanted is an array of attributes to be requested.
- * @param {*} authTypes auth types represeents the authentication type to be used.
- * @param {*} wantedRememberMe 
+ *
+ * @param {*} wanted - wanted is an array of attributes to be requested.
+ * @param {*} authTypes - auth types represents the authentication type to be used.
+ * @param {*} wantedRememberMe
  */
-const Policy = (
+const AttributeList = (
     wanted,
     authTypes,
-    wantedRememberMe = false,
+    isRememberMeWanted = false,
     extensions = [],
 ) => {
     // Perform some validation
-    const policy = {};
-    // Validate policy.
+    const attributeList = {};
+    // Validate attribute list.
     validateWanted(wanted);
-    policy[constants.WANTED] = wanted;
+    attributeList[constants.WANTED] = wanted;
     // Assert an array of numbers.
     if (authTypes) {
         validateWantedAuthTypes(authTypes);
     }
-    policy[constants.WANTED_AUTH_TYPES] = (authTypes) ? authTypes : [];
+    attributeList[constants.WANTED_AUTH_TYPES] = (authTypes) ? authTypes : [];
     // Assert boolean value
-    validateRememberMe(wantedRememberMe)
-    policy[constants.WANTED_REMEMBER_ME] = wantedRememberMe;
+    validateRememberMe(isRememberMeWanted);
+    attributeList[constants.WANTED_REMEMBER_ME] = isRememberMeWanted;
 
-    policy[constants.EXTENSIONS] = extensions;
-    return policy;
+    attributeList[constants.EXTENSIONS] = extensions;
+    return attributeList;
 }
 
-class DynamicPolicyRequest {
+class DynamicAttributeListRequest {
     /**
-     * 
+     *
      * @param {*} callbackEndpoint refers to the endpoint to callback to.
-     * @param {*} policy is the poilicy to be requested, this refers to thte attributes.
+     * @param {*} attributeList is the attribute list to be requested, this refers to the attributes used within Yoti.
      */
-    constructor(callbackEndpoint, policy) {
+    constructor(callbackEndpoint, attributeList) {
         this.setCallBackEndpoint(callbackEndpoint);
-        this.setPolicy(policy);
+        this.setPolicy(attributeList);
     }
 
     /**
@@ -94,24 +94,24 @@ class DynamicPolicyRequest {
     }
 
     /**
-     * 
-     * @param {*} policy sets the policy.
+     *
+     * @param {*} attributeList sets the attributeList.
      */
-    setPolicy(policy) {
-        const validatedPolicy = Policy(
-            policy[constants.WANTED],
-            policy[constants.WANTED_AUTH_TYPES],
-            policy[constants.WANTED_REMEMBER_ME],
+    setPolicy(attributeList) {
+        const validatedAttributeList = AttributeList(
+            attributeList[constants.WANTED],
+            attributeList[constants.WANTED_AUTH_TYPES],
+            attributeList[constants.WANTED_REMEMBER_ME],
         );
-        this.policy = validatedPolicy;
+        this.attributeList = validatedAttributeList;
     }
 
     /**
-     * @param {wantedPolicy} wantedPolicy is a policy to add.
+     * @param {wantedAttributeList} wantedAttributeList is a attribute list to add.
      */
-    addWantedPolicy(wantedPolicy) {
-        validateWanted(wantedPolicy);
-        this.policy.wanted.push(wantedPolicy);
+    addWantedAttributeList(wantedAttributeList) {
+        validateWanted(wantedAttributeList);
+        this.attributeList.wanted.push(wantedAttributeList);
     }
 
     /**
@@ -120,7 +120,7 @@ class DynamicPolicyRequest {
     getData() {
         const data = {};
         data[constants.CALLBACK_ENDPOINT] = this.callbackEndpoint;
-        data[constants.POLICY] = this.policy;
+        data[constants.ATTRIBUTE_LIST] = this.attributeList;
         data[constants.EXTENSIONS] = [];
         return data;
     }
@@ -128,11 +128,11 @@ class DynamicPolicyRequest {
 
 
 /**
- * @description is the response object from connect.
- * The response will return two values which represents the QRCode to be passed
- * to the widget. as well as the reference id.
+ * @description is the response object from Yoti.
+ * The response will return two values; the QRCode to be passed
+ * to the widget. and the reference id.
  */
-class DynamicPolicyResult {
+class DynamicAttributeListResult {
     constructor(data) {
         this.data = data;
     }
@@ -159,7 +159,7 @@ class DynamicPolicyResult {
 };
 
 module.exports = {
-    Policy,
-    DynamicPolicyResult,
-    DynamicPolicyRequest,
+    AttributeList,
+    DynamicAttributeListResult,
+    DynamicAttributeListRequest,
 };

@@ -31,7 +31,7 @@ module.exports = Object.freeze({
   CALLBACK_ENDPOINT: 'callback_endpoint',
   QRCODE: 'qrcode',
   REF_ID: 'ref_id',
-  POLICY: 'policy',
+  ATTRIBUTE_LIST: 'attribute_list',
   WANTED: 'wanted',
   WANTED_AUTH_TYPES: 'wanted_auth_types',
   WANTED_REMEMBER_ME: 'wanted_remember_me',
