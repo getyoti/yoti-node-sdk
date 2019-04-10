@@ -3,15 +3,15 @@
 const Client = require('./src/client').YotiClient;
 const AmlAddress = require('./src/aml_type').AmlAddress;
 const AmlProfile = require('./src/aml_type').AmlProfile;
-const Policy = require('./src/dynamic_policy_service').Policy;
-const DynamicPolicyRequest = require('./src/dynamic_policy_service').DynamicPolicyRequest;
-const DynamicPolicyResult = require('./src/dynamic_policy_service').DynamicPolicyResult;
+const AttributeList = require('./src/dynamic_attribute_list_service').AttributeList;
+const DynamicAttributeListRequest = require('./src/dynamic_attribute_list_service').DynamicAttributeListRequest;
+const DynamicAttributeListResult = require('./src/dynamic_attribute_list_service').DynamicAttributeListResult;
 
 module.exports = {
   Client,
   AmlAddress,
   AmlProfile,
-  Policy,
-  DynamicPolicyRequest,
-  DynamicPolicyResult,
+  AttributeList,
+  DynamicAttributeListRequest,
+  DynamicAttributeListResult,
 };
