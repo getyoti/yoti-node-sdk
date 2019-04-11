@@ -30,7 +30,6 @@ describe('dynamicAttributeList', () => {
     wantedRememberMe
   );
   const dynamicAttributeListRequest = new DynamicAttributeListRequest(callbackURL, attributeList);
-  // const QRCODE_LINK = "https://staging0.code.yoti.com/CAEaJDRjNTQ3M2IxLTNiNzktNDg3My1iMmM4LThiMTQxZDYwMjM5ODAC";
   const QRCODE_LINK = 'https://dynamic-code.yoti.com/CAEaJDRjNTQ3M2IxLTNiNzktNDg3My1iMmM4LThiMTQxZDYwMjM5ODAC';
   const REF_ID = '4c5473b1-3b79-4873-b2c8-8b141d602398';
   const DYNAMIC_ATTRIBUTE_LIST_FILE = './tests/sample-data/responses/dynamic-attribute-list.json';
