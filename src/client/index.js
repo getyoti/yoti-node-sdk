@@ -43,7 +43,7 @@ module.exports.YotiClient = class YotiClient {
    * @returns {Promise} containing a dynamic attribute list
    */
   getQRCodeLink(dynamicAttributeListRequest) {
-    // Build a dynamic service, that gets the service
+    // Build a dynamic service, that gets the dynamic attribute list
     return dynamicAttributeListService.getDynamicAttributeList(
       dynamicAttributeListRequest,
       this.pem,

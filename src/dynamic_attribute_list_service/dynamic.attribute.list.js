@@ -129,8 +129,8 @@ class DynamicAttributeListRequest {
 
 /**
  * @description is the response object from Yoti.
- * The response will return two values; the QRCode to be passed
- * to the widget. and the reference id.
+ * The response will return two values: the QR Code to be passed
+ * to the widget, and the reference ID.
  */
 class DynamicAttributeListResult {
     constructor(data) {

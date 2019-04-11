@@ -24,7 +24,7 @@ How to initialise your configuration
 6) [Profile Retrieval](#profile-retrieval) -
 How to retrieve a Yoti profile using the token
 
-7) [Programmatic QR code creation](#dynamic-profile-attribute-requests) -
+7) [Programmatic QR Code Creation](#programmatic-qr-code-creation) -
 How to retrieve a QR Code link by defining the requested user profile attributes programmatically
 
 8) [Handling Users](#handling-users) -
