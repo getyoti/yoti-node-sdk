@@ -47,7 +47,7 @@ module.exports.YotiClient = class YotiClient {
     return dynamicAttributeListService.getDynamicAttributeList(
       dynamicAttributeListRequest,
       this.pem,
-      this.applicationId,
+      this.applicationId
     );
   }
 };
