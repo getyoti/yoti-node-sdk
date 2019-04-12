@@ -190,7 +190,7 @@ yoticlient.getDynamicAttributeListQRCodeLink(dynamicAttributeListRequest)
     .then((DynamicAttributeListResult) => {
         const qrCode = DynamicAttributeListResult.getQRCodeLink();
         const refId = DynamicAttributeListResult.getRefId();
-        const qr-code-div = document.getElementById('qr-code-div);
+        const qr-code-div = document.getElementById('qr-code-div');
         qr-code-div.innerHTML = qrCode;
     })
 
