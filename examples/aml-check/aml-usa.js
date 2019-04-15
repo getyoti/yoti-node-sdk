@@ -13,7 +13,7 @@ const config = {
 const firstName = 'Edward Richard George';
 const lastName = 'Heath';
 const countryCode = 'USA';
-const postCode = '012345';
+const postCode = '12345';
 const ssn = '123123123';
 
 const yoti = new Yoti.Client(config.CLIENT_SDK_ID, config.PEM_KEY);
