@@ -1,26 +1,54 @@
 language: node_js
-node_js:
-  - "6"
-  - "8"
-  - "9"
-  - "10"
-  - "11"
-  - "node"
 
 cache: npm
 
 git:
   depth: 1
 
-os:
-  - linux
-  - osx
+jobs:
+  include:
+    - stage: Test
+      node_js: "10"
+      before_install: npm install -g npm@latest
+      install: npm ci
+      script:
+        - npm audit
+        - npm test
+    - &test-compatibility
+      stage: Compatibility
+      node_js: "node"
+      os: linux
+      install: npm update
+      script:
+        - npm test
+    - <<: *test-compatibility
+      node_js: "6"
+    - <<: *test-compatibility
+      node_js: "8"
+    - <<: *test-compatibility
+      node_js: "9"
+    - <<: *test-compatibility
+      node_js: "10"
+    - <<: *test-compatibility
+      node_js: "11"
+    - &test-compatibility-osx
+      <<: *test-compatibility
+      os: osx
+    - <<: *test-compatibility-osx
+      node_js: "10"
+    - stage: Lint Examples
+      name: AML Check
+      node_js: "10"
+      install:
+        - cd ./examples/aml-check
+        - npm update
+      script:
+        - npm run lint
+    - name: Profile
+      node_js: "10"
+      install:
+        - cd ./examples/profile
+        - npm update
+      script:
+        - npm run lint
 
-install:
-  - npm install
-  - cd ./examples/aml-check && npm update && cd ../../
-  - cd ./examples/profile && npm update && cd ../../
-
-script:
-  - npm run lint
-  - npm test
