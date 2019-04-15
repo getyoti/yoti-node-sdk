@@ -35,6 +35,8 @@ jobs:
       <<: *test-compatibility
       os: osx
     - <<: *test-compatibility-osx
+      node_js: "8"
+    - <<: *test-compatibility-osx
       node_js: "10"
     - stage: Lint Examples
       name: AML Check
