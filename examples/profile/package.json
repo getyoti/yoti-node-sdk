@@ -8,7 +8,9 @@
   "engines": {
     "node": ">=8.9.4"
   },
-  "scripts": {},
+  "scripts": {
+    "lint": "node_modules/.bin/eslint *.js"
+  },
   "dependencies": {
     "body-parser": "1.18.2",
     "dotenv": "5.0.1",
