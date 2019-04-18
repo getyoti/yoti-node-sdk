@@ -12,6 +12,13 @@ const TransactionalFlowExtensionBuilder = require('./extension/transactional.flo
 const ShareUrlResult = require('./share.url.result');
 const Validation = require('../yoti_common/validation');
 
+/**
+ * @param {DynamicScenario} dynamicScenario
+ * @param {string} pem
+ * @param {string} appId
+ *
+ * @returns {Promise} containing a ShareUrlResult
+ */
 const createShareUrl = (dynamicScenario, pem, appId) => {
   const endPoint = `/qrcodes/apps/${appId}`;
   const httpMethod = 'POST';

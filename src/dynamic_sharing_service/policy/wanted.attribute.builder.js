@@ -27,6 +27,9 @@ module.exports = class WantedAttributeBuilder {
     return this;
   }
 
+  /**
+   * @returns {WantedAttribute}
+   */
   build() {
     return new WantedAttribute(this.name, this.derivation, this.optional);
   }
