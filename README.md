@@ -186,16 +186,22 @@ This QR Code/link should then be embedded into your page using the Yoti widget t
 
 ```javascript
 
-yoticlient.getDynamicAttributeListQRCodeLink(dynamicAttributeListRequest)
-    .then((DynamicAttributeListResult) => {
-        const qrCode = DynamicAttributeListResult.getQRCodeLink();
-        const refId = DynamicAttributeListResult.getRefId();
-        const qr-code-div = document.getElementById('qr-code-div');
-        qr-code-div.innerHTML = qrCode;
-    })
+const dynamicPolicy = new Yoti.DynamicPolicyBuilder()
+  .withFullName()
+  .build();
+
+const dynamicScenario = new Yoti.DynamicScenarioBuilder()
+  .withCallbackEndpoint('/profile')
+  .withPolicy(dynamicPolicy)
+  .build();
+
+yotiClient.createShareUrl(dynamicScenario)
+  .then((shareUrlResult) => {
+    const shareUrl = shareUrlResult.getShareUrl();
+    const refId = shareUrlResult.getRefId();
+  });
 
 ```
-
 
 ## Handling Users
 

@@ -19,7 +19,7 @@ module.exports = {
     "mocha": true
   },
   "overrides": [{
-    "files": "tests/*.spec.js",
+    "files": "\"./tests/**/*.spec.js\"",
     "rules": {
         "node/no-unpublished-require": 0,
         "node/no-missing-require": 0
