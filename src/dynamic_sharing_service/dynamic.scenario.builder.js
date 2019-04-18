@@ -24,7 +24,7 @@ module.exports = class DynamicScenarioBuilder {
   }
 
   /**
-   * @param {Extension[]} extensions
+   * @param {Extension} extension
    */
   withExtension(extension) {
     this.extensions.push(extension);
