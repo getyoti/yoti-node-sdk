@@ -21,6 +21,9 @@ module.exports = class DynamicScenario {
     this.extensions = extensions;
   }
 
+  /**
+   * @returns {Object} data for JSON.stringify()
+   */
   toJSON() {
     return {
       callback_endpoint: this.callbackEndpoint,
