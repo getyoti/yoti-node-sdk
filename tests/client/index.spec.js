@@ -7,6 +7,7 @@ const yoti = require('../..');
 const AmlAddress = require('../../src/aml_type').AmlAddress;
 const AmlProfile = require('../../src/aml_type').AmlProfile;
 const Payload = require('../../src/request/payload').Payload;
+const ShareUrlResult = require('../../src/dynamic_sharing_service/share.url.result');
 
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 const yotiClient = new yoti.Client('stub-app-id', privateKeyFile);
@@ -182,6 +183,35 @@ describe('yotiClient', () => {
           expect(amlResult.isOnFraudList).to.equal(false);
           expect(amlResult.isOnWatchList).to.equal(false);
 
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe('#createShareUrl', () => {
+    const dynamicScenario = new yoti.DynamicScenarioBuilder()
+      .withCallbackEndpoint('/test-callback-url')
+      .withPolicy(new yoti.DynamicPolicyBuilder().build())
+      .build();
+
+    const SHARE_URL_RESULT = './tests/sample-data/responses/share-url-result.json';
+    beforeEach((done) => {
+      nock(`${config.yoti.connectApi}`)
+        .post(new RegExp('^/api/v1/qrcodes/apps/'))
+        .reply(200, fs.readFileSync(SHARE_URL_RESULT));
+      done();
+    });
+
+    afterEach((done) => {
+      nock.cleanAll();
+      done();
+    });
+
+    it('it should get a ShareUrlResult', (done) => {
+      yotiClient.createShareUrl(dynamicScenario)
+        .then((result) => {
+          expect(result).to.be.instanceOf(ShareUrlResult);
           done();
         })
         .catch(done);
