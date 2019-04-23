@@ -100,10 +100,11 @@ The YotiClient is the SDK entry point. To initialise it you need include the fol
 
 ```javascript
 
-const yoti = require('yoti')
-const CLIENT_SDK_ID = 'your sdk id'
-const PEM = fs.readFileSync(__dirname + "/keys/your-application-pem-file.pem");
-let yotiClient = new yoti.Client(CLIENT_SDK_ID, PEM)
+const yoti = require('yoti');
+const fs = require('fs');
+const CLIENT_SDK_ID = 'your sdk id';
+const PEM = fs.readFileSync(__dirname + '/keys/your-application-pem-file.pem');
+let yotiClient = new yoti.Client(CLIENT_SDK_ID, PEM);
 
 ```
 
