@@ -99,7 +99,7 @@ module.exports.ActivityDetails = class ActivityDetails {
   }
 
   /**
-   * The Receipt ID.
+   * Receipt ID identifying a completed activity.
    *
    * @returns {string}
    */
