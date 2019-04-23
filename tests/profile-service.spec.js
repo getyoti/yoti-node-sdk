@@ -16,6 +16,7 @@ describe('profileService', () => {
   describe('#getReceipt', () => {
     const rememberMeId = 'Hig2yAT79cWvseSuXcIuCLa5lNkAPy70rxetUaeHlTJGmiwc/g1MWdYWYrexWvPU';
     const parentRememberMeId = 'f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrNijH4k4qafTG0FSNUgQIvd2Z3Nx1j8';
+    const receiptId = '9HNJDX5bEIN5TqBm0OGzVIc1LaAmbzfx6eIrwNdwpHvKeQmgPujyogC+r7hJCVPl';
 
     context('when the profile has attributes', () => {
       const response = fs.readFileSync('./tests/sample-data/payloads/payload.json', 'utf8');
@@ -37,6 +38,7 @@ describe('profileService', () => {
             const outcome = receipt.getOutcome();
 
             expect(profile).to.not.equal(undefined);
+            expect(receipt.getReceiptId()).to.equal(receiptId);
             expect(receipt.getUserId()).to.equal(rememberMeId);
             expect(receipt.getRememberMeId()).to.equal(rememberMeId);
             expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
@@ -69,6 +71,7 @@ describe('profileService', () => {
 
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
+            expect(receipt.getReceiptId()).to.equal(receiptId);
             expect(receipt.getUserId()).to.equal(rememberMeId);
             expect(receipt.getRememberMeId()).to.equal(rememberMeId);
             expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
@@ -98,6 +101,7 @@ describe('profileService', () => {
 
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
+            expect(receipt.getReceiptId()).to.equal(receiptId);
             expect(receipt.getUserId()).to.equal(rememberMeId);
             expect(receipt.getRememberMeId()).to.equal(rememberMeId);
             expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
@@ -127,6 +131,7 @@ describe('profileService', () => {
 
             expect(profile).to.not.equal(undefined);
             expect(profile).to.deep.equal({});
+            expect(receipt.getReceiptId()).to.equal(receiptId);
             expect(receipt.getUserId()).to.equal(rememberMeId);
             expect(receipt.getRememberMeId()).to.equal(rememberMeId);
             expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);

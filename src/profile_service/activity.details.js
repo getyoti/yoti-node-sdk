@@ -97,4 +97,13 @@ module.exports.ActivityDetails = class ActivityDetails {
   getBase64SelfieUri() {
     return this.profile.base64SelfieUri;
   }
+
+  /**
+   * The Receipt ID.
+   *
+   * @returns {string}
+   */
+  getReceiptId() {
+    return this.receipt.receipt_id;
+  }
 };
