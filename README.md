@@ -59,8 +59,8 @@ Yoti also allows you to enable user details verification from your mobile app by
 
 ## Requirements
 
-### Node version 
-We currently support up to Node version 11.
+### Node version
+Please refer to [Travis](https://travis-ci.com/getyoti/yoti-node-sdk) to see all compatible Node versions.
 
 ### Windows users
 
@@ -122,7 +122,7 @@ Please do not open the pem file as this might corrupt the key and you will need 
 
 ### Upgrading from SDK version 2.x.x
 
-The way the Yoti SDK client is initialised got changed in version 3. Please make sure you update your code if you're upgrading the npm package.
+The way the Yoti SDK client is initialised was changed in version 3. Please make sure you update your code if you're upgrading the npm package.
 
 ```javascript
 
