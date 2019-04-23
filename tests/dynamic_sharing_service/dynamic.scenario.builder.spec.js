@@ -11,7 +11,7 @@ const {
 const DynamicScenario = require('../../src/dynamic_sharing_service/dynamic.scenario');
 
 describe('DynamicScenarioBuilder', () => {
-  it('it should build DynamicScenario', () => {
+  it('should build DynamicScenario', () => {
     const dynamicPolicy = new DynamicPolicyBuilder()
       .withFullName()
       .withGivenNames(true)

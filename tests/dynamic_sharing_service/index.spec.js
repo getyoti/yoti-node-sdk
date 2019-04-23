@@ -21,8 +21,8 @@ describe('createShareUrl', () => {
   const REF_ID = '4c5473b1-3b79-4873-b2c8-8b141d602398';
   const SHARE_URL_RESULT = './tests/sample-data/responses/share-url-result.json';
 
-  context('when valid a valid response is returned', () => {
-    it('should get the qr code and ref id', (done) => {
+  context('when a valid response is returned', () => {
+    it('should get the QR code and Ref ID', (done) => {
       nock(`${config.yoti.connectApi}`)
         .post(new RegExp(`^/api/v1/qrcodes/apps/${APP_ID}`))
         .reply(200, fs.readFileSync(SHARE_URL_RESULT));
