@@ -16,7 +16,7 @@ module.exports = class DynamicPolicyBuilder {
   /**
    * @param {WantedAttribute} wantedAttribute
    */
-  addWantedAttribute(wantedAttribute) {
+  withWantedAttribute(wantedAttribute) {
     let key = wantedAttribute.getName();
     if (wantedAttribute.getDerivation()) {
       key = wantedAttribute.getDerivation();
@@ -27,43 +27,43 @@ module.exports = class DynamicPolicyBuilder {
   }
 
   /**
-   * @param {boolean} optional
    * @param {string} name
+   * @param {boolean} optional
    */
-  withWantedAttribute(optional, name) {
+  withWantedAttributeByName(name, optional = false) {
     const wantedAttribute = new WantedAttributeBuilder()
       .withName(name)
       .withOptional(optional)
       .build();
-    return this.addWantedAttribute(wantedAttribute);
+    return this.withWantedAttribute(wantedAttribute);
   }
 
   /**
    * @param {boolean} optional
    */
   withFamilyName(optional = false) {
-    return this.withWantedAttribute(optional, constants.ATTR_FAMILY_NAME);
+    return this.withWantedAttributeByName(constants.ATTR_FAMILY_NAME, optional);
   }
 
   /**
    * @param {boolean} optional
    */
   withGivenNames(optional = false) {
-    return this.withWantedAttribute(optional, constants.ATTR_GIVEN_NAMES);
+    return this.withWantedAttributeByName(constants.ATTR_GIVEN_NAMES, optional);
   }
 
   /**
    * @param {boolean} optional
    */
   withFullName(optional = false) {
-    return this.withWantedAttribute(optional, constants.ATTR_FULL_NAME);
+    return this.withWantedAttributeByName(constants.ATTR_FULL_NAME, optional);
   }
 
   /**
    * @param {boolean} optional
    */
   withDateOfBirth(optional = false) {
-    return this.withWantedAttribute(optional, constants.ATTR_DATE_OF_BIRTH);
+    return this.withWantedAttributeByName(constants.ATTR_DATE_OF_BIRTH, optional);
   }
 
   /**
@@ -92,56 +92,56 @@ module.exports = class DynamicPolicyBuilder {
       .withDerivation(derivation)
       .withOptional(optional)
       .build();
-    return this.addWantedAttribute(wantedAttribute);
+    return this.withWantedAttribute(wantedAttribute);
   }
 
   /**
    * @param {boolean} optional
    */
   withGender(optional = false) {
-    return this.withWantedAttribute(optional, constants.ATTR_GENDER);
+    return this.withWantedAttributeByName(constants.ATTR_GENDER, optional);
   }
 
   /**
    * @param {boolean} optional
    */
   withPostalAddress(optional = false) {
-    return this.withWantedAttribute(optional, constants.ATTR_POSTAL_ADDRESS);
+    return this.withWantedAttributeByName(constants.ATTR_POSTAL_ADDRESS, optional);
   }
 
   /**
    * @param {boolean} optional
    */
   withStructuredPostalAddress(optional = false) {
-    return this.withWantedAttribute(optional, constants.ATTR_STRUCTURED_POSTAL_ADDRESS);
+    return this.withWantedAttributeByName(constants.ATTR_STRUCTURED_POSTAL_ADDRESS, optional);
   }
 
   /**
    * @param {boolean} optional
    */
   withNationality(optional = false) {
-    return this.withWantedAttribute(optional, constants.ATTR_NATIONALITY);
+    return this.withWantedAttributeByName(constants.ATTR_NATIONALITY, optional);
   }
 
   /**
    * @param {boolean} optional
    */
   withPhoneNumber(optional = false) {
-    return this.withWantedAttribute(optional, constants.ATTR_PHONE_NUMBER);
+    return this.withWantedAttributeByName(constants.ATTR_PHONE_NUMBER, optional);
   }
 
   /**
    * @param {boolean} optional
    */
   withSelfie(optional = false) {
-    return this.withWantedAttribute(optional, constants.ATTR_SELFIE);
+    return this.withWantedAttributeByName(constants.ATTR_SELFIE, optional);
   }
 
   /**
    * @param {boolean} optional
    */
   withEmail(optional = false) {
-    return this.withWantedAttribute(optional, constants.ATTR_EMAIL_ADDRESS);
+    return this.withWantedAttributeByName(constants.ATTR_EMAIL_ADDRESS, optional);
   }
 
   /**
