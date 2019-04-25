@@ -7,6 +7,7 @@ const AmlProfile = require('./src/aml_type').AmlProfile;
 const {
   DynamicScenarioBuilder,
   DynamicPolicyBuilder,
+  WantedAttributeBuilder,
   ExtensionBuilder,
   LocationConstraintExtensionBuilder,
   TransactionalFlowExtensionBuilder,
@@ -18,6 +19,7 @@ module.exports = {
   AmlProfile,
   DynamicScenarioBuilder,
   DynamicPolicyBuilder,
+  WantedAttributeBuilder,
   ExtensionBuilder,
   LocationConstraintExtensionBuilder,
   TransactionalFlowExtensionBuilder,

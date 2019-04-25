@@ -6,7 +6,7 @@ const {
   DynamicScenarioBuilder,
   DynamicPolicyBuilder,
   ExtensionBuilder,
-} = require('../../src/dynamic_sharing_service');
+} = require('../../');
 
 const DynamicScenario = require('../../src/dynamic_sharing_service/dynamic.scenario');
 

@@ -2,7 +2,7 @@ const {
   expect,
 } = require('chai');
 
-const ExtensionBuilder = require('../../../src/dynamic_sharing_service/extension/extension.builder');
+const { ExtensionBuilder } = require('../../../');
 const Extension = require('../../../src/dynamic_sharing_service/extension/extension');
 
 describe('ExtensionBuilder', () => {

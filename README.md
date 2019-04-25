@@ -184,10 +184,20 @@ This service will query Yoti for a QR Code/link associated with the requested at
 
 This QR Code/link should then be embedded into your page using the Yoti widget to begin a share with Yoti.
 
+### Example
+
+The following example demonstrates how a Dynamic Policy can be built using attribute methods such as `withFullName()`, and generic methods `withWantedAttribute()` and `withWantedAttributeByName()`.
+
 ```javascript
+
+const wantedEmailAttribute = new WantedAttributeBuilder()
+  .withName('email_address')
+  .build();
 
 const dynamicPolicy = new Yoti.DynamicPolicyBuilder()
   .withFullName()
+  .withWantedAttributeByName('given_names')
+  .withWantedAttribute(wantedEmailAttribute)
   .build();
 
 const dynamicScenario = new Yoti.DynamicScenarioBuilder()
