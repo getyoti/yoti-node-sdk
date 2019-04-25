@@ -2,6 +2,11 @@
 
 const WantedAttribute = require('./wanted.attribute');
 
+/**
+ * Builder for WantedAttribute.
+ *
+ * @class WantedAttributeBuilder
+ */
 module.exports = class WantedAttributeBuilder {
   /**
    * @param {string} name

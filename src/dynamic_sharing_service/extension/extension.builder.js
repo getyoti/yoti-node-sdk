@@ -2,6 +2,11 @@
 
 const Extension = require('./extension');
 
+/**
+ * Builder for Extension.
+ *
+ * @class ExtensionBuilder
+ */
 module.exports = class ExtensionBuilder {
   /**
    * @param {string} type

@@ -7,6 +7,11 @@ const constants = require('../../yoti_common/constants');
 const SELFIE_AUTH_TYPE = 1;
 const PIN_AUTH_TYPE = 2;
 
+/**
+ * Builder for DynamicPolicy.
+ *
+ * @class DynamicPolicyBuilder
+ */
 module.exports = class DynamicPolicyBuilder {
   constructor() {
     this.wantedAttributes = {};

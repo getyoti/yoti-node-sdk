@@ -14,6 +14,8 @@ const ShareUrlResult = require('./share.url.result');
 const Validation = require('../yoti_common/validation');
 
 /**
+ * Requests a share URL for provided Dynamic Scenario.
+ *
  * @param {DynamicScenario} dynamicScenario
  * @param {string} pem
  * @param {string} appId

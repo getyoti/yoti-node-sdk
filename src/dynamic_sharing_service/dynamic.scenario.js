@@ -4,6 +4,12 @@ const DynamicPolicy = require('./policy/dynamic.policy');
 const Extension = require('./extension/extension');
 const Validation = require('../yoti_common/validation');
 
+/**
+ * Defines the Dynamic Scenario callback endpoint, policy
+ * and extensions.
+ *
+ * @class DynamicScenario
+ */
 module.exports = class DynamicScenario {
   /**
    * @param {string} callbackEndpoint

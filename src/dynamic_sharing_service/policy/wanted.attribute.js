@@ -2,6 +2,12 @@
 
 const Validation = require('../../yoti_common/validation');
 
+/**
+ * Defines the wanted attribute name, derivation
+ * and whether it is optional.
+ *
+ * @class WantedAttribute
+ */
 module.exports = class WantedAttribute {
   /**
    * @param {string} name
