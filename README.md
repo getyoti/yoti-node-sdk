@@ -171,7 +171,7 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
 
 ## Programmatic QR code creation
 
-Dynamic attribute list generation is a way of requesting non-static attribute lists for your application.
+Dynamic Policy generation is a way of requesting non-static attribute lists for your application.
 
 This is useful when you want or need different permutations of attributes from Yoti, without having to create a new application.
 
