@@ -2,6 +2,11 @@
 
 const Validation = require('../../yoti_common/validation');
 
+/**
+ * Defines a device location.
+ *
+ * @class DeviceLocation
+ */
 class DeviceLocation {
   /**
    * @param {Number} latitude
@@ -66,6 +71,11 @@ class DeviceLocation {
   }
 }
 
+/**
+ * Defines an expected device location constraint.
+ *
+ * @class LocationConstraintContent
+ */
 module.exports = class LocationConstraintContent {
   constructor(latitude, longitude, radius, maxUncertainty) {
     this.expectedDeviceLocation = new DeviceLocation(latitude, longitude, radius, maxUncertainty);

@@ -5,6 +5,11 @@ const Validation = require('../../yoti_common/validation');
 
 const TRANSACTIONAL_FLOW = 'TRANSACTIONAL_FLOW';
 
+/**
+ * Builds a transactional flow Extension.
+ *
+ * @class TransactionalFlowExtensionBuilder
+ */
 module.exports = class TransactionalFlowExtensionBuilder {
   /**
    * @param {Object} content
