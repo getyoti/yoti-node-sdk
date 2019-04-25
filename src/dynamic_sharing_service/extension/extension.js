@@ -2,6 +2,11 @@
 
 const Validation = require('../../yoti_common/validation');
 
+/**
+ * Defines Extension for Dynamic Scenario.
+ *
+ * @class Extension
+ */
 module.exports = class Extension {
   /**
    * @param {string} type

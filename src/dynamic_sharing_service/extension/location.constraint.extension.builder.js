@@ -5,7 +5,12 @@ const LocationConstraintExtensionContent = require('./location.constraint.extens
 
 const LOCATION_CONSTRAINT = 'LOCATION_CONSTRAINT';
 
-module.exports = class ExtensionLocationConstraintBuilder {
+/**
+ * Builds location constraint Extension.
+ *
+ * @class LocationConstraintExtensionBuilder
+ */
+module.exports = class LocationConstraintExtensionBuilder {
   /**
    * @param {Number} latitude
    */

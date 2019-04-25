@@ -2,6 +2,12 @@
 
 const Validation = require('../yoti_common/validation');
 
+/**
+ * The share result, containing the share URL
+ * and ref ID.
+ *
+ * @class ShareUrlResult
+ */
 module.exports = class ShareUrlResult {
   /**
    * @param {Object} response
