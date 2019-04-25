@@ -6,6 +6,7 @@ const { Payload } = require('../request/payload');
 const DynamicScenarioBuilder = require('./dynamic.scenario.builder');
 const DynamicScenario = require('./dynamic.scenario');
 const DynamicPolicyBuilder = require('./policy/dynamic.policy.builder');
+const WantedAttributeBuilder = require('./policy/wanted.attribute.builder');
 const ExtensionBuilder = require('./extension/extension.builder');
 const LocationConstraintExtensionBuilder = require('./extension/location.constraint.extension.builder');
 const TransactionalFlowExtensionBuilder = require('./extension/transactional.flow.extension.builder');
@@ -49,6 +50,7 @@ module.exports = {
   createShareUrl,
   DynamicScenarioBuilder,
   DynamicPolicyBuilder,
+  WantedAttributeBuilder,
   ExtensionBuilder,
   LocationConstraintExtensionBuilder,
   TransactionalFlowExtensionBuilder,

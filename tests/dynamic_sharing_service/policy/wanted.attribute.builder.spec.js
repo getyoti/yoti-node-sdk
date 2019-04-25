@@ -2,7 +2,7 @@ const {
   expect,
 } = require('chai');
 
-const WantedAttributeBuilder = require('../../../src/dynamic_sharing_service/policy/wanted.attribute.builder');
+const { WantedAttributeBuilder } = require('../../../');
 const WantedAttribute = require('../../../src/dynamic_sharing_service/policy/wanted.attribute');
 
 describe('DynamicPolicyBuilder', () => {

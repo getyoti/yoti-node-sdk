@@ -2,7 +2,7 @@ const {
   expect,
 } = require('chai');
 
-const TransactionalFlowExtensionBuilder = require('../../../src/dynamic_sharing_service/extension/transactional.flow.extension.builder');
+const { TransactionalFlowExtensionBuilder } = require('../../../');
 const Extension = require('../../../src/dynamic_sharing_service/extension/extension');
 
 const TRANSACTIONAL_FLOW = 'TRANSACTIONAL_FLOW';
