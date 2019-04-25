@@ -37,7 +37,7 @@ module.exports.YotiClient = class YotiClient {
   }
 
   /**
-   * Given a dynamic scenario get a custom QR code denoted by the dynamic policy
+   * Given a dynamic scenario, get a custom QR code denoted by the dynamic policy
    * provided in the request.
    *
    * @param {DynamicScenario} dynamicScenario - defines the wanted attribute list
