@@ -2,6 +2,11 @@
 
 const DynamicScenario = require('./dynamic.scenario');
 
+/**
+ * Builder for DynamicScenario.
+ *
+ * @class DynamicScenarioBuilder
+ */
 module.exports = class DynamicScenarioBuilder {
   constructor() {
     this.extensions = [];

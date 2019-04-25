@@ -3,6 +3,11 @@
 const WantedAttribute = require('./wanted.attribute');
 const Validation = require('../../yoti_common/validation');
 
+/**
+ * Defines the list of wanted attributes.
+ *
+ * @class DynamicPolicy
+ */
 module.exports = class DynamicPolicy {
   /**
    * @param {WantedAttribute[]} wantedAttributes - wanted is an array of attributes to be requested.
