@@ -4,7 +4,8 @@ const {
 
 const {
   DynamicPolicyBuilder,
-} = require('../../../src/dynamic_sharing_service');
+  WantedAttributeBuilder,
+} = require('../../../');
 
 const DynamicPolicy = require('../../../src/dynamic_sharing_service/policy/dynamic.policy');
 
@@ -88,30 +89,12 @@ describe('DynamicPolicyBuilder', () => {
     const dynamicPolicy = new DynamicPolicyBuilder()
       .withWantedAttributeByName('family_name')
       .withWantedAttributeByName('given_names')
-      .withWantedAttributeByName('full_name')
-      .withWantedAttributeByName('date_of_birth')
-      .withWantedAttributeByName('gender')
-      .withWantedAttributeByName('postal_address')
-      .withWantedAttributeByName('structured_postal_address')
-      .withWantedAttributeByName('nationality')
-      .withWantedAttributeByName('phone_number')
-      .withWantedAttributeByName('selfie')
-      .withWantedAttributeByName('email_address')
       .build();
 
     expectDynamicPolicyJson(dynamicPolicy, {
       wanted: [
         { name: 'family_name', derivation: '', optional: false },
         { name: 'given_names', derivation: '', optional: false },
-        { name: 'full_name', derivation: '', optional: false },
-        { name: 'date_of_birth', derivation: '', optional: false },
-        { name: 'gender', derivation: '', optional: false },
-        { name: 'postal_address', derivation: '', optional: false },
-        { name: 'structured_postal_address', derivation: '', optional: false },
-        { name: 'nationality', derivation: '', optional: false },
-        { name: 'phone_number', derivation: '', optional: false },
-        { name: 'selfie', derivation: '', optional: false },
-        { name: 'email_address', derivation: '', optional: false },
       ],
       wanted_auth_types: [],
       wanted_remember_me: false,
@@ -123,30 +106,38 @@ describe('DynamicPolicyBuilder', () => {
     const dynamicPolicy = new DynamicPolicyBuilder()
       .withWantedAttributeByName('family_name', true)
       .withWantedAttributeByName('given_names', true)
-      .withWantedAttributeByName('full_name', true)
-      .withWantedAttributeByName('date_of_birth', true)
-      .withWantedAttributeByName('gender', true)
-      .withWantedAttributeByName('postal_address', true)
-      .withWantedAttributeByName('structured_postal_address', true)
-      .withWantedAttributeByName('nationality', true)
-      .withWantedAttributeByName('phone_number', true)
-      .withWantedAttributeByName('selfie', true)
-      .withWantedAttributeByName('email_address', true)
       .build();
 
     expectDynamicPolicyJson(dynamicPolicy, {
       wanted: [
         { name: 'family_name', derivation: '', optional: true },
         { name: 'given_names', derivation: '', optional: true },
-        { name: 'full_name', derivation: '', optional: true },
-        { name: 'date_of_birth', derivation: '', optional: true },
-        { name: 'gender', derivation: '', optional: true },
-        { name: 'postal_address', derivation: '', optional: true },
-        { name: 'structured_postal_address', derivation: '', optional: true },
-        { name: 'nationality', derivation: '', optional: true },
-        { name: 'phone_number', derivation: '', optional: true },
-        { name: 'selfie', derivation: '', optional: true },
-        { name: 'email_address', derivation: '', optional: true },
+      ],
+      wanted_auth_types: [],
+      wanted_remember_me: false,
+      wanted_remember_me_optional: false,
+    });
+  });
+
+  it('should build with attribute objects', () => {
+    const wantedFamilyName = new WantedAttributeBuilder()
+      .withName('family_name')
+      .withOptional(true)
+      .build();
+
+    const wantedGivenNames = new WantedAttributeBuilder()
+      .withName('given_names')
+      .build();
+
+    const dynamicPolicy = new DynamicPolicyBuilder()
+      .withWantedAttribute(wantedFamilyName)
+      .withWantedAttribute(wantedGivenNames)
+      .build();
+
+    expectDynamicPolicyJson(dynamicPolicy, {
+      wanted: [
+        { name: 'family_name', derivation: '', optional: true },
+        { name: 'given_names', derivation: '', optional: false },
       ],
       wanted_auth_types: [],
       wanted_remember_me: false,

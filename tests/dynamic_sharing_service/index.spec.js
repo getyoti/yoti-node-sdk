@@ -8,9 +8,11 @@ const uuid = require('uuid');
 const config = require('../../config');
 const {
   createShareUrl,
+} = require('../../src/dynamic_sharing_service');
+const {
   DynamicScenarioBuilder,
   DynamicPolicyBuilder,
-} = require('../../src/dynamic_sharing_service');
+} = require('../../');
 
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 
