@@ -31,6 +31,8 @@ jobs:
       node_js: "10"
     - <<: *test-compatibility
       node_js: "11"
+    - <<: *test-compatibility
+      node_js: "12"
     - &test-compatibility-osx
       <<: *test-compatibility
       os: osx
