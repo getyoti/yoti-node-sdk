@@ -13,8 +13,12 @@ const Validation = require('../yoti_common/validation');
 module.exports = class DynamicScenario {
   /**
    * @param {string} callbackEndpoint
+   *   The device's callback endpoint. Must be a URL relative to the Application
+   *   Domain specified in your Dashboard.
    * @param {DynamicPolicy} dynamicPolicy
+   *   The customisable DynamicPolicy to use in the share.
    * @param {Extension[]} extensions
+   *   List of Extension to be activated for the application.
    */
   constructor(callbackEndpoint, dynamicPolicy, extensions) {
     Validation.isString(callbackEndpoint, 'callbackEndpoint');
