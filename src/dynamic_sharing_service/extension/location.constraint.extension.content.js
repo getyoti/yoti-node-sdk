@@ -43,16 +43,16 @@ class DeviceLocation {
   }
 
   /**
-   * @returns {Number} Radius of the circle, centred on the specified
-   *   location coordinates, where the device is allowed to perform the share
+   * @returns {Number} Radius of the circle, centred on the specified location
+   *   coordinates, where the device is allowed to perform the share
    */
   getRadius() {
     return this.radius;
   }
 
   /**
-   * @returns {Number} Maximum acceptable distance, in metres, of the area of uncertainty
-   * associated with the device location coordinates
+   * @returns {Number} Maximum acceptable distance, in metres, of the area of
+   *   uncertainty associated with the device location coordinates.
    */
   getMaxUncertainty() {
     return this.maxUncertainty;

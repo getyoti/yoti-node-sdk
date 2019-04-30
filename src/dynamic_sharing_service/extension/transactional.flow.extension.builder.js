@@ -12,6 +12,9 @@ const TRANSACTIONAL_FLOW = 'TRANSACTIONAL_FLOW';
  */
 module.exports = class TransactionalFlowExtensionBuilder {
   /**
+   * Allows you to provide a non-null object representing the content to be submitted
+   * in the TRANSACTIONAL_FLOW extension.
+   *
    * @param {Object} content
    */
   withContent(content) {
