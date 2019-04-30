@@ -21,14 +21,18 @@ module.exports = class ShareUrlResult {
   }
 
   /**
-   * @returns {string}
+   * The URL that the 3rd party should use for the share.
+   *
+   * @returns {string} The share URL
    */
   getShareUrl() {
     return this.shareUrl;
   }
 
   /**
-   * @returns {string}
+   * Get the Yoti reference id for the share.
+   *
+   * @returns {string} reference id for the share
    */
   getRefId() {
     return this.refId;

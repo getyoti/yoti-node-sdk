@@ -26,6 +26,8 @@ module.exports = class WantedAttribute {
   }
 
   /**
+   * Name identifying the WantedAttribute
+   *
    * @returns {string}
    */
   getName() {
@@ -33,6 +35,8 @@ module.exports = class WantedAttribute {
   }
 
   /**
+   * Additional derived criteria.
+   *
    * @returns {string}
    */
   getDerivation() {
@@ -40,6 +44,8 @@ module.exports = class WantedAttribute {
   }
 
   /**
+   * Defines the WantedAttribute as not mandatory.
+   *
    * @returns {boolean}
    */
   isOptional() {
