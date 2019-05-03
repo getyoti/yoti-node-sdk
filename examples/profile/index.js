@@ -14,6 +14,7 @@ const port = process.env.PORT || 9443;
 const config = {
   APPLICATION_ID: process.env.YOTI_APPLICATION_ID, // Your Yoti Application ID
   CLIENT_SDK_ID: process.env.YOTI_CLIENT_SDK_ID, // Your Yoti Client SDK ID
+  SCENARIO_ID: process.env.YOTI_SCENARIO_ID, // Your Yoti Scenario ID
   PEM_KEY: fs.readFileSync(process.env.YOTI_KEY_FILE_PATH), // The content of your Yoti .pem key
 };
 
@@ -44,7 +45,47 @@ const router = express.Router();
 router.get('/', (req, res) => {
   res.render('pages/index', {
     yotiApplicationId: config.APPLICATION_ID,
+    yotiScenarioId: config.SCENARIO_ID,
   });
+});
+
+router.get('/dynamic-share', (req, res) => {
+  const locationExtension = new Yoti.LocationConstraintExtensionBuilder()
+    .withLatitude(51.5074)
+    .withLongitude(-0.1278)
+    .withRadius(6000)
+    .build();
+
+  const givenNamesWantedAttribute = new Yoti.WantedAttributeBuilder()
+    .withName('given_names')
+    .withOptional(true)
+    .build();
+
+  const dynamicPolicy = new Yoti.DynamicPolicyBuilder()
+    .withWantedAttribute(givenNamesWantedAttribute)
+    .withWantedAttributeByName('email_address', true)
+    .withFullName()
+    .withPhoneNumber(true)
+    .withAgeOver(18)
+    .build();
+
+  const dynamicScenario = new Yoti.DynamicScenarioBuilder()
+    .withCallbackEndpoint('/profile')
+    .withPolicy(dynamicPolicy)
+    .withExtension(locationExtension)
+    .build();
+
+  yotiClient.createShareUrl(dynamicScenario)
+    .then((shareUrlResult) => {
+      const qrUrl = shareUrlResult.getShareUrl();
+      res.render('pages/dynamic-share', {
+        yotiApplicationId: config.APPLICATION_ID,
+        yotiScenarioId: config.SCENARIO_ID,
+        yotiQrUrl: qrUrl,
+      });
+    }).catch((error) => {
+      console.error(error.message);
+    });
 });
 
 router.get('/profile', (req, res) => {
