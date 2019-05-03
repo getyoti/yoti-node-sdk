@@ -1,6 +1,6 @@
 const fs = require('fs');
-const AnchorProcessor = require('../src/yoti_common/anchor.processor').AnchorProcessor;
-const protoRoot = require('../src/proto-root').initializeProtoBufObjects();
+const AnchorProcessor = require('../../src/yoti_common/anchor.processor').AnchorProcessor;
+const protoRoot = require('../../src/proto-root').initializeProtoBufObjects();
 const expect = require('chai').expect;
 
 function parseAnchorData(anchorString) {

@@ -12,8 +12,8 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "lint": "node_modules/.bin/eslint *.js src/*.js src/**/*.js tests/*.spec.js config/*.js",
-    "unit-test": "node_modules/.bin/istanbul cover node_modules/.bin/mocha tests/*.spec.js",
+    "lint": "node_modules/.bin/eslint *.js \"./src/**/*.js\" \"./tests/**/*.spec.js\" config/*.js",
+    "unit-test": "node_modules/.bin/istanbul cover node_modules/.bin/mocha \"./tests/**/*.spec.js\"",
     "test": "npm run lint && npm run unit-test"
   },
   "husky": {

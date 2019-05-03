@@ -1,10 +1,10 @@
 const fs = require('fs');
 const expect = require('chai').expect;
-const protoRoot = require('../src/proto-root').initializeProtoBufObjects();
-const AnchorProcessor = require('../src/yoti_common/anchor.processor').AnchorProcessor;
+const protoRoot = require('../../src/proto-root').initializeProtoBufObjects();
+const AnchorProcessor = require('../../src/yoti_common/anchor.processor').AnchorProcessor;
 
-const { Attribute } = require('../src/data_type/attribute');
-const { DocumentDetails } = require('../src/data_type/document.details');
+const { Attribute } = require('../../src/data_type/attribute');
+const { DocumentDetails } = require('../../src/data_type/document.details');
 
 function parseAnchorData(anchorString) {
   const anchorObj = protoRoot.builder.attrpubapi_v1.Anchor.decode(anchorString);
