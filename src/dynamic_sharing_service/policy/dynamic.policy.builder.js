@@ -2,7 +2,9 @@
 
 const DynamicPolicy = require('./dynamic.policy');
 const WantedAttributeBuilder = require('./wanted.attribute.builder');
+const WantedAttribute = require('./wanted.attribute');
 const constants = require('../../yoti_common/constants');
+const Validation = require('../../yoti_common/validation');
 
 const SELFIE_AUTH_TYPE = 1;
 const PIN_AUTH_TYPE = 2;
@@ -22,6 +24,8 @@ module.exports = class DynamicPolicyBuilder {
    * @param {WantedAttribute} wantedAttribute
    */
   withWantedAttribute(wantedAttribute) {
+    Validation.instanceOf(wantedAttribute, WantedAttribute, 'wantedAttribute');
+
     let key = wantedAttribute.getName();
     if (wantedAttribute.getDerivation()) {
       key = wantedAttribute.getDerivation();
