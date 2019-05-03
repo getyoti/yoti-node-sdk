@@ -2,8 +2,8 @@ const expect = require('chai').expect;
 const nock = require('nock');
 const fs = require('fs');
 
-const config = require('../config');
-const profileService = require('../src/profile_service');
+const config = require('../../config');
+const profileService = require('../../src/profile_service');
 
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 

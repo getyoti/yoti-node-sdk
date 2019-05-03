@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const fs = require('fs');
 
-const yotiCommon = require('../src/yoti_common');
+const yotiCommon = require('../../src/yoti_common');
 
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 

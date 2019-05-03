@@ -1,6 +1,6 @@
 const fs = require('fs');
 const expect = require('chai').expect;
-const Profile = require('../src/profile_service/profile').Profile;
+const Profile = require('../../src/profile_service/profile').Profile;
 
 const YotiAnchor = function main(anchorObj) {
   this.value = anchorObj.value;

@@ -2,11 +2,11 @@ const expect = require('chai').expect;
 const nock = require('nock');
 const fs = require('fs');
 
-const config = require('../config');
-const yoti = require('..');
-const AmlAddress = require('../src/aml_type').AmlAddress;
-const AmlProfile = require('../src/aml_type').AmlProfile;
-const Payload = require('../src/request/payload').Payload;
+const config = require('../../config');
+const yoti = require('../..');
+const AmlAddress = require('../../src/aml_type').AmlAddress;
+const AmlProfile = require('../../src/aml_type').AmlProfile;
+const Payload = require('../../src/request/payload').Payload;
 
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 const yotiClient = new yoti.Client('stub-app-id', privateKeyFile);
