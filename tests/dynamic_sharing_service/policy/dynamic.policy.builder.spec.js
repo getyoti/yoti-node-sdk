@@ -145,6 +145,11 @@ describe('DynamicPolicyBuilder', () => {
     });
   });
 
+  it('should fail when invalid attribute objects are used', () => {
+    const builder = new DynamicPolicyBuilder();
+    expect(() => builder.withWantedAttribute('invalid attribute')).to.throw(TypeError, 'wantedAttribute must be instance of WantedAttribute');
+  });
+
   it('should build with age derived attributes', () => {
     const dynamicPolicy = new DynamicPolicyBuilder()
       .withDateOfBirth()
