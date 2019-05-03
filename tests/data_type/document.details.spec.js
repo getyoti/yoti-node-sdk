@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const { DocumentDetails } = require('../src/data_type/document.details');
+const { DocumentDetails } = require('../../src/data_type/document.details');
 
 /**
  * Check that provided value is invalid.

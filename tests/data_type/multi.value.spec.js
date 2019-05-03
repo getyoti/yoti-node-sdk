@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
-const MultiValue = require('../src/data_type/multi.value');
-const ImageJpeg = require('../src/data_type/image.jpeg');
-const ImagePng = require('../src/data_type/image.png');
+const MultiValue = require('../../src/data_type/multi.value');
+const ImageJpeg = require('../../src/data_type/image.jpeg');
+const ImagePng = require('../../src/data_type/image.png');
 
 const getTestValues = () => [
   new ImageJpeg('image_1'),

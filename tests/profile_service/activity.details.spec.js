@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
-const ActivityDetails = require('../src/profile_service/activity.details').ActivityDetails;
-const Profile = require('../src/profile_service/profile').Profile;
-const Attribute = require('../src/data_type/attribute').Attribute;
+const ActivityDetails = require('../../src/profile_service/activity.details').ActivityDetails;
+const Profile = require('../../src/profile_service/profile').Profile;
+const Attribute = require('../../src/data_type/attribute').Attribute;
 
 describe('ActivityDetails', () => {
   describe('#getRememberMeId', () => {

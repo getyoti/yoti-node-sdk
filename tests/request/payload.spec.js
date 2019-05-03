@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 
-const AmlAddress = require('../src/aml_type').AmlAddress;
-const AmlProfile = require('../src/aml_type').AmlProfile;
-const Payload = require('../src/request/payload').Payload;
+const AmlAddress = require('../../src/aml_type').AmlAddress;
+const AmlProfile = require('../../src/aml_type').AmlProfile;
+const Payload = require('../../src/request/payload').Payload;
 
 describe('amlPayload', () => {
   const amlAddress = new AmlAddress('GBR');
