@@ -8,10 +8,43 @@ const {
 } = require('../../../');
 
 const DynamicPolicy = require('../../../src/dynamic_sharing_service/policy/dynamic.policy');
+const WantedAttribute = require('../../../src/dynamic_sharing_service/policy/wanted.attribute');
 
+/**
+ * Compares serlialized dynamic policy with expected JSON data.
+ *
+ * @param {DynamicPolicy} dynamicPolicy the dynamic policy to selialize.
+ * @param {object} expectedJsonData expected JSON data to serialize.
+ */
 const expectDynamicPolicyJson = (dynamicPolicy, expectedJsonData) => {
   expect(dynamicPolicy).to.be.instanceOf(DynamicPolicy);
   expect(JSON.stringify(dynamicPolicy)).to.equal(JSON.stringify(expectedJsonData));
+};
+
+/**
+ * Checks that expected attributes have been added to dynamic policy.
+ *
+ * @param {DynamicPolicy} dynamicPolicy dynamic policy to check.
+ * @param {object} expectedWantedAttributeData expected wanted attribute data.
+ */
+const expectDynamicPolicyAttributes = (dynamicPolicy, expectedWantedAttributeData) => {
+  // Assert that all items are instance of WantedAttribute.
+  dynamicPolicy.getWantedAttributes().forEach((wantedAttribute) => {
+    expect(wantedAttribute).to.be.instanceOf(WantedAttribute);
+  });
+
+  // Build an array of WantedAttribute to check.
+  const expectedWantedAttributes = [];
+  expectedWantedAttributeData.forEach((args) => {
+    expectedWantedAttributes.push(new WantedAttribute(
+      args.name,
+      args.derivation,
+      args.optional
+    ));
+  });
+
+  // Assert that expected wanted attributes match dynamic policy wanted attributes.
+  expect(dynamicPolicy.getWantedAttributes()).to.deep.equal(expectedWantedAttributes);
 };
 
 describe('DynamicPolicyBuilder', () => {
@@ -30,20 +63,24 @@ describe('DynamicPolicyBuilder', () => {
       .withEmail()
       .build();
 
+    const expectedWantedAttributeData = [
+      { name: 'family_name', derivation: '', optional: false },
+      { name: 'given_names', derivation: '', optional: false },
+      { name: 'full_name', derivation: '', optional: false },
+      { name: 'date_of_birth', derivation: '', optional: false },
+      { name: 'gender', derivation: '', optional: false },
+      { name: 'postal_address', derivation: '', optional: false },
+      { name: 'structured_postal_address', derivation: '', optional: false },
+      { name: 'nationality', derivation: '', optional: false },
+      { name: 'phone_number', derivation: '', optional: false },
+      { name: 'selfie', derivation: '', optional: false },
+      { name: 'email_address', derivation: '', optional: false },
+    ];
+
+    expectDynamicPolicyAttributes(dynamicPolicy, expectedWantedAttributeData);
+
     expectDynamicPolicyJson(dynamicPolicy, {
-      wanted: [
-        { name: 'family_name', derivation: '', optional: false },
-        { name: 'given_names', derivation: '', optional: false },
-        { name: 'full_name', derivation: '', optional: false },
-        { name: 'date_of_birth', derivation: '', optional: false },
-        { name: 'gender', derivation: '', optional: false },
-        { name: 'postal_address', derivation: '', optional: false },
-        { name: 'structured_postal_address', derivation: '', optional: false },
-        { name: 'nationality', derivation: '', optional: false },
-        { name: 'phone_number', derivation: '', optional: false },
-        { name: 'selfie', derivation: '', optional: false },
-        { name: 'email_address', derivation: '', optional: false },
-      ],
+      wanted: expectedWantedAttributeData,
       wanted_auth_types: [],
       wanted_remember_me: false,
       wanted_remember_me_optional: false,
@@ -65,20 +102,24 @@ describe('DynamicPolicyBuilder', () => {
       .withEmail(true)
       .build(true);
 
+    const expectedWantedAttributeData = [
+      { name: 'family_name', derivation: '', optional: true },
+      { name: 'given_names', derivation: '', optional: true },
+      { name: 'full_name', derivation: '', optional: true },
+      { name: 'date_of_birth', derivation: '', optional: true },
+      { name: 'gender', derivation: '', optional: true },
+      { name: 'postal_address', derivation: '', optional: true },
+      { name: 'structured_postal_address', derivation: '', optional: true },
+      { name: 'nationality', derivation: '', optional: true },
+      { name: 'phone_number', derivation: '', optional: true },
+      { name: 'selfie', derivation: '', optional: true },
+      { name: 'email_address', derivation: '', optional: true },
+    ];
+
+    expectDynamicPolicyAttributes(dynamicPolicy, expectedWantedAttributeData);
+
     expectDynamicPolicyJson(dynamicPolicy, {
-      wanted: [
-        { name: 'family_name', derivation: '', optional: true },
-        { name: 'given_names', derivation: '', optional: true },
-        { name: 'full_name', derivation: '', optional: true },
-        { name: 'date_of_birth', derivation: '', optional: true },
-        { name: 'gender', derivation: '', optional: true },
-        { name: 'postal_address', derivation: '', optional: true },
-        { name: 'structured_postal_address', derivation: '', optional: true },
-        { name: 'nationality', derivation: '', optional: true },
-        { name: 'phone_number', derivation: '', optional: true },
-        { name: 'selfie', derivation: '', optional: true },
-        { name: 'email_address', derivation: '', optional: true },
-      ],
+      wanted: expectedWantedAttributeData,
       wanted_auth_types: [],
       wanted_remember_me: false,
       wanted_remember_me_optional: false,
@@ -91,11 +132,15 @@ describe('DynamicPolicyBuilder', () => {
       .withWantedAttributeByName('given_names')
       .build();
 
+    const expectedWantedAttributeData = [
+      { name: 'family_name', derivation: '', optional: false },
+      { name: 'given_names', derivation: '', optional: false },
+    ];
+
+    expectDynamicPolicyAttributes(dynamicPolicy, expectedWantedAttributeData);
+
     expectDynamicPolicyJson(dynamicPolicy, {
-      wanted: [
-        { name: 'family_name', derivation: '', optional: false },
-        { name: 'given_names', derivation: '', optional: false },
-      ],
+      wanted: expectedWantedAttributeData,
       wanted_auth_types: [],
       wanted_remember_me: false,
       wanted_remember_me_optional: false,
@@ -108,11 +153,15 @@ describe('DynamicPolicyBuilder', () => {
       .withWantedAttributeByName('given_names', true)
       .build();
 
+    const expectedWantedAttributeData = [
+      { name: 'family_name', derivation: '', optional: true },
+      { name: 'given_names', derivation: '', optional: true },
+    ];
+
+    expectDynamicPolicyAttributes(dynamicPolicy, expectedWantedAttributeData);
+
     expectDynamicPolicyJson(dynamicPolicy, {
-      wanted: [
-        { name: 'family_name', derivation: '', optional: true },
-        { name: 'given_names', derivation: '', optional: true },
-      ],
+      wanted: expectedWantedAttributeData,
       wanted_auth_types: [],
       wanted_remember_me: false,
       wanted_remember_me_optional: false,
@@ -134,11 +183,16 @@ describe('DynamicPolicyBuilder', () => {
       .withWantedAttribute(wantedGivenNames)
       .build();
 
+
+    const expectedWantedAttributeData = [
+      { name: 'family_name', derivation: '', optional: true },
+      { name: 'given_names', derivation: '', optional: false },
+    ];
+
+    expectDynamicPolicyAttributes(dynamicPolicy, expectedWantedAttributeData);
+
     expectDynamicPolicyJson(dynamicPolicy, {
-      wanted: [
-        { name: 'family_name', derivation: '', optional: true },
-        { name: 'given_names', derivation: '', optional: false },
-      ],
+      wanted: expectedWantedAttributeData,
       wanted_auth_types: [],
       wanted_remember_me: false,
       wanted_remember_me_optional: false,
@@ -158,13 +212,17 @@ describe('DynamicPolicyBuilder', () => {
       .withAgeUnder(40)
       .build();
 
+    const expectedWantedAttributeData = [
+      { name: 'date_of_birth', derivation: '', optional: false },
+      { name: 'date_of_birth', derivation: 'age_over:18', optional: false },
+      { name: 'date_of_birth', derivation: 'age_under:30', optional: false },
+      { name: 'date_of_birth', derivation: 'age_under:40', optional: false },
+    ];
+
+    expectDynamicPolicyAttributes(dynamicPolicy, expectedWantedAttributeData);
+
     expectDynamicPolicyJson(dynamicPolicy, {
-      wanted: [
-        { name: 'date_of_birth', derivation: '', optional: false },
-        { name: 'date_of_birth', derivation: 'age_over:18', optional: false },
-        { name: 'date_of_birth', derivation: 'age_under:30', optional: false },
-        { name: 'date_of_birth', derivation: 'age_under:40', optional: false },
-      ],
+      wanted: expectedWantedAttributeData,
       wanted_auth_types: [],
       wanted_remember_me: false,
       wanted_remember_me_optional: false,
@@ -179,13 +237,17 @@ describe('DynamicPolicyBuilder', () => {
       .withAgeUnder(40, true)
       .build();
 
+    const expectedWantedAttributeData = [
+      { name: 'date_of_birth', derivation: '', optional: true },
+      { name: 'date_of_birth', derivation: 'age_over:18', optional: true },
+      { name: 'date_of_birth', derivation: 'age_under:30', optional: true },
+      { name: 'date_of_birth', derivation: 'age_under:40', optional: true },
+    ];
+
+    expectDynamicPolicyAttributes(dynamicPolicy, expectedWantedAttributeData);
+
     expectDynamicPolicyJson(dynamicPolicy, {
-      wanted: [
-        { name: 'date_of_birth', derivation: '', optional: true },
-        { name: 'date_of_birth', derivation: 'age_over:18', optional: true },
-        { name: 'date_of_birth', derivation: 'age_under:30', optional: true },
-        { name: 'date_of_birth', derivation: 'age_under:40', optional: true },
-      ],
+      wanted: expectedWantedAttributeData,
       wanted_auth_types: [],
       wanted_remember_me: false,
       wanted_remember_me_optional: false,
@@ -198,10 +260,14 @@ describe('DynamicPolicyBuilder', () => {
       .withAgeUnder(30, false)
       .build();
 
+    const expectedWantedAttributeData = [
+      { name: 'date_of_birth', derivation: 'age_under:30', optional: false },
+    ];
+
+    expectDynamicPolicyAttributes(dynamicPolicy, expectedWantedAttributeData);
+
     expectDynamicPolicyJson(dynamicPolicy, {
-      wanted: [
-        { name: 'date_of_birth', derivation: 'age_under:30', optional: false },
-      ],
+      wanted: expectedWantedAttributeData,
       wanted_auth_types: [],
       wanted_remember_me: false,
       wanted_remember_me_optional: false,
@@ -210,14 +276,18 @@ describe('DynamicPolicyBuilder', () => {
 
   it('should build with auth types', () => {
     const dynamicPolicy = new DynamicPolicyBuilder()
-      .withSelfieAuthorisation()
-      .withPinAuthorisation()
+      .withSelfieAuthentication()
+      .withPinAuthentication()
       .withWantedAuthType(99)
       .build();
 
+    const expectedAuthTypes = [1, 2, 99];
+
+    expect(dynamicPolicy.getWantedAuthTypes()).to.deep.equal(expectedAuthTypes);
+
     expectDynamicPolicyJson(dynamicPolicy, {
       wanted: [],
-      wanted_auth_types: [1, 2, 99],
+      wanted_auth_types: expectedAuthTypes,
       wanted_remember_me: false,
       wanted_remember_me_optional: false,
     });
@@ -225,14 +295,18 @@ describe('DynamicPolicyBuilder', () => {
 
   it('should build with auth types true', () => {
     const dynamicPolicy = new DynamicPolicyBuilder()
-      .withSelfieAuthorisation(true)
-      .withPinAuthorisation(true)
+      .withSelfieAuthentication(true)
+      .withPinAuthentication(true)
       .withWantedAuthType(99)
       .build();
 
+    const expectedAuthTypes = [1, 2, 99];
+
+    expect(dynamicPolicy.getWantedAuthTypes()).to.deep.equal(expectedAuthTypes);
+
     expectDynamicPolicyJson(dynamicPolicy, {
       wanted: [],
-      wanted_auth_types: [1, 2, 99],
+      wanted_auth_types: expectedAuthTypes,
       wanted_remember_me: false,
       wanted_remember_me_optional: false,
     });
@@ -240,13 +314,17 @@ describe('DynamicPolicyBuilder', () => {
 
   it('should build with auth types false', () => {
     const dynamicPolicy = new DynamicPolicyBuilder()
-      .withSelfieAuthorisation(false)
-      .withPinAuthorisation(false)
+      .withSelfieAuthentication(false)
+      .withPinAuthentication(false)
       .build();
+
+    const expectedAuthTypes = [];
+
+    expect(dynamicPolicy.getWantedAuthTypes()).to.deep.equal(expectedAuthTypes);
 
     expectDynamicPolicyJson(dynamicPolicy, {
       wanted: [],
-      wanted_auth_types: [],
+      wanted_auth_types: expectedAuthTypes,
       wanted_remember_me: false,
       wanted_remember_me_optional: false,
     });
@@ -257,6 +335,9 @@ describe('DynamicPolicyBuilder', () => {
       .withWantedRememberMe(true)
       .withWantedRememberMeOptional(true)
       .build();
+
+    expect(dynamicPolicy.getWantedRememberMe()).to.equal(true);
+    expect(dynamicPolicy.getWantedRememberMeOptional()).to.equal(true);
 
     expectDynamicPolicyJson(dynamicPolicy, {
       wanted: [],

@@ -35,6 +35,13 @@ describe('DynamicScenarioBuilder', () => {
       .withExtension(extension2)
       .build();
 
+    expect(dynamicScenario.getCallbackEndpoint()).to.equal('/test-callback');
+    expect(dynamicScenario.getDynamicPolicy()).to.equal(dynamicPolicy);
+    expect(dynamicScenario.getExtensions()).to.deep.equal([
+      extension1,
+      extension2,
+    ]);
+
     const expectedJsonData = {
       callback_endpoint: '/test-callback',
       policy: {
