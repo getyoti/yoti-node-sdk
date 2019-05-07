@@ -93,7 +93,7 @@ module.exports = class LocationConstraintContent {
    */
   toJSON() {
     return {
-      expected_device_location: this.expectedDeviceLocation,
+      expected_device_location: this.getExpectedDeviceLocation(),
     };
   }
 };
