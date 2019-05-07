@@ -10,7 +10,7 @@ const Validation = require('../../yoti_common/validation');
  */
 module.exports = class DynamicPolicy {
   /**
-   * @param {WantedAttribute[]} wantedAttributes - wanted is an array of attributes to be requested.
+   * @param {WantedAttribute[]} wantedAttributes - array of attributes to be requested.
    * @param {integer[]} wantedAuthTypes - auth types represents the authentication type to be used.
    * @param {boolean} wantedRememberMe
    * @param {boolean} wantedRememberMeOptional
@@ -32,10 +32,38 @@ module.exports = class DynamicPolicy {
     }
 
     Validation.isBoolean(wantedRememberMe, 'wantedRememberMe');
-    this.wantedRememberMeId = wantedRememberMe;
+    this.wantedRememberMe = wantedRememberMe;
 
     Validation.isBoolean(wantedRememberMeOptional, 'wantedRememberMeOptional');
     this.wantedRememberMeOptional = wantedRememberMeOptional;
+  }
+
+  /**
+   * @returns {WantedAttribute[]} array of attributes to be requested.
+   */
+  getWantedAttributes() {
+    return this.wantedAttributes;
+  }
+
+  /**
+   * @returns {integer[]} auth types represents the authentication type to be used.
+   */
+  getWantedAuthTypes() {
+    return this.wantedAuthTypes;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  getWantedRememberMe() {
+    return this.wantedRememberMe;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  getWantedRememberMeOptional() {
+    return this.wantedRememberMeOptional;
   }
 
   /**
@@ -43,10 +71,10 @@ module.exports = class DynamicPolicy {
    */
   toJSON() {
     return {
-      wanted: this.wantedAttributes,
-      wanted_auth_types: this.wantedAuthTypes,
-      wanted_remember_me: this.wantedRememberMeId,
-      wanted_remember_me_optional: this.wantedRememberMeOptional,
+      wanted: this.getWantedAttributes(),
+      wanted_auth_types: this.getWantedAuthTypes(),
+      wanted_remember_me: this.getWantedRememberMe(),
+      wanted_remember_me_optional: this.getWantedRememberMeOptional(),
     };
   }
 };

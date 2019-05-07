@@ -156,7 +156,7 @@ module.exports = class DynamicPolicyBuilder {
   /**
    * @param {boolean} enabled
    */
-  withSelfieAuthorisation(enabled = true) {
+  withSelfieAuthentication(enabled = true) {
     if (enabled) {
       return this.withWantedAuthType(SELFIE_AUTH_TYPE);
     }
@@ -166,7 +166,7 @@ module.exports = class DynamicPolicyBuilder {
   /**
    * @param {boolean} enabled
    */
-  withPinAuthorisation(enabled = true) {
+  withPinAuthentication(enabled = true) {
     if (enabled) {
       return this.withWantedAuthType(PIN_AUTH_TYPE);
     }
