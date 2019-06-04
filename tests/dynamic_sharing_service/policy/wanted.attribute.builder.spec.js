@@ -10,7 +10,6 @@ describe('DynamicPolicyBuilder', () => {
     const wantedAttribute = new WantedAttributeBuilder()
       .withName('test name')
       .withDerivation('test derivation')
-      .withOptional(true)
       .build();
 
     expect(wantedAttribute).to.be.instanceOf(WantedAttribute);
@@ -20,7 +19,7 @@ describe('DynamicPolicyBuilder', () => {
     const expectedJson = JSON.stringify({
       name: 'test name',
       derivation: 'test derivation',
-      optional: true,
+      optional: false,
     });
     expect(JSON.stringify(wantedAttribute)).to.equal(expectedJson);
   });
