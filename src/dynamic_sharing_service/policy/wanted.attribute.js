@@ -3,8 +3,7 @@
 const Validation = require('../../yoti_common/validation');
 
 /**
- * Defines the wanted attribute name, derivation
- * and whether it is optional.
+ * Defines the wanted attribute name and derivation.
  *
  * @class WantedAttribute
  */
@@ -12,17 +11,13 @@ module.exports = class WantedAttribute {
   /**
    * @param {string} name
    * @param {string} derivation
-   * @param {boolean} optional
    */
-  constructor(name, derivation = '', optional = false) {
+  constructor(name, derivation = '') {
     Validation.isString(name, 'name');
     this.name = name;
 
     Validation.isString(derivation, 'derivation');
     this.derivation = derivation;
-
-    Validation.isBoolean(optional, 'optional');
-    this.optional = optional;
   }
 
   /**
@@ -44,22 +39,13 @@ module.exports = class WantedAttribute {
   }
 
   /**
-   * Defines the WantedAttribute as not mandatory.
-   *
-   * @returns {boolean}
-   */
-  isOptional() {
-    return this.optional;
-  }
-
-  /**
    * @returns {Object} data for JSON.stringify()
    */
   toJSON() {
     return {
       name: this.getName(),
       derivation: this.getDerivation(),
-      optional: this.isOptional(),
+      optional: false,
     };
   }
 };

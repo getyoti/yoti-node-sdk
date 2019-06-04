@@ -14,8 +14,8 @@ describe('DynamicScenarioBuilder', () => {
   it('should build DynamicScenario', () => {
     const dynamicPolicy = new DynamicPolicyBuilder()
       .withFullName()
-      .withGivenNames(true)
-      .withWantedRememberMe(false)
+      .withGivenNames()
+      .withWantedRememberMe()
       .build();
 
     const extension1 = new ExtensionBuilder()
@@ -54,7 +54,7 @@ describe('DynamicScenarioBuilder', () => {
           {
             name: 'given_names',
             derivation: '',
-            optional: true,
+            optional: false,
           },
         ],
         wanted_auth_types: [],
