@@ -13,13 +13,11 @@ module.exports = class DynamicPolicy {
    * @param {WantedAttribute[]} wantedAttributes - array of attributes to be requested.
    * @param {integer[]} wantedAuthTypes - auth types represents the authentication type to be used.
    * @param {boolean} wantedRememberMe
-   * @param {boolean} wantedRememberMeOptional
    */
   constructor(
     wantedAttributes,
     wantedAuthTypes,
-    wantedRememberMe = false,
-    wantedRememberMeOptional = false
+    wantedRememberMe = false
   ) {
     Validation.isArrayOfType(wantedAttributes, WantedAttribute, 'wantedAttribute');
     this.wantedAttributes = wantedAttributes;
@@ -33,9 +31,6 @@ module.exports = class DynamicPolicy {
 
     Validation.isBoolean(wantedRememberMe, 'wantedRememberMe');
     this.wantedRememberMe = wantedRememberMe;
-
-    Validation.isBoolean(wantedRememberMeOptional, 'wantedRememberMeOptional');
-    this.wantedRememberMeOptional = wantedRememberMeOptional;
   }
 
   /**
@@ -60,13 +55,6 @@ module.exports = class DynamicPolicy {
   }
 
   /**
-   * @returns {boolean}
-   */
-  getWantedRememberMeOptional() {
-    return this.wantedRememberMeOptional;
-  }
-
-  /**
    * @returns {Object} data for JSON.stringify()
    */
   toJSON() {
@@ -74,7 +62,7 @@ module.exports = class DynamicPolicy {
       wanted: this.getWantedAttributes(),
       wanted_auth_types: this.getWantedAuthTypes(),
       wanted_remember_me: this.getWantedRememberMe(),
-      wanted_remember_me_optional: this.getWantedRememberMeOptional(),
+      wanted_remember_me_optional: false,
     };
   }
 };

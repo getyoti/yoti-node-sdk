@@ -25,17 +25,9 @@ module.exports = class WantedAttributeBuilder {
   }
 
   /**
-   * @param {boolean} optional
-   */
-  withOptional(optional) {
-    this.optional = optional;
-    return this;
-  }
-
-  /**
    * @returns {WantedAttribute}
    */
   build() {
-    return new WantedAttribute(this.name, this.derivation, this.optional);
+    return new WantedAttribute(this.name, this.derivation);
   }
 };
