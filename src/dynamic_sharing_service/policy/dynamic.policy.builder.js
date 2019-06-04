@@ -37,120 +37,81 @@ module.exports = class DynamicPolicyBuilder {
 
   /**
    * @param {string} name
-   * @param {boolean} optional
    */
-  withWantedAttributeByName(name, optional = false) {
+  withWantedAttributeByName(name) {
     const wantedAttribute = new WantedAttributeBuilder()
       .withName(name)
-      .withOptional(optional)
       .build();
     return this.withWantedAttribute(wantedAttribute);
   }
 
-  /**
-   * @param {boolean} optional
-   */
-  withFamilyName(optional = false) {
-    return this.withWantedAttributeByName(constants.ATTR_FAMILY_NAME, optional);
+  withFamilyName() {
+    return this.withWantedAttributeByName(constants.ATTR_FAMILY_NAME);
   }
 
-  /**
-   * @param {boolean} optional
-   */
-  withGivenNames(optional = false) {
-    return this.withWantedAttributeByName(constants.ATTR_GIVEN_NAMES, optional);
+  withGivenNames() {
+    return this.withWantedAttributeByName(constants.ATTR_GIVEN_NAMES);
   }
 
-  /**
-   * @param {boolean} optional
-   */
-  withFullName(optional = false) {
-    return this.withWantedAttributeByName(constants.ATTR_FULL_NAME, optional);
+  withFullName() {
+    return this.withWantedAttributeByName(constants.ATTR_FULL_NAME);
   }
 
-  /**
-   * @param {boolean} optional
-   */
-  withDateOfBirth(optional = false) {
-    return this.withWantedAttributeByName(constants.ATTR_DATE_OF_BIRTH, optional);
+  withDateOfBirth() {
+    return this.withWantedAttributeByName(constants.ATTR_DATE_OF_BIRTH);
   }
 
   /**
    * @param {string} age
-   * @param {boolean} optional
    */
-  withAgeOver(age, optional = false) {
-    return this.withAgeDerivedAttribute(constants.ATTR_AGE_OVER + age, optional);
+  withAgeOver(age) {
+    return this.withAgeDerivedAttribute(constants.ATTR_AGE_OVER + age);
   }
 
   /**
    * @param {string} age
-   * @param {boolean} optional
    */
-  withAgeUnder(age, optional = false) {
-    return this.withAgeDerivedAttribute(constants.ATTR_AGE_UNDER + age, optional);
+  withAgeUnder(age) {
+    return this.withAgeDerivedAttribute(constants.ATTR_AGE_UNDER + age);
   }
 
   /**
    * @param {string} derivation
-   * @param {boolean} optional
    */
-  withAgeDerivedAttribute(derivation, optional = false) {
+  withAgeDerivedAttribute(derivation) {
     const wantedAttribute = new WantedAttributeBuilder()
       .withName(constants.ATTR_DATE_OF_BIRTH)
       .withDerivation(derivation)
-      .withOptional(optional)
       .build();
     return this.withWantedAttribute(wantedAttribute);
   }
 
-  /**
-   * @param {boolean} optional
-   */
-  withGender(optional = false) {
-    return this.withWantedAttributeByName(constants.ATTR_GENDER, optional);
+  withGender() {
+    return this.withWantedAttributeByName(constants.ATTR_GENDER);
   }
 
-  /**
-   * @param {boolean} optional
-   */
-  withPostalAddress(optional = false) {
-    return this.withWantedAttributeByName(constants.ATTR_POSTAL_ADDRESS, optional);
+  withPostalAddress() {
+    return this.withWantedAttributeByName(constants.ATTR_POSTAL_ADDRESS);
   }
 
-  /**
-   * @param {boolean} optional
-   */
-  withStructuredPostalAddress(optional = false) {
-    return this.withWantedAttributeByName(constants.ATTR_STRUCTURED_POSTAL_ADDRESS, optional);
+  withStructuredPostalAddress() {
+    return this.withWantedAttributeByName(constants.ATTR_STRUCTURED_POSTAL_ADDRESS);
   }
 
-  /**
-   * @param {boolean} optional
-   */
-  withNationality(optional = false) {
-    return this.withWantedAttributeByName(constants.ATTR_NATIONALITY, optional);
+  withNationality() {
+    return this.withWantedAttributeByName(constants.ATTR_NATIONALITY);
   }
 
-  /**
-   * @param {boolean} optional
-   */
-  withPhoneNumber(optional = false) {
-    return this.withWantedAttributeByName(constants.ATTR_PHONE_NUMBER, optional);
+  withPhoneNumber() {
+    return this.withWantedAttributeByName(constants.ATTR_PHONE_NUMBER);
   }
 
-  /**
-   * @param {boolean} optional
-   */
-  withSelfie(optional = false) {
-    return this.withWantedAttributeByName(constants.ATTR_SELFIE, optional);
+  withSelfie() {
+    return this.withWantedAttributeByName(constants.ATTR_SELFIE);
   }
 
-  /**
-   * @param {boolean} optional
-   */
-  withEmail(optional = false) {
-    return this.withWantedAttributeByName(constants.ATTR_EMAIL_ADDRESS, optional);
+  withEmail() {
+    return this.withWantedAttributeByName(constants.ATTR_EMAIL_ADDRESS);
   }
 
   /**
@@ -190,14 +151,6 @@ module.exports = class DynamicPolicyBuilder {
   }
 
   /**
-   * @param {boolean} wantedRememberMeOptional
-   */
-  withWantedRememberMeOptional(wantedRememberMeOptional) {
-    this.wantedRememberMeOptional = wantedRememberMeOptional;
-    return this;
-  }
-
-  /**
    * @returns {DynamicPolicy}
    */
   build() {
@@ -205,7 +158,7 @@ module.exports = class DynamicPolicyBuilder {
       Object.keys(this.wantedAttributes).map(k => this.wantedAttributes[k]),
       this.wantedAuthTypes,
       this.wantedRememberMe,
-      this.wantedRememberMeOptional
+      false
     );
   }
 };
