@@ -57,13 +57,12 @@ module.exports.getAuthKeyFromPem = (pem) => {
   return p12b64;
 };
 
-module.exports.decryptCurrentUserReceipt = (receipt, pem) => {
-  const receiptContent = receipt.other_party_profile_content;
-  const receiptNotEmpty = receiptContent && Object.keys(receiptContent).length > 0;
+module.exports.decryptProfileContent = (profileContent, wrappedReceiptKey, pem) => {
+  const receiptNotEmpty = profileContent && Object.keys(profileContent).length > 0;
 
   if (receiptNotEmpty) {
-    const unwrappedKey = unwrapKey(receipt.wrapped_receipt_key, pem);
-    const decodedData = protoRoot.decodeEncryptedData(Buffer.from(receipt.other_party_profile_content, 'base64'));
+    const unwrappedKey = unwrapKey(wrappedReceiptKey, pem);
+    const decodedData = protoRoot.decodeEncryptedData(Buffer.from(profileContent, 'base64'));
     const iv = forge.util.decode64(decodedData.iv);
     const cipherText = forge.util.decode64(decodedData.cipherText);
 
@@ -72,3 +71,15 @@ module.exports.decryptCurrentUserReceipt = (receipt, pem) => {
   console.log('Receipt data is empty');
   return [];
 };
+
+module.exports.decryptCurrentUserReceipt = (receipt, pem) => this.decryptProfileContent(
+  receipt.other_party_profile_content,
+  receipt.wrapped_receipt_key,
+  pem
+);
+
+module.exports.decryptApplicationProfile = (receipt, pem) => this.decryptProfileContent(
+  receipt.profile_content,
+  receipt.wrapped_receipt_key,
+  pem
+);
