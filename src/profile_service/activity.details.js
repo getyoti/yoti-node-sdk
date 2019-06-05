@@ -1,25 +1,52 @@
 'use strict';
 
-const Age = require('../yoti_common/age').Age;
-const Profile = require('./profile').Profile;
+const { Age } = require('../yoti_common/age');
+const { Profile } = require('./profile');
+const { ApplicationProfile } = require('./application.profile');
 
-module.exports.ActivityDetails = class ActivityDetails {
-  constructor(parsedResponse, decryptedProfile) {
+/**
+ * Processes profile array data into object.
+ *
+ * @param {array} profile
+ * @returns {object}
+ */
+function parseProfile(profile) {
+  if (!profile) {
+    return {};
+  }
+  return profile.reduce((acc, current) => {
+    const propName = Object.getOwnPropertyNames(current)[0];
+    acc[propName] = current[propName];
+    return acc;
+  }, {});
+}
+
+/**
+ * Details of an activity between a user and the application.
+ *
+ * @class ActivityDetails
+ */
+class ActivityDetails {
+  /**
+   * @param {object} parsedResponse
+   *   Parsed JSON response.
+   * @param {array} decryptedProfile
+   *   Decrypted user profile data.
+   * @param {array} decryptedApplicationProfile
+   *   Decrypted application profile data.
+   */
+  constructor(parsedResponse, decryptedProfile, decryptedApplicationProfile) {
     this.parsedResponse = parsedResponse;
     this.decryptedProfile = decryptedProfile;
-
     this.receipt = parsedResponse.receipt;
-    this.profile = decryptedProfile || [];
-
-    this.profile = this.profile.reduce((acc, current) => {
-      const propName = Object.getOwnPropertyNames(current)[0];
-      acc[propName] = current[propName];
-      return acc;
-    }, {});
+    this.profile = parseProfile(decryptedProfile);
 
     // This is the new profile attribute
     this.extendedProfile = new Profile(this.profile.extendedProfile);
     delete this.profile.extendedProfile;
+
+    const applicationProfile = parseProfile(decryptedApplicationProfile);
+    this.applicationProfile = new ApplicationProfile(applicationProfile.extendedProfile);
 
     const age = new Age(this.profile);
     if (age.isVerified() !== null) {
@@ -81,6 +108,15 @@ module.exports.ActivityDetails = class ActivityDetails {
   }
 
   /**
+   * The application profile object.
+   *
+   * @returns {ApplicationProfile}
+   */
+  getApplicationProfile() {
+    return this.applicationProfile;
+  }
+
+  /**
    * A enum to represent the success state when requesting a profile.
    *
    * @returns {string}
@@ -106,4 +142,8 @@ module.exports.ActivityDetails = class ActivityDetails {
   getReceiptId() {
     return this.receipt.receipt_id;
   }
+}
+
+module.exports = {
+  ActivityDetails,
 };

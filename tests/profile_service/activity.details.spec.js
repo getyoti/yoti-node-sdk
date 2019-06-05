@@ -1,7 +1,8 @@
 const expect = require('chai').expect;
-const ActivityDetails = require('../../src/profile_service/activity.details').ActivityDetails;
-const Profile = require('../../src/profile_service/profile').Profile;
-const Attribute = require('../../src/data_type/attribute').Attribute;
+const { ActivityDetails } = require('../../src/profile_service/activity.details');
+const { Profile } = require('../../src/profile_service/profile');
+const { ApplicationProfile } = require('../../src/profile_service/application.profile');
+const { Attribute } = require('../../src/data_type/attribute');
 
 describe('ActivityDetails', () => {
   describe('#getRememberMeId', () => {
@@ -101,6 +102,23 @@ describe('ActivityDetails', () => {
       expect(activityDetails.getUserProfile()).to.eql({
         attr_key: 'attr_value',
       });
+    });
+  });
+  describe('#getApplicationProfile', () => {
+    const activityDetails = new ActivityDetails({}, [], [
+      {
+        extendedProfile: {
+          attr_key: new Attribute({
+            name: 'attr_name',
+            value: 'attr_value',
+          }),
+        },
+      },
+    ]);
+    it('should return ApplicationProfile object', () => {
+      const applicationProfile = activityDetails.getApplicationProfile();
+      expect(applicationProfile).to.be.instanceOf(ApplicationProfile);
+      expect(applicationProfile.getAttribute('attr_key').getValue()).to.equal('attr_value');
     });
   });
   describe('#getOutcome', () => {
