@@ -24,4 +24,8 @@ module.exports = Object.freeze({
   ATTR_DOCUMENT_DETAILS: 'document_details',
   ATTR_STRUCTURED_POSTAL_ADDRESS: 'structured_postal_address',
   ATTR_DOCUMENT_IMAGES: 'document_images',
+  ATTR_APPLICATION_NAME: 'application_name',
+  ATTR_APPLICATION_LOGO: 'application_logo',
+  ATTR_APPLICATION_URL: 'application_url',
+  ATTR_APPLICATION_RECEIPT_BGCOLOR: 'application_receipt_bgcolor',
 });

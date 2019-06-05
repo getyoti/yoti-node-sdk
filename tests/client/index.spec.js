@@ -40,16 +40,28 @@ describe('yotiClient', () => {
         yotiClient.getActivityDetails(encryptedYotiToken)
           .then((activityDetails) => {
             const profile = activityDetails.getUserProfile();
+            const extendedProfile = activityDetails.getProfile();
+            const applicationProfile = activityDetails.getApplicationProfile();
             const outcome = activityDetails.getOutcome();
 
-            expect(profile).to.not.equal(undefined);
             expect(activityDetails.getUserId()).to.equal(rememberMeId);
             expect(activityDetails.getRememberMeId()).to.equal(rememberMeId);
             expect(activityDetails.getParentRememberMeId()).to.equal(parentRememberMeId);
+            expect(activityDetails.getBase64SelfieUri()).to.equal(selfie);
+
+            expect(outcome).to.equal('SUCCESS');
+
+            expect(profile).to.not.equal(undefined);
             expect(profile.phoneNumber).to.equal(phoneNumber);
             expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).to.equal(selfie);
-            expect(activityDetails.getBase64SelfieUri()).to.equal(selfie);
-            expect(outcome).to.equal('SUCCESS');
+
+            expect(extendedProfile.getPhoneNumber().getValue()).to.equal(phoneNumber);
+            expect(extendedProfile.getSelfie().getValue().getBase64Content()).to.equal(selfie);
+
+            expect(applicationProfile.getName().getValue()).to.equal('Node SDK Test');
+            expect(applicationProfile.getUrl().getValue()).to.equal('https://example.com');
+            expect(applicationProfile.getLogo().getValue().getBase64Content()).to.equal('data:image/jpeg;base64,');
+            expect(applicationProfile.getReceiptBgColor().getValue()).to.equal('#ffffff');
 
             done();
           })

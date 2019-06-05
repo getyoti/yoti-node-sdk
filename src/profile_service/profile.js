@@ -1,14 +1,17 @@
 'use strict';
 
 const constants = require('../yoti_common/constants');
-const { Attribute } = require('../data_type/attribute');
+const { BaseProfile } = require('./base.profile');
 
-module.exports.Profile = class Profile {
-  constructor(profileData) {
-    this.profileData = Object.assign({}, profileData);
-  }
-
+/**
+ * Profile of a human user with convenience methods to access well-known attributes.
+ *
+ * @class Profile
+ */
+class Profile extends BaseProfile {
   /**
+   * The full name attribute.
+   *
    * @returns {null|Attribute}
    */
   getFullName() {
@@ -16,6 +19,8 @@ module.exports.Profile = class Profile {
   }
 
   /**
+   * Corresponds to secondary names in passport, and first/middle names in English.
+   *
    * @returns {null|Attribute}
    */
   getGivenNames() {
@@ -23,6 +28,8 @@ module.exports.Profile = class Profile {
   }
 
   /**
+   * Corresponds to primary name in passport, and surname in English.
+   *
    * @returns {null|Attribute}
    */
   getFamilyName() {
@@ -30,6 +37,8 @@ module.exports.Profile = class Profile {
   }
 
   /**
+   * Date of birth.
+   *
    * @returns {null|Attribute}
    */
   getDateOfBirth() {
@@ -37,6 +46,8 @@ module.exports.Profile = class Profile {
   }
 
   /**
+   * Did the user pass the age verification check?
+   *
    * @returns {null|Attribute}
    */
   getAgeVerified() {
@@ -44,6 +55,9 @@ module.exports.Profile = class Profile {
   }
 
   /**
+   * Corresponds to the gender in the passport; will be one of the strings "MALE", "FEMALE"
+   * or "OTHER".
+   *
    * @returns {null|Attribute}
    */
   getGender() {
@@ -51,6 +65,8 @@ module.exports.Profile = class Profile {
   }
 
   /**
+   * Corresponds to the nationality in the passport.
+   *
    * @returns {Attribute|main}
    */
   getNationality() {
@@ -58,6 +74,9 @@ module.exports.Profile = class Profile {
   }
 
   /**
+   * The user's phone number, as verified at registration time. This will be a number with + for
+   * international prefix and no spaces, e.g. "+447777123456".
+   *
    * @returns {null|Attribute}
    */
   getPhoneNumber() {
@@ -65,6 +84,8 @@ module.exports.Profile = class Profile {
   }
 
   /**
+   * Photograph of user, encoded as a JPEG image.
+   *
    * @returns {Attribute|main}
    */
   getSelfie() {
@@ -72,6 +93,8 @@ module.exports.Profile = class Profile {
   }
 
   /**
+   * The user's verified email address.
+   *
    * @returns {null|Attribute}
    */
   getEmailAddress() {
@@ -79,6 +102,8 @@ module.exports.Profile = class Profile {
   }
 
   /**
+   * The user's postal address as a String.
+   *
    * @returns {null|Attribute}
    */
   getPostalAddress() {
@@ -86,6 +111,8 @@ module.exports.Profile = class Profile {
   }
 
   /**
+   * The user's structured postal address as a Json.
+   *
    * @returns {null|*}
    */
   getStructuredPostalAddress() {
@@ -93,6 +120,8 @@ module.exports.Profile = class Profile {
   }
 
   /**
+   * Document details.
+   *
    * @returns {null|DocumentDetails}
    */
   getDocumentDetails() {
@@ -100,42 +129,15 @@ module.exports.Profile = class Profile {
   }
 
   /**
+   * Document images.
+   *
    * @returns {null|Attribute}
    */
   getDocumentImages() {
     return this.getAttribute(constants.ATTR_DOCUMENT_IMAGES);
   }
+}
 
-  /**
-   * Return Attribute object.
-   *
-   * @param attrName
-   *
-   * @returns {*}
-   */
-  getAttribute(attrName) {
-    if (this.propertyExists(attrName)) {
-      const attrObj = this.profileData[attrName];
-      if (attrObj instanceof Object) {
-        return new Attribute(attrObj);
-      }
-    }
-    return null;
-  }
-
-  propertyExists(prop) {
-    if (prop && (this.profileData instanceof Object)) {
-      return Object.prototype.hasOwnProperty.call(this.profileData, prop);
-    }
-    return false;
-  }
-
-  /**
-   * Returns a string representing the object.
-   *
-   * @returns {string}
-   */
-  toString() {
-    return JSON.stringify(this.profileData);
-  }
+module.exports = {
+  Profile,
 };
