@@ -3,37 +3,141 @@
 const forge = require('node-forge');
 const protoRoot = require('../proto-root');
 
-const YotiAnchor = function main(anchorObj) {
-  this.value = anchorObj.value;
-  this.subType = anchorObj.subType;
-  this.signedTimeStamp = anchorObj.signedTimeStamp;
-  this.originServerCerts = anchorObj.originServerCerts;
-};
+/**
+ * Mapping anchor types to oid and name.
+ */
+const ANCHOR_TYPE = Object.freeze({
+  sources: {
+    oid: '1.3.6.1.4.1.47127.1.1.1',
+    name: 'SOURCE',
+  },
+  verifiers: {
+    oid: '1.3.6.1.4.1.47127.1.1.2',
+    name: 'VERIFIER',
+  },
+  unknown: {
+    oid: '',
+    name: 'UNKNOWN',
+  },
+});
 
-YotiAnchor.prototype = {
-  getValue() { return this.value; },
-  getSubType() { return this.subType; },
-  getSignedTimeStamp() { return this.signedTimeStamp; },
-  getOriginServerCerts() { return this.originServerCerts; },
-};
+/**
+ * A class to represent a Yoti anchor. Anchors are metadata associated
+ * to the attribute, which describe how an attribute has been provided
+ * to Yoti (SOURCE Anchor) and how it has been verified (VERIFIER Anchor).
+ *
+ * If an attribute has only one SOURCE Anchor with the value set to
+ * "USER_PROVIDED" and zero VERIFIER Anchors, then the attribute
+ * is a self-certified one.
+ *
+ * @class YotiAnchor
+ */
+class YotiAnchor {
+  constructor(anchorObj) {
+    this.type = anchorObj.type;
+    this.value = anchorObj.value;
+    this.subType = anchorObj.subType;
+    this.signedTimeStamp = anchorObj.signedTimeStamp;
+    this.originServerCerts = anchorObj.originServerCerts;
+  }
 
-const YotiSignedTimeStamp = function main(timeStampObj) {
-  this.version = timeStampObj.version;
-  this.timestamp = timeStampObj.timestamp;
-};
+  /**
+   * Gets the type of the given anchor
+   *
+   * @returns {string}
+   */
+  getType() { return this.type; }
 
-YotiSignedTimeStamp.prototype = {
-  getVersion() { return this.version; },
-  getTimestamp() { return this.timestamp; },
-};
+  /**
+   * Gets the value of the given anchor.
+   *
+   * For SOURCE this can be "USER_PROVIDED", "PASSPORT",
+   * "DRIVING_LICENCE" or "AADHAAR".
+   *
+   * For VERIFIER this can be "YOTI_ADMIN", "YOTI_IDENTITY", "YOTI_OTP",
+   * "YOTI_UIDAI" or "PASSPORT_NFC_SIGNATURE".
+   *
+   * @returns {string}
+   */
+  getValue() { return this.value; }
 
-module.exports.AnchorProcessor = class AnchorProcessor {
+
+  /**
+   * SubType is an indicator of any specific processing method, or subcategory,
+   * pertaining to an artifact. For example, for a passport, this would be
+   * either "NFC" or "OCR".
+   *
+   * @returns {string}
+   */
+  getSubType() { return this.subType; }
+
+  /**
+   * SignedTimeStamp is the time at which the signature was created.
+   * The message associated with the timestamp is the marshaled form of
+   * AttributeSigning (i.e. the same message that is signed in the
+   * Signature field). This method returns the YotiSignedTimeStamp
+   * object, the actual timestamp as a Date object can be called with
+   * getTimestamp() on this object.
+   *
+   * @returns {YotiSignedTimeStamp}
+   */
+  getSignedTimeStamp() { return this.signedTimeStamp; }
+
+  /**
+   * OriginServerCerts are the X.509 certificate chain(DER-encoded ASN.1)
+   * from the service that assigned the attribute.
+   *
+   * The first certificate in the chain holds the public key that can be
+   * used to verify the Signature field; any following entries (zero or
+   * more) are for intermediate certificate authorities (in order). The
+   * last certificate in the chain must be verified against the Yoti root
+   * CA certificate.
+   *
+   * An extension in the first certificate holds the main artifact type,
+   * e.g. “PASSPORT”, which can alternatively be retrieved with getValue().
+   */
+  getOriginServerCerts() { return this.originServerCerts; }
+}
+
+/**
+ * SignedTimestamp is a timestamp associated with a message that has a
+ * cryptographic signature proving that it was issued by the correct authority.
+ *
+ * @class YotiSignedTimeStamp
+ */
+class YotiSignedTimeStamp {
+  constructor(timeStampObj) {
+    this.version = timeStampObj.version;
+    this.timestamp = timeStampObj.timestamp;
+  }
+
+  /**
+   * Version indicates how the digests within this object are calculated.
+   *
+   * @returns {number}
+   */
+  getVersion() { return this.version; }
+
+  /**
+   * The actual timestamp with microsecond-level accuracy.
+   *
+   * @returns {Date}
+   */
+  getTimestamp() { return this.timestamp; }
+}
+
+/**
+ * Creates anchor list from certificates.
+ *
+ * @class AnchorProcessor
+ */
+class AnchorProcessor {
   /**
    * Extract matching Attribute Anchors from list.
    *
    * @param anchors
    *
-   * @returns {Array}
+   * @returns {YotiAnchor[]}
    */
   static process(anchors) {
     // This will contain a list of anchor values as objects
@@ -50,7 +154,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @param anchorObj
    *
-   * @returns {Array}
+   * @returns {YotiAnchor[]}
    */
   static processSingleAnchor(anchorObj) {
     let anchorsList = this.getResultFormat();
@@ -73,6 +177,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
       );
       anchorsList = this.mergeAnchorsLists(anchorsList, certAnchors);
     }
+
     return anchorsList;
   }
 
@@ -84,7 +189,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    * @param yotiSignedTimeStamp
    * @param X509Certs
    *
-   * @returns {Array}
+   * @returns {YotiAnchor[]}
    */
   static getAnchorsByCertificate(certArrayBuffer, subType, yotiSignedTimeStamp, X509Certs) {
     const anchorsList = this.getResultFormat();
@@ -95,25 +200,24 @@ module.exports.AnchorProcessor = class AnchorProcessor {
 
     const certificateObj = AnchorProcessor.convertCertToX509(certArrayBuffer);
     const extensionsData = certificateObj.extensions;
-    const anchorTypes = this.getAnchorTypes();
-    const anchorTypesMap = this.getAnchorTypesMap();
 
     // Find anchor value for each anchor type => oid
-    for (let x = 0; x < anchorTypes.length; x += 1) {
-      const anchorType = anchorTypes[x];
-      const oid = anchorTypesMap[anchorType];
+    Object.keys(ANCHOR_TYPE).forEach((key) => {
+      const anchorType = ANCHOR_TYPE[key];
       const yotiAnchor = this.getAnchorByOid(
         extensionsData,
         subType,
         yotiSignedTimeStamp,
         X509Certs,
-        oid
+        anchorType.oid,
+        anchorType.name
       );
 
       if (yotiAnchor !== null) {
-        anchorsList[anchorType].push(yotiAnchor);
+        anchorsList[key].push(yotiAnchor);
       }
-    }
+    });
+
     return anchorsList;
   }
 
@@ -126,14 +230,22 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    * @param serverX509Certs
    * @param oid
    *
-   * @returns {*}
+   * @returns {YotiAnchor|null}
    */
-  static getAnchorByOid(extensionsData, subTypeParam, yotiSignedTimeStamp, serverX509Certs, oid) {
+  static getAnchorByOid(
+    extensionsData,
+    subTypeParam,
+    yotiSignedTimeStamp,
+    serverX509Certs,
+    oid,
+    anchorType
+  ) {
     let yotiAnchor = null;
     if (extensionsData && oid) {
       const anchorValue = this.getAnchorValueByOid(extensionsData, oid);
       if (anchorValue !== null) {
         yotiAnchor = new YotiAnchor({
+          type: anchorType,
           value: anchorValue,
           subType: subTypeParam,
           signedTimeStamp: yotiSignedTimeStamp,
@@ -173,7 +285,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @param signedTimeStampByteBuffer
    *
-   * @returns {main}
+   * @returns {YotiSignedTimeStamp}
    */
   static processSignedTimeStamp(signedTimeStampByteBuffer) {
     const yotiSignedTimeStamp = new YotiSignedTimeStamp({ version: 0, timestamp: 0 });
@@ -198,17 +310,14 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @param targetList
    * @param sourceList
-   * @returns {*}
+   * @returns {YotiAnchor[]}
    */
   static mergeAnchorsLists(targetList, sourceList) {
-    const anchorTypes = this.getAnchorTypes();
-
-    for (let i = 0; i < anchorTypes.length; i += 1) {
-      const anchorType = anchorTypes[i];
+    Object.keys(ANCHOR_TYPE).forEach((anchorType) => {
       sourceList[anchorType].forEach((yotiAnchorObj) => {
         targetList[anchorType].push(yotiAnchorObj);
       });
-    }
+    });
     return targetList;
   }
 
@@ -217,7 +326,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @param certificatesList
    *
-   * @returns {Array}
+   * @returns {Certificate[]}
    */
   static convertCertsListToX509(certificatesList) {
     const X509Certificates = [];
@@ -235,7 +344,7 @@ module.exports.AnchorProcessor = class AnchorProcessor {
    *
    * @param certArrayBuffer
    *
-   * @returns {the|*}
+   * @returns {Certificate}
    */
   static convertCertToX509(certArrayBuffer) {
     const certBuffer = certArrayBuffer.toBuffer();
@@ -266,29 +375,37 @@ module.exports.AnchorProcessor = class AnchorProcessor {
   }
 
   /**
-   * @returns {Array}
+   * @returns {Object}
    */
   static getResultFormat() {
-    const resultData = [];
-    resultData.sources = [];
-    resultData.verifiers = [];
-    return resultData;
-  }
-
-  static getAnchorTypesMap() {
-    return {
-      sources: '1.3.6.1.4.1.47127.1.1.1',
-      verifiers: '1.3.6.1.4.1.47127.1.1.2',
-    };
+    return Object.keys(ANCHOR_TYPE).reduce((acc, current) => {
+      acc[current] = [];
+      return acc;
+    }, {});
   }
 
   /**
+   * @deprecated replaced by ANCHOR_TYPE
+   *
+   * @returns {Object}
+   */
+  static getAnchorTypesMap() {
+    return Object.keys(ANCHOR_TYPE).reduce((acc, current) => {
+      acc[current] = ANCHOR_TYPE[current].oid;
+      return acc;
+    }, {});
+  }
+
+  /**
+   * @deprecated replaced by ANCHOR_TYPE
+   *
    * @returns {string[]}
    */
   static getAnchorTypes() {
-    return [
-      'sources',
-      'verifiers',
-    ];
+    return Object.keys(ANCHOR_TYPE);
   }
+}
+
+module.exports = {
+  AnchorProcessor,
 };
