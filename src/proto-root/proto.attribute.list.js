@@ -44,6 +44,7 @@ module.exports = {
           value: convertedValueByName,
           sources: processedAnchors.sources,
           verifiers: processedAnchors.verifiers,
+          anchors: processedAnchors,
         };
       } catch (err) {
         console.log(`${err.message} (Attribute: ${attrName})`);

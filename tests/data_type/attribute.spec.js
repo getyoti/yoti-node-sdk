@@ -15,11 +15,14 @@ describe('Attribute', () => {
   const documentDetails = new DocumentDetails('PASSPORT GBR 01234567 2020-01-01');
   const dlSourceAnchor = fs.readFileSync('./tests/sample-data/yoti-common/dl-source-anchor.txt', 'utf8');
   const verifierAnchor = fs.readFileSync('./tests/sample-data/yoti-common/verifier-anchor.txt', 'utf8');
+  const sources = parseAnchorData(dlSourceAnchor).sources;
+  const verifiers = parseAnchorData(verifierAnchor).verifiers;
   const attributeObj = new Attribute({
     value: documentDetails,
     name: 'document_details',
-    sources: parseAnchorData(dlSourceAnchor).sources,
-    verifiers: parseAnchorData(verifierAnchor).verifiers,
+    sources,
+    verifiers,
+    anchors: sources.concat(verifiers),
   });
 
   context('Attribute.getValue()', () => {
@@ -34,17 +37,35 @@ describe('Attribute', () => {
   });
   context('Attribute.getSources()[0]', () => {
     it('it should return an Anchor object', () => {
-      expect(attributeObj.getSources()[0]).to.be.an('object');
-      expect(attributeObj.getSources()[0].getValue()).to.equal('DRIVING_LICENCE');
-      expect(attributeObj.getSources()[0].getSubType()).to.equal('');
-      expect(attributeObj.getSources()[0].getSignedTimeStamp().getTimestamp()
+      const source = attributeObj.getSources()[0];
+      expect(source).to.be.an('object');
+      expect(source.getType()).to.equal('SOURCE');
+      expect(source.getValue()).to.equal('DRIVING_LICENCE');
+      expect(source.getSubType()).to.equal('');
+      expect(source.getSignedTimeStamp().getTimestamp()
         .toUTCString()).to.equal('Wed, 11 Apr 2018 12:13:03 GMT');
-      expect(attributeObj.getSources()[0].getOriginServerCerts()[0].signatureOid).to.equal('1.2.840.113549.1.1.11');
+      expect(source.getOriginServerCerts()[0].signatureOid).to.equal('1.2.840.113549.1.1.11');
     });
   });
   context('Attribute.getVerifiers()[0]', () => {
     it('it should return an Anchor object', () => {
-      expect(attributeObj.getVerifiers()[0]).to.be.an('object');
+      const verifier = attributeObj.getVerifiers()[0];
+      expect(verifier).to.be.an('object');
+      expect(verifier.getType()).to.equal('VERIFIER');
+      expect(verifier.getValue()).to.equal('YOTI_ADMIN');
+      expect(verifier.getSubType()).to.equal('');
+      expect(verifier.getSignedTimeStamp().getTimestamp()
+        .toUTCString()).to.equal('Wed, 11 Apr 2018 12:13:04 GMT');
+      expect(verifier.getOriginServerCerts()[0].signatureOid).to.equal('1.2.840.113549.1.1.11');
+    });
+  });
+  context('Attribute.getAnchors()', () => {
+    it('it should return an array of Anchor objects', () => {
+      const anchors = attributeObj.getAnchors();
+      const source = anchors[0];
+      const verifier = anchors[1];
+      expect(source.getType()).to.equal('SOURCE');
+      expect(verifier.getType()).to.equal('VERIFIER');
     });
   });
   context('When Attribute value is a DocumentDetails', () => {
