@@ -202,19 +202,19 @@ class AnchorProcessor {
     const extensionsData = certificateObj.extensions;
 
     // Find anchor value for each anchor type => oid
-    Object.keys(ANCHOR_TYPE).forEach((key) => {
-      const anchorType = ANCHOR_TYPE[key];
+    extensionsData.forEach((extension) => {
+      const anchorTypeKey = this.getAnchorTypeKeyByOid(extension.id);
       const yotiAnchor = this.getAnchorByOid(
         extensionsData,
         subType,
         yotiSignedTimeStamp,
         X509Certs,
-        anchorType.oid,
-        anchorType.name
+        extension.id,
+        ANCHOR_TYPE[anchorTypeKey].name
       );
 
       if (yotiAnchor !== null) {
-        anchorsList[key].push(yotiAnchor);
+        anchorsList[anchorTypeKey].push(yotiAnchor);
       }
     });
 
@@ -273,7 +273,7 @@ class AnchorProcessor {
       const anchorEncodedValue = anchorExtension.value;
       // Convert Anchor value from ASN.1 format to an object
       const extensionObj = forge.asn1.fromDer(anchorEncodedValue.toString('binary'));
-      if (extensionObj) {
+      if (extensionObj.value[0].value) {
         anchorValue = extensionObj.value[0].value;
       }
     }
@@ -382,6 +382,21 @@ class AnchorProcessor {
       acc[current] = [];
       return acc;
     }, {});
+  }
+
+  /**
+   * Get ANCHOR_TYPE key for provided oid.
+   *
+   * Will return "unknown" key if it doesn't exist
+   *
+   * @param {string} oid
+   *
+   * @returns {string} ANCHOR_TYPE key
+   */
+  static getAnchorTypeKeyByOid(oid) {
+    const anchorTypeKey = Object.keys(ANCHOR_TYPE)
+      .find(key => oid === ANCHOR_TYPE[key].oid);
+    return anchorTypeKey || 'unknown';
   }
 
   /**
