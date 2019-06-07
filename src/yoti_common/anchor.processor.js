@@ -4,15 +4,23 @@ const forge = require('node-forge');
 const protoRoot = require('../proto-root');
 
 /**
+ * Mapping of anchor types.
+ */
+const ANCHOR_TYPES = Object.freeze({
+  SOURCE: '1.3.6.1.4.1.47127.1.1.1',
+  VERIFIER: '1.3.6.1.4.1.47127.1.1.2',
+  UNKNOWN: '',
+});
+
+/**
  * Determines anchor type based on oid.
  *
  * @class AnchorType
  */
 class AnchorType {
   constructor(oid) {
-    const types = this.constructor.getTypes();
-    this.name = Object.keys(types).find(key => oid === types[key]) || 'UNKNOWN';
-    this.oid = types[this.name];
+    this.name = Object.keys(ANCHOR_TYPES).find(key => oid === ANCHOR_TYPES[key]) || 'UNKNOWN';
+    this.oid = ANCHOR_TYPES[this.name];
   }
 
   /**
@@ -28,19 +36,6 @@ class AnchorType {
    * @returns {string} SOURCE, VERIFIER or UNKNOWN
    */
   getName() { return this.name; }
-
-  /**
-   * Mapping anchor types to oid and name.
-   *
-   * @returns {Object} Frozen mapping object.
-   */
-  static getTypes() {
-    return Object.freeze({
-      SOURCE: '1.3.6.1.4.1.47127.1.1.1',
-      VERIFIER: '1.3.6.1.4.1.47127.1.1.2',
-      UNKNOWN: '',
-    });
-  }
 }
 
 /**
@@ -421,9 +416,9 @@ class AnchorProcessor {
    */
   static getAnchorTypesMap() {
     return {
-      sources: AnchorType.getTypes().SOURCE,
-      verifiers: AnchorType.getTypes().VERIFIER,
-      unknown: AnchorType.getTypes().UNKNOWN,
+      sources: ANCHOR_TYPES.SOURCE,
+      verifiers: ANCHOR_TYPES.VERIFIER,
+      unknown: ANCHOR_TYPES.UNKNOWN,
     };
   }
 
