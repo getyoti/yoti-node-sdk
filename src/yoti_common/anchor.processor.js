@@ -10,12 +10,9 @@ const protoRoot = require('../proto-root');
  */
 class AnchorType {
   constructor(oid) {
-    const mappings = this.constructor.getMappings();
-
-    this.key = this.constructor.getKeys()
-      .find(key => oid === mappings[key].oid) || 'unknown';
-
-    this.mapping = mappings[this.getKey()];
+    const types = this.constructor.getTypes();
+    this.name = Object.keys(types).find(key => oid === types[key]) || 'UNKNOWN';
+    this.oid = types[this.name];
   }
 
   /**
@@ -23,50 +20,25 @@ class AnchorType {
    *
    * @returns {string}
    */
-  getOid() { return this.mapping.oid; }
+  getOid() { return this.oid; }
 
   /**
    * The name for this anchor type.
    *
    * @returns {string} SOURCE, VERIFIER or UNKNOWN
    */
-  getName() { return this.mapping.name; }
-
-  /**
-   * The key for this anchor type.
-   *
-   * @returns {string} sources, verifiers or unknown
-   */
-  getKey() { return this.key; }
-
-  /**
-   * List of all anchor type keys.
-   *
-   * @returns {string[]}
-   */
-  static getKeys() {
-    return Object.keys(this.getMappings());
-  }
+  getName() { return this.name; }
 
   /**
    * Mapping anchor types to oid and name.
    *
    * @returns {Object} Frozen mapping object.
    */
-  static getMappings() {
+  static getTypes() {
     return Object.freeze({
-      sources: {
-        oid: '1.3.6.1.4.1.47127.1.1.1',
-        name: 'SOURCE',
-      },
-      verifiers: {
-        oid: '1.3.6.1.4.1.47127.1.1.2',
-        name: 'VERIFIER',
-      },
-      unknown: {
-        oid: '',
-        name: 'UNKNOWN',
-      },
+      SOURCE: '1.3.6.1.4.1.47127.1.1.1',
+      VERIFIER: '1.3.6.1.4.1.47127.1.1.2',
+      UNKNOWN: '',
     });
   }
 }
@@ -262,7 +234,9 @@ class AnchorProcessor {
         signedTimeStamp,
         originServerCerts,
       });
-      anchorsList[anchorType.getKey()].push(yotiAnchor);
+
+      const anchorListKey = this.getAnchorListKeyByOid(anchorType.getOid());
+      anchorsList[anchorListKey].push(yotiAnchor);
     });
 
     return anchorsList;
@@ -367,7 +341,7 @@ class AnchorProcessor {
    * @returns {YotiAnchor[]}
    */
   static mergeAnchorsLists(targetList, sourceList) {
-    AnchorType.getKeys().forEach((anchorType) => {
+    this.getAnchorTypes().forEach((anchorType) => {
       sourceList[anchorType].forEach((yotiAnchorObj) => {
         targetList[anchorType].push(yotiAnchorObj);
       });
@@ -432,32 +406,43 @@ class AnchorProcessor {
    * @returns {Object}
    */
   static getResultFormat() {
-    return AnchorType.getKeys().reduce((acc, current) => {
+    return this.getAnchorTypes().reduce((acc, current) => {
       acc[current] = [];
       return acc;
     }, {});
   }
 
   /**
-   * @deprecated replaced by AnchorType class.
+   * Map of anchor list keys to oids.
    *
    * @returns {Object}
    */
   static getAnchorTypesMap() {
-    const mappings = AnchorType.getMappings();
-    return Object.keys(mappings).reduce((acc, current) => {
-      acc[current] = mappings[current].oid;
-      return acc;
-    }, {});
+    return {
+      sources: AnchorType.getTypes().SOURCE,
+      verifiers: AnchorType.getTypes().VERIFIER,
+      unknown: AnchorType.getTypes().UNKNOWN,
+    };
   }
 
   /**
-   * @deprecated replaced by AnchorType class.
+   * Get anchor list key by provided type.
+   *
+   * @param {string} oid
+   */
+  static getAnchorListKeyByOid(oid) {
+    const anchorTypesMap = this.getAnchorTypesMap();
+    return Object.keys(anchorTypesMap)
+      .find(key => oid === anchorTypesMap[key]);
+  }
+
+  /**
+   * List of anchor list keys.
    *
    * @returns {string[]}
    */
   static getAnchorTypes() {
-    return AnchorType.getKeys();
+    return Object.keys(this.getAnchorTypesMap());
   }
 }
 
