@@ -83,5 +83,35 @@ describe('anchorProcessor', () => {
         expect(expectedCertificate).to.equal(certificates[0].signatureOid);
       });
     });
+
+    context('when processing unknown anchor data', () => {
+      const unknownAnchorData = fs.readFileSync('./tests/sample-data/yoti-common/unknown-anchor.txt', 'utf8');
+      const unknownAnchorObj = parseAnchorData(unknownAnchorData);
+      const anchors = AnchorProcessor.process([unknownAnchorObj]);
+      const unknownAnchor = anchors.unknown[0];
+
+      it('should return empty string as value', () => {
+        expect(unknownAnchor.getValue()).to.equal('');
+      });
+
+      it('should return UNKNOWN as type', () => {
+        expect(unknownAnchor.getType()).to.equal('UNKNOWN');
+      });
+
+      it('should return Wed, 11 Apr 2018 12:13:03 GMT as timestamp', () => {
+        expect(unknownAnchor.getSignedTimeStamp().getTimestamp().toUTCString())
+          .to.equal('Wed, 11 Apr 2018 12:13:03 GMT');
+      });
+
+      it('should return empty subType', () => {
+        expect(unknownAnchor.getSubType()).to.equal('');
+      });
+
+      it('should return 1.2.840.113549.1.1.11 as signature Oid', () => {
+        const expectedCertificate = '1.2.840.113549.1.1.11';
+        const certificates = unknownAnchor.getOriginServerCerts();
+        expect(expectedCertificate).to.equal(certificates[0].signatureOid);
+      });
+    });
   });
 });
