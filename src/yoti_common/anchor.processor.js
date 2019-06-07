@@ -383,6 +383,8 @@ class AnchorProcessor {
   /**
    * Returns the elem index or -1 if it doesn't find any.
    *
+   * @deprecated no longer in use.
+   *
    * @param array
    * @param anchorOidObj
    *
