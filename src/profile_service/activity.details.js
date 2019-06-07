@@ -92,6 +92,8 @@ class ActivityDetails {
   /**
    * The user profile returned by Yoti if the request was successful.
    *
+   * @deprecated replaced by getProfile()
+   *
    * @returns {Object}
    */
   getUserProfile() {
@@ -99,7 +101,8 @@ class ActivityDetails {
   }
 
   /**
-   * The user Profile object.
+   * The user profile with shared attributes and anchor information, returned
+   * by Yoti if the request was successful.
    *
    * @returns {Profile}
    */
@@ -108,7 +111,7 @@ class ActivityDetails {
   }
 
   /**
-   * The application profile object.
+   * Profile of an application, with convenience methods to access well-known attributes.
    *
    * @returns {ApplicationProfile}
    */
