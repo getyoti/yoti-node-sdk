@@ -55,8 +55,8 @@ class Profile extends BaseProfile {
   }
 
   /**
-   * Corresponds to the gender in the passport; will be one of the strings "MALE", "FEMALE"
-   * or "OTHER".
+   * Corresponds to the gender in the passport; will be one of the strings
+   * "MALE", "FEMALE", "TRANSGENDER" or "OTHER".
    *
    * @returns {null|Attribute}
    */
