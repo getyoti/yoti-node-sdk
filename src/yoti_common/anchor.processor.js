@@ -20,28 +20,24 @@ class AnchorType {
 
   /**
    * The oid for this anchor type.
+   *
+   * @returns {string}
    */
-  getOid() {
-    return this.mapping.oid;
-  }
+  getOid() { return this.mapping.oid; }
 
   /**
    * The name for this anchor type.
    *
    * @returns {string} SOURCE, VERIFIER or UNKNOWN
    */
-  getName() {
-    return this.mapping.name;
-  }
+  getName() { return this.mapping.name; }
 
   /**
    * The key for this anchor type.
    *
    * @returns {string} sources, verifiers or unknown
    */
-  getKey() {
-    return this.key;
-  }
+  getKey() { return this.key; }
 
   /**
    * List of all anchor types.
@@ -277,10 +273,7 @@ class AnchorProcessor {
         signedTimeStamp,
         originServerCerts,
       });
-
-      if (yotiAnchor !== null) {
-        anchorsList[anchorType.getKey()].push(yotiAnchor);
-      }
+      anchorsList[anchorType.getKey()].push(yotiAnchor);
     });
 
     return anchorsList;
