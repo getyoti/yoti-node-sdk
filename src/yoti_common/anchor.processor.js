@@ -40,18 +40,6 @@ class AnchorType {
   getKey() { return this.key; }
 
   /**
-   * List of all anchor types.
-   *
-   * @returns {AnchorType[]}
-   */
-  static getAll() {
-    return this.getKeys().reduce((acc, current) => {
-      acc.push(new AnchorType(this.getMappings()[current].oid));
-      return acc;
-    }, []);
-  }
-
-  /**
    * List of all anchor type keys.
    *
    * @returns {string[]}
@@ -456,8 +444,9 @@ class AnchorProcessor {
    * @returns {Object}
    */
   static getAnchorTypesMap() {
-    return AnchorType.getAll().reduce((acc, anchorType) => {
-      acc[anchorType.getKey()] = anchorType.getOid();
+    const mappings = AnchorType.getMappings();
+    return Object.keys(mappings).reduce((acc, current) => {
+      acc[current] = mappings[current].oid;
       return acc;
     }, {});
   }
