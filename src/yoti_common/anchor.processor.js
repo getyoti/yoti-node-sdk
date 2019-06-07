@@ -266,9 +266,10 @@ class AnchorProcessor {
     // Find anchor value for each anchor extension.
     extensionsData.forEach((anchorExtension) => {
       const anchorType = new AnchorType(anchorExtension.id);
+      const anchorValue = anchorType.getOid() ? this.getAnchorValue(anchorExtension) : '';
       const yotiAnchor = new YotiAnchor({
         type: anchorType.getName(),
-        value: this.getAnchorValue(anchorExtension),
+        value: anchorValue,
         subType,
         signedTimeStamp,
         originServerCerts,
@@ -292,13 +293,7 @@ class AnchorProcessor {
    *
    * @returns {YotiAnchor|null}
    */
-  static getAnchorByOid(
-    extensionsData,
-    subType,
-    signedTimeStamp,
-    originServerCerts,
-    oid
-  ) {
+  static getAnchorByOid(extensionsData, subType, signedTimeStamp, originServerCerts, oid) {
     let yotiAnchor = null;
     if (extensionsData && oid) {
       const anchorValue = this.getAnchorValueByOid(extensionsData, oid);
@@ -342,10 +337,13 @@ class AnchorProcessor {
    * @returns {string}
    */
   static getAnchorValue(anchorExtension) {
-    const anchorEncodedValue = anchorExtension.value;
+    let anchorValue = '';
     // Convert Anchor value from ASN.1 format to an object
-    const extensionObj = forge.asn1.fromDer(anchorEncodedValue.toString('binary'));
-    return extensionObj.value[0].value || '';
+    const extensionObj = forge.asn1.fromDer(anchorExtension.value.toString('binary'));
+    if (extensionObj) {
+      anchorValue = extensionObj.value[0].value;
+    }
+    return anchorValue;
   }
 
   /**
