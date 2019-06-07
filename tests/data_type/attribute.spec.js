@@ -15,14 +15,20 @@ describe('Attribute', () => {
   const documentDetails = new DocumentDetails('PASSPORT GBR 01234567 2020-01-01');
   const dlSourceAnchor = fs.readFileSync('./tests/sample-data/yoti-common/dl-source-anchor.txt', 'utf8');
   const verifierAnchor = fs.readFileSync('./tests/sample-data/yoti-common/verifier-anchor.txt', 'utf8');
+  const unknownAnchor = fs.readFileSync('./tests/sample-data/yoti-common/unknown-anchor.txt', 'utf8');
   const sources = parseAnchorData(dlSourceAnchor).sources;
   const verifiers = parseAnchorData(verifierAnchor).verifiers;
+  const anchors = []
+    .concat(sources)
+    .concat(verifiers)
+    .concat(parseAnchorData(unknownAnchor).unknown);
+
   const attributeObj = new Attribute({
     value: documentDetails,
     name: 'document_details',
     sources,
     verifiers,
-    anchors: sources.concat(verifiers),
+    anchors,
   });
 
   context('Attribute.getValue()', () => {
@@ -61,11 +67,12 @@ describe('Attribute', () => {
   });
   context('Attribute.getAnchors()', () => {
     it('it should return an array of Anchor objects', () => {
-      const anchors = attributeObj.getAnchors();
-      const source = anchors[0];
-      const verifier = anchors[1];
+      const source = attributeObj.getAnchors()[0];
+      const verifier = attributeObj.getAnchors()[1];
+      const unknown = attributeObj.getAnchors()[2];
       expect(source.getType()).to.equal('SOURCE');
       expect(verifier.getType()).to.equal('VERIFIER');
+      expect(unknown.getType()).to.equal('UNKNOWN');
     });
   });
   context('When Attribute value is a DocumentDetails', () => {
