@@ -13,32 +13,6 @@ const ANCHOR_TYPES = Object.freeze({
 });
 
 /**
- * Determines anchor type based on oid.
- *
- * @class AnchorType
- */
-class AnchorType {
-  constructor(oid) {
-    this.name = Object.keys(ANCHOR_TYPES).find(key => oid === ANCHOR_TYPES[key]) || 'UNKNOWN';
-    this.oid = ANCHOR_TYPES[this.name];
-  }
-
-  /**
-   * The oid for this anchor type.
-   *
-   * @returns {string}
-   */
-  getOid() { return this.oid; }
-
-  /**
-   * The name for this anchor type.
-   *
-   * @returns {string} SOURCE, VERIFIER or UNKNOWN
-   */
-  getName() { return this.name; }
-}
-
-/**
  * A class to represent a Yoti anchor. Anchors are metadata associated
  * to the attribute, which describe how an attribute has been provided
  * to Yoti (SOURCE Anchor) and how it has been verified (VERIFIER Anchor).
@@ -220,17 +194,17 @@ class AnchorProcessor {
 
     // Find anchor value for each anchor extension.
     extensionsData.forEach((anchorExtension) => {
-      const anchorType = new AnchorType(anchorExtension.id);
-      const anchorValue = anchorType.getOid() ? this.getAnchorValue(anchorExtension) : '';
+      const anchorType = this.getAnchorTypeByOid(anchorExtension.id);
+      const anchorValue = ANCHOR_TYPES[anchorType] ? this.getAnchorValue(anchorExtension) : '';
       const yotiAnchor = new YotiAnchor({
-        type: anchorType.getName(),
+        type: anchorType,
         value: anchorValue,
         subType,
         signedTimeStamp,
         originServerCerts,
       });
 
-      const anchorListKey = this.getAnchorListKeyByOid(anchorType.getOid());
+      const anchorListKey = this.getAnchorListKeyByType(anchorType);
       anchorsList[anchorListKey].push(yotiAnchor);
     });
 
@@ -423,14 +397,24 @@ class AnchorProcessor {
   }
 
   /**
-   * Get anchor list key by provided type.
+   * Get anchor list key by type.
+   *
+   * @param {string} type
+   */
+  static getAnchorListKeyByType(type) {
+    const anchorTypesMap = this.getAnchorTypesMap();
+    return Object.keys(anchorTypesMap)
+      .find(key => ANCHOR_TYPES[type] === anchorTypesMap[key]);
+  }
+
+  /**
+   * Get anchor type by oid.
    *
    * @param {string} oid
    */
-  static getAnchorListKeyByOid(oid) {
-    const anchorTypesMap = this.getAnchorTypesMap();
-    return Object.keys(anchorTypesMap)
-      .find(key => oid === anchorTypesMap[key]);
+  static getAnchorTypeByOid(oid) {
+    return Object.keys(ANCHOR_TYPES)
+      .find(key => oid === ANCHOR_TYPES[key]) || 'UNKNOWN';
   }
 
   /**
