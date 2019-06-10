@@ -114,4 +114,23 @@ describe('anchorProcessor', () => {
       });
     });
   });
+  describe('#getAnchorByOid', () => {
+    context('when processing DL Source Anchor data', () => {
+      const sourceAnchor = fs.readFileSync('./tests/sample-data/yoti-common/dl-source-anchor.txt', 'utf8');
+
+      it('should return DRIVING_LICENCE as value', () => {
+        const data = parseAnchorData(sourceAnchor);
+        const certificateObj = AnchorProcessor.convertCertToX509(data.originServerCerts[0]);
+        const anchor = AnchorProcessor.getAnchorByOid(
+          certificateObj.extensions,
+          data.getSubType(),
+          AnchorProcessor.processSignedTimeStamp(data.getSignedTimeStamp()),
+          AnchorProcessor.convertCertsListToX509(data.originServerCerts),
+          '1.3.6.1.4.1.47127.1.1.1'
+        );
+
+        expect(anchor.getValue()).to.equal('DRIVING_LICENCE');
+      });
+    });
+  });
 });
