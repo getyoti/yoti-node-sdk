@@ -2,6 +2,8 @@
 
 const forge = require('node-forge');
 const protoRoot = require('../proto-root');
+const { YotiAnchor } = require('../data_type/anchor');
+const { YotiSignedTimeStamp } = require('../data_type/signed.timestamp');
 
 /**
  * Mapping of anchor types.
@@ -11,115 +13,6 @@ const ANCHOR_TYPES = Object.freeze({
   VERIFIER: '1.3.6.1.4.1.47127.1.1.2',
   UNKNOWN: '',
 });
-
-/**
- * A class to represent a Yoti anchor. Anchors are metadata associated
- * to the attribute, which describe how an attribute has been provided
- * to Yoti (SOURCE Anchor) and how it has been verified (VERIFIER Anchor).
- *
- * If an attribute has only one SOURCE Anchor with the value set to
- * "USER_PROVIDED" and zero VERIFIER Anchors, then the attribute
- * is a self-certified one.
- *
- * @class YotiAnchor
- */
-class YotiAnchor {
-  constructor(anchorObj) {
-    this.type = anchorObj.type;
-    this.value = anchorObj.value;
-    this.subType = anchorObj.subType;
-    this.signedTimeStamp = anchorObj.signedTimeStamp;
-    this.originServerCerts = anchorObj.originServerCerts;
-  }
-
-  /**
-   * Gets the type of the given anchor
-   *
-   * @returns {string}
-   */
-  getType() { return this.type; }
-
-  /**
-   * Gets the value of the given anchor.
-   *
-   * Among possible options for SOURCE are "USER_PROVIDED", "PASSPORT",
-   * "DRIVING_LICENCE", "NATIONAL_ID" and "PASSCARD"
-   *
-   * Among possible options for VERIFIER are "YOTI_ADMIN", "YOTI_IDENTITY",
-   * "YOTI_OTP", "PASSPORT_NFC_SIGNATURE", "ISSUING_AUTHORITY",
-   * "ISSUING_AUTHORITY_PKI" and "LIVENESS".
-   *
-   * @returns {string}
-   */
-  getValue() { return this.value; }
-
-
-  /**
-   * SubType is an indicator of any specific processing method, or subcategory,
-   * pertaining to an artifact.
-   *
-   * Examples:
-   * - For a passport, this would be either "NFC" or "OCR".
-   * - For a national ID, this could be "AADHAAR"
-   *
-   * @returns {string}
-   */
-  getSubType() { return this.subType; }
-
-  /**
-   * SignedTimeStamp is the time at which the signature was created.
-   * The message associated with the timestamp is the marshaled form of
-   * AttributeSigning (i.e. the same message that is signed in the
-   * Signature field). This method returns the YotiSignedTimeStamp
-   * object, the actual timestamp as a Date object can be called with
-   * getTimestamp() on this object.
-   *
-   * @returns {YotiSignedTimeStamp}
-   */
-  getSignedTimeStamp() { return this.signedTimeStamp; }
-
-  /**
-   * OriginServerCerts are the X.509 certificate chain(DER-encoded ASN.1)
-   * from the service that assigned the attribute.
-   *
-   * The first certificate in the chain holds the public key that can be
-   * used to verify the Signature field; any following entries (zero or
-   * more) are for intermediate certificate authorities (in order). The
-   * last certificate in the chain must be verified against the Yoti root
-   * CA certificate.
-   *
-   * An extension in the first certificate holds the main artifact type,
-   * e.g. “PASSPORT”, which can alternatively be retrieved with getValue().
-   */
-  getOriginServerCerts() { return this.originServerCerts; }
-}
-
-/**
- * SignedTimestamp is a timestamp associated with a message that has a
- * cryptographic signature proving that it was issued by the correct authority.
- *
- * @class YotiSignedTimeStamp
- */
-class YotiSignedTimeStamp {
-  constructor(timeStampObj) {
-    this.version = timeStampObj.version;
-    this.timestamp = timeStampObj.timestamp;
-  }
-
-  /**
-   * Version indicates how the digests within this object are calculated.
-   *
-   * @returns {number}
-   */
-  getVersion() { return this.version; }
-
-  /**
-   * The actual timestamp with microsecond-level accuracy.
-   *
-   * @returns {Date}
-   */
-  getTimestamp() { return this.timestamp; }
-}
 
 /**
  * Creates anchor list from certificates.
@@ -200,13 +93,13 @@ class AnchorProcessor {
     extensionsData.forEach((anchorExtension) => {
       const anchorType = this.getAnchorTypeByOid(anchorExtension.id);
       const anchorValue = ANCHOR_TYPES[anchorType] ? this.getAnchorValue(anchorExtension) : '';
-      const yotiAnchor = new YotiAnchor({
-        type: anchorType,
-        value: anchorValue,
+      const yotiAnchor = new YotiAnchor(
+        anchorType,
+        anchorValue,
         subType,
-        signedTimeStamp: signedTimestamp,
-        originServerCerts,
-      });
+        signedTimestamp,
+        originServerCerts
+      );
 
       const anchorListKey = this.getAnchorListKeyByType(anchorType);
       anchorsList[anchorListKey].push(yotiAnchor);
@@ -231,14 +124,16 @@ class AnchorProcessor {
   static getAnchorByOid(extensionsData, subType, signedTimestamp, originServerCerts, oid) {
     let yotiAnchor = null;
     if (extensionsData && oid) {
+      const anchorType = this.getAnchorTypeByOid(oid);
       const anchorValue = this.getAnchorValueByOid(extensionsData, oid);
       if (anchorValue !== null) {
-        yotiAnchor = new YotiAnchor({
-          value: anchorValue,
+        yotiAnchor = new YotiAnchor(
+          anchorType,
+          anchorValue,
           subType,
-          signedTimeStamp: signedTimestamp,
-          originServerCerts,
-        });
+          signedTimestamp,
+          originServerCerts
+        );
       }
     }
     return yotiAnchor;
