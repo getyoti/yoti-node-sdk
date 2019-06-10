@@ -145,6 +145,15 @@ class ActivityDetails {
   getReceiptId() {
     return this.receipt.receipt_id;
   }
+
+  /**
+   * Time and date of the sharing activity
+   *
+   * @returns {Date}
+   */
+  getTimestamp() {
+    return new Date(this.receipt.timestamp);
+  }
 }
 
 module.exports = {

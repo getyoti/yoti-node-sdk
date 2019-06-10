@@ -42,6 +42,8 @@ describe('profileService', () => {
             expect(receipt.getUserId()).to.equal(rememberMeId);
             expect(receipt.getRememberMeId()).to.equal(rememberMeId);
             expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
+            expect(receipt.getTimestamp()).to.be.a('Date');
+            expect(receipt.getTimestamp().toUTCString()).to.equal('Tue, 19 Jul 2016 08:55:38 GMT');
             expect(profile.phoneNumber).to.equal(phoneNumber);
             expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).to.equal(selfie);
             expect(receipt.getBase64SelfieUri()).to.equal(selfie);

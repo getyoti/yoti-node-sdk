@@ -141,4 +141,14 @@ describe('ActivityDetails', () => {
       expect(activityDetails.getBase64SelfieUri()).to.equal('test_base64_encoded_uri');
     });
   });
+  describe('#getTimestamp', () => {
+    const activityDetails = new ActivityDetails({
+      receipt: {
+        timestamp: '2003-11-04T12:51:07Z',
+      },
+    });
+    it('should return timestamp value', () => {
+      expect(activityDetails.getTimestamp().toUTCString()).to.equal('Tue, 04 Nov 2003 12:51:07 GMT');
+    });
+  });
 });
