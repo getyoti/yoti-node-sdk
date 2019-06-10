@@ -7,9 +7,13 @@
  * @class YotiSignedTimeStamp
  */
 class YotiSignedTimeStamp {
-  constructor(timeStampObj) {
-    this.version = timeStampObj.version;
-    this.timestamp = timeStampObj.timestamp;
+  /**
+   * @param {number} version
+   * @param {Date} timestamp
+   */
+  constructor(version, timestamp) {
+    this.version = version;
+    this.timestamp = timestamp;
   }
 
   /**

@@ -3,10 +3,7 @@ const expect = require('chai').expect;
 const { YotiSignedTimeStamp } = require('../../src/data_type/signed.timestamp');
 
 describe('YotiSignedTimeStamp', () => {
-  const signedTimestamp = new YotiSignedTimeStamp({
-    version: 1,
-    timestamp: new Date('2003-11-04T12:51:07Z'),
-  });
+  const signedTimestamp = new YotiSignedTimeStamp(1, new Date('2003-11-04T12:51:07Z'));
 
   context('#getVersion()', () => {
     it('it should return 1', () => {

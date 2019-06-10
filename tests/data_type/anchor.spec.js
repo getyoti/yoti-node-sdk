@@ -4,10 +4,7 @@ const { YotiAnchor } = require('../../src/data_type/anchor');
 const { YotiSignedTimeStamp } = require('../../src/data_type/signed.timestamp');
 
 describe('YotiAnchor', () => {
-  const signedTimestamp = new YotiSignedTimeStamp({
-    version: 1,
-    timestamp: new Date('2003-11-04T12:51:07Z'),
-  });
+  const signedTimestamp = new YotiSignedTimeStamp(1, new Date('2003-11-04T12:51:07Z'));
   const originServerCerts = [{
     version: 2,
     signatureOid: '1.2.840.113549.1.1.11',
