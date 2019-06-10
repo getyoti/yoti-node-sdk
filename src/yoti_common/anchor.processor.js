@@ -42,11 +42,12 @@ class YotiAnchor {
   /**
    * Gets the value of the given anchor.
    *
-   * For SOURCE this can be "USER_PROVIDED", "PASSPORT",
-   * "DRIVING_LICENCE" or "AADHAAR".
+   * Among possible options for SOURCE are "USER_PROVIDED", "PASSPORT",
+   * "DRIVING_LICENCE", "NATIONAL_ID" and "PASSCARD"
    *
-   * For VERIFIER this can be "YOTI_ADMIN", "YOTI_IDENTITY", "YOTI_OTP",
-   * "YOTI_UIDAI" or "PASSPORT_NFC_SIGNATURE".
+   * Among possible options for VERIFIER are "YOTI_ADMIN", "YOTI_IDENTITY",
+   * "YOTI_OTP", "PASSPORT_NFC_SIGNATURE", "ISSUING_AUTHORITY",
+   * "ISSUING_AUTHORITY_PKI" and "LIVENESS".
    *
    * @returns {string}
    */
@@ -55,8 +56,11 @@ class YotiAnchor {
 
   /**
    * SubType is an indicator of any specific processing method, or subcategory,
-   * pertaining to an artifact. For example, for a passport, this would be
-   * either "NFC" or "OCR".
+   * pertaining to an artifact.
+   *
+   * Examples:
+   * - For a passport, this would be either "NFC" or "OCR".
+   * - For a national ID, this could be "AADHAAR"
    *
    * @returns {string}
    */
