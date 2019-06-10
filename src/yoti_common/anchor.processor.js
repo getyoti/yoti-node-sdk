@@ -285,7 +285,8 @@ class AnchorProcessor {
    * @returns {YotiSignedTimeStamp}
    */
   static processSignedTimeStamp(signedTimestampByteBuffer) {
-    const yotiSignedTimestamp = new YotiSignedTimeStamp({ version: 0, timestamp: 0 });
+    let version = 0;
+    let timestamp = 0;
     const protoInst = protoRoot.initializeProtoBufObjects();
 
     if (signedTimestampByteBuffer) {
@@ -296,10 +297,10 @@ class AnchorProcessor {
       const tsMilliSeconds = Math.round(tsMicro / 1000);
       const dateTime = new Date(tsMilliSeconds);
 
-      yotiSignedTimestamp.version = signedTimestamp.getVersion();
-      yotiSignedTimestamp.timestamp = dateTime;
+      version = signedTimestamp.getVersion();
+      timestamp = dateTime;
     }
-    return yotiSignedTimestamp;
+    return new YotiSignedTimeStamp({ version, timestamp });
   }
 
   /**
