@@ -155,7 +155,7 @@ class AnchorProcessor {
     }
 
     const certificatesList = anchorObj.originServerCerts;
-    const yotiSignedTimeStamp = this.processSignedTimeStamp(anchorObj.getSignedTimeStamp());
+    const yotiSignedTimestamp = this.processSignedTimeStamp(anchorObj.getSignedTimeStamp());
     const serverX509Certs = AnchorProcessor.convertCertsListToX509(anchorObj.originServerCerts);
     const subType = anchorObj.getSubType();
 
@@ -163,7 +163,7 @@ class AnchorProcessor {
       const certAnchors = this.getAnchorsByCertificate(
         certificatesList[j],
         subType,
-        yotiSignedTimeStamp,
+        yotiSignedTimestamp,
         serverX509Certs
       );
       anchorsList = this.mergeAnchorsLists(anchorsList, certAnchors);
@@ -177,12 +177,12 @@ class AnchorProcessor {
    *
    * @param certArrayBuffer
    * @param subType
-   * @param signedTimeStamp
+   * @param signedTimestamp
    * @param originServerCerts
    *
    * @returns {YotiAnchor[]}
    */
-  static getAnchorsByCertificate(certArrayBuffer, subType, signedTimeStamp, originServerCerts) {
+  static getAnchorsByCertificate(certArrayBuffer, subType, signedTimestamp, originServerCerts) {
     const anchorsList = this.getResultFormat();
 
     if (!certArrayBuffer) {
@@ -200,7 +200,7 @@ class AnchorProcessor {
         type: anchorType,
         value: anchorValue,
         subType,
-        signedTimeStamp,
+        signedTimeStamp: signedTimestamp,
         originServerCerts,
       });
 
@@ -218,13 +218,13 @@ class AnchorProcessor {
    *
    * @param extensionsData
    * @param subType
-   * @param signedTimeStamp
+   * @param signedTimestamp
    * @param originServerCerts
    * @param oid
    *
    * @returns {YotiAnchor|null}
    */
-  static getAnchorByOid(extensionsData, subType, signedTimeStamp, originServerCerts, oid) {
+  static getAnchorByOid(extensionsData, subType, signedTimestamp, originServerCerts, oid) {
     let yotiAnchor = null;
     if (extensionsData && oid) {
       const anchorValue = this.getAnchorValueByOid(extensionsData, oid);
@@ -232,7 +232,7 @@ class AnchorProcessor {
         yotiAnchor = new YotiAnchor({
           value: anchorValue,
           subType,
-          signedTimeStamp,
+          signedTimeStamp: signedTimestamp,
           originServerCerts,
         });
       }
@@ -278,28 +278,28 @@ class AnchorProcessor {
   }
 
   /**
-   * Return Yoti signedTimeStamp.
+   * Return Yoti signedTimestamp.
    *
-   * @param signedTimeStampByteBuffer
+   * @param signedTimestampByteBuffer
    *
    * @returns {YotiSignedTimeStamp}
    */
-  static processSignedTimeStamp(signedTimeStampByteBuffer) {
-    const yotiSignedTimeStamp = new YotiSignedTimeStamp({ version: 0, timestamp: 0 });
+  static processSignedTimeStamp(signedTimestampByteBuffer) {
+    const yotiSignedTimestamp = new YotiSignedTimeStamp({ version: 0, timestamp: 0 });
     const protoInst = protoRoot.initializeProtoBufObjects();
 
-    if (signedTimeStampByteBuffer) {
-      const signedTimeStampBuffer = signedTimeStampByteBuffer.toBuffer();
-      const signedTimeStamp = protoInst.decodeSignedTimeStamp(signedTimeStampBuffer);
-      const strTs = signedTimeStamp.timestamp.toString();
+    if (signedTimestampByteBuffer) {
+      const signedTimestampBuffer = signedTimestampByteBuffer.toBuffer();
+      const signedTimestamp = protoInst.decodeSignedTimeStamp(signedTimestampBuffer);
+      const strTs = signedTimestamp.timestamp.toString();
       const tsMicro = Number(strTs);
       const tsMilliSeconds = Math.round(tsMicro / 1000);
       const dateTime = new Date(tsMilliSeconds);
 
-      yotiSignedTimeStamp.version = signedTimeStamp.getVersion();
-      yotiSignedTimeStamp.timestamp = dateTime;
+      yotiSignedTimestamp.version = signedTimestamp.getVersion();
+      yotiSignedTimestamp.timestamp = dateTime;
     }
-    return yotiSignedTimeStamp;
+    return yotiSignedTimestamp;
   }
 
   /**
