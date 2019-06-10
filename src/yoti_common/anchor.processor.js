@@ -199,7 +199,7 @@ class AnchorProcessor {
       version = signedTimestamp.getVersion();
       timestamp = dateTime;
     }
-    return new YotiSignedTimeStamp({ version, timestamp });
+    return new YotiSignedTimeStamp(version, timestamp);
   }
 
   /**
