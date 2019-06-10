@@ -85,6 +85,7 @@ class YotiAnchor {
    * An extension in the first certificate holds the main artifact type,
    * e.g. “PASSPORT”, which can alternatively be retrieved with getValue().
    *
+   * @param {Object[]} originServerCerts
    */
   getOriginServerCerts() { return this.originServerCerts; }
 }
