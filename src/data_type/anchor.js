@@ -41,8 +41,8 @@ class YotiAnchor {
    * "DRIVING_LICENCE", "NATIONAL_ID" and "PASSCARD"
    *
    * Among possible options for VERIFIER are "YOTI_ADMIN", "YOTI_IDENTITY",
-   * "YOTI_OTP", "PASSPORT_NFC_SIGNATURE", "ISSUING_AUTHORITY",
-   * "ISSUING_AUTHORITY_PKI" and "LIVENESS".
+   * "YOTI_OTP", "PASSPORT_NFC_SIGNATURE", "ISSUING_AUTHORITY" and
+   * "ISSUING_AUTHORITY_PKI".
    *
    * @returns {string}
    */
