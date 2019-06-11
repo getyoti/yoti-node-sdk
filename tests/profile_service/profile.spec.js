@@ -1,6 +1,7 @@
 const fs = require('fs');
-const expect = require('chai').expect;
-const Profile = require('../../src/profile_service/profile').Profile;
+const { expect } = require('chai');
+const { Profile } = require('../../src/profile_service/profile');
+const { Attribute } = require('../../src/data_type/attribute');
 
 const YotiAnchor = function main(anchorObj) {
   this.value = anchorObj.value;
@@ -107,6 +108,18 @@ describe('Profile', () => {
   describe('#getDocumentImages', () => {
     it('should return document_images value', () => {
       expect(profileObj.getDocumentImages().getValue()).to.eql(profileData.document_images.value);
+    });
+  });
+
+  describe('#getAttributes', () => {
+    it('should return all attributes', () => {
+      const attributes = profileObj.getAttributes();
+      expect(attributes.length).to.be.equal(12);
+      attributes.forEach((attribute) => {
+        expect(attribute).to.instanceOf(Attribute);
+      });
+      expect(attributes[0].getName()).to.equal('gender');
+      expect(attributes[0].getValue()).to.equal('TEST MALE');
     });
   });
 });
