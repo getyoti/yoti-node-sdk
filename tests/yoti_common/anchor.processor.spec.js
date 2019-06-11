@@ -42,8 +42,11 @@ describe('anchorProcessor', () => {
 
       it('should return Thu, 12 Apr 2018 13:14:32 GMT as timestamp', () => {
         const expectedTimestamp = 'Thu, 12 Apr 2018 13:14:32 GMT';
-        const anchorDate = firstSource.getSignedTimeStamp().getTimestamp().toUTCString();
-        expect(expectedTimestamp).to.equal(anchorDate);
+        const timestamp = firstSource.getSignedTimeStamp().getTimestamp();
+        expect(timestamp).to.be.a('Date');
+        expect(timestamp).to.be.instanceOf(Date);
+        expect(timestamp.toUTCString()).to.equal(expectedTimestamp);
+        expect(timestamp.getMicroseconds()).to.equal(835537);
       });
 
       it('should return 1.2.840.113549.1.1.11 as signature Oid', () => {
@@ -73,8 +76,11 @@ describe('anchorProcessor', () => {
 
       it('should return Wed, 11 Apr 2018 12:13:04 GMT as timestamp', () => {
         const expectedTimestamp = 'Wed, 11 Apr 2018 12:13:04 GMT';
-        const anchorDate = firstVerifier.getSignedTimeStamp().getTimestamp().toUTCString();
-        expect(expectedTimestamp).to.equal(anchorDate);
+        const timestamp = firstVerifier.getSignedTimeStamp().getTimestamp();
+        expect(timestamp).to.be.a('Date');
+        expect(timestamp).to.be.instanceOf(Date);
+        expect(timestamp.toUTCString()).to.equal(expectedTimestamp);
+        expect(timestamp.getMicroseconds()).to.equal(95238);
       });
 
       it('should return 1.2.840.113549.1.1.11 as signature Oid', () => {

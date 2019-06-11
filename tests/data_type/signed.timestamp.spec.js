@@ -1,19 +1,29 @@
-const expect = require('chai').expect;
-
+const { expect } = require('chai');
+const { YotiDate } = require('../../src/data_type/date');
 const { YotiSignedTimeStamp } = require('../../src/data_type/signed.timestamp');
 
 describe('YotiSignedTimeStamp', () => {
-  const signedTimestamp = new YotiSignedTimeStamp(1, new Date('2003-11-04T12:51:07Z'));
+  const signedTimestamp = new YotiSignedTimeStamp(1, new YotiDate(1067950267923530));
 
+  context('#constructor()', () => {
+    it('should only accept YotiDate as timestamp', () => {
+      expect(() => new YotiSignedTimeStamp(0, new Date()))
+        .to.throw(TypeError, 'timestamp must be instance of YotiDate');
+    });
+  });
   context('#getVersion()', () => {
-    it('it should return 1', () => {
+    it('should return 1', () => {
       expect(signedTimestamp.getVersion()).to.equal(1);
     });
   });
   context('#getTimestamp()', () => {
-    it('it should return Date object', () => {
-      expect(signedTimestamp.getTimestamp()).to.be.a('Date');
-      expect(signedTimestamp.getTimestamp().toUTCString()).to.equal('Tue, 04 Nov 2003 12:51:07 GMT');
+    it('should return Date object', () => {
+      const timestamp = signedTimestamp.getTimestamp();
+      expect(timestamp).to.be.a('Date');
+      expect(timestamp).to.be.instanceOf(YotiDate);
+      expect(timestamp).to.be.instanceOf(Date);
+      expect(timestamp.toUTCString()).to.equal('Tue, 04 Nov 2003 12:51:07 GMT');
+      expect(timestamp.getMicroseconds()).to.equal(923530);
     });
   });
 });

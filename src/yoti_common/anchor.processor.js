@@ -4,6 +4,7 @@ const forge = require('node-forge');
 const protoRoot = require('../proto-root');
 const { YotiAnchor } = require('../data_type/anchor');
 const { YotiSignedTimeStamp } = require('../data_type/signed.timestamp');
+const { YotiDate } = require('../data_type/date');
 
 /**
  * Mapping of anchor types.
@@ -191,13 +192,8 @@ class AnchorProcessor {
     if (signedTimestampByteBuffer) {
       const signedTimestampBuffer = signedTimestampByteBuffer.toBuffer();
       const signedTimestamp = protoInst.decodeSignedTimeStamp(signedTimestampBuffer);
-      const strTs = signedTimestamp.timestamp.toString();
-      const tsMicro = Number(strTs);
-      const tsMilliSeconds = Math.round(tsMicro / 1000);
-      const dateTime = new Date(tsMilliSeconds);
-
       version = signedTimestamp.getVersion();
-      timestamp = dateTime;
+      timestamp = new YotiDate(Number(signedTimestamp.timestamp.toString()));
     }
     return new YotiSignedTimeStamp(version, timestamp);
   }
