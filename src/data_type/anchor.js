@@ -61,29 +61,15 @@ class YotiAnchor {
   getSubType() { return this.subType; }
 
   /**
-   * SignedTimeStamp is the time at which the signature was created.
-   * The message associated with the timestamp is the marshaled form of
-   * AttributeSigning (i.e. the same message that is signed in the
-   * Signature field). This method returns the YotiSignedTimeStamp
-   * object, the actual timestamp as a Date object can be called with
-   * getTimestamp() on this object.
+   * Timestamp applied at the time of Anchor creation.
    *
    * @returns {YotiSignedTimeStamp}
    */
   getSignedTimeStamp() { return this.signedTimeStamp; }
 
   /**
-   * OriginServerCerts are the X.509 certificate chain(DER-encoded ASN.1)
-   * from the service that assigned the attribute.
-   *
-   * The first certificate in the chain holds the public key that can be
-   * used to verify the Signature field; any following entries (zero or
-   * more) are for intermediate certificate authorities (in order). The
-   * last certificate in the chain must be verified against the Yoti root
-   * CA certificate.
-   *
-   * An extension in the first certificate holds the main artifact type,
-   * e.g. “PASSPORT”, which can alternatively be retrieved with getValue().
+   * Certificate chain generated when this Anchor was created (attribute value was
+   * sourced or verified). Securely encodes the Anchor type and value.
    *
    * @param {Object[]} originServerCerts
    */
