@@ -1,0 +1,30 @@
+{
+  "application_name":
+  {
+    "name": "application_name",
+    "value": "TEST APPLICATION",
+    "sources": [],
+    "verifiers": []
+  },
+  "application_logo":
+  {
+    "name": "application_logo",
+    "value": "image_content",
+    "sources": [],
+    "verifiers": []
+  },
+  "application_url":
+  {
+    "name": "application_url",
+    "value": "https://www.example.com",
+    "sources": [],
+    "verifiers": []
+  },
+  "application_receipt_bgcolor":
+  {
+    "name": "application_receipt_bgcolor",
+    "value": "#ffffff",
+    "sources": [],
+    "verifiers": []
+  }
+}
