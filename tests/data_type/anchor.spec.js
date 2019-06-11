@@ -1,10 +1,11 @@
 const expect = require('chai').expect;
 
 const { YotiAnchor } = require('../../src/data_type/anchor');
+const { YotiDate } = require('../../src/data_type/date');
 const { YotiSignedTimeStamp } = require('../../src/data_type/signed.timestamp');
 
 describe('YotiAnchor', () => {
-  const signedTimestamp = new YotiSignedTimeStamp(1, new Date('2003-11-04T12:51:07Z'));
+  const signedTimestamp = new YotiSignedTimeStamp(1, new YotiDate(1067950267923530));
   const originServerCerts = [{
     version: 2,
     signatureOid: '1.2.840.113549.1.1.11',
