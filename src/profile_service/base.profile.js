@@ -28,12 +28,15 @@ class BaseProfile {
   }
 
   /**
-   * Return all profile attributes.
+   * Return all attributes for the profile.
    *
    * @returns {Attribute[]}
    */
   getAttributes() {
-    return Object.entries(this.profileData).map(a => this.getAttribute(a[0]));
+    return Object.keys(this.profileData).reduce((attributes, attrName) => {
+      attributes.push(this.getAttribute(attrName));
+      return attributes;
+    }, []);
   }
 
   /**
