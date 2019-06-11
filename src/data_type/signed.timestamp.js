@@ -1,5 +1,7 @@
 'use strict';
 
+const { YotiDate } = require('../data_type/date');
+
 /**
  * SignedTimestamp is a timestamp associated with a message that has a
  * cryptographic signature proving that it was issued by the correct authority.
@@ -9,10 +11,14 @@
 class YotiSignedTimeStamp {
   /**
    * @param {number} version
-   * @param {Date} timestamp
+   * @param {YotiDate} timestamp
    */
   constructor(version, timestamp) {
     this.version = version;
+
+    if (!(timestamp instanceof YotiDate)) {
+      throw new TypeError('timestamp must be instance of YotiDate');
+    }
     this.timestamp = timestamp;
   }
 
@@ -26,7 +32,7 @@ class YotiSignedTimeStamp {
   /**
    * The actual timestamp with microsecond-level accuracy.
    *
-   * @returns {Date}
+   * @returns {YotiDate}
    */
   getTimestamp() { return this.timestamp; }
 }
