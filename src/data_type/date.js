@@ -5,7 +5,7 @@
  */
 class YotiDate extends Date {
   /**
-   * @param {Number} timestamp
+   * @param {number} timestamp
    */
   constructor(timestamp) {
     super(Math.round(timestamp / 1000));
@@ -13,9 +13,9 @@ class YotiDate extends Date {
   }
 
   /**
-   * Returns microseconds.
+   * Returns a number, between 0 and 999999, representing the microseconds.
    *
-   * @returns {Number}
+   * @returns {number}
    */
   getMicroseconds() {
     return this.microseconds;
