@@ -1,11 +1,30 @@
 /**
- * Formats date part with zero padding.
+ * Formats date part padded with leading zeros.
  *
  * @param {*} part
  * @param {number} length
+ *
+ * @returns {string}
+ *   Date part with leading zeros, e.g. `04`
  */
 function formatDatePart(part, length) {
-  return part.toString().padStart(length, '0');
+  const padding = length - part.toString().length;
+  const zeros = '0'.repeat(padding > 0 ? padding : 0);
+  return `${zeros}${part}`;
+}
+
+/**
+ * Adds microseconds to seconds and format with leading zeros.
+ *
+ * @param {number} seconds
+ * @param {number} microseconds
+ *
+ * @returns {string}
+ *   Seconds with microseconds in format `{SS}.{mmmmmm}`
+ */
+function formatSecondsWithMicroseconds(seconds, microseconds) {
+  const secondsWithMicroseconds = (seconds + (microseconds / 1000000));
+  return formatDatePart(secondsWithMicroseconds.toFixed(6), 9);
 }
 
 /**
@@ -40,10 +59,11 @@ class YotiDate extends Date {
   getMicrosecondTime() {
     const hours = formatDatePart(this.getUTCHours(), 2);
     const minutes = formatDatePart(this.getUTCMinutes());
-    const secondsWithMicroseconds = (this.getUTCSeconds() + (this.getMicroseconds() / 1000000))
-      .toFixed(6)
-      .padStart(9, '0');
-    return `${hours}:${minutes}:${secondsWithMicroseconds}`;
+    const secondsMicroseconds = formatSecondsWithMicroseconds(
+      this.getUTCSeconds(),
+      this.getMicroseconds()
+    );
+    return `${hours}:${minutes}:${secondsMicroseconds}`;
   }
 
   /**
