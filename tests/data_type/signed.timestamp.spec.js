@@ -23,7 +23,7 @@ describe('YotiSignedTimeStamp', () => {
       expect(timestamp).to.be.instanceOf(YotiDate);
       expect(timestamp).to.be.instanceOf(Date);
       expect(timestamp.toUTCString()).to.equal('Tue, 04 Nov 2003 12:51:07 GMT');
-      expect(timestamp.getMicroseconds()).to.equal(923530);
+      expect(timestamp.getMicrosecondTimestamp()).to.equal('2003-10-04T12:51:07.923530Z');
     });
   });
 });
