@@ -74,7 +74,7 @@ class YotiDate extends Date {
    */
   getMicrosecondTimestamp() {
     const year = formatDatePart(this.getUTCFullYear(), 4);
-    const month = formatDatePart(this.getUTCMonth(), 2);
+    const month = formatDatePart(this.getUTCMonth() + 1, 2);
     const day = formatDatePart(this.getUTCDate(), 2);
     return `${year}-${month}-${day}T${this.getMicrosecondTime()}Z`;
   }
