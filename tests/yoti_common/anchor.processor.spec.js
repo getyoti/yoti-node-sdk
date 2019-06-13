@@ -46,7 +46,7 @@ describe('anchorProcessor', () => {
         expect(timestamp).to.be.a('Date');
         expect(timestamp).to.be.instanceOf(Date);
         expect(timestamp.toUTCString()).to.equal(expectedTimestamp);
-        expect(timestamp.getMicrosecondTimestamp()).to.equal('2018-03-12T13:14:32.835537Z');
+        expect(timestamp.getMicrosecondTimestamp()).to.equal('2018-04-12T13:14:32.835537Z');
       });
 
       it('should return 1.2.840.113549.1.1.11 as signature Oid', () => {
@@ -80,7 +80,7 @@ describe('anchorProcessor', () => {
         expect(timestamp).to.be.a('Date');
         expect(timestamp).to.be.instanceOf(Date);
         expect(timestamp.toUTCString()).to.equal(expectedTimestamp);
-        expect(timestamp.getMicrosecondTimestamp()).to.equal('2018-03-11T12:13:04.095238Z');
+        expect(timestamp.getMicrosecondTimestamp()).to.equal('2018-04-11T12:13:04.095238Z');
       });
 
       it('should return 1.2.840.113549.1.1.11 as signature Oid', () => {

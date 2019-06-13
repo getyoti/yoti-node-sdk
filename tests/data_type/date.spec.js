@@ -14,7 +14,7 @@ describe('YotiDate', () => {
     it('should return 923530', () => {
       expect(date.getMicroseconds()).to.equal(923530);
       expect(date.getMicrosecondTime()).to.equal('12:51:07.923530');
-      expect(date.getMicrosecondTimestamp()).to.equal('2003-10-04T12:51:07.923530Z');
+      expect(date.getMicrosecondTimestamp()).to.equal('2003-11-04T12:51:07.923530Z');
     });
   });
 });
