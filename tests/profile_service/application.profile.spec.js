@@ -40,12 +40,12 @@ describe('ApplicationProfile', () => {
   describe('#getAttributes', () => {
     it('should return all attributes', () => {
       const attributes = profileObj.getAttributes();
-      expect(attributes.length).to.be.equal(4);
-      attributes.forEach((attribute) => {
-        expect(attribute).to.instanceOf(Attribute);
+      expect(Object.keys(attributes).length).to.be.equal(4);
+      Object.keys(attributes).forEach((attributeName) => {
+        expect(attributes[attributeName]).to.instanceOf(Attribute);
       });
-      expect(attributes[0].getName()).to.equal('application_name');
-      expect(attributes[0].getValue()).to.equal('TEST APPLICATION');
+      expect(attributes.application_name.getName()).to.equal('application_name');
+      expect(attributes.application_name.getValue()).to.equal('TEST APPLICATION');
     });
   });
 });
