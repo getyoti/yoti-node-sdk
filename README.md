@@ -318,6 +318,11 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
     * [X] Address `getPostalAddress().getValue()`
     * [X] Structured Address `getStructuredPostalAddress().getValue()`
     * [X] Document Details `getDocumentDetails().getValue()`
+  * [X] ApplicationProfile `.getApplicationProfile()`
+    * [X] Name `getName().getValue()`
+    * [X] URL `getUrl().getValue()`
+    * [X] Logo `getLogo().getValue()`
+    * [X] Receipt Background Colour `getReceiptBgColor().getValue()`
 
 ## Support
 
