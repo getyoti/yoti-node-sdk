@@ -114,12 +114,12 @@ describe('Profile', () => {
   describe('#getAttributes', () => {
     it('should return all attributes', () => {
       const attributes = profileObj.getAttributes();
-      expect(attributes.length).to.be.equal(12);
-      attributes.forEach((attribute) => {
-        expect(attribute).to.instanceOf(Attribute);
+      expect(Object.keys(attributes).length).to.be.equal(12);
+      Object.keys(attributes).forEach((attributeName) => {
+        expect(attributes[attributeName]).to.instanceOf(Attribute);
       });
-      expect(attributes[0].getName()).to.equal('gender');
-      expect(attributes[0].getValue()).to.equal('TEST MALE');
+      expect(attributes.gender.getName()).to.equal('gender');
+      expect(attributes.gender.getValue()).to.equal('TEST MALE');
     });
   });
 });
