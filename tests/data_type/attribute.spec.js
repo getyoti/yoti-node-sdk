@@ -18,11 +18,11 @@ describe('Attribute', () => {
   const unknownAnchor = fs.readFileSync('./tests/sample-data/yoti-common/unknown-anchor.txt', 'utf8');
   const sources = parseAnchorData(dlSourceAnchor).sources;
   const verifiers = parseAnchorData(verifierAnchor).verifiers;
-  const anchors = []
-    .concat(sources)
-    .concat(verifiers)
-    .concat(parseAnchorData(unknownAnchor).unknown);
-
+  const anchors = {
+    sources,
+    verifiers,
+    unknown: parseAnchorData(unknownAnchor).unknown,
+  };
   const attributeObj = new Attribute({
     value: documentDetails,
     name: 'document_details',
