@@ -322,7 +322,7 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
     * [X] Name `getName().getValue()`
     * [X] URL `getUrl().getValue()`
     * [X] Logo `getLogo().getValue()`
-    * [X] Receipt Background Colour `getReceiptBgColor().getValue()`
+    * [X] Receipt Background Color `getReceiptBgColor().getValue()`
 
 ## Support
 
