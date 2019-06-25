@@ -58,6 +58,10 @@ describe('yotiClient', () => {
             expect(extendedProfile.getPhoneNumber().getValue()).to.equal(phoneNumber);
             expect(extendedProfile.getSelfie().getValue().getBase64Content()).to.equal(selfie);
 
+            const phoneNumberAnchor = extendedProfile.getPhoneNumber().getAnchors()[0];
+            expect(phoneNumberAnchor.getType()).to.equal('UNKNOWN');
+            expect(phoneNumberAnchor.getValue()).to.equal('');
+
             expect(applicationProfile.getName().getValue()).to.equal('Node SDK Test');
             expect(applicationProfile.getUrl().getValue()).to.equal('https://example.com');
             expect(applicationProfile.getLogo().getValue().getBase64Content()).to.equal('data:image/jpeg;base64,');
