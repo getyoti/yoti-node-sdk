@@ -62,16 +62,18 @@ module.exports = class DynamicPolicyBuilder {
   }
 
   /**
-   * @param {string} age
+   * @param {int} age
    */
   withAgeOver(age) {
+    Validation.isInteger(age, 'age');
     return this.withAgeDerivedAttribute(constants.ATTR_AGE_OVER + age);
   }
 
   /**
-   * @param {string} age
+   * @param {int} age
    */
   withAgeUnder(age) {
+    Validation.isInteger(age, 'age');
     return this.withAgeDerivedAttribute(constants.ATTR_AGE_UNDER + age);
   }
 
