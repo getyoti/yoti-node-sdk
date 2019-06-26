@@ -167,6 +167,22 @@ describe('DynamicPolicyBuilder', () => {
     });
   });
 
+  it('should only allow integers for age over', () => {
+    expect(() => {
+      new DynamicPolicyBuilder()
+        .withDateOfBirth()
+        .withAgeOver('18');
+    }).to.throw(TypeError, 'age must be an integer');
+  });
+
+  it('should only allow integers for age under', () => {
+    expect(() => {
+      new DynamicPolicyBuilder()
+        .withDateOfBirth()
+        .withAgeOver('30');
+    }).to.throw(TypeError, 'age must be an integer');
+  });
+
   it('should overwrite identical age verification to ensure it only exists once', () => {
     const dynamicPolicy = new DynamicPolicyBuilder()
       .withAgeUnder(30)
