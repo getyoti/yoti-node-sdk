@@ -5,7 +5,7 @@ const {
 const { WantedAttributeBuilder } = require('../../../');
 const WantedAttribute = require('../../../src/dynamic_sharing_service/policy/wanted.attribute');
 
-describe('DynamicPolicyBuilder', () => {
+describe('WantedAttributeBuilder', () => {
   it('should build a wanted attribute', () => {
     const wantedAttribute = new WantedAttributeBuilder()
       .withName('test name')
