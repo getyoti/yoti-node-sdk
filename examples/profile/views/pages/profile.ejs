@@ -11,6 +11,7 @@ const emailAddress = profile.getEmailAddress();
 const nationality = profile.getNationality();
 const gender = profile.getGender();
 const userSelfie = profile.getSelfie();
+const documentImages = profile.getDocumentImages();
 const attributes = [
   {
     name: "Given names",
@@ -49,9 +50,19 @@ const attributes = [
     icon: "yoti-icon-address"
   },
   {
+    name: "Structured Address",
+    prop: structuredPostalAddress,
+    icon: "yoti-icon-address"
+  },
+  {
     name: "Gender",
     prop: gender,
     icon: "yoti-icon-gender"
+  },
+  {
+    name: "Document Images",
+    prop: documentImages,
+    icon: "yoti-icon-profile"
   }
 ]
 %>
@@ -114,7 +125,30 @@ const attributes = [
             </div>
           </div>
           <div class="yoti-attribute-value">
-            <div class="yoti-attribute-value-text"><%= item.preValue %><%= item.prop && item.prop.getValue() %></div>
+            <div class="yoti-attribute-value-text">
+              <%= item.preValue %>
+              <% if (item.prop) { %>
+                <% switch (item.prop.getName()) {
+                    case 'document_images': %>
+                      <% item.prop.getValue().forEach((image) => { %>
+                        <img src="<%= image.getBase64Content() %>" />
+                      <% }) %>
+                    <% break;
+                    case 'structured_postal_address': %>
+                    <table>
+                      <% Object.keys(item.prop.getValue()).forEach((key) => { %>
+                        <tr>
+                            <td><%= key %></td>
+                            <td><%= item.prop.getValue()[key] %></td>
+                        </tr>
+                      <% }) %>
+                    </table>
+                    <% break;
+                    default: %>
+                      <%= item.prop.getValue() %>
+                <% } %>
+              <% } %>
+            </div>
           </div>
           <div class="yoti-attribute-anchors-layout">
             <div class="yoti-attribute-anchors-head -s-v">S / V</div>
