@@ -251,12 +251,14 @@ You can retrieve the sources and verifiers for each attribute as follows:
 ```javascript
 const givenNamesSources = givenNames.getSources(); // list/array of anchors
 const givenNamesVerifiers = givenNames.getVerifiers(); // list/array of anchors
+const givenNamesAnchors = givenNames.getAnchors(); // list/array of anchors
 ```
 
 You can also retrieve further properties from these respective anchors in the following way:
 
 ```javascript
 // Retrieving properties of the first anchor
+const type = givenNamesSources[0].getType(); // string
 const value = givenNamesSources[0].getValue(); // string
 const subtype = givenNamesSources[0].getSubType(); // string
 const timestamp = givenNamesSources[0].getSignedTimeStamp().getTimestamp(); // Date object
@@ -348,11 +350,12 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
 ```
 
 * Activity Details
-  * [X] Remember Me ID `.getRememberMeId()`
-  * [X] Parent Remember Me ID `.getParentRememberMeId()`
-  * [X] Receipt ID `.getReceiptId()`
+  * [X] Remember Me ID `getRememberMeId()`
+  * [X] Parent Remember Me ID `getParentRememberMeId()`
+  * [X] Receipt ID `getReceiptId()`
+  * [X] Timestamp `getTimestamp()`
   * [X] Base64 Selfie Uri `getBase64SelfieUri()`
-  * [X] Profile `.getProfile()`
+  * [X] Profile `getProfile()`
     * [X] Full Name `getFullName().getValue()`
     * [X] Given Names `getGivenNames().getValue()`
     * [X] Family Name `getFamilyName().getValue()`
