@@ -6,12 +6,13 @@ const phoneNumber = profile.getPhoneNumber();
 const dateOfBirth = profile.getDateOfBirth();
 const ageCondition = profile.getAgeVerified();
 const postalAddress = profile.getPostalAddress();
-const structuredPostalAddress = profile.getStructuredPostalAddress();
 const emailAddress = profile.getEmailAddress();
 const nationality = profile.getNationality();
 const gender = profile.getGender();
 const userSelfie = profile.getSelfie();
 const documentImages = profile.getDocumentImages();
+const structuredPostalAddress = profile.getStructuredPostalAddress();
+
 const attributes = [
   {
     name: "Given names",
@@ -66,6 +67,7 @@ const attributes = [
   }
 ]
 %>
+
 <!DOCTYPE html>
 <html class="yoti-html">
 <head>
@@ -88,6 +90,7 @@ const attributes = [
         <% if (userProfile.selfie) { %>
         <div class="yoti-profile-picture-area">
           <img src="/static/YotiSelfie.jpeg" class="yoti-profile-picture-image" alt="Yoti" />
+
           <i class="yoti-profile-picture-verified-icon"></i>
         </div>
         <% } %>
@@ -116,7 +119,9 @@ const attributes = [
       </div>
 
       <div class="yoti-attribute-list">
+
         <% attributes.forEach(function(item) { %>
+        <% if (!item.prop || !item.prop.getValue()) { return; } %>
         <div class="yoti-attribute-list-item">
           <div class="yoti-attribute-name">
             <div class="yoti-attribute-name-cell">
@@ -124,36 +129,37 @@ const attributes = [
               <span class="yoti-attribute-name-cell-text"><%= item.name %></span>
             </div>
           </div>
+
           <div class="yoti-attribute-value">
             <div class="yoti-attribute-value-text">
               <%= item.preValue %>
-              <% if (item.prop) { %>
-                <% switch (item.prop.getName()) {
-                    case 'document_images': %>
-                      <% item.prop.getValue().forEach((image) => { %>
-                        <img src="<%= image.getBase64Content() %>" />
-                      <% }) %>
-                    <% break;
-                    case 'structured_postal_address': %>
-                    <table>
-                      <% Object.keys(item.prop.getValue()).forEach((key) => { %>
-                        <tr>
-                            <td><%= key %></td>
-                            <td><%= item.prop.getValue()[key] %></td>
-                        </tr>
-                      <% }) %>
-                    </table>
-                    <% break;
-                    default: %>
-                      <%= item.prop.getValue() %>
-                <% } %>
+              <% switch (item.prop.getName()) {
+                  case 'document_images': %>
+                    <% item.prop.getValue().forEach((image) => { %>
+                      <img src="<%= image.getBase64Content() %>" />
+                    <% }) %>
+                  <% break;
+                  case 'structured_postal_address': %>
+                  <table>
+                    <% Object.keys(item.prop.getValue()).forEach((key) => { %>
+                      <tr>
+                          <td><%= key %></td>
+                          <td><%= item.prop.getValue()[key] %></td>
+                      </tr>
+                    <% }) %>
+                  </table>
+                  <% break;
+                  default: %>
+                    <%= item.prop.getValue() %>
               <% } %>
             </div>
           </div>
+
           <div class="yoti-attribute-anchors-layout">
             <div class="yoti-attribute-anchors-head -s-v">S / V</div>
             <div class="yoti-attribute-anchors-head -value">Value</div>
             <div class="yoti-attribute-anchors-head -subtype">Sub type</div>
+
             <% if (item.prop) { %>
               <% for(let i = 0; i < item.prop.getSources().length; i += 1) { %>
                 <% let source = item.prop.getSources()[i] %>
@@ -162,6 +168,7 @@ const attributes = [
                 <div class="yoti-attribute-anchors -subtype"><%= source.getSubType() %></div>
               <% } %>
             <% } %>
+
             <% if (item.prop) { %>
               <% for(let i = 0; i < item.prop.getVerifiers().length; i += 1) { %>
                 <% let verifier = item.prop.getVerifiers()[i] %>
