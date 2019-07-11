@@ -12,16 +12,16 @@
     "lint": "node_modules/.bin/eslint *.js"
   },
   "dependencies": {
-    "body-parser": "1.18.2",
-    "dotenv": "5.0.1",
-    "ejs": "2.5.8",
-    "express": "4.16.3",
+    "body-parser": "^1.19.0",
+    "dotenv": "^5.0.1",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
     "yoti": "file:../.."
   },
   "devDependencies": {
-    "eslint": "4.19.1",
-    "eslint-config-airbnb-base": "12.1.0",
-    "eslint-plugin-import": "2.9.0",
-    "eslint-plugin-node": "6.0.1"
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-node": "^6.0.1"
   }
 }
