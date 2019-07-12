@@ -4,8 +4,7 @@ const protoRoot = require('../../src/proto-root').initializeProtoBufObjects();
 const expect = require('chai').expect;
 
 function parseAnchorData(anchorString) {
-  const anchorObj = protoRoot.builder.attrpubapi_v1.Anchor.decode(anchorString);
-  return anchorObj;
+  return protoRoot.builder.attrpubapi_v1.Anchor.decode(anchorString);
 }
 
 describe('anchorProcessor', () => {
@@ -106,17 +105,44 @@ describe('anchorProcessor', () => {
 
       it('should return Wed, 11 Apr 2018 12:13:03 GMT as timestamp', () => {
         expect(unknownAnchor.getSignedTimeStamp().getTimestamp().toUTCString())
-          .to.equal('Wed, 11 Apr 2018 12:13:03 GMT');
+          .to.equal('Tue, 05 Mar 2019 10:45:11 GMT');
       });
 
       it('should return empty subType', () => {
-        expect(unknownAnchor.getSubType()).to.equal('');
+        expect(unknownAnchor.getSubType()).to.equal('TEST UNKNOWN SUB TYPE');
       });
 
       it('should return 1.2.840.113549.1.1.11 as signature Oid', () => {
         const expectedCertificate = '1.2.840.113549.1.1.11';
         const certificates = unknownAnchor.getOriginServerCerts();
         expect(expectedCertificate).to.equal(certificates[0].signatureOid);
+      });
+    });
+
+    context('when processing multiple anchors', () => {
+      const dlSourceAnchor = fs.readFileSync('./tests/sample-data/yoti-common/dl-source-anchor.txt', 'utf8');
+      const verifierAnchor = fs.readFileSync('./tests/sample-data/yoti-common/verifier-anchor.txt', 'utf8');
+      const unknownAnchor = fs.readFileSync('./tests/sample-data/yoti-common/unknown-anchor.txt', 'utf8');
+
+      const anchors = AnchorProcessor.process([
+        parseAnchorData(dlSourceAnchor),
+        parseAnchorData(verifierAnchor),
+        parseAnchorData(unknownAnchor),
+      ]);
+
+      it('should return 1 source anchor', () => {
+        expect(anchors.sources).to.be.length(1);
+        expect(anchors.sources[0].getType()).to.equal('SOURCE');
+      });
+
+      it('should return 1 verifier anchor', () => {
+        expect(anchors.verifiers).to.be.length(1);
+        expect(anchors.verifiers[0].getType()).to.equal('VERIFIER');
+      });
+
+      it('should return 1 unknown anchor', () => {
+        expect(anchors.unknown).to.be.length(1);
+        expect(anchors.unknown[0].getType()).to.equal('UNKNOWN');
       });
     });
   });
