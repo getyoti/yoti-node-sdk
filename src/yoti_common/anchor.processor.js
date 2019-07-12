@@ -99,26 +99,26 @@ class AnchorProcessor {
    * @returns {Object.<string, YotiAnchor[]>}
    */
   static processSingleAnchor(anchorObj) {
-    const anchorsList = this.getResultFormat();
+    let anchorsList = this.getResultFormat();
 
     if (!(anchorObj instanceof Object)) {
       return anchorsList;
     }
 
     const certificatesList = anchorObj.originServerCerts;
-    const signedTimestamp = this.processSignedTimeStamp(anchorObj.getSignedTimeStamp());
-    const originServerCerts = AnchorProcessor.convertCertsListToX509(certificatesList);
+    const yotiSignedTimeStamp = this.processSignedTimeStamp(anchorObj.getSignedTimeStamp());
+    const serverX509Certs = AnchorProcessor.convertCertsListToX509(anchorObj.originServerCerts);
     const subType = anchorObj.getSubType();
 
-    const yotiAnchor = this.getAnchorFromCerts(
-      certificatesList,
-      signedTimestamp,
-      originServerCerts,
-      subType
-    );
-
-    const key = this.getAnchorListKeyByType(yotiAnchor.getType());
-    anchorsList[key].push(yotiAnchor);
+    for (let j = 0; j < certificatesList.length; j += 1) {
+      const certAnchors = this.getAnchorsByCertificate(
+        certificatesList[j],
+        subType,
+        yotiSignedTimeStamp,
+        serverX509Certs
+      );
+      anchorsList = this.mergeAnchorsLists(anchorsList, certAnchors);
+    }
 
     return anchorsList;
   }
