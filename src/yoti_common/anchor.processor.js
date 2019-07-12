@@ -51,11 +51,14 @@ class AnchorProcessor {
   }
 
   /**
-   * Get anchors from a single certificate.
+   * Get an anchor from certificate list.
    *
-   * @param anchorObj
+   * @param {Array} certificatesList
+   * @param {YotiSignedTimeStamp} signedTimestamp
+   * @param {Certificate[]} originServerCerts
+   * @param {string} subType
    *
-   * @returns {Object.<string, YotiAnchor[]>}
+   * @returns {YotiAnchor}
    */
   static getAnchorFromCerts(certificatesList, signedTimestamp, originServerCerts, subType) {
     let anchor = null;
@@ -91,7 +94,7 @@ class AnchorProcessor {
    *
    * @deprecated no longer in use.
    *
-   * @param anchorObj
+   * @param {Object} anchorObj
    *
    * @returns {Object.<string, YotiAnchor[]>}
    */
@@ -125,10 +128,10 @@ class AnchorProcessor {
    *
    * @deprecated no longer in use.
    *
-   * @param certArrayBuffer
-   * @param subType
-   * @param signedTimestamp
-   * @param originServerCerts
+   * @param {ByteBuffer} certArrayBuffer
+   * @param {YotiSignedTimeStamp} signedTimestamp
+   * @param {Certificate[]} originServerCerts
+   * @param {string} subType
    *
    * @returns {Object.<string, YotiAnchor[]>}
    */
@@ -156,11 +159,11 @@ class AnchorProcessor {
    *
    * @deprecated no longer in use.
    *
-   * @param extensionsData
-   * @param subType
-   * @param signedTimestamp
-   * @param originServerCerts
-   * @param oid
+   * @param {Array} extensionsData
+   * @param {string} subType
+   * @param {YotiSignedTimeStamp} signedTimestamp
+   * @param {Certificate[]} originServerCerts
+   * @param {string} oid
    *
    * @returns {YotiAnchor|null}
    */
@@ -186,8 +189,8 @@ class AnchorProcessor {
    *
    * @deprecated no longer in use.
    *
-   * @param extensionsData
-   * @param oid
+   * @param {Array} extensionsData
+   * @param {string} oid
    *
    * @returns {string}
    */
@@ -205,8 +208,8 @@ class AnchorProcessor {
   /**
    * Return extension for given oid.
    *
-   * @param extensionsData
-   * @param oid
+   * @param {Array} extensionsData
+   * @param {string} oid
    *
    * @returns {Object|null}
    */
@@ -225,7 +228,7 @@ class AnchorProcessor {
   /**
    * Return Yoti signedTimestamp.
    *
-   * @param signedTimestampByteBuffer
+   * @param {ByteBuffer} signedTimestampByteBuffer
    *
    * @returns {YotiSignedTimeStamp}
    */
@@ -248,8 +251,8 @@ class AnchorProcessor {
    *
    * @deprecated no longer in use.
    *
-   * @param targetList
-   * @param sourceList
+   * @param {Array} targetList
+   * @param {Array} sourceList
    * @returns {YotiAnchor[]}
    */
   static mergeAnchorsLists(targetList, sourceList) {
@@ -264,7 +267,7 @@ class AnchorProcessor {
   /**
    * Convert certificate list to a list of X509 certificates.
    *
-   * @param certificatesList
+   * @param {ByteBuffer[]} certificatesList
    *
    * @returns {Certificate[]}
    */
@@ -282,7 +285,7 @@ class AnchorProcessor {
   /**
    * Convert certificate from byte arrays to X509 certificate.
    *
-   * @param certArrayBuffer
+   * @param {ByteBuffer} certArrayBuffer
    *
    * @returns {Certificate}
    */
@@ -295,8 +298,8 @@ class AnchorProcessor {
   /**
    * Returns the elem index or -1 if it doesn't find any.
    *
-   * @param array
-   * @param anchorOidObj
+   * @param {Array} array
+   * @param {Object} anchorOidObj
    *
    * @returns {number}
    */
