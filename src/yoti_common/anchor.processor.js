@@ -78,7 +78,7 @@ class AnchorProcessor {
    * @param signedTimestamp
    * @param originServerCerts
    *
-   * @returns {YotiAnchor[]}
+   * @returns {Object.<string, YotiAnchor[]>}
    */
   static getAnchorsByCertificate(certArrayBuffer, subType, signedTimestamp, originServerCerts) {
     const anchorsList = this.getResultFormat();
@@ -87,24 +87,31 @@ class AnchorProcessor {
       return anchorsList;
     }
 
-    const certificateObj = AnchorProcessor.convertCertToX509(certArrayBuffer);
-    const extensionsData = certificateObj.extensions;
+    const extensionsData = AnchorProcessor.convertCertToX509(certArrayBuffer).extensions;
 
-    // Find anchor value for each anchor extension.
-    extensionsData.forEach((anchorExtension) => {
-      const anchorType = this.getAnchorTypeByOid(anchorExtension.id);
-      const anchorValue = ANCHOR_TYPES[anchorType] ? this.getAnchorValue(anchorExtension) : '';
-      const yotiAnchor = new YotiAnchor(
-        anchorType,
-        anchorValue,
+    let yotiAnchor = null;
+
+    const anchorTypes = Object.values(ANCHOR_TYPES);
+    for (let x = 0; x < anchorTypes.length; x += 1) {
+      const oid = anchorTypes[x];
+      yotiAnchor = this.getAnchorByOid(
+        extensionsData,
         subType,
         signedTimestamp,
-        originServerCerts
+        originServerCerts,
+        oid
       );
+      if (yotiAnchor !== null) {
+        break;
+      }
+    }
 
-      const anchorListKey = this.getAnchorListKeyByType(anchorType);
-      anchorsList[anchorListKey].push(yotiAnchor);
-    });
+    if (yotiAnchor == null) {
+      yotiAnchor = new YotiAnchor('UNKNOWN', '', subType, signedTimestamp, originServerCerts);
+    }
+
+    const key = this.getAnchorListKeyByType(yotiAnchor.getType());
+    anchorsList[key].push(yotiAnchor);
 
     return anchorsList;
   }
@@ -112,25 +119,22 @@ class AnchorProcessor {
   /**
    * Return YotiAnchor object for provided oid.
    *
-   * @deprecated no longer in use.
-   *
    * @param extensionsData
    * @param subType
    * @param signedTimestamp
    * @param originServerCerts
    * @param oid
    *
-   * @returns {YotiAnchor|null}
+   * @returns {*}
    */
   static getAnchorByOid(extensionsData, subType, signedTimestamp, originServerCerts, oid) {
     let yotiAnchor = null;
     if (extensionsData && oid) {
-      const anchorType = this.getAnchorTypeByOid(oid);
-      const anchorValue = this.getAnchorValueByOid(extensionsData, oid);
-      if (anchorValue !== null) {
+      const extension = this.findExtensionByOid(extensionsData, oid);
+      if (extension !== null) {
         yotiAnchor = new YotiAnchor(
-          anchorType,
-          anchorValue,
+          this.getAnchorTypeByOid(oid),
+          this.getExtensionValue(extension),
           subType,
           signedTimestamp,
           originServerCerts
@@ -141,39 +145,54 @@ class AnchorProcessor {
   }
 
   /**
-   * Return Anchor value for provided oid.
-   *
-   * @deprecated no longer in use.
+   * Return extension for given oid.
    *
    * @param extensionsData
    * @param oid
    *
    * @returns {*}
    */
-  static getAnchorValueByOid(extensionsData, oid) {
-    let anchorValue = null;
-
+  static findExtensionByOid(extensionsData, oid) {
     const oidIndex = AnchorProcessor.findOidIndex(extensionsData, { id: oid });
     if (oidIndex !== -1) {
-      anchorValue = this.getAnchorValue(extensionsData[oidIndex]);
+      const anchorExtension = extensionsData[oidIndex];
+      const anchorEncodedValue = anchorExtension.value;
+      // Convert Anchor value from ASN.1 format to an object
+      const extensionObj = forge.asn1.fromDer(anchorEncodedValue.toString('binary'));
+      return extensionObj;
     }
-    return anchorValue;
+    return null;
   }
 
   /**
-   * Return Anchor value for anchor extension.
+   * Return extension value.
    *
-   * @param anchorExtension
+   * @param extension
    *
    * @returns {string}
    */
-  static getAnchorValue(anchorExtension) {
-    let anchorValue = '';
-    // Convert Anchor value from ASN.1 format to an object
-    const extensionObj = forge.asn1.fromDer(anchorExtension.value.toString('binary'));
-    if (extensionObj) {
-      anchorValue = extensionObj.value[0].value;
+  static getExtensionValue(extension) {
+    return extension.value[0].value;
+  }
+
+  /**
+   * Return Anchor value.
+   *
+   * @deprecated no longer in use.
+   *
+   * @param extensionsData
+   * @param oid
+   *
+   * @returns {string}
+   */
+  static getAnchorValueByOid(extensionsData, oid) {
+    let anchorValue = null;
+
+    const extension = this.getExtensionByOid(extensionsData, oid);
+    if (extension) {
+      anchorValue = this.getExtensionValue(extension);
     }
+
     return anchorValue;
   }
 
@@ -248,8 +267,6 @@ class AnchorProcessor {
   /**
    * Returns the elem index or -1 if it doesn't find any.
    *
-   * @deprecated no longer in use.
-   *
    * @param array
    * @param anchorOidObj
    *
@@ -310,7 +327,7 @@ class AnchorProcessor {
    */
   static getAnchorTypeByOid(oid) {
     return Object.keys(ANCHOR_TYPES)
-      .find(key => oid === ANCHOR_TYPES[key]) || 'UNKNOWN';
+      .find(key => oid === ANCHOR_TYPES[key]);
   }
 
   /**
