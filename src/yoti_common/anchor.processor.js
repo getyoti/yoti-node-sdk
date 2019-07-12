@@ -106,7 +106,7 @@ class AnchorProcessor {
     }
 
     const certificatesList = anchorObj.originServerCerts;
-    const yotiSignedTimeStamp = this.processSignedTimeStamp(anchorObj.getSignedTimeStamp());
+    const yotiSignedTimestamp = this.processSignedTimeStamp(anchorObj.getSignedTimeStamp());
     const serverX509Certs = AnchorProcessor.convertCertsListToX509(anchorObj.originServerCerts);
     const subType = anchorObj.getSubType();
 
@@ -114,7 +114,7 @@ class AnchorProcessor {
       const certAnchors = this.getAnchorsByCertificate(
         certificatesList[j],
         subType,
-        yotiSignedTimeStamp,
+        yotiSignedTimestamp,
         serverX509Certs
       );
       anchorsList = this.mergeAnchorsLists(anchorsList, certAnchors);
