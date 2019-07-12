@@ -30,48 +30,100 @@ class AnchorProcessor {
    */
   static process(anchors) {
     // This will contain a list of anchor values as objects
-    let anchorsData = this.getResultFormat();
+    const anchorsData = this.getResultFormat();
     for (let i = 0; i < anchors.length; i += 1) {
-      const yotiAnchorsList = this.processSingleAnchor(anchors[i]);
-      anchorsData = this.mergeAnchorsLists(anchorsData, yotiAnchorsList);
+      const certificatesList = anchors[i].originServerCerts;
+      const signedTimestamp = this.processSignedTimeStamp(anchors[i].getSignedTimeStamp());
+      const originServerCerts = AnchorProcessor.convertCertsListToX509(certificatesList);
+      const subType = anchors[i].getSubType();
+
+      const yotiAnchor = this.getAnchorFromCerts(
+        certificatesList,
+        signedTimestamp,
+        originServerCerts,
+        subType
+      );
+
+      const key = this.getAnchorListKeyByType(yotiAnchor.getType());
+      anchorsData[key].push(yotiAnchor);
     }
     return anchorsData;
   }
 
   /**
-   * Return YotiAnchors list from a protobuf anchor.
+   * Get anchors from a single certificate.
    *
    * @param anchorObj
    *
-   * @returns {YotiAnchor[]}
+   * @returns {Object.<string, YotiAnchor[]>}
+   */
+  static getAnchorFromCerts(certificatesList, signedTimestamp, originServerCerts, subType) {
+    let anchor = null;
+
+    certificatesList.forEach((certificate) => {
+      const extensionsData = AnchorProcessor.convertCertToX509(certificate).extensions;
+
+      Object.keys(ANCHOR_TYPES).forEach((type) => {
+        const oid = ANCHOR_TYPES[type];
+        const extension = this.getExtensionByOid(extensionsData, oid);
+
+        if (extension !== null) {
+          anchor = new YotiAnchor(
+            this.getAnchorTypeByOid(oid),
+            extension.value[0].value,
+            subType,
+            signedTimestamp,
+            originServerCerts
+          );
+        }
+      });
+    });
+
+    if (anchor instanceof YotiAnchor) {
+      return anchor;
+    }
+
+    return new YotiAnchor('UNKNOWN', '', subType, signedTimestamp, originServerCerts);
+  }
+
+  /**
+   * Return YotiAnchors list from a protobuf anchor.
+   *
+   * @deprecated no longer in use.
+   *
+   * @param anchorObj
+   *
+   * @returns {Object.<string, YotiAnchor[]>}
    */
   static processSingleAnchor(anchorObj) {
-    let anchorsList = this.getResultFormat();
+    const anchorsList = this.getResultFormat();
 
     if (!(anchorObj instanceof Object)) {
       return anchorsList;
     }
 
     const certificatesList = anchorObj.originServerCerts;
-    const yotiSignedTimestamp = this.processSignedTimeStamp(anchorObj.getSignedTimeStamp());
-    const serverX509Certs = AnchorProcessor.convertCertsListToX509(anchorObj.originServerCerts);
+    const signedTimestamp = this.processSignedTimeStamp(anchorObj.getSignedTimeStamp());
+    const originServerCerts = AnchorProcessor.convertCertsListToX509(certificatesList);
     const subType = anchorObj.getSubType();
 
-    for (let j = 0; j < certificatesList.length; j += 1) {
-      const certAnchors = this.getAnchorsByCertificate(
-        certificatesList[j],
-        subType,
-        yotiSignedTimestamp,
-        serverX509Certs
-      );
-      anchorsList = this.mergeAnchorsLists(anchorsList, certAnchors);
-    }
+    const yotiAnchor = this.getAnchorFromCerts(
+      certificatesList,
+      signedTimestamp,
+      originServerCerts,
+      subType
+    );
+
+    const key = this.getAnchorListKeyByType(yotiAnchor.getType());
+    anchorsList[key].push(yotiAnchor);
 
     return anchorsList;
   }
 
   /**
    * Get anchors from a single certificate.
+   *
+   * @deprecated no longer in use.
    *
    * @param certArrayBuffer
    * @param subType
@@ -87,37 +139,22 @@ class AnchorProcessor {
       return anchorsList;
     }
 
-    const extensionsData = AnchorProcessor.convertCertToX509(certArrayBuffer).extensions;
-
-    let yotiAnchor = null;
-
-    const anchorTypes = Object.values(ANCHOR_TYPES);
-    for (let x = 0; x < anchorTypes.length; x += 1) {
-      const oid = anchorTypes[x];
-      yotiAnchor = this.getAnchorByOid(
-        extensionsData,
-        subType,
-        signedTimestamp,
-        originServerCerts,
-        oid
-      );
-      if (yotiAnchor !== null) {
-        break;
-      }
-    }
-
-    if (yotiAnchor == null) {
-      yotiAnchor = new YotiAnchor('UNKNOWN', '', subType, signedTimestamp, originServerCerts);
-    }
+    const yotiAnchor = this.getAnchorFromCerts(
+      [certArrayBuffer],
+      signedTimestamp,
+      originServerCerts,
+      subType
+    );
 
     const key = this.getAnchorListKeyByType(yotiAnchor.getType());
     anchorsList[key].push(yotiAnchor);
-
     return anchorsList;
   }
 
   /**
    * Return YotiAnchor object for provided oid.
+   *
+   * @deprecated no longer in use.
    *
    * @param extensionsData
    * @param subType
@@ -125,16 +162,16 @@ class AnchorProcessor {
    * @param originServerCerts
    * @param oid
    *
-   * @returns {*}
+   * @returns {YotiAnchor|null}
    */
   static getAnchorByOid(extensionsData, subType, signedTimestamp, originServerCerts, oid) {
     let yotiAnchor = null;
     if (extensionsData && oid) {
-      const extension = this.findExtensionByOid(extensionsData, oid);
-      if (extension !== null) {
+      const anchorValue = this.getAnchorValueByOid(extensionsData, oid);
+      if (anchorValue !== null) {
         yotiAnchor = new YotiAnchor(
           this.getAnchorTypeByOid(oid),
-          this.getExtensionValue(extension),
+          anchorValue,
           subType,
           signedTimestamp,
           originServerCerts
@@ -142,37 +179,6 @@ class AnchorProcessor {
       }
     }
     return yotiAnchor;
-  }
-
-  /**
-   * Return extension for given oid.
-   *
-   * @param extensionsData
-   * @param oid
-   *
-   * @returns {*}
-   */
-  static findExtensionByOid(extensionsData, oid) {
-    const oidIndex = AnchorProcessor.findOidIndex(extensionsData, { id: oid });
-    if (oidIndex !== -1) {
-      const anchorExtension = extensionsData[oidIndex];
-      const anchorEncodedValue = anchorExtension.value;
-      // Convert Anchor value from ASN.1 format to an object
-      const extensionObj = forge.asn1.fromDer(anchorEncodedValue.toString('binary'));
-      return extensionObj;
-    }
-    return null;
-  }
-
-  /**
-   * Return extension value.
-   *
-   * @param extension
-   *
-   * @returns {string}
-   */
-  static getExtensionValue(extension) {
-    return extension.value[0].value;
   }
 
   /**
@@ -190,10 +196,30 @@ class AnchorProcessor {
 
     const extension = this.getExtensionByOid(extensionsData, oid);
     if (extension) {
-      anchorValue = this.getExtensionValue(extension);
+      anchorValue = extension.value[0].value;
     }
 
     return anchorValue;
+  }
+
+  /**
+   * Return extension for given oid.
+   *
+   * @param extensionsData
+   * @param oid
+   *
+   * @returns {Object|null}
+   */
+  static getExtensionByOid(extensionsData, oid) {
+    const oidIndex = AnchorProcessor.findOidIndex(extensionsData, { id: oid });
+    if (oidIndex !== -1) {
+      const anchorExtension = extensionsData[oidIndex];
+      const anchorEncodedValue = anchorExtension.value;
+      // Convert Anchor value from ASN.1 format to an object
+      const extensionObj = forge.asn1.fromDer(anchorEncodedValue.toString('binary'));
+      return extensionObj;
+    }
+    return null;
   }
 
   /**
@@ -219,6 +245,8 @@ class AnchorProcessor {
 
   /**
    * Merge arrays by anchor type.
+   *
+   * @deprecated no longer in use.
    *
    * @param targetList
    * @param sourceList
@@ -327,7 +355,7 @@ class AnchorProcessor {
    */
   static getAnchorTypeByOid(oid) {
     return Object.keys(ANCHOR_TYPES)
-      .find(key => oid === ANCHOR_TYPES[key]);
+      .find(key => oid === ANCHOR_TYPES[key]) || 'UNKNOWN';
   }
 
   /**

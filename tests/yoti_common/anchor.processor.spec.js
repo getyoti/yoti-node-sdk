@@ -165,4 +165,39 @@ describe('anchorProcessor', () => {
       });
     });
   });
+  describe('#processSingleAnchor', () => {
+    context('when processing a single anchor', () => {
+      const sourceAnchor = fs.readFileSync('./tests/sample-data/yoti-common/dl-source-anchor.txt', 'utf8');
+
+      it('should return a map of anchor types with 1 anchor', () => {
+        const data = parseAnchorData(sourceAnchor);
+        const anchors = AnchorProcessor.processSingleAnchor(data);
+        expect(anchors.sources).to.be.length(1);
+        expect(anchors.verifiers).to.be.length(0);
+        expect(anchors.unknown).to.be.length(0);
+        expect(anchors.sources[0].getType()).to.equal('SOURCE');
+        expect(anchors.sources[0].getValue()).to.equal('DRIVING_LICENCE');
+      });
+    });
+  });
+  describe('#getAnchorsByCertificate', () => {
+    context('when processing a single anchor', () => {
+      const sourceAnchor = fs.readFileSync('./tests/sample-data/yoti-common/dl-source-anchor.txt', 'utf8');
+
+      it('should return a map of anchor types with 1 anchor', () => {
+        const anchorObj = parseAnchorData(sourceAnchor);
+        const anchors = AnchorProcessor.getAnchorsByCertificate(
+          anchorObj.originServerCerts[0],
+          anchorObj.getSubType(),
+          AnchorProcessor.processSignedTimeStamp(anchorObj.getSignedTimeStamp()),
+          AnchorProcessor.convertCertsListToX509(anchorObj.originServerCerts)
+        );
+        expect(anchors.sources).to.be.length(1);
+        expect(anchors.verifiers).to.be.length(0);
+        expect(anchors.unknown).to.be.length(0);
+        expect(anchors.sources[0].getType()).to.equal('SOURCE');
+        expect(anchors.sources[0].getValue()).to.equal('DRIVING_LICENCE');
+      });
+    });
+  });
 });
