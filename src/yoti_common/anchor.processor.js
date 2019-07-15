@@ -26,7 +26,7 @@ class AnchorProcessor {
    *
    * @param anchors
    *
-   * @returns {YotiAnchor[]}
+   * @returns {Object.<string, YotiAnchor[]>}
    */
   static process(anchors) {
     // This will contain a list of anchor values as objects
@@ -253,7 +253,7 @@ class AnchorProcessor {
    *
    * @param {Array} targetList
    * @param {Array} sourceList
-   * @returns {YotiAnchor[]}
+   * @returns {Object.<string, YotiAnchor[]>}
    */
   static mergeAnchorsLists(targetList, sourceList) {
     this.getAnchorTypes().forEach((anchorType) => {
@@ -318,7 +318,7 @@ class AnchorProcessor {
   }
 
   /**
-   * @returns {Object}
+   * @returns {Object.<string, Array>}
    */
   static getResultFormat() {
     return this.getAnchorTypes().reduce((acc, current) => {
