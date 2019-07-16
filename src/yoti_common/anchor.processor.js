@@ -61,17 +61,18 @@ class AnchorProcessor {
    * @returns {YotiAnchor}
    */
   static getAnchorFromCerts(certificatesList, signedTimestamp, originServerCerts, subType) {
-    let anchor = null;
-
-    certificatesList.forEach((certificate) => {
+    for (let i = 0; i < certificatesList.length; i += 1) {
+      const certificate = certificatesList[i];
       const extensionsData = AnchorProcessor.convertCertToX509(certificate).extensions;
 
-      Object.keys(ANCHOR_TYPES).forEach((type) => {
+      const anchorTypeKeys = Object.keys(ANCHOR_TYPES);
+      for (let k = 0; k < anchorTypeKeys.length; k += 1) {
+        const type = anchorTypeKeys[k];
         const oid = ANCHOR_TYPES[type];
         const extension = this.getExtensionByOid(extensionsData, oid);
 
         if (extension !== null) {
-          anchor = new YotiAnchor(
+          return new YotiAnchor(
             this.getAnchorTypeByOid(oid),
             extension.value[0].value,
             subType,
@@ -79,11 +80,7 @@ class AnchorProcessor {
             originServerCerts
           );
         }
-      });
-    });
-
-    if (anchor instanceof YotiAnchor) {
-      return anchor;
+      }
     }
 
     return new YotiAnchor('UNKNOWN', '', subType, signedTimestamp, originServerCerts);
