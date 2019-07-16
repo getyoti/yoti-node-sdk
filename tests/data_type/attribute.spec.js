@@ -70,6 +70,7 @@ describe('Attribute', () => {
       const source = attributeObj.getAnchors()[0];
       const verifier = attributeObj.getAnchors()[1];
       const unknown = attributeObj.getAnchors()[2];
+      expect(attributeObj.getAnchors()).to.be.length(3);
       expect(source.getType()).to.equal('SOURCE');
       expect(verifier.getType()).to.equal('VERIFIER');
       expect(unknown.getType()).to.equal('UNKNOWN');
