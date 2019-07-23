@@ -173,7 +173,7 @@ yotiClient.getActivityDetails(token).then((activityDetails) => {
 
 Dynamic Policy generation is a way of requesting non-static attribute lists for your application.
 
-This is useful when you want or need different permutations of attributes from Yoti, without having to create a new application.
+This is useful when you want or need different permutations of attributes from Yoti, without having to create a new scenario.
 
 E.g:
 
