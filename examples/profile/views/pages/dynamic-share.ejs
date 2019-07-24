@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <title>Yoti dynamic share example</title>
+  <title>Yoti client example</title>
   <link rel="stylesheet" type="text/css" href="/static/index.css" />
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
 </head>
@@ -22,12 +22,7 @@
       <h1 class="yoti-top-header">We now accept Yoti</h1>
 
       <div class="yoti-sdk-integration-section">
-        <span
-          data-yoti-type="inline"
-          data-yoti-application-id="<%= yotiApplicationId %>"
-          data-yoti-url="<%= yotiQrUrl %>">
-            Use Yoti
-        </span>
+        <div id="yoti-share-button"></div>
       </div>
 
       <div class="yoti-login-or-separator">or</div>
@@ -67,9 +62,18 @@
       </div>
     </section>
   </main>
-  <script src="https://sdk.yoti.com/clients/browser.2.3.0.js"></script>
+  <script src="https://www.yoti.com/share/client/"></script>
   <script>
-    _ybg.init();
+  window.Yoti.Share.init({
+    "elements": [{
+      "domId": "yoti-share-button",
+      "clientSdkId": "<%= yotiClientSdkId %>",
+      "shareUrl": "<%= yotiShareUrl %>",
+      "button": {
+        "label": "Use Yoti"
+      }
+    }]
+  });
   </script>
 </body>
 
