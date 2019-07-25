@@ -10,7 +10,7 @@ module.exports.Age = class Age {
 
   /**
    * Returns a boolean representing the attribute value
-   * Or null if the attribute is not set in the dashboard
+   * or null if the attribute is not set in the Yoti Hub
    *
    * @returns {*}
    */
