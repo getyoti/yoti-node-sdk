@@ -14,7 +14,7 @@ module.exports = class DynamicScenario {
   /**
    * @param {string} callbackEndpoint
    *   The device's callback endpoint. Must be a URL relative to the Application
-   *   Domain specified in your Dashboard.
+   *   Domain specified in your Yoti Hub.
    * @param {DynamicPolicy} dynamicPolicy
    *   The customisable DynamicPolicy to use in the share.
    * @param {Extension[]} extensions
