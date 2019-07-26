@@ -107,7 +107,7 @@ const yoti = require('yoti');
 const fs = require('fs');
 const CLIENT_SDK_ID = 'your sdk id';
 const PEM = fs.readFileSync(__dirname + '/keys/your-application-pem-file.pem');
-let yotiClient = new yoti.Client(CLIENT_SDK_ID, PEM);
+const yotiClient = new yoti.Client(CLIENT_SDK_ID, PEM);
 
 ```
 
@@ -129,11 +129,6 @@ The way the Yoti SDK client is initialised was changed in version 3. Please make
 
 ```javascript
 
-// SDK version < 3
-const Yoti = require('yoti')
-const yotiClient = new Yoti(CLIENT_SDK_ID, PEM)
-
-// SDK version >= 3
 const yoti = require('yoti')
 const yotiClient = new yoti.Client(CLIENT_SDK_ID, PEM)
 
@@ -190,17 +185,17 @@ The following example demonstrates how a Dynamic Policy can be built using attri
 
 ```javascript
 
-const wantedEmailAttribute = new WantedAttributeBuilder()
+const wantedEmailAttribute = new yoti.WantedAttributeBuilder()
   .withName('email_address')
   .build();
 
-const dynamicPolicy = new Yoti.DynamicPolicyBuilder()
+const dynamicPolicy = new yoti.DynamicPolicyBuilder()
   .withFullName()
   .withWantedAttributeByName('given_names')
   .withWantedAttribute(wantedEmailAttribute)
   .build();
 
-const dynamicScenario = new Yoti.DynamicScenarioBuilder()
+const dynamicScenario = new yoti.DynamicScenarioBuilder()
   .withCallbackEndpoint('/profile')
   .withPolicy(dynamicPolicy)
   .build();
@@ -300,8 +295,8 @@ Given a YotiClient initialised with your SDK ID and KeyPair (see [Configuration]
 
 // Initiate user profile data.
 
-const amlAddress = new Yoti.AmlAddress('GBR');
-const amlProfile = new Yoti.AmlProfile('Edward Richard George', 'Heath', amlAddress);
+const amlAddress = new yoti.AmlAddress('GBR');
+const amlProfile = new yoti.AmlProfile('Edward Richard George', 'Heath', amlAddress);
 
 yotiClient.performAmlCheck(amlProfile).then((amlResult) => {
   console.log(amlResult.isOnPepList);
