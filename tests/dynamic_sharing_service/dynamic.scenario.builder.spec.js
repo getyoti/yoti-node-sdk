@@ -1,12 +1,6 @@
-const {
-  expect,
-} = require('chai');
+const { expect } = require('chai');
 
-const {
-  DynamicScenarioBuilder,
-  DynamicPolicyBuilder,
-  ExtensionBuilder,
-} = require('../../');
+const { DynamicScenarioBuilder, DynamicPolicyBuilder, ExtensionBuilder } = require('../../');
 
 const DynamicScenario = require('../../src/dynamic_sharing_service/dynamic.scenario');
 
@@ -37,10 +31,7 @@ describe('DynamicScenarioBuilder', () => {
 
     expect(dynamicScenario.getCallbackEndpoint()).to.equal('/test-callback');
     expect(dynamicScenario.getDynamicPolicy()).to.equal(dynamicPolicy);
-    expect(dynamicScenario.getExtensions()).to.deep.equal([
-      extension1,
-      extension2,
-    ]);
+    expect(dynamicScenario.getExtensions()).to.deep.equal([extension1, extension2]);
 
     const expectedJsonData = {
       callback_endpoint: '/test-callback',
@@ -80,5 +71,57 @@ describe('DynamicScenarioBuilder', () => {
 
     expect(dynamicScenario).to.be.instanceOf(DynamicScenario);
     expect(JSON.stringify(dynamicScenario)).to.equal(expectedJson);
+  });
+
+  it('should not have selfie or pin auth', () => {
+    const dynamicPolicy = new DynamicPolicyBuilder()
+      .withSelfieAuthentication(true)
+      .withSelfieAuthentication(false)
+      .withPinAuthentication(true)
+      .withPinAuthentication(false)
+      .build();
+
+    const authTypes = dynamicPolicy.getWantedAuthTypes();
+    expect(authTypes).to.not.contain(1);
+    expect(authTypes).to.not.contain(2);
+  });
+
+  it('should not have more than one auth type', () => {
+    const dynamicPolicy = new DynamicPolicyBuilder()
+      .withSelfieAuthentication(true)
+      .withSelfieAuthentication()
+      .withSelfieAuthentication(true)
+      .build();
+
+    const authTypesLength = dynamicPolicy.getWantedAuthTypes().length;
+    expect(authTypesLength).to.equal(1);
+  });
+
+  it('should only have two auth types', () => {
+    const dynamicPolicy = new DynamicPolicyBuilder()
+      .withSelfieAuthentication(true)
+      .withPinAuthentication(true)
+      .build();
+
+    const authTypesLength = dynamicPolicy.getWantedAuthTypes().length;
+    expect(authTypesLength).to.equal(2);
+  });
+
+  it('should not have selfie authentication after having it added then removed', () => {
+    const dynamicPolicy = new DynamicPolicyBuilder()
+      .withSelfieAuthentication(true)
+      .withSelfieAuthentication(false)
+      .build();
+
+    expect(dynamicPolicy.wantedAuthTypes).to.not.contain(1);
+  });
+
+  it('should not have pin authentication after having it added then removed', () => {
+    const dynamicPolicy = new DynamicPolicyBuilder()
+      .withPinAuthentication(true)
+      .withPinAuthentication(false)
+      .build();
+
+    expect(dynamicPolicy.wantedAuthTypes).to.not.contain(1);
   });
 });

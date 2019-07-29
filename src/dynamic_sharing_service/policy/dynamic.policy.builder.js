@@ -10,6 +10,13 @@ const SELFIE_AUTH_TYPE = 1;
 const PIN_AUTH_TYPE = 2;
 
 /**
+ * Remove all matching elements from an array.
+ * @param {number} element
+ * @param {Array} arr
+ */
+const removeMatchingElements = (element, arr) => arr.filter(value => value !== element);
+
+/**
  * Builder for DynamicPolicy.
  *
  * @class DynamicPolicyBuilder
@@ -39,9 +46,7 @@ module.exports = class DynamicPolicyBuilder {
    * @param {string} name
    */
   withWantedAttributeByName(name) {
-    const wantedAttribute = new WantedAttributeBuilder()
-      .withName(name)
-      .build();
+    const wantedAttribute = new WantedAttributeBuilder().withName(name).build();
     return this.withWantedAttribute(wantedAttribute);
   }
 
@@ -122,6 +127,8 @@ module.exports = class DynamicPolicyBuilder {
   withSelfieAuthentication(enabled = true) {
     if (enabled) {
       return this.withWantedAuthType(SELFIE_AUTH_TYPE);
+    } else if (!enabled) {
+      this.wantedAuthTypes = removeMatchingElements(SELFIE_AUTH_TYPE, this.wantedAuthTypes);
     }
     return this;
   }
@@ -132,6 +139,8 @@ module.exports = class DynamicPolicyBuilder {
   withPinAuthentication(enabled = true) {
     if (enabled) {
       return this.withWantedAuthType(PIN_AUTH_TYPE);
+    } else if (!enabled) {
+      this.wantedAuthTypes = removeMatchingElements(PIN_AUTH_TYPE, this.wantedAuthTypes);
     }
     return this;
   }
@@ -158,7 +167,7 @@ module.exports = class DynamicPolicyBuilder {
   build() {
     return new DynamicPolicy(
       Object.keys(this.wantedAttributes).map(k => this.wantedAttributes[k]),
-      this.wantedAuthTypes,
+      this.wantedAuthTypes.filter((value, index, self) => self.indexOf(value) === index),
       this.wantedRememberMe,
       false
     );
