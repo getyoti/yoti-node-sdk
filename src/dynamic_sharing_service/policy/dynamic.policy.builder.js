@@ -129,9 +129,9 @@ module.exports = class DynamicPolicyBuilder {
   withSelfieAuthentication(enabled = true) {
     if (enabled) {
       return this.withWantedAuthType(SELFIE_AUTH_TYPE);
-    } else if (!enabled) {
-      this.wantedAuthTypes = removeMatchingElements(SELFIE_AUTH_TYPE, this.wantedAuthTypes);
     }
+
+    this.wantedAuthTypes = removeMatchingElements(SELFIE_AUTH_TYPE, this.wantedAuthTypes);
     return this;
   }
 
@@ -141,9 +141,9 @@ module.exports = class DynamicPolicyBuilder {
   withPinAuthentication(enabled = true) {
     if (enabled) {
       return this.withWantedAuthType(PIN_AUTH_TYPE);
-    } else if (!enabled) {
-      this.wantedAuthTypes = removeMatchingElements(PIN_AUTH_TYPE, this.wantedAuthTypes);
     }
+
+    this.wantedAuthTypes = removeMatchingElements(PIN_AUTH_TYPE, this.wantedAuthTypes);
     return this;
   }
 
