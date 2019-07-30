@@ -6,9 +6,6 @@ const WantedAttribute = require('./wanted.attribute');
 const constants = require('../../yoti_common/constants');
 const Validation = require('../../yoti_common/validation');
 
-const SELFIE_AUTH_TYPE = 1;
-const PIN_AUTH_TYPE = 2;
-
 /**
  * Remove all matching elements from an array.
  * @param {number} element
@@ -128,10 +125,13 @@ module.exports = class DynamicPolicyBuilder {
    */
   withSelfieAuthentication(enabled = true) {
     if (enabled) {
-      return this.withWantedAuthType(SELFIE_AUTH_TYPE);
+      return this.withWantedAuthType(DynamicPolicy.SELFIE_AUTH_TYPE);
     }
 
-    this.wantedAuthTypes = removeMatchingElements(SELFIE_AUTH_TYPE, this.wantedAuthTypes);
+    this.wantedAuthTypes = removeMatchingElements(
+      DynamicPolicy.SELFIE_AUTH_TYPE,
+      this.wantedAuthTypes
+    );
     return this;
   }
 
@@ -140,10 +140,13 @@ module.exports = class DynamicPolicyBuilder {
    */
   withPinAuthentication(enabled = true) {
     if (enabled) {
-      return this.withWantedAuthType(PIN_AUTH_TYPE);
+      return this.withWantedAuthType(DynamicPolicy.PIN_AUTH_TYPE);
     }
 
-    this.wantedAuthTypes = removeMatchingElements(PIN_AUTH_TYPE, this.wantedAuthTypes);
+    this.wantedAuthTypes = removeMatchingElements(
+      DynamicPolicy.PIN_AUTH_TYPE,
+      this.wantedAuthTypes
+    );
     return this;
   }
 
