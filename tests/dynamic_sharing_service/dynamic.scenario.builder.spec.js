@@ -1,6 +1,10 @@
 const { expect } = require('chai');
 
-const { DynamicScenarioBuilder, DynamicPolicyBuilder, ExtensionBuilder } = require('../../');
+const {
+  DynamicScenarioBuilder,
+  DynamicPolicyBuilder,
+  ExtensionBuilder,
+} = require('../../');
 
 const DynamicScenario = require('../../src/dynamic_sharing_service/dynamic.scenario');
 
