@@ -46,7 +46,9 @@ module.exports = class DynamicPolicyBuilder {
    * @param {string} name
    */
   withWantedAttributeByName(name) {
-    const wantedAttribute = new WantedAttributeBuilder().withName(name).build();
+    const wantedAttribute = new WantedAttributeBuilder()
+      .withName(name)
+      .build();
     return this.withWantedAttribute(wantedAttribute);
   }
 
