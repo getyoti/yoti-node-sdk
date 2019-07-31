@@ -34,20 +34,6 @@ module.exports = class DynamicPolicy {
   }
 
   /**
-   * Constant for selfie authorisation type.
-   */
-  static get SELFIE_AUTH_TYPE() {
-    return 1;
-  }
-
-  /**
-   * Constant for pin authorisation type.
-   */
-  static get PIN_AUTH_TYPE() {
-    return 2;
-  }
-
-  /**
    * @returns {WantedAttribute[]} array of attributes to be requested.
    */
   getWantedAttributes() {
