@@ -47,6 +47,9 @@ const expectDynamicPolicyAttributes = (dynamicPolicy, expectedWantedAttributeDat
 };
 
 describe('DynamicPolicyBuilder', () => {
+  const EXPECTED_SELFIE_AUTH_TYPE = 1;
+  const EXPECTED_PIN_AUTH_TYPE = 2;
+
   it('should build with attributes', () => {
     const dynamicPolicy = new DynamicPolicyBuilder()
       .withFamilyName()
@@ -210,7 +213,7 @@ describe('DynamicPolicyBuilder', () => {
       .withWantedAuthType(99)
       .build();
 
-    const expectedAuthTypes = [1, 2, 99];
+    const expectedAuthTypes = [EXPECTED_SELFIE_AUTH_TYPE, EXPECTED_PIN_AUTH_TYPE, 99];
 
     expect(dynamicPolicy.getWantedAuthTypes()).to.deep.equal(expectedAuthTypes);
 
@@ -224,12 +227,12 @@ describe('DynamicPolicyBuilder', () => {
 
   it('should build with auth types true', () => {
     const dynamicPolicy = new DynamicPolicyBuilder()
-      .withSelfieAuthentication()
-      .withPinAuthentication()
+      .withSelfieAuthentication(true)
+      .withPinAuthentication(true)
       .withWantedAuthType(99)
       .build();
 
-    const expectedAuthTypes = [1, 2, 99];
+    const expectedAuthTypes = [EXPECTED_SELFIE_AUTH_TYPE, EXPECTED_PIN_AUTH_TYPE, 99];
 
     expect(dynamicPolicy.getWantedAuthTypes()).to.deep.equal(expectedAuthTypes);
 
@@ -272,5 +275,57 @@ describe('DynamicPolicyBuilder', () => {
       wanted_remember_me: true,
       wanted_remember_me_optional: false,
     });
+  });
+
+  it('should build with no selfie or pin auth', () => {
+    const dynamicPolicy = new DynamicPolicyBuilder()
+      .withSelfieAuthentication(true)
+      .withSelfieAuthentication(false)
+      .withPinAuthentication(true)
+      .withPinAuthentication(false)
+      .build();
+
+    const authTypes = dynamicPolicy.getWantedAuthTypes();
+    expect(authTypes).to.not.contain(EXPECTED_SELFIE_AUTH_TYPE);
+    expect(authTypes).to.not.contain(EXPECTED_PIN_AUTH_TYPE);
+  });
+
+  it('should build with no more than one auth type', () => {
+    const dynamicPolicy = new DynamicPolicyBuilder()
+      .withSelfieAuthentication(true)
+      .withSelfieAuthentication()
+      .withSelfieAuthentication(true)
+      .build();
+
+    const authTypesLength = dynamicPolicy.getWantedAuthTypes().length;
+    expect(authTypesLength).to.equal(1);
+  });
+
+  it('should build with only two auth types', () => {
+    const dynamicPolicy = new DynamicPolicyBuilder()
+      .withSelfieAuthentication(true)
+      .withPinAuthentication(true)
+      .build();
+
+    const authTypesLength = dynamicPolicy.getWantedAuthTypes().length;
+    expect(authTypesLength).to.equal(2);
+  });
+
+  it('should build with no selfie authentication after having it added then removed', () => {
+    const dynamicPolicy = new DynamicPolicyBuilder()
+      .withSelfieAuthentication(true)
+      .withSelfieAuthentication(false)
+      .build();
+
+    expect(dynamicPolicy.wantedAuthTypes).to.not.contain(EXPECTED_SELFIE_AUTH_TYPE);
+  });
+
+  it('should build with no pin authentication after having it added then removed', () => {
+    const dynamicPolicy = new DynamicPolicyBuilder()
+      .withPinAuthentication(true)
+      .withPinAuthentication(false)
+      .build();
+
+    expect(dynamicPolicy.wantedAuthTypes).to.not.contain(EXPECTED_PIN_AUTH_TYPE);
   });
 });

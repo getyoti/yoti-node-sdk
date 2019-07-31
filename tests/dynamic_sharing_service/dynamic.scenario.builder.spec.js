@@ -1,6 +1,4 @@
-const {
-  expect,
-} = require('chai');
+const { expect } = require('chai');
 
 const {
   DynamicScenarioBuilder,
@@ -37,10 +35,7 @@ describe('DynamicScenarioBuilder', () => {
 
     expect(dynamicScenario.getCallbackEndpoint()).to.equal('/test-callback');
     expect(dynamicScenario.getDynamicPolicy()).to.equal(dynamicPolicy);
-    expect(dynamicScenario.getExtensions()).to.deep.equal([
-      extension1,
-      extension2,
-    ]);
+    expect(dynamicScenario.getExtensions()).to.deep.equal([extension1, extension2]);
 
     const expectedJsonData = {
       callback_endpoint: '/test-callback',
