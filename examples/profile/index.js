@@ -59,9 +59,13 @@ router.get('/dynamic-share', (req, res) => {
     .withName('given_names')
     .build();
 
+  const emailAddressWantedAttribute = new Yoti.WantedAttributeBuilder()
+    .withName('email_address')
+    .build();
+
   const dynamicPolicy = new Yoti.DynamicPolicyBuilder()
     .withWantedAttribute(givenNamesWantedAttribute)
-    .withWantedAttributeByName('email_address')
+    .withWantedAttribute(emailAddressWantedAttribute)
     .withFullName()
     .withSelfie()
     .withPhoneNumber()
