@@ -37,83 +37,191 @@ module.exports = class DynamicPolicyBuilder {
 
   /**
    * @param {string} name
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
    */
-  withWantedAttributeByName(name) {
-    const wantedAttribute = new WantedAttributeBuilder()
+  withWantedAttributeByName(name, constraints = null, acceptSelfAsserted = true) {
+    const wantedAttributeBuilder = new WantedAttributeBuilder()
       .withName(name)
-      .build();
-    return this.withWantedAttribute(wantedAttribute);
+      .withAcceptSelfAsserted(acceptSelfAsserted);
+
+    if (constraints !== null) {
+      wantedAttributeBuilder.withConstraints(constraints);
+    }
+
+    return this.withWantedAttribute(wantedAttributeBuilder.build());
   }
 
-  withFamilyName() {
-    return this.withWantedAttributeByName(constants.ATTR_FAMILY_NAME);
+  /**
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
+   */
+  withFamilyName(constraints = null, acceptSelfAsserted = true) {
+    return this.withWantedAttributeByName(
+      constants.ATTR_FAMILY_NAME,
+      constraints,
+      acceptSelfAsserted
+    );
   }
 
-  withGivenNames() {
-    return this.withWantedAttributeByName(constants.ATTR_GIVEN_NAMES);
+  /**
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
+   */
+  withGivenNames(constraints = null, acceptSelfAsserted = true) {
+    return this.withWantedAttributeByName(
+      constants.ATTR_GIVEN_NAMES,
+      constraints,
+      acceptSelfAsserted
+    );
   }
 
-  withFullName() {
-    return this.withWantedAttributeByName(constants.ATTR_FULL_NAME);
+  /**
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
+   */
+  withFullName(constraints = null, acceptSelfAsserted = true) {
+    return this.withWantedAttributeByName(
+      constants.ATTR_FULL_NAME,
+      constraints,
+      acceptSelfAsserted
+    );
   }
 
-  withDateOfBirth() {
-    return this.withWantedAttributeByName(constants.ATTR_DATE_OF_BIRTH);
+  /**
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
+   */
+  withDateOfBirth(constraints = null, acceptSelfAsserted = true) {
+    return this.withWantedAttributeByName(
+      constants.ATTR_DATE_OF_BIRTH,
+      constraints,
+      acceptSelfAsserted
+    );
   }
 
   /**
    * @param {int} age
    */
-  withAgeOver(age) {
+  withAgeOver(age, constraints = null, acceptSelfAsserted = true) {
     Validation.isInteger(age, 'age');
-    return this.withAgeDerivedAttribute(constants.ATTR_AGE_OVER + age);
+    return this.withAgeDerivedAttribute(
+      constants.ATTR_AGE_OVER + age,
+      constraints,
+      acceptSelfAsserted
+    );
   }
 
   /**
    * @param {int} age
    */
-  withAgeUnder(age) {
+  withAgeUnder(age, constraints = null, acceptSelfAsserted = true) {
     Validation.isInteger(age, 'age');
-    return this.withAgeDerivedAttribute(constants.ATTR_AGE_UNDER + age);
+    return this.withAgeDerivedAttribute(
+      constants.ATTR_AGE_UNDER + age,
+      constraints,
+      acceptSelfAsserted
+    );
   }
 
   /**
    * @param {string} derivation
    */
-  withAgeDerivedAttribute(derivation) {
-    const wantedAttribute = new WantedAttributeBuilder()
+  withAgeDerivedAttribute(derivation, constraints = null, acceptSelfAsserted = true) {
+    const wantedAttributeBuilder = new WantedAttributeBuilder()
       .withName(constants.ATTR_DATE_OF_BIRTH)
       .withDerivation(derivation)
-      .build();
-    return this.withWantedAttribute(wantedAttribute);
+      .withAcceptSelfAsserted(acceptSelfAsserted);
+
+    if (constraints !== null) {
+      wantedAttributeBuilder.withConstraints(constraints);
+    }
+
+    return this.withWantedAttribute(wantedAttributeBuilder.build());
   }
 
-  withGender() {
-    return this.withWantedAttributeByName(constants.ATTR_GENDER);
+  /**
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
+   */
+  withGender(constraints = null, acceptSelfAsserted = true) {
+    return this.withWantedAttributeByName(
+      constants.ATTR_GENDER,
+      constraints,
+      acceptSelfAsserted
+    );
   }
 
-  withPostalAddress() {
-    return this.withWantedAttributeByName(constants.ATTR_POSTAL_ADDRESS);
+  /**
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
+   */
+  withPostalAddress(constraints = null, acceptSelfAsserted = true) {
+    return this.withWantedAttributeByName(
+      constants.ATTR_POSTAL_ADDRESS,
+      constraints,
+      acceptSelfAsserted
+    );
   }
 
-  withStructuredPostalAddress() {
-    return this.withWantedAttributeByName(constants.ATTR_STRUCTURED_POSTAL_ADDRESS);
+  /**
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
+   */
+  withStructuredPostalAddress(constraints = null, acceptSelfAsserted = true) {
+    return this.withWantedAttributeByName(
+      constants.ATTR_STRUCTURED_POSTAL_ADDRESS,
+      constraints,
+      acceptSelfAsserted
+    );
   }
 
-  withNationality() {
-    return this.withWantedAttributeByName(constants.ATTR_NATIONALITY);
+  /**
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
+   */
+  withNationality(constraints = null, acceptSelfAsserted = true) {
+    return this.withWantedAttributeByName(
+      constants.ATTR_NATIONALITY,
+      constraints,
+      acceptSelfAsserted
+    );
   }
 
-  withPhoneNumber() {
-    return this.withWantedAttributeByName(constants.ATTR_PHONE_NUMBER);
+  /**
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
+   */
+  withPhoneNumber(constraints = null, acceptSelfAsserted = true) {
+    return this.withWantedAttributeByName(
+      constants.ATTR_PHONE_NUMBER,
+      constraints,
+      acceptSelfAsserted
+    );
   }
 
-  withSelfie() {
-    return this.withWantedAttributeByName(constants.ATTR_SELFIE);
+  /**
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
+   */
+  withSelfie(constraints = null, acceptSelfAsserted = true) {
+    return this.withWantedAttributeByName(
+      constants.ATTR_SELFIE,
+      constraints,
+      acceptSelfAsserted
+    );
   }
 
-  withEmail() {
-    return this.withWantedAttributeByName(constants.ATTR_EMAIL_ADDRESS);
+  /**
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
+   */
+  withEmail(constraints = null, acceptSelfAsserted = true) {
+    return this.withWantedAttributeByName(
+      constants.ATTR_EMAIL_ADDRESS,
+      constraints,
+      acceptSelfAsserted
+    );
   }
 
   /**

@@ -55,8 +55,19 @@ router.get('/dynamic-share', (req, res) => {
     .withRadius(6000)
     .build();
 
+  const sourceConstraint = new Yoti.SourceConstraintBuilder()
+    .withDrivingLicence()
+    .withSoftPreference(false)
+    .build();
+
+  const constraints = new Yoti.ConstraintsBuilder()
+    .withSourceConstraint(sourceConstraint)
+    .build();
+
   const givenNamesWantedAttribute = new Yoti.WantedAttributeBuilder()
     .withName('given_names')
+    .withConstraints(constraints)
+    .withAcceptSelfAsserted()
     .build();
 
   const emailAddressWantedAttribute = new Yoti.WantedAttributeBuilder()

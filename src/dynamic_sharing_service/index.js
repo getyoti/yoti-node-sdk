@@ -10,6 +10,9 @@ const WantedAttributeBuilder = require('./policy/wanted.attribute.builder');
 const ExtensionBuilder = require('./extension/extension.builder');
 const LocationConstraintExtensionBuilder = require('./extension/location.constraint.extension.builder');
 const TransactionalFlowExtensionBuilder = require('./extension/transactional.flow.extension.builder');
+const WantedAnchorBuilder = require('./policy/wanted.anchor.builder');
+const ConstraintsBuilder = require('./policy/constraints.builder');
+const SourceConstraintBuilder = require('./policy/source.constraint.builder');
 const ShareUrlResult = require('./share.url.result');
 const Validation = require('../yoti_common/validation');
 
@@ -56,4 +59,7 @@ module.exports = {
   ExtensionBuilder,
   LocationConstraintExtensionBuilder,
   TransactionalFlowExtensionBuilder,
+  WantedAnchorBuilder,
+  ConstraintsBuilder,
+  SourceConstraintBuilder,
 };
