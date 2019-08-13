@@ -11,6 +11,9 @@ const {
   ExtensionBuilder,
   LocationConstraintExtensionBuilder,
   TransactionalFlowExtensionBuilder,
+  WantedAnchorBuilder,
+  ConstraintsBuilder,
+  SourceConstraintBuilder,
 } = require('./src/dynamic_sharing_service');
 
 module.exports = {
@@ -23,4 +26,7 @@ module.exports = {
   ExtensionBuilder,
   LocationConstraintExtensionBuilder,
   TransactionalFlowExtensionBuilder,
+  WantedAnchorBuilder,
+  ConstraintsBuilder,
+  SourceConstraintBuilder,
 };
