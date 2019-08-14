@@ -102,6 +102,23 @@ module.exports = class Validation {
 
   /**
    * @param {*} values
+   * @param {Array} type
+   * @param {string} name
+   *
+   * @throws {TypeError}
+   */
+  static isArrayOfTypes(values, types, name) {
+    this.isArray(values, name);
+    values.forEach((value) => {
+      if (!types.some(type => value instanceof type)) {
+        const allowedTypes = types.map(type => type.name).join(', ');
+        throw TypeError(`${name} must be an array containing any of the following types: ${allowedTypes}`);
+      }
+    });
+  }
+
+  /**
+   * @param {*} values
    * @param {string} name
    *
    * @throws {TypeError}

@@ -1,5 +1,8 @@
 'use strict';
 
+const Validation = require('../../yoti_common/validation');
+const SourceConstraint = require('./source.constraint');
+
 /**
  * List of constraints to apply to a wanted attribute.
  *
@@ -10,15 +13,8 @@ module.exports = class Constraints {
    * Set default properties.
    */
   constructor(constraints) {
+    Validation.isArrayOfTypes(constraints, [SourceConstraint], 'constraints');
     this.constraints = constraints;
-  }
-
-  /**
-   * @param {SourceConstraint} constraint
-   */
-  withSourceConstraint(constraint) {
-    this.constraints.push(constraint);
-    return this;
   }
 
   /**
