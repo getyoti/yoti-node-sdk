@@ -68,97 +68,19 @@ describe('DynamicPolicyBuilder', () => {
       .build();
 
     const expectedWantedAttributeData = [
-      {
-        name: 'family_name',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'given_names',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'full_name',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'date_of_birth',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'gender',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'postal_address',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'structured_postal_address',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'nationality',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'phone_number',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'selfie',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'email_address',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'document_details',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'document_images',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
+      { name: 'family_name', derivation: '', optional: false },
+      { name: 'given_names', derivation: '', optional: false },
+      { name: 'full_name', derivation: '', optional: false },
+      { name: 'date_of_birth', derivation: '', optional: false },
+      { name: 'gender', derivation: '', optional: false },
+      { name: 'postal_address', derivation: '', optional: false },
+      { name: 'structured_postal_address', derivation: '', optional: false },
+      { name: 'nationality', derivation: '', optional: false },
+      { name: 'phone_number', derivation: '', optional: false },
+      { name: 'selfie', derivation: '', optional: false },
+      { name: 'email_address', derivation: '', optional: false },
+      { name: 'document_details', derivation: '', optional: false },
+      { name: 'document_images', derivation: '', optional: false },
     ];
 
     expectDynamicPolicyAttributes(dynamicPolicy, expectedWantedAttributeData);
@@ -178,20 +100,8 @@ describe('DynamicPolicyBuilder', () => {
       .build();
 
     const expectedWantedAttributeData = [
-      {
-        name: 'family_name',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'given_names',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
+      { name: 'family_name', derivation: '', optional: false },
+      { name: 'given_names', derivation: '', optional: false },
     ];
 
     expectDynamicPolicyAttributes(dynamicPolicy, expectedWantedAttributeData);
@@ -220,20 +130,8 @@ describe('DynamicPolicyBuilder', () => {
 
 
     const expectedWantedAttributeData = [
-      {
-        name: 'family_name',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'given_names',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
+      { name: 'family_name', derivation: '', optional: false },
+      { name: 'given_names', derivation: '', optional: false },
     ];
 
     expectDynamicPolicyAttributes(dynamicPolicy, expectedWantedAttributeData);
@@ -260,34 +158,10 @@ describe('DynamicPolicyBuilder', () => {
       .build();
 
     const expectedWantedAttributeData = [
-      {
-        name: 'date_of_birth',
-        derivation: '',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'date_of_birth',
-        derivation: 'age_over:18',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'date_of_birth',
-        derivation: 'age_under:30',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
-      {
-        name: 'date_of_birth',
-        derivation: 'age_under:40',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
+      { name: 'date_of_birth', derivation: '', optional: false },
+      { name: 'date_of_birth', derivation: 'age_over:18', optional: false },
+      { name: 'date_of_birth', derivation: 'age_under:30', optional: false },
+      { name: 'date_of_birth', derivation: 'age_under:40', optional: false },
     ];
 
     expectDynamicPolicyAttributes(dynamicPolicy, expectedWantedAttributeData);
@@ -323,13 +197,7 @@ describe('DynamicPolicyBuilder', () => {
       .build();
 
     const expectedWantedAttributeData = [
-      {
-        name: 'date_of_birth',
-        derivation: 'age_under:30',
-        optional: false,
-        constraints: [],
-        accept_self_asserted: true,
-      },
+      { name: 'date_of_birth', derivation: 'age_under:30', optional: false },
     ];
 
     expectDynamicPolicyAttributes(dynamicPolicy, expectedWantedAttributeData);

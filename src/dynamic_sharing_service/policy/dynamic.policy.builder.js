@@ -40,13 +40,16 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
-  withWantedAttributeByName(name, constraints = null, acceptSelfAsserted = true) {
+  withWantedAttributeByName(name, constraints = null, acceptSelfAsserted = null) {
     const wantedAttributeBuilder = new WantedAttributeBuilder()
-      .withName(name)
-      .withAcceptSelfAsserted(acceptSelfAsserted);
+      .withName(name);
 
     if (constraints !== null) {
       wantedAttributeBuilder.withConstraints(constraints);
+    }
+
+    if (acceptSelfAsserted !== null) {
+      wantedAttributeBuilder.withAcceptSelfAsserted(acceptSelfAsserted);
     }
 
     return this.withWantedAttribute(wantedAttributeBuilder.build());
@@ -56,7 +59,7 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
-  withFamilyName(constraints = null, acceptSelfAsserted = true) {
+  withFamilyName(constraints = null, acceptSelfAsserted = null) {
     return this.withWantedAttributeByName(
       constants.ATTR_FAMILY_NAME,
       constraints,
@@ -68,7 +71,7 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
-  withGivenNames(constraints = null, acceptSelfAsserted = true) {
+  withGivenNames(constraints = null, acceptSelfAsserted = null) {
     return this.withWantedAttributeByName(
       constants.ATTR_GIVEN_NAMES,
       constraints,
@@ -80,7 +83,7 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
-  withFullName(constraints = null, acceptSelfAsserted = true) {
+  withFullName(constraints = null, acceptSelfAsserted = null) {
     return this.withWantedAttributeByName(
       constants.ATTR_FULL_NAME,
       constraints,
@@ -92,7 +95,7 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
-  withDateOfBirth(constraints = null, acceptSelfAsserted = true) {
+  withDateOfBirth(constraints = null, acceptSelfAsserted = null) {
     return this.withWantedAttributeByName(
       constants.ATTR_DATE_OF_BIRTH,
       constraints,
@@ -103,7 +106,7 @@ module.exports = class DynamicPolicyBuilder {
   /**
    * @param {int} age
    */
-  withAgeOver(age, constraints = null, acceptSelfAsserted = true) {
+  withAgeOver(age, constraints = null, acceptSelfAsserted = null) {
     Validation.isInteger(age, 'age');
     return this.withAgeDerivedAttribute(
       constants.ATTR_AGE_OVER + age,
@@ -115,7 +118,7 @@ module.exports = class DynamicPolicyBuilder {
   /**
    * @param {int} age
    */
-  withAgeUnder(age, constraints = null, acceptSelfAsserted = true) {
+  withAgeUnder(age, constraints = null, acceptSelfAsserted = null) {
     Validation.isInteger(age, 'age');
     return this.withAgeDerivedAttribute(
       constants.ATTR_AGE_UNDER + age,
@@ -127,7 +130,7 @@ module.exports = class DynamicPolicyBuilder {
   /**
    * @param {string} derivation
    */
-  withAgeDerivedAttribute(derivation, constraints = null, acceptSelfAsserted = true) {
+  withAgeDerivedAttribute(derivation, constraints = null, acceptSelfAsserted = null) {
     const wantedAttributeBuilder = new WantedAttributeBuilder()
       .withName(constants.ATTR_DATE_OF_BIRTH)
       .withDerivation(derivation)
@@ -144,7 +147,7 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
-  withGender(constraints = null, acceptSelfAsserted = true) {
+  withGender(constraints = null, acceptSelfAsserted = null) {
     return this.withWantedAttributeByName(
       constants.ATTR_GENDER,
       constraints,
@@ -156,7 +159,7 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
-  withPostalAddress(constraints = null, acceptSelfAsserted = true) {
+  withPostalAddress(constraints = null, acceptSelfAsserted = null) {
     return this.withWantedAttributeByName(
       constants.ATTR_POSTAL_ADDRESS,
       constraints,
@@ -168,7 +171,7 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
-  withStructuredPostalAddress(constraints = null, acceptSelfAsserted = true) {
+  withStructuredPostalAddress(constraints = null, acceptSelfAsserted = null) {
     return this.withWantedAttributeByName(
       constants.ATTR_STRUCTURED_POSTAL_ADDRESS,
       constraints,
@@ -180,7 +183,7 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
-  withNationality(constraints = null, acceptSelfAsserted = true) {
+  withNationality(constraints = null, acceptSelfAsserted = null) {
     return this.withWantedAttributeByName(
       constants.ATTR_NATIONALITY,
       constraints,
@@ -192,7 +195,7 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
-  withPhoneNumber(constraints = null, acceptSelfAsserted = true) {
+  withPhoneNumber(constraints = null, acceptSelfAsserted = null) {
     return this.withWantedAttributeByName(
       constants.ATTR_PHONE_NUMBER,
       constraints,
@@ -204,7 +207,7 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
-  withSelfie(constraints = null, acceptSelfAsserted = true) {
+  withSelfie(constraints = null, acceptSelfAsserted = null) {
     return this.withWantedAttributeByName(
       constants.ATTR_SELFIE,
       constraints,
@@ -216,7 +219,7 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
-  withDocumentDetails(constraints = null, acceptSelfAsserted = true) {
+  withDocumentDetails(constraints = null, acceptSelfAsserted = null) {
     return this.withWantedAttributeByName(
       constants.ATTR_DOCUMENT_DETAILS,
       constraints,
@@ -228,7 +231,7 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
-  withDocumentImages(constraints = null, acceptSelfAsserted = true) {
+  withDocumentImages(constraints = null, acceptSelfAsserted = null) {
     return this.withWantedAttributeByName(
       constants.ATTR_DOCUMENT_IMAGES,
       constraints,
@@ -240,7 +243,7 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
-  withEmail(constraints = null, acceptSelfAsserted = true) {
+  withEmail(constraints = null, acceptSelfAsserted = null) {
     return this.withWantedAttributeByName(
       constants.ATTR_EMAIL_ADDRESS,
       constraints,

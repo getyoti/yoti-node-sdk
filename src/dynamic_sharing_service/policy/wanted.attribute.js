@@ -2,7 +2,6 @@
 
 const Validation = require('../../yoti_common/validation');
 const Constraints = require('./constraints');
-const ConstraintsBuilder = require('./constraints.builder');
 
 /**
  * Defines the wanted attribute name and derivation.
@@ -16,22 +15,22 @@ module.exports = class WantedAttribute {
    * @param {boolean} acceptSelfAsserted
    * @param {Constraints} constraints
    */
-  constructor(name, derivation = '', acceptSelfAsserted = true, constraints = null) {
+  constructor(name, derivation = '', acceptSelfAsserted = null, constraints = null) {
     Validation.isString(name, 'name');
     this.name = name;
 
     Validation.isString(derivation, 'derivation');
     this.derivation = derivation;
 
-    Validation.isBoolean(acceptSelfAsserted, 'acceptSelfAsserted');
+    if (acceptSelfAsserted !== null) {
+      Validation.isBoolean(acceptSelfAsserted, 'acceptSelfAsserted');
+    }
     this.acceptSelfAsserted = acceptSelfAsserted;
 
-    if (constraints === null) {
-      this.constraints = new ConstraintsBuilder().build();
-    } else {
+    if (constraints !== null) {
       Validation.instanceOf(constraints, Constraints, 'constraints');
-      this.constraints = constraints;
     }
+    this.constraints = constraints;
   }
 
   /**
@@ -74,12 +73,20 @@ module.exports = class WantedAttribute {
    * @returns {Object} data for JSON.stringify()
    */
   toJSON() {
-    return {
+    const json = {
       name: this.getName(),
       derivation: this.getDerivation(),
       optional: false,
-      constraints: this.getConstraints(),
-      accept_self_asserted: this.getAcceptSelfAsserted(),
     };
+
+    if (this.getConstraints() instanceof Constraints) {
+      json.constraints = this.getConstraints();
+    }
+
+    if ((typeof this.getAcceptSelfAsserted()) === 'boolean') {
+      json.accept_self_asserted = this.getAcceptSelfAsserted();
+    }
+
+    return json;
   }
 };
