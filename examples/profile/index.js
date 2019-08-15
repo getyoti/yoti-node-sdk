@@ -56,7 +56,7 @@ router.get('/dynamic-share', (req, res) => {
     .build();
 
   const sourceConstraint = new Yoti.SourceConstraintBuilder()
-    .withDrivingLicence()
+    .withPassport()
     .withSoftPreference(false)
     .build();
 
@@ -77,7 +77,7 @@ router.get('/dynamic-share', (req, res) => {
   const dynamicPolicy = new Yoti.DynamicPolicyBuilder()
     .withWantedAttribute(givenNamesWantedAttribute)
     .withWantedAttribute(emailAddressWantedAttribute)
-    .withFullName()
+    .withFullName(constraints)
     .withSelfie()
     .withPhoneNumber()
     .withAgeOver(18)

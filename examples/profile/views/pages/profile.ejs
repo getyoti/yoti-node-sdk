@@ -10,6 +10,7 @@ const nationality = profile.getNationality();
 const gender = profile.getGender();
 const userSelfie = profile.getSelfie();
 const documentImages = profile.getDocumentImages();
+const documentDetails = profile.getDocumentDetails();
 const structuredPostalAddress = profile.getStructuredPostalAddress();
 
 const attributes = [
@@ -57,7 +58,12 @@ const attributes = [
     name: "Document Images",
     prop: documentImages,
     icon: "yoti-icon-profile"
-  }
+  },
+  {
+    name: "Document Details",
+    prop: documentDetails,
+    icon: "yoti-icon-profile"
+  },
 ]
 
 const ageVerifications = profile.getAgeVerifications();
@@ -141,6 +147,26 @@ if (ageVerifications) {
                     <% item.prop.getValue().forEach((image) => { %>
                       <img src="<%= image.getBase64Content() %>" />
                     <% }) %>
+                  <% break;
+                  case 'document_details': %>
+                  <table>
+                    <tr>
+                      <td>Type</td>
+                      <td><%= item.prop.getValue().getType() %></td>
+                    </tr>
+                    <tr>
+                      <td>Issuing Country</td>
+                      <td><%= item.prop.getValue().getIssuingCountry() %></td>
+                    </tr>
+                    <tr>
+                      <td>Document Number</td>
+                      <td><%= item.prop.getValue().getDocumentNumber() %></td>
+                    </tr>
+                    <tr>
+                      <td>Expiration Date</td>
+                      <td><%= item.prop.getValue().getExpirationDate() %></td>
+                    </tr>
+                  </table>
                   <% break;
                   case 'structured_postal_address': %>
                   <table>
