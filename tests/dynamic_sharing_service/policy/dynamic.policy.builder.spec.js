@@ -63,6 +63,8 @@ describe('DynamicPolicyBuilder', () => {
       .withPhoneNumber()
       .withSelfie()
       .withEmail()
+      .withDocumentDetails()
+      .withDocumentImages()
       .build();
 
     const expectedWantedAttributeData = [
@@ -138,6 +140,20 @@ describe('DynamicPolicyBuilder', () => {
       },
       {
         name: 'email_address',
+        derivation: '',
+        optional: false,
+        constraints: [],
+        accept_self_asserted: true,
+      },
+      {
+        name: 'document_details',
+        derivation: '',
+        optional: false,
+        constraints: [],
+        accept_self_asserted: true,
+      },
+      {
+        name: 'document_images',
         derivation: '',
         optional: false,
         constraints: [],

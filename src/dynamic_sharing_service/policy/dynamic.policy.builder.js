@@ -216,6 +216,30 @@ module.exports = class DynamicPolicyBuilder {
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
+  withDocumentDetails(constraints = null, acceptSelfAsserted = true) {
+    return this.withWantedAttributeByName(
+      constants.ATTR_DOCUMENT_DETAILS,
+      constraints,
+      acceptSelfAsserted
+    );
+  }
+
+  /**
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
+   */
+  withDocumentImages(constraints = null, acceptSelfAsserted = true) {
+    return this.withWantedAttributeByName(
+      constants.ATTR_DOCUMENT_IMAGES,
+      constraints,
+      acceptSelfAsserted
+    );
+  }
+
+  /**
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
+   */
   withEmail(constraints = null, acceptSelfAsserted = true) {
     return this.withWantedAttributeByName(
       constants.ATTR_EMAIL_ADDRESS,
