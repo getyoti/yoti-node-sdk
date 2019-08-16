@@ -103,6 +103,34 @@
     "sources": [],
     "verifiers": []
   },
+  "age_under:18":
+  {
+    "name": "age_under:18",
+    "value": "false",
+    "sources": [],
+    "verifiers": []
+  },
+  "age_under:21":
+  {
+    "name": "age_under:21",
+    "value": "true",
+    "sources": [],
+    "verifiers": []
+  },
+  "age_over:18":
+  {
+    "name": "age_over:18",
+    "value": "true",
+    "sources": [],
+    "verifiers": []
+  },
+  "age_over:21":
+  {
+    "name": "age_over:21",
+    "value": "false",
+    "sources": [],
+    "verifiers": []
+  },
   "document_images":
   {
     "name": "document_images",
