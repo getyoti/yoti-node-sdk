@@ -4,7 +4,6 @@ const givenNames = profile.getGivenNames();
 const familyName = profile.getFamilyName();
 const phoneNumber = profile.getPhoneNumber();
 const dateOfBirth = profile.getDateOfBirth();
-const ageCondition = profile.getAgeVerified();
 const postalAddress = profile.getPostalAddress();
 const emailAddress = profile.getEmailAddress();
 const nationality = profile.getNationality();
@@ -40,12 +39,6 @@ const attributes = [
     icon: "yoti-icon-calendar"
   },
   {
-    name: "Age verified",
-    preValue: "Age Verification/",
-    prop: ageCondition,
-    icon: "yoti-icon-verified"
-  },
-  {
     name: "Address",
     prop: postalAddress,
     icon: "yoti-icon-address"
@@ -66,6 +59,18 @@ const attributes = [
     icon: "yoti-icon-profile"
   }
 ]
+
+const ageVerifications = profile.getAgeVerifications();
+if (ageVerifications) {
+  ageVerifications.forEach(ageVerification => {
+    attributes.push({
+      name: 'Age Verification',
+      prop: ageVerification.getAttribute(),
+      age_verification: ageVerification,
+      icon: "yoti-icon-verified"
+    });
+  });
+}
 %>
 <!DOCTYPE html>
 <html class="yoti-html">
@@ -148,8 +153,25 @@ const attributes = [
                     <% }) %>
                   </table>
                   <% break;
-                  default: %>
-                    <%= item.prop.getValue() %>
+                  default:
+                    if (item.age_verification) { %>
+                      <table>
+                        <tr>
+                          <td>Check Type</td>
+                          <td><%= item.age_verification.getCheckType() %></td>
+                        </tr>
+                        <tr>
+                          <td>Age</td>
+                          <td><%= item.age_verification.getAge() %></td>
+                        </tr>
+                        <tr>
+                          <td>Result</td>
+                          <td><%= item.age_verification.getResult() %></td>
+                        </tr>
+                      </table>
+                    <% } else { %>
+                      <%= item.prop.getValue() %>
+                    <% } %>
               <% } %>
             </div>
           </div>

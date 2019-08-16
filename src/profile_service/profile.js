@@ -2,6 +2,8 @@
 
 const constants = require('../yoti_common/constants');
 const { BaseProfile } = require('./base.profile');
+const { AgeVerification } = require('../data_type/age.verification');
+const Validation = require('../yoti_common/validation');
 
 /**
  * Profile of a human user with convenience methods to access well-known attributes.
@@ -48,10 +50,80 @@ class Profile extends BaseProfile {
   /**
    * Did the user pass the age verification check?
    *
+   * @deprecated use getAgeVerifications(), findAgeOverVerification(age)
+   * or findAgeUnderVerification(age)
+   *
    * @returns {null|Attribute}
    */
   getAgeVerified() {
     return this.getAttribute(constants.ATTR_AGE_VERIFIED);
+  }
+
+  /**
+   * Finds all the 'Age Over' and 'Age Under' derived attributes returned with the profile,
+   * and returns them wrapped in AgeVerification objects
+   *
+   * @returns {Array}
+   */
+  getAgeVerifications() {
+    this.findAllAgeVerifications();
+    return Object.keys(this.ageVerifications).reduce((acc, current) => {
+      acc.push(this.ageVerifications[current]);
+      return acc;
+    }, []);
+  }
+
+  /**
+   * Searches for an AgeVerification corresponding to an 'Age Over' check for the given age
+   *
+   * @param {int} age
+   *
+   * @returns {AgeVerification|null}
+   */
+  findAgeOverVerification(age) {
+    return this.findAgeVerification(constants.ATTR_AGE_OVER, age);
+  }
+
+  /**
+   * Searches for an AgeVerification corresponding to an 'Age Under' check for the given age.
+   *
+   * @param {int} age
+   *
+   * @returns {AgeVerification|null}
+   */
+  findAgeUnderVerification(age) {
+    return this.findAgeVerification(constants.ATTR_AGE_UNDER, age);
+  }
+
+  /**
+   * Searches for an AgeVerification corresponding to provided type and age.
+   *
+   * @param {string} type
+   * @param {int} age
+   *
+   * @returns {AgeVerification|null}
+   */
+  findAgeVerification(type, age) {
+    Validation.isString(type);
+    Validation.isInteger(age);
+    this.findAllAgeVerifications();
+    return this.ageVerifications[type + age] || null;
+  }
+
+  /**
+   * Find all age verifications and put in key value object.
+   */
+  findAllAgeVerifications() {
+    if (this.ageVerifications) {
+      return;
+    }
+    this.ageVerifications = {};
+    this.findAttributesStartingWith(constants.ATTR_AGE_OVER).forEach((attribute) => {
+      this.ageVerifications[attribute.getName()] = new AgeVerification(attribute);
+    });
+    this.findAttributesStartingWith(constants.ATTR_AGE_UNDER).forEach((attribute) => {
+      this.ageVerifications[attribute.getName()] = new AgeVerification(attribute);
+    });
   }
 
   /**

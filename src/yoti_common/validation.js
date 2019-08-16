@@ -142,6 +142,20 @@ module.exports = class Validation {
   }
 
   /**
+   * @param {string} value
+   * @param {RegExp} regexp
+   * @param {string} name
+   *
+   * @throws {RangeError}
+   */
+  static matchesPattern(value, regexp, name) {
+    this.instanceOf(regexp, RegExp, 'regexp');
+    if (value === null || !regexp.test(value)) {
+      throw new TypeError(`'${name}' value '${value}' does not match format '${regexp.toString()}'`);
+    }
+  }
+
+  /**
    * @param {*} value
    * @param {*} minLimit
    * @param {*} maxLimit

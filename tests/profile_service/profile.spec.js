@@ -17,6 +17,19 @@ YotiAnchor.prototype = {
   getOriginServerCerts() { return this.originServerCerts; },
 };
 
+/**
+ * Create a test attribute.
+ *
+ * @param {string} name
+ * @param {string} value
+ */
+const createAttribute = (name, value) => new Attribute({
+  name,
+  value,
+  sources: [],
+  verifiers: [],
+});
+
 let profileData = fs.readFileSync('./tests/sample-data/profile-service/profile.json', 'utf8');
 profileData = JSON.parse(profileData);
 
@@ -114,12 +127,74 @@ describe('Profile', () => {
   describe('#getAttributes', () => {
     it('should return all attributes', () => {
       const attributes = profileObj.getAttributes();
-      expect(Object.keys(attributes).length).to.be.equal(12);
+      expect(Object.keys(attributes).length).to.be.equal(16);
       Object.keys(attributes).forEach((attributeName) => {
         expect(attributes[attributeName]).to.instanceOf(Attribute);
       });
       expect(attributes.gender.getName()).to.equal('gender');
       expect(attributes.gender.getValue()).to.equal('TEST MALE');
+    });
+  });
+
+  describe('#getAgeVerifications', () => {
+    it('should only find age derived attributes', () => {
+      const expectedAgeAttributes = [
+        createAttribute('age_under:18', 'false'),
+        createAttribute('age_under:21', 'true'),
+        createAttribute('age_over:18', 'true'),
+        createAttribute('age_over:21', 'false'),
+      ];
+      const ageVerifications = profileObj.getAgeVerifications();
+
+      expect(ageVerifications).to.be.instanceOf(Array);
+      expect(ageVerifications).to.be.length(4);
+
+      ageVerifications.forEach((ageVerification) => {
+        expect(expectedAgeAttributes).to.include(ageVerification.getAttribute());
+      });
+    });
+
+    it('should return an empty array when there are no age verifications', () => {
+      const emptyProfile = new Profile();
+      const ageVerifications = emptyProfile.getAgeVerifications();
+      expect(ageVerifications).to.be.instanceOf(Array);
+      expect(ageVerifications).to.be.length(0);
+    });
+  });
+  describe('#findAgeUnderVerification', () => {
+    it('should find unsuccessful age under verification', () => {
+      const verification = profileObj.findAgeUnderVerification(18);
+      expect(verification.getAge()).to.equal(18);
+      expect(verification.getCheckType()).to.equal('age_under');
+      expect(verification.getResult()).to.equal(false);
+    });
+    it('should find successful age under verification', () => {
+      const verification = profileObj.findAgeUnderVerification(21);
+      expect(verification.getAge()).to.equal(21);
+      expect(verification.getCheckType()).to.equal('age_under');
+      expect(verification.getResult()).to.equal(true);
+    });
+    it('should return NULL for no match', () => {
+      const verification = profileObj.findAgeUnderVerification(100);
+      expect(verification).to.equal(null);
+    });
+  });
+  describe('#findAgeOverVerification', () => {
+    it('should find successful age over verification', () => {
+      const verification = profileObj.findAgeOverVerification(18);
+      expect(verification.getAge()).to.equal(18);
+      expect(verification.getCheckType()).to.equal('age_over');
+      expect(verification.getResult()).to.equal(true);
+    });
+    it('should find unsuccessful age over verification', () => {
+      const verification = profileObj.findAgeOverVerification(21);
+      expect(verification.getAge()).to.equal(21);
+      expect(verification.getCheckType()).to.equal('age_over');
+      expect(verification.getResult()).to.equal(false);
+    });
+    it('should return NULL for no match', () => {
+      const verification = profileObj.findAgeOverVerification(100);
+      expect(verification).to.equal(null);
     });
   });
 });
