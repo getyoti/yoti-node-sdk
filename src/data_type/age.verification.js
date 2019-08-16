@@ -22,8 +22,9 @@ class AgeVerification {
   }
 
   /**
-   * The type of age check performed, as specified on Yoti Hub. Currently this might
-   * be 'age_over' or 'age_under'.
+   * The type of age check performed, as specified on Yoti Hub.
+   *
+   * Among the possible values are 'age_over' and 'age_under'.
    *
    * @returns {string}
    */
