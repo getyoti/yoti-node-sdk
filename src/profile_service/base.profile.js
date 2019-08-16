@@ -59,8 +59,9 @@ class BaseProfile {
    */
   findAttributesStartingWith(name) {
     Validation.isString(name, 'name');
-    return Object
-      .values(this.getAttributes())
+
+    return Object.keys(this.getAttributes())
+      .map(key => this.getAttributes()[key])
       .filter(attribute => attribute.getName().startsWith(name));
   }
 
