@@ -105,6 +105,8 @@ module.exports = class DynamicPolicyBuilder {
 
   /**
    * @param {int} age
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
    */
   withAgeOver(age, constraints = null, acceptSelfAsserted = null) {
     Validation.isInteger(age, 'age');
@@ -117,6 +119,8 @@ module.exports = class DynamicPolicyBuilder {
 
   /**
    * @param {int} age
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
    */
   withAgeUnder(age, constraints = null, acceptSelfAsserted = null) {
     Validation.isInteger(age, 'age');
@@ -129,6 +133,8 @@ module.exports = class DynamicPolicyBuilder {
 
   /**
    * @param {string} derivation
+   * @param {Constraints} constraints
+   * @param {boolean} acceptSelfAsserted
    */
   withAgeDerivedAttribute(derivation, constraints = null, acceptSelfAsserted = null) {
     const wantedAttributeBuilder = new WantedAttributeBuilder()
@@ -267,6 +273,7 @@ module.exports = class DynamicPolicyBuilder {
 
   /**
    * @param {integer} wantedAuthType
+   * @param {boolean} enabled
    */
   withWantedAuthType(wantedAuthType, enabled = true) {
     if (enabled) {
