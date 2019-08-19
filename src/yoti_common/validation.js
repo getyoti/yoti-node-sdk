@@ -146,7 +146,7 @@ module.exports = class Validation {
    * @param {RegExp} regexp
    * @param {string} name
    *
-   * @throws {RangeError}
+   * @throws {TypeError}
    */
   static matchesPattern(value, regexp, name) {
     this.instanceOf(regexp, RegExp, 'regexp');
