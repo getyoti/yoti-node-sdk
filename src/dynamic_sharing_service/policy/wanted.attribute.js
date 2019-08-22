@@ -52,7 +52,10 @@ module.exports = class WantedAttribute {
   }
 
   /**
-   * List of constraints.
+   * List of constraints to add to an attribute.
+   *
+   * If you do not provide any particular constraints, Yoti will provide you with the
+   * information from the most recently added source.
    *
    * @returns {Constraints}
    */
@@ -61,7 +64,9 @@ module.exports = class WantedAttribute {
   }
 
   /**
-   * Accept self asserted.
+   * Accept self asserted attributes.
+   *
+   * These are attributes that have been self-declared, and not verified by Yoti.
    *
    * @returns {boolean}
    */
