@@ -3,10 +3,10 @@
 const SourceConstraint = require('./source.constraint');
 const WantedAnchorBuilder = require('./wanted.anchor.builder');
 
-const ANCHOR_PASSPORT = 'PASSPORT';
-const ANCHOR_DRIVING_LICENSE = 'DRIVING_LICENCE';
-const ANCHOR_NATIONAL_ID = 'NATIONAL_ID';
-const ANCHOR_PASSCARD = 'PASS_CARD';
+const ANCHOR_VALUE_PASSPORT = 'PASSPORT';
+const ANCHOR_VALUE_DRIVING_LICENSE = 'DRIVING_LICENCE';
+const ANCHOR_VALUE_NATIONAL_ID = 'NATIONAL_ID';
+const ANCHOR_VALUE_PASSCARD = 'PASS_CARD';
 
 /**
  * Builder for SourceConstraint.
@@ -55,28 +55,28 @@ module.exports = class SourceConstraintBuilder {
    * @param {string} subType
    */
   withPassport(subType = '') {
-    return this.withAnchorByValue(ANCHOR_PASSPORT, subType);
+    return this.withAnchorByValue(ANCHOR_VALUE_PASSPORT, subType);
   }
 
   /**
    * @param {string} subType
    */
   withDrivingLicence(subType = '') {
-    return this.withAnchorByValue(ANCHOR_DRIVING_LICENSE, subType);
+    return this.withAnchorByValue(ANCHOR_VALUE_DRIVING_LICENSE, subType);
   }
 
   /**
    * @param {string} subType
    */
   withNationalId(subType = '') {
-    return this.withAnchorByValue(ANCHOR_NATIONAL_ID, subType);
+    return this.withAnchorByValue(ANCHOR_VALUE_NATIONAL_ID, subType);
   }
 
   /**
    * @param {string} subType
    */
   withPasscard(subType = '') {
-    return this.withAnchorByValue(ANCHOR_PASSCARD, subType);
+    return this.withAnchorByValue(ANCHOR_VALUE_PASSCARD, subType);
   }
 
   /**
