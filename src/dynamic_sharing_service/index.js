@@ -1,7 +1,7 @@
 'use strict';
 
-const httpRequest = require('../request');
 const { Payload } = require('../request/payload');
+const yotiRequest = require('../request');
 
 const DynamicScenarioBuilder = require('./dynamic.scenario.builder');
 const DynamicScenario = require('./dynamic.scenario');
@@ -26,15 +26,13 @@ const Validation = require('../yoti_common/validation');
  * @returns {Promise} containing a ShareUrlResult
  */
 const createShareUrl = (dynamicScenario, pem, appId) => {
-  const endPoint = `/qrcodes/apps/${appId}`;
-  const httpMethod = 'POST';
-
   Validation.instanceOf(dynamicScenario, DynamicScenario, 'dynamicScenario');
 
   const payload = new Payload(dynamicScenario);
+  const connectApi = yotiRequest.buildConnectApiRequest(pem);
 
   return new Promise((resolve, reject) => {
-    httpRequest.makeRequest(httpMethod, endPoint, pem, appId, payload)
+    connectApi.post(`/qrcodes/apps/${appId}`, payload, { appId })
       .then((response) => {
         try {
           const parsedResponse = response.getParsedResponse();

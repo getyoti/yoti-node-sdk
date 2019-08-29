@@ -1,8 +1,9 @@
 'use strict';
 
 const Client = require('./src/client').YotiClient;
-const AmlAddress = require('./src/aml_type').AmlAddress;
-const AmlProfile = require('./src/aml_type').AmlProfile;
+const { AmlAddress } = require('./src/aml_type');
+const { AmlProfile } = require('./src/aml_type');
+const { RequestBuilder } = require('./src/request/request.builder');
 
 const {
   DynamicScenarioBuilder,
@@ -29,4 +30,5 @@ module.exports = {
   WantedAnchorBuilder,
   ConstraintsBuilder,
   SourceConstraintBuilder,
+  RequestBuilder,
 };

@@ -2,10 +2,24 @@
 
 const config = require('../../config');
 
-const { SignedRequest } = require('./signed.request');
+const { RequestBuilder } = require('./request.builder');
+
+/**
+ * Builds a Connect API request object.
+ *
+ * @param {string} pem
+ *
+ * @returns {SignedRequest}
+ */
+module.exports.buildConnectApiRequest = pem => new RequestBuilder()
+  .withBaseUrl(config.yoti.connectApi)
+  .withPemString(pem)
+  .build();
 
 /**
  * Make a signed request.
+ *
+ * @deprecated will be removed in version 4 - use buildConnectApiRequest()
  *
  * @param {string} httpMethod
  * @param {string} endpoint
@@ -16,6 +30,6 @@ const { SignedRequest } = require('./signed.request');
  * @returns {Promise}
  */
 module.exports.makeRequest = (httpMethod, endpoint, pem, appId, payload) => {
-  const signedRequest = new SignedRequest(config.yoti.connectApi, pem);
-  return signedRequest.sendRequest(endpoint, httpMethod, payload, { appId });
+  const connectApi = this.buildConnectApiRequest(pem);
+  return connectApi.sendRequest(endpoint, httpMethod, payload, { appId });
 };
