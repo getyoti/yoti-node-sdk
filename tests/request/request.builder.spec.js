@@ -3,7 +3,7 @@ const nock = require('nock');
 const fs = require('fs');
 
 const { SignedRequest } = require('../../src/request/signed.request');
-const { RequestBuilder } = require('../../src/request/request.builder');
+const { RequestBuilder } = require('../../');
 
 const PEM_FILE_PATH = './tests/sample-data/keys/node-sdk-test.pem';
 const PEM_STRING = fs.readFileSync(PEM_FILE_PATH, 'utf8');
