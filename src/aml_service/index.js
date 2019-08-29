@@ -1,6 +1,6 @@
 'use strict';
 
-const httpRequest = require('../request');
+const yotiRequest = require('../request');
 const AmlResultClass = require('../request/aml.result').AmlResult;
 const Payload = require('../request/payload').Payload;
 const constants = require('../yoti_common/constants');
@@ -32,17 +32,15 @@ AmlResult.prototype = {
 };
 
 module.exports.performAmlCheck = (amlProfile, pem, appId) => {
-  const endpoint = '/aml-check';
-  const httpMethod = 'POST';
-
   if (!amlProfile) {
     throw new Error('Error - AmlProfile should be an object of Type/AmlProfile');
   }
 
   const payload = new Payload(amlProfile.getData());
+  const connectApi = yotiRequest.buildConnectApiRequest(pem);
 
   return new Promise((resolve, reject) => {
-    httpRequest.makeRequest(httpMethod, endpoint, pem, appId, payload)
+    connectApi.post('/aml-check', payload, { appId })
       .then((response) => {
         try {
           const parsedResponse = response.getParsedResponse();

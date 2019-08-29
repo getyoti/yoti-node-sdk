@@ -3,6 +3,7 @@
 const superagent = require('superagent');
 const uuid = require('uuid');
 const yotiCommon = require('../yoti_common');
+const Validation = require('../yoti_common/validation');
 const yotiPackage = require('../../package.json');
 const { Payload } = require('./payload');
 
@@ -47,18 +48,15 @@ class YotiResponse {
 }
 
 /**
- * Merge provided query params and build a query string.
+ * Build a query string.
  *
  * @param {Object.<string, string>} queryParams
- * @param {Object.<string, string>} defaultQueryParams
  *
  * @returns {string}
  */
-const buildQueryString = (queryParams, defaultQueryParams) => {
-  const allQueryParams = Object.assign(queryParams, defaultQueryParams);
-  return Object.keys(allQueryParams)
-    .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(allQueryParams[k])}`).join('&');
-};
+const buildQueryString = queryParams => Object.keys(queryParams)
+  .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(queryParams[k])}`)
+  .join('&');
 
 /**
  * Make signed requests to Yoti endpoints.
@@ -71,7 +69,10 @@ class SignedRequest {
    * @param {string} pem
    */
   constructor(apiUrl, pem) {
+    Validation.isString(apiUrl, 'apiUrl');
     this.apiUrl = apiUrl;
+
+    Validation.isString(pem, 'pem');
     this.pem = pem;
   }
 
@@ -97,10 +98,13 @@ class SignedRequest {
     }
 
     // Merge provided query params with nonce and timestamp.
-    const queryString = buildQueryString(queryParams, {
-      nonce: uuid.v4(),
-      timestamp: Date.now(),
-    });
+    const queryString = buildQueryString(Object.assign(
+      queryParams || {},
+      {
+        nonce: uuid.v4(),
+        timestamp: Date.now(),
+      }
+    ));
 
     return new Promise((resolve, reject) => {
       const endpointPath = `${endpoint}?${queryString}`;
