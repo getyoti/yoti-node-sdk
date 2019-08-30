@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const nock = require('nock');
 const fs = require('fs');
 
-const { SignedRequest } = require('../../src/request/signed.request');
+const { Request } = require('../../src/request/request');
 const { RequestBuilder } = require('../../');
 
 const PEM_FILE_PATH = './tests/sample-data/keys/node-sdk-test.pem';
@@ -13,13 +13,13 @@ const API_ENDPOINT = '/some-endpoint';
 /**
  * Assert that the signed request was built correctly.
  *
- * @param {SignedRequest} signedRequest
+ * @param {Request} request
  */
-const assertExpectedSignedRequest = (signedRequest, done) => {
-  expect(signedRequest).to.be.instanceOf(SignedRequest);
+const assertExpectedRequest = (request, done) => {
+  expect(request).to.be.instanceOf(Request);
 
   // Check that auth headers are present.
-  signedRequest
+  request
     .get(API_ENDPOINT)
     .then((response) => {
       const headers = response.getParsedResponse().headers;
@@ -43,22 +43,22 @@ describe('RequestBuilder', () => {
       done();
     });
 
-    it('should build a SignedRequest with pem string', (done) => {
-      const signedRequest = new RequestBuilder()
+    it('should build a Request with pem string', (done) => {
+      const request = new RequestBuilder()
         .withBaseUrl(API_BASE_URL)
         .withPemString(PEM_STRING)
         .build();
 
-      assertExpectedSignedRequest(signedRequest, done);
+      assertExpectedRequest(request, done);
     });
 
-    it('should build a SignedRequest with pem file path', (done) => {
-      const signedRequest = new RequestBuilder()
+    it('should build a Request with pem file path', (done) => {
+      const request = new RequestBuilder()
         .withBaseUrl(API_BASE_URL)
         .withPemFilePath(PEM_FILE_PATH)
         .build();
 
-      assertExpectedSignedRequest(signedRequest, done);
+      assertExpectedRequest(request, done);
     });
 
     it('should require a PEM string or file', () => {
