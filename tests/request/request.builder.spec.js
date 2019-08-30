@@ -15,14 +15,21 @@ const API_ENDPOINT = '/some-endpoint';
  *
  * @param {SignedRequest} signedRequest
  */
-const assertExpectedSignedRequest = async (signedRequest) => {
+const assertExpectedSignedRequest = (signedRequest, done) => {
   expect(signedRequest).to.be.instanceOf(SignedRequest);
 
   // Check that auth headers are present.
-  const response = await signedRequest.get(API_ENDPOINT);
-  const headers = response.getParsedResponse().headers;
-  expect(headers['x-yoti-auth-key']).to.not.equal(null);
-  expect(headers['x-yoti-auth-digest']).to.not.equal(null);
+  signedRequest
+    .get(API_ENDPOINT)
+    .then((response) => {
+      const headers = response.getParsedResponse().headers;
+      expect(headers['x-yoti-auth-key']).to.be.a('string');
+      expect(headers['x-yoti-auth-digest']).to.be.a('string');
+      expect(headers['x-yoti-sdk']).to.be.a('string');
+      expect(headers['x-yoti-sdk-version']).to.be.a('string');
+      done();
+    })
+    .catch(done);
 };
 
 describe('RequestBuilder', () => {
@@ -36,22 +43,22 @@ describe('RequestBuilder', () => {
       done();
     });
 
-    it('should build a SignedRequest with pem string', () => {
+    it('should build a SignedRequest with pem string', (done) => {
       const signedRequest = new RequestBuilder()
         .withBaseUrl(API_BASE_URL)
         .withPemString(PEM_STRING)
         .build();
 
-      assertExpectedSignedRequest(signedRequest);
+      assertExpectedSignedRequest(signedRequest, done);
     });
 
-    it('should build a SignedRequest with pem file path', () => {
+    it('should build a SignedRequest with pem file path', (done) => {
       const signedRequest = new RequestBuilder()
         .withBaseUrl(API_BASE_URL)
         .withPemFilePath(PEM_FILE_PATH)
         .build();
 
-      assertExpectedSignedRequest(signedRequest);
+      assertExpectedSignedRequest(signedRequest, done);
     });
 
     it('should require a PEM string or file', () => {

@@ -17,7 +17,7 @@ const API_ENDPOINT = '/test-headers';
  *
  * @param {YotiResponse} response
  */
-const assertCorrectHeaders = (response) => {
+const assertCorrectHeaders = (response, done) => {
   const sentHeaders = response.getParsedResponse().headers;
 
   const expectedHeaders = {
@@ -41,6 +41,8 @@ const assertCorrectHeaders = (response) => {
     const sentHeader = sentHeaders[header.toLowerCase()];
     expect(sentHeader).to.match(expectedMatchHeaders[header], header);
   });
+
+  done();
 };
 
 /**
@@ -66,35 +68,43 @@ describe('SignedRequest', () => {
   });
   describe('#sendRequest', () => {
     context('when making a GET API request', () => {
-      it('should have the correct request headers', async () => {
+      it('should have the correct request headers', (done) => {
         const signedRequest = new SignedRequest(API_BASE_URL, PEM_STRING);
-        const response = await signedRequest.sendRequest(API_ENDPOINT, 'GET', new Payload(''));
-        assertCorrectHeaders(response);
+        signedRequest
+          .sendRequest(API_ENDPOINT, 'GET', new Payload(''))
+          .then(response => assertCorrectHeaders(response, done))
+          .catch(done);
       });
     });
     context('when making a POST API request', () => {
-      it('should have the correct request headers', async () => {
+      it('should have the correct request headers', (done) => {
         const signedRequest = new SignedRequest(API_BASE_URL, PEM_STRING);
-        const response = await signedRequest.sendRequest(API_ENDPOINT, 'POST', new Payload(''));
-        assertCorrectHeaders(response);
+        signedRequest
+          .sendRequest(API_ENDPOINT, 'POST', new Payload(''))
+          .then(response => assertCorrectHeaders(response, done))
+          .catch(done);
       });
     });
   });
   describe('#post', () => {
     context('when making an API request', () => {
-      it('should have the correct request headers', async () => {
+      it('should have the correct request headers', (done) => {
         const signedRequest = new SignedRequest(API_BASE_URL, PEM_STRING);
-        const response = await signedRequest.post(API_ENDPOINT, new Payload(''));
-        assertCorrectHeaders(response);
+        signedRequest
+          .post(API_ENDPOINT, new Payload(''))
+          .then(response => assertCorrectHeaders(response, done))
+          .catch(done);
       });
     });
   });
   describe('#get', () => {
     context('when making an API request', () => {
-      it('should have the correct request headers', async () => {
+      it('should have the correct request headers', (done) => {
         const signedRequest = new SignedRequest(API_BASE_URL, PEM_STRING);
-        const response = await signedRequest.get(API_ENDPOINT, new Payload(''));
-        assertCorrectHeaders(response);
+        signedRequest
+          .get(API_ENDPOINT)
+          .then(response => assertCorrectHeaders(response, done))
+          .catch(done);
       });
     });
   });
