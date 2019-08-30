@@ -20,11 +20,7 @@ const config = {
 function saveImage(selfie) {
   return new Promise((res, rej) => {
     try {
-      fs.writeFileSync(
-        path.join(__dirname, 'static', 'YotiSelfie.jpeg'),
-        selfie.toBase64(),
-        'base64',
-      );
+      fs.writeFileSync(path.join(__dirname, 'static', 'YotiSelfie.jpeg'), selfie.toBase64(), 'base64');
       res();
     } catch (error) {
       rej(error);

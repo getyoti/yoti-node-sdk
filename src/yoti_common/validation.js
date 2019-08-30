@@ -102,7 +102,7 @@ module.exports = class Validation {
 
   /**
    * @param {*} values
-   * @param {Array} type
+   * @param {Array} types
    * @param {string} name
    *
    * @throws {TypeError}
