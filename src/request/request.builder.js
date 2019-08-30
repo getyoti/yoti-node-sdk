@@ -2,6 +2,7 @@
 
 const { Request } = require('./request');
 const fs = require('fs');
+const Validation = require('../yoti_common/validation');
 
 /**
  * Builds a request.
@@ -9,6 +10,13 @@ const fs = require('fs');
  * @class RequestBuilder
  */
 class RequestBuilder {
+  /**
+   * Set initial properties.
+   */
+  constructor() {
+    this.headers = {};
+  }
+
   /**
    * @param {string} baseUrl
    *
@@ -40,6 +48,20 @@ class RequestBuilder {
   }
 
   /**
+   * @param {string} name
+   * @param {string} value
+   *
+   * @returns {RequestBuilder}
+   */
+  withHeader(name, value) {
+    Validation.isString(name, 'Header name');
+    Validation.isString(value, `'${name}' header`);
+
+    this.headers[name] = value;
+    return this;
+  }
+
+  /**
    * @returns {SignedRequest}
    */
   build() {
@@ -49,7 +71,13 @@ class RequestBuilder {
     if (!this.pem) {
       throw new Error('PEM file path or string must be provided');
     }
-    return new Request(this.baseUrl, this.pem);
+
+    const request = new Request(this.baseUrl, this.pem);
+
+    // Set custom headers.
+    request.setHeaders(this.headers);
+
+    return request;
   }
 }
 

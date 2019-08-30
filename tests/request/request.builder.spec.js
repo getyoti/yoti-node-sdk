@@ -76,5 +76,47 @@ describe('RequestBuilder', () => {
           .build();
       }).to.throw(Error, 'Base URL must be specified');
     });
+
+    it('should build with valid headers', (done) => {
+      const request = new RequestBuilder()
+        .withBaseUrl(API_BASE_URL)
+        .withPemFilePath(PEM_FILE_PATH)
+        .withHeader('Custom-1', 'value 1')
+        .withHeader('Custom-2', 'value 2')
+        .build();
+
+      request
+        .get(API_ENDPOINT)
+        .then((response) => {
+          const headers = response.getParsedResponse().headers;
+          expect(headers['custom-1']).to.eql('value 1');
+          expect(headers['custom-2']).to.eql('value 2');
+          done();
+        })
+        .catch(done);
+    });
+  });
+  describe('#withHeader', () => {
+    it('should only accept string header value', () => {
+      expect(() => {
+        new RequestBuilder()
+          .withBaseUrl(API_BASE_URL)
+          .withPemFilePath(PEM_FILE_PATH)
+          .withHeader('Custom-1', 'valid header')
+          .withHeader('Custom-2', ['invalid header'])
+          .build();
+      }).to.throw(TypeError, "'Custom-2' header must be a string");
+    });
+
+    it('should only accept string header name', () => {
+      expect(() => {
+        new RequestBuilder()
+          .withBaseUrl(API_BASE_URL)
+          .withPemFilePath(PEM_FILE_PATH)
+          .withHeader('Valid-Name', 'value')
+          .withHeader(['Invalid-Name'], 'value')
+          .build();
+      }).to.throw(TypeError, 'Header name must be a string');
+    });
   });
 });
