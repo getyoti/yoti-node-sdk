@@ -1,6 +1,6 @@
 'use strict';
 
-const { SignedRequest } = require('./signed.request');
+const { Request } = require('./request');
 const fs = require('fs');
 
 /**
@@ -49,7 +49,7 @@ class RequestBuilder {
     if (!this.pem) {
       throw new Error('PEM file path or string must be provided');
     }
-    return new SignedRequest(this.baseUrl, this.pem);
+    return new Request(this.baseUrl, this.pem);
   }
 }
 

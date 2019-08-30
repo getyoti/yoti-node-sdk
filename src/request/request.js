@@ -61,9 +61,9 @@ const buildQueryString = queryParams => Object.keys(queryParams)
 /**
  * Make signed requests to Yoti endpoints.
  *
- * @class SignedRequest
+ * @class Request
  */
-class SignedRequest {
+class Request {
   /**
    * @param {string} apiUrl
    * @param {string} pem
@@ -174,5 +174,5 @@ class SignedRequest {
 }
 
 module.exports = {
-  SignedRequest,
+  Request,
 };

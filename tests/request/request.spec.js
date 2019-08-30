@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const nock = require('nock');
 const fs = require('fs');
 
-const { SignedRequest } = require('../../src/request/signed.request');
+const { Request } = require('../../src/request/request');
 const { Payload } = require('../../src/request/payload');
 
 const yotiPackage = require('../../package.json');
@@ -54,7 +54,7 @@ function requestDetails() {
   return { headers: this.req.headers };
 }
 
-describe('SignedRequest', () => {
+describe('Request', () => {
   beforeEach((done) => {
     nock(API_BASE_URL)
       .get(new RegExp(`^${API_ENDPOINT}?`))
@@ -69,8 +69,8 @@ describe('SignedRequest', () => {
   describe('#sendRequest', () => {
     context('when making a GET API request', () => {
       it('should have the correct request headers', (done) => {
-        const signedRequest = new SignedRequest(API_BASE_URL, PEM_STRING);
-        signedRequest
+        const request = new Request(API_BASE_URL, PEM_STRING);
+        request
           .sendRequest(API_ENDPOINT, 'GET', new Payload(''))
           .then(response => assertCorrectHeaders(response, done))
           .catch(done);
@@ -78,8 +78,8 @@ describe('SignedRequest', () => {
     });
     context('when making a POST API request', () => {
       it('should have the correct request headers', (done) => {
-        const signedRequest = new SignedRequest(API_BASE_URL, PEM_STRING);
-        signedRequest
+        const request = new Request(API_BASE_URL, PEM_STRING);
+        request
           .sendRequest(API_ENDPOINT, 'POST', new Payload(''))
           .then(response => assertCorrectHeaders(response, done))
           .catch(done);
@@ -89,8 +89,8 @@ describe('SignedRequest', () => {
   describe('#post', () => {
     context('when making an API request', () => {
       it('should have the correct request headers', (done) => {
-        const signedRequest = new SignedRequest(API_BASE_URL, PEM_STRING);
-        signedRequest
+        const request = new Request(API_BASE_URL, PEM_STRING);
+        request
           .post(API_ENDPOINT, new Payload(''))
           .then(response => assertCorrectHeaders(response, done))
           .catch(done);
@@ -100,8 +100,8 @@ describe('SignedRequest', () => {
   describe('#get', () => {
     context('when making an API request', () => {
       it('should have the correct request headers', (done) => {
-        const signedRequest = new SignedRequest(API_BASE_URL, PEM_STRING);
-        signedRequest
+        const request = new Request(API_BASE_URL, PEM_STRING);
+        request
           .get(API_ENDPOINT)
           .then(response => assertCorrectHeaders(response, done))
           .catch(done);
@@ -110,11 +110,11 @@ describe('SignedRequest', () => {
   });
   describe('constructor', () => {
     it('should require a PEM string', () => {
-      expect(() => new SignedRequest(API_BASE_URL)).to.throw(TypeError, 'pem cannot be null');
+      expect(() => new Request(API_BASE_URL)).to.throw(TypeError, 'pem cannot be null');
     });
 
     it('should require a base url', () => {
-      expect(() => new SignedRequest(null, PEM_STRING)).to.throw(TypeError, 'apiUrl must be a string');
+      expect(() => new Request(null, PEM_STRING)).to.throw(TypeError, 'apiUrl must be a string');
     });
   });
 });
