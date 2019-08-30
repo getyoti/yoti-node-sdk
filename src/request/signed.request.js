@@ -72,7 +72,7 @@ class SignedRequest {
     Validation.isString(apiUrl, 'apiUrl');
     this.apiUrl = apiUrl;
 
-    Validation.isString(pem, 'pem');
+    Validation.notNull(pem, 'pem');
     this.pem = pem;
   }
 

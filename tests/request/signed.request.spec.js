@@ -110,7 +110,7 @@ describe('SignedRequest', () => {
   });
   describe('constructor', () => {
     it('should require a PEM string', () => {
-      expect(() => new SignedRequest(API_BASE_URL)).to.throw(TypeError, 'pem must be a string');
+      expect(() => new SignedRequest(API_BASE_URL)).to.throw(TypeError, 'pem cannot be null');
     });
 
     it('should require a base url', () => {
