@@ -77,6 +77,16 @@ class Request {
   }
 
   /**
+   * @param {Object.<string, string>} headers
+   */
+  setHeaders(headers) {
+    Object.keys(headers)
+      .forEach(name => Validation.isString(headers[name], `'${name}' header`));
+
+    this.headers = headers;
+  }
+
+  /**
    * Send a signed request.
    *
    * @param {string} endpoint
@@ -123,6 +133,10 @@ class Request {
         `${httpMethod}&${endpointPath}${payloadBase64}`,
         this.pem
       );
+
+      if (this.headers) {
+        request.set(this.headers);
+      }
 
       request
         .set('X-Yoti-Auth-Key', yotiCommon.getAuthKeyFromPem(this.pem))

@@ -86,6 +86,40 @@ describe('Request', () => {
       });
     });
   });
+  describe('#setHeaders', () => {
+    context('when making an API request with custom headers', () => {
+      it('should have the custom request headers', (done) => {
+        const request = new Request(API_BASE_URL, PEM_STRING);
+        const CUSTOM_HEADERS = {
+          'Custom-1': 'value 1',
+          'Custom-2': 'value 2',
+        };
+        request.setHeaders(CUSTOM_HEADERS);
+        request
+          .sendRequest(API_ENDPOINT, 'GET', new Payload(''))
+          .then((response) => {
+            assertCorrectHeaders(response, done);
+            const sentHeaders = response.getParsedResponse().headers;
+            Object.keys(CUSTOM_HEADERS).forEach((header) => {
+              const sentHeader = sentHeaders[header.toLowerCase()];
+              const customHeader = CUSTOM_HEADERS[header];
+              expect(sentHeader).to.equal(customHeader, header);
+            });
+          })
+          .catch(done);
+      });
+    });
+    context('when building the request', () => {
+      it('should only accept string header values', () => {
+        expect(() => {
+          new Request(API_BASE_URL, PEM_STRING)
+            .setHeaders({
+              'Custom-1': ['invalid value'],
+            });
+        }).to.throw(TypeError, "'Custom-1' header must be a string");
+      });
+    });
+  });
   describe('#post', () => {
     context('when making an API request', () => {
       it('should have the correct request headers', (done) => {
