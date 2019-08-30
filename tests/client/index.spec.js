@@ -15,6 +15,7 @@ const yotiClient = new yoti.Client('stub-app-id', privateKeyFile);
 describe('yotiClient', () => {
   const encryptedYotiToken = 'c31Db4y6ClxSWy26xDpa9LEX3ZTUuR-rKaAhjQWnmKilR20IshkysR5Y3Hh3R6hanOyxcu7fl5vbjikkGZZb3_iH6NjxmBXuGY_Fr23AhrHvGL9WMg4EtemVvr6VI2f_5H_PDhDpYUvv-YpEM0f_SReoVxGIc8VGfj1gukuhPyNJ9hs55-SDdUjN77JiA6FPcYZxEIaqQE_yT_c3Y4V72Jnq3RHbG0vL6SefSfY_fFsnx_HeddsJc10qJYCwAkdGzVzbJH2DQ2Swp821Gwyj9eNK54S6HvpIg7LclID7BtymG6z7cTNp3fXX7mgKYoQlh_DHmPmaiqyj398w424RBg==';
   const decryptedToken = 'i79CctmY-22ad195c-d166-49a2-af16-8f356788c9dd-be094d26-19b5-450d-afce-070101760f0b';
+  const profileEndpointPattern = new RegExp(`^/api/v1/profile/${decryptedToken}.*appId=stub-app-id&nonce=.*?&timestamp=.*?`);
 
   const selfie = fs.readFileSync('./tests/sample-data/fixtures/selfie.txt', 'utf8');
   const phoneNumber = '+447474747474';
@@ -32,7 +33,7 @@ describe('yotiClient', () => {
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .get(new RegExp(`^/api/v1/profile/${decryptedToken}`))
+          .get(profileEndpointPattern)
           .reply(200, responseContent);
         done();
       });
@@ -79,7 +80,7 @@ describe('yotiClient', () => {
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .get(new RegExp(`^/api/v1/profile/${decryptedToken}`))
+          .get(profileEndpointPattern)
           .reply(200, responseContentNull);
         done();
       });
@@ -108,7 +109,7 @@ describe('yotiClient', () => {
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .get(new RegExp(`^/api/v1/profile/${decryptedToken}`))
+          .get(profileEndpointPattern)
           .reply(200, responseContentEmptyObj);
         done();
       });
@@ -137,7 +138,7 @@ describe('yotiClient', () => {
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .get(new RegExp(`^/api/v1/profile/${decryptedToken}`))
+          .get(profileEndpointPattern)
           .reply(200, responseContentNonExistent);
         done();
       });
@@ -170,7 +171,7 @@ describe('yotiClient', () => {
 
     beforeEach((done) => {
       nock(`${config.yoti.connectApi}`)
-        .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadJSON())
+        .post(new RegExp('^/api/v1/aml-check?.*appId=stub-app-id&nonce=.*?&timestamp=.*?'), amlPayload.getPayloadJSON())
         .reply(200, amlCheckResult);
 
       done();
