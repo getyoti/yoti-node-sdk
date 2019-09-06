@@ -29,10 +29,16 @@ const createShareUrl = (dynamicScenario, pem, appId) => {
   Validation.instanceOf(dynamicScenario, DynamicScenario, 'dynamicScenario');
 
   const payload = new Payload(dynamicScenario);
-  const connectApi = yotiRequest.buildConnectApiRequest(pem);
+  const request = yotiRequest.buildConnectApiRequest(
+    'POST',
+    `/qrcodes/apps/${appId}`,
+    pem,
+    appId,
+    payload
+  );
 
   return new Promise((resolve, reject) => {
-    connectApi.post(`/qrcodes/apps/${appId}`, payload, { appId })
+    request.execute()
       .then((response) => {
         try {
           const parsedResponse = response.getParsedResponse();

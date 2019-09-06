@@ -37,10 +37,16 @@ module.exports.performAmlCheck = (amlProfile, pem, appId) => {
   }
 
   const payload = new Payload(amlProfile.getData());
-  const connectApi = yotiRequest.buildConnectApiRequest(pem);
+  const request = yotiRequest.buildConnectApiRequest(
+    'POST',
+    '/aml-check',
+    pem,
+    appId,
+    payload
+  );
 
   return new Promise((resolve, reject) => {
-    connectApi.post('/aml-check', payload, { appId })
+    request.execute()
       .then((response) => {
         try {
           const parsedResponse = response.getParsedResponse();

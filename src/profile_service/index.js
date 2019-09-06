@@ -5,10 +5,15 @@ const yotiCommon = require('../yoti_common');
 const ActivityDetails = require('./activity.details').ActivityDetails;
 
 module.exports.getReceipt = (token, pem, appId) => {
-  const connectApi = yotiRequest.buildConnectApiRequest(pem);
+  const request = yotiRequest.buildConnectApiRequest(
+    'GET',
+    `/profile/${token}`,
+    pem,
+    appId
+  );
 
   return new Promise((resolve, reject) => {
-    connectApi.get(`/profile/${token}`, { appId })
+    request.execute()
       .then((response) => {
         try {
           const receipt = response.getReceipt();

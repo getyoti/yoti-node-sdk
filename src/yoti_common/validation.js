@@ -39,6 +39,21 @@ module.exports = class Validation {
   }
 
   /**
+   * @param {Object} value
+   * @param {string} name
+   *
+   * @throws {TypeError}
+   */
+  static hasOnlyStringValues(value, name) {
+    this.instanceOf(value, Object);
+    Object.keys(value).forEach((key) => {
+      if ((typeof value[key]) !== 'string') {
+        throw TypeError(`all values in ${name} must be a string`);
+      }
+    });
+  }
+
+  /**
    * @param {*} value
    * @param {string} name
    *
