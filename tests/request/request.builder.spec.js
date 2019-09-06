@@ -2,8 +2,9 @@ const expect = require('chai').expect;
 const nock = require('nock');
 const fs = require('fs');
 
-const { Request } = require('../../src/request/request');
+const { YotiRequest } = require('../../src/request/request');
 const { RequestBuilder } = require('../../');
+const yotiPackage = require('../../package.json');
 
 const PEM_FILE_PATH = './tests/sample-data/keys/node-sdk-test.pem';
 const PEM_STRING = fs.readFileSync(PEM_FILE_PATH, 'utf8');
@@ -16,17 +17,35 @@ const API_ENDPOINT = '/some-endpoint';
  * @param {Request} request
  */
 const assertExpectedRequest = (request, done) => {
-  expect(request).to.be.instanceOf(Request);
+  expect(request).to.be.instanceOf(YotiRequest);
 
   // Check that auth headers are present.
-  request
-    .get(API_ENDPOINT)
+  request.execute()
     .then((response) => {
-      const headers = response.getParsedResponse().headers;
-      expect(headers['x-yoti-auth-key']).to.be.a('string');
-      expect(headers['x-yoti-auth-digest']).to.be.a('string');
-      expect(headers['x-yoti-sdk']).to.be.a('string');
-      expect(headers['x-yoti-sdk-version']).to.be.a('string');
+      const sentHeaders = response.getParsedResponse().headers;
+
+      const expectedHeaders = {
+        'X-Yoti-SDK': 'Node',
+        'X-Yoti-SDK-Version': `Node-${yotiPackage.version}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      };
+
+      Object.keys(expectedHeaders).forEach((header) => {
+        const sentHeader = sentHeaders[header.toLowerCase()];
+        expect(sentHeader).to.equal(expectedHeaders[header], header);
+      });
+
+      const expectedMatchHeaders = {
+        'X-Yoti-Auth-Key': new RegExp('^[a-zA-Z0-9/+]{392}$'),
+        'X-Yoti-Auth-Digest': new RegExp('^[a-zA-Z0-9/+=]{344}$'),
+      };
+
+      Object.keys(expectedMatchHeaders).forEach((header) => {
+        const sentHeader = sentHeaders[header.toLowerCase()];
+        expect(sentHeader).to.match(expectedMatchHeaders[header], header);
+      });
+
       done();
     })
     .catch(done);
@@ -47,6 +66,8 @@ describe('RequestBuilder', () => {
       const request = new RequestBuilder()
         .withBaseUrl(API_BASE_URL)
         .withPemString(PEM_STRING)
+        .withEndpoint(API_ENDPOINT)
+        .withGet()
         .build();
 
       assertExpectedRequest(request, done);
@@ -56,6 +77,8 @@ describe('RequestBuilder', () => {
       const request = new RequestBuilder()
         .withBaseUrl(API_BASE_URL)
         .withPemFilePath(PEM_FILE_PATH)
+        .withEndpoint(API_ENDPOINT)
+        .withGet()
         .build();
 
       assertExpectedRequest(request, done);
@@ -81,12 +104,14 @@ describe('RequestBuilder', () => {
       const request = new RequestBuilder()
         .withBaseUrl(API_BASE_URL)
         .withPemFilePath(PEM_FILE_PATH)
+        .withEndpoint(API_ENDPOINT)
         .withHeader('Custom-1', 'value 1')
         .withHeader('Custom-2', 'value 2')
+        .withGet()
         .build();
 
       request
-        .get(API_ENDPOINT)
+        .execute()
         .then((response) => {
           const headers = response.getParsedResponse().headers;
           expect(headers['custom-1']).to.eql('value 1');
@@ -102,6 +127,7 @@ describe('RequestBuilder', () => {
         new RequestBuilder()
           .withBaseUrl(API_BASE_URL)
           .withPemFilePath(PEM_FILE_PATH)
+          .withEndpoint(API_ENDPOINT)
           .withHeader('Custom-1', 'valid header')
           .withHeader('Custom-2', ['invalid header'])
           .build();
@@ -113,6 +139,7 @@ describe('RequestBuilder', () => {
         new RequestBuilder()
           .withBaseUrl(API_BASE_URL)
           .withPemFilePath(PEM_FILE_PATH)
+          .withEndpoint(API_ENDPOINT)
           .withHeader('Valid-Name', 'value')
           .withHeader(['Invalid-Name'], 'value')
           .build();
