@@ -52,16 +52,15 @@ const assertExpectedRequest = (request, done) => {
 };
 
 describe('RequestBuilder', () => {
+  beforeEach((done) => {
+    nock(API_BASE_URL)
+      .get(new RegExp(`^${API_ENDPOINT}?`))
+      .reply(function requestDetails() {
+        return { headers: this.req.headers };
+      });
+    done();
+  });
   describe('#build', () => {
-    beforeEach((done) => {
-      nock(API_BASE_URL)
-        .get(new RegExp(`^${API_ENDPOINT}?`))
-        .reply(function requestDetails() {
-          return { headers: this.req.headers };
-        });
-      done();
-    });
-
     it('should build a Request with pem string', (done) => {
       const request = new RequestBuilder()
         .withBaseUrl(API_BASE_URL)
@@ -119,6 +118,35 @@ describe('RequestBuilder', () => {
           done();
         })
         .catch(done);
+    });
+  });
+  describe('#withEndpoint', () => {
+    [
+      `///${API_ENDPOINT}`,
+      API_ENDPOINT.replace(/^\/+/, ''),
+    ].forEach((endpoint) => {
+      it(`should ensure "${endpoint}" has one leading slash`, (done) => {
+        const request = new RequestBuilder()
+          .withBaseUrl(`${API_BASE_URL}`)
+          .withPemFilePath(PEM_FILE_PATH)
+          .withEndpoint(endpoint)
+          .withGet()
+          .build();
+
+        assertExpectedRequest(request, done);
+      });
+    });
+  });
+  describe('#withBaseUrl', () => {
+    it('should remove trailing slashes', (done) => {
+      const request = new RequestBuilder()
+        .withBaseUrl(`${API_BASE_URL}///`)
+        .withPemFilePath(PEM_FILE_PATH)
+        .withEndpoint(API_ENDPOINT)
+        .withGet()
+        .build();
+
+      assertExpectedRequest(request, done);
     });
   });
   describe('#withHeader', () => {

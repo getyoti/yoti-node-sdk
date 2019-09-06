@@ -35,12 +35,22 @@ class RequestBuilder {
   }
 
   /**
-   * @param {string} baseUrl
+   * @param {string} baseUrl Base URL without trailing slashes.
    *
    * @returns {RequestBuilder}
    */
   withBaseUrl(baseUrl) {
-    this.baseUrl = baseUrl;
+    this.baseUrl = baseUrl.replace(/\/+$/, '');
+    return this;
+  }
+
+  /**
+   * @param {string} endpoint Endpoint with a single leading slash.
+   *
+   * @returns {RequestBuilder}
+   */
+  withEndpoint(endpoint) {
+    this.endpoint = `/${endpoint.replace(/^\/+/, '')}`;
     return this;
   }
 
@@ -100,16 +110,6 @@ class RequestBuilder {
    */
   withPost() {
     return this.withMethod('POST');
-  }
-
-  /**
-   * @param {string} $endpoint
-   *
-   * @returns {RequestBuilder}
-   */
-  withEndpoint(endpoint) {
-    this.endpoint = endpoint;
-    return this;
   }
 
   /**
