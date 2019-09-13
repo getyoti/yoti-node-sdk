@@ -2,6 +2,7 @@
 
 const constants = require('../yoti_common/constants');
 const { BaseProfile } = require('./base.profile');
+const { Attribute } = require('../data_type/attribute');
 const { AgeVerification } = require('../data_type/age.verification');
 const Validation = require('../yoti_common/validation');
 
@@ -177,7 +178,24 @@ class Profile extends BaseProfile {
    * @returns {null|Attribute}
    */
   getPostalAddress() {
-    return this.getAttribute(constants.ATTR_POSTAL_ADDRESS);
+    // Return postal address if available.
+    const postalAddress = this.getAttribute(constants.ATTR_POSTAL_ADDRESS);
+    if (postalAddress !== null) {
+      return postalAddress;
+    }
+
+    // Return formatted address if postal address is null.
+    if (this.propertyExists(constants.ATTR_STRUCTURED_POSTAL_ADDRESS)) {
+      const structuredAddrObj = this.profileData[constants.ATTR_STRUCTURED_POSTAL_ADDRESS];
+      if (structuredAddrObj instanceof Object) {
+        const formattedAddrObj = Object.assign({}, structuredAddrObj);
+        formattedAddrObj.name = constants.ATTR_POSTAL_ADDRESS;
+        formattedAddrObj.value = structuredAddrObj.value.formatted_address;
+        return new Attribute(formattedAddrObj);
+      }
+    }
+
+    return null;
   }
 
   /**
