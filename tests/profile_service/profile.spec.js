@@ -18,6 +18,26 @@ YotiAnchor.prototype = {
 };
 
 /**
+ * Load sample profile data.
+ */
+const loadProfileData = () => {
+  const profileDataPath = './tests/sample-data/profile-service/profile.json';
+  const profileData = JSON.parse(fs.readFileSync(profileDataPath, 'utf8'));
+
+  Object.keys(profileData).forEach((attrName) => {
+    // Convert anchor data into an Anchor Objects.
+    ['sources', 'verifiers'].forEach((anchorKey) => {
+      if (profileData[attrName][anchorKey].length > 0) {
+        const anchors = JSON.parse(JSON.stringify(profileData[attrName][anchorKey]));
+        profileData[attrName][anchorKey] = [new YotiAnchor(anchors[0])];
+      }
+    });
+  });
+
+  return profileData;
+};
+
+/**
  * Create a test attribute.
  *
  * @param {string} name
@@ -30,18 +50,7 @@ const createAttribute = (name, value) => new Attribute({
   verifiers: [],
 });
 
-let profileData = fs.readFileSync('./tests/sample-data/profile-service/profile.json', 'utf8');
-profileData = JSON.parse(profileData);
-
-// Convert sources data into an Anchor Object
-let fullNameSources = profileData.full_name.sources;
-fullNameSources = JSON.parse(JSON.stringify(fullNameSources));
-profileData.full_name.sources = [new YotiAnchor(fullNameSources[0])];
-
-// Convert verifiers data into an Anchor Object
-let fullNameVerifiers = profileData.full_name.verifiers;
-fullNameVerifiers = JSON.parse(JSON.stringify(fullNameVerifiers));
-profileData.full_name.verifiers = [new YotiAnchor(fullNameVerifiers[0])];
+const profileData = loadProfileData();
 
 describe('Profile', () => {
   const profileObj = new Profile(profileData);
@@ -105,9 +114,60 @@ describe('Profile', () => {
   });
 
   describe('#getPostalAddress', () => {
-    const expectedValue = 'TEST ADDRESS';
-    it('should return postal_address value', () => {
-      expect(profileObj.getPostalAddress().getValue()).to.equal(expectedValue);
+    context('when postal address is available', () => {
+      it('should return postal_address value', () => {
+        const expectedValue = 'TEST ADDRESS';
+        expect(profileObj.getPostalAddress().getValue()).to.equal(expectedValue);
+      });
+    });
+    context('when postal address is null', () => {
+      const expectedValue = 'SOME FORMATTED ADDRESS';
+      const expectedName = 'postal_address';
+      const expectedSources = [new YotiAnchor({
+        value: 'SOME SOURCE',
+        subType: '',
+        signedTimeStamp: '',
+        originServerCerts: [],
+      })];
+      const expectedVerifiers = [new YotiAnchor({
+        value: 'SOME VERIFIER',
+        subType: '',
+        signedTimeStamp: '',
+        originServerCerts: [],
+      })];
+
+      const profileDataNoAddress = loadProfileData();
+
+      // Remove postal address from profile data.
+      delete profileDataNoAddress.postal_address;
+
+      // Set formatted address and anchors.
+      Object.assign(profileDataNoAddress.structured_postal_address, {
+        value: {
+          formatted_address: expectedValue,
+        },
+        sources: expectedSources,
+        verifiers: expectedVerifiers,
+      });
+
+      const profileNoAddress = new Profile(profileDataNoAddress);
+
+      it('should return formatted address with structured address anchors', () => {
+        const postalAddressAttr = profileNoAddress.getPostalAddress();
+        expect(postalAddressAttr.getName()).to.equal(expectedName);
+        expect(postalAddressAttr.getValue()).to.equal(expectedValue);
+        expect(postalAddressAttr.getSources()).to.equal(expectedSources);
+        expect(postalAddressAttr.getVerifiers()).to.equal(expectedVerifiers);
+      });
+    });
+    context('when both postal address and structured address are null', () => {
+      const profileDataNoAddress = loadProfileData();
+      delete profileDataNoAddress.postal_address;
+      delete profileDataNoAddress.structured_postal_address;
+      const profileNoAddress = new Profile(profileDataNoAddress);
+      it('should return null', () => {
+        expect(profileNoAddress.getPostalAddress()).to.equal(null);
+      });
     });
   });
 
