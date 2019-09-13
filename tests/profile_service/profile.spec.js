@@ -1,5 +1,4 @@
 const fs = require('fs');
-const { expect } = require('chai');
 const { Profile } = require('../../src/profile_service/profile');
 const { Attribute } = require('../../src/data_type/attribute');
 
@@ -58,42 +57,42 @@ describe('Profile', () => {
   describe('#getFullName', () => {
     const expectedValue = 'TEST FULL_NAME';
     it('should return full_name value', () => {
-      expect(profileObj.getFullName().getValue()).to.equal(expectedValue);
+      expect(profileObj.getFullName().getValue()).toBe(expectedValue);
     });
   });
 
   describe('#getGivenNames', () => {
     const expectedValue = 'TEST GIVEN_NAMES';
     it('should return given_names value', () => {
-      expect(profileObj.getGivenNames().getValue()).to.equal(expectedValue);
+      expect(profileObj.getGivenNames().getValue()).toBe(expectedValue);
     });
   });
 
   describe('#getFamilyName', () => {
     const expectedValue = 'TEST FAMILY_NAME';
     it('should return family_name value', () => {
-      expect(profileObj.getFamilyName().getValue()).to.equal(expectedValue);
+      expect(profileObj.getFamilyName().getValue()).toBe(expectedValue);
     });
   });
 
   describe('#getGender', () => {
     const expectedValue = 'TEST MALE';
     it('should return gender value', () => {
-      expect(profileObj.getGender().getValue()).to.equal(expectedValue);
+      expect(profileObj.getGender().getValue()).toBe(expectedValue);
     });
   });
 
   describe('#getEmailAddress', () => {
     const expectedValue = 'example@yoti.com';
     it('should return email_address value', () => {
-      expect(profileObj.getEmailAddress().getValue()).to.equal(expectedValue);
+      expect(profileObj.getEmailAddress().getValue()).toBe(expectedValue);
     });
   });
 
   describe('#getAgeVerified', () => {
     const expectedValue = 'true';
     it('should return age_verified value', () => {
-      expect(profileObj.getAgeVerified().getValue()).to.equal(expectedValue);
+      expect(profileObj.getAgeVerified().getValue()).toBe(expectedValue);
     });
   });
 
@@ -101,7 +100,7 @@ describe('Profile', () => {
     it('should return full_name first source value', () => {
       const expectedValue = 'PASSPORT';
       const sourceValue = profileObj.getFullName().getSources()[0].getValue();
-      expect(sourceValue).to.equal(expectedValue);
+      expect(sourceValue).toBe(expectedValue);
     });
   });
 
@@ -109,18 +108,18 @@ describe('Profile', () => {
     it('should return full_name first verifier value', () => {
       const expectedValue = 'YOTI_ADMIN';
       const verifierValue = profileObj.getFullName().getVerifiers()[0].getValue();
-      expect(verifierValue).to.equal(expectedValue);
+      expect(verifierValue).toBe(expectedValue);
     });
   });
 
   describe('#getPostalAddress', () => {
-    context('when postal address is available', () => {
+    describe('when postal address is available', () => {
       it('should return postal_address value', () => {
         const expectedValue = 'TEST ADDRESS';
-        expect(profileObj.getPostalAddress().getValue()).to.equal(expectedValue);
+        expect(profileObj.getPostalAddress().getValue()).toBe(expectedValue);
       });
     });
-    context('when postal address is null', () => {
+    describe('when postal address is null', () => {
       const expectedValue = 'SOME FORMATTED ADDRESS';
       const expectedName = 'postal_address';
       const expectedSources = [new YotiAnchor({
@@ -154,19 +153,19 @@ describe('Profile', () => {
 
       it('should return formatted address with structured address anchors', () => {
         const postalAddressAttr = profileNoAddress.getPostalAddress();
-        expect(postalAddressAttr.getName()).to.equal(expectedName);
-        expect(postalAddressAttr.getValue()).to.equal(expectedValue);
-        expect(postalAddressAttr.getSources()).to.equal(expectedSources);
-        expect(postalAddressAttr.getVerifiers()).to.equal(expectedVerifiers);
+        expect(postalAddressAttr.getName()).toBe(expectedName);
+        expect(postalAddressAttr.getValue()).toBe(expectedValue);
+        expect(postalAddressAttr.getSources()).toBe(expectedSources);
+        expect(postalAddressAttr.getVerifiers()).toBe(expectedVerifiers);
       });
     });
-    context('when both postal address and structured address are null', () => {
+    describe('when both postal address and structured address are null', () => {
       const profileDataNoAddress = loadProfileData();
       delete profileDataNoAddress.postal_address;
       delete profileDataNoAddress.structured_postal_address;
       const profileNoAddress = new Profile(profileDataNoAddress);
       it('should return null', () => {
-        expect(profileNoAddress.getPostalAddress()).to.equal(null);
+        expect(profileNoAddress.getPostalAddress()).toBe(null);
       });
     });
   });
@@ -174,25 +173,25 @@ describe('Profile', () => {
   describe('#getStructuredPostalAddress', () => {
     it('should return structured_postal_address value', () => {
       expect(profileObj.getStructuredPostalAddress().getValue())
-        .to.eql(profileData.structured_postal_address.value);
+        .toBe(profileData.structured_postal_address.value);
     });
   });
 
   describe('#getDocumentImages', () => {
     it('should return document_images value', () => {
-      expect(profileObj.getDocumentImages().getValue()).to.eql(profileData.document_images.value);
+      expect(profileObj.getDocumentImages().getValue()).toBe(profileData.document_images.value);
     });
   });
 
   describe('#getAttributes', () => {
     it('should return all attributes', () => {
       const attributes = profileObj.getAttributes();
-      expect(Object.keys(attributes).length).to.be.equal(16);
+      expect(Object.keys(attributes).length).toBe(16);
       Object.keys(attributes).forEach((attributeName) => {
-        expect(attributes[attributeName]).to.instanceOf(Attribute);
+        expect(attributes[attributeName]).toBeInstanceOf(Attribute);
       });
-      expect(attributes.gender.getName()).to.equal('gender');
-      expect(attributes.gender.getValue()).to.equal('TEST MALE');
+      expect(attributes.gender.getName()).toBe('gender');
+      expect(attributes.gender.getValue()).toBe('TEST MALE');
     });
   });
 
@@ -206,55 +205,55 @@ describe('Profile', () => {
       ];
       const ageVerifications = profileObj.getAgeVerifications();
 
-      expect(ageVerifications).to.be.instanceOf(Array);
-      expect(ageVerifications).to.be.length(4);
+      expect(ageVerifications).toBeInstanceOf(Array);
+      expect(ageVerifications).toHaveLength(4);
 
       ageVerifications.forEach((ageVerification) => {
-        expect(expectedAgeAttributes).to.include(ageVerification.getAttribute());
+        expect(expectedAgeAttributes).toContainEqual(ageVerification.getAttribute());
       });
     });
 
     it('should return an empty array when there are no age verifications', () => {
       const emptyProfile = new Profile();
       const ageVerifications = emptyProfile.getAgeVerifications();
-      expect(ageVerifications).to.be.instanceOf(Array);
-      expect(ageVerifications).to.be.length(0);
+      expect(ageVerifications).toBeInstanceOf(Array);
+      expect(ageVerifications).toHaveLength(0);
     });
   });
   describe('#findAgeUnderVerification', () => {
     it('should find unsuccessful age under verification', () => {
       const verification = profileObj.findAgeUnderVerification(18);
-      expect(verification.getAge()).to.equal(18);
-      expect(verification.getCheckType()).to.equal('age_under');
-      expect(verification.getResult()).to.equal(false);
+      expect(verification.getAge()).toBe(18);
+      expect(verification.getCheckType()).toBe('age_under');
+      expect(verification.getResult()).toBe(false);
     });
     it('should find successful age under verification', () => {
       const verification = profileObj.findAgeUnderVerification(21);
-      expect(verification.getAge()).to.equal(21);
-      expect(verification.getCheckType()).to.equal('age_under');
-      expect(verification.getResult()).to.equal(true);
+      expect(verification.getAge()).toBe(21);
+      expect(verification.getCheckType()).toBe('age_under');
+      expect(verification.getResult()).toBe(true);
     });
     it('should return NULL for no match', () => {
       const verification = profileObj.findAgeUnderVerification(100);
-      expect(verification).to.equal(null);
+      expect(verification).toBe(null);
     });
   });
   describe('#findAgeOverVerification', () => {
     it('should find successful age over verification', () => {
       const verification = profileObj.findAgeOverVerification(18);
-      expect(verification.getAge()).to.equal(18);
-      expect(verification.getCheckType()).to.equal('age_over');
-      expect(verification.getResult()).to.equal(true);
+      expect(verification.getAge()).toBe(18);
+      expect(verification.getCheckType()).toBe('age_over');
+      expect(verification.getResult()).toBe(true);
     });
     it('should find unsuccessful age over verification', () => {
       const verification = profileObj.findAgeOverVerification(21);
-      expect(verification.getAge()).to.equal(21);
-      expect(verification.getCheckType()).to.equal('age_over');
-      expect(verification.getResult()).to.equal(false);
+      expect(verification.getAge()).toBe(21);
+      expect(verification.getCheckType()).toBe('age_over');
+      expect(verification.getResult()).toBe(false);
     });
     it('should return NULL for no match', () => {
       const verification = profileObj.findAgeOverVerification(100);
-      expect(verification).to.equal(null);
+      expect(verification).toBe(null);
     });
   });
 });

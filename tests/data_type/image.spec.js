@@ -1,4 +1,3 @@
-const expect = require('chai').expect;
 const Image = require('../../src/data_type/image');
 const ImageJpeg = require('../../src/data_type/image.jpeg');
 const ImagePng = require('../../src/data_type/image.png');
@@ -22,25 +21,25 @@ const imageTypes = [
 
 imageTypes.forEach((type) => {
   describe(`${type.imageObj.constructor.name}`, () => {
-    context('#getContent()', () => {
+    describe('#getContent()', () => {
       it('should return original image content', () => {
-        expect(type.imageObj.getContent()).to.equal(imageContent);
+        expect(type.imageObj.getContent()).toBe(imageContent);
       });
     });
-    context('#getBase64Content()', () => {
+    describe('#getBase64Content()', () => {
       it('should return base64 image content', () => {
         const base64String = `data:${type.mimeType};base64,${imageContent.toBase64()}`;
-        expect(type.imageObj.getBase64Content()).to.equal(base64String);
+        expect(type.imageObj.getBase64Content()).toBe(base64String);
       });
     });
-    context('#getMimeType()', () => {
+    describe('#getMimeType()', () => {
       it(`should return ${type.mimeType}`, () => {
-        expect(type.imageObj.getMimeType()).to.equal(type.mimeType);
+        expect(type.imageObj.getMimeType()).toBe(type.mimeType);
       });
     });
-    context('when instantiated', () => {
+    describe('when instantiated', () => {
       it('should be an instance of Image', () => {
-        expect(type.imageObj).to.be.an.instanceof(Image);
+        expect(type.imageObj).toBeInstanceOf(Image);
       });
     });
   });

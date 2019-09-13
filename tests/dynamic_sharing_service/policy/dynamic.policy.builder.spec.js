@@ -1,8 +1,4 @@
 const {
-  expect,
-} = require('chai');
-
-const {
   DynamicPolicyBuilder,
   WantedAttributeBuilder,
 } = require('../../../');
@@ -17,8 +13,8 @@ const WantedAttribute = require('../../../src/dynamic_sharing_service/policy/wan
  * @param {object} expectedJsonData expected JSON data to serialize.
  */
 const expectDynamicPolicyJson = (dynamicPolicy, expectedJsonData) => {
-  expect(dynamicPolicy).to.be.instanceOf(DynamicPolicy);
-  expect(JSON.stringify(dynamicPolicy)).to.equal(JSON.stringify(expectedJsonData));
+  expect(dynamicPolicy).toBeInstanceOf(DynamicPolicy);
+  expect(JSON.stringify(dynamicPolicy)).toBe(JSON.stringify(expectedJsonData));
 };
 
 /**
@@ -30,7 +26,7 @@ const expectDynamicPolicyJson = (dynamicPolicy, expectedJsonData) => {
 const expectDynamicPolicyAttributes = (dynamicPolicy, expectedWantedAttributeData) => {
   // Assert that all items are instance of WantedAttribute.
   dynamicPolicy.getWantedAttributes().forEach((wantedAttribute) => {
-    expect(wantedAttribute).to.be.instanceOf(WantedAttribute);
+    expect(wantedAttribute).toBeInstanceOf(WantedAttribute);
   });
 
   // Build an array of WantedAttribute to check.
@@ -43,7 +39,7 @@ const expectDynamicPolicyAttributes = (dynamicPolicy, expectedWantedAttributeDat
   });
 
   // Assert that expected wanted attributes match dynamic policy wanted attributes.
-  expect(dynamicPolicy.getWantedAttributes()).to.deep.equal(expectedWantedAttributes);
+  expect(dynamicPolicy.getWantedAttributes()).toEqual(expectedWantedAttributes);
 };
 
 describe('DynamicPolicyBuilder', () => {
@@ -146,7 +142,7 @@ describe('DynamicPolicyBuilder', () => {
 
   it('should fail when invalid attribute objects are used', () => {
     const builder = new DynamicPolicyBuilder();
-    expect(() => builder.withWantedAttribute('invalid attribute')).to.throw(TypeError, 'wantedAttribute must be instance of WantedAttribute');
+    expect(() => builder.withWantedAttribute('invalid attribute')).toThrow(TypeError, 'wantedAttribute must be instance of WantedAttribute');
   });
 
   it('should build with age derived attributes', () => {
@@ -179,7 +175,7 @@ describe('DynamicPolicyBuilder', () => {
       new DynamicPolicyBuilder()
         .withDateOfBirth()
         .withAgeOver('18');
-    }).to.throw(TypeError, 'age must be an integer');
+    }).toThrow(TypeError, 'age must be an integer');
   });
 
   it('should only allow integers for age under', () => {
@@ -187,7 +183,7 @@ describe('DynamicPolicyBuilder', () => {
       new DynamicPolicyBuilder()
         .withDateOfBirth()
         .withAgeOver('30');
-    }).to.throw(TypeError, 'age must be an integer');
+    }).toThrow(TypeError, 'age must be an integer');
   });
 
   it('should overwrite identical age verification to ensure it only exists once', () => {
@@ -219,7 +215,7 @@ describe('DynamicPolicyBuilder', () => {
 
     const expectedAuthTypes = [EXPECTED_SELFIE_AUTH_TYPE, EXPECTED_PIN_AUTH_TYPE, 99];
 
-    expect(dynamicPolicy.getWantedAuthTypes()).to.deep.equal(expectedAuthTypes);
+    expect(dynamicPolicy.getWantedAuthTypes()).toEqual(expectedAuthTypes);
 
     expectDynamicPolicyJson(dynamicPolicy, {
       wanted: [],
@@ -238,7 +234,7 @@ describe('DynamicPolicyBuilder', () => {
 
     const expectedAuthTypes = [EXPECTED_SELFIE_AUTH_TYPE, EXPECTED_PIN_AUTH_TYPE, 99];
 
-    expect(dynamicPolicy.getWantedAuthTypes()).to.deep.equal(expectedAuthTypes);
+    expect(dynamicPolicy.getWantedAuthTypes()).toEqual(expectedAuthTypes);
 
     expectDynamicPolicyJson(dynamicPolicy, {
       wanted: [],
@@ -256,7 +252,7 @@ describe('DynamicPolicyBuilder', () => {
 
     const expectedAuthTypes = [];
 
-    expect(dynamicPolicy.getWantedAuthTypes()).to.deep.equal(expectedAuthTypes);
+    expect(dynamicPolicy.getWantedAuthTypes()).toEqual(expectedAuthTypes);
 
     expectDynamicPolicyJson(dynamicPolicy, {
       wanted: [],
@@ -271,7 +267,7 @@ describe('DynamicPolicyBuilder', () => {
       .withWantedRememberMe(true)
       .build();
 
-    expect(dynamicPolicy.getWantedRememberMe()).to.equal(true);
+    expect(dynamicPolicy.getWantedRememberMe()).toBe(true);
 
     expectDynamicPolicyJson(dynamicPolicy, {
       wanted: [],
@@ -290,8 +286,8 @@ describe('DynamicPolicyBuilder', () => {
       .build();
 
     const authTypes = dynamicPolicy.getWantedAuthTypes();
-    expect(authTypes).to.not.contain(EXPECTED_SELFIE_AUTH_TYPE);
-    expect(authTypes).to.not.contain(EXPECTED_PIN_AUTH_TYPE);
+    expect(authTypes).not.toContain(EXPECTED_SELFIE_AUTH_TYPE);
+    expect(authTypes).not.toContain(EXPECTED_PIN_AUTH_TYPE);
   });
 
   it('should build with no more than one auth type', () => {
@@ -302,7 +298,7 @@ describe('DynamicPolicyBuilder', () => {
       .build();
 
     const authTypesLength = dynamicPolicy.getWantedAuthTypes().length;
-    expect(authTypesLength).to.equal(1);
+    expect(authTypesLength).toBe(1);
   });
 
   it('should build with only two auth types', () => {
@@ -312,7 +308,7 @@ describe('DynamicPolicyBuilder', () => {
       .build();
 
     const authTypesLength = dynamicPolicy.getWantedAuthTypes().length;
-    expect(authTypesLength).to.equal(2);
+    expect(authTypesLength).toBe(2);
   });
 
   it('should build with no selfie authentication after having it added then removed', () => {
@@ -321,7 +317,7 @@ describe('DynamicPolicyBuilder', () => {
       .withSelfieAuthentication(false)
       .build();
 
-    expect(dynamicPolicy.wantedAuthTypes).to.not.contain(EXPECTED_SELFIE_AUTH_TYPE);
+    expect(dynamicPolicy.wantedAuthTypes).not.toContain(EXPECTED_SELFIE_AUTH_TYPE);
   });
 
   it('should build with no pin authentication after having it added then removed', () => {
@@ -330,6 +326,6 @@ describe('DynamicPolicyBuilder', () => {
       .withPinAuthentication(false)
       .build();
 
-    expect(dynamicPolicy.wantedAuthTypes).to.not.contain(EXPECTED_PIN_AUTH_TYPE);
+    expect(dynamicPolicy.wantedAuthTypes).not.toContain(EXPECTED_PIN_AUTH_TYPE);
   });
 });

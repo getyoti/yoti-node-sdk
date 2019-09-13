@@ -1,4 +1,3 @@
-const expect = require('chai').expect;
 const nock = require('nock');
 const fs = require('fs');
 
@@ -21,7 +20,7 @@ describe('amlService', () => {
       done();
     });
 
-    context('with a valid profile', () => {
+    describe('with a valid profile', () => {
       const amlCheckResult = fs.readFileSync('./tests/sample-data/responses/aml-check-result.json', 'utf8');
 
       beforeEach((done) => {
@@ -34,9 +33,9 @@ describe('amlService', () => {
       it('should return a successful result from performAmlCheck call', (done) => {
         amlService.performAmlCheck(amlProfile, privateKeyFile, 'stub-app-id')
           .then((amlResult) => {
-            expect(amlResult.isOnPepList).to.equal(true);
-            expect(amlResult.isOnFraudList).to.equal(false);
-            expect(amlResult.isOnWatchList).to.equal(false);
+            expect(amlResult.isOnPepList).toBe(true);
+            expect(amlResult.isOnFraudList).toBe(false);
+            expect(amlResult.isOnWatchList).toBe(false);
 
             done();
           })
@@ -44,7 +43,7 @@ describe('amlService', () => {
       });
     });
 
-    context('with an invalid profile response', () => {
+    describe('with an invalid profile response', () => {
       const amlCheckError = fs.readFileSync('./tests/sample-data/responses/aml-check-error.json', 'utf8');
       const expectedErrorMessage = 'PAYLOAD_VALIDATION - There were errors validating the payload: [{"property":"address.country","message":"country must be specified as an ISO-3166 3-letter code"}]';
 
@@ -59,7 +58,7 @@ describe('amlService', () => {
       it('should return PAYLOAD_VALIDATION error', (done) => {
         amlService.performAmlCheck(amlProfile, privateKeyFile, 'stub-app-id')
           .catch((err) => {
-            expect(err.message).to.equal(expectedErrorMessage);
+            expect(err.message).toBe(expectedErrorMessage);
             done();
           })
           .catch(done);

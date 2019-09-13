@@ -1,7 +1,3 @@
-const {
-  expect,
-} = require('chai');
-
 const { WantedAttributeBuilder, SourceConstraintBuilder, ConstraintsBuilder } = require('../../../');
 const WantedAttribute = require('../../../src/dynamic_sharing_service/policy/wanted.attribute');
 
@@ -21,10 +17,10 @@ describe('WantedAttributeBuilder', () => {
       optional: false,
     });
 
-    expect(wantedAttribute).to.be.instanceOf(WantedAttribute);
-    expect(JSON.stringify(wantedAttribute)).to.equal(expectedJson);
-    expect(wantedAttribute.getName()).to.equal(TEST_NAME);
-    expect(wantedAttribute.getDerivation()).to.equal(TEST_DERIVATION);
+    expect(wantedAttribute).toBeInstanceOf(WantedAttribute);
+    expect(JSON.stringify(wantedAttribute)).toBe(expectedJson);
+    expect(wantedAttribute.getName()).toBe(TEST_NAME);
+    expect(wantedAttribute.getDerivation()).toBe(TEST_DERIVATION);
   });
 
   it('should build a wanted attribute with accept self asserted', () => {
@@ -45,10 +41,10 @@ describe('WantedAttributeBuilder', () => {
       accept_self_asserted: true,
     });
 
-    expect(wantedAttributeDefault).to.be.instanceOf(WantedAttribute);
-    expect(wantedAttribute).to.be.instanceOf(WantedAttribute);
-    expect(JSON.stringify(wantedAttributeDefault)).to.equal(expectedJson);
-    expect(JSON.stringify(wantedAttribute)).to.equal(expectedJson);
+    expect(wantedAttributeDefault).toBeInstanceOf(WantedAttribute);
+    expect(wantedAttribute).toBeInstanceOf(WantedAttribute);
+    expect(JSON.stringify(wantedAttributeDefault)).toBe(expectedJson);
+    expect(JSON.stringify(wantedAttribute)).toBe(expectedJson);
   });
 
   it('should build a wanted attribute without accept self asserted', () => {
@@ -64,8 +60,8 @@ describe('WantedAttributeBuilder', () => {
       accept_self_asserted: false,
     });
 
-    expect(wantedAttribute).to.be.instanceOf(WantedAttribute);
-    expect(JSON.stringify(wantedAttribute)).to.equal(expectedJson);
+    expect(wantedAttribute).toBeInstanceOf(WantedAttribute);
+    expect(JSON.stringify(wantedAttribute)).toBe(expectedJson);
   });
 
   it('should build a wanted attribute with constraints', () => {
@@ -102,7 +98,7 @@ describe('WantedAttributeBuilder', () => {
       ],
     });
 
-    expect(wantedAttribute).to.be.instanceOf(WantedAttribute);
-    expect(JSON.stringify(wantedAttribute)).to.equal(expectedJson);
+    expect(wantedAttribute).toBeInstanceOf(WantedAttribute);
+    expect(JSON.stringify(wantedAttribute)).toBe(expectedJson);
   });
 });

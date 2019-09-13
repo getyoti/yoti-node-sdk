@@ -1,4 +1,3 @@
-const expect = require('chai').expect;
 const nock = require('nock');
 const fs = require('fs');
 
@@ -17,7 +16,7 @@ const API_ENDPOINT = '/some-endpoint';
  * @param {Request} request
  */
 const assertExpectedRequest = (request, done) => {
-  expect(request).to.be.instanceOf(YotiRequest);
+  expect(request).toBeInstanceOf(YotiRequest);
 
   // Check that auth headers are present.
   request.execute()
@@ -33,7 +32,7 @@ const assertExpectedRequest = (request, done) => {
 
       Object.keys(expectedHeaders).forEach((header) => {
         const sentHeader = sentHeaders[header.toLowerCase()];
-        expect(sentHeader).to.equal(expectedHeaders[header], header);
+        expect(sentHeader).toBe(expectedHeaders[header], header);
       });
 
       const expectedMatchHeaders = {
@@ -43,7 +42,7 @@ const assertExpectedRequest = (request, done) => {
 
       Object.keys(expectedMatchHeaders).forEach((header) => {
         const sentHeader = sentHeaders[header.toLowerCase()];
-        expect(sentHeader).to.match(expectedMatchHeaders[header], header);
+        expect(sentHeader).toMatch(expectedMatchHeaders[header], header);
       });
 
       done();
@@ -88,7 +87,7 @@ describe('RequestBuilder', () => {
         new RequestBuilder()
           .withBaseUrl(API_BASE_URL)
           .build();
-      }).to.throw(Error, 'PEM file path or string must be provided');
+      }).toThrow(Error, 'PEM file path or string must be provided');
     });
 
     it('should require a base url', () => {
@@ -96,7 +95,7 @@ describe('RequestBuilder', () => {
         new RequestBuilder()
           .withPemFilePath(PEM_FILE_PATH)
           .build();
-      }).to.throw(Error, 'Base URL must be specified');
+      }).toThrow(Error, 'Base URL must be specified');
     });
 
     it('should build with valid headers', (done) => {
@@ -113,8 +112,8 @@ describe('RequestBuilder', () => {
         .execute()
         .then((response) => {
           const headers = response.getParsedResponse().headers;
-          expect(headers['custom-1']).to.eql('value 1');
-          expect(headers['custom-2']).to.eql('value 2');
+          expect(headers['custom-1']).toBe('value 1');
+          expect(headers['custom-2']).toBe('value 2');
           done();
         })
         .catch(done);
@@ -159,7 +158,7 @@ describe('RequestBuilder', () => {
           .withHeader('Custom-1', 'valid header')
           .withHeader('Custom-2', ['invalid header'])
           .build();
-      }).to.throw(TypeError, "'Custom-2' header must be a string");
+      }).toThrow(TypeError, "'Custom-2' header must be a string");
     });
 
     it('should only accept string header name', () => {
@@ -171,7 +170,7 @@ describe('RequestBuilder', () => {
           .withHeader('Valid-Name', 'value')
           .withHeader(['Invalid-Name'], 'value')
           .build();
-      }).to.throw(TypeError, 'Header name must be a string');
+      }).toThrow(TypeError, 'Header name must be a string');
     });
   });
 });

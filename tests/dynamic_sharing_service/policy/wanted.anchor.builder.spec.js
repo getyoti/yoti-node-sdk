@@ -1,7 +1,3 @@
-const {
-  expect,
-} = require('chai');
-
 const { WantedAnchorBuilder } = require('../../..');
 const WantedAnchor = require('../../../src/dynamic_sharing_service/policy/wanted.anchor');
 
@@ -15,12 +11,12 @@ describe('WantedAnchorBuilder', () => {
       .withSubType(TEST_SUB_TYPE)
       .build();
 
-    expect(wantedAnchor).to.be.instanceOf(WantedAnchor);
+    expect(wantedAnchor).toBeInstanceOf(WantedAnchor);
 
     const expectedJson = JSON.stringify({
       name: TEST_VALUE,
       sub_type: TEST_SUB_TYPE,
     });
-    expect(JSON.stringify(wantedAnchor)).to.equal(expectedJson);
+    expect(JSON.stringify(wantedAnchor)).toBe(expectedJson);
   });
 });

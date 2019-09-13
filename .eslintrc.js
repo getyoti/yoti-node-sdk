@@ -1,5 +1,5 @@
 module.exports = {
-  "plugins": ["node"],
+  "plugins": ["node", "jest"],
   "extends": ["plugin:node/recommended", "airbnb-base"],
   rules: {
     "node/exports-style": ["error", "module.exports"],
@@ -16,7 +16,7 @@ module.exports = {
   },
   env: {
     "node": true,
-    "mocha": true
+    "jest/globals": true
   },
   "overrides": [{
     "files": "\"./tests/**/*.spec.js\"",
