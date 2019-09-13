@@ -1,7 +1,3 @@
-const {
-  expect,
-} = require('chai');
-
 const { SourceConstraintBuilder, WantedAnchorBuilder } = require('../../..');
 const SourceConstraint = require('../../../src/dynamic_sharing_service/policy/source.constraint');
 
@@ -29,7 +25,7 @@ const expectSourceConstraintJson = (
   expectSubType,
   expectSoftPreference = false
 ) => {
-  expect(constraint).to.be.instanceOf(SourceConstraint);
+  expect(constraint).toBeInstanceOf(SourceConstraint);
 
   const expectedJson = JSON.stringify({
     type: CONSTRAINT_TYPE_SOURCE,
@@ -44,7 +40,7 @@ const expectSourceConstraintJson = (
     },
   });
 
-  expect(JSON.stringify(constraint)).to.equal(expectedJson);
+  expect(JSON.stringify(constraint)).toBe(expectedJson);
 };
 
 describe('SourceConstraintBuilder', () => {
@@ -161,7 +157,7 @@ describe('SourceConstraintBuilder', () => {
       .withPasscard(ANCHOR_SUB_TYPE_PASSCARD)
       .build();
 
-    expect(sourceConstraint).to.be.instanceOf(SourceConstraint);
+    expect(sourceConstraint).toBeInstanceOf(SourceConstraint);
 
     const expectedJson = JSON.stringify({
       type: 'SOURCE',
@@ -184,7 +180,7 @@ describe('SourceConstraintBuilder', () => {
       },
     });
 
-    expect(JSON.stringify(sourceConstraint)).to.equal(expectedJson);
+    expect(JSON.stringify(sourceConstraint)).toBe(expectedJson);
   });
 
   it('should build a constraint with soft preference', () => {

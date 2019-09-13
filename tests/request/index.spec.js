@@ -1,4 +1,3 @@
-const expect = require('chai').expect;
 const nock = require('nock');
 const fs = require('fs');
 
@@ -24,7 +23,7 @@ const mockConnectApi = () => {
 
 describe('request', () => {
   describe('#buildConnectApiRequest', () => {
-    context('when making a Connect API request', () => {
+    describe('when making a Connect API request', () => {
       mockConnectApi();
 
       it('should make a successful POST request to the endpoint', (done) => {
@@ -38,7 +37,7 @@ describe('request', () => {
 
         request.execute()
           .then((response) => {
-            expect(response.getParsedResponse()).to.be.a('object');
+            expect(response.getParsedResponse()).toBeInstanceOf(Object);
             done();
           })
           .catch(done);
@@ -47,13 +46,13 @@ describe('request', () => {
   });
 
   describe('#makeRequest', () => {
-    context('when making a Connect API request', () => {
+    describe('when making a Connect API request', () => {
       mockConnectApi();
 
       it('should make a successful POST request to the endpoint', (done) => {
         yotiRequest.makeRequest('POST', '/some-endpoint', PEM_STRING, 'stub-app-id', expectedPayload)
           .then((response) => {
-            expect(response.getParsedResponse()).to.be.a('object');
+            expect(response.getParsedResponse()).toBeInstanceOf(Object);
             done();
           })
           .catch(done);

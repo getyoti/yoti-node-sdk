@@ -1,7 +1,3 @@
-const {
-  expect,
-} = require('chai');
-
 const { ConstraintsBuilder, SourceConstraintBuilder } = require('../../..');
 const Constraints = require('../../../src/dynamic_sharing_service/policy/constraints');
 
@@ -15,7 +11,7 @@ describe('ConstraintsBuilder', () => {
       .withSourceConstraint(sourceConstraint)
       .build();
 
-    expect(constraints).to.be.instanceOf(Constraints);
+    expect(constraints).toBeInstanceOf(Constraints);
 
     const expectedJson = JSON.stringify([
       {
@@ -32,6 +28,6 @@ describe('ConstraintsBuilder', () => {
       },
     ]);
 
-    expect(JSON.stringify(constraints)).to.equal(expectedJson);
+    expect(JSON.stringify(constraints)).toBe(expectedJson);
   });
 });

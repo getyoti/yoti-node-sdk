@@ -1,5 +1,4 @@
 const fs = require('fs');
-const expect = require('chai').expect;
 const { ApplicationProfile } = require('../../src/profile_service/application.profile');
 const { Attribute } = require('../../src/data_type/attribute');
 
@@ -12,40 +11,40 @@ describe('ApplicationProfile', () => {
   describe('#getName', () => {
     it('should return application_name value', () => {
       expect(profileObj.getName().getValue())
-        .to.equal(profileData.application_name.value);
+        .toBe(profileData.application_name.value);
     });
   });
 
   describe('#getUrl', () => {
     it('should return application_url value', () => {
       expect(profileObj.getUrl().getValue())
-        .to.equal(profileData.application_url.value);
+        .toBe(profileData.application_url.value);
     });
   });
 
   describe('#getReceiptBgColor', () => {
     it('should return application_receipt_bgcolor value', () => {
       expect(profileObj.getReceiptBgColor().getValue())
-        .to.equal(profileData.application_receipt_bgcolor.value);
+        .toBe(profileData.application_receipt_bgcolor.value);
     });
   });
 
   describe('#getLogo', () => {
     it('should return application_logo value', () => {
       expect(profileObj.getLogo().getValue())
-        .to.equal(profileData.application_logo.value);
+        .toBe(profileData.application_logo.value);
     });
   });
 
   describe('#getAttributes', () => {
     it('should return all attributes', () => {
       const attributes = profileObj.getAttributes();
-      expect(Object.keys(attributes).length).to.be.equal(4);
+      expect(Object.keys(attributes).length).toBe(4);
       Object.keys(attributes).forEach((attributeName) => {
-        expect(attributes[attributeName]).to.instanceOf(Attribute);
+        expect(attributes[attributeName]).toBeInstanceOf(Attribute);
       });
-      expect(attributes.application_name.getName()).to.equal('application_name');
-      expect(attributes.application_name.getValue()).to.equal('TEST APPLICATION');
+      expect(attributes.application_name.getName()).toBe('application_name');
+      expect(attributes.application_name.getValue()).toBe('TEST APPLICATION');
     });
   });
 });

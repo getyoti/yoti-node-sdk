@@ -1,4 +1,3 @@
-const expect = require('chai').expect;
 const fs = require('fs');
 
 const yotiCommon = require('../../src/yoti_common');
@@ -10,7 +9,7 @@ describe('yotiCommon', () => {
     it('should return the signed message', () => {
       const signedMessage = yotiCommon.getRSASignatureForMessage('blah blah blah', privateKeyFile);
       const expectedSignedMessage = fs.readFileSync('./tests/sample-data/fixtures/aml-signed-message.txt', 'utf8');
-      expect(signedMessage).to.equal(expectedSignedMessage);
+      expect(signedMessage).toBe(expectedSignedMessage);
     });
   });
 });

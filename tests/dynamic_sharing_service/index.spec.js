@@ -1,6 +1,3 @@
-const {
-  expect,
-} = require('chai');
 const fs = require('fs');
 const nock = require('nock');
 const uuid = require('uuid');
@@ -23,7 +20,7 @@ describe('createShareUrl', () => {
   const REF_ID = '4c5473b1-3b79-4873-b2c8-8b141d602398';
   const SHARE_URL_RESULT = './tests/sample-data/responses/share-url-result.json';
 
-  context('when a valid response is returned', () => {
+  describe('when a valid response is returned', () => {
     it('should get the QR code and Ref ID', (done) => {
       nock(`${config.yoti.connectApi}`)
         .post(new RegExp(`^/api/v1/qrcodes/apps/${APP_ID}`))
@@ -41,22 +38,22 @@ describe('createShareUrl', () => {
 
       createShareUrl(dynamicScenario, privateKeyFile, APP_ID)
         .then((result) => {
-          expect(result.getShareUrl()).to.equal(QRCODE_LINK);
-          expect(result.getRefId()).to.equal(REF_ID);
+          expect(result.getShareUrl()).toBe(QRCODE_LINK);
+          expect(result.getRefId()).toBe(REF_ID);
           done();
         })
         .catch(done);
     });
   });
 
-  context('when a DynamicScenario is not provided', () => {
+  describe('when a DynamicScenario is not provided', () => {
     it('should throw error', () => {
       expect(() => createShareUrl('invalid scenario', privateKeyFile, APP_ID))
-        .to.throw(TypeError, 'dynamicScenario must be instance of DynamicScenario');
+        .toThrow(TypeError, 'dynamicScenario must be instance of DynamicScenario');
     });
   });
 
-  context('when an invalid response is returned', () => {
+  describe('when an invalid response is returned', () => {
     [
       {
         error: 'QR Code URL must be a string',
@@ -91,7 +88,7 @@ describe('createShareUrl', () => {
 
         createShareUrl(dynamicScenario, privateKeyFile, APP_ID)
           .catch((err) => {
-            expect(err.message).to.equal(invalidResponse.error);
+            expect(err.message).toBe(invalidResponse.error);
             done();
           })
           .catch(done);
