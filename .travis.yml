@@ -18,7 +18,9 @@ jobs:
       stage: Compatibility
       node_js: "node"
       os: linux
-      install: npm update
+      install:
+        - npm install
+        - npm --depth=9999 update
       script:
         - npm test
     - <<: *test-compatibility
