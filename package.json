@@ -13,13 +13,24 @@
   },
   "scripts": {
     "lint": "node_modules/.bin/eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
-    "unit-test": "node_modules/.bin/jest --verbose",
+    "unit-test": "node_modules/.bin/jest",
     "test": "npm run lint && npm run unit-test"
   },
   "husky": {
     "hooks": {
       "pre-commit": "npm run test"
     }
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "./*.js",
+      "./src/**/*.js",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ],
+    "coverageDirectory": "./coverage"
   },
   "dependencies": {
     "base64-url": "^2.2.1",
