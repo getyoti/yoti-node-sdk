@@ -19,8 +19,8 @@ jobs:
       node_js: "node"
       os: linux
       install:
+        - rm package-lock.json
         - npm install
-        - npm --depth=9999 update
       script:
         - npm test
     - <<: *test-compatibility
