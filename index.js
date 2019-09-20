@@ -6,6 +6,13 @@ const { RequestBuilder } = require('./src/request/request.builder');
 const { Payload } = require('./src/request/payload');
 
 const {
+  SandboxClientBuilder,
+  SandboxAttributeBuilder,
+  SandboxAnchorBuilder,
+  TokenRequestBuilder,
+} = require('./src/sandbox');
+
+const {
   DynamicScenarioBuilder,
   DynamicPolicyBuilder,
   WantedAttributeBuilder,
@@ -32,4 +39,8 @@ module.exports = {
   SourceConstraintBuilder,
   RequestBuilder,
   Payload,
+  SandboxClientBuilder,
+  SandboxAttributeBuilder,
+  SandboxAnchorBuilder,
+  TokenRequestBuilder,
 };
