@@ -55,22 +55,13 @@ class RequestBuilder {
   }
 
   /**
-   * @param {Buffer} pem
+   * @param {string} pem
    *
    * @returns {RequestBuilder}
    */
-  withPem(pem) {
+  withPemString(pem) {
     this.pem = pem;
     return this;
-  }
-
-  /**
-   * @param {string} pemString
-   *
-   * @returns {RequestBuilder}
-   */
-  withPemString(pemString) {
-    return this.withPem(Buffer.from(pemString, 'utf8'));
   }
 
   /**
@@ -79,7 +70,7 @@ class RequestBuilder {
    * @returns {RequestBuilder}
    */
   withPemFilePath(filePath) {
-    return this.withPem(fs.readFileSync(filePath, 'utf8'));
+    return this.withPemString(fs.readFileSync(filePath, 'utf8'));
   }
 
   /**
@@ -165,7 +156,7 @@ class RequestBuilder {
       throw new Error('Base URL must be specified');
     }
     if (!this.pem) {
-      throw new Error('PEM Buffer, string or file path must be provided');
+      throw new Error('PEM file path or string must be provided');
     }
 
     // Merge provided query params with nonce and timestamp.
