@@ -25,24 +25,14 @@ class SandboxClientBuilder {
   }
 
   /**
-   * @param {Buffer} pem
-   *
-   * @returns {SandboxClientBuilder}
-   */
-  withPem(pem) {
-    Validation.instanceOf(pem, Buffer, 'pem');
-    this.pem = pem;
-    return this;
-  }
-
-  /**
    * @param {string} pemString
    *
    * @returns {SandboxClientBuilder}
    */
-  withPemString(pemString) {
-    Validation.isString(pemString, 'pemString');
-    return this.withPem(Buffer.from(pemString, 'utf8'));
+  withPemString(pem) {
+    Validation.isString(pem, 'pem');
+    this.pem = pem;
+    return this;
   }
 
   /**
@@ -52,7 +42,7 @@ class SandboxClientBuilder {
    */
   withPemFilePath(filePath) {
     Validation.isString(filePath, 'filePath');
-    return this.withPem(fs.readFileSync(filePath, 'utf8'));
+    return this.withPemString(fs.readFileSync(filePath, 'utf8'));
   }
 
   /**
