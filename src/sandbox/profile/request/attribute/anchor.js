@@ -1,39 +1,57 @@
+/**
+ * @class SandboxAnchor
+ */
 class SandboxAnchor {
-  constructor(name, value, derivation, optional, anchors = []) {
-    this.name = name;
+  /**
+   * @param {string} type
+   * @param {string} value
+   * @param {*} subType
+   * @param {DateTime} timestamp
+   */
+  constructor(type, value, subType, timestamp) {
+    this.type = type;
     this.value = value;
-    this.derivation = derivation;
-    this.optional = optional;
-    this.anchors = anchors;
+    this.subType = subType;
+    this.timestamp = timestamp;
   }
 
-  getName() {
-    return this.name;
+  /**
+   * @returns {string}
+   */
+  getType() {
+    return this.type;
   }
 
+  /**
+   * @returns {string}
+   */
   getValue() {
     return this.value;
   }
 
-  getDerivation() {
-    return this.derivation;
+  /**
+   * @returns {*}
+   */
+  getSubType() {
+    return this.subType;
   }
 
-  getOptional() {
-    return this.optional;
+  /**
+   * @returns {DateTime}
+   */
+  getTimestamp() {
+    return this.timestamp;
   }
 
-  getAnchors() {
-    return this.anchors;
-  }
-
+  /**
+   * @returns {Object} data for JSON.stringify()
+   */
   toJSON() {
     return {
-      name: this.name,
+      type: this.type,
       value: this.value,
-      derivation: this.derivation,
-      optional: this.optional,
-      anchors: this.anchors,
+      sub_type: this.subType,
+      timestamp: this.timestamp,
     };
   }
 }
