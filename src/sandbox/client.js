@@ -10,7 +10,7 @@ const Validation = require('../yoti_common/validation');
 class SandboxClient {
   /**
    * @param {string} sdkId
-   * @param {Buffer} pem
+   * @param {string} pem
    * @param {string} sandboxUrl
    */
   constructor(sdkId, pem, sandboxUrl) {
@@ -18,7 +18,7 @@ class SandboxClient {
     this.sdkId = sdkId;
     this.endpoint = `/apps/${sdkId}/tokens`;
 
-    Validation.instanceOf(pem, Buffer, 'pem');
+    Validation.isString(pem, 'pem');
     this.pem = pem;
 
     Validation.isString(sandboxUrl, 'sandboxUrl');
