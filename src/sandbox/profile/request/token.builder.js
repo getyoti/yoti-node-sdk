@@ -166,7 +166,7 @@ class TokenRequestBuilder {
    * @returns {TokenRequestBuilder}
    */
   withSelfie(value, anchors = []) {
-    return this.withBase64Selfie(value, anchors);
+    return this.withBase64Selfie(Buffer.from(value).toString('base64'), anchors);
   }
 
   /**

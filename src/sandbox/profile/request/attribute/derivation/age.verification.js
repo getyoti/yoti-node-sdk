@@ -12,7 +12,7 @@ class SandboxAgeVerification {
    * @param {*} supportedAgeDerivation
    * @param {SandboxAnchor[]} anchors
    */
-  constructor(dateOfBirth, supportedAgeDerivation, anchors) {
+  constructor(dateOfBirth, supportedAgeDerivation, anchors = []) {
     Validation.notNull(dateOfBirth, 'dateOfBirth');
     this.dateOfBirth = dateOfBirth;
 
