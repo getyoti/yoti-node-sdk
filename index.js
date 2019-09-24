@@ -8,6 +8,7 @@ const { Payload } = require('./src/request/payload');
 const {
   SandboxClientBuilder,
   SandboxAttributeBuilder,
+  SandboxAgeVerificationBuilder,
   SandboxAnchorBuilder,
   TokenRequestBuilder,
 } = require('./src/sandbox');
@@ -41,6 +42,7 @@ module.exports = {
   Payload,
   SandboxClientBuilder,
   SandboxAttributeBuilder,
+  SandboxAgeVerificationBuilder,
   SandboxAnchorBuilder,
   TokenRequestBuilder,
 };
