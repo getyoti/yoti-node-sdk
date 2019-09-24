@@ -154,8 +154,11 @@ class TokenRequestBuilder {
    * @returns {TokenRequestBuilder}
    */
   withStructuredPostalAddress(value, anchors = []) {
-    const sandboxAttribute = this
-      .createAttribute(constants.ATTR_STRUCTURED_POSTAL_ADDRESS, value, anchors);
+    const sandboxAttribute = createAttribute(
+      constants.ATTR_STRUCTURED_POSTAL_ADDRESS,
+      value,
+      anchors
+    );
     return this.withAttribute(sandboxAttribute);
   }
 
