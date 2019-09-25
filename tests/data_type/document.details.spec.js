@@ -30,8 +30,8 @@ describe('documentDetails', () => {
   describe('when value is three words', () => {
     it('should return null for optional attributes', () => {
       const documentDetails = new DocumentDetails('PASSPORT GBR 01234567');
-      expect(documentDetails.getExpirationDate()).toBe(null);
-      expect(documentDetails.getIssuingAuthority()).toBe(null);
+      expect(documentDetails.getExpirationDate()).toBeUndefined();
+      expect(documentDetails.getIssuingAuthority()).toBeUndefined();
     });
   });
   describe('when value is four words', () => {
