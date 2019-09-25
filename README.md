@@ -181,17 +181,16 @@ This QR Code/link should then be embedded into your page using the Yoti widget t
 
 ### Example
 
-The following example demonstrates how a Dynamic Policy can be built using attribute methods such as `withFullName()`, and generic methods `withWantedAttribute()` and `withWantedAttributeByName()`.
+The following example demonstrates how a Dynamic Policy can be built using attribute methods such as `withFullName()`, and generic method `withWantedAttribute()`.
 
 ```javascript
-
 const wantedEmailAttribute = new yoti.WantedAttributeBuilder()
   .withName('email_address')
+  .withAcceptSelfAsserted()
   .build();
 
 const dynamicPolicy = new yoti.DynamicPolicyBuilder()
   .withFullName()
-  .withWantedAttributeByName('given_names')
   .withWantedAttribute(wantedEmailAttribute)
   .build();
 

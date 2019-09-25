@@ -1,5 +1,3 @@
-const expect = require('chai').expect;
-
 const { YotiAnchor } = require('../../src/data_type/anchor');
 const { YotiDate } = require('../../src/data_type/date');
 const { YotiSignedTimeStamp } = require('../../src/data_type/signed.timestamp');
@@ -18,29 +16,29 @@ describe('YotiAnchor', () => {
     originServerCerts
   );
 
-  context('#getType()', () => {
+  describe('#getType()', () => {
     it('it should return test_type', () => {
-      expect(anchor.getType()).to.equal('test_type');
+      expect(anchor.getType()).toBe('test_type');
     });
   });
-  context('#getValue()', () => {
+  describe('#getValue()', () => {
     it('it should return test_value', () => {
-      expect(anchor.getValue()).to.equal('test_value');
+      expect(anchor.getValue()).toBe('test_value');
     });
   });
-  context('#getSubType()', () => {
+  describe('#getSubType()', () => {
     it('it should return test_sub_type', () => {
-      expect(anchor.getSubType()).to.equal('test_sub_type');
+      expect(anchor.getSubType()).toBe('test_sub_type');
     });
   });
-  context('#getSignedTimeStamp()', () => {
+  describe('#getSignedTimeStamp()', () => {
     it('it should return timestamp', () => {
-      expect(anchor.getSignedTimeStamp()).to.equal(signedTimestamp);
+      expect(anchor.getSignedTimeStamp()).toBe(signedTimestamp);
     });
   });
-  context('#getOriginServerCerts()', () => {
+  describe('#getOriginServerCerts()', () => {
     it('it should return origin server certs', () => {
-      expect(anchor.getOriginServerCerts()).to.equal(originServerCerts);
+      expect(anchor.getOriginServerCerts()).toBe(originServerCerts);
     });
   });
 });

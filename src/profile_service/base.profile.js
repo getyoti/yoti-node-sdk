@@ -1,6 +1,7 @@
 'use strict';
 
 const { Attribute } = require('../data_type/attribute');
+const Validation = require('../yoti_common/validation');
 
 class BaseProfile {
   /**
@@ -47,6 +48,21 @@ class BaseProfile {
       return Object.prototype.hasOwnProperty.call(this.profileData, prop);
     }
     return false;
+  }
+
+  /**
+   * Find attributes starting with provided name.
+   *
+   * @param {string} name
+   *
+   * @returns {Array}
+   */
+  findAttributesStartingWith(name) {
+    Validation.isString(name, 'name');
+
+    return Object.keys(this.getAttributes())
+      .map(key => this.getAttributes()[key])
+      .filter(attribute => attribute.getName().startsWith(name));
   }
 
   /**

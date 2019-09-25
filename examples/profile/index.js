@@ -20,11 +20,7 @@ const config = {
 function saveImage(selfie) {
   return new Promise((res, rej) => {
     try {
-      fs.writeFileSync(
-        path.join(__dirname, 'static', 'YotiSelfie.jpeg'),
-        selfie.toBase64(),
-        'base64',
-      );
+      fs.writeFileSync(path.join(__dirname, 'static', 'YotiSelfie.jpeg'), selfie.toBase64(), 'base64');
       res();
     } catch (error) {
       rej(error);
@@ -55,14 +51,29 @@ router.get('/dynamic-share', (req, res) => {
     .withRadius(6000)
     .build();
 
+  const sourceConstraint = new Yoti.SourceConstraintBuilder()
+    .withPassport()
+    .withSoftPreference(false)
+    .build();
+
+  const constraints = new Yoti.ConstraintsBuilder()
+    .withSourceConstraint(sourceConstraint)
+    .build();
+
   const givenNamesWantedAttribute = new Yoti.WantedAttributeBuilder()
     .withName('given_names')
+    .withConstraints(constraints)
+    .withAcceptSelfAsserted()
+    .build();
+
+  const emailAddressWantedAttribute = new Yoti.WantedAttributeBuilder()
+    .withName('email_address')
     .build();
 
   const dynamicPolicy = new Yoti.DynamicPolicyBuilder()
     .withWantedAttribute(givenNamesWantedAttribute)
-    .withWantedAttributeByName('email_address')
-    .withFullName()
+    .withWantedAttribute(emailAddressWantedAttribute)
+    .withFullName(constraints)
     .withSelfie()
     .withPhoneNumber()
     .withAgeOver(18)

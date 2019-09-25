@@ -1,4 +1,3 @@
-const expect = require('chai').expect;
 const fs = require('fs');
 const { AttributeConverter } = require('../../src/yoti_common/attribute.converter');
 const protoRoot = require('../../src/proto-root');
@@ -126,18 +125,18 @@ const createTestAttribute = (contentType, value) => {
  * @param {String} base64Last10
  */
 const assertIsExpectedImage = (image, mimeType, base64Last10) => {
-  expect(image).to.be.instanceOf(ImageJpeg);
-  expect(image.getMimeType()).to.equal(mimeType);
+  expect(image).toBeInstanceOf(ImageJpeg);
+  expect(image.getMimeType()).toBe(mimeType);
   const base64String = image.getBase64Content();
-  expect(base64String.substr(base64String.length - 10)).to.equal(base64Last10);
+  expect(base64String.substr(base64String.length - 10)).toBe(base64Last10);
 };
 
 describe('AttributeConverter', () => {
   describe('#convertValueBasedOnContentType', () => {
     it('should return multi value object', () => {
       const multiValue = convertSampleMultiValue();
-      expect(multiValue.getItems().length).to.equal(2);
-      expect(multiValue).to.be.instanceOf(MultiValue);
+      expect(multiValue.getItems().length).toBe(2);
+      expect(multiValue).toBeInstanceOf(MultiValue);
       assertIsExpectedImage(multiValue.getItems()[0], 'image/jpeg', 'vWgD//2Q==');
       assertIsExpectedImage(multiValue.getItems()[1], 'image/jpeg', '38TVEH/9k=');
     });
@@ -154,16 +153,16 @@ describe('AttributeConverter', () => {
       );
       // Check top-level items.
       const items = multiValue.getItems();
-      expect(items[0]).to.be.instanceOf(ImageJpeg);
-      expect(items[1]).to.be.instanceOf(ImagePng);
-      expect(items[2]).to.equal('string 1');
-      expect(items[3]).to.be.instanceOf(MultiValue);
+      expect(items[0]).toBeInstanceOf(ImageJpeg);
+      expect(items[1]).toBeInstanceOf(ImagePng);
+      expect(items[2]).toBe('string 1');
+      expect(items[3]).toBeInstanceOf(MultiValue);
 
       // Check nested MultiValue.
       const nestedItems = items[3].getItems();
-      expect(nestedItems[0]).to.be.instanceOf(ImageJpeg);
-      expect(nestedItems[1]).to.be.instanceOf(ImagePng);
-      expect(nestedItems[2]).to.equal('string 1');
+      expect(nestedItems[0]).toBeInstanceOf(ImageJpeg);
+      expect(nestedItems[1]).toBeInstanceOf(ImagePng);
+      expect(nestedItems[2]).toBe('string 1');
     });
     it('should return empty string values', () => {
       const protoAttr = createTestAttribute(CONTENT_TYPE_STRING, '');
@@ -171,7 +170,7 @@ describe('AttributeConverter', () => {
         protoAttr.value,
         CONTENT_TYPE_STRING
       );
-      expect(value).to.equal('');
+      expect(value).toBe('');
     });
     it('should return UTF-8 encoded strings', () => {
       const protoAttr = createTestAttribute(CONTENT_TYPE_STRING, 'test string');
@@ -179,7 +178,7 @@ describe('AttributeConverter', () => {
         protoAttr.value,
         CONTENT_TYPE_STRING
       );
-      expect(value).to.equal('test string');
+      expect(value).toBe('test string');
     });
     it('should return UTF-8 encoded strings for undefined content type', () => {
       const protoAttr = createTestAttribute(CONTENT_TYPE_UNDEFINED, 'test undefined string');
@@ -187,7 +186,7 @@ describe('AttributeConverter', () => {
         protoAttr.value,
         CONTENT_TYPE_UNDEFINED
       );
-      expect(value).to.equal('test undefined string');
+      expect(value).toBe('test undefined string');
     });
     it('should return UTF-8 encoded strings for unknown content types', () => {
       const protoAttr = createTestAttribute(100, 'test unknown string');
@@ -195,7 +194,7 @@ describe('AttributeConverter', () => {
         protoAttr.value,
         100
       );
-      expect(value).to.equal('test unknown string');
+      expect(value).toBe('test unknown string');
     });
     it('should not allow empty non-string values', () => {
       nonStringContentTypes.forEach((contentType) => {
@@ -209,7 +208,7 @@ describe('AttributeConverter', () => {
         } catch (err) {
           errMessage = err.message;
         }
-        expect(errMessage).to.equal('Warning: value is NULL', `Content Type: ${contentType}`);
+        expect(errMessage).toBe('Warning: value is NULL', `Content Type: ${contentType}`);
       });
     });
     it('should return integer values', () => {
@@ -220,7 +219,7 @@ describe('AttributeConverter', () => {
           protoAttr.value,
           CONTENT_TYPE_INT
         );
-        expect(value).to.equal(integer);
+        expect(value).toBe(integer);
       });
     });
     it('should allow empty string MultiValue values', () => {
@@ -233,8 +232,8 @@ describe('AttributeConverter', () => {
         }),
         CONTENT_TYPE_MULTI_VALUE
       );
-      expect(multiValue.getItems()[0]).to.equal('');
-      expect(multiValue.getItems()[1]).to.be.instanceOf(ImagePng);
+      expect(multiValue.getItems()[0]).toBe('');
+      expect(multiValue.getItems()[1]).toBeInstanceOf(ImagePng);
     });
     it('should not allow empty non-string MultiValue values', () => {
       nonStringContentTypes.forEach((contentType) => {
@@ -252,7 +251,7 @@ describe('AttributeConverter', () => {
         } catch (err) {
           errMessage = err.message;
         }
-        expect(errMessage).to.equal('Warning: value is NULL', `Content Type: ${contentType}`);
+        expect(errMessage).toBe('Warning: value is NULL', `Content Type: ${contentType}`);
       });
     });
   });
@@ -264,10 +263,10 @@ describe('AttributeConverter', () => {
           constants.ATTR_DOCUMENT_IMAGES
         );
 
-      expect(documentImages.length).to.equal(2);
+      expect(documentImages.length).toBe(2);
       documentImages.forEach((item) => {
-        expect(item).to.be.instanceOf(ImageJpeg);
-        expect(item.getMimeType()).to.equal('image/jpeg');
+        expect(item).toBeInstanceOf(ImageJpeg);
+        expect(item.getMimeType()).toBe('image/jpeg');
       });
     });
   });
@@ -285,8 +284,8 @@ describe('AttributeConverter', () => {
         exceptionMessage = err.message;
       }
 
-      expect(exceptionMessage).to.equal('Document Images could not be decoded');
-      expect(documentImages).to.equal(null);
+      expect(exceptionMessage).toBe('Document Images could not be decoded');
+      expect(documentImages).toBe(null);
     });
   });
   describe('Document Images', () => {
@@ -300,9 +299,9 @@ describe('AttributeConverter', () => {
       // Attempt to change a document image.
       documentImages[0] = 'not allowed';
 
-      expect(documentImages.length).to.equal(2);
-      expect(documentImages[0]).to.be.instanceOf(ImageJpeg);
-      expect(documentImages[0].getMimeType()).to.equal('image/jpeg');
+      expect(documentImages.length).toBe(2);
+      expect(documentImages[0]).toBeInstanceOf(ImageJpeg);
+      expect(documentImages[0].getMimeType()).toBe('image/jpeg');
     });
   });
 });

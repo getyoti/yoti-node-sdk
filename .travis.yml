@@ -18,7 +18,9 @@ jobs:
       stage: Compatibility
       node_js: "node"
       os: linux
-      install: npm update
+      install:
+        - npm install
+        - npm update
       script:
         - npm test
     - <<: *test-compatibility
@@ -43,16 +45,14 @@ jobs:
     - stage: Lint Examples
       name: AML Check
       node_js: "10"
-      install:
+      script:
         - cd ./examples/aml-check
         - npm update
-      script:
         - npm run lint
     - name: Profile
       node_js: "10"
-      install:
+      script:
         - cd ./examples/profile
         - npm update
-      script:
         - npm run lint
 

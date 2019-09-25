@@ -1,6 +1,7 @@
 'use strict';
 
 const Validation = require('../../yoti_common/validation');
+const Constraints = require('./constraints');
 
 /**
  * Defines the wanted attribute name and derivation.
@@ -11,13 +12,25 @@ module.exports = class WantedAttribute {
   /**
    * @param {string} name
    * @param {string} derivation
+   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} constraints
    */
-  constructor(name, derivation = '') {
+  constructor(name, derivation = '', acceptSelfAsserted = null, constraints = null) {
     Validation.isString(name, 'name');
     this.name = name;
 
     Validation.isString(derivation, 'derivation');
     this.derivation = derivation;
+
+    if (acceptSelfAsserted !== null) {
+      Validation.isBoolean(acceptSelfAsserted, 'acceptSelfAsserted');
+    }
+    this.acceptSelfAsserted = acceptSelfAsserted;
+
+    if (constraints !== null) {
+      Validation.instanceOf(constraints, Constraints, 'constraints');
+    }
+    this.constraints = constraints;
   }
 
   /**
@@ -39,13 +52,46 @@ module.exports = class WantedAttribute {
   }
 
   /**
+   * List of constraints to add to an attribute.
+   *
+   * If you do not provide any particular constraints, Yoti will provide you with the
+   * information from the most recently added source.
+   *
+   * @returns {Constraints}
+   */
+  getConstraints() {
+    return this.constraints;
+  }
+
+  /**
+   * Accept self asserted attributes.
+   *
+   * These are attributes that have been self-declared, and not verified by Yoti.
+   *
+   * @returns {boolean}
+   */
+  getAcceptSelfAsserted() {
+    return this.acceptSelfAsserted;
+  }
+
+  /**
    * @returns {Object} data for JSON.stringify()
    */
   toJSON() {
-    return {
+    const json = {
       name: this.getName(),
       derivation: this.getDerivation(),
       optional: false,
     };
+
+    if (this.getConstraints() instanceof Constraints) {
+      json.constraints = this.getConstraints();
+    }
+
+    if ((typeof this.getAcceptSelfAsserted()) === 'boolean') {
+      json.accept_self_asserted = this.getAcceptSelfAsserted();
+    }
+
+    return json;
   }
 };

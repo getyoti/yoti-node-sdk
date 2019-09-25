@@ -1,7 +1,7 @@
 'use strict';
 
-const httpRequest = require('../request');
 const { Payload } = require('../request/payload');
+const yotiRequest = require('../request');
 
 const DynamicScenarioBuilder = require('./dynamic.scenario.builder');
 const DynamicScenario = require('./dynamic.scenario');
@@ -10,6 +10,9 @@ const WantedAttributeBuilder = require('./policy/wanted.attribute.builder');
 const ExtensionBuilder = require('./extension/extension.builder');
 const LocationConstraintExtensionBuilder = require('./extension/location.constraint.extension.builder');
 const TransactionalFlowExtensionBuilder = require('./extension/transactional.flow.extension.builder');
+const WantedAnchorBuilder = require('./policy/wanted.anchor.builder');
+const ConstraintsBuilder = require('./policy/constraints.builder');
+const SourceConstraintBuilder = require('./policy/source.constraint.builder');
 const ShareUrlResult = require('./share.url.result');
 const Validation = require('../yoti_common/validation');
 
@@ -23,15 +26,19 @@ const Validation = require('../yoti_common/validation');
  * @returns {Promise} containing a ShareUrlResult
  */
 const createShareUrl = (dynamicScenario, pem, appId) => {
-  const endPoint = `/qrcodes/apps/${appId}`;
-  const httpMethod = 'POST';
-
   Validation.instanceOf(dynamicScenario, DynamicScenario, 'dynamicScenario');
 
   const payload = new Payload(dynamicScenario);
+  const request = yotiRequest.buildConnectApiRequest(
+    'POST',
+    `/qrcodes/apps/${appId}`,
+    pem,
+    appId,
+    payload
+  );
 
   return new Promise((resolve, reject) => {
-    httpRequest.makeRequest(httpMethod, endPoint, pem, appId, payload)
+    request.execute()
       .then((response) => {
         try {
           const parsedResponse = response.getParsedResponse();
@@ -56,4 +63,7 @@ module.exports = {
   ExtensionBuilder,
   LocationConstraintExtensionBuilder,
   TransactionalFlowExtensionBuilder,
+  WantedAnchorBuilder,
+  ConstraintsBuilder,
+  SourceConstraintBuilder,
 };

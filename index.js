@@ -1,8 +1,9 @@
 'use strict';
 
 const Client = require('./src/client').YotiClient;
-const AmlAddress = require('./src/aml_type').AmlAddress;
-const AmlProfile = require('./src/aml_type').AmlProfile;
+const { AmlAddress, AmlProfile } = require('./src/aml_type');
+const { RequestBuilder } = require('./src/request/request.builder');
+const { Payload } = require('./src/request/payload');
 
 const {
   DynamicScenarioBuilder,
@@ -11,6 +12,9 @@ const {
   ExtensionBuilder,
   LocationConstraintExtensionBuilder,
   TransactionalFlowExtensionBuilder,
+  WantedAnchorBuilder,
+  ConstraintsBuilder,
+  SourceConstraintBuilder,
 } = require('./src/dynamic_sharing_service');
 
 module.exports = {
@@ -23,4 +27,9 @@ module.exports = {
   ExtensionBuilder,
   LocationConstraintExtensionBuilder,
   TransactionalFlowExtensionBuilder,
+  WantedAnchorBuilder,
+  ConstraintsBuilder,
+  SourceConstraintBuilder,
+  RequestBuilder,
+  Payload,
 };

@@ -25,9 +25,30 @@ module.exports = class WantedAttributeBuilder {
   }
 
   /**
+   * @param {Constraints} constraints
+   */
+  withConstraints(constraints) {
+    this.constraints = constraints;
+    return this;
+  }
+
+  /**
+   * @param {Array} acceptSelfAsserted
+   */
+  withAcceptSelfAsserted(acceptSelfAsserted = true) {
+    this.acceptSelfAsserted = acceptSelfAsserted;
+    return this;
+  }
+
+  /**
    * @returns {WantedAttribute}
    */
   build() {
-    return new WantedAttribute(this.name, this.derivation);
+    return new WantedAttribute(
+      this.name,
+      this.derivation,
+      this.acceptSelfAsserted,
+      this.constraints
+    );
   }
 };

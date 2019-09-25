@@ -2,6 +2,9 @@
 
 const AGE_PATTERN = /^age(Under|Over):[1-9][0-9]*$/;
 
+/**
+ * @deprecated replaced by AgeVerification
+ */
 module.exports.Age = class Age {
   constructor(profileData) {
     this.profileData = profileData;

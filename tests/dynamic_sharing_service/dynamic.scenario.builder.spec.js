@@ -1,5 +1,3 @@
-const { expect } = require('chai');
-
 const {
   DynamicScenarioBuilder,
   DynamicPolicyBuilder,
@@ -33,9 +31,9 @@ describe('DynamicScenarioBuilder', () => {
       .withExtension(extension2)
       .build();
 
-    expect(dynamicScenario.getCallbackEndpoint()).to.equal('/test-callback');
-    expect(dynamicScenario.getDynamicPolicy()).to.equal(dynamicPolicy);
-    expect(dynamicScenario.getExtensions()).to.deep.equal([extension1, extension2]);
+    expect(dynamicScenario.getCallbackEndpoint()).toBe('/test-callback');
+    expect(dynamicScenario.getDynamicPolicy()).toBe(dynamicPolicy);
+    expect(dynamicScenario.getExtensions()).toEqual([extension1, extension2]);
 
     const expectedJsonData = {
       callback_endpoint: '/test-callback',
@@ -73,7 +71,7 @@ describe('DynamicScenarioBuilder', () => {
     };
     const expectedJson = JSON.stringify(expectedJsonData);
 
-    expect(dynamicScenario).to.be.instanceOf(DynamicScenario);
-    expect(JSON.stringify(dynamicScenario)).to.equal(expectedJson);
+    expect(dynamicScenario).toBeInstanceOf(DynamicScenario);
+    expect(JSON.stringify(dynamicScenario)).toBe(expectedJson);
   });
 });

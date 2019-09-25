@@ -1,4 +1,3 @@
-const expect = require('chai').expect;
 const nock = require('nock');
 const fs = require('fs');
 
@@ -15,6 +14,7 @@ const yotiClient = new yoti.Client('stub-app-id', privateKeyFile);
 describe('yotiClient', () => {
   const encryptedYotiToken = 'c31Db4y6ClxSWy26xDpa9LEX3ZTUuR-rKaAhjQWnmKilR20IshkysR5Y3Hh3R6hanOyxcu7fl5vbjikkGZZb3_iH6NjxmBXuGY_Fr23AhrHvGL9WMg4EtemVvr6VI2f_5H_PDhDpYUvv-YpEM0f_SReoVxGIc8VGfj1gukuhPyNJ9hs55-SDdUjN77JiA6FPcYZxEIaqQE_yT_c3Y4V72Jnq3RHbG0vL6SefSfY_fFsnx_HeddsJc10qJYCwAkdGzVzbJH2DQ2Swp821Gwyj9eNK54S6HvpIg7LclID7BtymG6z7cTNp3fXX7mgKYoQlh_DHmPmaiqyj398w424RBg==';
   const decryptedToken = 'i79CctmY-22ad195c-d166-49a2-af16-8f356788c9dd-be094d26-19b5-450d-afce-070101760f0b';
+  const profileEndpointPattern = new RegExp(`^/api/v1/profile/${decryptedToken}.*appId=stub-app-id&nonce=.*?&timestamp=.*?`);
 
   const selfie = fs.readFileSync('./tests/sample-data/fixtures/selfie.txt', 'utf8');
   const phoneNumber = '+447474747474';
@@ -27,12 +27,12 @@ describe('yotiClient', () => {
   });
 
   describe('#getActivityDetails', () => {
-    context('when the profile has attributes', () => {
+    describe('when the profile has attributes', () => {
       const responseContent = fs.readFileSync('./tests/sample-data/payloads/payload.json', 'utf8');
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .get(new RegExp(`^/api/v1/profile/${decryptedToken}`))
+          .get(profileEndpointPattern)
           .reply(200, responseContent);
         done();
       });
@@ -45,28 +45,28 @@ describe('yotiClient', () => {
             const applicationProfile = activityDetails.getApplicationProfile();
             const outcome = activityDetails.getOutcome();
 
-            expect(activityDetails.getUserId()).to.equal(rememberMeId);
-            expect(activityDetails.getRememberMeId()).to.equal(rememberMeId);
-            expect(activityDetails.getParentRememberMeId()).to.equal(parentRememberMeId);
-            expect(activityDetails.getBase64SelfieUri()).to.equal(selfie);
+            expect(activityDetails.getUserId()).toBe(rememberMeId);
+            expect(activityDetails.getRememberMeId()).toBe(rememberMeId);
+            expect(activityDetails.getParentRememberMeId()).toBe(parentRememberMeId);
+            expect(activityDetails.getBase64SelfieUri()).toBe(selfie);
 
-            expect(outcome).to.equal('SUCCESS');
+            expect(outcome).toBe('SUCCESS');
 
-            expect(profile).to.not.equal(undefined);
-            expect(profile.phoneNumber).to.equal(phoneNumber);
-            expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).to.equal(selfie);
+            expect(profile).not.toBe(undefined);
+            expect(profile.phoneNumber).toBe(phoneNumber);
+            expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).toBe(selfie);
 
-            expect(extendedProfile.getPhoneNumber().getValue()).to.equal(phoneNumber);
-            expect(extendedProfile.getSelfie().getValue().getBase64Content()).to.equal(selfie);
+            expect(extendedProfile.getPhoneNumber().getValue()).toBe(phoneNumber);
+            expect(extendedProfile.getSelfie().getValue().getBase64Content()).toBe(selfie);
 
             const phoneNumberAnchor = extendedProfile.getPhoneNumber().getAnchors()[0];
-            expect(phoneNumberAnchor.getType()).to.equal('UNKNOWN');
-            expect(phoneNumberAnchor.getValue()).to.equal('');
+            expect(phoneNumberAnchor.getType()).toBe('UNKNOWN');
+            expect(phoneNumberAnchor.getValue()).toBe('');
 
-            expect(applicationProfile.getName().getValue()).to.equal('Node SDK Test');
-            expect(applicationProfile.getUrl().getValue()).to.equal('https://example.com');
-            expect(applicationProfile.getLogo().getValue().getBase64Content()).to.equal('data:image/jpeg;base64,');
-            expect(applicationProfile.getReceiptBgColor().getValue()).to.equal('#ffffff');
+            expect(applicationProfile.getName().getValue()).toBe('Node SDK Test');
+            expect(applicationProfile.getUrl().getValue()).toBe('https://example.com');
+            expect(applicationProfile.getLogo().getValue().getBase64Content()).toBe('data:image/jpeg;base64,');
+            expect(applicationProfile.getReceiptBgColor().getValue()).toBe('#ffffff');
 
             done();
           })
@@ -74,12 +74,12 @@ describe('yotiClient', () => {
       });
     });
 
-    context('when the profile is empty', () => {
+    describe('when the profile is empty', () => {
       const responseContentNull = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-null.json', 'utf8');
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .get(new RegExp(`^/api/v1/profile/${decryptedToken}`))
+          .get(profileEndpointPattern)
           .reply(200, responseContentNull);
         done();
       });
@@ -90,12 +90,12 @@ describe('yotiClient', () => {
             const profile = activityDetails.getUserProfile();
             const outcome = activityDetails.getOutcome();
 
-            expect(profile).to.not.equal(undefined);
-            expect(profile).to.deep.equal({});
-            expect(activityDetails.getUserId()).to.equal(rememberMeId);
-            expect(activityDetails.getRememberMeId()).to.equal(rememberMeId);
-            expect(activityDetails.getParentRememberMeId()).to.equal(parentRememberMeId);
-            expect(outcome).to.equal('SUCCESS');
+            expect(profile).not.toBe(undefined);
+            expect(profile).toEqual({});
+            expect(activityDetails.getUserId()).toBe(rememberMeId);
+            expect(activityDetails.getRememberMeId()).toBe(rememberMeId);
+            expect(activityDetails.getParentRememberMeId()).toBe(parentRememberMeId);
+            expect(outcome).toBe('SUCCESS');
 
             done();
           })
@@ -103,12 +103,12 @@ describe('yotiClient', () => {
       });
     });
 
-    context('when the profile contains an empty object', () => {
+    describe('when the profile contains an empty object', () => {
       const responseContentEmptyObj = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-empty-object.json', 'utf8');
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .get(new RegExp(`^/api/v1/profile/${decryptedToken}`))
+          .get(profileEndpointPattern)
           .reply(200, responseContentEmptyObj);
         done();
       });
@@ -119,12 +119,12 @@ describe('yotiClient', () => {
             const profile = activityDetails.getUserProfile();
             const outcome = activityDetails.getOutcome();
 
-            expect(profile).to.not.equal(undefined);
-            expect(profile).to.deep.equal({});
-            expect(activityDetails.getUserId()).to.equal(rememberMeId);
-            expect(activityDetails.getRememberMeId()).to.equal(rememberMeId);
-            expect(activityDetails.getParentRememberMeId()).to.equal(parentRememberMeId);
-            expect(outcome).to.equal('SUCCESS');
+            expect(profile).not.toBe(undefined);
+            expect(profile).toEqual({});
+            expect(activityDetails.getUserId()).toBe(rememberMeId);
+            expect(activityDetails.getRememberMeId()).toBe(rememberMeId);
+            expect(activityDetails.getParentRememberMeId()).toBe(parentRememberMeId);
+            expect(outcome).toBe('SUCCESS');
 
             done();
           })
@@ -132,12 +132,12 @@ describe('yotiClient', () => {
       });
     });
 
-    context('when the response does not have profile attributes', () => {
+    describe('when the response does not have profile attributes', () => {
       const responseContentNonExistent = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-non-existent.json', 'utf8');
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .get(new RegExp(`^/api/v1/profile/${decryptedToken}`))
+          .get(profileEndpointPattern)
           .reply(200, responseContentNonExistent);
         done();
       });
@@ -148,12 +148,12 @@ describe('yotiClient', () => {
             const profile = activityDetails.getUserProfile();
             const outcome = activityDetails.getOutcome();
 
-            expect(profile).to.not.equal(undefined);
-            expect(profile).to.deep.equal({});
-            expect(activityDetails.getUserId()).to.equal(rememberMeId);
-            expect(activityDetails.getRememberMeId()).to.equal(rememberMeId);
-            expect(activityDetails.getParentRememberMeId()).to.equal(parentRememberMeId);
-            expect(outcome).to.equal('SUCCESS');
+            expect(profile).not.toBe(undefined);
+            expect(profile).toEqual({});
+            expect(activityDetails.getUserId()).toBe(rememberMeId);
+            expect(activityDetails.getRememberMeId()).toBe(rememberMeId);
+            expect(activityDetails.getParentRememberMeId()).toBe(parentRememberMeId);
+            expect(outcome).toBe('SUCCESS');
 
             done();
           })
@@ -170,7 +170,7 @@ describe('yotiClient', () => {
 
     beforeEach((done) => {
       nock(`${config.yoti.connectApi}`)
-        .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadJSON())
+        .post(new RegExp('^/api/v1/aml-check?.*appId=stub-app-id&nonce=.*?&timestamp=.*?'), amlPayload.getPayloadJSON())
         .reply(200, amlCheckResult);
 
       done();
@@ -179,9 +179,9 @@ describe('yotiClient', () => {
     it('should return a successful result', (done) => {
       yotiClient.performAmlCheck(amlProfile)
         .then((amlResult) => {
-          expect(amlResult.isOnPepList).to.equal(true);
-          expect(amlResult.isOnFraudList).to.equal(false);
-          expect(amlResult.isOnWatchList).to.equal(false);
+          expect(amlResult.isOnPepList).toBe(true);
+          expect(amlResult.isOnFraudList).toBe(false);
+          expect(amlResult.isOnWatchList).toBe(false);
 
           done();
         })
@@ -211,7 +211,7 @@ describe('yotiClient', () => {
     it('it should get a ShareUrlResult', (done) => {
       yotiClient.createShareUrl(dynamicScenario)
         .then((result) => {
-          expect(result).to.be.instanceOf(ShareUrlResult);
+          expect(result).toBeInstanceOf(ShareUrlResult);
           done();
         })
         .catch(done);

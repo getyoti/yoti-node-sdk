@@ -1,8 +1,5 @@
-const expect = require('chai').expect;
-
-const AmlAddress = require('../../src/aml_type').AmlAddress;
-const AmlProfile = require('../../src/aml_type').AmlProfile;
-const Payload = require('../../src/request/payload').Payload;
+const { AmlAddress, AmlProfile } = require('../../src/aml_type');
+const { Payload } = require('../../');
 
 describe('amlPayload', () => {
   const amlAddress = new AmlAddress('GBR');
@@ -14,14 +11,14 @@ describe('amlPayload', () => {
   describe('#getPayloadJSON', () => {
     it('should return the payload JSON string', () => {
       const payloadJSON = amlPayload.getPayloadJSON();
-      expect(payloadJSON).to.equal(expectedPayloadJSON);
+      expect(payloadJSON).toBe(expectedPayloadJSON);
     });
   });
 
   describe('#getBase64Payload', () => {
     it('should return the base64Payload string', () => {
       const base64Payload = amlPayload.getBase64Payload();
-      expect(base64Payload).to.equal(expectedBase64Payload);
+      expect(base64Payload).toBe(expectedBase64Payload);
     });
   });
 });

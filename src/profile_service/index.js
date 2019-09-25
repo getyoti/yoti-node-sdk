@@ -1,18 +1,19 @@
 'use strict';
 
-const httpRequest = require('../request');
+const yotiRequest = require('../request');
 const yotiCommon = require('../yoti_common');
-const Payload = require('../request/payload').Payload;
 const ActivityDetails = require('./activity.details').ActivityDetails;
 
-const payload = new Payload('');
-
 module.exports.getReceipt = (token, pem, appId) => {
-  const endpoint = `/profile/${token}`;
-  const httpMethod = 'GET';
+  const request = yotiRequest.buildConnectApiRequest(
+    'GET',
+    `/profile/${token}`,
+    pem,
+    appId
+  );
 
   return new Promise((resolve, reject) => {
-    httpRequest.makeRequest(httpMethod, endpoint, pem, appId, payload)
+    request.execute()
       .then((response) => {
         try {
           const receipt = response.getReceipt();

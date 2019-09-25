@@ -1,6 +1,6 @@
 {
   "name": "yoti",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "description": "Yoti NodeJS SDK for back-end integration",
   "author": "Yoti LTD <tech@yoti.com> (https://www.yoti.com/developers)",
   "license": "MIT",
@@ -12,14 +12,25 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "lint": "node_modules/.bin/eslint *.js \"./src/**/*.js\" \"./tests/**/*.spec.js\" config/*.js",
-    "unit-test": "node_modules/.bin/istanbul cover node_modules/.bin/mocha \"./tests/**/*.spec.js\"",
+    "lint": "node_modules/.bin/eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
+    "unit-test": "node_modules/.bin/jest",
     "test": "npm run lint && npm run unit-test"
   },
   "husky": {
     "hooks": {
       "pre-commit": "npm run test"
     }
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "./*.js",
+      "./src/**/*.js",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ],
+    "coverageDirectory": "./coverage"
   },
   "dependencies": {
     "base64-url": "^2.2.1",
@@ -31,14 +42,13 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "chai": "3.5.0",
-    "eslint": "4.19.1",
-    "eslint-config-airbnb-base": "12.1.0",
-    "eslint-plugin-import": "2.9.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^21.27.2",
     "eslint-plugin-node": "6.0.1",
     "husky": "^1.3.1",
-    "istanbul": "0.4.5",
-    "mocha": "5.0.5",
+    "jest": "^24.9.0",
     "nock": "^9.6.1"
   }
 }

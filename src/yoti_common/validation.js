@@ -39,6 +39,21 @@ module.exports = class Validation {
   }
 
   /**
+   * @param {Object} value
+   * @param {string} name
+   *
+   * @throws {TypeError}
+   */
+  static hasOnlyStringValues(value, name) {
+    this.instanceOf(value, Object);
+    Object.keys(value).forEach((key) => {
+      if ((typeof value[key]) !== 'string') {
+        throw TypeError(`all values in ${name} must be a string`);
+      }
+    });
+  }
+
+  /**
    * @param {*} value
    * @param {string} name
    *
@@ -102,6 +117,23 @@ module.exports = class Validation {
 
   /**
    * @param {*} values
+   * @param {Array} types
+   * @param {string} name
+   *
+   * @throws {TypeError}
+   */
+  static isArrayOfTypes(values, types, name) {
+    this.isArray(values, name);
+    values.forEach((value) => {
+      if (!types.some(type => value instanceof type)) {
+        const allowedTypes = types.map(type => type.name).join(', ');
+        throw TypeError(`${name} must be an array containing any of the following types: ${allowedTypes}`);
+      }
+    });
+  }
+
+  /**
+   * @param {*} values
    * @param {string} name
    *
    * @throws {TypeError}
@@ -138,6 +170,20 @@ module.exports = class Validation {
     this.isNumber(value, name);
     if (value < limit) {
       throw new RangeError(`'${name}' value '${value}' is less than '${limit}'`);
+    }
+  }
+
+  /**
+   * @param {string} value
+   * @param {RegExp} regexp
+   * @param {string} name
+   *
+   * @throws {TypeError}
+   */
+  static matchesPattern(value, regexp, name) {
+    this.instanceOf(regexp, RegExp, 'regexp');
+    if (value === null || !regexp.test(value)) {
+      throw new TypeError(`'${name}' value '${value}' does not match format '${regexp.toString()}'`);
     }
   }
 

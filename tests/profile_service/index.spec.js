@@ -1,4 +1,3 @@
-const expect = require('chai').expect;
 const nock = require('nock');
 const fs = require('fs');
 
@@ -18,7 +17,7 @@ describe('profileService', () => {
     const parentRememberMeId = 'f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrNijH4k4qafTG0FSNUgQIvd2Z3Nx1j8';
     const receiptId = '9HNJDX5bEIN5TqBm0OGzVIc1LaAmbzfx6eIrwNdwpHvKeQmgPujyogC+r7hJCVPl';
 
-    context('when the profile has attributes', () => {
+    describe('when the profile has attributes', () => {
       const response = fs.readFileSync('./tests/sample-data/payloads/payload.json', 'utf8');
 
       const selfie = fs.readFileSync('./tests/sample-data/fixtures/selfie.txt', 'utf8');
@@ -37,17 +36,17 @@ describe('profileService', () => {
             const profile = receipt.getUserProfile();
             const outcome = receipt.getOutcome();
 
-            expect(profile).to.not.equal(undefined);
-            expect(receipt.getReceiptId()).to.equal(receiptId);
-            expect(receipt.getUserId()).to.equal(rememberMeId);
-            expect(receipt.getRememberMeId()).to.equal(rememberMeId);
-            expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
-            expect(receipt.getTimestamp()).to.be.a('Date');
-            expect(receipt.getTimestamp().toUTCString()).to.equal('Tue, 19 Jul 2016 08:55:38 GMT');
-            expect(profile.phoneNumber).to.equal(phoneNumber);
-            expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).to.equal(selfie);
-            expect(receipt.getBase64SelfieUri()).to.equal(selfie);
-            expect(outcome).to.equal('SUCCESS');
+            expect(profile).not.toBe(undefined);
+            expect(receipt.getReceiptId()).toBe(receiptId);
+            expect(receipt.getUserId()).toBe(rememberMeId);
+            expect(receipt.getRememberMeId()).toBe(rememberMeId);
+            expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
+            expect(receipt.getTimestamp()).toBeInstanceOf(Date);
+            expect(receipt.getTimestamp().toUTCString()).toBe('Tue, 19 Jul 2016 08:55:38 GMT');
+            expect(profile.phoneNumber).toBe(phoneNumber);
+            expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).toBe(selfie);
+            expect(receipt.getBase64SelfieUri()).toBe(selfie);
+            expect(outcome).toBe('SUCCESS');
 
             done();
           })
@@ -55,7 +54,7 @@ describe('profileService', () => {
       });
     });
 
-    context('when the profile is empty', () => {
+    describe('when the profile is empty', () => {
       const responseContentNull = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-null.json', 'utf8');
 
       beforeEach((done) => {
@@ -71,13 +70,13 @@ describe('profileService', () => {
             const profile = receipt.getUserProfile();
             const outcome = receipt.getOutcome();
 
-            expect(profile).to.not.equal(undefined);
-            expect(profile).to.deep.equal({});
-            expect(receipt.getReceiptId()).to.equal(receiptId);
-            expect(receipt.getUserId()).to.equal(rememberMeId);
-            expect(receipt.getRememberMeId()).to.equal(rememberMeId);
-            expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
-            expect(outcome).to.equal('SUCCESS');
+            expect(profile).not.toBe(undefined);
+            expect(profile).toEqual({});
+            expect(receipt.getReceiptId()).toBe(receiptId);
+            expect(receipt.getUserId()).toBe(rememberMeId);
+            expect(receipt.getRememberMeId()).toBe(rememberMeId);
+            expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
+            expect(outcome).toBe('SUCCESS');
 
             done();
           })
@@ -85,7 +84,7 @@ describe('profileService', () => {
       });
     });
 
-    context('when the profile contains an empty object', () => {
+    describe('when the profile contains an empty object', () => {
       const responseContentEmptyObj = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-empty-object.json', 'utf8');
 
       beforeEach((done) => {
@@ -101,13 +100,13 @@ describe('profileService', () => {
             const profile = receipt.getUserProfile();
             const outcome = receipt.getOutcome();
 
-            expect(profile).to.not.equal(undefined);
-            expect(profile).to.deep.equal({});
-            expect(receipt.getReceiptId()).to.equal(receiptId);
-            expect(receipt.getUserId()).to.equal(rememberMeId);
-            expect(receipt.getRememberMeId()).to.equal(rememberMeId);
-            expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
-            expect(outcome).to.equal('SUCCESS');
+            expect(profile).not.toBe(undefined);
+            expect(profile).toEqual({});
+            expect(receipt.getReceiptId()).toBe(receiptId);
+            expect(receipt.getUserId()).toBe(rememberMeId);
+            expect(receipt.getRememberMeId()).toBe(rememberMeId);
+            expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
+            expect(outcome).toBe('SUCCESS');
 
             done();
           })
@@ -115,7 +114,7 @@ describe('profileService', () => {
       });
     });
 
-    context('when the response does not have profile attributes', () => {
+    describe('when the response does not have profile attributes', () => {
       const responseContentNonExistent = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-non-existent.json', 'utf8');
 
       beforeEach((done) => {
@@ -131,13 +130,13 @@ describe('profileService', () => {
             const profile = receipt.getUserProfile();
             const outcome = receipt.getOutcome();
 
-            expect(profile).to.not.equal(undefined);
-            expect(profile).to.deep.equal({});
-            expect(receipt.getReceiptId()).to.equal(receiptId);
-            expect(receipt.getUserId()).to.equal(rememberMeId);
-            expect(receipt.getRememberMeId()).to.equal(rememberMeId);
-            expect(receipt.getParentRememberMeId()).to.equal(parentRememberMeId);
-            expect(outcome).to.equal('SUCCESS');
+            expect(profile).not.toBe(undefined);
+            expect(profile).toEqual({});
+            expect(receipt.getReceiptId()).toBe(receiptId);
+            expect(receipt.getUserId()).toBe(rememberMeId);
+            expect(receipt.getRememberMeId()).toBe(rememberMeId);
+            expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
+            expect(outcome).toBe('SUCCESS');
 
             done();
           })
