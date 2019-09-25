@@ -35,21 +35,17 @@ module.exports.DocumentDetails = class DocumentDetails {
         throw new Error('Invalid Date');
       }
       this.expirationDate = dateValue !== '-' ? dateObj : null;
-    } else {
-      this.expirationDate = null;
     }
 
     if (parsedValues.length > AUTHORITY_INDEX) {
       this.issuingAuthority = parsedValues[AUTHORITY_INDEX];
-    } else {
-      this.issuingAuthority = null;
     }
   }
 
   /**
    * Type of the document e.g. PASSPORT | DRIVING_LICENCE | NATIONAL_ID | PASS_CARD
    *
-   * @returns {null|string}
+   * @returns {string}
    */
   getType() {
     return this.type;
@@ -58,7 +54,7 @@ module.exports.DocumentDetails = class DocumentDetails {
   /**
    * ISO-3166-1 alpha-3 country code, e.g. “GBR“
    *
-   * @returns {null|string}
+   * @returns {string}
    */
   getIssuingCountry() {
     return this.issuingCountry;
@@ -67,7 +63,7 @@ module.exports.DocumentDetails = class DocumentDetails {
   /**
    * Document number (may include letters) from the document.
    *
-   * @returns {null|string}
+   * @returns {string}
    */
   getDocumentNumber() {
     return this.documentNumber;
@@ -77,7 +73,7 @@ module.exports.DocumentDetails = class DocumentDetails {
    * Expiration date of the document in Date format. If the document does not expire, this
    * field will not be present. The time part of this Date will default to 00:00:00.
    *
-   * @returns {null|Date}
+   * @returns {Date|undefined}
    */
   getExpirationDate() {
     return this.expirationDate;
@@ -86,7 +82,7 @@ module.exports.DocumentDetails = class DocumentDetails {
   /**
    * Can either be a country code (for a state), or the name of the issuing authority.
    *
-   * @returns {null|string}
+   * @returns {string|undefined}
    */
   getIssuingAuthority() {
     return this.issuingAuthority;
