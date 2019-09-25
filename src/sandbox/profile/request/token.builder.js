@@ -1,6 +1,8 @@
 const { TokenRequest } = require('./token');
 const { SandboxAttributeBuilder } = require('./attribute/attribute.builder');
+const { SandboxAgeVerification } = require('./attribute/derivation/age.verification');
 const constants = require('../../../yoti_common/constants');
+const Validation = require('../../../yoti_common/validation');
 
 /**
  * @param {string} name
@@ -100,6 +102,7 @@ class TokenRequestBuilder {
    * @returns {TokenRequestBuilder}
    */
   withAgeVerification(sandboxAgeVerification) {
+    Validation.instanceOf(sandboxAgeVerification, SandboxAgeVerification, 'sandboxAgeVerification');
     return this.withAttribute(sandboxAgeVerification.toAttribute());
   }
 
