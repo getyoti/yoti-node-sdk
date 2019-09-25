@@ -18,17 +18,24 @@ const assertInvalidDocumentDetails = (value, exceptionMessage) => {
 
 describe('documentDetails', () => {
   describe('when value is empty', () => {
-    it('it should throw an exception', () => {
+    it('should throw an exception', () => {
       assertInvalidDocumentDetails('', 'Invalid value for DocumentDetails');
     });
   });
   describe('when value is less than 3 words', () => {
-    it('it should throw an exception', () => {
+    it('should throw an exception', () => {
       assertInvalidDocumentDetails('PASS_CARD GBR', 'Invalid value for DocumentDetails');
     });
   });
+  describe('when value is three words', () => {
+    it('should return null for optional attributes', () => {
+      const documentDetails = new DocumentDetails('PASSPORT GBR 01234567');
+      expect(documentDetails.getExpirationDate()).toBe(null);
+      expect(documentDetails.getIssuingAuthority()).toBe(null);
+    });
+  });
   describe('when value is four words', () => {
-    it('it should parse one optional attribute', () => {
+    it('should parse one optional attribute', () => {
       const documentDetails = new DocumentDetails('PASSPORT GBR 01234567 2020-01-01');
       expect(documentDetails.getType()).toBe('PASSPORT');
       expect(documentDetails.getIssuingCountry()).toBe('GBR');
@@ -37,7 +44,7 @@ describe('documentDetails', () => {
     });
   });
   describe('when value is five words', () => {
-    it('it should parse two optional attributes', () => {
+    it('should parse two optional attributes', () => {
       const documentDetails = new DocumentDetails('DRIVING_LICENCE GBR 1234abc 2016-05-01 DVLA');
       expect(documentDetails.getType()).toBe('DRIVING_LICENCE');
       expect(documentDetails.getIssuingCountry()).toBe('GBR');
@@ -47,7 +54,7 @@ describe('documentDetails', () => {
     });
   });
   describe('when value is more than five words', () => {
-    it('it should parse only two optional attributes', () => {
+    it('should parse only two optional attributes', () => {
       const documentDetails = new DocumentDetails('DRIVING_LICENCE GBR 1234abc 2016-05-01 DVLA someThirdAttribute');
       expect(documentDetails.getType()).toBe('DRIVING_LICENCE');
       expect(documentDetails.getIssuingCountry()).toBe('GBR');
@@ -57,17 +64,17 @@ describe('documentDetails', () => {
     });
   });
   describe('when value has invalid country 13', () => {
-    it('it should throw an exception', () => {
+    it('should throw an exception', () => {
       assertInvalidDocumentDetails('PASSPORT 13 1234abc 2016-05-01', 'Invalid value for DocumentDetails');
     });
   });
   describe('when value has invalid document number', () => {
-    it('it should throw an exception', () => {
+    it('should throw an exception', () => {
       assertInvalidDocumentDetails('PASSPORT GBR $%^$%^£ 2016-05-01', 'Invalid value for DocumentDetails');
     });
   });
   describe('when expiration Date is set to dash (-)', () => {
-    it('it should return NULL for date value', () => {
+    it('should return NULL for date value', () => {
       const documentDetails = new DocumentDetails('PASS_CARD GBR 22719564893 - CITIZENCARD');
       expect(documentDetails.getType()).toBe('PASS_CARD');
       expect(documentDetails.getIssuingCountry()).toBe('GBR');
@@ -77,7 +84,7 @@ describe('documentDetails', () => {
     });
   });
   describe('when there is an invalid date', () => {
-    it('it should throw an exception', () => {
+    it('should throw an exception', () => {
       assertInvalidDocumentDetails('PASSPORT GBR 1234abc X016-05-01', 'Invalid Date');
     });
   });
