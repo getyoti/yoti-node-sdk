@@ -9,14 +9,14 @@ const Validation = require('../yoti_common/validation');
  */
 class SandboxClient {
   /**
-   * @param {string} sdkId
+   * @param {string} appId
    * @param {string} pem
    * @param {string} sandboxUrl
    */
-  constructor(sdkId, pem, sandboxUrl) {
-    Validation.isString(sdkId, 'sdkId');
-    this.sdkId = sdkId;
-    this.endpoint = `/apps/${sdkId}/tokens`;
+  constructor(appId, pem, sandboxUrl) {
+    Validation.isString(appId, 'appId');
+    this.appId = appId;
+    this.endpoint = `/apps/${appId}/tokens`;
 
     Validation.isString(pem, 'pem');
     this.pem = pem;
