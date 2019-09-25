@@ -9,7 +9,6 @@ const AUTHORITY_INDEX = 4;
 
 module.exports.DocumentDetails = class DocumentDetails {
   constructor(value) {
-    this.validateData(value);
     this.parseFromValue(value);
   }
 
@@ -21,6 +20,8 @@ module.exports.DocumentDetails = class DocumentDetails {
   }
 
   parseFromValue(value) {
+    this.validateData(value);
+
     const parsedValues = value.split(' ');
 
     this.type = parsedValues[TYPE_INDEX];
