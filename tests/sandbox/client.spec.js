@@ -1,17 +1,32 @@
 const nock = require('nock');
 const fs = require('fs');
 const { SandboxClientBuilder, TokenRequestBuilder } = require('../..');
+const { SandboxClient } = require('../../src/sandbox/client');
 
 const SOME_APP_ID = 'someAppId';
 const SOME_SANDBOX_URL = 'https://somesandbox.yoti.com/api/v1';
-const SOME_PEM = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
+const SOME_ENDPOINT_PATTERN = new RegExp(`^/api/v1/apps/${SOME_APP_ID}/tokens`);
+const SOME_PEM_FILE_PATH = './tests/sample-data/keys/node-sdk-test.pem';
+const SOME_PEM_STRING = fs.readFileSync(SOME_PEM_FILE_PATH, 'utf8');
 const SOME_TOKEN_REQUEST = new TokenRequestBuilder().build();
 const SOME_TOKEN = 'someToken';
 
 describe('SandboxClient', () => {
-  afterEach((done) => {
-    nock.cleanAll();
-    done();
+  it('should build with pem string', () => {
+    const sandboxClient = new SandboxClientBuilder()
+      .forApplication(SOME_APP_ID)
+      .withPemString(SOME_PEM_STRING)
+      .withSandboxUrl(SOME_SANDBOX_URL)
+      .build();
+    expect(sandboxClient).toBeInstanceOf(SandboxClient);
+  });
+  it('should build with pem file path', () => {
+    const sandboxClient = new SandboxClientBuilder()
+      .forApplication(SOME_APP_ID)
+      .withPemFilePath(SOME_PEM_FILE_PATH)
+      .withSandboxUrl(SOME_SANDBOX_URL)
+      .build();
+    expect(sandboxClient).toBeInstanceOf(SandboxClient);
   });
   describe('#constructor', () => {
     it('should throw for missing app ID', () => {
@@ -24,23 +39,20 @@ describe('SandboxClient', () => {
     });
   });
   describe('#setupSharingProfile', () => {
-    beforeEach((done) => {
-      nock(SOME_SANDBOX_URL)
-        .post(
-          new RegExp(`^/api/v1/apps/${SOME_APP_ID}/tokens`),
-          JSON.stringify(SOME_TOKEN_REQUEST)
-        )
-        .reply(200, {
-          token: SOME_TOKEN,
-        });
+    const sandboxClient = new SandboxClientBuilder()
+      .forApplication(SOME_APP_ID)
+      .withPemString(SOME_PEM_STRING)
+      .withSandboxUrl(SOME_SANDBOX_URL)
+      .build();
+
+    afterEach((done) => {
+      nock.cleanAll();
       done();
     });
     it('should return token from sandbox', (done) => {
-      const sandboxClient = new SandboxClientBuilder()
-        .forApplication(SOME_APP_ID)
-        .withPemString(SOME_PEM)
-        .withSandboxUrl(SOME_SANDBOX_URL)
-        .build();
+      nock(SOME_SANDBOX_URL)
+        .post(SOME_ENDPOINT_PATTERN, JSON.stringify(SOME_TOKEN_REQUEST))
+        .reply(200, { token: SOME_TOKEN });
 
       sandboxClient.setupSharingProfile(SOME_TOKEN_REQUEST)
         .then((response) => {
@@ -48,6 +60,53 @@ describe('SandboxClient', () => {
           done();
         })
         .catch(done);
+    });
+    it('should throw error when invalid response is returned', (done) => {
+      nock(SOME_SANDBOX_URL)
+        .post(SOME_ENDPOINT_PATTERN, JSON.stringify(SOME_TOKEN_REQUEST))
+        .reply(200, '""');
+
+      sandboxClient
+        .setupSharingProfile(SOME_TOKEN_REQUEST)
+        .catch((err) => {
+          expect(err.message).toBe('TokenResponse responseData should be an object');
+          done();
+        });
+    });
+    it('should throw error when response has no token', (done) => {
+      nock(SOME_SANDBOX_URL)
+        .post(SOME_ENDPOINT_PATTERN, JSON.stringify(SOME_TOKEN_REQUEST))
+        .reply(200, '{}');
+
+      sandboxClient
+        .setupSharingProfile(SOME_TOKEN_REQUEST)
+        .catch((err) => {
+          expect(err.message).toBe('responseData.token must be a string');
+          done();
+        });
+    });
+    [
+      {
+        error: 'Bad Request',
+        status: 400,
+      },
+      {
+        error: 'Internal Server Error',
+        status: 500,
+      },
+    ].forEach((invalidResponse) => {
+      it(`should throw error when response is ${invalidResponse.status}`, (done) => {
+        nock(SOME_SANDBOX_URL)
+          .post(SOME_ENDPOINT_PATTERN, JSON.stringify(SOME_TOKEN_REQUEST))
+          .reply(invalidResponse.status, '{}');
+
+        sandboxClient
+          .setupSharingProfile(SOME_TOKEN_REQUEST)
+          .catch((err) => {
+            expect(err.message).toBe(invalidResponse.error);
+            done();
+          });
+      });
     });
   });
 });
