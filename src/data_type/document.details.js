@@ -73,7 +73,7 @@ module.exports.DocumentDetails = class DocumentDetails {
    * Expiration date of the document in Date format. If the document does not expire, this
    * field will not be present. The time part of this Date will default to 00:00:00.
    *
-   * @returns {Date|undefined}
+   * @returns {Date|null|undefined}
    */
   getExpirationDate() {
     return this.expirationDate;
