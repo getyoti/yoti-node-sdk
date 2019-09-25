@@ -21,7 +21,6 @@ module.exports.DocumentDetails = class DocumentDetails {
   }
 
   parseFromValue(value) {
-    this.validateData(value);
     const parsedValues = value.split(' ');
 
     this.type = parsedValues[TYPE_INDEX];
@@ -36,10 +35,14 @@ module.exports.DocumentDetails = class DocumentDetails {
         throw new Error('Invalid Date');
       }
       this.expirationDate = dateValue !== '-' ? dateObj : null;
+    } else {
+      this.expirationDate = null;
     }
 
     if (parsedValues.length > AUTHORITY_INDEX) {
       this.issuingAuthority = parsedValues[AUTHORITY_INDEX];
+    } else {
+      this.issuingAuthority = null;
     }
   }
 
