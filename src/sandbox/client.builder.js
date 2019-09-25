@@ -11,16 +11,16 @@ class SandboxClientBuilder {
    * Setup default property values.
    */
   constructor() {
-    this.sdkId = null;
+    this.appId = null;
     this.pem = null;
     this.sandboxUrl = null;
   }
 
   /**
-   * @param {string} sdkId
+   * @param {string} appId
    */
-  forApplication(sdkId) {
-    this.sdkId = sdkId;
+  forApplication(appId) {
+    this.appId = appId;
     return this;
   }
 
@@ -59,7 +59,7 @@ class SandboxClientBuilder {
    * @returns {SandboxClient}
    */
   build() {
-    return new SandboxClient(this.sdkId, this.pem, this.sandboxUrl);
+    return new SandboxClient(this.appId, this.pem, this.sandboxUrl);
   }
 }
 
