@@ -3,3 +3,4 @@ tests
 coverage
 .scannerwork
 sonar-project.properties
+.travis.yml
