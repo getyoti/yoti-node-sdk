@@ -1,2 +1,5 @@
 examples
 tests
+coverage
+.scannerwork
+sonar-project.properties
