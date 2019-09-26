@@ -103,6 +103,20 @@ class TokenRequestBuilder {
   }
 
   /**
+   * @param {string} value
+   * @param {SandboxAnchor[]}
+   *
+   * @returns {TokenRequestBuilder}
+   */
+  withDateOfBirthString(value, anchors = null) {
+    Validation.isString(value, 'value');
+    return this.withDateOfBirth(
+      YotiDate.fromDateString(value),
+      anchors
+    );
+  }
+
+  /**
    * @param {SandboxAgeVerification} sandboxAgeVerification
    *
    * @returns {TokenRequestBuilder}
