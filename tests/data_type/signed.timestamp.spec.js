@@ -7,7 +7,7 @@ describe('YotiSignedTimeStamp', () => {
   describe('#constructor()', () => {
     it('should only accept YotiDate as timestamp', () => {
       expect(() => new YotiSignedTimeStamp(0, new Date()))
-        .toThrow(TypeError, 'timestamp must be instance of YotiDate');
+        .toThrow(new TypeError('timestamp must be instance of YotiDate'));
     });
   });
   describe('#getVersion()', () => {

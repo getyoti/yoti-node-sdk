@@ -22,7 +22,7 @@ describe('AgeVerification', () => {
           value: 'true',
         });
         expect(() => new AgeVerification(attribute))
-          .toThrow(TypeError, `'attribute.name' value '${name}' does not match format '${EXPECTED_PATTERN}'`);
+          .toThrow(new TypeError(`'attribute.name' value '${name}' does not match format '${EXPECTED_PATTERN}'`));
       });
     });
   });

@@ -49,7 +49,7 @@ describe('createShareUrl', () => {
   describe('when a DynamicScenario is not provided', () => {
     it('should throw error', () => {
       expect(() => createShareUrl('invalid scenario', privateKeyFile, APP_ID))
-        .toThrow(TypeError, 'dynamicScenario must be instance of DynamicScenario');
+        .toThrow(new TypeError('dynamicScenario must be instance of DynamicScenario'));
     });
   });
 

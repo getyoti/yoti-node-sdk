@@ -87,7 +87,7 @@ describe('RequestBuilder', () => {
         new RequestBuilder()
           .withBaseUrl(API_BASE_URL)
           .build();
-      }).toThrow(Error, 'PEM file path or string must be provided');
+      }).toThrow(new Error('PEM file path or string must be provided'));
     });
 
     it('should require a base url', () => {
@@ -95,7 +95,7 @@ describe('RequestBuilder', () => {
         new RequestBuilder()
           .withPemFilePath(PEM_FILE_PATH)
           .build();
-      }).toThrow(Error, 'Base URL must be specified');
+      }).toThrow(new Error('Base URL must be specified'));
     });
 
     it('should build with valid headers', (done) => {
@@ -182,7 +182,7 @@ describe('RequestBuilder', () => {
           .withHeader('Custom-1', 'valid header')
           .withHeader('Custom-2', ['invalid header'])
           .build();
-      }).toThrow(TypeError, "'Custom-2' header must be a string");
+      }).toThrow(new TypeError("'Custom-2' header must be a string"));
     });
 
     it('should only accept string header name', () => {
@@ -194,7 +194,7 @@ describe('RequestBuilder', () => {
           .withHeader('Valid-Name', 'value')
           .withHeader(['Invalid-Name'], 'value')
           .build();
-      }).toThrow(TypeError, 'Header name must be a string');
+      }).toThrow(new TypeError('Header name must be a string'));
     });
   });
 });
