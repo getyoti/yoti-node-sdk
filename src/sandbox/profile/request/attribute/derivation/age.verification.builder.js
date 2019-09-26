@@ -33,10 +33,10 @@ class SandboxAgeVerificationBuilder {
   }
 
   /**
-   * @param {*} value
+   * @param {string} value
    */
   withDerivation(value) {
-    Validation.notNull(value, 'derivation');
+    Validation.isString(value, 'derivation');
     this.derivation = value;
     return this;
   }

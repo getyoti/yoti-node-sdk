@@ -9,17 +9,19 @@ const constants = require('../../../../../yoti_common/constants');
 class SandboxAgeVerification {
   /**
    * @param {DateTime} dateOfBirth
-   * @param {*} supportedAgeDerivation
+   * @param {string} supportedAgeDerivation
    * @param {SandboxAnchor[]} anchors
    */
-  constructor(dateOfBirth, supportedAgeDerivation, anchors = []) {
+  constructor(dateOfBirth, supportedAgeDerivation, anchors = null) {
     Validation.notNull(dateOfBirth, 'dateOfBirth');
     this.dateOfBirth = dateOfBirth;
 
     Validation.notNull(supportedAgeDerivation, 'derivation');
     this.supportedAgeDerivation = supportedAgeDerivation;
 
-    Validation.isArrayOfType(anchors, SandboxAnchor);
+    if (anchors !== null) {
+      Validation.isArrayOfType(anchors, SandboxAnchor);
+    }
     this.anchors = anchors;
   }
 
