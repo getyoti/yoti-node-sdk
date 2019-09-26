@@ -1,5 +1,6 @@
 const { SandboxAttributeBuilder } = require('../attribute.builder');
 const { SandboxAnchor } = require('../anchor');
+const { YotiDate } = require('../../../../../data_type/date');
 const Validation = require('../../../../../yoti_common/validation');
 const constants = require('../../../../../yoti_common/constants');
 
@@ -8,13 +9,13 @@ const constants = require('../../../../../yoti_common/constants');
  */
 class SandboxAgeVerification {
   /**
-   * @param {DateTime} dateOfBirth
+   * @param {YotiDate} dateOfBirth
    * @param {string} supportedAgeDerivation
    * @param {SandboxAnchor[]} anchors
    */
   constructor(dateOfBirth, supportedAgeDerivation, anchors = null) {
-    Validation.notNull(dateOfBirth, 'dateOfBirth');
-    this.dateOfBirth = dateOfBirth;
+    Validation.instanceOf(dateOfBirth, YotiDate, 'dateOfBirth');
+    this.dateOfBirth = dateOfBirth.toISODateString();
 
     Validation.notNull(supportedAgeDerivation, 'derivation');
     this.supportedAgeDerivation = supportedAgeDerivation;

@@ -1,9 +1,11 @@
 const {
   SandboxAgeVerificationBuilder,
   SandboxAnchorBuilder,
+  YotiDate,
 } = require('../../../../..');
 
-const SOME_DATE_OF_BIRTH = '1989-01-02';
+const SOME_DATE_OF_BIRTH_STRING = '1989-01-02';
+const SOME_DATE_OF_BIRTH = YotiDate.fromDateString(SOME_DATE_OF_BIRTH_STRING);
 const SOME_AGE_VALUE = 18;
 const SOME_AGE_OVER_DERIVATION_VALUE = `age_over:${SOME_AGE_VALUE}`;
 const SOME_AGE_UNDER_DERIVATION_VALUE = `age_under:${SOME_AGE_VALUE}`;
@@ -20,7 +22,7 @@ describe('SandboxAgeVerification', () => {
 
     const expectedData = {
       name: 'date_of_birth',
-      value: SOME_DATE_OF_BIRTH,
+      value: SOME_DATE_OF_BIRTH_STRING,
       optional: false,
       derivation: SOME_AGE_OVER_DERIVATION_VALUE,
     };
@@ -37,7 +39,7 @@ describe('SandboxAgeVerification', () => {
 
     const expectedData = {
       name: 'date_of_birth',
-      value: SOME_DATE_OF_BIRTH,
+      value: SOME_DATE_OF_BIRTH_STRING,
       optional: false,
       derivation: SOME_AGE_UNDER_DERIVATION_VALUE,
     };
@@ -60,7 +62,7 @@ describe('SandboxAgeVerification', () => {
 
     const expectedData = {
       name: 'date_of_birth',
-      value: SOME_DATE_OF_BIRTH,
+      value: SOME_DATE_OF_BIRTH_STRING,
       optional: false,
       derivation: SOME_AGE_OVER_DERIVATION_VALUE,
       anchors: [{

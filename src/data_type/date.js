@@ -1,3 +1,5 @@
+const Validation = require('../yoti_common/validation');
+
 /**
  * Formats date part padded with leading zeros.
  *
@@ -37,6 +39,7 @@ class YotiDate extends Date {
    * @param {number} timestamp
    */
   constructor(timestamp) {
+    Validation.isNumber(timestamp);
     super(Math.round(timestamp / 1000));
     this.microseconds = timestamp % 1000000;
   }
@@ -67,16 +70,34 @@ class YotiDate extends Date {
   }
 
   /**
+   * Returns ISO 8601 UTC date.
+   *
+   * @returns {string}
+   *   Date in format `{YYYY}-{DD}-{MM}`
+   */
+  toISODateString() {
+    const year = formatDatePart(this.getUTCFullYear(), 4);
+    const month = formatDatePart(this.getUTCMonth() + 1, 2);
+    const day = formatDatePart(this.getUTCDate(), 2);
+    return `${year}-${month}-${day}`;
+  }
+
+  /**
+   * @param {string} dateString
+   */
+  static fromDateString(dateString) {
+    Validation.isString(dateString, 'dateString');
+    return new YotiDate(Date.parse(dateString) * 1000);
+  }
+
+  /**
    * Returns ISO 8601 UTC timestamp with microseconds.
    *
    * @returns {string}
    *   Timestamp in format `{YYYY}-{DD}-{MM}T{HH}:{MM}:{SS}.{mmmmmm}Z`
    */
   getMicrosecondTimestamp() {
-    const year = formatDatePart(this.getUTCFullYear(), 4);
-    const month = formatDatePart(this.getUTCMonth() + 1, 2);
-    const day = formatDatePart(this.getUTCDate(), 2);
-    return `${year}-${month}-${day}T${this.getMicrosecondTime()}Z`;
+    return `${this.toISODateString()}T${this.getMicrosecondTime()}Z`;
   }
 }
 
