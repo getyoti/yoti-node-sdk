@@ -87,7 +87,13 @@ class YotiDate extends Date {
    */
   static fromDateString(dateString) {
     Validation.isString(dateString, 'dateString');
-    return new YotiDate(Date.parse(dateString) * 1000);
+
+    const milliseconds = Date.parse(dateString);
+    if (Number.isNaN(milliseconds)) {
+      throw new TypeError(`${dateString} is not a valid date string`);
+    }
+
+    return new YotiDate(milliseconds * 1000);
   }
 
   /**

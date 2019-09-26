@@ -30,6 +30,14 @@ describe('SandboxAgeVerification', () => {
     expect(JSON.stringify(sandboxAttribute))
       .toBe(JSON.stringify(expectedData));
   });
+  it('should error for bad date of birth', () => {
+    expect(() => {
+      new SandboxAgeVerificationBuilder()
+        .withDateOfBirthString('2011-15-35')
+        .withAgeOver(SOME_AGE_VALUE)
+        .build();
+    }).toThrow(new TypeError('2011-15-35 is not a valid date string'));
+  });
   it('should build age over attribute with date of birth string', () => {
     const sandboxAttribute = new SandboxAgeVerificationBuilder()
       .withDateOfBirthString(SOME_DATE_OF_BIRTH_STRING)
