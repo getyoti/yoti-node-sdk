@@ -119,6 +119,29 @@ describe('TokenRequest', () => {
       anchors: [SOME_ANCHOR],
     });
   });
+  it('should build with date of birth string', () => {
+    const tokenRequest = new TokenRequestBuilder()
+      .withDateOfBirthString(SOME_DATE_OF_BIRTH_STRING)
+      .build();
+
+    expect(tokenRequest).toContainAttribute({
+      name: 'date_of_birth',
+      value: SOME_DATE_OF_BIRTH_STRING,
+      optional: false,
+    });
+  });
+  it('should build with date of birth with anchors string', () => {
+    const tokenRequest = new TokenRequestBuilder()
+      .withDateOfBirthString(SOME_DATE_OF_BIRTH_STRING, [SOME_ANCHOR])
+      .build();
+
+    expect(tokenRequest).toContainAttribute({
+      name: 'date_of_birth',
+      value: SOME_DATE_OF_BIRTH_STRING,
+      optional: false,
+      anchors: [SOME_ANCHOR],
+    });
+  });
   it('should build with gender', () => {
     const tokenRequest = new TokenRequestBuilder()
       .withGender(SOME_VALUE)

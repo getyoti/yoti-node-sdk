@@ -30,6 +30,23 @@ describe('SandboxAgeVerification', () => {
     expect(JSON.stringify(sandboxAttribute))
       .toBe(JSON.stringify(expectedData));
   });
+  it('should build age over attribute with date of birth string', () => {
+    const sandboxAttribute = new SandboxAgeVerificationBuilder()
+      .withDateOfBirthString(SOME_DATE_OF_BIRTH_STRING)
+      .withAgeOver(SOME_AGE_VALUE)
+      .build()
+      .toAttribute();
+
+    const expectedData = {
+      name: 'date_of_birth',
+      value: SOME_DATE_OF_BIRTH_STRING,
+      optional: false,
+      derivation: SOME_AGE_OVER_DERIVATION_VALUE,
+    };
+
+    expect(JSON.stringify(sandboxAttribute))
+      .toBe(JSON.stringify(expectedData));
+  });
   it('should build age under attribute', () => {
     const sandboxAttribute = new SandboxAgeVerificationBuilder()
       .withDateOfBirth(SOME_DATE_OF_BIRTH)

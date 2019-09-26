@@ -15,6 +15,8 @@ class SandboxAttributeBuilder {
 
   /**
    * @param {string} name
+   *
+   * @returns {SandboxAttributeBuilder}
    */
   withName(name) {
     this.name = name;
@@ -23,6 +25,8 @@ class SandboxAttributeBuilder {
 
   /**
    * @param {string} value
+   *
+   * @returns {SandboxAttributeBuilder}
    */
   withValue(value) {
     this.value = value;
@@ -30,7 +34,9 @@ class SandboxAttributeBuilder {
   }
 
   /**
-   * @param {*} derivation
+   * @param {string} derivation
+   *
+   * @returns {SandboxAttributeBuilder}
    */
   withDerivation(derivation) {
     this.derivation = derivation;
@@ -39,6 +45,8 @@ class SandboxAttributeBuilder {
 
   /**
    * @param {boolean} optional
+   *
+   * @returns {SandboxAttributeBuilder}
    */
   withOptional(optional) {
     this.optional = optional;
@@ -47,6 +55,8 @@ class SandboxAttributeBuilder {
 
   /**
    * @param {SandboxAnchors[]} anchors
+   *
+   * @returns {SandboxAttributeBuilder}
    */
   withAnchors(anchors) {
     this.anchors = anchors;

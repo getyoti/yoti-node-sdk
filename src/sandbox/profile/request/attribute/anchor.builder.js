@@ -13,6 +13,8 @@ class SandboxAnchorBuilder {
 
   /**
    * @param {string} type
+   *
+   * @returns {SandboxAnchorBuilder}
    */
   withType(type) {
     this.type = type;
@@ -21,6 +23,8 @@ class SandboxAnchorBuilder {
 
   /**
    * @param {string} value
+   *
+   * @returns {SandboxAnchorBuilder}
    */
   withValue(value) {
     this.value = value;
@@ -29,6 +33,8 @@ class SandboxAnchorBuilder {
 
   /**
    * @param {string} subType
+   *
+   * @returns {SandboxAnchorBuilder}
    */
   withSubType(subType) {
     this.subType = subType;
@@ -37,6 +43,8 @@ class SandboxAnchorBuilder {
 
   /**
    * @param {DateTime} timestamp
+   *
+   * @returns {SandboxAnchorBuilder}
    */
   withTimestamp(timestamp) {
     this.timestamp = timestamp;
@@ -44,7 +52,7 @@ class SandboxAnchorBuilder {
   }
 
   /**
-   * @returns SandboxAnchor
+   * @returns {SandboxAnchor}
    */
   build() {
     return new SandboxAnchor(this.type, this.value, this.subType, this.timestamp);
