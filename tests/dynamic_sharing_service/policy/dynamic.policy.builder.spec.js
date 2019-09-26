@@ -142,7 +142,8 @@ describe('DynamicPolicyBuilder', () => {
 
   it('should fail when invalid attribute objects are used', () => {
     const builder = new DynamicPolicyBuilder();
-    expect(() => builder.withWantedAttribute('invalid attribute')).toThrow(TypeError, 'wantedAttribute must be instance of WantedAttribute');
+    expect(() => builder.withWantedAttribute('invalid attribute'))
+      .toThrow(new TypeError('wantedAttribute must be instance of WantedAttribute'));
   });
 
   it('should build with age derived attributes', () => {
@@ -175,7 +176,7 @@ describe('DynamicPolicyBuilder', () => {
       new DynamicPolicyBuilder()
         .withDateOfBirth()
         .withAgeOver('18');
-    }).toThrow(TypeError, 'age must be an integer');
+    }).toThrow(new TypeError('age must be an integer'));
   });
 
   it('should only allow integers for age under', () => {
@@ -183,7 +184,7 @@ describe('DynamicPolicyBuilder', () => {
       new DynamicPolicyBuilder()
         .withDateOfBirth()
         .withAgeOver('30');
-    }).toThrow(TypeError, 'age must be an integer');
+    }).toThrow(new TypeError('age must be an integer'));
   });
 
   it('should overwrite identical age verification to ensure it only exists once', () => {

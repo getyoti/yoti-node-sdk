@@ -12,37 +12,37 @@ describe('LocationConstraintExtensionBuilder', () => {
   it('should fail for latitude too low', () => {
     const builder = new LocationConstraintExtensionBuilder()
       .withLatitude(-91);
-    expect(() => builder.build()).toThrow(RangeError, "'latitude' value '-91' is less than '-90'");
+    expect(() => builder.build()).toThrow(new RangeError("'latitude' value '-91' is less than '-90'"));
   });
 
   it('should fail for latitude too high', () => {
     const builder = new LocationConstraintExtensionBuilder()
       .withLatitude(91);
-    expect(() => builder.build()).toThrow(RangeError, "'latitude' value '91' is greater than '90'");
+    expect(() => builder.build()).toThrow(new RangeError("'latitude' value '91' is greater than '90'"));
   });
 
   it('should fail for longitude too low', () => {
     const builder = new LocationConstraintExtensionBuilder()
       .withLongitude(-181);
-    expect(() => builder.build()).toThrow(RangeError, "'longitude' value '-181' is less than '-180'");
+    expect(() => builder.build()).toThrow(new RangeError("'longitude' value '-181' is less than '-180'"));
   });
 
   it('should fail for longitude too high', () => {
     const builder = new LocationConstraintExtensionBuilder()
       .withLongitude(181);
-    expect(() => builder.build()).toThrow(RangeError, "'longitude' value '181' is greater than '180'");
+    expect(() => builder.build()).toThrow(new RangeError("'longitude' value '181' is greater than '180'"));
   });
 
   it('should fail for radius less than zero', () => {
     const builder = new LocationConstraintExtensionBuilder()
       .withRadius(-1);
-    expect(() => builder.build()).toThrow(RangeError, "'radius' value '-1' is less than '0'");
+    expect(() => builder.build()).toThrow(new RangeError("'radius' value '-1' is less than '0'"));
   });
 
   it('should fail for uncertainty less than zero', () => {
     const builder = new LocationConstraintExtensionBuilder()
       .withMaxUncertainty(-1);
-    expect(() => builder.build()).toThrow(RangeError, "'maxUncertainty' value '-1' is less than '0'");
+    expect(() => builder.build()).toThrow(new RangeError("'maxUncertainty' value '-1' is less than '0'"));
   });
 
   it('should build constraint with given values', () => {

@@ -6,7 +6,7 @@ const TRANSACTIONAL_FLOW = 'TRANSACTIONAL_FLOW';
 describe('TransactionalFlowExtensionBuilder', () => {
   it('should fail for null content', () => {
     const builder = new TransactionalFlowExtensionBuilder();
-    expect(() => builder.withContent(null)).toThrow(TypeError, 'content cannot be null');
+    expect(() => builder.withContent(null)).toThrow(new TypeError('content cannot be null'));
   });
 
   it('should build with content', () => {
