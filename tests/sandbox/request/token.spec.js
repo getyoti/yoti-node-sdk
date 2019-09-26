@@ -147,7 +147,6 @@ describe('TokenRequest', () => {
           name: 'date_of_birth',
           value: SOME_VALUE,
           derivation: 'age_over:18',
-          anchors: [],
         },
       ],
     };

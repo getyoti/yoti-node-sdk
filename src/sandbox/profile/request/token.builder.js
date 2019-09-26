@@ -12,7 +12,7 @@ const Validation = require('../../../yoti_common/validation');
 const createAttribute = (
   name,
   value,
-  anchors = []
+  anchors
 ) => new SandboxAttributeBuilder()
   .withName(name)
   .withValue(value)
@@ -58,7 +58,7 @@ class TokenRequestBuilder {
    *
    * @returns {TokenRequestBuilder}
    */
-  withGivenNames(value, anchors = []) {
+  withGivenNames(value, anchors = null) {
     const sandboxAttribute = createAttribute(constants.ATTR_GIVEN_NAMES, value, anchors);
     return this.withAttribute(sandboxAttribute);
   }
@@ -69,7 +69,7 @@ class TokenRequestBuilder {
    *
    * @returns {TokenRequestBuilder}
    */
-  withFamilyName(value, anchors = []) {
+  withFamilyName(value, anchors = null) {
     const sandboxAttribute = createAttribute(constants.ATTR_FAMILY_NAME, value, anchors);
     return this.withAttribute(sandboxAttribute);
   }
@@ -80,7 +80,7 @@ class TokenRequestBuilder {
    *
    * @returns {TokenRequestBuilder}
    */
-  withFullName(value, anchors = []) {
+  withFullName(value, anchors = null) {
     const sandboxAttribute = createAttribute(constants.ATTR_FULL_NAME, value, anchors);
     return this.withAttribute(sandboxAttribute);
   }
@@ -91,7 +91,7 @@ class TokenRequestBuilder {
    *
    * @returns {TokenRequestBuilder}
    */
-  withDateOfBirth(value, anchors = []) {
+  withDateOfBirth(value, anchors = null) {
     const sandboxAttribute = createAttribute(constants.ATTR_DATE_OF_BIRTH, value, anchors);
     return this.withAttribute(sandboxAttribute);
   }
@@ -112,7 +112,7 @@ class TokenRequestBuilder {
    *
    * @returns {TokenRequestBuilder}
    */
-  withGender(value, anchors = []) {
+  withGender(value, anchors = null) {
     const sandboxAttribute = createAttribute(constants.ATTR_GENDER, value, anchors);
     return this.withAttribute(sandboxAttribute);
   }
@@ -123,7 +123,7 @@ class TokenRequestBuilder {
    *
    * @returns {TokenRequestBuilder}
    */
-  withPhoneNumber(value, anchors = []) {
+  withPhoneNumber(value, anchors = null) {
     const sandboxAttribute = createAttribute(constants.ATTR_PHONE_NUMBER, value, anchors);
     return this.withAttribute(sandboxAttribute);
   }
@@ -134,7 +134,7 @@ class TokenRequestBuilder {
    *
    * @returns {TokenRequestBuilder}
    */
-  withNationality(value, anchors = []) {
+  withNationality(value, anchors = null) {
     const sandboxAttribute = createAttribute(constants.ATTR_NATIONALITY, value, anchors);
     return this.withAttribute(sandboxAttribute);
   }
@@ -145,7 +145,7 @@ class TokenRequestBuilder {
    *
    * @returns {TokenRequestBuilder}
    */
-  withPostalAddress(value, anchors = []) {
+  withPostalAddress(value, anchors = null) {
     const sandboxAttribute = createAttribute(constants.ATTR_POSTAL_ADDRESS, value, anchors);
     return this.withAttribute(sandboxAttribute);
   }
@@ -156,7 +156,7 @@ class TokenRequestBuilder {
    *
    * @returns {TokenRequestBuilder}
    */
-  withStructuredPostalAddress(value, anchors = []) {
+  withStructuredPostalAddress(value, anchors = null) {
     const sandboxAttribute = createAttribute(
       constants.ATTR_STRUCTURED_POSTAL_ADDRESS,
       value,
@@ -171,7 +171,7 @@ class TokenRequestBuilder {
    *
    * @returns {TokenRequestBuilder}
    */
-  withSelfie(value, anchors = []) {
+  withSelfie(value, anchors = null) {
     return this.withBase64Selfie(Buffer.from(value).toString('base64'), anchors);
   }
 
@@ -181,7 +181,7 @@ class TokenRequestBuilder {
    *
    * @returns {TokenRequestBuilder}
    */
-  withBase64Selfie(value, anchors = []) {
+  withBase64Selfie(value, anchors = null) {
     const sandboxAttribute = createAttribute(constants.ATTR_SELFIE, value, anchors);
     return this.withAttribute(sandboxAttribute);
   }
@@ -192,7 +192,7 @@ class TokenRequestBuilder {
    *
    * @returns {TokenRequestBuilder}
    */
-  withEmailAddress(value, anchors = []) {
+  withEmailAddress(value, anchors = null) {
     const sandboxAttribute = createAttribute(constants.ATTR_EMAIL_ADDRESS, value, anchors);
     return this.withAttribute(sandboxAttribute);
   }
@@ -203,7 +203,7 @@ class TokenRequestBuilder {
    *
    * @returns {TokenRequestBuilder}
    */
-  withDocumentDetails(value, anchors = []) {
+  withDocumentDetails(value, anchors = null) {
     const sandboxAttribute = new SandboxAttributeBuilder()
       .withName(constants.ATTR_DOCUMENT_DETAILS)
       .withValue(value)
