@@ -4,6 +4,7 @@ const Client = require('./src/client').YotiClient;
 const { AmlAddress, AmlProfile } = require('./src/aml_type');
 const { RequestBuilder } = require('./src/request/request.builder');
 const { Payload } = require('./src/request/payload');
+const { YotiDate } = require('./src/data_type/date');
 
 const {
   SandboxClientBuilder,
@@ -45,4 +46,5 @@ module.exports = {
   SandboxAgeVerificationBuilder,
   SandboxAnchorBuilder,
   TokenRequestBuilder,
+  YotiDate,
 };

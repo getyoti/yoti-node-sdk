@@ -1,6 +1,7 @@
 const { TokenRequest } = require('./token');
 const { SandboxAttributeBuilder } = require('./attribute/attribute.builder');
 const { SandboxAgeVerification } = require('./attribute/derivation/age.verification');
+const { YotiDate } = require('../../../data_type/date');
 const constants = require('../../../yoti_common/constants');
 const Validation = require('../../../yoti_common/validation');
 
@@ -86,13 +87,18 @@ class TokenRequestBuilder {
   }
 
   /**
-   * @param {string} value
+   * @param {YotiDate} value
    * @param {SandboxAnchor[]}
    *
    * @returns {TokenRequestBuilder}
    */
   withDateOfBirth(value, anchors = null) {
-    const sandboxAttribute = createAttribute(constants.ATTR_DATE_OF_BIRTH, value, anchors);
+    Validation.instanceOf(value, YotiDate, 'value');
+    const sandboxAttribute = createAttribute(
+      constants.ATTR_DATE_OF_BIRTH,
+      value.toISODateString(),
+      anchors
+    );
     return this.withAttribute(sandboxAttribute);
   }
 

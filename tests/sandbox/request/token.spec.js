@@ -2,6 +2,7 @@ const {
   TokenRequestBuilder,
   SandboxAgeVerificationBuilder,
   SandboxAnchorBuilder,
+  YotiDate,
 } = require('../../..');
 
 const SOME_REMEMEBER_ME_ID = 'someRememberMeId';
@@ -9,6 +10,8 @@ const SOME_VALUE = 'someStringValue';
 const SOME_ANCHOR = new SandboxAnchorBuilder()
   .withType('someAnchorType')
   .build();
+const SOME_DATE_OF_BIRTH_STRING = '1989-01-02';
+const SOME_DATE_OF_BIRTH = YotiDate.fromDateString(SOME_DATE_OF_BIRTH_STRING);
 
 describe('TokenRequest', () => {
   it('should build with remember me ID', () => {
@@ -95,23 +98,23 @@ describe('TokenRequest', () => {
   });
   it('should build with date of birth', () => {
     const tokenRequest = new TokenRequestBuilder()
-      .withDateOfBirth(SOME_VALUE)
+      .withDateOfBirth(SOME_DATE_OF_BIRTH)
       .build();
 
     expect(tokenRequest).toContainAttribute({
       name: 'date_of_birth',
-      value: SOME_VALUE,
+      value: SOME_DATE_OF_BIRTH_STRING,
       optional: false,
     });
   });
   it('should build with date of birth with anchors', () => {
     const tokenRequest = new TokenRequestBuilder()
-      .withDateOfBirth(SOME_VALUE, [SOME_ANCHOR])
+      .withDateOfBirth(SOME_DATE_OF_BIRTH, [SOME_ANCHOR])
       .build();
 
     expect(tokenRequest).toContainAttribute({
       name: 'date_of_birth',
-      value: SOME_VALUE,
+      value: SOME_DATE_OF_BIRTH_STRING,
       optional: false,
       anchors: [SOME_ANCHOR],
     });
@@ -313,7 +316,7 @@ describe('TokenRequest', () => {
   });
   it('should build with age verification', () => {
     const ageVerification = new SandboxAgeVerificationBuilder()
-      .withDateOfBirth(SOME_VALUE)
+      .withDateOfBirth(SOME_DATE_OF_BIRTH)
       .withAgeOver(18)
       .build();
 
@@ -323,7 +326,7 @@ describe('TokenRequest', () => {
 
     expect(tokenRequest).toContainAttribute({
       name: 'date_of_birth',
-      value: SOME_VALUE,
+      value: SOME_DATE_OF_BIRTH_STRING,
       optional: false,
       derivation: 'age_over:18',
     });
