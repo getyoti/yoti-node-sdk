@@ -48,10 +48,10 @@ class SandboxAnchor {
    */
   toJSON() {
     return {
-      type: this.type,
-      value: this.value,
-      sub_type: this.subType,
-      timestamp: this.timestamp,
+      type: this.getType(),
+      value: this.getValue(),
+      sub_type: this.getSubType(),
+      timestamp: this.getTimestamp(),
     };
   }
 }

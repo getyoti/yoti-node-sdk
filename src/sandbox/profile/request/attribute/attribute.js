@@ -12,22 +12,20 @@ class SandboxAttribute {
    * @param {boolean} optional
    * @param {SandboxAnchor[]} anchors
    */
-  constructor(name, value, derivation = null, optional = null, anchors = null) {
+  constructor(name, value, derivation, optional, anchors) {
     Validation.isString(name, 'name');
     this.name = name;
 
     Validation.isString(value, 'value');
     this.value = value;
 
+    Validation.isBoolean(optional, 'optional');
+    this.optional = optional;
+
     if (derivation !== null) {
       Validation.isString(derivation, 'derivation');
     }
     this.derivation = derivation;
-
-    if (optional !== null) {
-      Validation.isBoolean(optional, 'optional');
-    }
-    this.optional = optional;
 
     if (anchors !== null) {
       Validation.isArrayOfType(anchors, SandboxAnchor, 'anchors');
@@ -77,13 +75,13 @@ class SandboxAttribute {
     const json = {
       name: this.getName(),
       value: this.getValue(),
+      optional: this.getOptional(),
     };
+
     if (this.getDerivation() !== null) {
       json.derivation = this.getDerivation();
     }
-    if (this.getOptional() !== null) {
-      json.optional = this.getOptional();
-    }
+
     if (this.getAnchors() !== null) {
       json.anchors = this.getAnchors();
     }

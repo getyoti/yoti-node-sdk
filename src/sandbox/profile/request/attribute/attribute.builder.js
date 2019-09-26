@@ -5,6 +5,15 @@ const { SandboxAttribute } = require('./attribute');
  */
 class SandboxAttributeBuilder {
   /**
+   * Setup initial property values.
+   */
+  constructor() {
+    this.optional = false;
+    this.derivation = null;
+    this.anchors = null;
+  }
+
+  /**
    * @param {string} name
    */
   withName(name) {

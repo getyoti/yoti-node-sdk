@@ -19,6 +19,7 @@ describe('SandboxAttribute', () => {
     const expectedData = {
       name: SOME_NAME,
       value: SOME_VALUE,
+      optional: false,
     };
 
     expect(JSON.stringify(sandboxAttribute))
@@ -34,6 +35,7 @@ describe('SandboxAttribute', () => {
     const expectedData = {
       name: SOME_NAME,
       value: SOME_VALUE,
+      optional: false,
       derivation: SOME_DERIVATION,
     };
 
@@ -55,10 +57,27 @@ describe('SandboxAttribute', () => {
     const expectedData = {
       name: SOME_NAME,
       value: SOME_VALUE,
+      optional: false,
       anchors: [{
         type: SOME_ANCHOR_TYPE,
         value: SOME_ANCHOR_VALUE,
       }],
+    };
+
+    expect(JSON.stringify(sandboxAttribute))
+      .toBe(JSON.stringify(expectedData));
+  });
+  it('should build with optional true', () => {
+    const sandboxAttribute = new SandboxAttributeBuilder()
+      .withName(SOME_NAME)
+      .withValue(SOME_VALUE)
+      .withOptional(true)
+      .build();
+
+    const expectedData = {
+      name: SOME_NAME,
+      value: SOME_VALUE,
+      optional: true,
     };
 
     expect(JSON.stringify(sandboxAttribute))
