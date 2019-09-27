@@ -23,8 +23,9 @@ module.exports.execute = yotiRequest => new Promise((resolve, reject) => {
   request
     .then((response) => {
       try {
-        const parsedResponse = JSON.parse(response.text);
-        const receipt = parsedResponse.receipt || null;
+        const parsedResponse = response.text !== '' ? JSON.parse(response.text) : null;
+        const receipt = parsedResponse !== null ? parsedResponse.receipt : null;
+
         return resolve(new YotiResponse(parsedResponse, response.statusCode, receipt));
       } catch (err) {
         return reject(err);
