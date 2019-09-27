@@ -45,10 +45,23 @@ describe('SandboxClient', () => {
       .withSandboxUrl(SOME_SANDBOX_URL)
       .build();
 
+    /**
+     * Observe the console log.
+     */
+    let consoleLog;
+    beforeEach(() => {
+      consoleLog = jest.spyOn(global.console, 'log');
+    });
+
+    /**
+     * Clean up and restore mocks.
+     */
     afterEach((done) => {
       nock.cleanAll();
       done();
+      consoleLog.mockRestore();
     });
+
     it('should return token from sandbox', (done) => {
       nock(SOME_SANDBOX_URL)
         .post(SOME_ENDPOINT_PATTERN, JSON.stringify(SOME_TOKEN_REQUEST))
@@ -69,7 +82,10 @@ describe('SandboxClient', () => {
       sandboxClient
         .setupSharingProfile(SOME_TOKEN_REQUEST)
         .catch((err) => {
-          expect(err.message).toBe('TokenResponse responseData should be an object');
+          const expectedMessage = 'TokenResponse responseData should be an object';
+          expect(err.message).toBe(expectedMessage);
+          expect(consoleLog)
+            .toHaveBeenCalledWith(`Error getting response data: Error: ${expectedMessage}`);
           done();
         });
     });
@@ -81,7 +97,10 @@ describe('SandboxClient', () => {
       sandboxClient
         .setupSharingProfile(SOME_TOKEN_REQUEST)
         .catch((err) => {
-          expect(err.message).toBe('responseData.token must be a string');
+          const expectedMessage = 'responseData.token must be a string';
+          expect(err.message).toBe(expectedMessage);
+          expect(consoleLog)
+            .toHaveBeenCalledWith(`Error getting response data: TypeError: ${expectedMessage}`);
           done();
         });
     });
@@ -104,6 +123,8 @@ describe('SandboxClient', () => {
           .setupSharingProfile(SOME_TOKEN_REQUEST)
           .catch((err) => {
             expect(err.message).toBe(invalidResponse.error);
+            expect(consoleLog)
+              .toHaveBeenCalledWith(`Error getting data from Connect API: ${invalidResponse.error}`);
             done();
           });
       });
