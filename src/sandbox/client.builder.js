@@ -8,15 +8,6 @@ const fs = require('fs');
  */
 class SandboxClientBuilder {
   /**
-   * Setup default property values.
-   */
-  constructor() {
-    this.appId = null;
-    this.pem = null;
-    this.sandboxUrl = null;
-  }
-
-  /**
    * @param {string} appId
    */
   forApplication(appId) {
