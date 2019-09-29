@@ -6,14 +6,19 @@ const yotiCommon = require('../yoti_common');
  * Default HTTP request handler.
  *
  * @param {YotiRequest} yotiRequest
+ * @param {boolean} buffer Return the response as a Buffer.
  *
  * @returns {Promise} Resolves {YotiResponse}
  */
-module.exports.execute = yotiRequest => new Promise((resolve, reject) => {
+module.exports.execute = (yotiRequest, buffer = false) => new Promise((resolve, reject) => {
   const request = superagent(yotiRequest.getMethod(), yotiRequest.getUrl());
 
   if (yotiCommon.requestCanSendPayload(yotiRequest.getMethod())) {
     request.send(yotiRequest.getPayload().getPayloadJSON());
+  }
+
+  if (buffer === true) {
+    request.buffer(buffer);
   }
 
   if (yotiRequest.getHeaders()) {
@@ -23,17 +28,14 @@ module.exports.execute = yotiRequest => new Promise((resolve, reject) => {
   request
     .then((response) => {
       let parsedResponse = null;
-      if (typeof response.text !== 'undefined') {
-        try {
-          parsedResponse = JSON.parse(response.text);
-        } catch (e) {
-          parsedResponse = response.text;
-        }
-      } else {
-        parsedResponse = response.body;
-      }
+      let receipt = null;
 
-      const receipt = parsedResponse !== null ? parsedResponse.receipt : null;
+      if (response.body instanceof Buffer) {
+        parsedResponse = response.body;
+      } else if (response.text) {
+        parsedResponse = response.headers['content-type'] ? response.body : JSON.parse(response.text);
+        receipt = parsedResponse.receipt || null;
+      }
 
       try {
         return resolve(new YotiResponse(
