@@ -24,7 +24,9 @@ const SOME_DATA = 'someData';
 const mockResponse = (method, uri, responseCode, body) => {
   const scope = nock(SOME_BASE_URL);
   const interceptor = scope[method.toLowerCase()](uri);
-  interceptor.reply(responseCode, body);
+  interceptor.reply(responseCode, body, {
+    'content-type': 'application/json',
+  });
 };
 
 describe('yotiRequest', () => {
@@ -52,7 +54,7 @@ describe('yotiRequest', () => {
         yotiRequestHandler
           .execute(request)
           .then((response) => {
-            expect(response.getParsedResponse()).toBe('');
+            expect(response.getParsedResponse()).toBeNull();
             done();
           })
           .catch(done);
@@ -113,6 +115,7 @@ describe('yotiRequest', () => {
     });
   });
   [
+    'application/octet-stream',
     'image/jpeg',
     'image/png',
   ].forEach((mimeType) => {
@@ -134,7 +137,7 @@ describe('yotiRequest', () => {
           .build();
 
         yotiRequestHandler
-          .execute(request)
+          .execute(request, true)
           .then((response) => {
             expect(response.getParsedResponse())
               .toBeInstanceOf(Buffer);

@@ -1,5 +1,8 @@
 const { YotiRequest } = require('../../src/request/request');
+const requestHandler = require('../../src/request/request.handler');
 const { Payload } = require('../../src/request/payload');
+
+jest.mock('../../src/request/request.handler');
 
 const SOME_URL = 'https://api.example.com/some-endpoint';
 const SOME_METHOD = 'POST';
@@ -10,6 +13,20 @@ const SOME_HEADERS = {
 const SOME_REQUEST = new YotiRequest(SOME_METHOD, SOME_URL, SOME_HEADERS, SOME_PAYLOAD);
 
 describe('YotiRequest', () => {
+  describe('#execute', () => {
+    it('should execute the request handler', () => {
+      SOME_REQUEST.execute();
+      expect(requestHandler.execute).toHaveBeenCalledWith(SOME_REQUEST, false);
+    });
+    it('should execute the request handler with buffer disabled', () => {
+      SOME_REQUEST.execute(false);
+      expect(requestHandler.execute).toHaveBeenCalledWith(SOME_REQUEST, false);
+    });
+    it('should execute the request handler with buffer enabled', () => {
+      SOME_REQUEST.execute(true);
+      expect(requestHandler.execute).toHaveBeenCalledWith(SOME_REQUEST, true);
+    });
+  });
   describe('#getUrl', () => {
     it('should return the URL', () => {
       expect(SOME_REQUEST.getUrl()).toBe(SOME_URL);
