@@ -28,11 +28,14 @@ module.exports.execute = (yotiRequest, buffer = false) => new Promise((resolve, 
   request
     .then((response) => {
       let parsedResponse = null;
+      let body = null;
       let receipt = null;
 
       if (response.body instanceof Buffer) {
+        body = response.body;
         parsedResponse = response.body;
       } else if (response.text) {
+        body = response.text;
         parsedResponse = response.headers['content-type'] ? response.body : JSON.parse(response.text);
         receipt = parsedResponse.receipt || null;
       }
@@ -40,7 +43,8 @@ module.exports.execute = (yotiRequest, buffer = false) => new Promise((resolve, 
       return resolve(new YotiResponse(
         parsedResponse,
         response.statusCode,
-        receipt
+        receipt,
+        body
       ));
     })
     .catch((err) => {
