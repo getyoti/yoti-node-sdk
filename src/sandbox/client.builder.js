@@ -1,5 +1,5 @@
 
-const { SandboxClient } = require('./client');
+const SandboxClient = require('./client');
 const Validation = require('../yoti_common/validation');
 const fs = require('fs');
 
@@ -54,6 +54,4 @@ class SandboxClientBuilder {
   }
 }
 
-module.exports = {
-  SandboxClientBuilder,
-};
+module.exports = SandboxClientBuilder;

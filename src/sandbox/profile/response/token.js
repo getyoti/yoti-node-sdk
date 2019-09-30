@@ -24,6 +24,4 @@ class TokenResponse {
   }
 }
 
-module.exports = {
-  TokenResponse,
-};
+module.exports = TokenResponse;

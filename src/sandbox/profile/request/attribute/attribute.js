@@ -1,5 +1,5 @@
 const Validation = require('../../../../yoti_common/validation');
-const { SandboxAnchor } = require('./anchor');
+const SandboxAnchor = require('./anchor');
 
 /**
  * @class SandboxAttribute
@@ -89,6 +89,4 @@ class SandboxAttribute {
   }
 }
 
-module.exports = {
-  SandboxAttribute,
-};
+module.exports = SandboxAttribute;
