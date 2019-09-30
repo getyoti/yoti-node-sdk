@@ -5,7 +5,7 @@ class SandboxAnchor {
   /**
    * @param {string} type
    * @param {string} value
-   * @param {*} subType
+   * @param {string} subType
    * @param {DateTime} timestamp
    */
   constructor(type, value, subType, timestamp) {
