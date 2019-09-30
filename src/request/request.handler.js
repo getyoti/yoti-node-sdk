@@ -37,15 +37,11 @@ module.exports.execute = (yotiRequest, buffer = false) => new Promise((resolve, 
         receipt = parsedResponse.receipt || null;
       }
 
-      try {
-        return resolve(new YotiResponse(
-          parsedResponse,
-          response.statusCode,
-          receipt
-        ));
-      } catch (err) {
-        return reject(err);
-      }
+      return resolve(new YotiResponse(
+        parsedResponse,
+        response.statusCode,
+        receipt
+      ));
     })
     .catch((err) => {
       console.log(`Error getting data from Connect API: ${err.message}`);
