@@ -162,7 +162,7 @@ class RequestBuilder {
 
     // Merge provided query params with nonce and timestamp.
     const queryString = buildQueryString(Object.assign(
-      this.queryParams || {},
+      this.queryParams,
       {
         nonce: uuid.v4(),
         timestamp: Date.now(),

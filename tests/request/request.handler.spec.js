@@ -14,6 +14,12 @@ const SOME_JSON_DATA_STRING = JSON.stringify(SOME_JSON_DATA);
 const SOME_JSON_RECEIPT_DATA = { receipt: 'some receipt' };
 const SOME_JSON_RECEIPT_DATA_STRING = JSON.stringify(SOME_JSON_RECEIPT_DATA);
 const SOME_DATA = 'someData';
+const SOME_REQUEST = new RequestBuilder()
+  .withBaseUrl(SOME_BASE_URL)
+  .withEndpoint(SOME_ENDPOINT)
+  .withMethod('GET')
+  .withPemString(SOME_PEM_STRING)
+  .build();
 
 /**
  * @param {string} method
@@ -21,12 +27,10 @@ const SOME_DATA = 'someData';
  * @param {integer} responseCode
  * @param {string} body
  */
-const mockResponse = (method, uri, responseCode, body) => {
+const mockResponse = (method, uri, responseCode, body, headers) => {
   const scope = nock(SOME_BASE_URL);
   const interceptor = scope[method.toLowerCase()](uri);
-  interceptor.reply(responseCode, body, {
-    'content-type': 'application/json',
-  });
+  interceptor.reply(responseCode, body, headers);
 };
 
 describe('yotiRequest', () => {
@@ -38,7 +42,9 @@ describe('yotiRequest', () => {
   ALLOWED_METHODS.forEach((ALLOWED_METHOD) => {
     describe(`when empty response is returned for ${ALLOWED_METHOD} method`, () => {
       beforeEach((done) => {
-        mockResponse(ALLOWED_METHOD, SOME_ENDPOINT_REG_EXP, 200, '');
+        mockResponse(ALLOWED_METHOD, SOME_ENDPOINT_REG_EXP, 200, '', {
+          'content-type': 'application/json',
+        });
         done();
       });
 
@@ -55,6 +61,8 @@ describe('yotiRequest', () => {
           .execute(request)
           .then((response) => {
             expect(response.getParsedResponse()).toBeNull();
+            expect(response.getBody()).toBeNull();
+            expect(response.getStatusCode()).toBe(200);
             done();
           })
           .catch(done);
@@ -62,7 +70,9 @@ describe('yotiRequest', () => {
     });
     describe(`when JSON response is returned for ${ALLOWED_METHOD} method`, () => {
       beforeEach((done) => {
-        mockResponse(ALLOWED_METHOD, SOME_ENDPOINT_REG_EXP, 200, SOME_JSON_DATA_STRING);
+        mockResponse(ALLOWED_METHOD, SOME_ENDPOINT_REG_EXP, 200, SOME_JSON_DATA_STRING, {
+          'content-type': 'application/json',
+        });
         done();
       });
 
@@ -78,10 +88,10 @@ describe('yotiRequest', () => {
         yotiRequestHandler
           .execute(request)
           .then((response) => {
-            expect(response.getParsedResponse())
-              .toStrictEqual(SOME_JSON_DATA);
-            expect(response.getReceipt())
-              .toBeNull();
+            expect(response.getParsedResponse()).toStrictEqual(SOME_JSON_DATA);
+            expect(response.getBody()).toBe(SOME_JSON_DATA_STRING);
+            expect(response.getReceipt()).toBeNull();
+            expect(response.getStatusCode()).toBe(200);
             done();
           })
           .catch(done);
@@ -90,25 +100,22 @@ describe('yotiRequest', () => {
   });
   describe('when receipt is returned', () => {
     beforeEach((done) => {
-      mockResponse('GET', SOME_ENDPOINT_REG_EXP, 200, SOME_JSON_RECEIPT_DATA_STRING);
+      nock(SOME_BASE_URL)
+        .get(SOME_ENDPOINT_REG_EXP)
+        .reply(200, SOME_JSON_RECEIPT_DATA_STRING, {
+          'content-type': 'application/json',
+        });
       done();
     });
 
     it('should return YotiResponse', (done) => {
-      const request = new RequestBuilder()
-        .withBaseUrl(SOME_BASE_URL)
-        .withEndpoint(SOME_ENDPOINT)
-        .withMethod('GET')
-        .withPemString(SOME_PEM_STRING)
-        .build();
-
       yotiRequestHandler
-        .execute(request)
+        .execute(SOME_REQUEST)
         .then((response) => {
-          expect(response.getParsedResponse())
-            .toStrictEqual(SOME_JSON_RECEIPT_DATA);
-          expect(response.getReceipt())
-            .toStrictEqual(SOME_JSON_RECEIPT_DATA.receipt);
+          expect(response.getParsedResponse()).toStrictEqual(SOME_JSON_RECEIPT_DATA);
+          expect(response.getBody()).toBe(SOME_JSON_RECEIPT_DATA_STRING);
+          expect(response.getReceipt()).toStrictEqual(SOME_JSON_RECEIPT_DATA.receipt);
+          expect(response.getStatusCode()).toBe(200);
           done();
         })
         .catch(done);
@@ -116,6 +123,7 @@ describe('yotiRequest', () => {
   });
   [
     'application/octet-stream',
+    'application/pdf',
     'image/jpeg',
     'image/png',
   ].forEach((mimeType) => {
@@ -129,20 +137,36 @@ describe('yotiRequest', () => {
         done();
       });
       it('should return YotiResponse', (done) => {
-        const request = new RequestBuilder()
-          .withBaseUrl(SOME_BASE_URL)
-          .withEndpoint(SOME_ENDPOINT)
-          .withMethod('GET')
-          .withPemString(SOME_PEM_STRING)
-          .build();
-
         yotiRequestHandler
-          .execute(request, true)
+          .execute(SOME_REQUEST, true)
           .then((response) => {
-            expect(response.getParsedResponse())
-              .toBeInstanceOf(Buffer);
-            expect(response.getParsedResponse().toString())
-              .toBe(SOME_DATA);
+            expect(response.getParsedResponse()).toBeInstanceOf(Buffer);
+            expect(response.getParsedResponse().toString()).toBe(SOME_DATA);
+            expect(response.getBody().toString()).toBe(SOME_DATA);
+            expect(response.getStatusCode()).toBe(200);
+            done();
+          })
+          .catch(done);
+      });
+    });
+  });
+  [
+    'text/plain',
+  ].forEach((mimeType) => {
+    describe(`when ${mimeType} content is returned`, () => {
+      beforeEach((done) => {
+        nock(SOME_BASE_URL)
+          .get(SOME_ENDPOINT_REG_EXP)
+          .reply(200, SOME_DATA, {
+            'Content-Type': mimeType,
+          });
+        done();
+      });
+      it('should return YotiResponse', (done) => {
+        yotiRequestHandler
+          .execute(SOME_REQUEST)
+          .then((response) => {
+            expect(response.getBody()).toBe(SOME_DATA);
             done();
           })
           .catch(done);

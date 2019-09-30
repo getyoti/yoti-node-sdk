@@ -148,6 +148,30 @@ describe('RequestBuilder', () => {
       assertExpectedRequest(request, done);
     });
   });
+  describe('#withGet', () => {
+    it('should set method to GET', () => {
+      const request = new RequestBuilder()
+        .withBaseUrl(API_BASE_URL)
+        .withPemFilePath(PEM_FILE_PATH)
+        .withEndpoint(API_ENDPOINT)
+        .withGet()
+        .build();
+
+      expect(request.getMethod()).toBe('GET');
+    });
+  });
+  describe('#withPost', () => {
+    it('should set method to POST', () => {
+      const request = new RequestBuilder()
+        .withBaseUrl(API_BASE_URL)
+        .withPemFilePath(PEM_FILE_PATH)
+        .withEndpoint(API_ENDPOINT)
+        .withPost()
+        .build();
+
+      expect(request.getMethod()).toBe('POST');
+    });
+  });
   describe('#withHeader', () => {
     it('should only accept string header value', () => {
       expect(() => {
