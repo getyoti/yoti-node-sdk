@@ -5,13 +5,6 @@ const { SandboxAnchor } = require('./anchor');
  */
 class SandboxAnchorBuilder {
   /**
-   * Setup initial property values.
-   */
-  constructor() {
-    this.anchors = [];
-  }
-
-  /**
    * @param {string} type
    *
    * @returns {SandboxAnchorBuilder}
