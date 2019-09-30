@@ -1,4 +1,4 @@
-const { SandboxAttribute } = require('./attribute');
+const SandboxAttribute = require('./attribute');
 
 /**
  * @class SandboxAttributeBuilder
@@ -77,6 +77,4 @@ class SandboxAttributeBuilder {
   }
 }
 
-module.exports = {
-  SandboxAttributeBuilder,
-};
+module.exports = SandboxAttributeBuilder;

@@ -1,5 +1,5 @@
-const { SandboxAgeVerification } = require('./age.verification');
-const { SandboxAnchor } = require('../anchor');
+const SandboxAgeVerification = require('./age.verification');
+const SandboxAnchor = require('../anchor');
 const { YotiDate } = require('../../../../../data_type/date');
 const Validation = require('../../../../../yoti_common/validation');
 const constants = require('../../../../../yoti_common/constants');
@@ -79,6 +79,4 @@ class SandboxAgeVerificationBuilder {
   }
 }
 
-module.exports = {
-  SandboxAgeVerificationBuilder,
-};
+module.exports = SandboxAgeVerificationBuilder;

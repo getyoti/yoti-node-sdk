@@ -22,6 +22,4 @@ class TokenRequest {
   }
 }
 
-module.exports = {
-  TokenRequest,
-};
+module.exports = TokenRequest;

@@ -1,5 +1,5 @@
-const { SandboxAttributeBuilder } = require('../attribute.builder');
-const { SandboxAnchor } = require('../anchor');
+const SandboxAttributeBuilder = require('../attribute.builder');
+const SandboxAnchor = require('../anchor');
 const { YotiDate } = require('../../../../../data_type/date');
 const Validation = require('../../../../../yoti_common/validation');
 const constants = require('../../../../../yoti_common/constants');
@@ -39,6 +39,4 @@ class SandboxAgeVerification {
   }
 }
 
-module.exports = {
-  SandboxAgeVerification,
-};
+module.exports = SandboxAgeVerification;

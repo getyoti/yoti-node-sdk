@@ -1,6 +1,6 @@
 
 const { RequestBuilder } = require('../request/request.builder');
-const { TokenResponse } = require('./profile/response/token');
+const TokenResponse = require('./profile/response/token');
 const { Payload } = require('../request/payload');
 const Validation = require('../yoti_common/validation');
 
@@ -57,6 +57,4 @@ class SandboxClient {
   }
 }
 
-module.exports = {
-  SandboxClient,
-};
+module.exports = SandboxClient;

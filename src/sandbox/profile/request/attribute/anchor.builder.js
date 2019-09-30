@@ -1,4 +1,4 @@
-const { SandboxAnchor } = require('./anchor');
+const SandboxAnchor = require('./anchor');
 
 /**
  * @class SandboxAnchorBuilder
@@ -52,6 +52,4 @@ class SandboxAnchorBuilder {
   }
 }
 
-module.exports = {
-  SandboxAnchorBuilder,
-};
+module.exports = SandboxAnchorBuilder;

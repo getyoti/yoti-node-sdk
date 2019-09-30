@@ -56,6 +56,4 @@ class SandboxAnchor {
   }
 }
 
-module.exports = {
-  SandboxAnchor,
-};
+module.exports = SandboxAnchor;

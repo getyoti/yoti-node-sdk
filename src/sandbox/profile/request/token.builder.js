@@ -1,6 +1,6 @@
-const { TokenRequest } = require('./token');
-const { SandboxAttributeBuilder } = require('./attribute/attribute.builder');
-const { SandboxAgeVerification } = require('./attribute/derivation/age.verification');
+const TokenRequest = require('./token');
+const SandboxAttributeBuilder = require('./attribute/attribute.builder');
+const SandboxAgeVerification = require('./attribute/derivation/age.verification');
 const { YotiDate } = require('../../../data_type/date');
 const constants = require('../../../yoti_common/constants');
 const Validation = require('../../../yoti_common/validation');
@@ -244,6 +244,4 @@ class TokenRequestBuilder {
   }
 }
 
-module.exports = {
-  TokenRequestBuilder,
-};
+module.exports = TokenRequestBuilder;
