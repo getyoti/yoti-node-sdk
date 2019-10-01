@@ -27,6 +27,7 @@
     "collectCoverageFrom": [
       "./*.js",
       "./src/**/*.js",
+      "./sandbox/**/*.js",
       "!**/node_modules/**",
       "!**/vendor/**"
     ],
