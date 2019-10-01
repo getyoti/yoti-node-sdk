@@ -7,14 +7,6 @@ const { Payload } = require('./src/request/payload');
 const { YotiDate } = require('./src/data_type/date');
 
 const {
-  SandboxClientBuilder,
-  SandboxAttributeBuilder,
-  SandboxAgeVerificationBuilder,
-  SandboxAnchorBuilder,
-  TokenRequestBuilder,
-} = require('./src/sandbox');
-
-const {
   DynamicScenarioBuilder,
   DynamicPolicyBuilder,
   WantedAttributeBuilder,
@@ -41,10 +33,5 @@ module.exports = {
   SourceConstraintBuilder,
   RequestBuilder,
   Payload,
-  SandboxClientBuilder,
-  SandboxAttributeBuilder,
-  SandboxAgeVerificationBuilder,
-  SandboxAnchorBuilder,
-  TokenRequestBuilder,
   YotiDate,
 };

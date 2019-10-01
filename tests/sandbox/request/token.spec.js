@@ -2,6 +2,9 @@ const {
   TokenRequestBuilder,
   SandboxAgeVerificationBuilder,
   SandboxAnchorBuilder,
+} = require('../../../sandbox');
+
+const {
   YotiDate,
 } = require('../../..');
 

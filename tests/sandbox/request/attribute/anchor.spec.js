@@ -1,6 +1,6 @@
 const {
   SandboxAnchorBuilder,
-} = require('../../../..');
+} = require('../../../../sandbox');
 
 const SOME_ANCHOR_TYPE = 'someAnchorType';
 const SOME_ANCHOR_SUB_TYPE = 'someAnchorSubType';

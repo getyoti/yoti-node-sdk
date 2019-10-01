@@ -1,9 +1,9 @@
 const TokenRequest = require('./token');
 const SandboxAttributeBuilder = require('./attribute/attribute.builder');
 const SandboxAgeVerification = require('./attribute/derivation/age.verification');
-const { YotiDate } = require('../../../data_type/date');
-const constants = require('../../../yoti_common/constants');
-const Validation = require('../../../yoti_common/validation');
+const { YotiDate } = require('../../../src/data_type/date');
+const constants = require('../../../src/yoti_common/constants');
+const Validation = require('../../../src/yoti_common/validation');
 
 /**
  * @param {string} name

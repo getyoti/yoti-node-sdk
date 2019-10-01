@@ -1,7 +1,7 @@
 const nock = require('nock');
 const fs = require('fs');
-const { SandboxClientBuilder, TokenRequestBuilder } = require('../..');
-const SandboxClient = require('../../src/sandbox/client');
+const { SandboxClientBuilder, TokenRequestBuilder } = require('../../sandbox');
+const SandboxClient = require('../../sandbox/client');
 
 const SOME_APP_ID = 'someAppId';
 const SOME_SANDBOX_URL = 'https://somesandbox.yoti.com/api/v1';

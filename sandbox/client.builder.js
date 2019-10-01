@@ -1,6 +1,6 @@
 
 const SandboxClient = require('./client');
-const Validation = require('../yoti_common/validation');
+const Validation = require('../src/yoti_common/validation');
 const fs = require('fs');
 
 /**
