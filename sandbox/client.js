@@ -1,8 +1,8 @@
 
-const { RequestBuilder } = require('../request/request.builder');
+const { RequestBuilder } = require('../src/request/request.builder');
 const TokenResponse = require('./profile/response/token');
-const { Payload } = require('../request/payload');
-const Validation = require('../yoti_common/validation');
+const { Payload } = require('../src/request/payload');
+const Validation = require('../src/yoti_common/validation');
 
 /**
  * @class SandboxClient

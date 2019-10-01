@@ -1,7 +1,7 @@
 const {
   SandboxAttributeBuilder,
   SandboxAnchorBuilder,
-} = require('../../../..');
+} = require('../../../../sandbox');
 
 const SOME_NAME = 'someName';
 const SOME_VALUE = 'someValue';
