@@ -12,7 +12,7 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "lint": "node_modules/.bin/eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
+    "lint": "node_modules/.bin/eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js './sandbox/**/*.js'",
     "unit-test": "node_modules/.bin/jest",
     "test": "npm run lint && npm run unit-test"
   },
