@@ -62,10 +62,12 @@ class YotiRequest {
   /**
    * Executes the request.
    *
+   * @param {boolean} buffer Return the response as a Buffer.
+   *
    * @returns {Promise} Resolves {YotiResponse}
    */
-  execute() {
-    return requestHandler.execute(this);
+  execute(buffer = false) {
+    return requestHandler.execute(this, buffer);
   }
 }
 
