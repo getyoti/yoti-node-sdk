@@ -11,13 +11,24 @@ const { RequestBuilder } = require('./request.builder');
  *
  * @returns {SignedRequest}
  */
-module.exports.buildConnectApiRequest = (httpMethod, endpoint, pem, appId, payload) => {
+module.exports.buildConnectApiRequest = (
+  httpMethod,
+  endpoint,
+  pem,
+  appId,
+  payload,
+  headers
+) => {
   const requestBuilder = new RequestBuilder()
     .withBaseUrl(config.yoti.connectApi)
     .withPemString(pem)
     .withEndpoint(endpoint)
     .withQueryParam('appId', appId)
     .withMethod(httpMethod);
+
+  if (headers) {
+    Object.keys(headers).forEach(name => requestBuilder.withHeader(name, headers[name]));
+  }
 
   if (payload) {
     requestBuilder.withPayload(payload);

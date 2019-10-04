@@ -138,14 +138,18 @@ class RequestBuilder {
    * @param {*} messageSignature
    */
   getDefaultHeaders(messageSignature) {
-    return {
-      'X-Yoti-Auth-Key': yotiCommon.getAuthKeyFromPem(this.pem),
+    const defaultHeaders = {
       'X-Yoti-Auth-Digest': messageSignature,
       'X-Yoti-SDK': SDK_IDENTIFIER,
       'X-Yoti-SDK-Version': `${SDK_IDENTIFIER}-${yotiPackage.version}`,
-      'Content-Type': 'application/json',
       Accept: 'application/json',
     };
+
+    if (this.payload) {
+      defaultHeaders['Content-Type'] = 'application/json';
+    }
+
+    return defaultHeaders;
   }
 
   /**

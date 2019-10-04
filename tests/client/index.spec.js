@@ -11,6 +11,13 @@ const ShareUrlResult = require('../../src/dynamic_sharing_service/share.url.resu
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 const yotiClient = new yoti.Client('stub-app-id', privateKeyFile);
 
+const CONTENT_TYPE_HEADER_NAME = 'Content-Type';
+const CONTENT_TYPE_JSON = 'application/json';
+const DIGEST_KEY_HEADER_NAME = 'X-Yoti-Auth-Digest';
+const DIGEST_KEY_PATTERN = /^[a-zA-Z0-9/+=]{344}$/;
+const AUTH_KEY_HEADER_NAME = 'X-Yoti-Auth-Key';
+const AUTH_KEY_PATTERN = /^[a-zA-Z0-9/+]{392}$/;
+
 describe('yotiClient', () => {
   const encryptedYotiToken = 'c31Db4y6ClxSWy26xDpa9LEX3ZTUuR-rKaAhjQWnmKilR20IshkysR5Y3Hh3R6hanOyxcu7fl5vbjikkGZZb3_iH6NjxmBXuGY_Fr23AhrHvGL9WMg4EtemVvr6VI2f_5H_PDhDpYUvv-YpEM0f_SReoVxGIc8VGfj1gukuhPyNJ9hs55-SDdUjN77JiA6FPcYZxEIaqQE_yT_c3Y4V72Jnq3RHbG0vL6SefSfY_fFsnx_HeddsJc10qJYCwAkdGzVzbJH2DQ2Swp821Gwyj9eNK54S6HvpIg7LclID7BtymG6z7cTNp3fXX7mgKYoQlh_DHmPmaiqyj398w424RBg==';
   const decryptedToken = 'i79CctmY-22ad195c-d166-49a2-af16-8f356788c9dd-be094d26-19b5-450d-afce-070101760f0b';
@@ -33,10 +40,11 @@ describe('yotiClient', () => {
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
           .get(profileEndpointPattern)
+          .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
+          .matchHeader(AUTH_KEY_HEADER_NAME, AUTH_KEY_PATTERN)
           .reply(200, responseContent);
         done();
       });
-
       it('should fetch and decrypt the profile', (done) => {
         yotiClient.getActivityDetails(encryptedYotiToken)
           .then((activityDetails) => {
@@ -80,6 +88,8 @@ describe('yotiClient', () => {
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
           .get(profileEndpointPattern)
+          .matchHeader(AUTH_KEY_HEADER_NAME, AUTH_KEY_PATTERN)
+          .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
           .reply(200, responseContentNull);
         done();
       });
@@ -109,6 +119,8 @@ describe('yotiClient', () => {
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
           .get(profileEndpointPattern)
+          .matchHeader(AUTH_KEY_HEADER_NAME, AUTH_KEY_PATTERN)
+          .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
           .reply(200, responseContentEmptyObj);
         done();
       });
@@ -138,6 +150,8 @@ describe('yotiClient', () => {
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
           .get(profileEndpointPattern)
+          .matchHeader(AUTH_KEY_HEADER_NAME, AUTH_KEY_PATTERN)
+          .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
           .reply(200, responseContentNonExistent);
         done();
       });
@@ -171,6 +185,8 @@ describe('yotiClient', () => {
     beforeEach((done) => {
       nock(`${config.yoti.connectApi}`)
         .post(new RegExp('^/api/v1/aml-check?.*appId=stub-app-id&nonce=.*?&timestamp=.*?'), amlPayload.getPayloadJSON())
+        .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
+        .matchHeader(CONTENT_TYPE_HEADER_NAME, CONTENT_TYPE_JSON)
         .reply(200, amlCheckResult);
 
       done();
@@ -198,7 +214,9 @@ describe('yotiClient', () => {
     const SHARE_URL_RESULT = './tests/sample-data/responses/share-url-result.json';
     beforeEach((done) => {
       nock(`${config.yoti.connectApi}`)
-        .post(new RegExp('^/api/v1/qrcodes/apps/'))
+        .post(new RegExp('^/api/v1/qrcodes/apps/'), JSON.stringify(dynamicScenario))
+        .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
+        .matchHeader(CONTENT_TYPE_HEADER_NAME, CONTENT_TYPE_JSON)
         .reply(200, fs.readFileSync(SHARE_URL_RESULT));
       done();
     });

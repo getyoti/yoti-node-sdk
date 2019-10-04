@@ -9,7 +9,9 @@ module.exports.getReceipt = (token, pem, appId) => {
     'GET',
     `/profile/${token}`,
     pem,
-    appId
+    appId,
+    null,
+    { 'X-Yoti-Auth-Key': yotiCommon.getAuthKeyFromPem(pem) }
   );
 
   return new Promise((resolve, reject) => {
