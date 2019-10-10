@@ -37,6 +37,20 @@ describe('amlService', () => {
             expect(amlResult.isOnFraudList).toBe(false);
             expect(amlResult.isOnWatchList).toBe(false);
 
+            const expectedData = {
+              on_pep_list: true,
+              on_fraud_list: false,
+              on_watch_list: false,
+            };
+
+            const data = amlResult.getData();
+
+            expect(data.on_pep_list).toBe(expectedData.on_pep_list);
+            expect(data.on_fraud_list).toBe(expectedData.on_fraud_list);
+            expect(data.on_watch_list).toBe(expectedData.on_watch_list);
+
+            expect(amlResult.toString()).toStrictEqual(JSON.stringify(expectedData));
+
             done();
           })
           .catch(done);
@@ -62,6 +76,32 @@ describe('amlService', () => {
             done();
           })
           .catch(done);
+      });
+    });
+
+    describe('with an invalid JSON response', () => {
+      beforeEach((done) => {
+        nock(`${config.yoti.connectApi}`)
+          .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadJSON())
+          .reply(200, '');
+
+        done();
+      });
+
+      it('should return response data error', (done) => {
+        amlService.performAmlCheck(amlProfile, privateKeyFile, 'stub-app-id')
+          .catch((err) => {
+            expect(err.message).toBe('Result Data should be an object');
+            done();
+          })
+          .catch(done);
+      });
+    });
+
+    describe('with an empty profile', () => {
+      it('should return PAYLOAD_VALIDATION error', () => {
+        expect(() => amlService.performAmlCheck('', privateKeyFile, 'stub-app-id'))
+          .toThrow(new Error('Error - AmlProfile should be an object of Type/AmlProfile'));
       });
     });
   });
