@@ -199,4 +199,16 @@ module.exports = class Validation {
     this.notLessThan(value, minLimit, name);
     this.notGreaterThan(value, maxLimit, name);
   }
+
+  /**
+   * @param {*} value
+   * @param {string} name
+   *
+   * @throws {TypeError}
+   */
+  static notNullOrEmpty(value, name) {
+    if (value === undefined || value == null || value.length <= 0) {
+      throw TypeError(`${name} cannot be null or empty`);
+    }
+  }
 };
