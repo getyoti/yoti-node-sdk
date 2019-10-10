@@ -1,6 +1,7 @@
 # Yoti NodeJS SDK
 
 [![Build Status](https://travis-ci.com/getyoti/yoti-node-sdk.svg?branch=master)](https://travis-ci.com/getyoti/yoti-node-sdk)
+[![Coverage Status](https://coveralls.io/repos/github/getyoti/yoti-node-sdk/badge.svg?branch=master)](https://coveralls.io/github/getyoti/yoti-node-sdk?branch=master)
 
 Welcome to the Yoti NodeJS SDK. This repo contains the tools and step by step instructions you need to quickly integrate your NodeJS back-end with Yoti so that your users can share their identity details with your application in a secure and trusted way.
 

@@ -55,4 +55,10 @@ jobs:
         - cd ./examples/profile
         - npm update
         - npm run lint
-
+    - stage: Coverage
+      name: Coveralls
+      if: type = pull_request OR branch = master
+      node_js: "10"
+      install: npm install
+      script:
+        - npm run coveralls
