@@ -54,7 +54,7 @@ module.exports.AmlAddress = class AmlAddress {
   /**
    * @param countryCode
    *
-   * @deprecated 3.0.0 - replaced by Validation.notNullOrEmpty()
+   * @deprecated Replaced by Validation.notNullOrEmpty()
    */
   validateCountryCode() {
     Validation.notNullOrEmpty(this.countryCode, 'countryCode');
