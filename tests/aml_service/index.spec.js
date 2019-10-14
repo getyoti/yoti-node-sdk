@@ -99,7 +99,7 @@ describe('amlService', () => {
     });
 
     describe('with an empty profile', () => {
-      it('should return PAYLOAD_VALIDATION error', () => {
+      it('should throw validation error', () => {
         expect(() => amlService.performAmlCheck('', privateKeyFile, 'stub-app-id'))
           .toThrow(new Error('Error - AmlProfile should be an object of Type/AmlProfile'));
       });
