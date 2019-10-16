@@ -6,6 +6,9 @@ const forge = require('node-forge');
 const protoRoot = require('../proto-root').initializeProtoBufObjects();
 const Buffer = require('safe-buffer').Buffer;
 
+const ExtraData = require('../profile_service/extra.data');
+const ExtraDataConverter = require('./extra.data.converter');
+
 // Request methods that can include payload data.
 const methodsThatIncludePayload = ['POST', 'PUT', 'PATCH'];
 
@@ -83,3 +86,13 @@ module.exports.decryptApplicationProfile = (receipt, pem) => this.decryptProfile
   receipt.wrapped_receipt_key,
   pem
 );
+
+module.exports.parseExtraData = (extraDataContent) => {
+  const extraDataNotEmpty = extraDataContent && Object.keys(extraDataContent).length > 0;
+
+  if (extraDataNotEmpty) {
+    return ExtraDataConverter.convertExtraData(extraDataContent);
+  }
+
+  return new ExtraData(undefined);
+};

@@ -51,6 +51,7 @@ describe('yotiClient', () => {
             const profile = activityDetails.getUserProfile();
             const extendedProfile = activityDetails.getProfile();
             const applicationProfile = activityDetails.getApplicationProfile();
+            const extraData = activityDetails.getExtraData();
             const outcome = activityDetails.getOutcome();
 
             expect(activityDetails.getUserId()).toBe(rememberMeId);
@@ -75,6 +76,9 @@ describe('yotiClient', () => {
             expect(applicationProfile.getUrl().getValue()).toBe('https://example.com');
             expect(applicationProfile.getLogo().getValue().getBase64Content()).toBe('data:image/jpeg;base64,');
             expect(applicationProfile.getReceiptBgColor().getValue()).toBe('#ffffff');
+
+            expect(extraData).not.toBe(undefined);
+            expect(extraData.getAttributeIssuanceDetails()).not.toBe(undefined);
 
             done();
           })

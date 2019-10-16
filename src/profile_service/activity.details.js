@@ -35,11 +35,12 @@ class ActivityDetails {
    * @param {array} decryptedApplicationProfile
    *   Decrypted application profile data.
    */
-  constructor(parsedResponse, decryptedProfile, decryptedApplicationProfile) {
+  constructor(parsedResponse, decryptedProfile, decryptedApplicationProfile, extraData) {
     this.parsedResponse = parsedResponse;
     this.decryptedProfile = decryptedProfile;
     this.receipt = parsedResponse.receipt;
     this.profile = parseProfile(decryptedProfile);
+    this.extraData = extraData;
 
     // This is the new profile attribute
     this.extendedProfile = new Profile(this.profile.extendedProfile);
@@ -153,6 +154,15 @@ class ActivityDetails {
    */
   getTimestamp() {
     return new Date(this.receipt.timestamp);
+  }
+
+  /**
+   * Extra data associated with the receipt
+   *
+   * @returns {ExtraData}
+   */
+  getExtraData() {
+    return this.extraData;
   }
 }
 
