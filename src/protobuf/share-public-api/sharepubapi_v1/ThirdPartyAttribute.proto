@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package sharepubapi_v1;
+
+import "IssuingAttributes.proto";
+
+option java_package = "com.yoti.api.client.spi.remote.proto";
+option java_outer_classname = "ThirdPartyAttributeProto";
+option go_package = "yotiprotoshare";
+option php_namespace = "Yoti\\Sharepubapi";
+option php_metadata_namespace = "Yoti\\Sharepubapi\\GPBMetadata";
+option csharp_namespace = "Yoti.Auth.ProtoBuf.Share";
+option ruby_package = "Yoti.Protobuf.Sharepubapi";
+
+message ThirdPartyAttribute {
+    bytes issuance_token = 1;
+    IssuingAttributes issuing_attributes = 2;
+}

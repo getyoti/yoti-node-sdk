@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package sharepubapi_v1;
+
+option java_package = "com.yoti.api.client.spi.remote.proto";
+option java_outer_classname = "DataEntryProto";
+option go_package = "yotiprotoshare";
+option php_namespace = "Yoti\\Sharepubapi";
+option php_metadata_namespace = "Yoti\\Sharepubapi\\GPBMetadata";
+option csharp_namespace = "Yoti.Auth.ProtoBuf.Share";
+option ruby_package = "Yoti.Protobuf.Sharepubapi";
+
+message DataEntry {
+    enum Type {
+        UNDEFINED = 0;
+        INVOICE = 1;
+        PAYMENT_TRANSACTION = 2;
+        LOCATION = 3;
+        TRANSACTION = 4;
+        AGE_VERIFICATION_SECRET = 5;
+        THIRD_PARTY_ATTRIBUTE = 6;
+    }
+    Type type = 1;
+    bytes value = 2;
+}
