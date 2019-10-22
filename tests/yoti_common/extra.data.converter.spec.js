@@ -24,9 +24,8 @@ describe('ExtraDataConverter', () => {
       expect(attributeIssuanceDetails.getIssuingAttributes()[0]).toEqual('com.thirdparty.id');
       expect(attributeIssuanceDetails.getIssuingAttributes()[1]).toEqual('com.thirdparty.other_id');
 
-      // TODO: Requires 3.7.3 Fix
-      // expect(attributeIssuanceDetails.getExpiryDate()
-      // .getMicrosecondTimestamp()).toBe('2019-10-15T22:04:05.123000Z');
+      expect(attributeIssuanceDetails.getExpiryDate()
+        .getMicrosecondTimestamp()).toBe('2019-10-15T22:04:05.123000Z');
     });
 
     it('should return an instance of ExtraData even when failing to parse', () => {
