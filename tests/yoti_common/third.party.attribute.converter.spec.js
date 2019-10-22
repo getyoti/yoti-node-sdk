@@ -24,9 +24,8 @@ describe('ThirdPartyAttributeConverter', () => {
       expect(thirdPartyAttribute).toBeInstanceOf(AttributeIssuanceDetails);
       expect(thirdPartyAttribute.getToken()).toEqual('someIssuanceToken');
 
-      // TODO: Requires fix from 3.7.3
-      // expect(thirdPartyAttribute.getExpiryDate()
-      // .getMicrosecondTimestamp()).toBe('2019-10-15T22:04:05.123000Z');
+      expect(thirdPartyAttribute.getExpiryDate()
+        .getMicrosecondTimestamp()).toBe('2019-10-15T22:04:05.123000Z');
 
       expect(thirdPartyAttribute.getIssuingAttributes().length).toEqual(1);
       expect(thirdPartyAttribute.getIssuingAttributes()[0]).toEqual('com.thirdparty.id');
@@ -84,10 +83,13 @@ describe('ThirdPartyAttributeConverter', () => {
 
     it('should parse multiple attribute definitions', () => {
       const thirdPartyProto = createTestThirdPartyAttribute('someToken', {
-        expiryDate: '2019-13-2',
+        expiryDate: '2019-12-02T12:00:00.000Z',
         definitions: [
           {
             name: 'com.thirdparty.id',
+          },
+          {
+            name: 'com.otherthirdparty.id',
           },
         ],
       });
@@ -96,6 +98,11 @@ describe('ThirdPartyAttributeConverter', () => {
 
       expect(thirdPartyAttribute).not.toBe(undefined);
       expect(thirdPartyAttribute).toBeInstanceOf(AttributeIssuanceDetails);
+
+      const definitions = thirdPartyAttribute.getIssuingAttributes();
+      expect(definitions.length).toEqual(2);
+      expect(definitions[0]).toEqual('com.thirdparty.id');
+      expect(definitions[1]).toEqual('com.otherthirdparty.id');
     });
   });
 });
