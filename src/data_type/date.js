@@ -61,7 +61,7 @@ class YotiDate extends Date {
    */
   getMicrosecondTime() {
     const hours = formatDatePart(this.getUTCHours(), 2);
-    const minutes = formatDatePart(this.getUTCMinutes());
+    const minutes = formatDatePart(this.getUTCMinutes(), 2);
     const secondsMicroseconds = formatSecondsWithMicroseconds(
       this.getUTCSeconds(),
       this.getMicroseconds()

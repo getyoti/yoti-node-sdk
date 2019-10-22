@@ -9,6 +9,13 @@ describe('YotiDate', () => {
     });
   });
 
+  describe('#getMicrosecondTime', () => {
+    const smallDate = new YotiDate(1571630945010000);
+    it('should return zero padded in correct ISO format', () => {
+      expect(smallDate.getMicrosecondTime()).toBe('04:09:05.010000');
+    });
+  });
+
   describe('#getMicroseconds()', () => {
     it('should return 923530', () => {
       expect(date.getMicroseconds()).toBe(923530);
