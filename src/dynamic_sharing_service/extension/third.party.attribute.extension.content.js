@@ -1,12 +1,7 @@
 'use strict';
 
-const Validation = require('../../yoti_common/validation');
-
 class ThirdPartyAttributeExtensionContent {
   constructor(expiryDate, definitions) {
-    Validation.instanceOf(expiryDate, Date, 'expiryDate');
-    Validation.hasOnlyStringValues(definitions, 'definitions');
-
     this.expiryDate = expiryDate;
     this.definitions = definitions;
   }
@@ -22,7 +17,7 @@ class ThirdPartyAttributeExtensionContent {
   toJSON() {
     return {
       expiry_date: this.expiryDate.toISOString(),
-      definitions: this.definitions.map(i => ({ name: i })),
+      definitions: this.definitions,
     };
   }
 }
