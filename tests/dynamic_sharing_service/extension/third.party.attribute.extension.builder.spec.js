@@ -2,7 +2,7 @@
 
 const ThirdPartyAttributeExtensionBuilder = require('../../../src/dynamic_sharing_service/extension/third.party.attribute.extension.builder');
 const ThirdPartyAttributeExtensionContent = require('../../../src/dynamic_sharing_service/extension/third.party.attribute.extension.content');
-const AttributeDefinition = require('../../../src/dynamic_sharing_service/attribute.definition');
+const AttributeDefinition = require('../../../src/data_type/attribute.definition');
 const Extension = require('../../../src/dynamic_sharing_service/extension/extension');
 
 describe('ThirdPartyAttributeExtensionBuilder', () => {
@@ -22,22 +22,22 @@ describe('ThirdPartyAttributeExtensionBuilder', () => {
     const builder = new ThirdPartyAttributeExtensionBuilder()
       .withExpiryDate(new Date());
 
-    expect(() => builder.withDefinitions(undefined)).toThrow(new TypeError('definitions must be an array'));
+    expect(() => builder.withDefinitions(undefined)).toThrow(new TypeError('undefined must be instance of Object'));
   });
 
   it('should fail for array of non-string definitions', () => {
     const builder = new ThirdPartyAttributeExtensionBuilder()
       .withExpiryDate(new Date());
 
-    expect(() => builder.withDefinitions([1, 2, 3])).toThrow(new TypeError('definitions must be instance of AttributeDefinition'));
+    expect(() => builder.withDefinitions([1, 2, 3])).toThrow(new TypeError('all values in definitions must be a string'));
   });
 
   describe('#addDefinition', () => {
     it('should add a definition to the list of definitions already there', () => {
       const thirdPartyAttributeExtension = new ThirdPartyAttributeExtensionBuilder()
         .withExpiryDate(new Date())
-        .withDefinitions([new AttributeDefinition('definition_already_there')])
-        .withDefinition(new AttributeDefinition('new_definition'))
+        .withDefinitions(['definition_already_there'])
+        .withDefinition('new_definition')
         .build();
 
       expect(thirdPartyAttributeExtension.content.getDefinitions().length).toEqual(2);
@@ -54,8 +54,8 @@ describe('ThirdPartyAttributeExtensionBuilder', () => {
     it('should overwrite any definitions already in the list', () => {
       const thirdPartyAttributeExtension = new ThirdPartyAttributeExtensionBuilder()
         .withExpiryDate(new Date())
-        .withDefinition(new AttributeDefinition('new_definition'))
-        .withDefinitions([new AttributeDefinition('definition_already_there')])
+        .withDefinition('new_definition')
+        .withDefinitions(['definition_already_there'])
         .build();
 
       expect(thirdPartyAttributeExtension.content.getDefinitions().length).toEqual(1);
@@ -69,8 +69,8 @@ describe('ThirdPartyAttributeExtensionBuilder', () => {
     const builder = new ThirdPartyAttributeExtensionBuilder()
       .withExpiryDate(date)
       .withDefinitions([
-        new AttributeDefinition('some_definition'),
-        new AttributeDefinition('some_other_definition'),
+        'some_definition',
+        'some_other_definition',
       ]);
 
     const thirdPartyAttributeExtension = builder.build();
@@ -92,8 +92,8 @@ describe('ThirdPartyAttributeExtensionBuilder', () => {
     const builder = new ThirdPartyAttributeExtensionBuilder()
       .withExpiryDate(date)
       .withDefinitions([
-        new AttributeDefinition('some_definition'),
-        new AttributeDefinition('some_other_definition'),
+        'some_definition',
+        'some_other_definition',
       ]);
 
     const thirdPartyAttributeExtension = builder.build();

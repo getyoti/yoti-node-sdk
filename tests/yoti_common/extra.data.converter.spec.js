@@ -21,8 +21,8 @@ describe('ExtraDataConverter', () => {
       expect(attributeIssuanceDetails.getToken()).toEqual('c29tZUlzc3VhbmNlVG9rZW4=');
       expect(attributeIssuanceDetails.getExpiryDate()).toBeInstanceOf(YotiDate);
       expect(attributeIssuanceDetails.getIssuingAttributes().length).toEqual(2);
-      expect(attributeIssuanceDetails.getIssuingAttributes()[0]).toEqual('com.thirdparty.id');
-      expect(attributeIssuanceDetails.getIssuingAttributes()[1]).toEqual('com.thirdparty.other_id');
+      expect(attributeIssuanceDetails.getIssuingAttributes()[0].getName()).toEqual('com.thirdparty.id');
+      expect(attributeIssuanceDetails.getIssuingAttributes()[1].getName()).toEqual('com.thirdparty.other_id');
 
       expect(attributeIssuanceDetails.getExpiryDate()
         .getMicrosecondTimestamp()).toBe('2019-10-15T22:04:05.123000Z');

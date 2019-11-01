@@ -1,6 +1,7 @@
 'use strict';
 
 const Validation = require('../yoti_common/validation');
+const AttributeDefinition = require('./attribute.definition');
 
 class AttributeIssuanceDetails {
   /**
@@ -17,7 +18,7 @@ class AttributeIssuanceDetails {
     }
     this.expiryDate = expiryDate;
 
-    Validation.hasOnlyStringValues(issuingAttributes, 'issuingAttributes');
+    Validation.isArrayOfType(issuingAttributes, AttributeDefinition, 'issuingAttributes');
     this.issuingAttributes = issuingAttributes;
   }
 
