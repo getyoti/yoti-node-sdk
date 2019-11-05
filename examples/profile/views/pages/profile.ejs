@@ -12,6 +12,10 @@ const userSelfie = profile.getSelfie();
 const documentImages = profile.getDocumentImages();
 const documentDetails = profile.getDocumentDetails();
 const structuredPostalAddress = profile.getStructuredPostalAddress();
+const passportImages = profile.getAllAttributesByName('document_images')[0];
+const drivingLicenseImages = profile.getAllAttributesByName('document_images')[1];
+const passportDetails = profile.getAllAttributesByName('document_details')[0];
+const drivingLicenseDetails = profile.getAllAttributesByName('document_details')[1];
 
 const attributes = [
   {
@@ -62,6 +66,26 @@ const attributes = [
   {
     name: "Document Details",
     prop: documentDetails,
+    icon: "yoti-icon-profile"
+  },
+  {
+    name: "Passport Details",
+    prop: passportDetails,
+    icon: "yoti-icon-profile"
+  },
+  {
+    name: "Driving License Details",
+    prop: drivingLicenseDetails,
+    icon: "yoti-icon-profile"
+  },
+  {
+    name: "Passport Images",
+    prop: passportImages,
+    icon: "yoti-icon-profile"
+  },
+  {
+    name: "Driving License Images",
+    prop: drivingLicenseImages,
     icon: "yoti-icon-profile"
   },
 ]

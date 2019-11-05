@@ -78,7 +78,7 @@ describe('ActivityDetails', () => {
     const activityDetails = new ActivityDetails({}, [
       {
         extendedProfile: {
-          attr_key: new Attribute({
+          attr_name: new Attribute({
             name: 'attr_name',
             value: 'attr_value',
           }),
@@ -88,7 +88,7 @@ describe('ActivityDetails', () => {
     it('should return Profile object', () => {
       const profile = activityDetails.getProfile();
       expect(profile).toBeInstanceOf(Profile);
-      expect(profile.getAttribute('attr_key').getValue()).toBe('attr_value');
+      expect(profile.getAttribute('attr_name').getValue()).toBe('attr_value');
     });
   });
   describe('#getUserProfile', () => {
@@ -107,7 +107,7 @@ describe('ActivityDetails', () => {
     const activityDetails = new ActivityDetails({}, [], [
       {
         extendedProfile: {
-          attr_key: new Attribute({
+          attr_name: new Attribute({
             name: 'attr_name',
             value: 'attr_value',
           }),
@@ -117,7 +117,7 @@ describe('ActivityDetails', () => {
     it('should return ApplicationProfile object', () => {
       const applicationProfile = activityDetails.getApplicationProfile();
       expect(applicationProfile).toBeInstanceOf(ApplicationProfile);
-      expect(applicationProfile.getAttribute('attr_key').getValue()).toBe('attr_value');
+      expect(applicationProfile.getAttribute('attr_name').getValue()).toBe('attr_value');
     });
   });
   describe('#getOutcome', () => {

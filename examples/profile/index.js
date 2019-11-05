@@ -70,6 +70,18 @@ router.get('/dynamic-share', (req, res) => {
     .withName('email_address')
     .build();
 
+  const passportConstraint = new Yoti.ConstraintsBuilder()
+    .withSourceConstraint(new Yoti.SourceConstraintBuilder()
+      .withPassport()
+      .build())
+    .build();
+
+  const drivingLicenseConstraint = new Yoti.ConstraintsBuilder()
+    .withSourceConstraint(new Yoti.SourceConstraintBuilder()
+      .withDrivingLicence()
+      .build())
+    .build();
+
   const dynamicPolicy = new Yoti.DynamicPolicyBuilder()
     .withWantedAttribute(givenNamesWantedAttribute)
     .withWantedAttribute(emailAddressWantedAttribute)
@@ -77,6 +89,10 @@ router.get('/dynamic-share', (req, res) => {
     .withSelfie()
     .withPhoneNumber()
     .withAgeOver(18)
+    .withDocumentDetails(passportConstraint)
+    .withDocumentDetails(drivingLicenseConstraint)
+    .withDocumentImages(passportConstraint)
+    .withDocumentImages(drivingLicenseConstraint)
     .build();
 
   const dynamicScenario = new Yoti.DynamicScenarioBuilder()

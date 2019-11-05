@@ -1,5 +1,7 @@
 'use strict';
 
+const crypto = require('crypto');
+
 const DynamicPolicy = require('./dynamic.policy');
 const WantedAttributeBuilder = require('./wanted.attribute.builder');
 const WantedAttribute = require('./wanted.attribute');
@@ -30,8 +32,17 @@ module.exports = class DynamicPolicyBuilder {
     if (wantedAttribute.getDerivation()) {
       key = wantedAttribute.getDerivation();
     }
+    if (wantedAttribute.getConstraints()) {
+      const hash = crypto
+        .createHash('sha256')
+        .update(JSON.stringify(wantedAttribute.getConstraints()), 'utf8')
+        .digest('hex');
+
+      key = `${key}:${hash}`;
+    }
 
     this.wantedAttributes[key] = wantedAttribute;
+
     return this;
   }
 

@@ -1,10 +1,14 @@
 const {
   DynamicPolicyBuilder,
   WantedAttributeBuilder,
+  SourceConstraintBuilder,
+  ConstraintsBuilder,
 } = require('../../../');
 
 const DynamicPolicy = require('../../../src/dynamic_sharing_service/policy/dynamic.policy');
 const WantedAttribute = require('../../../src/dynamic_sharing_service/policy/wanted.attribute');
+
+const CONSTRAINT_TYPE_SOURCE = 'SOURCE';
 
 /**
  * Compares serlialized dynamic policy with expected JSON data.
@@ -328,5 +332,72 @@ describe('DynamicPolicyBuilder', () => {
       .build();
 
     expect(dynamicPolicy.wantedAuthTypes).not.toContain(EXPECTED_PIN_AUTH_TYPE);
+  });
+
+  it('should build with the same attribute with different constraints', () => {
+    const passportConstraint = new ConstraintsBuilder()
+      .withSourceConstraint(new SourceConstraintBuilder()
+        .withPassport()
+        .build())
+      .build();
+
+    const drivingLicenseConstraint = new ConstraintsBuilder()
+      .withSourceConstraint(new SourceConstraintBuilder()
+        .withDrivingLicence()
+        .build())
+      .build();
+
+    const dynamicPolicy = new DynamicPolicyBuilder()
+      .withFamilyName(passportConstraint)
+      .withFamilyName(drivingLicenseConstraint, true)
+      .build();
+
+
+    const expectedWantedAttributeData = {
+      wanted: [
+        {
+          name: 'family_name',
+          optional: false,
+          constraints: [
+            {
+              type: CONSTRAINT_TYPE_SOURCE,
+              preferred_sources: {
+                anchors: [
+                  {
+                    name: 'PASSPORT',
+                    sub_type: '',
+                  },
+                ],
+                soft_preference: false,
+              },
+            },
+          ],
+        },
+        {
+          name: 'family_name',
+          optional: false,
+          constraints: [
+            {
+              type: CONSTRAINT_TYPE_SOURCE,
+              preferred_sources: {
+                anchors: [
+                  {
+                    name: 'DRIVING_LICENCE',
+                    sub_type: '',
+                  },
+                ],
+                soft_preference: false,
+              },
+            },
+          ],
+          accept_self_asserted: true,
+        },
+      ],
+      wanted_auth_types: [],
+      wanted_remember_me: false,
+      wanted_remember_me_optional: false,
+    };
+
+    expectDynamicPolicyJson(dynamicPolicy, expectedWantedAttributeData);
   });
 });
