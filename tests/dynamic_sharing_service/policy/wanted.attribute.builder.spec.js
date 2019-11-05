@@ -13,8 +13,8 @@ describe('WantedAttributeBuilder', () => {
 
     const expectedJson = JSON.stringify({
       name: TEST_NAME,
-      derivation: TEST_DERIVATION,
       optional: false,
+      derivation: TEST_DERIVATION,
     });
 
     expect(wantedAttribute).toBeInstanceOf(WantedAttribute);
@@ -36,7 +36,6 @@ describe('WantedAttributeBuilder', () => {
 
     const expectedJson = JSON.stringify({
       name: TEST_NAME,
-      derivation: '',
       optional: false,
       accept_self_asserted: true,
     });
@@ -55,13 +54,23 @@ describe('WantedAttributeBuilder', () => {
 
     const expectedJson = JSON.stringify({
       name: TEST_NAME,
-      derivation: '',
       optional: false,
       accept_self_asserted: false,
     });
 
     expect(wantedAttribute).toBeInstanceOf(WantedAttribute);
     expect(JSON.stringify(wantedAttribute)).toBe(expectedJson);
+  });
+
+  it('should throw error when provided derivation is not a string', () => {
+    [false, [], 0, 1, {}].forEach((nonStringValue) => {
+      expect(() => {
+        new WantedAttributeBuilder()
+          .withName(TEST_NAME)
+          .withDerivation(nonStringValue)
+          .build();
+      }).toThrow(new TypeError('derivation must be a string'));
+    });
   });
 
   it('should build a wanted attribute with constraints', () => {
@@ -80,7 +89,6 @@ describe('WantedAttributeBuilder', () => {
 
     const expectedJson = JSON.stringify({
       name: TEST_NAME,
-      derivation: '',
       optional: false,
       constraints: [
         {

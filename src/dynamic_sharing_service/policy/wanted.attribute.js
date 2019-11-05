@@ -15,11 +15,13 @@ module.exports = class WantedAttribute {
    * @param {boolean} acceptSelfAsserted
    * @param {Constraints} constraints
    */
-  constructor(name, derivation = '', acceptSelfAsserted = null, constraints = null) {
+  constructor(name, derivation = null, acceptSelfAsserted = null, constraints = null) {
     Validation.isString(name, 'name');
     this.name = name;
 
-    Validation.isString(derivation, 'derivation');
+    if (derivation !== null) {
+      Validation.isString(derivation, 'derivation');
+    }
     this.derivation = derivation;
 
     if (acceptSelfAsserted !== null) {
@@ -80,9 +82,12 @@ module.exports = class WantedAttribute {
   toJSON() {
     const json = {
       name: this.getName(),
-      derivation: this.getDerivation(),
       optional: false,
     };
+
+    if (this.getDerivation() !== null) {
+      json.derivation = this.getDerivation();
+    }
 
     if (this.getConstraints() instanceof Constraints) {
       json.constraints = this.getConstraints();
