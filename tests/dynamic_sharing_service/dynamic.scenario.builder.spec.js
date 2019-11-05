@@ -41,12 +41,10 @@ describe('DynamicScenarioBuilder', () => {
         wanted: [
           {
             name: 'full_name',
-            derivation: '',
             optional: false,
           },
           {
             name: 'given_names',
-            derivation: '',
             optional: false,
           },
         ],
