@@ -50,9 +50,12 @@ class ActivityDetails {
     }
     this.extraData = extraData;
 
-    // This is the new profile attribute
-    this.extendedProfile = new Profile(this.profile.extendedProfile);
+    // This is the new profile attribute - `extendedProfileList` supersedes `extendedProfile`
+    // to support multiple attributes with the same name.
+    const extendedProfile = this.profile.extendedProfileList || this.profile.extendedProfile;
+    this.extendedProfile = new Profile(extendedProfile);
     delete this.profile.extendedProfile;
+    delete this.profile.extendedProfileList;
 
     const applicationProfile = parseProfile(decryptedApplicationProfile);
     this.applicationProfile = new ApplicationProfile(applicationProfile.extendedProfile);
