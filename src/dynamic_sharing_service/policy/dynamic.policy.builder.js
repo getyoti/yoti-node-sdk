@@ -38,7 +38,7 @@ module.exports = class DynamicPolicyBuilder {
         .update(JSON.stringify(wantedAttribute.getConstraints()), 'utf8')
         .digest('hex');
 
-      key = `${key}:${hash}`;
+      key = `${key}-${hash}`;
     }
 
     this.wantedAttributes[key] = wantedAttribute;
