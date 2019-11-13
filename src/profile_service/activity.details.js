@@ -3,6 +3,8 @@
 const { Age } = require('../yoti_common/age');
 const { Profile } = require('./profile');
 const { ApplicationProfile } = require('./application.profile');
+const ExtraData = require('./extra.data');
+const Validation = require('../yoti_common/validation');
 
 /**
  * Processes profile array data into object.
@@ -34,12 +36,18 @@ class ActivityDetails {
    *   Decrypted user profile data.
    * @param {array} decryptedApplicationProfile
    *   Decrypted application profile data.
+   * @param {ExtraData} extraData
+   *   Decrypted and converted extra data.
    */
   constructor(parsedResponse, decryptedProfile, decryptedApplicationProfile, extraData) {
     this.parsedResponse = parsedResponse;
     this.decryptedProfile = decryptedProfile;
     this.receipt = parsedResponse.receipt;
     this.profile = parseProfile(decryptedProfile);
+
+    if (extraData !== undefined) {
+      Validation.instanceOf(extraData, ExtraData, 'extraData');
+    }
     this.extraData = extraData;
 
     // This is the new profile attribute
