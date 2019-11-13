@@ -18,7 +18,7 @@ describe('ExtraDataConverter', () => {
       const attributeIssuanceDetails = extraData.getAttributeIssuanceDetails();
 
       expect(attributeIssuanceDetails).not.toBe(undefined);
-      expect(attributeIssuanceDetails.getToken()).toEqual('someIssuanceToken');
+      expect(attributeIssuanceDetails.getToken()).toEqual('c29tZUlzc3VhbmNlVG9rZW4=');
       expect(attributeIssuanceDetails.getExpiryDate()).toBeInstanceOf(YotiDate);
       expect(attributeIssuanceDetails.getIssuingAttributes().length).toEqual(2);
       expect(attributeIssuanceDetails.getIssuingAttributes()[0]).toEqual('com.thirdparty.id');
