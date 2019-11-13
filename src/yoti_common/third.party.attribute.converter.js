@@ -17,7 +17,7 @@ class ThirdPartyAttributeConverter {
       return undefined;
     }
 
-    const token = thirdPartyProto.issuanceToken.toString('utf8');
+    const token = thirdPartyProto.issuanceToken.toString('base64');
     if (!token || token === '') {
       console.log('Failed to retrieve token from ThirdPartyAttribute');
       return undefined;

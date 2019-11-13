@@ -22,7 +22,7 @@ describe('ThirdPartyAttributeConverter', () => {
         .convertThirdPartyAttribute(sampleThirdPartyAttribute);
 
       expect(thirdPartyAttribute).toBeInstanceOf(AttributeIssuanceDetails);
-      expect(thirdPartyAttribute.getToken()).toEqual('someIssuanceToken');
+      expect(thirdPartyAttribute.getToken()).toEqual('c29tZUlzc3VhbmNlVG9rZW4=');
 
       expect(thirdPartyAttribute.getExpiryDate()
         .getMicrosecondTimestamp()).toBe('2019-10-15T22:04:05.123000Z');
@@ -57,7 +57,7 @@ describe('ThirdPartyAttributeConverter', () => {
 
       expect(thirdPartyAttribute).not.toBe(undefined);
       expect(thirdPartyAttribute).toBeInstanceOf(AttributeIssuanceDetails);
-      expect(thirdPartyAttribute.getToken()).toEqual('someToken');
+      expect(thirdPartyAttribute.getToken()).toEqual('c29tZVRva2Vu');
       expect(thirdPartyAttribute.getExpiryDate()).toBe(undefined);
       expect(thirdPartyAttribute.getIssuingAttributes().length).toEqual(0);
     });
