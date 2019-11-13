@@ -2,6 +2,9 @@
 
 const AttributeIssuanceDetails = require('../data_type/attribute.issuance.details');
 
+/**
+ * @param {Object[]} parsedDataEntries
+ */
 function getAttributeIssuanceDetails(parsedDataEntries) {
   const filtered = parsedDataEntries.filter(i => i instanceof AttributeIssuanceDetails);
   if (filtered.length > 0) {
@@ -13,13 +16,15 @@ function getAttributeIssuanceDetails(parsedDataEntries) {
 
 class ExtraData {
   /**
-   *
-   * @param {Object} attributeIssuanceDetails
+   * @param {Object[]} attributeIssuanceDetails
    */
   constructor(dataEntries = []) {
     this.attributeIssuanceDetails = getAttributeIssuanceDetails(dataEntries);
   }
 
+  /**
+   * @returns {AttributeIssuanceDetails}
+   */
   getAttributeIssuanceDetails() {
     return this.attributeIssuanceDetails;
   }
