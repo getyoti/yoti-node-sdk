@@ -158,7 +158,7 @@ module.exports.parseExtraData = (receipt, pem) => {
       pem
     );
 
-    return ExtraDataConverter.convertExtraData(decryptedExtraData.toString());
+    return ExtraDataConverter.convertExtraData(decryptedExtraData);
   }
 
   return new ExtraData(undefined);
