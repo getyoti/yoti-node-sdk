@@ -13,10 +13,18 @@ class BaseProfile {
       .keys(Object.assign({}, profileData))
       .map(key => new Attribute(profileData[key]));
 
+    this.attributesMap = this.attributes.reduce((acc, current) => {
+      const name = current.getName();
+      acc[name] = acc[name] || [];
+      acc[name].push(current);
+      return acc;
+    }, {});
+
     // @deprecated 4.0.0
     // Process profile data into Object keyed by attribute name for backwards compatibility.
     this.profileData = this.attributes.reduce((acc, current) => {
-      acc[current.getName()] = current;
+      const name = current.getName();
+      acc[name] = acc[name] || current;
       return acc;
     }, {});
   }
@@ -44,9 +52,7 @@ class BaseProfile {
    * @returns {Attribute[]}
    */
   getAttributesByName(attrName) {
-    return this
-      .getAttributesList()
-      .filter(attribute => attribute.getName() === attrName);
+    return this.attributesMap[attrName] || [];
   }
 
   /**
@@ -61,13 +67,12 @@ class BaseProfile {
   /**
    * Return map of all attributes for the profile.
    *
+   * @deprecated 4.0.0 replaced by getAttributesList()
+   *
    * @returns {Object.<string, Attribute>}
    */
   getAttributes() {
-    return this.getAttributesList().reduce((acc, current) => {
-      acc[current.getName()] = current;
-      return acc;
-    }, {});
+    return this.profileData;
   }
 
   /**

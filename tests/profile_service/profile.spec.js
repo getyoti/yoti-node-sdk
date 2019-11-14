@@ -210,7 +210,7 @@ describe('Profile', () => {
       });
 
       describe('#getAttributes', () => {
-        it('should return all attributes', () => {
+        it('should return all attributes keyed by name', () => {
           const attributes = profileObj.getAttributes();
           expect(Object.keys(attributes).length).toBe(16);
           Object.keys(attributes).forEach((attributeName) => {
@@ -218,6 +218,17 @@ describe('Profile', () => {
           });
           expect(attributes.gender.getName()).toBe('gender');
           expect(attributes.gender.getValue()).toBe('TEST MALE');
+        });
+      });
+
+      describe('#getAttributesList', () => {
+        it('should return all attributes as an array', () => {
+          const attributes = profileObj.getAttributesList();
+          expect(attributes).toBeInstanceOf(Array);
+          expect(attributes.length).toBe(16);
+          attributes.forEach((attribute) => {
+            expect(attribute).toBeInstanceOf(Attribute);
+          });
         });
       });
 
