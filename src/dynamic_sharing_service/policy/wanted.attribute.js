@@ -17,6 +17,7 @@ module.exports = class WantedAttribute {
    */
   constructor(name, derivation = null, acceptSelfAsserted = null, constraints = null) {
     Validation.isString(name, 'name');
+    Validation.notNullOrEmpty(name, 'name');
     this.name = name;
 
     if (derivation !== null) {
