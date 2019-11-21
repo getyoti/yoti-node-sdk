@@ -23,6 +23,24 @@ describe('WantedAttributeBuilder', () => {
     expect(wantedAttribute.getDerivation()).toBe(TEST_DERIVATION);
   });
 
+  it('should throw error when name is an empty string', () => {
+    expect(() => {
+      new WantedAttributeBuilder()
+        .withName('')
+        .build();
+    }).toThrow(new TypeError('name cannot be null or empty'));
+  });
+
+  it('should throw error when name is a non-string value', () => {
+    [null, []].forEach((nonStringValue) => {
+      expect(() => {
+        new WantedAttributeBuilder()
+          .withName(nonStringValue)
+          .build();
+      }).toThrow(new TypeError('name must be a string'));
+    });
+  });
+
   it('should build a wanted attribute with accept self asserted', () => {
     const wantedAttributeDefault = new WantedAttributeBuilder()
       .withName(TEST_NAME)
