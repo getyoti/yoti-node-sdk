@@ -44,7 +44,8 @@ module.exports.execute = (yotiRequest, buffer = false) => new Promise((resolve, 
         parsedResponse,
         response.statusCode,
         receipt,
-        body
+        body,
+        response.headers
       ));
     })
     .catch((err) => {

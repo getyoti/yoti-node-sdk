@@ -3,11 +3,16 @@ const { YotiResponse } = require('../../src/request/response');
 const SOME_BODY = '{"some":"response"}';
 const SOME_RECEIPT = { some: 'receipt' };
 const SOME_PARSED_RESPONSE = JSON.parse(SOME_BODY);
+const SOME_HEADERS = {
+  'Some-Header': 'some value',
+  'Some-Other-Header': 'some other value',
+};
 const SOME_RESPONSE = new YotiResponse(
   SOME_PARSED_RESPONSE,
   200,
   SOME_RECEIPT,
-  SOME_BODY
+  SOME_BODY,
+  SOME_HEADERS
 );
 
 describe('YotiResponse', () => {
@@ -31,6 +36,11 @@ describe('YotiResponse', () => {
       expect(SOME_RESPONSE.getStatusCode()).toBe(200);
     });
   });
+  describe('#getHeaders', () => {
+    it('should return the response headers', () => {
+      expect(SOME_RESPONSE.getHeaders()).toEqual(SOME_HEADERS);
+    });
+  });
   describe('#constructor', () => {
     it('should not require receipt', () => {
       const SOME_RESPONSE_WITHOUT_RECEIPT = new YotiResponse(
@@ -46,6 +56,15 @@ describe('YotiResponse', () => {
         SOME_RECEIPT
       );
       expect(SOME_RESPONSE_WITHOUT_BODY.getBody()).toBeNull();
+    });
+    it('should not require headers', () => {
+      const SOME_RESPONSE_WITHOUT_HEADERS = new YotiResponse(
+        SOME_PARSED_RESPONSE,
+        200,
+        SOME_RECEIPT,
+        SOME_BODY
+      );
+      expect(SOME_RESPONSE_WITHOUT_HEADERS.getHeaders()).toBeNull();
     });
   });
 });

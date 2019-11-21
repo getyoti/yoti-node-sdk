@@ -10,6 +10,7 @@ const SOME_ENDPOINT_REG_EXP = new RegExp(`^${SOME_ENDPOINT}`);
 const SOME_PEM_STRING = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 const ALLOWED_METHODS = ['POST', 'PUT', 'PATCH', 'GET', 'DELETE'];
 const SOME_JSON_DATA = { some: 'json' };
+const SOME_HEADERS = { 'Some-Header': 'some value' };
 const SOME_JSON_DATA_STRING = JSON.stringify(SOME_JSON_DATA);
 const SOME_JSON_RECEIPT_DATA = { receipt: 'some receipt' };
 const SOME_JSON_RECEIPT_DATA_STRING = JSON.stringify(SOME_JSON_RECEIPT_DATA);
@@ -121,6 +122,23 @@ describe('yotiRequest', () => {
         .catch(done);
     });
   });
+  describe('when headers are returned', () => {
+    beforeEach((done) => {
+      nock(SOME_BASE_URL)
+        .get(SOME_ENDPOINT_REG_EXP)
+        .reply(200, SOME_JSON_DATA_STRING, SOME_HEADERS);
+      done();
+    });
+    it('should return YotiResponse with headers', (done) => {
+      yotiRequestHandler
+        .execute(SOME_REQUEST, true)
+        .then((response) => {
+          expect(response).toHaveHeaders(SOME_HEADERS);
+          done();
+        })
+        .catch(done);
+    });
+  });
   [
     'application/octet-stream',
     'application/pdf',
@@ -173,4 +191,21 @@ describe('yotiRequest', () => {
       });
     });
   });
+});
+
+expect.extend({
+  toHaveHeaders(response, expectedHeaders) {
+    Object.keys(expectedHeaders).forEach((header) => {
+      // Note: Response header names are lowercased by superagent.
+      const headerValue = response.getHeaders()[header.toLowerCase()];
+      const expectedHeaderValue = expectedHeaders[header];
+
+      expect(headerValue).toBe(expectedHeaderValue);
+    });
+    return {
+      message: () =>
+        'Response contains expected headers',
+      pass: true,
+    };
+  },
 });
