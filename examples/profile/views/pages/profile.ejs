@@ -19,7 +19,7 @@
       <div class="yoti-profile-picture-section">
         <% if (profile.getSelfie()) { %>
         <div class="yoti-profile-picture-area">
-          <img src="/static/YotiSelfie.jpeg" class="yoti-profile-picture-image" alt="Yoti" />
+          <img src="<%= profile.getSelfie().getValue().getBase64Content() %>" class="yoti-profile-picture-image" alt="Yoti" />
 
           <i class="yoti-profile-picture-verified-icon"></i>
         </div>
