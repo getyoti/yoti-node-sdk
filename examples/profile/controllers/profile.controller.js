@@ -1,21 +1,8 @@
 const Yoti = require('yoti');
-const path = require('path');
-const fs = require('fs');
 const constants = require('yoti/src/yoti_common/constants');
 const config = require('../config');
 
 const yotiClient = new Yoti.Client(config.CLIENT_SDK_ID, config.PEM_KEY);
-
-function saveImage(selfie) {
-  return new Promise((res, rej) => {
-    try {
-      fs.writeFileSync(path.join(__dirname, '..', 'static', 'YotiSelfie.jpeg'), selfie.toBase64(), 'base64');
-      res();
-    } catch (error) {
-      rej(error);
-    }
-  });
-}
 
 function createAttributeItem(prop, name, icon) {
   return {
@@ -100,19 +87,9 @@ module.exports = (req, res) => {
 
   const promise = yotiClient.getActivityDetails(token);
   promise.then((activityDetails) => {
-    const userProfile = activityDetails.getUserProfile();
     const profile = activityDetails.getProfile();
-    const { selfie } = userProfile;
-
-    if (typeof selfie !== 'undefined') {
-      saveImage(selfie);
-    }
 
     res.render('pages/profile', {
-      rememberMeId: activityDetails.getRememberMeId(),
-      parentRememberMeId: activityDetails.getParentRememberMeId(),
-      selfieUri: activityDetails.getBase64SelfieUri(),
-      userProfile,
       profile,
       attributes: buildViewAttributes(profile),
     });
