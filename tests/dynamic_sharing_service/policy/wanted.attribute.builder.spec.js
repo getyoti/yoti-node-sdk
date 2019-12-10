@@ -13,14 +13,32 @@ describe('WantedAttributeBuilder', () => {
 
     const expectedJson = JSON.stringify({
       name: TEST_NAME,
-      derivation: TEST_DERIVATION,
       optional: false,
+      derivation: TEST_DERIVATION,
     });
 
     expect(wantedAttribute).toBeInstanceOf(WantedAttribute);
     expect(JSON.stringify(wantedAttribute)).toBe(expectedJson);
     expect(wantedAttribute.getName()).toBe(TEST_NAME);
     expect(wantedAttribute.getDerivation()).toBe(TEST_DERIVATION);
+  });
+
+  it('should throw error when name is an empty string', () => {
+    expect(() => {
+      new WantedAttributeBuilder()
+        .withName('')
+        .build();
+    }).toThrow(new TypeError('name cannot be null or empty'));
+  });
+
+  it('should throw error when name is a non-string value', () => {
+    [null, []].forEach((nonStringValue) => {
+      expect(() => {
+        new WantedAttributeBuilder()
+          .withName(nonStringValue)
+          .build();
+      }).toThrow(new TypeError('name must be a string'));
+    });
   });
 
   it('should build a wanted attribute with accept self asserted', () => {
@@ -36,7 +54,6 @@ describe('WantedAttributeBuilder', () => {
 
     const expectedJson = JSON.stringify({
       name: TEST_NAME,
-      derivation: '',
       optional: false,
       accept_self_asserted: true,
     });
@@ -55,13 +72,23 @@ describe('WantedAttributeBuilder', () => {
 
     const expectedJson = JSON.stringify({
       name: TEST_NAME,
-      derivation: '',
       optional: false,
       accept_self_asserted: false,
     });
 
     expect(wantedAttribute).toBeInstanceOf(WantedAttribute);
     expect(JSON.stringify(wantedAttribute)).toBe(expectedJson);
+  });
+
+  it('should throw error when provided derivation is not a string', () => {
+    [false, [], 0, 1, {}].forEach((nonStringValue) => {
+      expect(() => {
+        new WantedAttributeBuilder()
+          .withName(TEST_NAME)
+          .withDerivation(nonStringValue)
+          .build();
+      }).toThrow(new TypeError('derivation must be a string'));
+    });
   });
 
   it('should build a wanted attribute with constraints', () => {
@@ -80,7 +107,6 @@ describe('WantedAttributeBuilder', () => {
 
     const expectedJson = JSON.stringify({
       name: TEST_NAME,
-      derivation: '',
       optional: false,
       constraints: [
         {

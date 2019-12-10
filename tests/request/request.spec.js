@@ -51,19 +51,19 @@ describe('YotiRequest', () => {
     describe('When provided non-string URL', () => {
       it('should throw TypeError', () => {
         expect(() => new YotiRequest(SOME_METHOD, ['invalid'], SOME_HEADERS, SOME_PAYLOAD))
-          .toThrow(TypeError, 'url must be a string');
+          .toThrow(new TypeError('url must be a string'));
       });
     });
     describe('When provided invalid payload', () => {
       it('should throw TypeError', () => {
         expect(() => new YotiRequest(SOME_METHOD, SOME_URL, SOME_HEADERS, ['invalid']))
-          .toThrow(TypeError, 'payload must be instance of Payload');
+          .toThrow(new TypeError('payload must be instance of Payload'));
       });
     });
     describe('When provided invalid method', () => {
       it('should throw Error', () => {
         expect(() => new YotiRequest('INVALID', SOME_URL, SOME_HEADERS, SOME_PAYLOAD))
-          .toThrow(Error, 'HTTP method INVALID is not supported');
+          .toThrow(new Error('HTTP method INVALID is not supported'));
       });
     });
     describe('When provided invalid headers', () => {
@@ -74,7 +74,7 @@ describe('YotiRequest', () => {
           },
         };
         expect(() => new YotiRequest(SOME_METHOD, SOME_URL, invalidHeader, SOME_PAYLOAD))
-          .toThrow(TypeError, 'all values in headers must be a string');
+          .toThrow(new TypeError('all values in headers must be a string'));
       });
     });
   });

@@ -10,6 +10,7 @@ const WantedAttributeBuilder = require('./policy/wanted.attribute.builder');
 const ExtensionBuilder = require('./extension/extension.builder');
 const LocationConstraintExtensionBuilder = require('./extension/location.constraint.extension.builder');
 const TransactionalFlowExtensionBuilder = require('./extension/transactional.flow.extension.builder');
+const ThirdPartyAttributeExtensionBuilder = require('./extension/third.party.attribute.extension.builder');
 const WantedAnchorBuilder = require('./policy/wanted.anchor.builder');
 const ConstraintsBuilder = require('./policy/constraints.builder');
 const SourceConstraintBuilder = require('./policy/source.constraint.builder');
@@ -63,6 +64,7 @@ module.exports = {
   ExtensionBuilder,
   LocationConstraintExtensionBuilder,
   TransactionalFlowExtensionBuilder,
+  ThirdPartyAttributeExtensionBuilder,
   WantedAnchorBuilder,
   ConstraintsBuilder,
   SourceConstraintBuilder,

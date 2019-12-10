@@ -4,6 +4,7 @@ const Client = require('./src/client').YotiClient;
 const { AmlAddress, AmlProfile } = require('./src/aml_type');
 const { RequestBuilder } = require('./src/request/request.builder');
 const { Payload } = require('./src/request/payload');
+const { YotiDate } = require('./src/data_type/date');
 
 const {
   DynamicScenarioBuilder,
@@ -11,6 +12,7 @@ const {
   WantedAttributeBuilder,
   ExtensionBuilder,
   LocationConstraintExtensionBuilder,
+  ThirdPartyAttributeExtensionBuilder,
   TransactionalFlowExtensionBuilder,
   WantedAnchorBuilder,
   ConstraintsBuilder,
@@ -26,10 +28,12 @@ module.exports = {
   WantedAttributeBuilder,
   ExtensionBuilder,
   LocationConstraintExtensionBuilder,
+  ThirdPartyAttributeExtensionBuilder,
   TransactionalFlowExtensionBuilder,
   WantedAnchorBuilder,
   ConstraintsBuilder,
   SourceConstraintBuilder,
   RequestBuilder,
   Payload,
+  YotiDate,
 };

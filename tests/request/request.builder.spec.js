@@ -1,54 +1,22 @@
 const nock = require('nock');
 const fs = require('fs');
 
-const { YotiRequest } = require('../../src/request/request');
-const { RequestBuilder } = require('../../');
+const { RequestBuilder, Payload } = require('../../');
 const yotiPackage = require('../../package.json');
 
 const PEM_FILE_PATH = './tests/sample-data/keys/node-sdk-test.pem';
 const PEM_STRING = fs.readFileSync(PEM_FILE_PATH, 'utf8');
 const API_BASE_URL = 'https://api.example.com';
 const API_ENDPOINT = '/some-endpoint';
-
-/**
- * Assert that the signed request was built correctly.
- *
- * @param {Request} request
- */
-const assertExpectedRequest = (request, done) => {
-  expect(request).toBeInstanceOf(YotiRequest);
-
-  // Check that auth headers are present.
-  request.execute()
-    .then((response) => {
-      const sentHeaders = response.getParsedResponse().headers;
-
-      const expectedHeaders = {
-        'X-Yoti-SDK': 'Node',
-        'X-Yoti-SDK-Version': `Node-${yotiPackage.version}`,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      };
-
-      Object.keys(expectedHeaders).forEach((header) => {
-        const sentHeader = sentHeaders[header.toLowerCase()];
-        expect(sentHeader).toBe(expectedHeaders[header], header);
-      });
-
-      const expectedMatchHeaders = {
-        'X-Yoti-Auth-Key': new RegExp('^[a-zA-Z0-9/+]{392}$'),
-        'X-Yoti-Auth-Digest': new RegExp('^[a-zA-Z0-9/+=]{344}$'),
-      };
-
-      Object.keys(expectedMatchHeaders).forEach((header) => {
-        const sentHeader = sentHeaders[header.toLowerCase()];
-        expect(sentHeader).toMatch(expectedMatchHeaders[header], header);
-      });
-
-      done();
-    })
-    .catch(done);
+const CONTENT_TYPE_HEADER_NAME = 'Content-Type';
+const CONTENT_TYPE_JSON = 'application/json';
+const DEFAULT_HEADERS = {
+  'X-Yoti-SDK': 'Node',
+  'X-Yoti-SDK-Version': `Node-${yotiPackage.version}`,
+  Accept: CONTENT_TYPE_JSON,
+  'X-Yoti-Auth-Digest': new RegExp('^[a-zA-Z0-9/+=]{344}$'),
 };
+const SOME_PAYLOAD = new Payload({ some: 'data' });
 
 describe('RequestBuilder', () => {
   beforeEach((done) => {
@@ -60,7 +28,7 @@ describe('RequestBuilder', () => {
     done();
   });
   describe('#build', () => {
-    it('should build a Request with pem string', (done) => {
+    it('should build a Request with pem string', () => {
       const request = new RequestBuilder()
         .withBaseUrl(API_BASE_URL)
         .withPemString(PEM_STRING)
@@ -68,10 +36,11 @@ describe('RequestBuilder', () => {
         .withGet()
         .build();
 
-      assertExpectedRequest(request, done);
+      expect(request).toHaveHeaders(DEFAULT_HEADERS);
+      expect(request.getHeaders()[CONTENT_TYPE_HEADER_NAME]).toBeUndefined();
     });
 
-    it('should build a Request with pem file path', (done) => {
+    it('should build a Request with pem file path', () => {
       const request = new RequestBuilder()
         .withBaseUrl(API_BASE_URL)
         .withPemFilePath(PEM_FILE_PATH)
@@ -79,7 +48,7 @@ describe('RequestBuilder', () => {
         .withGet()
         .build();
 
-      assertExpectedRequest(request, done);
+      expect(request).toHaveHeaders(DEFAULT_HEADERS);
     });
 
     it('should require a PEM string or file', () => {
@@ -87,7 +56,7 @@ describe('RequestBuilder', () => {
         new RequestBuilder()
           .withBaseUrl(API_BASE_URL)
           .build();
-      }).toThrow(Error, 'PEM file path or string must be provided');
+      }).toThrow(new Error('PEM file path or string must be provided'));
     });
 
     it('should require a base url', () => {
@@ -95,10 +64,10 @@ describe('RequestBuilder', () => {
         new RequestBuilder()
           .withPemFilePath(PEM_FILE_PATH)
           .build();
-      }).toThrow(Error, 'Base URL must be specified');
+      }).toThrow(new Error('Base URL must be specified'));
     });
 
-    it('should build with valid headers', (done) => {
+    it('should build with valid headers', () => {
       const request = new RequestBuilder()
         .withBaseUrl(API_BASE_URL)
         .withPemFilePath(PEM_FILE_PATH)
@@ -108,15 +77,11 @@ describe('RequestBuilder', () => {
         .withGet()
         .build();
 
-      request
-        .execute()
-        .then((response) => {
-          const headers = response.getParsedResponse().headers;
-          expect(headers['custom-1']).toBe('value 1');
-          expect(headers['custom-2']).toBe('value 2');
-          done();
-        })
-        .catch(done);
+      expect(request).toHaveHeaders(DEFAULT_HEADERS);
+      expect(request).toHaveHeaders({
+        'Custom-1': 'value 1',
+        'Custom-2': 'value 2',
+      });
     });
   });
   describe('#withEndpoint', () => {
@@ -124,7 +89,7 @@ describe('RequestBuilder', () => {
       `///${API_ENDPOINT}`,
       API_ENDPOINT.replace(/^\/+/, ''),
     ].forEach((endpoint) => {
-      it(`should ensure "${endpoint}" has one leading slash`, (done) => {
+      it(`should ensure "${endpoint}" has one leading slash`, () => {
         const request = new RequestBuilder()
           .withBaseUrl(`${API_BASE_URL}`)
           .withPemFilePath(PEM_FILE_PATH)
@@ -132,12 +97,12 @@ describe('RequestBuilder', () => {
           .withGet()
           .build();
 
-        assertExpectedRequest(request, done);
+        expect(request).toHaveHeaders(DEFAULT_HEADERS);
       });
     });
   });
   describe('#withBaseUrl', () => {
-    it('should remove trailing slashes', (done) => {
+    it('should remove trailing slashes', () => {
       const request = new RequestBuilder()
         .withBaseUrl(`${API_BASE_URL}///`)
         .withPemFilePath(PEM_FILE_PATH)
@@ -145,7 +110,22 @@ describe('RequestBuilder', () => {
         .withGet()
         .build();
 
-      assertExpectedRequest(request, done);
+      expect(request).toHaveHeaders(DEFAULT_HEADERS);
+    });
+  });
+  describe('#withPayload', () => {
+    it('should set the provided payload', () => {
+      const request = new RequestBuilder()
+        .withBaseUrl(API_BASE_URL)
+        .withPemFilePath(PEM_FILE_PATH)
+        .withEndpoint(API_ENDPOINT)
+        .withPayload(SOME_PAYLOAD)
+        .withPost()
+        .build();
+
+      expect(request.getPayload()).toStrictEqual(SOME_PAYLOAD);
+      expect(request).toHaveHeaders(DEFAULT_HEADERS);
+      expect(request.getHeaders()[CONTENT_TYPE_HEADER_NAME]).toBe(CONTENT_TYPE_JSON);
     });
   });
   describe('#withGet', () => {
@@ -182,7 +162,7 @@ describe('RequestBuilder', () => {
           .withHeader('Custom-1', 'valid header')
           .withHeader('Custom-2', ['invalid header'])
           .build();
-      }).toThrow(TypeError, "'Custom-2' header must be a string");
+      }).toThrow(new TypeError("'Custom-2' header must be a string"));
     });
 
     it('should only accept string header name', () => {
@@ -194,7 +174,27 @@ describe('RequestBuilder', () => {
           .withHeader('Valid-Name', 'value')
           .withHeader(['Invalid-Name'], 'value')
           .build();
-      }).toThrow(TypeError, 'Header name must be a string');
+      }).toThrow(new TypeError('Header name must be a string'));
     });
   });
+});
+
+expect.extend({
+  toHaveHeaders(request, expectedHeaders) {
+    Object.keys(expectedHeaders).forEach((header) => {
+      const headerValue = request.getHeaders()[header];
+      const expectedHeaderValue = expectedHeaders[header];
+
+      if (expectedHeaderValue instanceof RegExp) {
+        expect(headerValue).toMatch(expectedHeaderValue);
+      } else {
+        expect(headerValue).toBe(expectedHeaderValue);
+      }
+    });
+    return {
+      message: () =>
+        'Request contains expected headers',
+      pass: true,
+    };
+  },
 });

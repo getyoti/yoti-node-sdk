@@ -9,7 +9,9 @@ module.exports.getReceipt = (token, pem, appId) => {
     'GET',
     `/profile/${token}`,
     pem,
-    appId
+    appId,
+    null,
+    { 'X-Yoti-Auth-Key': yotiCommon.getAuthKeyFromPem(pem) }
   );
 
   return new Promise((resolve, reject) => {
@@ -20,10 +22,12 @@ module.exports.getReceipt = (token, pem, appId) => {
           const parsedResponse = response.getParsedResponse();
           const decryptedProfile = yotiCommon.decryptCurrentUserReceipt(receipt, pem);
           const decryptedApplicationProfile = yotiCommon.decryptApplicationProfile(receipt, pem);
+          const extraData = yotiCommon.parseExtraData(receipt, pem);
           return resolve(new ActivityDetails(
             parsedResponse,
             decryptedProfile,
-            decryptedApplicationProfile
+            decryptedApplicationProfile,
+            extraData
           ));
         } catch (err) {
           console.log(`Error getting response data: ${err.message}`);

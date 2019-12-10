@@ -9,12 +9,14 @@ class YotiResponse {
    * @param {int} statusCode
    * @param {Object|null} receipt
    * @param {Buffer|string|null} body
+   * @param {Array|null} headers
    */
-  constructor(parsedResponse, statusCode, receipt = null, body = null) {
+  constructor(parsedResponse, statusCode, receipt = null, body = null, headers = null) {
     this.parsedResponse = parsedResponse;
     this.statusCode = statusCode;
     this.receipt = receipt;
     this.body = body;
+    this.headers = headers;
   }
 
   /**
@@ -43,6 +45,13 @@ class YotiResponse {
    */
   getStatusCode() {
     return this.statusCode;
+  }
+
+  /**
+   * @returns {Object.<string, string>} Response headers
+   */
+  getHeaders() {
+    return this.headers;
   }
 }
 

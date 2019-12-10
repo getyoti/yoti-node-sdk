@@ -1,6 +1,7 @@
 'use strict';
 
 const constants = require('../yoti_common/constants');
+const Validation = require('../yoti_common/validation');
 
 module.exports.AmlAddress = class AmlAddress {
   constructor(countryCode, postcode) {
@@ -14,7 +15,7 @@ module.exports.AmlAddress = class AmlAddress {
    * @param countryCode
    */
   setCountryCode(countryCode) {
-    this.validateCountryCode();
+    Validation.notNullOrEmpty(countryCode, 'countryCode');
     this.countryCode = countryCode;
   }
 
@@ -52,11 +53,11 @@ module.exports.AmlAddress = class AmlAddress {
 
   /**
    * @param countryCode
+   *
+   * @deprecated Replaced by Validation.notNullOrEmpty()
    */
   validateCountryCode() {
-    if (this.countryCode === '') {
-      throw new Error('CountryCode cannot be empty');
-    }
+    Validation.notNullOrEmpty(this.countryCode, 'countryCode');
   }
 
   /**
