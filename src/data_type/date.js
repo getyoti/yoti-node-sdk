@@ -73,7 +73,7 @@ class YotiDate extends Date {
    * Returns ISO 8601 UTC date.
    *
    * @returns {string}
-   *   Date in format `{YYYY}-{DD}-{MM}`
+   *   Date in format `{YYYY}-{MM}-{DD}`
    */
   toISODateString() {
     const year = formatDatePart(this.getUTCFullYear(), 4);
@@ -100,7 +100,7 @@ class YotiDate extends Date {
    * Returns ISO 8601 UTC timestamp with microseconds.
    *
    * @returns {string}
-   *   Timestamp in format `{YYYY}-{DD}-{MM}T{HH}:{MM}:{SS}.{mmmmmm}Z`
+   *   Timestamp in format `{YYYY}-{MM}-{DD}T{HH}:{MM}:{SS}.{mmmmmm}Z`
    */
   getMicrosecondTimestamp() {
     return `${this.toISODateString()}T${this.getMicrosecondTime()}Z`;
