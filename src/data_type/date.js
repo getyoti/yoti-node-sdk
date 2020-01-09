@@ -16,6 +16,23 @@ function formatDatePart(part, length) {
 }
 
 /**
+ * @param {string} dateString
+ *
+ * @returns {number}
+ */
+function extractMicrosecondsFromDateString(dateString) {
+  const secondsFractionMatch = dateString.match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.(\d+)[Z|+]/);
+
+  if (secondsFractionMatch === null) {
+    return 0;
+  }
+
+  const secondsFraction = secondsFractionMatch[1].slice(0, 6);
+  const zeros = '0'.repeat(6 - secondsFraction.length);
+  return parseInt(`${secondsFraction}${zeros}`, 10);
+}
+
+/**
  * Adds microseconds to seconds and format with leading zeros.
  *
  * @param {number} seconds
@@ -30,6 +47,25 @@ function formatSecondsWithMicroseconds(seconds, microseconds) {
 }
 
 /**
+ * Extract microseconds from provided timestamp.
+ *
+ * Examples:
+ *   - Signed integer -1571630945999999 will have 1 microsecond.
+ *   - 1571630945999999 will have 999999 microseconds.
+ *
+ * @param {number} timestamp
+ *
+ * @returns {number}
+ */
+function extractMicrosecondsFromTimestamp(timestamp) {
+  let microseconds = timestamp % 1000000;
+  if (microseconds < 0) {
+    microseconds = 1000000 + microseconds;
+  }
+  return microseconds;
+}
+
+/**
  * Date object with microsecond accuracy.
  *
  * @class YotiDate
@@ -40,8 +76,8 @@ class YotiDate extends Date {
    */
   constructor(timestamp) {
     Validation.isNumber(timestamp);
-    super(Math.round(timestamp / 1000));
-    this.microseconds = timestamp % 1000000;
+    super(Math.floor(timestamp / 1000));
+    this.microseconds = extractMicrosecondsFromTimestamp(timestamp);
   }
 
   /**
@@ -89,11 +125,15 @@ class YotiDate extends Date {
     Validation.isString(dateString, 'dateString');
 
     const milliseconds = Date.parse(dateString);
+
     if (Number.isNaN(milliseconds)) {
       throw new TypeError(`${dateString} is not a valid date string`);
     }
 
-    return new YotiDate(milliseconds * 1000);
+    const flooredTimestamp = Math.floor(milliseconds / 1000) * 1000000;
+    const microseconds = extractMicrosecondsFromDateString(dateString);
+
+    return new YotiDate(flooredTimestamp + microseconds);
   }
 
   /**
