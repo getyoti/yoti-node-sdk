@@ -60,7 +60,7 @@ function formatSecondsWithMicroseconds(seconds, microseconds) {
 function extractMicrosecondsFromTimestamp(timestamp) {
   let microseconds = timestamp % 1000000;
   if (microseconds < 0) {
-    microseconds = 1000000 + microseconds;
+    microseconds += 1000000;
   }
   return microseconds;
 }
