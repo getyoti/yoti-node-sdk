@@ -1,6 +1,6 @@
 'use strict';
 
-const Client = require('./src/client').YotiClient;
+const { YotiClient, DocScanClient } = require('./src/client');
 const { AmlAddress, AmlProfile } = require('./src/aml_type');
 const { RequestBuilder } = require('./src/request/request.builder');
 const { Payload } = require('./src/request/payload');
@@ -19,8 +19,21 @@ const {
   SourceConstraintBuilder,
 } = require('./src/dynamic_sharing_service');
 
+const {
+  SessionSpecificationBuilder,
+  NotificationConfigBuilder,
+  SdkConfigBuilder,
+  RequestedDocumentAuthenticityCheckBuilder,
+  RequestedFaceMatchCheckBuilder,
+  RequestedLivenessCheckBuilder,
+  RequestedTextExtractionTaskBuilder,
+  DocScanConstants,
+} = require('./src/doc_scan_service');
+
 module.exports = {
-  Client,
+  Client: YotiClient,
+  DocScanClient,
+  DocScanConstants,
   AmlAddress,
   AmlProfile,
   DynamicScenarioBuilder,
@@ -36,4 +49,11 @@ module.exports = {
   RequestBuilder,
   Payload,
   YotiDate,
+  SessionSpecificationBuilder,
+  NotificationConfigBuilder,
+  SdkConfigBuilder,
+  RequestedDocumentAuthenticityCheckBuilder,
+  RequestedFaceMatchCheckBuilder,
+  RequestedLivenessCheckBuilder,
+  RequestedTextExtractionTaskBuilder,
 };

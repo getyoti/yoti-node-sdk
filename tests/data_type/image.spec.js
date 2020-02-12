@@ -1,12 +1,9 @@
 const Image = require('../../src/data_type/image');
 const ImageJpeg = require('../../src/data_type/image.jpeg');
 const ImagePng = require('../../src/data_type/image.png');
+const ByteBuffer = require('bytebuffer');
 
-const imageContent = {
-  toBase64() {
-    return 'test_image_data';
-  },
-};
+const imageContent = ByteBuffer.fromUTF8('test_image_data');
 
 const imageTypes = [
   {
