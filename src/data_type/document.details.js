@@ -12,6 +12,11 @@ module.exports.DocumentDetails = class DocumentDetails {
     this.parseFromValue(value);
   }
 
+  /**
+   * @param {string} value
+   *
+   * @deprecated 4.0.0 value is no longer validated using pattern.
+   */
   validateData(value) {
     const regex = new RegExp(VALIDATION_PATTERN);
     if (!regex.test(value)) {
@@ -20,9 +25,11 @@ module.exports.DocumentDetails = class DocumentDetails {
   }
 
   parseFromValue(value) {
-    this.validateData(value);
-
     const parsedValues = value.split(' ');
+
+    if (parsedValues.length < 3 || parsedValues.includes('')) {
+      throw new Error('Invalid value for DocumentDetails');
+    }
 
     this.type = parsedValues[TYPE_INDEX];
     this.issuingCountry = parsedValues[COUNTRY_INDEX];
