@@ -3,13 +3,7 @@
 const Validation = require('../../../yoti_common/validation');
 
 /**
- * Represents the JSON response returned by the Doc Scan
- * API when a session has been created.
- *
- * This class can be used to represent the JSON response
- * that is given by the Doc Scan API when a session has been created.
- * It contains information such as client session token, session ID
- * and client session token time-to-live (TTL)
+ * The response to a successful CreateSession call
  *
  * @class CreateSessionResult
  */
@@ -49,7 +43,7 @@ class CreateSessionResult {
   }
 
   /**
-   * Returns the session id for the created session
+   * Session ID of the created session
    *
    * @returns {string} the session id
    */

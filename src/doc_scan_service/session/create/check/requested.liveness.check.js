@@ -6,7 +6,7 @@ const DocScanConstants = require('../../../doc.scan.constants');
 const Validation = require('../../../../yoti_common/validation');
 
 /**
- * Represents requested liveness check
+ * Requests creation of a LivenessCheck
  *
  * @class RequestedLivenessCheck
  */

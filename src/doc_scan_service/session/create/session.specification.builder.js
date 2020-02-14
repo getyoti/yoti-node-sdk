@@ -19,7 +19,7 @@ class SessionSpecificationBuilder {
   }
 
   /**
-   * Sets the client session token TTL (time-to-live) on the builder
+   * Sets the client session token TTL (time-to-live)
    *
    * @param {int} clientSessionTokenTtl
    *   The client session token TTL
@@ -33,7 +33,7 @@ class SessionSpecificationBuilder {
   }
 
   /**
-   * Sets the resources TTL (time-to-live) on the builder
+   * Sets the resources TTL (time-to-live)
    *
    * @param {int} resourcesTtl
    *   The resources TTL
@@ -47,7 +47,7 @@ class SessionSpecificationBuilder {
   }
 
   /**
-   * Sets the user tracking ID on the builder
+   * Sets the user tracking ID
    *
    * @param {string} userTrackingId
    *   The user tracking ID
@@ -61,7 +61,7 @@ class SessionSpecificationBuilder {
   }
 
   /**
-   * Sets the {@link NotificationConfig} on the builder
+   * Sets the {@link NotificationConfig}
    *
    * @param {NotificationConfig} notifications
    *
@@ -74,7 +74,7 @@ class SessionSpecificationBuilder {
   }
 
   /**
-   * Adds a {@link RequestedCheck} to the list on the builder
+   * Adds a {@link RequestedCheck} to the list
    *
    * @param {RequestedCheck} requestedCheck
    *
@@ -87,7 +87,7 @@ class SessionSpecificationBuilder {
   }
 
   /**
-   * Adds a {@link RequestedTask} to the list on the builder
+   * Adds a {@link RequestedTask} to the list
    *
    * @param {RequestedTask} requestedTasks
    *
@@ -100,7 +100,7 @@ class SessionSpecificationBuilder {
   }
 
   /**
-   * Sets the {@link SdkConfig} on the builder
+   * Sets the {@link SdkConfig}
    *
    * @param {SdkConfig} sdkConfig
    *

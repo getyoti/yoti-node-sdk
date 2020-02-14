@@ -12,7 +12,7 @@ const Validation = require('../../../../yoti_common/validation');
  */
 class RequestedFaceMatchCheckBuilder {
   /**
-   * Sets the check to always trigger a manual check for the face match
+   * Requires that a manual follow-up check is always performed
    *
    * @returns {this}
    */
@@ -22,8 +22,8 @@ class RequestedFaceMatchCheckBuilder {
   }
 
   /**
-   * Sets the check to fallback to a manual check for the face match if automated
-   * checks are rejected/fail
+   * Requires that a manual follow-up check is performed only on failed Checks,
+   * and those with a low level of confidence
    *
    * @returns {this}
    */
@@ -33,7 +33,8 @@ class RequestedFaceMatchCheckBuilder {
   }
 
   /**
-   * Sets the check to never fallback to a manual check for the face match
+   * Requires that only an automated Check is performed.  No manual follow-up
+   * Check will ever be initiated
    *
    * @returns {this}
    */

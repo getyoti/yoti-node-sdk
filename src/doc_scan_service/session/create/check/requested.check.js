@@ -3,17 +3,16 @@
 const Validation = require('../../../../yoti_common/validation');
 
 /**
- * Represents a check to be performed on an identity
- * document within the Yoti Doc Scan system.
+ * Requests creation of a Check to be performed on a document
  *
  * @class RequestedCheck
  */
 class RequestedCheck {
   /**
    * @param {string} type
-   *   The type of the requested check
+   *   The type of the Check to create
    * @param {*} config
-   *   The configuration of the requested check
+   *   The configuration to apply to the Check
    */
   constructor(type, config) {
     if (new.target === RequestedCheck) {

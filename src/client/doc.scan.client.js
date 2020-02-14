@@ -3,13 +3,9 @@
 const { DocScanService } = require('../doc_scan_service');
 
 /**
- * Client used for communication with the Yoti Doc Scan service,
- * where any signed request is required.
+ * Client used for communication with the Yoti Doc Scan service
  *
- * The DocScanClient is to be used by clients to facilitate
- * requests to the Yoti Doc Scan system where any signed requests are
- * required.  Using the supplied models, clients can build requests, and
- * perform the requests to the Doc Scan system.
+ * The {@code DocScanClient} facilitates requests to the Yoti Doc Scan service
  *
  * @class DocScanClient
  */
@@ -65,8 +61,8 @@ class DocScanClient {
    *
    * @returns {Promise} resolving Media
    */
-  getMedia(sessionId, mediaId) {
-    return this.docScanService.getMedia(sessionId, mediaId);
+  getMediaContent(sessionId, mediaId) {
+    return this.docScanService.getMediaContent(sessionId, mediaId);
   }
 
   /**
@@ -78,8 +74,8 @@ class DocScanClient {
    *
    * @returns {Promise}
    */
-  deleteMedia(sessionId, mediaId) {
-    return this.docScanService.deleteMedia(sessionId, mediaId);
+  deleteMediaContent(sessionId, mediaId) {
+    return this.docScanService.deleteMediaContent(sessionId, mediaId);
   }
 }
 

@@ -18,7 +18,7 @@ class NotificationConfigBuilder {
   }
 
   /**
-   * Sets the authorization token on the builder
+   * Sets the authorization token to be included in call-back messages
    *
    * @param {string} authToken
    *
@@ -31,7 +31,7 @@ class NotificationConfigBuilder {
   }
 
   /**
-   * Sets the endpoint on the builder
+   * Sets the endpoint that notifications should be sent to
    *
    * @param {string} endpoint
    *
@@ -44,7 +44,7 @@ class NotificationConfigBuilder {
   }
 
   /**
-   * Adds the resource update topic to the builder
+   * Adds RESOURCE_UPDATE to the list of topics that trigger notification messages
    *
    * @returns {this}
    */
@@ -53,7 +53,7 @@ class NotificationConfigBuilder {
   }
 
   /**
-   * Adds the task completion topic to the builder
+   * Adds TASK_COMPLETION to the list of topics that trigger notification messages
    *
    * @returns {this}
    */
@@ -62,7 +62,7 @@ class NotificationConfigBuilder {
   }
 
   /**
-   * Adds the check completion topic to the builder
+   * Adds CHECK_COMPLETION to the list of topics that trigger notification messages
    *
    * @returns {this}
    */
@@ -71,7 +71,7 @@ class NotificationConfigBuilder {
   }
 
   /**
-   * Adds the session completion topic to the builder
+   * Adds SESSION_COMPLETION to the list of topics that trigger notification messages
    *
    * @returns {this}
    */
@@ -80,7 +80,7 @@ class NotificationConfigBuilder {
   }
 
   /**
-   * Adds the specified topic to the builder
+   * Adds a topic to the list of topics that trigger notification messages
    *
    * @param {string} topicName
    *

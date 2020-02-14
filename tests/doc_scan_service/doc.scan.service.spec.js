@@ -195,13 +195,14 @@ describe('DocScanService', () => {
     });
   });
 
-  describe('#getMedia', () => {
+  describe('#getMediaContent', () => {
     describe('when a valid response is returned', () => {
       test.each([
         ['image/jpeg', ImageJpeg],
         ['image/png', ImagePng],
         ['image/other', Media],
         ['image/jpeg; charset=UTF-8', ImageJpeg],
+        ['image/png; charset=UTF-8', ImagePng],
       ])('"%s" content type should return correct media type', (contentType, expectedType, done) => {
         nock(config.yoti.docScanApi)
           .get(MEDIA_URI)
@@ -210,9 +211,28 @@ describe('DocScanService', () => {
           });
 
         docScanService
-          .getMedia(SESSION_ID, MEDIA_ID)
+          .getMediaContent(SESSION_ID, MEDIA_ID)
           .then((result) => {
             expect(result).toBeInstanceOf(expectedType);
+            done();
+          })
+          .catch(done);
+      });
+
+      test.each([
+        ['content-type'],
+        ['Content-Type'],
+      ])('%s header should be case-insensitive', (contentType, done) => {
+        nock(config.yoti.docScanApi)
+          .get(MEDIA_URI)
+          .reply(200, '', {
+            [contentType]: 'image/png',
+          });
+
+        docScanService
+          .getMediaContent(SESSION_ID, MEDIA_ID)
+          .then((result) => {
+            expect(result).toBeInstanceOf(ImagePng);
             done();
           })
           .catch(done);
@@ -226,7 +246,7 @@ describe('DocScanService', () => {
           .reply(200, '');
 
         docScanService
-          .getMedia(SESSION_ID, MEDIA_ID)
+          .getMediaContent(SESSION_ID, MEDIA_ID)
           .catch((err) => {
             expect(err.message).toBe('mimeType must be a string');
             done();
@@ -241,7 +261,7 @@ describe('DocScanService', () => {
           .reply(400, '');
 
         docScanService
-          .getMedia(SESSION_ID, MEDIA_ID)
+          .getMediaContent(SESSION_ID, MEDIA_ID)
           .catch((err) => {
             expect(err.message).toBe('Bad Request');
             done();
@@ -251,7 +271,7 @@ describe('DocScanService', () => {
     });
   });
 
-  describe('#deleteMedia', () => {
+  describe('#deleteMediaContent', () => {
     describe('when a valid response is returned', () => {
       it('should have no response', (done) => {
         nock(config.yoti.docScanApi)
@@ -259,7 +279,7 @@ describe('DocScanService', () => {
           .reply(204);
 
         docScanService
-          .deleteMedia(SESSION_ID, MEDIA_ID)
+          .deleteMediaContent(SESSION_ID, MEDIA_ID)
           .then((result) => {
             expect(result).toBeUndefined();
             done();
@@ -274,7 +294,7 @@ describe('DocScanService', () => {
           .reply(400, '');
 
         docScanService
-          .deleteMedia(SESSION_ID, MEDIA_ID)
+          .deleteMediaContent(SESSION_ID, MEDIA_ID)
           .catch((err) => {
             expect(err.message).toBe('Bad Request');
             done();

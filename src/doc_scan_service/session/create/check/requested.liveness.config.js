@@ -3,8 +3,7 @@
 const Validation = require('../../../../yoti_common/validation');
 
 /**
- * Represents the configuration properties for a liveness check
- * within the Doc Scan system.
+ * The configuration applied when creating a LivenessCheck
  *
  * @class RequestedLivenessConfig
  */

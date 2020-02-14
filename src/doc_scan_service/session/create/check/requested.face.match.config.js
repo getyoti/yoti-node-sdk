@@ -3,12 +3,15 @@
 const Validation = require('../../../../yoti_common/validation');
 
 /**
- * Represents the configuration properties for a requested
- * face match check in the Doc Scan system.
+ * The configuration applied when creating a FaceMatchCheck
  *
  * @class RequestedFaceMatchConfig
  */
 class RequestedFaceMatchConfig {
+  /**
+   * @param {string} manualCheck
+   *   The value for a manual check for a given face match.
+   */
   constructor(manualCheck) {
     Validation.isString(manualCheck, 'manualCheck');
     this.manualCheck = manualCheck;

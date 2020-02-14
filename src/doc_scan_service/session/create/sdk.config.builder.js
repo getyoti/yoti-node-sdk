@@ -11,7 +11,7 @@ const Validation = require('../../../yoti_common/validation');
  */
 class SdkConfigBuilder {
   /**
-   * Sets the allowed capture method to camera only on the builder
+   * Sets the allowed capture method to "CAMERA"
    *
    * @returns {this}
    */
@@ -20,7 +20,7 @@ class SdkConfigBuilder {
   }
 
   /**
-   * Sets the allowed capture method to camera and upload on the builder
+   * Sets the allowed capture method to "CAMERA_AND_UPLOAD"
    *
    * @returns {this}
    */
@@ -29,7 +29,7 @@ class SdkConfigBuilder {
   }
 
   /**
-   * Sets the allowed capture method to the specified value on the builder
+   * Sets the allowed capture method
    *
    * @param {string} allowedCaptureMethod the allowed capture method
    *
@@ -42,9 +42,10 @@ class SdkConfigBuilder {
   }
 
   /**
-   * Sets the primary colour on the builder
+   * Sets the primary colour to be used by the web/native client
    *
-   * @param {string} primaryColour the primary colour
+   * @param {string} primaryColour
+   *   The primary colour, hexadecimal value e.g. #ff0000
    *
    * @returns {this}
    */
@@ -55,9 +56,10 @@ class SdkConfigBuilder {
   }
 
   /**
-   * Sets the secondary colour on the builder
+   * Sets the secondary colour to be used by the web/native client (used on the button)
    *
-   * @param {string} secondaryColour the secondary colour
+   * @param {string} secondaryColour
+   *   The secondary colour, hexadecimal value e.g. #ff0000
    *
    * @returns {this}
    */
@@ -68,9 +70,10 @@ class SdkConfigBuilder {
   }
 
   /**
-   * Sets the font colour on the builder
+   * Sets the font colour to be used by the web/native client (used on the button)
    *
-   * @param {string} fontColour the font colour
+   * @param {string} fontColour
+   *   The font colour
    *
    * @returns {this}
    */
@@ -83,7 +86,8 @@ class SdkConfigBuilder {
   /**
    * Sets the locale on the builder
    *
-   * @param {string} locale the locale
+   * @param {string} locale
+   *   The locale, e.g. "en"
    *
    * @returns {this}
    */
@@ -107,7 +111,8 @@ class SdkConfigBuilder {
   }
 
   /**
-   * Sets the success URL on the builder
+   * Sets the success URL for the redirect that follows the web/native client
+   * uploading documents successfully
    *
    * @param {string} successUrl the success URL
    *
@@ -120,7 +125,8 @@ class SdkConfigBuilder {
   }
 
   /**
-   * Sets the error URL on the builder
+   * Sets the error URL for the redirect that follows the web/native client
+   * uploading documents unsuccessfully
    *
    * @param {string} errorUrl the error URL
    *

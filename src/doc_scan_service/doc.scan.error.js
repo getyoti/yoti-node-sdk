@@ -1,6 +1,8 @@
 'use strict';
 
 /**
+ * Signals that a problem occurred in a Yoti Doc Scan call
+ *
  * @class DocScanError
  */
 class DocScanError extends Error {

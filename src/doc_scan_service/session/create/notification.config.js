@@ -3,24 +3,22 @@
 const Validation = require('../../../yoti_common/validation');
 
 /**
- * Represents the configuration properties for
- * notifications within the Doc Scan system.
+ * Configures call-back Notifications to some backend endpoint provided
+ * by the Relying Business.
  *
- * Notifications can be configured within a Doc Scan
- * session to allow the clients backend to be notified
- * of certain events, without having to constantly poll
- * for the state of a session.
+ * Notifications can be configured to notified a client backend of certain
+ * events, avoiding the neeed to poll for the state of the Session.
  *
  * @class NotificationConfig
  */
 class NotificationConfig {
   /**
    * @param {string} authToken
-   *   The authorization token set for the notification configuration
+   *   The authorization token to be included in call-back messages
    * @param {string} endpoint
-   *   The endpoint set for the notification configuration
+   *   The endpoint that notifications should be sent to
    * @param {string[]} topics
-   *   The list of topics for the notification configuration
+   *   The list of topics that should trigger notifications
    */
   constructor(authToken, endpoint, topics) {
     Validation.isString(authToken, 'authToken', true);

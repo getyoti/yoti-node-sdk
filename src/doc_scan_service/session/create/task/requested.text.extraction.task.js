@@ -6,7 +6,7 @@ const DocScanConstants = require('../../../doc.scan.constants');
 const Validation = require('../../../../yoti_common/validation');
 
 /**
- * Represents a requested text extraction task within the Doc Scan system.
+ * Requests that a TextExtractionTask be applied to each Document
  *
  * @class RequestedTextExtractionTask
  */

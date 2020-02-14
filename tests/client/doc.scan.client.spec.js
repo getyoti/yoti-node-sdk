@@ -84,7 +84,7 @@ describe('DocScanClient', () => {
     });
   });
 
-  describe('#getMedia', () => {
+  describe('#getMediaContent', () => {
     it('should return media', (done) => {
       nock(config.yoti.docScanApi)
         .get(MEDIA_URI)
@@ -93,7 +93,7 @@ describe('DocScanClient', () => {
         });
 
       docScanClient
-        .getMedia(SESSION_ID, MEDIA_ID)
+        .getMediaContent(SESSION_ID, MEDIA_ID)
         .then((result) => {
           expect(result).toBeInstanceOf(Media);
           done();
@@ -102,14 +102,14 @@ describe('DocScanClient', () => {
     });
   });
 
-  describe('#deleteMedia', () => {
+  describe('#deleteMediaContent', () => {
     it('should have no response', (done) => {
       nock(config.yoti.docScanApi)
         .delete(MEDIA_URI)
         .reply(204);
 
       docScanClient
-        .deleteMedia(SESSION_ID, MEDIA_ID)
+        .deleteMediaContent(SESSION_ID, MEDIA_ID)
         .then((result) => {
           expect(result).toBeUndefined();
           done();

@@ -31,8 +31,7 @@ class ResourceContainer {
   }
 
   /**
-   * Returns ID documents that were uploaded for checking
-   * by the user
+   * Returns ID documents that were uploaded by the user
    *
    * @returns {DocumentResourceResponse[]}
    *   The list of documents
@@ -42,8 +41,7 @@ class ResourceContainer {
   }
 
   /**
-   * Returns associated information of liveness capture
-   * if this task was specified during session creation.
+   * Returns liveness resources uploaded by the user
    *
    * @returns {LivenessResourceResponse[]}
    *   The list of liveness resources

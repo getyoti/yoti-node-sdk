@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Provides an assortment of constant fields used by Doc Scan
+ * components within the SDK.
+ */
 module.exports = Object.freeze({
   ID_DOCUMENT_AUTHENTICITY: 'ID_DOCUMENT_AUTHENTICITY',
   ID_DOCUMENT_TEXT_DATA_CHECK: 'ID_DOCUMENT_TEXT_DATA_CHECK',

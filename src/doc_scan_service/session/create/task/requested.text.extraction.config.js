@@ -3,15 +3,14 @@
 const Validation = require('../../../../yoti_common/validation');
 
 /**
- * Represents configuration properties for a requested text extraction
- * task within the Doc Scan system.
+ * The configuration applied when creating each TextExtractionTask
  *
  * @class RequestedTextExtractionConfig
  */
 class RequestedTextExtractionConfig {
   /**
    * @param {string} manualCheck
-   *   The value for the manual check
+   *   Describes the manual fallback behaviour applied to each Task
    */
   constructor(manualCheck) {
     Validation.isString(manualCheck, 'manualCheck');

@@ -5,21 +5,21 @@ const Validation = require('../../../yoti_common/validation');
 class SdkConfig {
   /**
    * @param {string} allowedCaptureMethods
-   *   The allowed capture methods from the SDK configuration
+   *   The methods allowed for capturing document images
    * @param {string} primaryColour
-   *   The primary colour from the SDK configuration
+   *   The primary colour
    * @param {string} secondaryColour
-   *   The secondary colour from the SDK configuration
+   *   The secondary colour
    * @param {string} fontColour
-   *   The font colour from the SDK configuration
+   *   The font colour
    * @param {string} locale
-   *   The locale from the SDK configuration
+   *   The locale
    * @param {string} presetIssuingCountry
-   *   The preset issuing country from the SDK configuration
+   *   The preset issuing country
    * @param {string} successUrl
-   *   The success URL from the SDK configuration
+   *   The success URL
    * @param {string} errorUrl
-   *   The error URL from the SDK configuration
+   *   The error URL
    */
   constructor(
     allowedCaptureMethods,
