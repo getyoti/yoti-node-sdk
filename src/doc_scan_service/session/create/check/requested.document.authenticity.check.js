@@ -4,7 +4,7 @@ const RequestedCheck = require('./requested.check');
 const DocScanConstants = require('../../../doc.scan.constants');
 
 /**
- * Represents a requested document authenticity check.
+ * Requests creation of a DocumentAuthenticityCheck
  *
  * @class RequestedDocumentAuthenticityCheck
  */

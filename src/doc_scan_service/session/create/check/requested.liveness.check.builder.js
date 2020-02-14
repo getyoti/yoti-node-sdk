@@ -14,7 +14,7 @@ class RequestedLivenessCheckBuilder {
   }
 
   /**
-   * Sets the type to be of a zoom liveness check
+   * Sets the type to be of a ZOOM liveness check
    *
    * @returns {this}
    */
@@ -37,7 +37,7 @@ class RequestedLivenessCheckBuilder {
   }
 
   /**
-   * Sets the maximum number of retries allowed by the user for the liveness check
+   * Sets the maximum number of retries allowed by the user
    *
    * @param {int} maxRetries
    *   The maximum number of retries

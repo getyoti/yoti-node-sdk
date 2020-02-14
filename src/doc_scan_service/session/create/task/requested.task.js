@@ -3,16 +3,16 @@
 const Validation = require('../../../../yoti_common/validation');
 
 /**
- * Represents a requested task within the Doc Scan system.
+ * Requests creation of a Task to be performed on each document
  *
  * @class RequestedTask
  */
 class RequestedTask {
   /**
    * @param {string} type
-   *   The type of the requested task
+   *   The type of the Task to create
    * @param {*} config
-   *   The configuration properties associated with the requested task
+   *   Configuration to apply to the Task
    */
   constructor(type, config) {
     if (new.target === RequestedTask) {

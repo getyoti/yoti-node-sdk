@@ -12,7 +12,7 @@ const Validation = require('../../../../yoti_common/validation');
  */
 class RequestedTextExtractionTaskBuilder {
   /**
-   * Sets the text extraction task to always fallback to a manual check
+   * Requires that the Task is always followed by a manual TextDataCheck
    *
    * @returns {this}
    */
@@ -22,8 +22,7 @@ class RequestedTextExtractionTaskBuilder {
   }
 
   /**
-   * Sets the text extraction task to fallback to a manual check if something has gone
-   * wrong with the automated task
+   * Requires that only failed Tasks are followed by a manual TextDataCheck
    *
    * @returns {this}
    */
@@ -33,7 +32,7 @@ class RequestedTextExtractionTaskBuilder {
   }
 
   /**
-   * Sets the text extraction task to never fallback to a manual check
+   * The TextExtractionTask will never fallback to a manual TextDataCheck
    *
    * @returns {this}
    */

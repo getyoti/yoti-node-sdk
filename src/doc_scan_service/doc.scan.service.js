@@ -29,6 +29,8 @@ const sessionPath = sessionId => `/sessions/${sessionId}`;
 const mediaContentPath = (sessionId, mediaId) => `${sessionPath(sessionId)}/media/${mediaId}/content`;
 
 /**
+ * Service built to handle the interactions between the client and Doc Scan API's
+ *
  * @class DocScanService
  */
 class DocScanService {
@@ -45,12 +47,11 @@ class DocScanService {
   }
 
   /**
-   * Performs a POST request using the supplied session specification to create
-   * a session, returning information about the newly created session if successful
+   * Uses the supplied session specification to create a session
    *
    * @param {SessionSpecification} sessionSpecification
    *
-   * @returns {Promise} Resolving CreateSessionResult
+   * @returns {Promise} Resolves CreateSessionResult
    */
   createSession(sessionSpecification) {
     Validation.instanceOf(sessionSpecification, SessionSpecification, 'sessionSpecification');
@@ -79,12 +80,11 @@ class DocScanService {
   }
 
   /**
-   * Performs a GET request using the supplied session ID to retrieve
-   * the current state of given session
+   * Retrieves the current state of a given session
    *
    * @param {string} sessionId
    *
-   * @returns {Promise} Resolving DocScanSession
+   * @returns {Promise} Resolves DocScanSession
    */
   getSession(sessionId) {
     Validation.isString(sessionId, 'sessionId');
@@ -111,9 +111,7 @@ class DocScanService {
   }
 
   /**
-   * Performs a DELETE request using the supplied session ID to
-   * completely remove a session and all of it's content from the
-   * Doc Scan system
+   * Deletes a session and all of it's associated content
    *
    * @param {string} sessionId
    *
@@ -138,15 +136,14 @@ class DocScanService {
   }
 
   /**
-   * Performs a GET request to retrieve {@link Media} content for a given
-   * session and media ID
+   * Retrieves {@link Media} content for a given session and media ID
    *
    * @param {string} sessionId
    * @param {string} mediaId
    *
    * @returns {Promise} resolving Media
    */
-  getMedia(sessionId, mediaId) {
+  getMediaContent(sessionId, mediaId) {
     Validation.isString(sessionId, 'sessionId');
     Validation.isString(mediaId, 'mediaId');
 
@@ -183,15 +180,14 @@ class DocScanService {
   }
 
   /**
-   * Performs a DELETE request to remove the media content
-   * from the Doc Scan system for a given session and media ID
+   * Deletes media content for a given session and media ID
    *
    * @param {string} sessionId
    * @param {string} mediaId
    *
    * @returns {Promise}
    */
-  deleteMedia(sessionId, mediaId) {
+  deleteMediaContent(sessionId, mediaId) {
     Validation.isString(sessionId, 'sessionId');
     Validation.isString(mediaId, 'mediaId');
 

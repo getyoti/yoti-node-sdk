@@ -7,25 +7,26 @@ const RequestedTask = require('./task/requested.task');
 const RequestedCheck = require('./check/requested.check');
 
 /**
- * Represents the specification of a session within the
- * Doc Scan system.
- *
- * This class represents all of the possible configuration
- * properties for a session in Doc Scan.  It can be used to
- * define the specification for a session, including tasks
- * and checks that should be performed in that specific session.
+ * Definition for the Doc Scan Session to be created
  *
  * @class SessionSpecification
  */
 class SessionSpecification {
   /**
    * @param {int} clientSessionTokenTtl
+   *   Client-session-token time-to-live to apply to the created session
    * @param {int} resourcesTtl
+   *   Time-to-live used for all Resources created in the course of the session
    * @param {string} userTrackingId
+   *   User tracking id, for the Relying Business to track returning users
    * @param {NotificationConfig} notifications
+   *   For configuring call-back messages
    * @param {RequestedCheck[]} requestedChecks
+   *   The Checks to be performed on each Document
    * @param {RequestedTask[]} requestedTasks
+   *   The Tasks to be performed on each Document
    * @param {SdkConfig} sdkConfig
+   *   The SDK configuration set on the session specification
    */
   constructor(
     clientSessionTokenTtl,
