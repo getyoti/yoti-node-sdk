@@ -69,6 +69,7 @@ describe('SessionSpecificationBuilder', () => {
         },
         {
           type: 'ID_DOCUMENT_AUTHENTICITY',
+          config: {},
         },
       ],
       requested_tasks: [
