@@ -9,6 +9,9 @@ class FrameResponse {
     }
   }
 
+  /**
+   * @returns {MediaResponse}
+   */
   getMedia() {
     return this.media;
   }

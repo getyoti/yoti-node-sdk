@@ -1,5 +1,6 @@
 'use strict';
 
+const DetailsResponse = require('./details.response');
 const Validation = require('../../../yoti_common/validation');
 
 class BreakdownResponse {
@@ -11,19 +12,28 @@ class BreakdownResponse {
     this.result = breakdown.result;
 
     if (breakdown.details) {
-      Validation.isArray(breakdown.details, 'details');
-      this.details = breakdown.details;
+      Validation.isArrayOfType(breakdown.details, Object, 'details');
+      this.details = breakdown.details.map(details => new DetailsResponse(details));
     }
   }
 
+  /**
+   * @returns {string}
+   */
   getSubCheck() {
     return this.subCheck;
   }
 
+  /**
+   * @returns {string}
+   */
   getResult() {
     return this.result;
   }
 
+  /**
+   * @returns {DetailsResponse[]}
+   */
   getDetails() {
     return this.details;
   }

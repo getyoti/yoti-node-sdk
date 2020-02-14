@@ -16,10 +16,16 @@ class ReportResponse {
     }
   }
 
+  /**
+   * @returns {RecommendationResponse}
+   */
   getRecommendation() {
     return this.recommendation;
   }
 
+  /**
+   * @returns {BreakdownResponse[]}
+   */
   getBreakdown() {
     return this.breakdown;
   }

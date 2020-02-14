@@ -9,6 +9,9 @@ class FaceMapResponse {
     }
   }
 
+  /**
+   * @returns {MediaResponse}
+   */
   getMedia() {
     return this.media;
   }

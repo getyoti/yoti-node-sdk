@@ -14,14 +14,23 @@ class RecommendationResponse {
     this.recoverySuggestion = recommendation.recovery_suggestion;
   }
 
+  /**
+   * @returns {string}
+   */
   getValue() {
     return this.value;
   }
 
+  /**
+   * @returns {string}
+   */
   getReason() {
     return this.reason;
   }
 
+  /**
+   * @returns {string}
+   */
   getRecoverySuggestion() {
     return this.recoverySuggestion;
   }

@@ -53,30 +53,51 @@ class DocScanSession {
     }
   }
 
+  /**
+   * @returns {string}
+   */
   getSessionId() {
     return this.sessionId;
   }
 
+  /**
+   * @returns {int}
+   */
   getClientSessionTokenTtl() {
     return this.clientSessionTokenTtl;
   }
 
+  /**
+   * @returns {string}
+   */
   getState() {
     return this.state;
   }
 
+  /**
+   * @returns {string}
+   */
   getClientSessionToken() {
     return this.clientSessionToken;
   }
 
+  /**
+   * @returns {CheckResponse[]}
+   */
   getChecks() {
     return this.checks;
   }
 
+  /**
+   * @returns {ResourceContainer}
+   */
   getResources() {
     return this.resources;
   }
 
+  /**
+   * @returns {string}
+   */
   getUserTrackingId() {
     return this.userTrackingId;
   }

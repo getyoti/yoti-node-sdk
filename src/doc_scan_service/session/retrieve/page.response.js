@@ -3,7 +3,7 @@
 const MediaResponse = require('./media.response');
 const Validation = require('../../../yoti_common/validation');
 
-class PageInfo {
+class PageResponse {
   constructor(pages) {
     Validation.isString(pages.capture_method, 'capture_method', true);
     this.captureMethod = pages.capture_method;
@@ -13,13 +13,19 @@ class PageInfo {
     }
   }
 
+  /**
+   * @returns {string}
+   */
   getCaptureMethod() {
     return this.captureMethod;
   }
 
+  /**
+   * @returns {MediaResponse}
+   */
   getMedia() {
     return this.media;
   }
 }
 
-module.exports = PageInfo;
+module.exports = PageResponse;

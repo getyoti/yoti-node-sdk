@@ -9,6 +9,9 @@ class DocumentFieldsResponse {
     }
   }
 
+  /**
+   * @returns {MediaResponse}
+   */
   getMedia() {
     return this.media;
   }

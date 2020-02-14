@@ -11,10 +11,16 @@ class GeneratedMedia {
     this.type = media.type;
   }
 
+  /**
+   * @returns {string}
+   */
   getId() {
     return this.id;
   }
 
+  /**
+   * @returns {string}
+   */
   getType() {
     return this.type;
   }

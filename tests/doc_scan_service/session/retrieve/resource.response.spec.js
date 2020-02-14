@@ -1,6 +1,7 @@
 
 const ResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/resource.response');
 const TaskResponse = require('../../../../src/doc_scan_service/session/retrieve/task.response');
+const TextExtractionTaskResponse = require('../../../../src/doc_scan_service/session/retrieve/text.extraction.task.response');
 
 describe('ResourceResponse', () => {
   let resourceResponse;
@@ -9,8 +10,12 @@ describe('ResourceResponse', () => {
     resourceResponse = new ResourceResponse({
       id: 'some-id',
       tasks: [
-        {},
-        {},
+        {
+          type: 'ID_DOCUMENT_TEXT_DATA_EXTRACTION',
+        },
+        {
+          type: 'SOME_UNKNOWN_TYPE',
+        },
       ],
     });
   });
@@ -24,10 +29,14 @@ describe('ResourceResponse', () => {
   describe('#getTasks', () => {
     it('should return a list of tasks', () => {
       const tasks = resourceResponse.getTasks();
-      expect(tasks.length).toBe(2);
+
+      expect(tasks.length).toBe(1);
+
       tasks.forEach((task) => {
         expect(task).toBeInstanceOf(TaskResponse);
       });
+
+      expect(tasks[0]).toBeInstanceOf(TextExtractionTaskResponse);
     });
   });
 });

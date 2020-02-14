@@ -1,12 +1,12 @@
 
-const PageInfo = require('../../../../src/doc_scan_service/session/retrieve/page.info');
+const PageResponse = require('../../../../src/doc_scan_service/session/retrieve/page.response');
 const MediaResponse = require('../../../../src/doc_scan_service/session/retrieve/media.response');
 
-describe('PageInfo', () => {
-  let pageInfo;
+describe('PageResponse', () => {
+  let pageResponse;
 
   beforeEach(() => {
-    pageInfo = new PageInfo({
+    pageResponse = new PageResponse({
       capture_method: 'some-capture-method',
       media: {},
     });
@@ -14,13 +14,13 @@ describe('PageInfo', () => {
 
   describe('#getCaptureMethod', () => {
     it('should return capture method', () => {
-      expect(pageInfo.getCaptureMethod()).toBe('some-capture-method');
+      expect(pageResponse.getCaptureMethod()).toBe('some-capture-method');
     });
   });
 
   describe('#getMedia', () => {
     it('should return media', () => {
-      expect(pageInfo.getMedia()).toBeInstanceOf(MediaResponse);
+      expect(pageResponse.getMedia()).toBeInstanceOf(MediaResponse);
     });
   });
 });

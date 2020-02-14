@@ -17,18 +17,30 @@ class MediaResponse {
     this.lastUpdated = media.last_updated;
   }
 
+  /**
+   * @returns {string}
+   */
   getId() {
     return this.id;
   }
 
+  /**
+   * @returns {string}
+   */
   getType() {
     return this.type;
   }
 
+  /**
+   * @returns {string}
+   */
   getCreated() {
     return this.created;
   }
 
+  /**
+   * @returns {string}
+   */
   getLastUpdated() {
     return this.lastUpdated;
   }
