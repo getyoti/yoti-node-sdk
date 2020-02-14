@@ -38,7 +38,7 @@
     "base64-url": "^2.2.1",
     "node-forge": "^0.7.6",
     "node-rsa": "^1.0.3",
-    "protobufjs": "^5.0.3",
+    "protobufjs": "^6.8.6",
     "safe-buffer": "^5.1.2",
     "superagent": "^3.8.3",
     "uuid": "^3.3.2"
