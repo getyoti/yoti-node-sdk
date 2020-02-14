@@ -161,7 +161,7 @@ class DocScanService {
           try {
             const contentType = response.getHeaders()['content-type'];
             const mimeType = contentType ? contentType.split(';')[0] : null;
-            const content = new ByteBuffer(response.getBody());
+            const content = ByteBuffer.wrap(response.getBody() || '');
 
             switch (mimeType) {
               case 'image/png':
