@@ -2,7 +2,7 @@
 
 const ResourceResponse = require('./resource.response');
 const DocumentFieldsResponse = require('./document.fields.response');
-const PageInfo = require('./page.info');
+const PageResponse = require('./page.response');
 const Validation = require('../../../yoti_common/validation');
 
 class DocumentResourceResponse extends ResourceResponse {
@@ -17,7 +17,7 @@ class DocumentResourceResponse extends ResourceResponse {
 
     if (resource.pages) {
       Validation.isArray(resource.pages, 'pages');
-      this.pages = resource.pages.map(page => new PageInfo(page));
+      this.pages = resource.pages.map(page => new PageResponse(page));
     }
 
     if (resource.document_fields) {
@@ -25,18 +25,30 @@ class DocumentResourceResponse extends ResourceResponse {
     }
   }
 
+  /**
+   * @returns {string}
+   */
   getDocumentType() {
     return this.documentType;
   }
 
+  /**
+   * @returns {string}
+   */
   getIssuingCountry() {
     return this.issuingCountry;
   }
 
+  /**
+   * @returns {PageResponse[]}
+   */
   getPages() {
     return this.pages;
   }
 
+  /**
+   * @returns {DocumentFieldsResponse}
+   */
   getDocumentFields() {
     return this.documentFields;
   }

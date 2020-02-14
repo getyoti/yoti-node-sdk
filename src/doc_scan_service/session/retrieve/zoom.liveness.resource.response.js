@@ -3,12 +3,11 @@
 const LivenessResourceResponse = require('./liveness.resource.response');
 const FrameResponse = require('./frame.response');
 const FaceMapResponse = require('./face.map.response');
-const DocScanConstants = require('../../doc.scan.constants');
 const Validation = require('../../../yoti_common/validation');
 
 class ZoomLivenessResourceResponse extends LivenessResourceResponse {
   constructor(resource) {
-    super(DocScanConstants.ZOOM, resource);
+    super(resource);
 
     if (resource.facemap) {
       this.faceMap = new FaceMapResponse(resource.facemap);
@@ -20,10 +19,16 @@ class ZoomLivenessResourceResponse extends LivenessResourceResponse {
     }
   }
 
+  /**
+   * @returns {FaceMapResponse}
+   */
   getFaceMap() {
     return this.faceMap;
   }
 
+  /**
+   * @returns {FrameResponse[]}
+   */
   getFrames() {
     return this.frames;
   }

@@ -7,6 +7,10 @@ const DocScanConstants = require('../../doc.scan.constants');
 
 class TaskResponse {
   constructor(task) {
+    if (new.target === TaskResponse) {
+      throw TypeError(`${new.target.name} cannot be instantiated`);
+    }
+
     Validation.isString(task.id, 'id', true);
     this.id = task.id;
 
@@ -30,7 +34,7 @@ class TaskResponse {
               return null;
           }
         })
-        .filter(resource => resource !== null);
+        .filter(check => check !== null);
     }
 
     if (task.generated_media) {
@@ -39,26 +43,44 @@ class TaskResponse {
     }
   }
 
+  /**
+   * @returns {string}
+   */
   getId() {
     return this.id;
   }
 
+  /**
+   * @returns {string}
+   */
   getState() {
     return this.state;
   }
 
+  /**
+   * @returns {string}
+   */
   getCreated() {
     return this.created;
   }
 
+  /**
+   * @returns {string}
+   */
   getLastUpdated() {
     return this.lastUpdated;
   }
 
+  /**
+   * @returns {GeneratedCheckResponse[]}
+   */
   getGeneratedChecks() {
     return this.generatedChecks;
   }
 
+  /**
+   * @returns {GeneratedMedia[]}
+   */
   getGeneratedMedia() {
     return this.generatedMedia;
   }

@@ -1,5 +1,6 @@
 
 const BreakdownResponse = require('../../../../src/doc_scan_service/session/retrieve/breakdown.response');
+const DetailsResponse = require('../../../../src/doc_scan_service/session/retrieve/details.response');
 
 describe('BreakdownResponse', () => {
   let breakdownResponse;
@@ -8,9 +9,7 @@ describe('BreakdownResponse', () => {
     breakdownResponse = new BreakdownResponse({
       sub_check: 'some-sub-check',
       result: 'some-result',
-      details: [{
-        someDetail: 'some-value',
-      }],
+      details: [{}],
     });
   });
 
@@ -30,7 +29,7 @@ describe('BreakdownResponse', () => {
     it('should return array of details', () => {
       const details = breakdownResponse.getDetails();
       expect(details.length).toBe(1);
-      expect(details[0].someDetail).toBe('some-value');
+      expect(details[0]).toBeInstanceOf(DetailsResponse);
     });
   });
 });

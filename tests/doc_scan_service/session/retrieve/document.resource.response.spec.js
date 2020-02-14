@@ -1,6 +1,6 @@
 
 const DocumentResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/document.resource.response');
-const PageInfo = require('../../../../src/doc_scan_service/session/retrieve/page.info');
+const PageResponse = require('../../../../src/doc_scan_service/session/retrieve/page.response');
 const DocumentFieldsResponse = require('../../../../src/doc_scan_service/session/retrieve/document.fields.response');
 
 describe('DocumentResourceResponse', () => {
@@ -33,7 +33,7 @@ describe('DocumentResourceResponse', () => {
     it('should return array of page info', () => {
       const pages = documentResourceResponse.getPages();
       expect(pages.length).toBe(1);
-      expect(pages[0]).toBeInstanceOf(PageInfo);
+      expect(pages[0]).toBeInstanceOf(PageResponse);
     });
   });
 

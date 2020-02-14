@@ -31,10 +31,4 @@ describe('ZoomLivenessResourceResponse', () => {
       });
     });
   });
-
-  describe('#getLivenessType', () => {
-    it('should return ZOOM', () => {
-      expect(zoomLivenessResourceResponse.getLivenessType()).toBe('ZOOM');
-    });
-  });
 });

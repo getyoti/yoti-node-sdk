@@ -12,6 +12,9 @@ class GeneratedCheckResponse {
     this.id = check.id;
   }
 
+  /**
+   * @returns {string}
+   */
   getId() {
     return this.id;
   }

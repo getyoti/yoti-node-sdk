@@ -37,30 +37,51 @@ class CheckResponse {
     this.lastUpdated = check.last_updated;
   }
 
+  /**
+   * @returns {string}
+   */
   getId() {
     return this.id;
   }
 
+  /**
+   * @returns {string}
+   */
   getState() {
     return this.state;
   }
 
+  /**
+   * @returns {string[]}
+   */
   getResourcesUsed() {
     return this.resourcesUsed;
   }
 
+  /**
+   * @returns {GeneratedMedia[]}
+   */
   getGeneratedMedia() {
     return this.generatedMedia;
   }
 
+  /**
+   * @returns {ReportResponse}
+   */
   getReport() {
     return this.report;
   }
 
+  /**
+   * @returns {string}
+   */
   getCreated() {
     return this.created;
   }
 
+  /**
+   * @returns {string}
+   */
   getLastUpdated() {
     return this.lastUpdated;
   }
