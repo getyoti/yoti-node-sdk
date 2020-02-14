@@ -22,6 +22,7 @@ class RequestedCheck {
     Validation.isString(type, 'type');
     this.type = type;
 
+    Validation.notNullOrEmpty(config, 'config');
     this.config = config;
   }
 

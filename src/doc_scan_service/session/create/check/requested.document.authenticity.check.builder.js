@@ -1,6 +1,7 @@
 'use strict';
 
 const RequestedDocumentAuthenticityCheck = require('./requested.document.authenticity.check');
+const RequestedDocumentAuthenticityConfig = require('./requested.document.authenticity.config');
 
 /**
  * Builder to assist the creation of {@link RequestedDocumentAuthenticityCheck}.
@@ -10,7 +11,7 @@ const RequestedDocumentAuthenticityCheck = require('./requested.document.authent
 /* eslint class-methods-use-this: ["error", { "exceptMethods": ["build"] }] */
 class RequestedDocumentAuthenticityCheckBuilder {
   build() {
-    return new RequestedDocumentAuthenticityCheck();
+    return new RequestedDocumentAuthenticityCheck(new RequestedDocumentAuthenticityConfig());
   }
 }
 
