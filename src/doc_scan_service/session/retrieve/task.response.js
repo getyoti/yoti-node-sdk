@@ -1,8 +1,9 @@
 'use strict';
 
 const Validation = require('../../../yoti_common/validation');
-const GeneratedCheckResponse = require('./generated.check.response');
+const GeneratedTextDataCheckResponse = require('./generated.text.data.check.response');
 const GeneratedMedia = require('./generated.media');
+const DocScanConstants = require('../../doc.scan.constants');
 
 class TaskResponse {
   constructor(task) {
@@ -20,7 +21,16 @@ class TaskResponse {
 
     if (task.generated_checks) {
       Validation.isArray(task.generated_checks, 'generated_checks');
-      this.generatedChecks = task.generated_checks.map(check => new GeneratedCheckResponse(check));
+      this.generatedChecks = task.generated_checks
+        .map((check) => {
+          switch (check.type) {
+            case DocScanConstants.ID_DOCUMENT_TEXT_DATA_CHECK:
+              return new GeneratedTextDataCheckResponse(check);
+            default:
+              return null;
+          }
+        })
+        .filter(resource => resource !== null);
     }
 
     if (task.generated_media) {
