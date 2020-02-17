@@ -2,6 +2,7 @@
 
 const Validation = require('../../../yoti_common/validation');
 const ResourceContainer = require('./resource.container');
+const CheckResponse = require('./check.response');
 const AuthenticityCheckResponse = require('./authenticity.check.response');
 const FaceMatchCheckResponse = require('./face.match.check.response');
 const TextDataCheckResponse = require('./text.data.check.response');
@@ -40,8 +41,7 @@ class DocScanSession {
             case DocScanConstants.LIVENESS:
               return new ZoomLivenessCheckResponse(check);
             default:
-              console.log(`${this.constructor.name}: Unknown check type ${check.type}`);
-              return null;
+              return new CheckResponse(check);
           }
         })
         .filter(check => check !== null);

@@ -6,10 +6,6 @@ const Validation = require('../../../yoti_common/validation');
 
 class CheckResponse {
   constructor(check) {
-    if (new.target === CheckResponse) {
-      throw TypeError(`${new.target.name} cannot be instantiated`);
-    }
-
     Validation.isString(check.id, 'id', true);
     this.id = check.id;
 
