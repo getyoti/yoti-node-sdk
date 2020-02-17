@@ -30,7 +30,7 @@ describe('ResourceResponse', () => {
     it('should return a list of tasks', () => {
       const tasks = resourceResponse.getTasks();
 
-      expect(tasks.length).toBe(1);
+      expect(tasks.length).toBe(2);
 
       tasks.forEach((task) => {
         expect(task).toBeInstanceOf(TaskResponse);

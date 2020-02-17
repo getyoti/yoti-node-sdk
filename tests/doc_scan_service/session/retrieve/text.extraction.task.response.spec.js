@@ -2,7 +2,6 @@
 const TaskResponse = require('../../../../src/doc_scan_service/session/retrieve/task.response');
 const TextExtractionTaskResponse = require('../../../../src/doc_scan_service/session/retrieve/text.extraction.task.response');
 const GeneratedCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/generated.check.response');
-const GeneratedTextDataCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/generated.text.data.check.response');
 const GeneratedMedia = require('../../../../src/doc_scan_service/session/retrieve/generated.media');
 
 describe('TextExtractionTaskResponse', () => {
@@ -18,9 +17,6 @@ describe('TextExtractionTaskResponse', () => {
         {
           type: 'ID_DOCUMENT_TEXT_DATA_CHECK',
           id: 'some-id',
-        },
-        {
-          type: 'SOME_UNKNOWN_TYPE',
         },
       ],
       generated_media: [
@@ -66,7 +62,6 @@ describe('TextExtractionTaskResponse', () => {
       expect(checks.length).toBe(1);
       checks.forEach((check) => {
         expect(check).toBeInstanceOf(GeneratedCheckResponse);
-        expect(check).toBeInstanceOf(GeneratedTextDataCheckResponse);
       });
     });
   });

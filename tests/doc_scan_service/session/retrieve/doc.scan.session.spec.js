@@ -1,4 +1,5 @@
 const DocScanSession = require('../../../../src/doc_scan_service/session/retrieve/doc.scan.session');
+const CheckResponse = require('../../../../src/doc_scan_service/session/retrieve/check.response');
 const AuthenticityCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/authenticity.check.response');
 const FaceMatchCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/face.match.check.response');
 const TextDataCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/text.data.check.response');
@@ -6,11 +7,9 @@ const ZoomLivenessCheckResponse = require('../../../../src/doc_scan_service/sess
 const ResourceContainer = require('../../../../src/doc_scan_service/session/retrieve/resource.container');
 
 describe('DocScanSession', () => {
-  let consoleLog;
   let session;
 
   beforeEach(() => {
-    consoleLog = jest.spyOn(global.console, 'log');
     session = new DocScanSession({
       client_session_token_ttl: 599,
       session_id: 'some-session-id',
@@ -36,10 +35,6 @@ describe('DocScanSession', () => {
         },
       ],
     });
-  });
-
-  afterEach(() => {
-    consoleLog.mockRestore();
   });
 
   describe('#getSessionId', () => {
@@ -80,6 +75,7 @@ describe('DocScanSession', () => {
       expect(checks[1]).toBeInstanceOf(ZoomLivenessCheckResponse);
       expect(checks[2]).toBeInstanceOf(TextDataCheckResponse);
       expect(checks[3]).toBeInstanceOf(FaceMatchCheckResponse);
+      checks.forEach(check => expect(check).toBeInstanceOf(CheckResponse));
     });
   });
 
@@ -91,7 +87,7 @@ describe('DocScanSession', () => {
   });
 
   describe('#constructor', () => {
-    it('should log unknown checks', () => {
+    it('should create default check response for unknown checks', () => {
       session = new DocScanSession({
         checks: [
           {
@@ -100,9 +96,9 @@ describe('DocScanSession', () => {
         ],
       });
 
-      expect(session.getChecks()).toEqual([]);
-      expect(consoleLog)
-        .toHaveBeenCalledWith('DocScanSession: Unknown check type SOME_UNKNOWN_CHECK');
+      const checks = session.getChecks();
+      expect(checks.length).toBe(1);
+      expect(checks[0]).toBeInstanceOf(CheckResponse);
     });
   });
 });
