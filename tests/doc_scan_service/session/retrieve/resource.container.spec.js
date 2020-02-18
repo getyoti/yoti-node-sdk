@@ -15,7 +15,7 @@ describe('ResourceContainer', () => {
       liveness_capture: [
         {},
         {
-          type: 'ZOOM',
+          liveness_type: 'ZOOM',
         },
       ],
     });

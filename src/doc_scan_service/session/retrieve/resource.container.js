@@ -19,7 +19,7 @@ class ResourceContainer {
       this.livenessCapture = resources
         .liveness_capture
         .map((resource) => {
-          switch (resource.type) {
+          switch (resource.liveness_type) {
             case DocScanConstants.ZOOM:
               return new ZoomLivenessResourceResponse(resource);
             default:

@@ -17,7 +17,7 @@ describe('ZoomLivenessResourceResponse', () => {
   });
 
   describe('#getFaceMap', () => {
-    it('should return face map', () => {
+    it('should return FaceMap', () => {
       expect(zoomLivenessResourceResponse.getFaceMap()).toBeInstanceOf(FaceMapResponse);
     });
   });
