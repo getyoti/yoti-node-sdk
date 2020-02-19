@@ -85,7 +85,35 @@ class DocScanSession {
    * @returns {CheckResponse[]}
    */
   getChecks() {
-    return this.checks;
+    return this.checks || [];
+  }
+
+  /**
+   * @returns {AuthenticityCheckResponse[]}
+   */
+  getAuthenticityChecks() {
+    return this.getChecks().filter(check => check instanceof AuthenticityCheckResponse);
+  }
+
+  /**
+   * @returns {FaceMatchCheckResponse[]}
+   */
+  getFaceMatchChecks() {
+    return this.getChecks().filter(check => check instanceof FaceMatchCheckResponse);
+  }
+
+  /**
+   * @returns {TextDataCheckResponse[]}
+   */
+  getTextDataChecks() {
+    return this.getChecks().filter(check => check instanceof TextDataCheckResponse);
+  }
+
+  /**
+   * @returns {ZoomLivenessCheckResponse[]}
+   */
+  getZoomLivenessChecks() {
+    return this.getChecks().filter(check => check instanceof ZoomLivenessCheckResponse);
   }
 
   /**

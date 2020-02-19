@@ -72,7 +72,16 @@ class TaskResponse {
    * @returns {GeneratedCheckResponse[]}
    */
   getGeneratedChecks() {
-    return this.generatedChecks;
+    return this.generatedChecks || [];
+  }
+
+  /**
+   * @returns {GeneratedTextDataCheckResponse[]}
+   */
+  getGeneratedTextDataChecks() {
+    return this
+      .getGeneratedChecks()
+      .filter(check => check instanceof GeneratedTextDataCheckResponse);
   }
 
   /**

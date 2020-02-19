@@ -79,6 +79,38 @@ describe('DocScanSession', () => {
     });
   });
 
+  describe('#getAuthenticityChecks', () => {
+    it('should return array of AuthenticityCheckResponse', () => {
+      const checks = session.getAuthenticityChecks();
+      expect(checks.length).toBe(1);
+      expect(checks[0]).toBeInstanceOf(AuthenticityCheckResponse);
+    });
+  });
+
+  describe('#getZoomLivenessChecks', () => {
+    it('should return array of ZoomLivenessCheckResponse', () => {
+      const checks = session.getZoomLivenessChecks();
+      expect(checks.length).toBe(1);
+      expect(checks[0]).toBeInstanceOf(ZoomLivenessCheckResponse);
+    });
+  });
+
+  describe('#getTextDataChecks', () => {
+    it('should return array of TextDataCheckResponse', () => {
+      const checks = session.getTextDataChecks();
+      expect(checks.length).toBe(1);
+      expect(checks[0]).toBeInstanceOf(TextDataCheckResponse);
+    });
+  });
+
+  describe('#getFaceMatchChecks', () => {
+    it('should return array of FaceMatchCheckResponse', () => {
+      const checks = session.getFaceMatchChecks();
+      expect(checks.length).toBe(1);
+      expect(checks[0]).toBeInstanceOf(FaceMatchCheckResponse);
+    });
+  });
+
   describe('#getResources', () => {
     it('should return array of resources', () => {
       const resources = session.getResources();
