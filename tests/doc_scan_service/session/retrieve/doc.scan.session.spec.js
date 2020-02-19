@@ -73,8 +73,8 @@ describe('DocScanSession', () => {
       expect(checks.length).toBe(4);
       expect(checks[0]).toBeInstanceOf(AuthenticityCheckResponse);
       expect(checks[1]).toBeInstanceOf(ZoomLivenessCheckResponse);
-      expect(checks[2]).toBeInstanceOf(TextDataCheckResponse);
-      expect(checks[3]).toBeInstanceOf(FaceMatchCheckResponse);
+      expect(checks[2]).toBeInstanceOf(FaceMatchCheckResponse);
+      expect(checks[3]).toBeInstanceOf(TextDataCheckResponse);
       checks.forEach(check => expect(check).toBeInstanceOf(CheckResponse));
     });
   });

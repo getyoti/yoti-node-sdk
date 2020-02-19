@@ -34,9 +34,9 @@ class DocScanSession {
           switch (check.type) {
             case DocScanConstants.ID_DOCUMENT_AUTHENTICITY:
               return new AuthenticityCheckResponse(check);
-            case DocScanConstants.ID_DOCUMENT_TEXT_DATA_CHECK:
-              return new FaceMatchCheckResponse(check);
             case DocScanConstants.ID_DOCUMENT_FACE_MATCH:
+              return new FaceMatchCheckResponse(check);
+            case DocScanConstants.ID_DOCUMENT_TEXT_DATA_CHECK:
               return new TextDataCheckResponse(check);
             case DocScanConstants.LIVENESS:
               return new ZoomLivenessCheckResponse(check);
