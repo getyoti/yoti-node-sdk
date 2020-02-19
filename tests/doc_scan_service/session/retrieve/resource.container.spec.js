@@ -49,4 +49,13 @@ describe('ResourceContainer', () => {
       expect(livenessCapture.length).toBe(1);
     });
   });
+
+  describe('#getZoomLivenessResources', () => {
+    it('should return array of ZoomLivenessResourceResponse', () => {
+      const livenessCapture = resourceContainer.getZoomLivenessResources();
+      livenessCapture.forEach((item) => {
+        expect(item).toBeInstanceOf(ZoomLivenessResourceResponse);
+      });
+    });
+  });
 });

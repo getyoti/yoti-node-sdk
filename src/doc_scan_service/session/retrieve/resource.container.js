@@ -47,7 +47,17 @@ class ResourceContainer {
    *   The list of liveness resources
    */
   getLivenessCapture() {
-    return this.livenessCapture;
+    return this.livenessCapture || [];
+  }
+
+  /**
+   * @returns {ZoomLivenessResourceResponse[]}
+   *   The list of Zoom liveness resources
+   */
+  getZoomLivenessResources() {
+    return this
+      .getLivenessCapture()
+      .filter(resource => resource instanceof ZoomLivenessResourceResponse);
   }
 }
 

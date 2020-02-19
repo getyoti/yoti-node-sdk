@@ -28,7 +28,14 @@ class ResourceResponse {
    * @returns {TaskResponse[]}
    */
   getTasks() {
-    return this.tasks;
+    return this.tasks || [];
+  }
+
+  /**
+   * @returns {TextExtractionTaskResponse[]}
+   */
+  getTextExtractionTasks() {
+    return this.getTasks().filter(task => task instanceof TextExtractionTaskResponse);
   }
 
   /**

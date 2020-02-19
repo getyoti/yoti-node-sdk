@@ -60,7 +60,7 @@ describe('TaskResponse', () => {
   });
 
   describe('#getGeneratedChecks', () => {
-    it('should return generated checks', () => {
+    it('should return list of generated checks', () => {
       const checks = taskResponse.getGeneratedChecks();
 
       expect(checks.length).toBe(2);
@@ -70,6 +70,15 @@ describe('TaskResponse', () => {
       });
 
       expect(checks[0]).toBeInstanceOf(GeneratedTextDataCheckResponse);
+    });
+  });
+
+  describe('#getGeneratedTextDataChecks', () => {
+    it('should return list of GeneratedTextDataCheckResponse', () => {
+      const checks = taskResponse.getGeneratedTextDataChecks();
+      checks.forEach((check) => {
+        expect(check).toBeInstanceOf(GeneratedTextDataCheckResponse);
+      });
     });
   });
 
