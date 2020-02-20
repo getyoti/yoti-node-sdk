@@ -1,6 +1,7 @@
 'use strict';
 
 const Validation = require('../../../yoti_common/validation');
+const { YotiDate } = require('../../../data_type/date');
 
 class MediaResponse {
   constructor(media) {
@@ -10,11 +11,15 @@ class MediaResponse {
     Validation.isString(media.type, 'type', true);
     this.type = media.type;
 
-    Validation.isString(media.created, 'created', true);
-    this.created = media.created;
+    if (media.created) {
+      Validation.isString(media.created, 'created');
+      this.created = YotiDate.fromDateString(media.created);
+    }
 
-    Validation.isString(media.last_updated, 'last_updated', true);
-    this.lastUpdated = media.last_updated;
+    if (media.last_updated) {
+      Validation.isString(media.last_updated, 'last_updated');
+      this.lastUpdated = YotiDate.fromDateString(media.last_updated);
+    }
   }
 
   /**

@@ -8,8 +8,8 @@ describe('MediaResponse', () => {
     media = new MediaResponse({
       id: 'some-id',
       type: 'some-type',
-      created: 'some-created',
-      last_updated: 'some-last-updated',
+      created: '2006-01-02T22:04:05.123Z',
+      last_updated: '2006-02-02T22:04:05.123Z',
     });
   });
 
@@ -27,13 +27,15 @@ describe('MediaResponse', () => {
 
   describe('#getCreated', () => {
     it('should return created', () => {
-      expect(media.getCreated()).toBe('some-created');
+      expect(media.getCreated().getMicrosecondTimestamp())
+        .toBe('2006-01-02T22:04:05.123000Z');
     });
   });
 
   describe('#getLastUpdated', () => {
     it('should return last updated', () => {
-      expect(media.getLastUpdated()).toBe('some-last-updated');
+      expect(media.getLastUpdated().getMicrosecondTimestamp())
+        .toBe('2006-02-02T22:04:05.123000Z');
     });
   });
 });

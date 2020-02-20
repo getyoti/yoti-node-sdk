@@ -11,8 +11,8 @@ describe('FaceMatchCheckResponse', () => {
     checkResponse = new FaceMatchCheckResponse({
       id: 'some-id',
       state: 'some-state',
-      created: 'some-created',
-      last_updated: 'some-updated',
+      created: '2006-01-02T22:04:05.123Z',
+      last_updated: '2006-02-02T22:04:05.123Z',
       resources_used: [
         'some-resource',
         'some-other-resource',
@@ -42,14 +42,16 @@ describe('FaceMatchCheckResponse', () => {
   });
 
   describe('#getCreated', () => {
-    it('should return create', () => {
-      expect(checkResponse.getCreated()).toBe('some-created');
+    it('should return created', () => {
+      expect(checkResponse.getCreated().getMicrosecondTimestamp())
+        .toBe('2006-01-02T22:04:05.123000Z');
     });
   });
 
   describe('#getLastUpdated', () => {
     it('should return last updated', () => {
-      expect(checkResponse.getLastUpdated()).toBe('some-updated');
+      expect(checkResponse.getLastUpdated().getMicrosecondTimestamp())
+        .toBe('2006-02-02T22:04:05.123000Z');
     });
   });
 
