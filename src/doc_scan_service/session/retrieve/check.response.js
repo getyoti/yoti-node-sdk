@@ -3,6 +3,7 @@
 const ReportResponse = require('./report.response');
 const GeneratedMedia = require('./generated.media');
 const Validation = require('../../../yoti_common/validation');
+const { YotiDate } = require('../../../data_type/date');
 
 class CheckResponse {
   constructor(check) {
@@ -26,11 +27,15 @@ class CheckResponse {
       this.report = new ReportResponse(check.report);
     }
 
-    Validation.isString(check.created, 'created', true);
-    this.created = check.created;
+    if (check.created) {
+      Validation.isString(check.created, 'created');
+      this.created = YotiDate.fromDateString(check.created);
+    }
 
-    Validation.isString(check.last_updated, 'last_updated', true);
-    this.lastUpdated = check.last_updated;
+    if (check.last_updated) {
+      Validation.isString(check.last_updated, 'last_updated');
+      this.lastUpdated = YotiDate.fromDateString(check.last_updated);
+    }
   }
 
   /**
