@@ -1,11 +1,51 @@
 
 const LivenessResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/liveness.resource.response');
+const TaskResponse = require('../../../../src/doc_scan_service/session/retrieve/task.response');
+const TextExtractionTaskResponse = require('../../../../src/doc_scan_service/session/retrieve/text.extraction.task.response');
 
 describe('LivenessResourceResponse', () => {
-  describe('#constructor', () => {
-    it('should throw exception when instantiated directly', () => {
-      expect(() => new LivenessResourceResponse({}))
-        .toThrow(new Error('LivenessResourceResponse cannot be instantiated'));
+  let resourceResponse;
+
+  beforeEach(() => {
+    resourceResponse = new LivenessResourceResponse({
+      id: 'some-id',
+      tasks: [
+        {
+          type: 'ID_DOCUMENT_TEXT_DATA_EXTRACTION',
+        },
+        {
+          type: 'SOME_UNKNOWN_TYPE',
+        },
+      ],
+    });
+  });
+
+  describe('#getId', () => {
+    it('should return ID', () => {
+      expect(resourceResponse.getId()).toBe('some-id');
+    });
+  });
+
+  describe('#getTasks', () => {
+    it('should return a list of tasks', () => {
+      const tasks = resourceResponse.getTasks();
+
+      expect(tasks.length).toBe(2);
+
+      tasks.forEach((task) => {
+        expect(task).toBeInstanceOf(TaskResponse);
+      });
+
+      expect(tasks[0]).toBeInstanceOf(TextExtractionTaskResponse);
+    });
+  });
+
+  describe('#getTextExtractionTasks', () => {
+    it('should return a list of TextExtractionTaskResponse', () => {
+      const tasks = resourceResponse.getTextExtractionTasks();
+      tasks.forEach((task) => {
+        expect(task).toBeInstanceOf(TextExtractionTaskResponse);
+      });
     });
   });
 });

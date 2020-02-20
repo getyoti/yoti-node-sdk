@@ -13,10 +13,10 @@ describe('ResourceContainer', () => {
         {},
       ],
       liveness_capture: [
-        {},
         {
           liveness_type: 'ZOOM',
         },
+        {},
       ],
     });
   });
@@ -34,6 +34,7 @@ describe('ResourceContainer', () => {
   describe('#getLivenessCapture', () => {
     it('should return array of liveness resource response', () => {
       const livenessCapture = resourceContainer.getLivenessCapture();
+      expect(livenessCapture.length).toBe(2);
       livenessCapture.forEach((item) => {
         expect(item).toBeInstanceOf(LivenessResourceResponse);
       });
@@ -42,11 +43,6 @@ describe('ResourceContainer', () => {
     it('should return zoom liveness resource response', () => {
       const livenessCapture = resourceContainer.getLivenessCapture();
       expect(livenessCapture[0]).toBeInstanceOf(ZoomLivenessResourceResponse);
-    });
-
-    it('should skip unknown capture items', () => {
-      const livenessCapture = resourceContainer.getLivenessCapture();
-      expect(livenessCapture.length).toBe(1);
     });
   });
 

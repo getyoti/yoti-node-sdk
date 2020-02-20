@@ -2,6 +2,7 @@
 
 const DocumentResourceResponse = require('./document.resource.response');
 const ZoomLivenessResourceResponse = require('./zoom.liveness.resource.response');
+const LivenessResourceResponse = require('./liveness.resource.response');
 const DocScanConstants = require('../../doc.scan.constants');
 const Validation = require('../../../yoti_common/validation');
 
@@ -23,7 +24,7 @@ class ResourceContainer {
             case DocScanConstants.ZOOM:
               return new ZoomLivenessResourceResponse(resource);
             default:
-              return null;
+              return new LivenessResourceResponse(resource);
           }
         })
         .filter(resource => resource !== null);
