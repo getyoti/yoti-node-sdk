@@ -30,8 +30,7 @@ class TaskResponse {
             default:
               return new GeneratedCheckResponse(check);
           }
-        })
-        .filter(check => check !== null);
+        });
     }
 
     if (task.generated_media) {
