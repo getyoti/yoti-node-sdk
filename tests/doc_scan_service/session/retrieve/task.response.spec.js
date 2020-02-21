@@ -11,8 +11,8 @@ describe('TaskResponse', () => {
     taskResponse = new TaskResponse({
       id: 'some-id',
       state: 'some-state',
-      created: 'some-created',
-      last_updated: 'some-updated',
+      created: '2006-01-02T22:04:05.123Z',
+      last_updated: '2006-02-02T22:04:05.123Z',
       generated_checks: [
         {
           type: 'ID_DOCUMENT_TEXT_DATA_CHECK',
@@ -49,13 +49,15 @@ describe('TaskResponse', () => {
 
   describe('#getCreated', () => {
     it('should return created', () => {
-      expect(taskResponse.getCreated()).toBe('some-created');
+      expect(taskResponse.getCreated().getMicrosecondTimestamp())
+        .toBe('2006-01-02T22:04:05.123000Z');
     });
   });
 
   describe('#getLastUpdated', () => {
     it('should return last updated', () => {
-      expect(taskResponse.getLastUpdated()).toBe('some-updated');
+      expect(taskResponse.getLastUpdated().getMicrosecondTimestamp())
+        .toBe('2006-02-02T22:04:05.123000Z');
     });
   });
 
