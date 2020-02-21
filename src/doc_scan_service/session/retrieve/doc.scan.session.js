@@ -43,8 +43,7 @@ class DocScanSession {
             default:
               return new CheckResponse(check);
           }
-        })
-        .filter(check => check !== null);
+        });
     }
 
     if (response.resources) {

@@ -26,8 +26,7 @@ class ResourceContainer {
             default:
               return new LivenessResourceResponse(resource);
           }
-        })
-        .filter(resource => resource !== null);
+        });
     }
   }
 

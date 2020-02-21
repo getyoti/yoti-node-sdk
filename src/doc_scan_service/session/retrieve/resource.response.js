@@ -19,8 +19,7 @@ class ResourceResponse {
             default:
               return new TaskResponse(task);
           }
-        })
-        .filter(task => task !== null);
+        });
     }
   }
 
