@@ -37,14 +37,14 @@ class MediaResponse {
   }
 
   /**
-   * @returns {string}
+   * @returns {YotiDate}
    */
   getCreated() {
     return this.created;
   }
 
   /**
-   * @returns {string}
+   * @returns {YotiDate}
    */
   getLastUpdated() {
     return this.lastUpdated;

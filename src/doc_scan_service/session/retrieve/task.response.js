@@ -5,6 +5,7 @@ const GeneratedCheckResponse = require('./generated.check.response');
 const GeneratedTextDataCheckResponse = require('./generated.text.data.check.response');
 const GeneratedMedia = require('./generated.media');
 const DocScanConstants = require('../../doc.scan.constants');
+const { YotiDate } = require('../../../data_type/date');
 
 class TaskResponse {
   constructor(task) {
@@ -19,6 +20,16 @@ class TaskResponse {
 
     Validation.isString(task.last_updated, 'last_updated', true);
     this.lastUpdated = task.last_updated;
+
+    if (task.created) {
+      Validation.isString(task.created, 'created');
+      this.created = YotiDate.fromDateString(task.created);
+    }
+
+    if (task.last_updated) {
+      Validation.isString(task.last_updated, 'last_updated');
+      this.lastUpdated = YotiDate.fromDateString(task.last_updated);
+    }
 
     if (task.generated_checks) {
       Validation.isArray(task.generated_checks, 'generated_checks');
@@ -54,14 +65,14 @@ class TaskResponse {
   }
 
   /**
-   * @returns {string}
+   * @returns {YotiDate}
    */
   getCreated() {
     return this.created;
   }
 
   /**
-   * @returns {string}
+   * @returns {YotiDate}
    */
   getLastUpdated() {
     return this.lastUpdated;
