@@ -9,7 +9,9 @@ jobs:
   include:
     - stage: Test
       node_js: "10"
-      before_install: npm install -g npm@latest
+      before_install:
+        - npm install -g npm@latest
+        - npm config set engine-strict true
       install: npm ci
       script:
         - npm audit
@@ -18,6 +20,9 @@ jobs:
       stage: Compatibility
       node_js: "node"
       os: linux
+      before_install:
+        - npm install -g npm@latest
+        - npm config set engine-strict true
       install:
         - npm install
         - npm update
