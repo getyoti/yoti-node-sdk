@@ -23,24 +23,30 @@ describe('LocationConstraintExtensionBuilder', () => {
 
   it('should fail for longitude too low', () => {
     const builder = new LocationConstraintExtensionBuilder()
+      .withLatitude(0)
       .withLongitude(-181);
     expect(() => builder.build()).toThrow(new RangeError("'longitude' value '-181' is less than '-180'"));
   });
 
   it('should fail for longitude too high', () => {
     const builder = new LocationConstraintExtensionBuilder()
+      .withLatitude(0)
       .withLongitude(181);
     expect(() => builder.build()).toThrow(new RangeError("'longitude' value '181' is greater than '180'"));
   });
 
   it('should fail for radius less than zero', () => {
     const builder = new LocationConstraintExtensionBuilder()
+      .withLatitude(0)
+      .withLongitude(0)
       .withRadius(-1);
     expect(() => builder.build()).toThrow(new RangeError("'radius' value '-1' is less than '0'"));
   });
 
   it('should fail for uncertainty less than zero', () => {
     const builder = new LocationConstraintExtensionBuilder()
+      .withLatitude(0)
+      .withLongitude(0)
       .withMaxUncertainty(-1);
     expect(() => builder.build()).toThrow(new RangeError("'maxUncertainty' value '-1' is less than '0'"));
   });
