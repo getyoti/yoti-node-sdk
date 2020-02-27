@@ -1,3 +1,6 @@
+const Validation = require('../../../../src/yoti_common/validation');
+const { YotiDate } = require('../../../../');
+
 /**
  * @class SandboxAnchor
  */
@@ -6,12 +9,19 @@ class SandboxAnchor {
    * @param {string} type
    * @param {string} value
    * @param {string} subType
-   * @param {DateTime} timestamp
+   * @param {YotiDate} timestamp
    */
   constructor(type, value, subType, timestamp) {
+    Validation.isString(type, 'type');
     this.type = type;
+
+    Validation.isString(value, 'value');
     this.value = value;
+
+    Validation.isString(subType, 'subType');
     this.subType = subType;
+
+    Validation.instanceOf(timestamp, YotiDate, 'timestamp');
     this.timestamp = timestamp;
   }
 
@@ -37,7 +47,7 @@ class SandboxAnchor {
   }
 
   /**
-   * @returns {DateTime}
+   * @returns {YotiDate}
    */
   getTimestamp() {
     return this.timestamp;
@@ -51,7 +61,7 @@ class SandboxAnchor {
       type: this.getType(),
       value: this.getValue(),
       sub_type: this.getSubType(),
-      timestamp: this.getTimestamp(),
+      timestamp: this.getTimestamp().getMicrosecondUnixTimestamp(),
     };
   }
 }

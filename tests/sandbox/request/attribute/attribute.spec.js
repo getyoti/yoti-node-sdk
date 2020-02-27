@@ -3,11 +3,15 @@ const {
   SandboxAnchorBuilder,
 } = require('../../../../sandbox');
 
+const { YotiDate } = require('../../../../');
+
 const SOME_NAME = 'someName';
 const SOME_VALUE = 'someValue';
 const SOME_DERIVATION = 'someDerivation';
 const SOME_ANCHOR_TYPE = 'someAnchorType';
 const SOME_ANCHOR_VALUE = 'someAnchorValue';
+const SOME_ANCHOR_SUB_TYPE = 'someAnchorSubType';
+const SOME_DATE = YotiDate.fromDateString('2020-01-01');
 
 describe('SandboxAttribute', () => {
   it('should build with required properties', () => {
@@ -46,6 +50,8 @@ describe('SandboxAttribute', () => {
     const sandboxAnchor = new SandboxAnchorBuilder()
       .withType(SOME_ANCHOR_TYPE)
       .withValue(SOME_ANCHOR_VALUE)
+      .withSubType(SOME_ANCHOR_SUB_TYPE)
+      .withTimestamp(SOME_DATE)
       .build();
 
     const sandboxAttribute = new SandboxAttributeBuilder()
@@ -58,10 +64,9 @@ describe('SandboxAttribute', () => {
       name: SOME_NAME,
       value: SOME_VALUE,
       optional: false,
-      anchors: [{
-        type: SOME_ANCHOR_TYPE,
-        value: SOME_ANCHOR_VALUE,
-      }],
+      anchors: [
+        sandboxAnchor,
+      ],
     };
 
     expect(JSON.stringify(sandboxAttribute))
