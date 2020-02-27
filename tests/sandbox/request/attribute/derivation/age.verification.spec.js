@@ -3,9 +3,7 @@ const {
   SandboxAnchorBuilder,
 } = require('../../../../../sandbox');
 
-const {
-  YotiDate,
-} = require('../../../../..');
+const { YotiDate } = require('../../../../..');
 
 const SOME_DATE_OF_BIRTH_STRING = '1989-01-02';
 const SOME_DATE_OF_BIRTH = YotiDate.fromDateString(SOME_DATE_OF_BIRTH_STRING);
@@ -14,6 +12,8 @@ const SOME_AGE_OVER_DERIVATION_VALUE = `age_over:${SOME_AGE_VALUE}`;
 const SOME_AGE_UNDER_DERIVATION_VALUE = `age_under:${SOME_AGE_VALUE}`;
 const SOME_ANCHOR_TYPE = 'someAnchorType';
 const SOME_ANCHOR_VALUE = 'someAnchorValue';
+const SOME_ANCHOR_SUB_TYPE = 'someAnchorSubType';
+const SOME_DATE = YotiDate.fromDateString('2020-01-01');
 
 describe('SandboxAgeVerification', () => {
   it('should build age over attribute', () => {
@@ -79,6 +79,8 @@ describe('SandboxAgeVerification', () => {
     const sandboxAnchor = new SandboxAnchorBuilder()
       .withType(SOME_ANCHOR_TYPE)
       .withValue(SOME_ANCHOR_VALUE)
+      .withSubType(SOME_ANCHOR_SUB_TYPE)
+      .withTimestamp(SOME_DATE)
       .build();
 
     const sandboxAttribute = new SandboxAgeVerificationBuilder()
@@ -93,10 +95,9 @@ describe('SandboxAgeVerification', () => {
       value: SOME_DATE_OF_BIRTH_STRING,
       optional: false,
       derivation: SOME_AGE_OVER_DERIVATION_VALUE,
-      anchors: [{
-        type: SOME_ANCHOR_TYPE,
-        value: SOME_ANCHOR_VALUE,
-      }],
+      anchors: [
+        sandboxAnchor,
+      ],
     };
 
     expect(JSON.stringify(sandboxAttribute))

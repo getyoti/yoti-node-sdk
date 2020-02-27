@@ -4,14 +4,15 @@ const {
   SandboxAnchorBuilder,
 } = require('../../../sandbox');
 
-const {
-  YotiDate,
-} = require('../../..');
+const { YotiDate } = require('../../..');
 
 const SOME_REMEMEBER_ME_ID = 'someRememberMeId';
 const SOME_VALUE = 'someStringValue';
 const SOME_ANCHOR = new SandboxAnchorBuilder()
   .withType('someAnchorType')
+  .withSubType('someSubType')
+  .withValue('someValue')
+  .withTimestamp(YotiDate.fromDateString('2020-01-02'))
   .build();
 const SOME_DATE_OF_BIRTH_STRING = '1989-01-02';
 const SOME_DATE_OF_BIRTH = YotiDate.fromDateString(SOME_DATE_OF_BIRTH_STRING);
