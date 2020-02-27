@@ -92,7 +92,7 @@ module.exports = class Validation {
    * @throws {TypeError}
    */
   static isNumber(value, name) {
-    if (Number.isNaN(value)) {
+    if (typeof value !== 'number') {
       throw TypeError(`${name} must be a number`);
     }
   }
