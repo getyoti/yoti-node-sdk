@@ -3,9 +3,9 @@ const fs = require('fs');
 const { SandboxClientBuilder, TokenRequestBuilder } = require('../../sandbox');
 const SandboxClient = require('../../sandbox/client');
 
-const SOME_APP_ID = 'someAppId';
+const SOME_SDK_ID = 'someSdkId';
 const SOME_SANDBOX_URL = 'https://somesandbox.yoti.com/api/v1';
-const SOME_ENDPOINT_PATTERN = new RegExp(`^/api/v1/apps/${SOME_APP_ID}/tokens`);
+const SOME_ENDPOINT_PATTERN = new RegExp(`^/api/v1/apps/${SOME_SDK_ID}/tokens`);
 const SOME_PEM_FILE_PATH = './tests/sample-data/keys/node-sdk-test.pem';
 const SOME_PEM_STRING = fs.readFileSync(SOME_PEM_FILE_PATH, 'utf8');
 const SOME_TOKEN_REQUEST = new TokenRequestBuilder().build();
@@ -14,7 +14,7 @@ const SOME_TOKEN = 'someToken';
 describe('SandboxClient', () => {
   it('should build with pem string', () => {
     const sandboxClient = new SandboxClientBuilder()
-      .forApplication(SOME_APP_ID)
+      .withClientSdkId(SOME_SDK_ID)
       .withPemString(SOME_PEM_STRING)
       .withSandboxUrl(SOME_SANDBOX_URL)
       .build();
@@ -22,7 +22,15 @@ describe('SandboxClient', () => {
   });
   it('should build with pem file path', () => {
     const sandboxClient = new SandboxClientBuilder()
-      .forApplication(SOME_APP_ID)
+      .withClientSdkId(SOME_SDK_ID)
+      .withPemFilePath(SOME_PEM_FILE_PATH)
+      .withSandboxUrl(SOME_SANDBOX_URL)
+      .build();
+    expect(sandboxClient).toBeInstanceOf(SandboxClient);
+  });
+  it('should build for application', () => {
+    const sandboxClient = new SandboxClientBuilder()
+      .forApplication(SOME_SDK_ID)
       .withPemFilePath(SOME_PEM_FILE_PATH)
       .withSandboxUrl(SOME_SANDBOX_URL)
       .build();
@@ -31,16 +39,16 @@ describe('SandboxClient', () => {
   describe('#constructor', () => {
     it('should throw for missing app ID', () => {
       expect(() => new SandboxClientBuilder().build())
-        .toThrow(new TypeError('appId must be a string'));
+        .toThrow(new TypeError('sdkId must be a string'));
     });
     it('should throw for missing key', () => {
-      expect(() => new SandboxClientBuilder().forApplication(SOME_APP_ID).build())
+      expect(() => new SandboxClientBuilder().forApplication(SOME_SDK_ID).build())
         .toThrow(new TypeError('pem must be a string'));
     });
   });
   describe('#setupSharingProfile', () => {
     const sandboxClient = new SandboxClientBuilder()
-      .forApplication(SOME_APP_ID)
+      .forApplication(SOME_SDK_ID)
       .withPemString(SOME_PEM_STRING)
       .withSandboxUrl(SOME_SANDBOX_URL)
       .build();

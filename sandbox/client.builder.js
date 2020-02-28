@@ -8,11 +8,20 @@ const fs = require('fs');
  */
 class SandboxClientBuilder {
   /**
-   * @param {string} appId
+   * @param {string} sdkId
    */
-  forApplication(appId) {
-    this.appId = appId;
+  withClientSdkId(sdkId) {
+    this.sdkId = sdkId;
     return this;
+  }
+
+  /**
+   * @param {string} sdkId
+   *
+   * @deprecated 4.0.0
+   */
+  forApplication(sdkId) {
+    return this.withClientSdkId(sdkId);
   }
 
   /**
@@ -50,7 +59,7 @@ class SandboxClientBuilder {
    * @returns {SandboxClient}
    */
   build() {
-    return new SandboxClient(this.appId, this.pem, this.sandboxUrl);
+    return new SandboxClient(this.sdkId, this.pem, this.sandboxUrl);
   }
 }
 

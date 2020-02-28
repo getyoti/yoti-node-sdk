@@ -32,14 +32,14 @@ const mediaContentPath = (sessionId, mediaId) => `${sessionPath(sessionId)}/medi
  */
 class DocScanService {
   /**
-   * @param {string} applicationId
+   * @param {string} sdkId
    * @param {string|Buffer} pem
    */
-  constructor(applicationId, pem) {
-    Validation.isString(applicationId, 'applicationId');
+  constructor(sdkId, pem) {
+    Validation.isString(sdkId, 'sdkId');
     Validation.notNullOrEmpty(pem, 'pem');
 
-    this.applicationId = applicationId;
+    this.sdkId = sdkId;
     this.pem = pem;
   }
 
@@ -57,7 +57,7 @@ class DocScanService {
       .withPemString(this.pem)
       .withBaseUrl(config.yoti.docScanApi)
       .withEndpoint('/sessions')
-      .withQueryParam('sdkId', this.applicationId)
+      .withQueryParam('sdkId', this.sdkId)
       .withPost()
       .withPayload(new Payload(sessionSpecification))
       .withHeader('Content-Type', 'application/json')
@@ -90,7 +90,7 @@ class DocScanService {
       .withPemString(this.pem)
       .withBaseUrl(config.yoti.docScanApi)
       .withEndpoint(sessionPath(sessionId))
-      .withQueryParam('sdkId', this.applicationId)
+      .withQueryParam('sdkId', this.sdkId)
       .withGet()
       .build();
 
@@ -121,7 +121,7 @@ class DocScanService {
       .withPemString(this.pem)
       .withBaseUrl(config.yoti.docScanApi)
       .withEndpoint(sessionPath(sessionId))
-      .withQueryParam('sdkId', this.applicationId)
+      .withQueryParam('sdkId', this.sdkId)
       .withMethod('DELETE')
       .build();
 
@@ -148,7 +148,7 @@ class DocScanService {
       .withPemString(this.pem)
       .withBaseUrl(config.yoti.docScanApi)
       .withEndpoint(mediaContentPath(sessionId, mediaId))
-      .withQueryParam('sdkId', this.applicationId)
+      .withQueryParam('sdkId', this.sdkId)
       .withGet()
       .build();
 
@@ -189,7 +189,7 @@ class DocScanService {
       .withPemString(this.pem)
       .withBaseUrl(config.yoti.docScanApi)
       .withEndpoint(mediaContentPath(sessionId, mediaId))
-      .withQueryParam('sdkId', this.applicationId)
+      .withQueryParam('sdkId', this.sdkId)
       .withMethod('DELETE')
       .build();
 

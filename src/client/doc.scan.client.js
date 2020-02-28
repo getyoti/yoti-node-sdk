@@ -11,11 +11,11 @@ const { DocScanService } = require('../doc_scan_service');
  */
 class DocScanClient {
   /**
-   * @param {string} applicationId
+   * @param {string} sdkId
    * @param {string|Buffer} pem
    */
-  constructor(applicationId, pem) {
-    this.docScanService = new DocScanService(applicationId, pem);
+  constructor(sdkId, pem) {
+    this.docScanService = new DocScanService(sdkId, pem);
   }
 
   /**

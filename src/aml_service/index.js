@@ -31,7 +31,7 @@ AmlResult.prototype = {
   },
 };
 
-module.exports.performAmlCheck = (amlProfile, pem, appId) => {
+module.exports.performAmlCheck = (amlProfile, pem, sdkId) => {
   if (!amlProfile) {
     throw new Error('Error - AmlProfile should be an object of Type/AmlProfile');
   }
@@ -41,7 +41,7 @@ module.exports.performAmlCheck = (amlProfile, pem, appId) => {
     'POST',
     '/aml-check',
     pem,
-    appId,
+    sdkId,
     payload
   );
 

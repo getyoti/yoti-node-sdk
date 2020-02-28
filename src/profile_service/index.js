@@ -4,12 +4,12 @@ const yotiRequest = require('../request');
 const yotiCommon = require('../yoti_common');
 const ActivityDetails = require('./activity.details').ActivityDetails;
 
-module.exports.getReceipt = (token, pem, appId) => {
+module.exports.getReceipt = (token, pem, sdkId) => {
   const request = yotiRequest.buildConnectApiRequest(
     'GET',
     `/profile/${token}`,
     pem,
-    appId,
+    sdkId,
     null,
     { 'X-Yoti-Auth-Key': yotiCommon.getAuthKeyFromPem(pem) }
   );
