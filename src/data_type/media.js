@@ -1,16 +1,23 @@
 'use strict';
 
 const Validation = require('../yoti_common/validation');
+const ByteBuffer = require('bytebuffer');
 
 class Media {
   /**
-   * @param {ByteBuffer} content
+   * @param {Buffer|ByteBuffer} content
    * @param {string} mimeType
    */
   constructor(content, mimeType) {
-    Validation.isFunction(content.toBase64, 'content.toBase64');
+    if (Buffer.isBuffer(content)) {
+      this.content = ByteBuffer.wrap(content);
+    } else if (ByteBuffer.isByteBuffer(content)) {
+      this.content = content;
+    } else {
+      throw new TypeError('content must be of type Buffer|ByteBuffer');
+    }
+
     Validation.isString(mimeType, 'mimeType');
-    this.content = content;
     this.mimeType = mimeType;
   }
 

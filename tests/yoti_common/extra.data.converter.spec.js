@@ -29,7 +29,7 @@ describe('ExtraDataConverter', () => {
     });
 
     it('should return an instance of ExtraData even when failing to parse', () => {
-      const extraData = ExtraDataConverter.convertExtraData(Buffer.from('someRandomData', 'utf-8'));
+      const extraData = ExtraDataConverter.convertExtraData(Buffer.from('someRandomData'));
 
       expect(extraData).toBeInstanceOf(ExtraData);
       expect(extraData.getAttributeIssuanceDetails()).toBe(undefined);

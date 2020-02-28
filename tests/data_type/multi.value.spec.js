@@ -2,23 +2,21 @@ const MultiValue = require('../../src/data_type/multi.value');
 const ImageJpeg = require('../../src/data_type/image.jpeg');
 const ImagePng = require('../../src/data_type/image.png');
 
-const ByteBuffer = require('bytebuffer');
-
 const getTestValues = () => [
-  new ImageJpeg(ByteBuffer.fromUTF8('image_1')),
-  new ImagePng(ByteBuffer.fromUTF8('image_2')),
+  new ImageJpeg(Buffer.from('image_1')),
+  new ImagePng(Buffer.from('image_2')),
   'test string',
   { name: 'test object' },
   ['test', 'array'],
   new MultiValue([
-    new ImageJpeg(ByteBuffer.fromUTF8('image_3')),
-    new ImagePng(ByteBuffer.fromUTF8('image_4')),
+    new ImageJpeg(Buffer.from('image_3')),
+    new ImagePng(Buffer.from('image_4')),
     'test string 2',
     { name: 'test object 2' },
     ['test', 'array 2'],
     new MultiValue([
-      new ImageJpeg(ByteBuffer.fromUTF8('image_5')),
-      new ImagePng(ByteBuffer.fromUTF8('image_6')),
+      new ImageJpeg(Buffer.from('image_5')),
+      new ImagePng(Buffer.from('image_6')),
       'test string 3',
       { name: 'test object 3' },
       ['test', 'array 3'],

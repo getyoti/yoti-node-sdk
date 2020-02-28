@@ -232,16 +232,4 @@ module.exports = class Validation {
       throw TypeError(`${name} cannot be null or empty`);
     }
   }
-
-  /**
-   * @param {*} value
-   * @param {string} name
-   *
-   * @throws {TypeError}
-   */
-  static isFunction(value, name) {
-    if ((typeof value) !== 'function') {
-      throw TypeError(`${name} must be a function`);
-    }
-  }
 };
