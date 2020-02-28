@@ -32,7 +32,7 @@ describe('ThirdPartyAttributeConverter', () => {
     });
 
     it('should return undefined for invalid third party attribute protobuf', () => {
-      const thirdPartyAttribute = ThirdPartyAttributeConverter.convertThirdPartyAttribute(Buffer.from('someValue', 'utf-8'));
+      const thirdPartyAttribute = ThirdPartyAttributeConverter.convertThirdPartyAttribute(Buffer.from('someValue'));
       expect(thirdPartyAttribute).toBe(undefined);
     });
 

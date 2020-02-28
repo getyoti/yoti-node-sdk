@@ -7,10 +7,7 @@ const { RequestBuilder } = require('../request/request.builder');
 const { Payload } = require('../request/payload');
 const Validation = require('../yoti_common/validation');
 const config = require('../../config');
-const ByteBuffer = require('bytebuffer');
 const Media = require('../data_type/media');
-const ImagePng = require('../data_type/image.png');
-const ImageJpeg = require('../data_type/image.jpeg');
 const DocScanError = require('./doc.scan.error');
 
 /**
@@ -161,16 +158,13 @@ class DocScanService {
           try {
             const contentType = response.getHeaders()['content-type'];
             const mimeType = contentType ? contentType.split(';')[0] : null;
-            const content = ByteBuffer.wrap(response.getBody() || '');
 
-            switch (mimeType) {
-              case 'image/png':
-                return resolve(new ImagePng(content));
-              case 'image/jpeg':
-                return resolve(new ImageJpeg(content));
-              default:
-                return resolve(new Media(content, mimeType));
+            let content = response.getBody();
+            if (!Buffer.isBuffer(content)) {
+              content = Buffer.from(content || '');
             }
+
+            return resolve(new Media(content, mimeType));
           } catch (err) {
             return reject(new DocScanError(err));
           }

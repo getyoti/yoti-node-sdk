@@ -12,8 +12,6 @@ const {
 const SessionResult = require('../../src/doc_scan_service/session/create/create.session.result');
 const DocScanSession = require('../../src/doc_scan_service/session/retrieve/doc.scan.session');
 const Media = require('../../src/data_type/media');
-const ImageJpeg = require('../../src/data_type/image.jpeg');
-const ImagePng = require('../../src/data_type/image.png');
 
 const PEM_STRING = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 const SESSION_ID = 'some-session-id';
@@ -198,12 +196,12 @@ describe('DocScanService', () => {
   describe('#getMediaContent', () => {
     describe('when a valid response is returned', () => {
       test.each([
-        ['image/jpeg', ImageJpeg],
-        ['image/png', ImagePng],
-        ['image/other', Media],
-        ['image/jpeg; charset=UTF-8', ImageJpeg],
-        ['image/png; charset=UTF-8', ImagePng],
-      ])('"%s" content type should return correct media type', (contentType, expectedType, done) => {
+        ['image/jpeg'],
+        ['image/png'],
+        ['image/other'],
+        ['image/jpeg; charset=UTF-8'],
+        ['image/png; charset=UTF-8'],
+      ])('"%s" content type should return correct media type', (contentType, done) => {
         nock(config.yoti.docScanApi)
           .get(MEDIA_URI)
           .reply(200, '', {
@@ -213,7 +211,7 @@ describe('DocScanService', () => {
         docScanService
           .getMediaContent(SESSION_ID, MEDIA_ID)
           .then((result) => {
-            expect(result).toBeInstanceOf(expectedType);
+            expect(result).toBeInstanceOf(Media);
             done();
           })
           .catch(done);
@@ -232,7 +230,7 @@ describe('DocScanService', () => {
         docScanService
           .getMediaContent(SESSION_ID, MEDIA_ID)
           .then((result) => {
-            expect(result).toBeInstanceOf(ImagePng);
+            expect(result).toBeInstanceOf(Media);
             done();
           })
           .catch(done);

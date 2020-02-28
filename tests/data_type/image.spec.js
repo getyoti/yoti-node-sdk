@@ -1,9 +1,8 @@
 const Image = require('../../src/data_type/image');
 const ImageJpeg = require('../../src/data_type/image.jpeg');
 const ImagePng = require('../../src/data_type/image.png');
-const ByteBuffer = require('bytebuffer');
 
-const imageContent = ByteBuffer.fromUTF8('test_image_data');
+const imageContent = Buffer.from('test_image_data');
 
 const imageTypes = [
   {
@@ -20,12 +19,12 @@ imageTypes.forEach((type) => {
   describe(`${type.imageObj.constructor.name}`, () => {
     describe('#getContent()', () => {
       it('should return original image content', () => {
-        expect(type.imageObj.getContent()).toBe(imageContent);
+        expect(type.imageObj.getContent().buffer).toStrictEqual(imageContent);
       });
     });
     describe('#getBase64Content()', () => {
       it('should return base64 image content', () => {
-        const base64String = `data:${type.mimeType};base64,${imageContent.toBase64()}`;
+        const base64String = `data:${type.mimeType};base64,${imageContent.toString('base64')}`;
         expect(type.imageObj.getBase64Content()).toBe(base64String);
       });
     });

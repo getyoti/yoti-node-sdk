@@ -126,11 +126,4 @@ describe('Validation', () => {
         .toThrow(new TypeError('name cannot be null or empty'));
     });
   });
-
-  describe('#isFunction', () => {
-    it('should throw type error when function is not provided', () => {
-      expect(() => Validation.isFunction('', 'name'))
-        .toThrow(new TypeError('name must be a function'));
-    });
-  });
 });
