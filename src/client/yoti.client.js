@@ -27,12 +27,15 @@ function decryptToken(encryptedConnectToken, pem) {
  */
 class YotiClient {
   /**
-   * @param {string} applicationId
+   * @param {string} sdkId
    * @param {string} pem
    */
-  constructor(applicationId, pem) {
-    this.applicationId = applicationId;
+  constructor(sdkId, pem) {
+    this.sdkId = sdkId;
     this.pem = pem;
+
+    /** @deprecated 4.0.0 replaced by this.sdkId */
+    this.applicationId = this.sdkId;
   }
 
   /**
@@ -55,7 +58,7 @@ class YotiClient {
     } catch (err) {
       return Promise.reject(err);
     }
-    return profileService.getReceipt(decryptedToken, this.pem, this.applicationId);
+    return profileService.getReceipt(decryptedToken, this.pem, this.sdkId);
   }
 
   /**
@@ -67,7 +70,7 @@ class YotiClient {
    * @returns {Promise} resolving AmlResult with the results of the check
    */
   performAmlCheck(amlProfile) {
-    return amlService.performAmlCheck(amlProfile, this.pem, this.applicationId);
+    return amlService.performAmlCheck(amlProfile, this.pem, this.sdkId);
   }
 
   /**
@@ -82,7 +85,7 @@ class YotiClient {
     return dynamicSharingService.createShareUrl(
       dynamicScenario,
       this.pem,
-      this.applicationId
+      this.sdkId
     );
   }
 }

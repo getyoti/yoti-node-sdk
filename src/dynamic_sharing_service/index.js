@@ -22,19 +22,19 @@ const Validation = require('../yoti_common/validation');
  *
  * @param {DynamicScenario} dynamicScenario
  * @param {string} pem
- * @param {string} appId
+ * @param {string} sdkId
  *
  * @returns {Promise} containing a ShareUrlResult
  */
-const createShareUrl = (dynamicScenario, pem, appId) => {
+const createShareUrl = (dynamicScenario, pem, sdkId) => {
   Validation.instanceOf(dynamicScenario, DynamicScenario, 'dynamicScenario');
 
   const payload = new Payload(dynamicScenario);
   const request = yotiRequest.buildConnectApiRequest(
     'POST',
-    `/qrcodes/apps/${appId}`,
+    `/qrcodes/apps/${sdkId}`,
     pem,
-    appId,
+    sdkId,
     payload
   );
 
