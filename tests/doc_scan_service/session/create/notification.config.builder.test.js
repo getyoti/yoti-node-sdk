@@ -78,4 +78,19 @@ describe('NotificationConfigBuilder', () => {
 
     expect(JSON.stringify(notificationConfig)).toBe(expectedJson);
   });
+
+  it('should build NotificationConfig without duplicate topics', () => {
+    const notificationConfig = new NotificationConfigBuilder()
+      .withTopic('some-topic')
+      .withTopic('some-topic')
+      .build();
+
+    const expectedJson = JSON.stringify({
+      topics: [
+        'some-topic',
+      ],
+    });
+
+    expect(JSON.stringify(notificationConfig)).toBe(expectedJson);
+  });
 });

@@ -29,7 +29,7 @@ class NotificationConfig {
 
     if (topics) {
       Validation.isArrayOfStrings(topics, 'topics');
-      this.topics = topics;
+      this.topics = topics.filter((elem, pos) => topics.indexOf(elem) === pos);
     }
   }
 
