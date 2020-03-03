@@ -6,7 +6,7 @@ const CheckResponse = require('./check.response');
 const AuthenticityCheckResponse = require('./authenticity.check.response');
 const FaceMatchCheckResponse = require('./face.match.check.response');
 const TextDataCheckResponse = require('./text.data.check.response');
-const ZoomLivenessCheckResponse = require('./zoom.liveness.check.response');
+const LivenessCheckResponse = require('./liveness.check.response');
 const DocScanConstants = require('../../doc.scan.constants');
 
 class GetSessionResult {
@@ -39,7 +39,7 @@ class GetSessionResult {
             case DocScanConstants.ID_DOCUMENT_TEXT_DATA_CHECK:
               return new TextDataCheckResponse(check);
             case DocScanConstants.LIVENESS:
-              return new ZoomLivenessCheckResponse(check);
+              return new LivenessCheckResponse(check);
             default:
               return new CheckResponse(check);
           }
@@ -109,10 +109,10 @@ class GetSessionResult {
   }
 
   /**
-   * @returns {ZoomLivenessCheckResponse[]}
+   * @returns {LivenessCheckResponse[]}
    */
-  getZoomLivenessChecks() {
-    return this.getChecks().filter(check => check instanceof ZoomLivenessCheckResponse);
+  getLivenessChecks() {
+    return this.getChecks().filter(check => check instanceof LivenessCheckResponse);
   }
 
   /**
