@@ -10,7 +10,7 @@ const {
 } = require('../../src/doc_scan_service');
 
 const SessionResult = require('../../src/doc_scan_service/session/create/create.session.result');
-const DocScanSession = require('../../src/doc_scan_service/session/retrieve/doc.scan.session');
+const GetSessionResult = require('../../src/doc_scan_service/session/retrieve/get.session.result');
 const Media = require('../../src/data_type/media');
 
 const PEM_STRING = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
@@ -121,7 +121,7 @@ describe('DocScanService', () => {
         docScanService
           .getSession(SESSION_ID)
           .then((result) => {
-            expect(result).toBeInstanceOf(DocScanSession);
+            expect(result).toBeInstanceOf(GetSessionResult);
             expect(result.getSessionId()).toBe('some-session-id');
             done();
           })

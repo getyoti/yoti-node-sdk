@@ -9,7 +9,7 @@ const TextDataCheckResponse = require('./text.data.check.response');
 const ZoomLivenessCheckResponse = require('./zoom.liveness.check.response');
 const DocScanConstants = require('../../doc.scan.constants');
 
-class DocScanSession {
+class GetSessionResult {
   constructor(response) {
     Validation.isInteger(response.client_session_token_ttl, 'client_session_token_ttl', true);
     this.clientSessionTokenTtl = response.client_session_token_ttl;
@@ -130,4 +130,4 @@ class DocScanSession {
   }
 }
 
-module.exports = DocScanSession;
+module.exports = GetSessionResult;
