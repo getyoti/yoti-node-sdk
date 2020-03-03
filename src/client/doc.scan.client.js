@@ -34,7 +34,7 @@ class DocScanClient {
    *
    * @param {string} sessionId
    *
-   * @returns {Promise} Resolving DocScanSession
+   * @returns {Promise} Resolving GetSessionResult
    */
   getSession(sessionId) {
     return this.docScanService.getSession(sessionId);

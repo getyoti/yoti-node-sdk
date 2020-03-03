@@ -81,7 +81,7 @@ class DocScanService {
    *
    * @param {string} sessionId
    *
-   * @returns {Promise} Resolves DocScanSession
+   * @returns {Promise} Resolves GetSessionResult
    */
   getSession(sessionId) {
     Validation.isString(sessionId, 'sessionId');
