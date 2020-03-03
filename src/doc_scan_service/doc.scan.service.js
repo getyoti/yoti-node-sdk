@@ -2,7 +2,7 @@
 
 const SessionSpecification = require('../doc_scan_service/session/create/session.specification');
 const CreateSessionResult = require('./session/create/create.session.result');
-const DocScanSession = require('../doc_scan_service/session/retrieve/doc.scan.session');
+const GetSessionResult = require('./session/retrieve/get.session.result');
 const { RequestBuilder } = require('../request/request.builder');
 const { Payload } = require('../request/payload');
 const Validation = require('../yoti_common/validation');
@@ -98,7 +98,7 @@ class DocScanService {
       request.execute()
         .then((response) => {
           try {
-            return resolve(new DocScanSession(response.getParsedResponse()));
+            return resolve(new GetSessionResult(response.getParsedResponse()));
           } catch (err) {
             return reject(new DocScanError(err));
           }

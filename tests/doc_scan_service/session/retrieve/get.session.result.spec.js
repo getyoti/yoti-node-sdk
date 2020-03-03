@@ -1,4 +1,4 @@
-const DocScanSession = require('../../../../src/doc_scan_service/session/retrieve/doc.scan.session');
+const GetSessionResult = require('../../../../src/doc_scan_service/session/retrieve/get.session.result');
 const CheckResponse = require('../../../../src/doc_scan_service/session/retrieve/check.response');
 const AuthenticityCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/authenticity.check.response');
 const FaceMatchCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/face.match.check.response');
@@ -6,11 +6,11 @@ const TextDataCheckResponse = require('../../../../src/doc_scan_service/session/
 const ZoomLivenessCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/zoom.liveness.check.response');
 const ResourceContainer = require('../../../../src/doc_scan_service/session/retrieve/resource.container');
 
-describe('DocScanSession', () => {
+describe('GetSessionResult', () => {
   let session;
 
   beforeEach(() => {
-    session = new DocScanSession({
+    session = new GetSessionResult({
       client_session_token_ttl: 599,
       session_id: 'some-session-id',
       user_tracking_id: 'some-user-id',
@@ -120,7 +120,7 @@ describe('DocScanSession', () => {
 
   describe('#constructor', () => {
     it('should create default check response for unknown checks', () => {
-      session = new DocScanSession({
+      session = new GetSessionResult({
         checks: [
           {
             type: 'SOME_UNKNOWN_CHECK',
