@@ -15,12 +15,6 @@ class TaskResponse {
     Validation.isString(task.state, 'state', true);
     this.state = task.state;
 
-    Validation.isString(task.created, 'created', true);
-    this.created = task.created;
-
-    Validation.isString(task.last_updated, 'last_updated', true);
-    this.lastUpdated = task.last_updated;
-
     if (task.created) {
       Validation.isString(task.created, 'created');
       this.created = YotiDate.fromDateString(task.created);
