@@ -23,7 +23,7 @@ class DocScanClient {
    *
    * @param {SessionSpecification} sessionSpecification
    *
-   * @returns {Promise} Resolving SessionResult
+   * @returns {Promise} Resolving CreateSessionResult
    */
   createSession(sessionSpecification) {
     return this.docScanService.createSession(sessionSpecification);
