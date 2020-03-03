@@ -1,14 +1,14 @@
 
-const ZoomLivenessCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/zoom.liveness.check.response');
+const LivenessCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/liveness.check.response');
 const CheckResponse = require('../../../../src/doc_scan_service/session/retrieve/check.response');
 const GeneratedMedia = require('../../../../src/doc_scan_service/session/retrieve/generated.media');
 const ReportResponse = require('../../../../src/doc_scan_service/session/retrieve/report.response');
 
-describe('ZoomLivenessCheckResponse', () => {
+describe('LivenessCheckResponse', () => {
   let checkResponse;
 
   beforeEach(() => {
-    checkResponse = new ZoomLivenessCheckResponse({
+    checkResponse = new LivenessCheckResponse({
       id: 'some-id',
       state: 'some-state',
       created: '2006-01-02T22:04:05.123Z',

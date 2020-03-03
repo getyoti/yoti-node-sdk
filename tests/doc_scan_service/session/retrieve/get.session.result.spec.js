@@ -3,7 +3,7 @@ const CheckResponse = require('../../../../src/doc_scan_service/session/retrieve
 const AuthenticityCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/authenticity.check.response');
 const FaceMatchCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/face.match.check.response');
 const TextDataCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/text.data.check.response');
-const ZoomLivenessCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/zoom.liveness.check.response');
+const ZoomLivenessCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/liveness.check.response');
 const ResourceContainer = require('../../../../src/doc_scan_service/session/retrieve/resource.container');
 
 describe('GetSessionResult', () => {
@@ -87,9 +87,9 @@ describe('GetSessionResult', () => {
     });
   });
 
-  describe('#getZoomLivenessChecks', () => {
+  describe('#getLivenessChecks', () => {
     it('should return array of ZoomLivenessCheckResponse', () => {
-      const checks = session.getZoomLivenessChecks();
+      const checks = session.getLivenessChecks();
       expect(checks.length).toBe(1);
       expect(checks[0]).toBeInstanceOf(ZoomLivenessCheckResponse);
     });
