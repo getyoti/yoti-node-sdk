@@ -9,7 +9,7 @@ const {
   DocScanService,
 } = require('../../src/doc_scan_service');
 
-const SessionResult = require('../../src/doc_scan_service/session/create/create.session.result');
+const CreateSessionResult = require('../../src/doc_scan_service/session/create/create.session.result');
 const GetSessionResult = require('../../src/doc_scan_service/session/retrieve/get.session.result');
 const Media = require('../../src/data_type/media');
 
@@ -58,7 +58,7 @@ describe('DocScanService', () => {
         docScanService
           .createSession(sessionSpec)
           .then((result) => {
-            expect(result).toBeInstanceOf(SessionResult);
+            expect(result).toBeInstanceOf(CreateSessionResult);
             expect(result.getClientSessionTokenTtl()).toBe(30);
             expect(result.getClientSessionToken()).toBe('some-token');
             expect(result.getSessionId()).toBe('some-id');

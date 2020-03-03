@@ -9,7 +9,7 @@ const {
   SessionSpecificationBuilder,
 } = require('../../');
 
-const SessionResult = require('../../src/doc_scan_service/session/create/create.session.result');
+const CreateSessionResult = require('../../src/doc_scan_service/session/create/create.session.result');
 const GetSessionResult = require('../../src/doc_scan_service/session/retrieve/get.session.result');
 const Media = require('../../src/data_type/media');
 
@@ -42,7 +42,7 @@ describe('DocScanClient', () => {
       docScanClient
         .createSession(sessionSpec)
         .then((result) => {
-          expect(result).toBeInstanceOf(SessionResult);
+          expect(result).toBeInstanceOf(CreateSessionResult);
           done();
         })
         .catch(done);
