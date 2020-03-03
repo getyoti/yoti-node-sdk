@@ -5,7 +5,7 @@ const DocumentFieldsResponse = require('./document.fields.response');
 const PageResponse = require('./page.response');
 const Validation = require('../../../yoti_common/validation');
 
-class DocumentResourceResponse extends ResourceResponse {
+class IdDocumentResourceResponse extends ResourceResponse {
   constructor(resource) {
     super(resource);
 
@@ -54,4 +54,4 @@ class DocumentResourceResponse extends ResourceResponse {
   }
 }
 
-module.exports = DocumentResourceResponse;
+module.exports = IdDocumentResourceResponse;

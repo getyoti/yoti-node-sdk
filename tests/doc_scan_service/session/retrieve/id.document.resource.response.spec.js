@@ -1,13 +1,13 @@
 
-const DocumentResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/document.resource.response');
+const IdDocumentResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/id.document.resource.response');
 const PageResponse = require('../../../../src/doc_scan_service/session/retrieve/page.response');
 const DocumentFieldsResponse = require('../../../../src/doc_scan_service/session/retrieve/document.fields.response');
 
-describe('DocumentResourceResponse', () => {
+describe('IdDocumentResourceResponse', () => {
   let documentResourceResponse;
 
   beforeEach(() => {
-    documentResourceResponse = new DocumentResourceResponse({
+    documentResourceResponse = new IdDocumentResourceResponse({
       document_type: 'some-type',
       issuing_country: 'some-country',
       pages: [{
