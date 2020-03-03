@@ -1,6 +1,6 @@
 'use strict';
 
-const DocumentResourceResponse = require('./document.resource.response');
+const IdDocumentResourceResponse = require('./id.document.resource.response');
 const ZoomLivenessResourceResponse = require('./zoom.liveness.resource.response');
 const LivenessResourceResponse = require('./liveness.resource.response');
 const DocScanConstants = require('../../doc.scan.constants');
@@ -12,7 +12,7 @@ class ResourceContainer {
       Validation.isArray(resources.id_documents, 'id_documents');
       this.idDocuments = resources
         .id_documents
-        .map(resource => new DocumentResourceResponse(resource));
+        .map(resource => new IdDocumentResourceResponse(resource));
     }
 
     if (resources.liveness_capture) {
@@ -33,7 +33,7 @@ class ResourceContainer {
   /**
    * Returns ID documents that were uploaded by the user
    *
-   * @returns {DocumentResourceResponse[]}
+   * @returns {IdDocumentResourceResponse[]}
    *   The list of documents
    */
   getIdDocuments() {

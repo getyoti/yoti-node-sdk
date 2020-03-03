@@ -1,5 +1,5 @@
 const ResourceContainer = require('../../../../src/doc_scan_service/session/retrieve/resource.container');
-const DocumentResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/document.resource.response');
+const IdDocumentResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/id.document.resource.response');
 const ZoomLivenessResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/zoom.liveness.resource.response');
 const LivenessResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/liveness.resource.response');
 
@@ -26,7 +26,7 @@ describe('ResourceContainer', () => {
       const resourceDocuments = resourceContainer.getIdDocuments();
       expect(resourceDocuments.length).toBe(2);
       resourceDocuments.forEach((resourceDocument) => {
-        expect(resourceDocument).toBeInstanceOf(DocumentResourceResponse);
+        expect(resourceDocument).toBeInstanceOf(IdDocumentResourceResponse);
       });
     });
   });
