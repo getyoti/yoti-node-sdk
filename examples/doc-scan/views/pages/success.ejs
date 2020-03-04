@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Yoti Doc Scan</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a href="/" class="navbar-brand">Yoti Doc Scan</a>
+  </nav>
+  <div class="container">
+
+    <h1>Get Session Result</h1>
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <td>Session ID</td>
+          <td><%= sessionResult.getSessionId() %></td>
+        </tr>
+        <tr>
+          <td>State</td>
+          <td><%= sessionResult.getState() %></td>
+        </tr>
+        <tr>
+          <td>Client Session Token</td>
+          <td>
+            <%= sessionResult.getClientSessionToken() || '-' %>
+          </td>
+        </tr>
+        <tr>
+          <td>Client Session Token TTL</td>
+          <td><%= sessionResult.getClientSessionTokenTtl() %></td>
+        </tr>
+
+        <% if (sessionResult.getAuthenticityChecks().length > 0) { %>
+          <tr>
+            <td>Authenticity Checks</td>
+            <td>
+                <% sessionResult.getAuthenticityChecks().forEach(function(check){ %>
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td>ID</td>
+                      <td><%= check.getId(); %></td>
+                    </tr>
+                    <tr>
+                      <td>State</td>
+                      <td><%= check.getState(); %></td>
+                    </tr>
+                    <tr>
+                      <td>Created</td>
+                      <td><%= check.getCreated(); %></td>
+                    </tr>
+                    <tr>
+                      <td>Last Updated</td>
+                      <td><%= check.getLastUpdated(); %></td>
+                    </tr>
+                    <tr>
+                      <td>Resources Used</td>
+                      <td><%= check.getResourcesUsed().join(', '); %></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <hr />
+                <% }); %>
+            </td>
+          </tr>
+        <% } %>
+
+        <% if (sessionResult.getTextDataChecks().length > 0) { %>
+          <tr>
+            <td>Text Data Checks</td>
+            <td>
+                <% sessionResult.getTextDataChecks().forEach(function(check){ %>
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td>ID</td>
+                      <td><%= check.getId(); %></td>
+                    </tr>
+                    <tr>
+                      <td>State</td>
+                      <td><%= check.getState(); %></td>
+                    </tr>
+                    <tr>
+                      <td>Created</td>
+                      <td><%= check.getCreated(); %></td>
+                    </tr>
+                    <tr>
+                      <td>Last Updated</td>
+                      <td><%= check.getLastUpdated(); %></td>
+                    </tr>
+                    <tr>
+                      <td>Resources Used</td>
+                      <td><%= check.getResourcesUsed().join(', '); %></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <hr />
+                <% }); %>
+            </td>
+          </tr>
+        <% } %>
+
+
+        <% if (sessionResult.getFaceMatchChecks().length > 0) { %>
+          <tr>
+            <td>FaceMatch Checks</td>
+            <td>
+                <% sessionResult.getFaceMatchChecks().forEach(function(check){ %>
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td>ID</td>
+                      <td><%= check.getId(); %></td>
+                    </tr>
+                    <tr>
+                      <td>State</td>
+                      <td><%= check.getState(); %></td>
+                    </tr>
+                    <tr>
+                      <td>Created</td>
+                      <td><%= check.getCreated(); %></td>
+                    </tr>
+                    <tr>
+                      <td>Last Updated</td>
+                      <td><%= check.getLastUpdated(); %></td>
+                    </tr>
+                    <tr>
+                      <td>Resources Used</td>
+                      <td><%= check.getResourcesUsed().join(', '); %></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <hr />
+                <% }); %>
+            </td>
+          </tr>
+        <% } %>
+
+
+        <% if (sessionResult.getLivenessChecks().length > 0) { %>
+          <tr>
+            <td>Liveness Checks</td>
+            <td>
+                <% sessionResult.getLivenessChecks().forEach(function(check){ %>
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td>ID</td>
+                      <td><%= check.getId(); %></td>
+                    </tr>
+                    <tr>
+                      <td>State</td>
+                      <td><%= check.getState(); %></td>
+                    </tr>
+                    <tr>
+                      <td>Created</td>
+                      <td><%= check.getCreated(); %></td>
+                    </tr>
+                    <tr>
+                      <td>Last Updated</td>
+                      <td><%= check.getLastUpdated(); %></td>
+                    </tr>
+                    <tr>
+                      <td>Resources Used</td>
+                      <td><%= check.getResourcesUsed().join(', '); %></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <hr />
+                <% }); %>
+            </td>
+          </tr>
+        <% } %>
+
+        <tr>
+          <td>ID Documents</td>
+          <td>
+            <% if (sessionResult.getResources().getIdDocuments().length > 0) { %>
+              <% sessionResult.getResources().getIdDocuments().forEach(function(document){ %>
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td>Type</td>
+                      <td><%= document.getDocumentType(); %></td>
+                    </tr>
+                    <tr>
+                      <td>Country</td>
+                      <td><%= document.getIssuingCountry(); %></td>
+                    </tr>
+
+                    <tr>
+                      <td>Text Extraction Tasks</td>
+                      <td>
+                        <% document.getTextExtractionTasks().forEach(function(task) { %>
+                          <table class="table table-striped">
+                            <tbody>
+                              <tr>
+                                <td>ID</td>
+                                <td><%= task.getId(); %></td>
+                              </tr>
+                              <tr>
+                                <td>State</td>
+                                <td><%= task.getState(); %></td>
+                              </tr>
+                              <tr>
+                                <td>Created</td>
+                                <td><%= task.getCreated(); %></td>
+                              </tr>
+                              <tr>
+                                <td>Last Updated</td>
+                                <td><%= task.getLastUpdated(); %></td>
+                              </tr>
+                              <% if (task.getGeneratedTextDataChecks().length > 0) { %>
+                              <tr>
+                                <td>Generated Text Data Checks</td>
+                                <td>
+                                  <% task.getGeneratedTextDataChecks().forEach(function(check) { %>
+                                  <h5><%= check.getType() %></h5>
+                                  <table class="table table-striped">
+                                    <tbody>
+                                      <tr>
+                                        <td>ID</td>
+                                        <td><%= check.getId() %></td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <% }); %>
+                                </td>
+                              </tr>
+                              <% } %>
+                              <% if (task.getGeneratedMedia().length > 0) { %>
+                              <tr>
+                                <td>Generated Media</td>
+                                <td>
+                                  <% task.getGeneratedMedia().forEach(function(media) { %>
+                                  <h5><%= media.getId() %></h5>
+                                  <table class="table table-striped">
+                                    <tbody>
+                                      <tr>
+                                        <td>ID</td>
+                                        <td><%= media.getId() %></td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <% }); %>
+                                </td>
+                              </tr>
+                              <% } %>
+                            <tbody>
+                          </table>
+                          <hr />
+                        <% }); %>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>Pages</td>
+                      <td>
+                        <% document.getPages().forEach(function(page) { %>
+                          <table class="table table-striped">
+                            <tbody>
+                              <tr>
+                                <td>Capture Method</td>
+                                <td><%= page.getCaptureMethod(); %></td>
+                              </tr>
+                              <tr>
+                                <td>Media</td>
+                                <td>
+                                  <% if (page.getMedia()) { %>
+                                    <img width="100%" src="/media?mediaId=<%= page.getMedia().getId() %>" />
+                                  <% } else { %>
+                                    -
+                                  <% } %>
+                                </td>
+                              </tr>
+                            <tbody>
+                          </table>
+                          <hr />
+                        <% }); %>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              <% }); %>
+            <% } %>
+          </td>
+        </tr>
+        <% if (sessionResult.getResources().getZoomLivenessResources().length > 0) { %>
+          <tr>
+            <td>Zoom Liveness Resources</td>
+            <td>
+                <% sessionResult.getResources().getZoomLivenessResources().forEach(function(livenessResource){ %>
+                  <% livenessResource.getFrames().forEach(function(frame) { %>
+                    <table class="table table-striped">
+                      <tbody>
+                        <tr>
+                          <td width="100">Media</td>
+                          <td>
+                            <% if (frame.getMedia()) { %>
+                              <img src="/media?mediaId=<%= frame.getMedia().getId() %>" />
+                            <% } else { %>
+                              -
+                            <% } %>
+                          </td>
+                        </tr>
+                      <tbody>
+                    </table>
+                  <% }); %>
+                <% }); %>
+            </td>
+          </tr>
+        <% } %>
+      <tbody>
+    </table>
+  </div>
+</body>
+
+</html>
