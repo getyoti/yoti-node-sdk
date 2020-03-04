@@ -9,12 +9,13 @@ const {
   SdkConfigBuilder,
 } = require('yoti');
 
-const fs = require('fs');
-
-module.exports = async (req, res) => {
+/**
+ * Create a Doc Scan session.
+ */
+async function createSession() {
   const docScanClient = new DocScanClient(
-    process.env.YOTI_CLIENT_SDK_ID,
-    fs.readFileSync(process.env.YOTI_KEY_FILE_PATH),
+    config.YOTI_CLIENT_SDK_ID,
+    config.YOTI_PEM,
   );
 
   const sessionSpec = new SessionSpecificationBuilder()
@@ -43,15 +44,26 @@ module.exports = async (req, res) => {
         .withFontColour('#FFFFFF')
         .withLocale('en-GB')
         .withPresetIssuingCountry('GBR')
-        .withSuccessUrl('/success')
-        .withErrorUrl('/error')
+        .withSuccessUrl(`${config.YOTI_APP_BASE_URL}/success`)
+        .withErrorUrl(`${config.YOTI_APP_BASE_URL}/error`)
         .build()
     )
     .build();
 
-  const session = await docScanClient.createSession(sessionSpec);
+  return docScanClient.createSession(sessionSpec);
+}
 
-  res.render('pages/index', {
-    iframeUrl: `${process.env.YOTI_DOC_SCAN_IFRAME_URL}?sessionID=${session.getSessionId()}&sessionToken=${session.getClientSessionToken()}`,
-  });
+module.exports = async (req, res) => {
+  try {
+    const session = await createSession();
+
+    req.session.DOC_SCAN_SESSION_ID = session.getSessionId();
+    req.session.DOC_SCAN_SESSION_TOKEN = session.getClientSessionToken();
+
+    res.render('pages/index', {
+      iframeUrl: `${config.YOTI_DOC_SCAN_IFRAME_URL}?sessionID=${req.session.DOC_SCAN_SESSION_ID}&sessionToken=${req.session.DOC_SCAN_SESSION_TOKEN}`,
+    });
+  } catch(error) {
+    res.render('pages/error', { error });
+  }
 };
