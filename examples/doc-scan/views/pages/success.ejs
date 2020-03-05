@@ -62,6 +62,20 @@
                       <td>Resources Used</td>
                       <td><%= check.getResourcesUsed().join(', '); %></td>
                     </tr>
+                    <% if (check.getReport()) { %>
+                      <% if (check.getReport().getBreakdown().length > 0) { %>
+                      <tr>
+                        <td>Breakdown</td>
+                        <td>
+                          <% check.getReport().getBreakdown().forEach(function(breakdown) { %>
+                            <div><strong>Sub Check:</strong> <%= breakdown.getSubCheck() %></div>
+                            <div><strong>Result:</strong> <%= breakdown.getResult() %></div>
+                            <hr />
+                          <% }); %>
+                        </td>
+                      </tr>
+                      <% } %>
+                    <% } %>
                   </tbody>
                 </table>
                 <hr />

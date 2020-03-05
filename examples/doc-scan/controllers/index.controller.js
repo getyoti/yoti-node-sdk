@@ -63,7 +63,7 @@ module.exports = async (req, res) => {
     res.render('pages/index', {
       iframeUrl: `${config.YOTI_DOC_SCAN_IFRAME_URL}?sessionID=${req.session.DOC_SCAN_SESSION_ID}&sessionToken=${req.session.DOC_SCAN_SESSION_TOKEN}`,
     });
-  } catch(error) {
+  } catch (error) {
     res.render('pages/error', { error });
   }
 };
