@@ -20,29 +20,28 @@
             <td>Resources Used</td>
             <td><%= check.getResourcesUsed().join(', '); %></td>
         </tr>
+        <% if (check.getReport()) { %>
+        <tr>
+            <td colspan="2">
+                <% if (check.getReport().getBreakdown().length > 0) { %>
+                <h5>Breakdown</h5>
+                    <% check.getReport().getBreakdown().forEach(function(breakdown) { %>
+                        <table class="table table-striped table-light">
+                            <tbody>
+                                <tr>
+                                    <td>Sub Check</td>
+                                    <td><%= breakdown.getSubCheck(); %></td>
+                                </tr>
+                                <tr>
+                                    <td>Result</td>
+                                    <td><%= breakdown.getResult(); %></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    <% }); %>
+                <% } %>
+            </td>
+        </tr>
+        <% } %>
     </tbody>
 </table>
-
-<% if (check.getReport()) { %>
-    <% if (check.getReport().getBreakdown().length > 0) { %>
-    <h3>Breakdown</h3>
-        <% check.getReport().getBreakdown().forEach(function(breakdown) { %>
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <table class="table table-striped table-dark">
-                        <tbody>
-                            <tr>
-                                <td>Sub Check</td>
-                                <td><%= breakdown.getSubCheck(); %></td>
-                            </tr>
-                            <tr>
-                                <td>Result</td>
-                                <td><%= breakdown.getResult(); %></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        <% }); %>
-    <% } %>
-<% } %>
