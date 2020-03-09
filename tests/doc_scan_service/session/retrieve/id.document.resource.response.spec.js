@@ -2,6 +2,7 @@
 const IdDocumentResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/id.document.resource.response');
 const PageResponse = require('../../../../src/doc_scan_service/session/retrieve/page.response');
 const DocumentFieldsResponse = require('../../../../src/doc_scan_service/session/retrieve/document.fields.response');
+const TextExtractionTaskResponse = require('../../../../src/doc_scan_service/session/retrieve/text.extraction.task.response');
 
 describe('IdDocumentResourceResponse', () => {
   let documentResourceResponse;
@@ -41,6 +42,15 @@ describe('IdDocumentResourceResponse', () => {
     it('should return document fields', () => {
       const fields = documentResourceResponse.getDocumentFields();
       expect(fields).toBeInstanceOf(DocumentFieldsResponse);
+    });
+  });
+
+  describe('#getTextExtractionTasks', () => {
+    it('should return a list of TextExtractionTaskResponse', () => {
+      const tasks = documentResourceResponse.getTextExtractionTasks();
+      tasks.forEach((task) => {
+        expect(task).toBeInstanceOf(TextExtractionTaskResponse);
+      });
     });
   });
 });

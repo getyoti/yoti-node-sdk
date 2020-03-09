@@ -39,13 +39,4 @@ describe('ResourceResponse', () => {
       expect(tasks[0]).toBeInstanceOf(TextExtractionTaskResponse);
     });
   });
-
-  describe('#getTextExtractionTasks', () => {
-    it('should return a list of TextExtractionTaskResponse', () => {
-      const tasks = resourceResponse.getTextExtractionTasks();
-      tasks.forEach((task) => {
-        expect(task).toBeInstanceOf(TextExtractionTaskResponse);
-      });
-    });
-  });
 });
