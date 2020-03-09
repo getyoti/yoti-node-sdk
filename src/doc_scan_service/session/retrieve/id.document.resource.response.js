@@ -2,6 +2,7 @@
 
 const ResourceResponse = require('./resource.response');
 const DocumentFieldsResponse = require('./document.fields.response');
+const TextExtractionTaskResponse = require('./text.extraction.task.response');
 const PageResponse = require('./page.response');
 const Validation = require('../../../yoti_common/validation');
 
@@ -51,6 +52,13 @@ class IdDocumentResourceResponse extends ResourceResponse {
    */
   getDocumentFields() {
     return this.documentFields;
+  }
+
+  /**
+   * @returns {TextExtractionTaskResponse[]}
+   */
+  getTextExtractionTasks() {
+    return this.getTasks().filter(task => task instanceof TextExtractionTaskResponse);
   }
 }
 
