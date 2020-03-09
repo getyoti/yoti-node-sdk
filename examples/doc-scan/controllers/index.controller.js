@@ -6,6 +6,7 @@ const {
   RequestedDocumentAuthenticityCheckBuilder,
   RequestedLivenessCheckBuilder,
   RequestedTextExtractionTaskBuilder,
+  RequestedFaceMatchCheckBuilder,
   SdkConfigBuilder,
 } = require('yoti');
 
@@ -29,6 +30,11 @@ async function createSession() {
     .withRequestedCheck(
       new RequestedLivenessCheckBuilder()
         .forZoomLiveness()
+        .build()
+    )
+    .withRequestedCheck(
+      new RequestedFaceMatchCheckBuilder()
+        .withManualCheckNever()
         .build()
     )
     .withRequestedTask(
