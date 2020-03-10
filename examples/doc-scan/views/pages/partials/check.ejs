@@ -98,15 +98,11 @@
                     <tbody>
                         <tr>
                             <td>ID</td>
-                            <td><%= media.getId(); %></td>
+                            <td><a href="/media?mediaId=<%= media.getId() %>"><%= media.getId(); %></a></td>
                         </tr>
                         <tr>
                             <td>Type</td>
                             <td><%= media.getType(); %></td>
-                        </tr>
-                        <tr>
-                            <td>Download</td>
-                            <td><a href="/media?mediaId=<%= breakdown.getId() %>">Download &raquo;</a></td>
                         </tr>
                     </tbody>
                 </table>

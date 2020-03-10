@@ -39,7 +39,7 @@ async function createSession() {
     )
     .withRequestedTask(
       new RequestedTextExtractionTaskBuilder()
-        .withManualCheckFallback()
+        .withManualCheckAlways()
         .build()
     )
     .withSdkConfig(
