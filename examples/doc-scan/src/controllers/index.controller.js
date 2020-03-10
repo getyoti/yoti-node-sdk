@@ -1,4 +1,4 @@
-const config = require('../config');
+const config = require('../../config');
 
 const {
   DocScanClient,
@@ -16,7 +16,7 @@ const {
 async function createSession() {
   const docScanClient = new DocScanClient(
     config.YOTI_CLIENT_SDK_ID,
-    config.YOTI_PEM,
+    config.YOTI_PEM
   );
 
   const sessionSpec = new SessionSpecificationBuilder()
@@ -34,7 +34,7 @@ async function createSession() {
     )
     .withRequestedCheck(
       new RequestedFaceMatchCheckBuilder()
-        .withManualCheckNever()
+        .withManualCheckFallback()
         .build()
     )
     .withRequestedTask(
