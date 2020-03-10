@@ -1,282 +1,268 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>Yoti Doc Scan</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-</head>
-
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a href="/" class="navbar-brand">Yoti Doc Scan</a>
-  </nav>
-  <div class="container">
-
-    <h1>Get Session Result</h1>
+<%- include('layout/header'); -%>
+<div class="container">
 
     <div class="row">
-      <div class="col">
-        <table class="table table-striped">
-          <tbody>
-            <tr>
-              <td>Session ID</td>
-              <td><%= sessionResult.getSessionId() %></td>
-            </tr>
-            <tr>
-              <td>State</td>
-              <td><%= sessionResult.getState() %></td>
-            </tr>
-            <% if (sessionResult.getClientSessionToken()) { %>
-            <tr>
-              <td>Client Session Token</td>
-              <td>
-                <%= sessionResult.getClientSessionToken() %>
-              </td>
-            </tr>
-            <% } %>
-            <tr>
-              <td>Client Session Token TTL</td>
-              <td><%= sessionResult.getClientSessionTokenTtl() %></td>
-            </tr>
-            <tr>
-              <td>User Tracking ID</td>
-              <td><%= sessionResult.getUserTrackingId() %></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        <div class="col">
+            <h1>Get Session Result</h1>
+
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>Session ID</td>
+                        <td><%= sessionResult.getSessionId() %></td>
+                    </tr>
+                    <tr>
+                        <td>State</td>
+                        <td><%= sessionResult.getState() %></td>
+                    </tr>
+                    <% if (sessionResult.getClientSessionToken()) { %>
+                    <tr>
+                        <td>Client Session Token</td>
+                        <td>
+                            <%= sessionResult.getClientSessionToken() %>
+                        </td>
+                    </tr>
+                    <% } %>
+                    <tr>
+                        <td>Client Session Token TTL</td>
+                        <td><%= sessionResult.getClientSessionTokenTtl() %></td>
+                    </tr>
+                    <tr>
+                        <td>User Tracking ID</td>
+                        <td><%= sessionResult.getUserTrackingId() %></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <% if (sessionResult.getAuthenticityChecks().length > 0) { %>
-      <div class="row pt-4">
+    <div class="row pt-4">
         <div class="col">
-        <h2>Authenticity Checks</h2>
-          <% sessionResult.getAuthenticityChecks().forEach(function(check){ %>
+            <h2>Authenticity Checks</h2>
+            <% sessionResult.getAuthenticityChecks().forEach(function(check){ %>
             <%- include('partials/check', { check }); %>
-          <% }); %>
+            <% }); %>
         </div>
-      </div>
+    </div>
     <% } %>
 
     <% if (sessionResult.getTextDataChecks().length > 0) { %>
-      <div class="row pt-4">
+    <div class="row pt-4">
         <div class="col">
-        <h2>Text Data Checks</h2>
-          <% sessionResult.getTextDataChecks().forEach(function(check){ %>
+            <h2>Text Data Checks</h2>
+            <% sessionResult.getTextDataChecks().forEach(function(check){ %>
             <%- include('partials/check', { check }); %>
-          <% }); %>
+            <% }); %>
         </div>
-      </div>
+    </div>
     <% } %>
 
 
     <% if (sessionResult.getFaceMatchChecks().length > 0) { %>
-      <div class="row pt-4">
+    <div class="row pt-4">
         <div class="col">
-        <h2>FaceMatch Checks</h2>
-          <% sessionResult.getFaceMatchChecks().forEach(function(check){ %>
+            <h2>FaceMatch Checks</h2>
+            <% sessionResult.getFaceMatchChecks().forEach(function(check){ %>
             <%- include('partials/check', { check }); %>
-          <% }); %>
+            <% }); %>
         </div>
-      </div>
+    </div>
     <% } %>
 
 
     <% if (sessionResult.getLivenessChecks().length > 0) { %>
-      <div class="row pt-4">
+    <div class="row pt-4">
         <div class="col">
-        <h2>Liveness Checks</h2>
-          <% sessionResult.getLivenessChecks().forEach(function(check){ %>
+            <h2>Liveness Checks</h2>
+            <% sessionResult.getLivenessChecks().forEach(function(check){ %>
             <%- include('partials/check', { check }); %>
-          <% }); %>
+            <% }); %>
         </div>
-      </div>
+    </div>
     <% } %>
 
     <% if (sessionResult.getResources().getIdDocuments().length > 0) { %>
-      <div class="row pt-4">
+    <div class="row pt-4">
         <div class="col">
-          <h2>ID Documents</h2>
+            <h2>ID Documents</h2>
         </div>
-      </div>
+    </div>
 
-      <% sessionResult.getResources().getIdDocuments().forEach(function(document){ %>
-        <div class="row pt-4">
-          <div class="col">
+    <% sessionResult.getResources().getIdDocuments().forEach(function(document){ %>
+    <div class="row pt-4">
+        <div class="col">
             <table class="table table-striped">
-              <tbody>
-                <tr>
-                  <td>Type</td>
-                  <td><%= document.getDocumentType(); %></td>
-                </tr>
-                <tr>
-                  <td>Country</td>
-                  <td><%= document.getIssuingCountry(); %></td>
-                </tr>
-              </tbody>
+                <tbody>
+                    <tr>
+                        <td>Type</td>
+                        <td><%= document.getDocumentType(); %></td>
+                    </tr>
+                    <tr>
+                        <td>Country</td>
+                        <td><%= document.getIssuingCountry(); %></td>
+                    </tr>
+                </tbody>
             </table>
 
-          </div>
         </div>
+    </div>
 
-        <div class="row pt-4">
-          <div class="col">
+    <div class="row pt-4">
+        <div class="col">
             <% if (document.getDocumentFields()) { %>
-              <h3>Document Fields</h3>
+            <h3>Document Fields</h3>
 
-              <% if (document.getDocumentFields().getMedia()) { %>
-                <h4>Media</h4>
-                <table class="table table-striped table-light">
-                  <tbody>
+            <% if (document.getDocumentFields().getMedia()) { %>
+            <h4>Media</h4>
+            <table class="table table-striped table-light">
+                <tbody>
                     <tr>
-                      <td>ID</td>
-                      <td>
-                        <a href="/media?mediaId=<%= document.getDocumentFields().getMedia().getId() %>">
-                          <%= document.getDocumentFields().getMedia().getId() %>
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              <% } %>
-            <% } %>
-          </div>
-        </div>
-
-        <div class="row pt-4">
-          <div class="col">
-            <h3>Text Extraction Tasks</h3>
-            <% document.getTextExtractionTasks().forEach(function(task) { %>
-              <%- include('partials/task', { task }); %>
-
-              <% if (task.getGeneratedTextDataChecks().length > 0) { %>
-                <h4>Generated Text Data Checks</h4>
-                <% task.getGeneratedTextDataChecks().forEach(function(check) { %>
-                  <table class="table table-striped table-dark">
-                    <tbody>
-                      <tr>
-                        <td>ID</td>
-                        <td><%= check.getId() %></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                <% }); %>
-              <% } %>
-
-              <% if (task.getGeneratedMedia().length > 0) { %>
-                <h4>Generated Media</h4>
-
-                <% task.getGeneratedMedia().forEach(function(media) { %>
-                  <table class="table table-striped">
-                    <tbody>
-                      <tr>
                         <td>ID</td>
                         <td>
-                          <a href="/media?mediaId=<%= media.getId() %>"><%= media.getId() %></a>
+                            <a href="/media?mediaId=<%= document.getDocumentFields().getMedia().getId() %>">
+                                <%= document.getDocumentFields().getMedia().getId() %>
+                            </a>
                         </td>
-                      </tr>
-                      <tr>
+                    </tr>
+                </tbody>
+            </table>
+            <% } %>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="row pt-4">
+        <div class="col">
+            <h3>Text Extraction Tasks</h3>
+            <% document.getTextExtractionTasks().forEach(function(task) { %>
+            <%- include('partials/task', { task }); %>
+
+            <% if (task.getGeneratedTextDataChecks().length > 0) { %>
+            <h4>Generated Text Data Checks</h4>
+            <% task.getGeneratedTextDataChecks().forEach(function(check) { %>
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>ID</td>
+                        <td><%= check.getId() %></td>
+                    </tr>
+                </tbody>
+            </table>
+            <% }); %>
+            <% } %>
+
+            <% if (task.getGeneratedMedia().length > 0) { %>
+            <h4>Generated Media</h4>
+
+            <% task.getGeneratedMedia().forEach(function(media) { %>
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>ID</td>
+                        <td>
+                            <a href="/media?mediaId=<%= media.getId() %>"><%= media.getId() %></a>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>Type</td>
                         <td><%= media.getType() %></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                <% }); %>
-              <% } %>
+                    </tr>
+                </tbody>
+            </table>
+            <% }); %>
+            <% } %>
 
             <% }); %>
 
-          </div>
         </div>
+    </div>
 
-        <div class="row pt-4">
-          <div class="col">
+    <div class="row pt-4">
+        <div class="col">
             <% if (document.getPages()) { %>
-              <h3>Pages</h3>
-              <div class="card-group">
+            <h3>Pages</h3>
+            <div class="card-group">
                 <% document.getPages().forEach(function(page) { %>
-                  <% if (page.getMedia()) { %>
-                    <div class="card" style="width: 18rem;">
-                      <img class="card-img-top" src="/media?mediaId=<%= page.getMedia().getId() %>" />
-                      <div class="card-body">
+                <% if (page.getMedia()) { %>
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="/media?mediaId=<%= page.getMedia().getId() %>" />
+                    <div class="card-body">
                         <p>Method: <%= page.getCaptureMethod(); %></p>
-                      </div>
                     </div>
-                  <% } %>
+                </div>
+                <% } %>
                 <% }); %>
-              </div>
+            </div>
             <% } %>
 
-          </div>
         </div>
+    </div>
 
-      <% }); %>
+    <% }); %>
     <% } %>
 
     <% if (sessionResult.getResources().getZoomLivenessResources().length > 0) { %>
-      <div class="row pt-4">
+    <div class="row pt-4">
         <div class="col">
-          <h2>Zoom Liveness Resources</h2>
+            <h2>Zoom Liveness Resources</h2>
         </div>
-      </div>
+    </div>
 
-      <% sessionResult.getResources().getZoomLivenessResources().forEach(function(livenessResource){ %>
+    <% sessionResult.getResources().getZoomLivenessResources().forEach(function(livenessResource){ %>
 
-        <div class="row pt-4">
-          <div class="col">
+    <div class="row pt-4">
+        <div class="col">
             <table class="table table-striped table-light">
-              <tbody>
-                <tr>
-                  <td>ID</td>
-                  <td><%= livenessResource.getId() %></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <% if (livenessResource.getFaceMap()) { %>
-          <div class="row pt-4">
-            <div class="col">
-              <h3>FaceMap Media</h3>
-              <% if (livenessResource.getFaceMap().getMedia()) { %>
-                <table class="table table-striped table-dark">
-                  <tbody>
+                <tbody>
                     <tr>
-                      <td>ID</td>
-                      <td><%= livenessResource.getFaceMap().getMedia().getId() %></td>
+                        <td>ID</td>
+                        <td><%= livenessResource.getId() %></td>
                     </tr>
-                  </tbody>
-                </table>
-              <% } %>
-            </div>
-          </div>
-        <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-        <% if (livenessResource.getFrames()){ %>
-          <div class="row pt-4">
-            <div class="col">
-              <h3>Frames</h3>
-              <div class="card-group">
+    <% if (livenessResource.getFaceMap()) { %>
+    <div class="row pt-4">
+        <div class="col">
+            <h3>FaceMap Media</h3>
+            <% if (livenessResource.getFaceMap().getMedia()) { %>
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>ID</td>
+                        <td><%= livenessResource.getFaceMap().getMedia().getId() %></td>
+                    </tr>
+                </tbody>
+            </table>
+            <% } %>
+        </div>
+    </div>
+    <% } %>
+
+    <% if (livenessResource.getFrames()){ %>
+    <div class="row pt-4">
+        <div class="col">
+            <h3>Frames</h3>
+            <div class="card-group">
                 <% livenessResource.getFrames().forEach(function(frame) { %>
-                  <% if (frame.getMedia()) { %>
-                  <div class="card">
+                <% if (frame.getMedia()) { %>
+                <div class="card">
                     <img class="card-img-top" src="/media?mediaId=<%= frame.getMedia().getId() %>" />
                     <div class="card-body">
-                      <h5 class="card-title">Frame</h5>
+                        <h5 class="card-title">Frame</h5>
                     </div>
-                  </div>
-                  <% } %>
+                </div>
+                <% } %>
                 <% }); %>
-              </div>
             </div>
-          </div>
-        <% } %>
-      <% }); %>
+        </div>
+    </div>
+    <% } %>
+    <% }); %>
 
     <% } %>
-  </div>
-</body>
-
-</html>
+</div>
+<%- include('layout/footer'); -%>
