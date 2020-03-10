@@ -1,4 +1,4 @@
-<table class="table table-striped table-dark">
+<table class="table table-striped">
     <tbody>
         <tr>
             <td>ID</td>
@@ -25,81 +25,81 @@
 
 <% if (check.getReport()) { %>
 
-    <% if (check.getReport().getRecommendation()) { %>
-        <h5>Recommendation</h5>
-        <table class="table table-striped table-dark">
-            <tbody>
-                <tr>
-                    <td>Value</td>
-                    <td><%= check.getReport().getRecommendation().getValue(); %></td>
-                </tr>
-                <tr>
-                    <td>Reason</td>
-                    <td><%= check.getReport().getRecommendation().getReason(); %></td>
-                </tr>
-                <tr>
-                    <td>Recovery Suggestion</td>
-                    <td><%= check.getReport().getRecommendation().getRecoverySuggestion(); %></td>
-                </tr>
-            </tbody>
-        </table>
-    <% } %>
+<% if (check.getReport().getRecommendation()) { %>
+<h5>Recommendation</h5>
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <td>Value</td>
+            <td><%= check.getReport().getRecommendation().getValue(); %></td>
+        </tr>
+        <tr>
+            <td>Reason</td>
+            <td><%= check.getReport().getRecommendation().getReason(); %></td>
+        </tr>
+        <tr>
+            <td>Recovery Suggestion</td>
+            <td><%= check.getReport().getRecommendation().getRecoverySuggestion(); %></td>
+        </tr>
+    </tbody>
+</table>
+<% } %>
 
-    <% if (check.getReport().getBreakdown()) { %>
-        <h5>Breakdown</h5>
-        <% check.getReport().getBreakdown().forEach(function(breakdown) { %>
-        <table class="table table-striped table-dark">
-            <tbody>
-                <tr>
-                    <td>Sub Check</td>
-                    <td><%= breakdown.getSubCheck(); %></td>
-                </tr>
-                <tr>
-                    <td>Result</td>
-                    <td><%= breakdown.getResult(); %></td>
-                </tr>
-                <% if (breakdown.getDetails()) { %>
-                <tr>
-                    <td>Details</td>
-                    <td>
-                        <table class="table table-striped table-dark">
-                            <tbody>
-                                <% breakdown.getDetails().forEach(function(details) { %>
-                                    <tr>
-                                        <td><%= details.getName(); %></td>
-                                        <td><%= details.getValue(); %></td>
-                                    </tr>
-                                <% }); %>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <% } %>
-            </tbody>
-        </table>
-        <% }); %>
-    <% } %>
+<% if (check.getReport().getBreakdown()) { %>
+<h5>Breakdown</h5>
+<% check.getReport().getBreakdown().forEach(function(breakdown) { %>
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <td>Sub Check</td>
+            <td><%= breakdown.getSubCheck(); %></td>
+        </tr>
+        <tr>
+            <td>Result</td>
+            <td><%= breakdown.getResult(); %></td>
+        </tr>
+        <% if (breakdown.getDetails()) { %>
+        <tr>
+            <td>Details</td>
+            <td>
+                <table class="table table-striped">
+                    <tbody>
+                        <% breakdown.getDetails().forEach(function(details) { %>
+                        <tr>
+                            <td><%= details.getName(); %></td>
+                            <td><%= details.getValue(); %></td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <% } %>
+    </tbody>
+</table>
+<% }); %>
+<% } %>
 
 <% } %>
 
 <% if (check.getGeneratedMedia() && check.getGeneratedMedia().length > 0) { %>
-    <h5>Generated Media</h5>
-    <% check.getGeneratedMedia().forEach(function(media) { %>
-    <table class="table table-striped table-dark">
-        <tbody>
-            <tr>
-                <td>ID</td>
-                <td><%= media.getId(); %></td>
-            </tr>
-            <tr>
-                <td>Type</td>
-                <td><%= media.getType(); %></td>
-            </tr>
-            <tr>
-                <td>Download</td>
-                <td><a href="/media?mediaId=<%= breakdown.getId() %>">Download &raquo;</a></td>
-            </tr>
-        </tbody>
-    </table>
-    <% }); %>
+<h5>Generated Media</h5>
+<% check.getGeneratedMedia().forEach(function(media) { %>
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <td>ID</td>
+            <td><%= media.getId(); %></td>
+        </tr>
+        <tr>
+            <td>Type</td>
+            <td><%= media.getType(); %></td>
+        </tr>
+        <tr>
+            <td>Download</td>
+            <td><a href="/media?mediaId=<%= breakdown.getId() %>">Download &raquo;</a></td>
+        </tr>
+    </tbody>
+</table>
+<% }); %>
 <% } %>
