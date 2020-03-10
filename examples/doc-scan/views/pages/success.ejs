@@ -1,5 +1,5 @@
 <%- include('layout/header'); -%>
-<div class="container">
+<div class="container mb-3">
 
     <div class="row">
         <div class="col">
@@ -150,112 +150,144 @@
         </div>
     </div>
 
-    <% sessionResult.getResources().getIdDocuments().forEach(function(document){ %>
+    <% 
+    let docNum = 0;
+    sessionResult.getResources().getIdDocuments().forEach(function(document) {
+        docNum++;
+        %>
     <div class="row pt-4">
         <div class="col">
-            <table class="table table-striped">
-                <tbody>
-                    <tr>
-                        <td>Type</td>
-                        <td><%= document.getDocumentType(); %></td>
-                    </tr>
-                    <tr>
-                        <td>Country</td>
-                        <td><%= document.getIssuingCountry(); %></td>
-                    </tr>
-                </tbody>
-            </table>
 
-        </div>
-    </div>
+            <h3><%= document.getDocumentType(); %> <span class="badge badge-primary"><%= document.getIssuingCountry(); %></span></h3>
 
-    <div class="row pt-4">
-        <div class="col">
-            <% if (document.getDocumentFields()) { %>
-            <h3>Document Fields</h3>
+            <div class="accordion mt-3" id="document-<%= docNum %>">
 
-            <% if (document.getDocumentFields().getMedia()) { %>
-            <h4>Media</h4>
-            <table class="table table-striped table-light">
-                <tbody>
-                    <tr>
-                        <td>ID</td>
-                        <td>
-                            <a href="/media?mediaId=<%= document.getDocumentFields().getMedia().getId() %>">
-                                <%= document.getDocumentFields().getMedia().getId() %>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <% } %>
-            <% } %>
-        </div>
-    </div>
-
-    <div class="row pt-4">
-        <div class="col">
-            <h3>Text Extraction Tasks</h3>
-            <% document.getTextExtractionTasks().forEach(function(task) { %>
-            <%- include('partials/task', { task }); %>
-
-            <% if (task.getGeneratedTextDataChecks().length > 0) { %>
-            <h4>Generated Text Data Checks</h4>
-            <% task.getGeneratedTextDataChecks().forEach(function(check) { %>
-            <table class="table table-striped">
-                <tbody>
-                    <tr>
-                        <td>ID</td>
-                        <td><%= check.getId() %></td>
-                    </tr>
-                </tbody>
-            </table>
-            <% }); %>
-            <% } %>
-
-            <% if (task.getGeneratedMedia().length > 0) { %>
-            <h4>Generated Media</h4>
-
-            <% task.getGeneratedMedia().forEach(function(media) { %>
-            <table class="table table-striped">
-                <tbody>
-                    <tr>
-                        <td>ID</td>
-                        <td>
-                            <a href="/media?mediaId=<%= media.getId() %>"><%= media.getId() %></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Type</td>
-                        <td><%= media.getType() %></td>
-                    </tr>
-                </tbody>
-            </table>
-            <% }); %>
-            <% } %>
-
-            <% }); %>
-
-        </div>
-    </div>
-
-    <div class="row pt-4">
-        <div class="col">
-            <% if (document.getPages()) { %>
-            <h3>Pages</h3>
-            <div class="card-group">
-                <% document.getPages().forEach(function(page) { %>
-                <% if (page.getMedia()) { %>
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="/media?mediaId=<%= page.getMedia().getId() %>" />
-                    <div class="card-body">
-                        <p>Method: <%= page.getCaptureMethod(); %></p>
+                <% if (document.getDocumentFields()) { %>
+                <div class="card">
+                    <div class="card-header" id="document-fields-<%= docNum %>">
+                        <h4 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-document-fields-<%= docNum %>" aria-expanded="true"
+                                aria-controls="collapse-document-fields-<%= docNum %>">
+                                Document Fields
+                            </button>
+                        </h4>
+                    </div>
+                    <div id="collapse-document-fields-<%= docNum %>" class="collapse" aria-labelledby="document-fields-<%= docNum %>"
+                        data-parent="#document-<%= docNum %>">
+                        <div class="card-body">
+                            <% if (document.getDocumentFields().getMedia()) { %>
+                            <h5>Media</h5>
+                            <table class="table table-striped table-light">
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>
+                                            <a
+                                                href="/media?mediaId=<%= document.getDocumentFields().getMedia().getId() %>">
+                                                <%= document.getDocumentFields().getMedia().getId() %>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </div>
                     </div>
                 </div>
                 <% } %>
-                <% }); %>
+
+                <% if (document.getTextExtractionTasks().length > 0) { %>
+                <div class="card">
+                    <div class="card-header" id="text-extraction-tasks-<%= docNum %>">
+                        <h4 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-text-extraction-tasks-<%= docNum %>" aria-expanded="true"
+                                aria-controls="collapse-text-extraction-tasks-<%= docNum %>">
+                                Text Extraction Tasks
+                            </button>
+                        </h4>
+                    </div>
+                    <div id="collapse-text-extraction-tasks-<%= docNum %>" class="collapse" aria-labelledby="text-extraction-tasks-<%= docNum %>"
+                        data-parent="#document-<%= docNum %>">
+                        <div class="card-body">
+                            <% document.getTextExtractionTasks().forEach(function(task) { %>
+                            <%- include('partials/task', { task }); %>
+
+                            <% if (task.getGeneratedTextDataChecks().length > 0) { %>
+                            <h5>Generated Text Data Checks</h5>
+                            <% task.getGeneratedTextDataChecks().forEach(function(check) { %>
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td><%= check.getId() %></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% }); %>
+                            <% } %>
+
+                            <% if (task.getGeneratedMedia().length > 0) { %>
+                            <h5>Generated Media</h5>
+
+                            <% task.getGeneratedMedia().forEach(function(media) { %>
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>
+                                            <a href="/media?mediaId=<%= media.getId() %>"><%= media.getId() %></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type</td>
+                                        <td><%= media.getType() %></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% }); %>
+                            <% } %>
+
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+
+                <% if (document.getPages()) { %>
+                <div class="card">
+                    <div class="card-header" id="document-pages-<%= docNum %>">
+                        <h4 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-document-pages-<%= docNum %>" aria-expanded="true"
+                                aria-controls="collapse-document-pages-<%= docNum %>">
+                                Pages
+                            </button>
+                        </h4>
+                    </div>
+                    <div id="collapse-document-pages-<%= docNum %>" class="collapse" aria-labelledby="document-pages-<%= docNum %>"
+                        data-parent="#document-<%= docNum %>">
+                        <div class="card-body">
+                            <div class="card-group">
+                                <% document.getPages().forEach(function(page) { %>
+                                <% if (page.getMedia()) { %>
+                                <div class="card" style="width: 18rem;">
+                                    <img class="card-img-top" src="/media?mediaId=<%= page.getMedia().getId() %>" />
+                                    <div class="card-body">
+                                        <p>Method: <%= page.getCaptureMethod(); %></p>
+                                    </div>
+                                </div>
+                                <% } %>
+                                <% }); %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
             </div>
-            <% } %>
 
         </div>
     </div>
@@ -282,46 +314,76 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-    </div>
 
-    <% if (livenessResource.getFaceMap()) { %>
-    <div class="row pt-4">
-        <div class="col">
-            <h3>FaceMap Media</h3>
-            <% if (livenessResource.getFaceMap().getMedia()) { %>
-            <table class="table table-striped">
-                <tbody>
-                    <tr>
-                        <td>ID</td>
-                        <td><%= livenessResource.getFaceMap().getMedia().getId() %></td>
-                    </tr>
-                </tbody>
-            </table>
-            <% } %>
-        </div>
-    </div>
-    <% } %>
+            <div class="accordion mt-3" id="document">
 
-    <% if (livenessResource.getFrames()){ %>
-    <div class="row pt-4">
-        <div class="col">
-            <h3>Frames</h3>
-            <div class="card-group">
-                <% livenessResource.getFrames().forEach(function(frame) { %>
-                <% if (frame.getMedia()) { %>
+                <% if (livenessResource.getFaceMap()) { %>
                 <div class="card">
-                    <img class="card-img-top" src="/media?mediaId=<%= frame.getMedia().getId() %>" />
-                    <div class="card-body">
-                        <h5 class="card-title">Frame</h5>
+                    <div class="card-header" id="liveness-facemap">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-liveness-facemap" aria-expanded="true"
+                                aria-controls="collapse-liveness-facemap">
+                                Face Map
+                            </button>
+                        </h3>
+                    </div>
+                    <div id="collapse-liveness-facemap" class="collapse" aria-labelledby="liveness-facemap"
+                        data-parent="#document">
+                        <div class="card-body">
+                            <% if (livenessResource.getFaceMap().getMedia()) { %>
+                            <h4>Media</h4>
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>
+                                            <a href="/media?mediaId=<%= livenessResource.getFaceMap().getMedia().getId() %>">
+                                                <%= livenessResource.getFaceMap().getMedia().getId() %>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </div>
                     </div>
                 </div>
                 <% } %>
-                <% }); %>
+
+                <% if (livenessResource.getFrames()){ %>
+                <div class="card">
+                    <div class="card-header" id="liveness-frames">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-liveness-frames" aria-expanded="true"
+                                aria-controls="collapse-liveness-frames">
+                                Frames
+                            </button>
+                        </h3>
+                    </div>
+                    <div id="collapse-liveness-frames" class="collapse" aria-labelledby="liveness-frames"
+                        data-parent="#document">
+                        <div class="card-group">
+                            <% livenessResource.getFrames().forEach(function(frame) { %>
+                            <% if (frame.getMedia()) { %>
+                            <div class="card">
+                                <img class="card-img-top" src="/media?mediaId=<%= frame.getMedia().getId() %>" />
+                                <div class="card-body">
+                                    <h5 class="card-title">Frame</h5>
+                                </div>
+                            </div>
+                            <% } %>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
             </div>
         </div>
     </div>
-    <% } %>
+
     <% }); %>
 
     <% } %>
