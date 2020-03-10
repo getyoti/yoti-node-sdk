@@ -1,6 +1,5 @@
 require('dotenv').config();
 
-const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -20,11 +19,12 @@ app.use(session({
 
 const router = express.Router();
 
-router.get('/', require('./controllers/index.controller'));
-router.get('/success', require('./controllers/success.controller'));
-router.get('/media', require('./controllers/media.controller'));
+router.get('/', require('./src/controllers/index.controller'));
+router.get('/success', require('./src/controllers/success.controller'));
+router.get('/media', require('./src/controllers/media.controller'));
+
 app.use('/', router);
 
-http.createServer({}, app).listen(port);
+app.listen(port);
 
 console.log(`Server running on https://localhost:${port}`);
