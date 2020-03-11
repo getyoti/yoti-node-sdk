@@ -313,24 +313,10 @@ yotiClient.performAmlCheck(amlProfile).then((amlResult) => {
 
 ## Running the Examples
 
-### Fetching the profile
-
-The example can be found [here](examples/profile).
-1. From the [Yoti Hub](https://hub.yoti.com) set the application domain of your app to `localhost:9443`
-1. Set the scenario callback URL to `/profile`
-1. Rename the [.env.example](examples/profile/.env.example) file to `.env` and fill in the required configuration values
-1. Install the dependencies with `npm install`
-1. Start the server `node index.js`
-
-Visiting the `https://localhost:9443` should show a Yoti Connect button
-
-### Performing an AML check
-
-The example can be found [here](examples/aml-check).
-
-* rename the [.env.example](examples/aml-check/.env.example) file to `.env` and fill in the required configuration values
-* install the dependencies with `npm install`
-* run the script with `node aml.js` or  `node aml-usa.js`
+### Follow instructions in the README for each example:
+* [Profile](examples/profile)
+* [AML](examples/aml-check)
+* [Doc Scan](examples/doc-scan)
 
 ## API Coverage
 
