@@ -62,16 +62,26 @@ describe('TaskResponse', () => {
   });
 
   describe('#getGeneratedChecks', () => {
-    it('should return list of generated checks', () => {
-      const checks = taskResponse.getGeneratedChecks();
+    describe('when checks are available', () => {
+      it('should return list of generated checks', () => {
+        const checks = taskResponse.getGeneratedChecks();
 
-      expect(checks.length).toBe(2);
+        expect(checks.length).toBe(2);
 
-      checks.forEach((check) => {
-        expect(check).toBeInstanceOf(GeneratedCheckResponse);
+        checks.forEach((check) => {
+          expect(check).toBeInstanceOf(GeneratedCheckResponse);
+        });
+
+        expect(checks[0]).toBeInstanceOf(GeneratedTextDataCheckResponse);
       });
-
-      expect(checks[0]).toBeInstanceOf(GeneratedTextDataCheckResponse);
+    });
+    describe('when checks are not available', () => {
+      it('should return empty array', () => {
+        taskResponse = new TaskResponse({});
+        const checks = taskResponse.getGeneratedChecks();
+        expect(checks).toBeInstanceOf(Array);
+        expect(checks.length).toBe(0);
+      });
     });
   });
 
@@ -85,11 +95,21 @@ describe('TaskResponse', () => {
   });
 
   describe('#getGeneratedMedia', () => {
-    it('should return generated media', () => {
-      const media = taskResponse.getGeneratedMedia();
-      expect(media.length).toBe(2);
-      media.forEach((mediaItem) => {
-        expect(mediaItem).toBeInstanceOf(GeneratedMedia);
+    describe('when generated media is available', () => {
+      it('should return generated media', () => {
+        const media = taskResponse.getGeneratedMedia();
+        expect(media.length).toBe(2);
+        media.forEach((mediaItem) => {
+          expect(mediaItem).toBeInstanceOf(GeneratedMedia);
+        });
+      });
+    });
+    describe('when generated media is not available', () => {
+      it('should return empty array', () => {
+        taskResponse = new TaskResponse({});
+        const media = taskResponse.getGeneratedMedia();
+        expect(media).toBeInstanceOf(Array);
+        expect(media.length).toBe(0);
       });
     });
   });

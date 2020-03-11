@@ -15,6 +15,14 @@ describe('IdDocumentResourceResponse', () => {
         someDetail: 'some-value',
       }],
       document_fields: {},
+      tasks: [
+        {
+          type: 'ID_DOCUMENT_TEXT_DATA_EXTRACTION',
+        },
+        {
+          type: 'SOME_UNKNOWN_TYPE',
+        },
+      ],
     });
   });
 

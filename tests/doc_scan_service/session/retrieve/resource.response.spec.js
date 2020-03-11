@@ -27,16 +27,26 @@ describe('ResourceResponse', () => {
   });
 
   describe('#getTasks', () => {
-    it('should return a list of tasks', () => {
-      const tasks = resourceResponse.getTasks();
+    describe('when tasks are available', () => {
+      it('should return a list of tasks', () => {
+        const tasks = resourceResponse.getTasks();
 
-      expect(tasks.length).toBe(2);
+        expect(tasks.length).toBe(2);
 
-      tasks.forEach((task) => {
-        expect(task).toBeInstanceOf(TaskResponse);
+        tasks.forEach((task) => {
+          expect(task).toBeInstanceOf(TaskResponse);
+        });
+
+        expect(tasks[0]).toBeInstanceOf(TextExtractionTaskResponse);
       });
-
-      expect(tasks[0]).toBeInstanceOf(TextExtractionTaskResponse);
+    });
+    describe('when tasks are not available', () => {
+      it('should return empty array', () => {
+        resourceResponse = new ResourceResponse({});
+        const tasks = resourceResponse.getTasks();
+        expect(tasks).toBeInstanceOf(Array);
+        expect(tasks.length).toBe(0);
+      });
     });
   });
 });

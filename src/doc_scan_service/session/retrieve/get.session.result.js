@@ -44,6 +44,8 @@ class GetSessionResult {
               return new CheckResponse(check);
           }
         });
+    } else {
+      this.checks = [];
     }
 
     if (response.resources) {
@@ -84,7 +86,7 @@ class GetSessionResult {
    * @returns {CheckResponse[]}
    */
   getChecks() {
-    return this.checks || [];
+    return this.checks;
   }
 
   /**
