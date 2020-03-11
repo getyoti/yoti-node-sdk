@@ -13,7 +13,11 @@
                     </tr>
                     <tr>
                         <td>State</td>
-                        <td><%= sessionResult.getState() %></td>
+                        <td>
+                            <span class="badge badge-<%= sessionResult.getState() == 'COMPLETED' ? 'success' : 'secondary' %>">
+                                <%= sessionResult.getState() %>
+                            </span>
+                        </td>
                     </tr>
                     <% if (sessionResult.getClientSessionToken()) { %>
                     <tr>

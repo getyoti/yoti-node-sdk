@@ -6,7 +6,11 @@
         </tr>
         <tr>
             <td>State</td>
-            <td><%= check.getState(); %></td>
+            <td>
+                <span class="badge badge-<%= check.getState() == 'DONE' ? 'success' : 'secondary' %>">
+                    <%= check.getState(); %>
+                </span>
+            </td>
         </tr>
         <tr>
             <td>Created</td>
