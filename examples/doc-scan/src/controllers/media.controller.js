@@ -1,4 +1,5 @@
 const config = require('../../config');
+const FileType = require('file-type');
 
 const {
   DocScanClient,
@@ -15,8 +16,19 @@ module.exports = async (req, res) => {
       req.session.DOC_SCAN_SESSION_ID,
       req.query.mediaId
     );
-    res.set('Content-Type', media.getMimeType());
-    res.status(200).end(media.getContent().buffer);
+
+    let contentType = media.getMimeType();
+    let buffer = media.getContent().toBuffer();
+
+    // If the media is base64 encoded, decode and detect the mime type.
+    if (req.query.base64 === '1') {
+      buffer = Buffer.from(buffer.toString('utf8'), 'base64');
+      const fileInfo = await FileType.fromBuffer(buffer);
+      contentType = fileInfo.mime || contentType;
+    }
+
+    res.set('Content-Type', contentType);
+    res.status(200).end(buffer);
   } catch (error) {
     res.render('pages/error', { error });
   }
