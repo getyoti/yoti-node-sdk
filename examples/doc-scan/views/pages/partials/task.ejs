@@ -6,7 +6,11 @@
         </tr>
         <tr>
             <td>State</td>
-            <td><%= task.getState(); %></td>
+            <td>
+                <span class="badge badge-<%= task.getState() == 'DONE' ? 'success' : 'secondary' %>">
+                    <%= task.getState(); %>
+                </span>
+            </td>
         </tr>
         <tr>
             <td>Created</td>
