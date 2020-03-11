@@ -48,7 +48,7 @@
         </tr>
         <% } %>
 
-        <% if (check.getReport().getBreakdown()) { %>
+        <% if (check.getReport().getBreakdown().length > 0) { %>
         <tr>
             <td>Breakdown</td>
             <td>
@@ -63,7 +63,7 @@
                             <td>Result</td>
                             <td><%= breakdown.getResult(); %></td>
                         </tr>
-                        <% if (breakdown.getDetails()) { %>
+                        <% if (breakdown.getDetails().length > 0) { %>
                         <tr>
                             <td>Details</td>
                             <td>
@@ -89,7 +89,7 @@
 
         <% } %>
 
-        <% if (check.getGeneratedMedia() && check.getGeneratedMedia().length > 0) { %>
+        <% if (check.getGeneratedMedia().length > 0) { %>
         <tr>
             <td>Generated Media</td>
             <td>
