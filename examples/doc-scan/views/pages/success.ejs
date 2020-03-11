@@ -256,7 +256,7 @@
                 <% } %>
 
 
-                <% if (document.getPages()) { %>
+                <% if (document.getPages().length > 0) { %>
                 <div class="card">
                     <div class="card-header" id="document-pages-<%= docNum %>">
                         <h4 class="mb-0">
@@ -351,7 +351,7 @@
                 </div>
                 <% } %>
 
-                <% if (livenessResource.getFrames()){ %>
+                <% if (livenessResource.getFrames().length > 0){ %>
                 <div class="card">
                     <div class="card-header" id="liveness-frames">
                         <h3 class="mb-0">
