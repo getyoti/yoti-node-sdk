@@ -55,6 +55,12 @@ jobs:
         - cd ./examples/profile
         - npm update
         - npm run lint
+    - name: Doc Scan
+      node_js: "10"
+      script:
+        - cd ./examples/doc-scan
+        - npm install
+        - npm run lint
     - stage: Coverage
       name: Coveralls
       if: type = pull_request OR branch = master
