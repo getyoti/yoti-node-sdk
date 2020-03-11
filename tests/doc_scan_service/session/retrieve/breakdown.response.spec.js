@@ -26,10 +26,20 @@ describe('BreakdownResponse', () => {
   });
 
   describe('#getDetails', () => {
-    it('should return array of details', () => {
-      const details = breakdownResponse.getDetails();
-      expect(details.length).toBe(1);
-      expect(details[0]).toBeInstanceOf(DetailsResponse);
+    describe('when details are available', () => {
+      it('should return array of details', () => {
+        const details = breakdownResponse.getDetails();
+        expect(details.length).toBe(1);
+        expect(details[0]).toBeInstanceOf(DetailsResponse);
+      });
+    });
+    describe('when details are not available', () => {
+      it('should return an empty array', () => {
+        breakdownResponse = new BreakdownResponse({});
+        const details = breakdownResponse.getDetails();
+        expect(details).toBeInstanceOf(Array);
+        expect(details.length).toBe(0);
+      });
     });
   });
 });

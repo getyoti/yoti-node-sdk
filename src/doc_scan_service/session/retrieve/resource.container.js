@@ -13,6 +13,8 @@ class ResourceContainer {
       this.idDocuments = resources
         .id_documents
         .map(resource => new IdDocumentResourceResponse(resource));
+    } else {
+      this.idDocuments = [];
     }
 
     if (resources.liveness_capture) {
@@ -27,6 +29,8 @@ class ResourceContainer {
               return new LivenessResourceResponse(resource);
           }
         });
+    } else {
+      this.livenessCapture = [];
     }
   }
 
@@ -47,7 +51,7 @@ class ResourceContainer {
    *   The list of liveness resources
    */
   getLivenessCapture() {
-    return this.livenessCapture || [];
+    return this.livenessCapture;
   }
 
   /**

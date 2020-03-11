@@ -20,6 +20,8 @@ class ResourceResponse {
               return new TaskResponse(task);
           }
         });
+    } else {
+      this.tasks = [];
     }
   }
 
@@ -27,7 +29,7 @@ class ResourceResponse {
    * @returns {TaskResponse[]}
    */
   getTasks() {
-    return this.tasks || [];
+    return this.tasks;
   }
 
   /**

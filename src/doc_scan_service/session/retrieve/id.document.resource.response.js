@@ -19,6 +19,8 @@ class IdDocumentResourceResponse extends ResourceResponse {
     if (resource.pages) {
       Validation.isArray(resource.pages, 'pages');
       this.pages = resource.pages.map(page => new PageResponse(page));
+    } else {
+      this.pages = [];
     }
 
     if (resource.document_fields) {

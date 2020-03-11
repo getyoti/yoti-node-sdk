@@ -36,11 +36,15 @@ class TaskResponse {
               return new GeneratedCheckResponse(check);
           }
         });
+    } else {
+      this.generatedChecks = [];
     }
 
     if (task.generated_media) {
       Validation.isArray(task.generated_media, 'generated_media');
       this.generatedMedia = task.generated_media.map(media => new GeneratedMedia(media));
+    } else {
+      this.generatedMedia = [];
     }
   }
 
@@ -76,7 +80,7 @@ class TaskResponse {
    * @returns {GeneratedCheckResponse[]}
    */
   getGeneratedChecks() {
-    return this.generatedChecks || [];
+    return this.generatedChecks;
   }
 
   /**

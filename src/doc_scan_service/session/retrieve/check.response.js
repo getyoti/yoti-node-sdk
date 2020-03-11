@@ -16,11 +16,15 @@ class CheckResponse {
     if (check.resources_used) {
       Validation.isArrayOfStrings(check.resources_used, 'resources_used');
       this.resourcesUsed = check.resources_used;
+    } else {
+      this.resourcesUsed = [];
     }
 
     if (check.generated_media) {
       Validation.isArray(check.generated_media, 'generated_media');
       this.generatedMedia = check.generated_media.map(media => new GeneratedMedia(media));
+    } else {
+      this.generatedMedia = [];
     }
 
     if (check.report) {

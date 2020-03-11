@@ -13,6 +13,8 @@ class ReportResponse {
     if (report.breakdown) {
       Validation.isArray(report.breakdown, 'breakdown');
       this.breakdown = report.breakdown.map(breakdown => new BreakdownResponse(breakdown));
+    } else {
+      this.breakdown = [];
     }
   }
 

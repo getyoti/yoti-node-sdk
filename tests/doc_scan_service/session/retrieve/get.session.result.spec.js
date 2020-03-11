@@ -68,14 +68,24 @@ describe('GetSessionResult', () => {
   });
 
   describe('#getChecks', () => {
-    it('should return array of checks', () => {
-      const checks = session.getChecks();
-      expect(checks.length).toBe(4);
-      expect(checks[0]).toBeInstanceOf(AuthenticityCheckResponse);
-      expect(checks[1]).toBeInstanceOf(ZoomLivenessCheckResponse);
-      expect(checks[2]).toBeInstanceOf(FaceMatchCheckResponse);
-      expect(checks[3]).toBeInstanceOf(TextDataCheckResponse);
-      checks.forEach(check => expect(check).toBeInstanceOf(CheckResponse));
+    describe('when checks are available', () => {
+      it('should return array of checks', () => {
+        const checks = session.getChecks();
+        expect(checks.length).toBe(4);
+        expect(checks[0]).toBeInstanceOf(AuthenticityCheckResponse);
+        expect(checks[1]).toBeInstanceOf(ZoomLivenessCheckResponse);
+        expect(checks[2]).toBeInstanceOf(FaceMatchCheckResponse);
+        expect(checks[3]).toBeInstanceOf(TextDataCheckResponse);
+        checks.forEach(check => expect(check).toBeInstanceOf(CheckResponse));
+      });
+    });
+    describe('when checks are not available', () => {
+      it('should return empty array', () => {
+        session = new GetSessionResult({});
+        const checks = session.getChecks();
+        expect(checks).toBeInstanceOf(Array);
+        expect(checks.length).toBe(0);
+      });
     });
   });
 
@@ -112,7 +122,7 @@ describe('GetSessionResult', () => {
   });
 
   describe('#getResources', () => {
-    it('should return array of resources', () => {
+    it('should return resource container', () => {
       const resources = session.getResources();
       expect(resources).toBeInstanceOf(ResourceContainer);
     });
