@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const controllers = require('./src/controllers');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,9 +20,9 @@ app.use(session({
 
 const router = express.Router();
 
-router.get('/', require('./src/controllers/index.controller'));
-router.get('/success', require('./src/controllers/success.controller'));
-router.get('/media', require('./src/controllers/media.controller'));
+router.get('/', controllers.indexController);
+router.get('/success', controllers.successController);
+router.get('/media', controllers.mediaController);
 
 app.use('/', router);
 
