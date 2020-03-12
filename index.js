@@ -5,6 +5,7 @@ const { AmlAddress, AmlProfile } = require('./src/aml_type');
 const { RequestBuilder } = require('./src/request/request.builder');
 const { Payload } = require('./src/request/payload');
 const { YotiDate } = require('./src/data_type/date');
+const constants = require('./src/yoti_common/constants');
 
 const {
   DynamicScenarioBuilder,
@@ -56,4 +57,5 @@ module.exports = {
   RequestedFaceMatchCheckBuilder,
   RequestedLivenessCheckBuilder,
   RequestedTextExtractionTaskBuilder,
+  constants,
 };
