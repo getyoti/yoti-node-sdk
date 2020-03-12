@@ -12,7 +12,7 @@
     "node": ">=6"
   },
   "scripts": {
-    "lint": "eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js './sandbox/**/*.js'",
+    "lint": "eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
     "unit-test": "jest",
     "test": "npm run lint && npm run unit-test",
     "coveralls": "npm run unit-test && cat ./coverage/lcov.info | coveralls"
@@ -28,7 +28,6 @@
     "collectCoverageFrom": [
       "./*.js",
       "./src/**/*.js",
-      "./sandbox/**/*.js",
       "!**/node_modules/**",
       "!**/vendor/**"
     ],
