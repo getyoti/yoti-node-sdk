@@ -3,20 +3,20 @@ const ImageJpeg = require('../../src/data_type/image.jpeg');
 const ImagePng = require('../../src/data_type/image.png');
 
 const getTestValues = () => [
-  new ImageJpeg('image_1'),
-  new ImagePng('image_2'),
+  new ImageJpeg(Buffer.from('image_1')),
+  new ImagePng(Buffer.from('image_2')),
   'test string',
   { name: 'test object' },
   ['test', 'array'],
   new MultiValue([
-    new ImageJpeg('image_3'),
-    new ImagePng('image_4'),
+    new ImageJpeg(Buffer.from('image_3')),
+    new ImagePng(Buffer.from('image_4')),
     'test string 2',
     { name: 'test object 2' },
     ['test', 'array 2'],
     new MultiValue([
-      new ImageJpeg('image_5'),
-      new ImagePng('image_6'),
+      new ImageJpeg(Buffer.from('image_5')),
+      new ImagePng(Buffer.from('image_6')),
       'test string 3',
       { name: 'test object 3' },
       ['test', 'array 3'],

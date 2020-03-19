@@ -17,10 +17,14 @@ module.exports = class Validation {
   /**
    * @param {*} value
    * @param {string} name
+   * @param {bool} optional the value can be undefined
    *
    * @throws {TypeError}
    */
-  static isString(value, name) {
+  static isString(value, name, optional = false) {
+    if ((typeof value) === 'undefined' && optional) {
+      return;
+    }
     if ((typeof value) !== 'string') {
       throw TypeError(`${name} must be a string`);
     }
@@ -68,10 +72,14 @@ module.exports = class Validation {
   /**
    * @param {*} value
    * @param {string} name
+   * @param {bool} optional the value can be undefined
    *
    * @throws {TypeError}
    */
-  static isInteger(value, name) {
+  static isInteger(value, name, optional = false) {
+    if ((typeof value) === 'undefined' && optional) {
+      return;
+    }
     if (!Number.isInteger(value)) {
       throw TypeError(`${name} must be an integer`);
     }
@@ -84,7 +92,7 @@ module.exports = class Validation {
    * @throws {TypeError}
    */
   static isNumber(value, name) {
-    if (Number.isNaN(value)) {
+    if (typeof value !== 'number') {
       throw TypeError(`${name} must be a number`);
     }
   }
@@ -138,10 +146,23 @@ module.exports = class Validation {
    *
    * @throws {TypeError}
    */
+  static isArrayOfStrings(values, name) {
+    this.isArray(values, name);
+    values.forEach((value) => {
+      this.isString(value, `${name} items`);
+    });
+  }
+
+  /**
+   * @param {*} values
+   * @param {string} name
+   *
+   * @throws {TypeError}
+   */
   static isArrayOfIntegers(values, name) {
     this.isArray(values, name);
     values.forEach((value) => {
-      this.isInteger(value, 'authType');
+      this.isInteger(value, `${name} items`);
     });
   }
 

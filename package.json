@@ -1,6 +1,6 @@
 {
   "name": "yoti",
-  "version": "3.8.1",
+  "version": "3.9.0",
   "description": "Yoti NodeJS SDK for back-end integration",
   "author": "Yoti LTD <tech@yoti.com> (https://www.yoti.com/developers)",
   "license": "MIT",
@@ -12,7 +12,7 @@
     "node": ">=6"
   },
   "scripts": {
-    "lint": "eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js './sandbox/**/*.js'",
+    "lint": "eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
     "unit-test": "jest",
     "test": "npm run lint && npm run unit-test",
     "coveralls": "npm run unit-test && cat ./coverage/lcov.info | coveralls"
@@ -28,7 +28,6 @@
     "collectCoverageFrom": [
       "./*.js",
       "./src/**/*.js",
-      "./sandbox/**/*.js",
       "!**/node_modules/**",
       "!**/vendor/**"
     ],
@@ -36,7 +35,8 @@
   },
   "dependencies": {
     "base64-url": "^2.2.1",
-    "node-forge": "^0.7.6",
+    "bytebuffer": "^5.0.1",
+    "node-forge": "^0.9.1",
     "node-rsa": "^1.0.3",
     "protobufjs": "^5.0.3",
     "safe-buffer": "^5.1.2",
@@ -49,7 +49,7 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jest": "^21.27.2",
-    "eslint-plugin-node": "6.0.1",
+    "eslint-plugin-node": "8.0.1",
     "husky": "^1.3.1",
     "jest": "^24.9.0",
     "nock": "^9.6.1"

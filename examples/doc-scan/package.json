@@ -1,0 +1,28 @@
+{
+  "name": "yoti-node-sdk-doc-scan-demo",
+  "description": "A Yoti Doc Scan Demo",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "lint": "node_modules/.bin/eslint *.js src/*/**.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "file-type": "^14.1.4",
+    "yoti": "file:../.."
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-node": "^6.0.1"
+  }
+}

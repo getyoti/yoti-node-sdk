@@ -24,7 +24,7 @@ describe('YotiDate', () => {
       ['1920-03-13T19:50:53.000001Z', '1920-03-13T19:50:53.000001Z'],
       ['1920-03-13T19:50:53.999999Z', '1920-03-13T19:50:53.999999Z'],
       ['1920-03-13T19:50:53.000100Z', '1920-03-13T19:50:53.000100Z'],
-    ])('%s should match %s', (dateString, expected) => {
+    ])('%s should convert to RFC-3339 date/time %s', (dateString, expected) => {
       expect(YotiDate.fromDateString(dateString).getMicrosecondTimestamp())
         .toBe(expected);
     });
@@ -32,22 +32,37 @@ describe('YotiDate', () => {
 
   describe('#getMicrosecondTime()', () => {
     test.each([
-      ['-1571630945999999', '19:50:54.000001'],
-      ['1571630945999999', '04:09:05.999999'],
+      [-1571630945999999, '19:50:54.000001'],
+      [1571630945999999, '04:09:05.999999'],
     ])('%s should have microsecond time %s', (timestamp, microsecondTime) => {
       expect(new YotiDate(parseInt(timestamp, 10)).getMicrosecondTime())
         .toBe(microsecondTime);
     });
   });
 
+  const validTimestamps = [
+    [-1571630945999999, '1920-03-13T19:50:54.000001Z'],
+    [1571630945999999, '2019-10-21T04:09:05.999999Z'],
+  ];
+
   describe('#getMicrosecondTimestamp()', () => {
-    test.each([
-      ['-1571630945999999', '1920-03-13T19:50:54.000001Z'],
-      ['1571630945999999', '2019-10-21T04:09:05.999999Z'],
-    ])('%s should have microsecond timestamp %s', (timestamp, microsecondTime) => {
-      expect(new YotiDate(parseInt(timestamp, 10)).getMicrosecondTimestamp())
-        .toBe(microsecondTime);
-    });
+    test.each(validTimestamps)(
+      '%s unix timestamp should have RFC-3339 date/time string %s',
+      (timestamp, dateTimeString) => {
+        expect(new YotiDate(timestamp).getMicrosecondTimestamp())
+          .toBe(dateTimeString);
+      }
+    );
+  });
+
+  describe('#getMicrosecondUnixTimestamp()', () => {
+    test.each(validTimestamps)(
+      '%s unix timestamp should be returned for RFC-3339 date/time string %s',
+      (timestamp, dateTimeString) => {
+        expect(YotiDate.fromDateString(dateTimeString).getMicrosecondUnixTimestamp())
+          .toBe(timestamp);
+      }
+    );
   });
 
   describe('#getMicroseconds()', () => {

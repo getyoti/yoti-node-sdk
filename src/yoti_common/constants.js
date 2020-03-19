@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = Object.freeze({
+  API_BASE_URL: 'https://api.yoti.com',
   ON_PEP_LIST_ATTR: 'on_pep_list',
   ON_FRAUD_LIST_ATTR: 'on_fraud_list',
   ON_WATCH_LIST_ATTR: 'on_watch_list',
