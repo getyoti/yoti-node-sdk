@@ -135,8 +135,8 @@ app.use('/', router);
 // START THE SERVER
 // =============================================================================
 https.createServer({
-  key: fs.readFileSync(path.join(__dirname, 'keys', 'server-key.pem')),
-  cert: fs.readFileSync(path.join(__dirname, 'keys', 'server-cert.pem')),
+  key: fs.readFileSync(path.join(__dirname, '../keys', 'server-key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, '../keys', 'server-cert.pem')),
 }, app).listen(port);
 
 console.log(`Server running on https://localhost:${port}`);
