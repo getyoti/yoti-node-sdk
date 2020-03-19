@@ -1,6 +1,9 @@
 require('dotenv').config();
 
 const express = require('express');
+const https = require('https');
+const fs = require('fs');
+const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const controllers = require('./src/controllers');
@@ -26,6 +29,9 @@ router.get('/media', controllers.mediaController);
 
 app.use('/', router);
 
-app.listen(port);
+https.createServer({
+  key: fs.readFileSync(path.join(__dirname, '../keys', 'server-key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, '../keys', 'server-cert.pem')),
+}, app).listen(port);
 
 console.log(`Server running on https://localhost:${port}`);
