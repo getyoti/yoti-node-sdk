@@ -83,6 +83,7 @@ describe('SessionSpecificationBuilder', () => {
       sdk_config: {
         allowed_capture_methods: 'CAMERA',
       },
+      required_documents: [],
     });
 
     expect(JSON.stringify(sessionSpec)).toBe(expectedJson);

@@ -77,6 +77,15 @@ class DocScanClient {
   deleteMediaContent(sessionId, mediaId) {
     return this.docScanService.deleteMediaContent(sessionId, mediaId);
   }
+
+  /**
+   * Gets a list of supported documents.
+   *
+   * @returns {Promise}
+   */
+  getSupportedDocuments() {
+    return this.docScanService.getSupportedDocuments();
+  }
 }
 
 module.exports = DocScanClient;

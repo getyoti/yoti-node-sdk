@@ -9,6 +9,12 @@ const RequestedDocumentAuthenticityCheckBuilder = require('./session/create/chec
 const RequestedFaceMatchCheckBuilder = require('./session/create/check/requested.face.match.check.builder');
 const RequestedLivenessCheckBuilder = require('./session/create/check/requested.liveness.check.builder');
 const RequestedTextExtractionTaskBuilder = require('./session/create/task/requested.text.extraction.task.builder');
+const RequiredIdentityDocumentBuilder = require('./session/create/filters/required.identity.document.builder');
+const DocumentRestrictionsFilterBuilder = require('./session/create/filters/document/document.restrictions.filter.builder');
+const DocumentRestrictionBuilder = require('./session/create/filters/document/document.restriction.builder');
+const OrthogonalRestrictionsFilterBuilder = require('./session/create/filters/orthogonal/orthogonal.restrictions.filter.builder');
+const TypeRestrictionBuilder = require('./session/create/filters/orthogonal/type.restriction.builder');
+const CountryRestrictionBuilder = require('./session/create/filters/orthogonal/country.restriction.builder');
 
 module.exports = {
   DocScanService,
@@ -20,4 +26,10 @@ module.exports = {
   RequestedFaceMatchCheckBuilder,
   RequestedLivenessCheckBuilder,
   RequestedTextExtractionTaskBuilder,
+  RequiredIdentityDocumentBuilder,
+  DocumentRestrictionsFilterBuilder,
+  DocumentRestrictionBuilder,
+  OrthogonalRestrictionsFilterBuilder,
+  TypeRestrictionBuilder,
+  CountryRestrictionBuilder,
 };
