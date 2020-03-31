@@ -9,6 +9,7 @@ const Validation = require('../yoti_common/validation');
 const config = require('../../config');
 const Media = require('../data_type/media');
 const DocScanError = require('./doc.scan.error');
+const SupportedDocumentsResponse = require('./support/supported.documents.response');
 
 /**
  * @param {string} sessionId
@@ -196,6 +197,26 @@ class DocScanService {
     return new Promise((resolve, reject) => {
       request.execute(true)
         .then(() => resolve())
+        .catch(err => reject(new DocScanError(err)));
+    });
+  }
+
+  /**
+   * Gets a list of supported documents.
+   *
+   * @returns {Promise}
+   */
+  getSupportedDocuments() {
+    const request = new RequestBuilder()
+      .withPemString(this.pem)
+      .withBaseUrl(config.yoti.docScanApi)
+      .withEndpoint('/supported-documents')
+      .withGet()
+      .build();
+
+    return new Promise((resolve, reject) => {
+      request.execute()
+        .then(response => resolve(new SupportedDocumentsResponse(response.getParsedResponse())))
         .catch(err => reject(new DocScanError(err)));
     });
   }
