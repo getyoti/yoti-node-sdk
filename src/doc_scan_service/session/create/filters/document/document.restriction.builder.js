@@ -9,7 +9,7 @@ class DocumentRestrictionBuilder {
 
   withDocumentType(documentType) {
     Validation.isString(documentType, 'documentType');
-    this.countryCodes.push(documentType);
+    this.documentTypes.push(documentType);
     return this;
   }
 

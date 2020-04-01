@@ -5,6 +5,12 @@ class RequiredDocumentFilter {
     Validation.isString(type, 'type');
     this.type = type;
   }
+
+  toJSON() {
+    return {
+      type: this.type,
+    };
+  }
 }
 
 module.exports = RequiredDocumentFilter;
