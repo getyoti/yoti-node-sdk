@@ -1,10 +1,9 @@
 const Validation = require('../../../../../yoti_common/validation');
-const RequiredDocumentFilter = require('../required.document.filter');
 const OrthogonalRestrictionsFilter = require('./orthogonal.restrictions.filter');
 const TypeRestriction = require('./type.restriction');
 const CountryRestriction = require('./country.restriction');
 
-class OrthogonalRestrictionsFilterBuilder extends RequiredDocumentFilter {
+class OrthogonalRestrictionsFilterBuilder {
   withCountryRestriction(countryRestriction) {
     Validation.instanceOf(countryRestriction, CountryRestriction, 'countryRestriction');
     this.countryRestriction = countryRestriction;
