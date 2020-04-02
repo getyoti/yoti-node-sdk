@@ -6,6 +6,8 @@ const {
   RequestedDocumentAuthenticityCheckBuilder,
   NotificationConfigBuilder,
   SdkConfigBuilder,
+  RequiredIdentityDocumentBuilder,
+  DocumentRestrictionsFilterBuilder,
 } = require('../../../../');
 
 describe('SessionSpecificationBuilder', () => {
@@ -33,6 +35,13 @@ describe('SessionSpecificationBuilder', () => {
     const docAuthenticityCheck = new RequestedDocumentAuthenticityCheckBuilder()
       .build();
 
+    const documentFilter = new DocumentRestrictionsFilterBuilder()
+      .forWhitelist()
+      .build();
+    const requiredDocument = new RequiredIdentityDocumentBuilder()
+      .withFilter(documentFilter)
+      .build();
+
     const sessionSpec = new SessionSpecificationBuilder()
       .withClientSessionTokenTtl(30)
       .withUserTrackingId('some-tracking-id')
@@ -43,6 +52,7 @@ describe('SessionSpecificationBuilder', () => {
       .withRequestedCheck(livenessCheck)
       .withRequestedCheck(docAuthenticityCheck)
       .withRequestedTask(textExtractionTask)
+      .withRequiredDocument(requiredDocument)
       .build();
 
     const expectedJson = JSON.stringify({
@@ -83,7 +93,16 @@ describe('SessionSpecificationBuilder', () => {
       sdk_config: {
         allowed_capture_methods: 'CAMERA',
       },
-      required_documents: [],
+      required_documents: [
+        {
+          type: 'ID_DOCUMENT',
+          filter: {
+            type: 'DOCUMENT_RESTRICTIONS',
+            inclusion: 'WHITELIST',
+            documents: [],
+          },
+        },
+      ],
     });
 
     expect(JSON.stringify(sessionSpec)).toBe(expectedJson);

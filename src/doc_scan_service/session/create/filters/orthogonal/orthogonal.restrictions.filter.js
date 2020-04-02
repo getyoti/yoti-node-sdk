@@ -8,11 +8,15 @@ class OrthogonalRestrictionsFilter extends RequiredDocumentFilter {
   constructor(countryRestriction, typeRestriction) {
     super(DocScanConstants.ORTHOGONAL_RESTRICTIONS);
 
-    Validation.instanceOf(countryRestriction, CountryRestriction, 'countryRestriction');
-    this.countryRestriction = countryRestriction;
+    if (countryRestriction) {
+      Validation.instanceOf(countryRestriction, CountryRestriction, 'countryRestriction');
+      this.countryRestriction = countryRestriction;
+    }
 
-    Validation.instanceOf(typeRestriction, TypeRestriction, 'typeRestriction');
-    this.typeRestriction = typeRestriction;
+    if (typeRestriction) {
+      Validation.instanceOf(typeRestriction, TypeRestriction, 'typeRestriction');
+      this.typeRestriction = typeRestriction;
+    }
   }
 
   toJSON() {
