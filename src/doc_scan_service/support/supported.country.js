@@ -6,7 +6,7 @@ class SupportedCountry {
     Validation.isString(country.code, 'code', true);
     this.code = country.code;
 
-    if (this.supportedDocuments) {
+    if (country.supported_documents) {
       this.supportedDocuments = country.supported_documents
         .map(document => new SupportedDocument(document));
     } else {
