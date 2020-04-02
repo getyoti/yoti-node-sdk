@@ -2,6 +2,10 @@ const Validation = require('../../../../yoti_common/validation');
 
 class RequiredDocumentFilter {
   constructor(type) {
+    if (new.target === RequiredDocumentFilter) {
+      throw TypeError('RequiredDocumentFilter cannot be instantiated');
+    }
+
     Validation.isString(type, 'type');
     this.type = type;
   }
