@@ -2,11 +2,15 @@ const Validation = require('../../../../../yoti_common/validation');
 
 class DocumentRestriction {
   constructor(documentTypes, countryCodes) {
-    Validation.isArrayOfStrings(documentTypes, 'documentTypes');
-    this.documentTypes = documentTypes;
+    if (documentTypes && documentTypes.length > 0) {
+      Validation.isArrayOfStrings(documentTypes, 'documentTypes');
+      this.documentTypes = documentTypes;
+    }
 
-    Validation.isArrayOfStrings(countryCodes, 'countryCodes');
-    this.countryCodes = countryCodes;
+    if (countryCodes && countryCodes.length > 0) {
+      Validation.isArrayOfStrings(countryCodes, 'countryCodes');
+      this.countryCodes = countryCodes;
+    }
   }
 
   toJSON() {
