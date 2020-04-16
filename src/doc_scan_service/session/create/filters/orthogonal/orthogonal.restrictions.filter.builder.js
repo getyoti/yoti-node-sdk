@@ -1,18 +1,38 @@
-const Validation = require('../../../../../yoti_common/validation');
 const OrthogonalRestrictionsFilter = require('./orthogonal.restrictions.filter');
 const TypeRestriction = require('./type.restriction');
 const CountryRestriction = require('./country.restriction');
+const DocScanConstants = require('../../../../doc.scan.constants');
 
 class OrthogonalRestrictionsFilterBuilder {
-  withCountryRestriction(countryRestriction) {
-    Validation.instanceOf(countryRestriction, CountryRestriction, 'countryRestriction');
-    this.countryRestriction = countryRestriction;
+  withWhitelistedCountries(countryCodes) {
+    this.countryRestriction = new CountryRestriction(
+      DocScanConstants.INCLUSION_WHITELIST,
+      countryCodes
+    );
     return this;
   }
 
-  withTypeRestriction(typeRestriction) {
-    Validation.instanceOf(typeRestriction, TypeRestriction, 'typeRestriction');
-    this.typeRestriction = typeRestriction;
+  withBlacklistedCountries(countryCodes) {
+    this.countryRestriction = new CountryRestriction(
+      DocScanConstants.INCLUSION_BLACKLIST,
+      countryCodes
+    );
+    return this;
+  }
+
+  withWhitelistedDocumentTypes(documentTypes) {
+    this.typeRestriction = new TypeRestriction(
+      DocScanConstants.INCLUSION_WHITELIST,
+      documentTypes
+    );
+    return this;
+  }
+
+  withBlacklistedDocumentTypes(documentTypes) {
+    this.typeRestriction = new TypeRestriction(
+      DocScanConstants.INCLUSION_BLACKLIST,
+      documentTypes
+    );
     return this;
   }
 
