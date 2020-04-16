@@ -1,15 +1,11 @@
 const {
   OrthogonalRestrictionsFilterBuilder,
-  TypeRestrictionBuilder,
-  CountryRestrictionBuilder,
 } = require('../../../../../..');
 
-const SOME_COUNTRY_RESTRICTION = new CountryRestrictionBuilder()
-  .forWhitelist()
-  .build();
-const SOME_TYPE_RESTRICTION = new TypeRestrictionBuilder()
-  .forWhitelist()
-  .build();
+const SOME_DOCUMENT_TYPE = 'some-document-type';
+const SOME_OTHER_DOCUMENT_TYPE = 'some-other-document-type';
+const SOME_COUNTRY_CODE = 'some-country-code';
+const SOME_OTHER_COUNTRY_CODE = 'some-other-country-code';
 
 describe('OrthogonalRestrictionsFilterBuilder', () => {
   it('should build OrthogonalRestrictionsFilter', () => {
@@ -21,41 +17,101 @@ describe('OrthogonalRestrictionsFilterBuilder', () => {
       }));
   });
 
-  it('should build OrthogonalRestrictionsFilter with country restriction', () => {
+  it('should build OrthogonalRestrictionsFilter with country and type restrictions', () => {
     const orthogonalRestrictionsFilter = new OrthogonalRestrictionsFilterBuilder()
-      .withCountryRestriction(SOME_COUNTRY_RESTRICTION)
+      .withWhitelistedCountries([SOME_COUNTRY_CODE, SOME_OTHER_COUNTRY_CODE])
+      .withWhitelistedDocumentTypes([SOME_DOCUMENT_TYPE, SOME_OTHER_DOCUMENT_TYPE])
       .build();
 
     expect(JSON.stringify(orthogonalRestrictionsFilter))
       .toBe(JSON.stringify({
         type: 'ORTHOGONAL_RESTRICTIONS',
-        country_restriction: SOME_COUNTRY_RESTRICTION,
+        country_restriction: {
+          inclusion: 'WHITELIST',
+          country_codes: [
+            SOME_COUNTRY_CODE,
+            SOME_OTHER_COUNTRY_CODE,
+          ],
+        },
+        type_restriction: {
+          inclusion: 'WHITELIST',
+          document_types: [
+            SOME_DOCUMENT_TYPE,
+            SOME_OTHER_DOCUMENT_TYPE,
+          ],
+        },
       }));
   });
 
-  it('should build OrthogonalRestrictionsFilter with type restriction', () => {
+  it('should build OrthogonalRestrictionsFilter with whitelisted countries', () => {
     const orthogonalRestrictionsFilter = new OrthogonalRestrictionsFilterBuilder()
-      .withTypeRestriction(SOME_TYPE_RESTRICTION)
+      .withWhitelistedCountries([SOME_COUNTRY_CODE, SOME_OTHER_COUNTRY_CODE])
       .build();
 
     expect(JSON.stringify(orthogonalRestrictionsFilter))
       .toBe(JSON.stringify({
         type: 'ORTHOGONAL_RESTRICTIONS',
-        type_restriction: SOME_TYPE_RESTRICTION,
+        country_restriction: {
+          inclusion: 'WHITELIST',
+          country_codes: [
+            SOME_COUNTRY_CODE,
+            SOME_OTHER_COUNTRY_CODE,
+          ],
+        },
       }));
   });
 
-  it('should build OrthogonalRestrictionsFilter with type and country restrictions', () => {
+  it('should build OrthogonalRestrictionsFilter with blacklisted countries', () => {
     const orthogonalRestrictionsFilter = new OrthogonalRestrictionsFilterBuilder()
-      .withTypeRestriction(SOME_TYPE_RESTRICTION)
-      .withCountryRestriction(SOME_COUNTRY_RESTRICTION)
+      .withBlacklistedCountries([SOME_COUNTRY_CODE, SOME_OTHER_COUNTRY_CODE])
       .build();
 
     expect(JSON.stringify(orthogonalRestrictionsFilter))
       .toBe(JSON.stringify({
         type: 'ORTHOGONAL_RESTRICTIONS',
-        country_restriction: SOME_COUNTRY_RESTRICTION,
-        type_restriction: SOME_TYPE_RESTRICTION,
+        country_restriction: {
+          inclusion: 'BLACKLIST',
+          country_codes: [
+            SOME_COUNTRY_CODE,
+            SOME_OTHER_COUNTRY_CODE,
+          ],
+        },
+      }));
+  });
+
+  it('should build OrthogonalRestrictionsFilter with whitelisted document types', () => {
+    const orthogonalRestrictionsFilter = new OrthogonalRestrictionsFilterBuilder()
+      .withWhitelistedDocumentTypes([SOME_DOCUMENT_TYPE, SOME_OTHER_DOCUMENT_TYPE])
+      .build();
+
+    expect(JSON.stringify(orthogonalRestrictionsFilter))
+      .toBe(JSON.stringify({
+        type: 'ORTHOGONAL_RESTRICTIONS',
+        type_restriction: {
+          inclusion: 'WHITELIST',
+          document_types: [
+            SOME_DOCUMENT_TYPE,
+            SOME_OTHER_DOCUMENT_TYPE,
+          ],
+        },
+      }));
+  });
+
+  it('should build OrthogonalRestrictionsFilter with blacklisted document types', () => {
+    const orthogonalRestrictionsFilter = new OrthogonalRestrictionsFilterBuilder()
+      .withBlacklistedDocumentTypes([SOME_DOCUMENT_TYPE, SOME_OTHER_DOCUMENT_TYPE])
+      .build();
+
+    expect(JSON.stringify(orthogonalRestrictionsFilter))
+      .toBe(JSON.stringify({
+        type: 'ORTHOGONAL_RESTRICTIONS',
+        type_restriction: {
+          inclusion: 'BLACKLIST',
+          document_types: [
+            SOME_DOCUMENT_TYPE,
+            SOME_OTHER_DOCUMENT_TYPE,
+          ],
+        },
       }));
   });
 });
