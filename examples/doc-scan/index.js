@@ -26,6 +26,7 @@ const router = express.Router();
 router.get('/', controllers.indexController);
 router.get('/success', controllers.successController);
 router.get('/media', controllers.mediaController);
+router.get('/error', controllers.errorController);
 
 app.use('/', router);
 
