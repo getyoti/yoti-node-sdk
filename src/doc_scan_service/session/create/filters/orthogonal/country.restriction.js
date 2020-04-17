@@ -1,6 +1,10 @@
 const Validation = require('../../../../../yoti_common/validation');
 
 class CountryRestriction {
+  /**
+   * @param {string} inclusion
+   * @param {string[]} countryCodes
+   */
   constructor(inclusion, countryCodes) {
     Validation.notNullOrEmpty(inclusion, 'inclusion');
     Validation.isString(inclusion, 'inclusion');
