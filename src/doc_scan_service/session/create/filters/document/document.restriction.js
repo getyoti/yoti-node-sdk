@@ -1,6 +1,10 @@
 const Validation = require('../../../../../yoti_common/validation');
 
 class DocumentRestriction {
+  /**
+   * @param {string[]} countryCodes
+   * @param {string[]} documentTypes
+   */
   constructor(countryCodes, documentTypes) {
     if (countryCodes && countryCodes.length > 0) {
       Validation.isArrayOfStrings(countryCodes, 'countryCodes');

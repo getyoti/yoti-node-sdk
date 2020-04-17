@@ -4,6 +4,10 @@ const DocumentRestriction = require('./document.restriction');
 const DocScanConstants = require('../../../../doc.scan.constants');
 
 class DocumentRestrictionsFilter extends RequiredDocumentFilter {
+  /**
+   * @param {string} inclusion
+   * @param {DocumentRestriction[]} documents
+   */
   constructor(inclusion, documents) {
     super(DocScanConstants.DOCUMENT_RESTRICTIONS);
 

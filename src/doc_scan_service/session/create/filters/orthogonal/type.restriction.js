@@ -1,6 +1,10 @@
 const Validation = require('../../../../../yoti_common/validation');
 
 class TypeRestriction {
+  /**
+   * @param {string} inclusion
+   * @param {string[]} documentTypes
+   */
   constructor(inclusion, documentTypes) {
     Validation.notNullOrEmpty(inclusion, 'inclusion');
     Validation.isString(inclusion, 'inclusion');

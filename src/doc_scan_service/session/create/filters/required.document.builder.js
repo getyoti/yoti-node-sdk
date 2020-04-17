@@ -8,6 +8,11 @@ class RequiredDocumentBuilder {
     }
   }
 
+  /**
+   * @param {RequiredDocumentFilter} filter
+   *
+   * @returns {this}
+   */
   withFilter(filter) {
     Validation.instanceOf(filter, RequiredDocumentFilter, 'filter');
     this.filter = filter;

@@ -5,6 +5,10 @@ const TypeRestriction = require('./type.restriction');
 const CountryRestriction = require('./country.restriction');
 
 class OrthogonalRestrictionsFilter extends RequiredDocumentFilter {
+  /**
+   * @param {CountryRestriction} countryRestriction
+   * @param {TypeRestriction} typeRestriction
+   */
   constructor(countryRestriction, typeRestriction) {
     super(DocScanConstants.ORTHOGONAL_RESTRICTIONS);
 
