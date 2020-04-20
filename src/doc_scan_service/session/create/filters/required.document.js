@@ -14,8 +14,10 @@ class RequiredDocument {
     Validation.isString(type, 'type');
     this.type = type;
 
-    Validation.instanceOf(filter, RequiredDocumentFilter, 'filter');
-    this.filter = filter;
+    if (filter) {
+      Validation.instanceOf(filter, RequiredDocumentFilter, 'filter');
+      this.filter = filter;
+    }
   }
 
   toJSON() {

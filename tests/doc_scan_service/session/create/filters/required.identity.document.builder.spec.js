@@ -5,6 +5,16 @@ const {
 } = require('../../../../..');
 
 describe('RequiredIdentityDocumentBuilder', () => {
+  it('builds RequiredIdentityDocument without filter', () => {
+    const requiredIdentityDocument = new RequiredIdentityDocumentBuilder()
+      .build();
+
+    expect(JSON.stringify(requiredIdentityDocument))
+      .toBe(JSON.stringify({
+        type: 'ID_DOCUMENT',
+      }));
+  });
+
   it('builds RequiredIdentityDocument with orthogonal filter', () => {
     const requiredIdentityDocument = new RequiredIdentityDocumentBuilder()
       .withFilter(new OrthogonalRestrictionsFilterBuilder().build())
