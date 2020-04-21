@@ -33,8 +33,6 @@ const {
   DocumentRestrictionsFilterBuilder,
   DocumentRestrictionBuilder,
   OrthogonalRestrictionsFilterBuilder,
-  TypeRestrictionBuilder,
-  CountryRestrictionBuilder,
 } = require('./src/doc_scan_service');
 
 module.exports = {
@@ -68,6 +66,4 @@ module.exports = {
   DocumentRestrictionsFilterBuilder,
   DocumentRestrictionBuilder,
   OrthogonalRestrictionsFilterBuilder,
-  TypeRestrictionBuilder,
-  CountryRestrictionBuilder,
 };

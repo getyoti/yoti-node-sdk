@@ -1,5 +1,6 @@
 const {
   DocumentRestrictionsFilterBuilder,
+  DocumentRestrictionBuilder,
 } = require('../../../../../..');
 
 const SOME_DOCUMENT_TYPE = 'some-document-type';
@@ -34,10 +35,14 @@ describe('DocumentRestrictionsFilterBuilder', () => {
       }));
   });
 
-  it('should build DocumentRestrictionsFilter with document type', () => {
+  it('should build DocumentRestrictionsFilter with document restriction', () => {
+    const documentRestriction = new DocumentRestrictionBuilder()
+      .withDocumentTypes([SOME_DOCUMENT_TYPE])
+      .build();
+
     const documentRestrictionsFilter = new DocumentRestrictionsFilterBuilder()
       .forWhitelist()
-      .withDocumentRestriction([], [SOME_DOCUMENT_TYPE])
+      .withDocumentRestriction(documentRestriction)
       .build();
 
     expect(JSON.stringify(documentRestrictionsFilter))
@@ -48,68 +53,6 @@ describe('DocumentRestrictionsFilterBuilder', () => {
           {
             document_types: [
               SOME_DOCUMENT_TYPE,
-            ],
-          },
-        ],
-      }));
-  });
-
-  it('should build DocumentRestrictionsFilter with multiple document types', () => {
-    const documentRestrictionsFilter = new DocumentRestrictionsFilterBuilder()
-      .forWhitelist()
-      .withDocumentRestriction(null, [SOME_DOCUMENT_TYPE, SOME_OTHER_DOCUMENT_TYPE])
-      .build();
-
-    expect(JSON.stringify(documentRestrictionsFilter))
-      .toBe(JSON.stringify({
-        type: 'DOCUMENT_RESTRICTIONS',
-        inclusion: 'WHITELIST',
-        documents: [
-          {
-            document_types: [
-              SOME_DOCUMENT_TYPE,
-              SOME_OTHER_DOCUMENT_TYPE,
-            ],
-          },
-        ],
-      }));
-  });
-
-  it('should build DocumentRestrictionsFilter with country restriction', () => {
-    const documentRestrictionsFilter = new DocumentRestrictionsFilterBuilder()
-      .forWhitelist()
-      .withDocumentRestriction([SOME_COUNTRY_CODE], [])
-      .build();
-
-    expect(JSON.stringify(documentRestrictionsFilter))
-      .toBe(JSON.stringify({
-        type: 'DOCUMENT_RESTRICTIONS',
-        inclusion: 'WHITELIST',
-        documents: [
-          {
-            country_codes: [
-              SOME_COUNTRY_CODE,
-            ],
-          },
-        ],
-      }));
-  });
-
-  it('should build DocumentRestrictionsFilter with multiple countries', () => {
-    const documentRestrictionsFilter = new DocumentRestrictionsFilterBuilder()
-      .forWhitelist()
-      .withDocumentRestriction([SOME_COUNTRY_CODE, SOME_OTHER_COUNTRY_CODE], [])
-      .build();
-
-    expect(JSON.stringify(documentRestrictionsFilter))
-      .toBe(JSON.stringify({
-        type: 'DOCUMENT_RESTRICTIONS',
-        inclusion: 'WHITELIST',
-        documents: [
-          {
-            country_codes: [
-              SOME_COUNTRY_CODE,
-              SOME_OTHER_COUNTRY_CODE,
             ],
           },
         ],
@@ -117,10 +60,20 @@ describe('DocumentRestrictionsFilterBuilder', () => {
   });
 
   it('should build DocumentRestrictionsFilter with multiple document restrictions', () => {
+    const someRestriction = new DocumentRestrictionBuilder()
+      .withCountries([SOME_COUNTRY_CODE])
+      .withDocumentTypes([SOME_DOCUMENT_TYPE])
+      .build();
+
+    const someOtherRestriction = new DocumentRestrictionBuilder()
+      .withCountries([SOME_OTHER_COUNTRY_CODE])
+      .withDocumentTypes([SOME_OTHER_DOCUMENT_TYPE])
+      .build();
+
     const documentRestrictionsFilter = new DocumentRestrictionsFilterBuilder()
       .forWhitelist()
-      .withDocumentRestriction([SOME_COUNTRY_CODE], [SOME_DOCUMENT_TYPE])
-      .withDocumentRestriction([SOME_OTHER_COUNTRY_CODE], [SOME_OTHER_DOCUMENT_TYPE])
+      .withDocumentRestriction(someRestriction)
+      .withDocumentRestriction(someOtherRestriction)
       .build();
 
     expect(JSON.stringify(documentRestrictionsFilter))
