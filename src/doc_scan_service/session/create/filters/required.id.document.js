@@ -3,7 +3,7 @@ const RequiredDocumentFilter = require('./required.document.filter');
 const DocScanConstants = require('../../../doc.scan.constants');
 const Validation = require('../../../../yoti_common/validation');
 
-class RequiredIdentityDocument extends RequiredDocument {
+class RequiredIdDocument extends RequiredDocument {
   /**
    * @param {RequiredDocumentFilter} filter
    */
@@ -23,4 +23,4 @@ class RequiredIdentityDocument extends RequiredDocument {
   }
 }
 
-module.exports = RequiredIdentityDocument;
+module.exports = RequiredIdDocument;
