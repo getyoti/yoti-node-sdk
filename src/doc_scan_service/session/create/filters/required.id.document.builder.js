@@ -1,8 +1,8 @@
-const RequiredIdentityDocument = require('./required.identity.document');
+const RequiredIdDocument = require('./required.id.document');
 const RequiredDocumentFilter = require('./required.document.filter');
 const Validation = require('../../../../yoti_common/validation');
 
-class RequiredIdentityDocumentBuilder {
+class RequiredIdDocumentBuilder {
   /**
    * @param {RequiredDocumentFilter} filter
    *
@@ -15,11 +15,11 @@ class RequiredIdentityDocumentBuilder {
   }
 
   /**
-   * @returns {RequiredIdentityDocument}
+   * @returns {RequiredIdDocument}
    */
   build() {
-    return new RequiredIdentityDocument(this.filter);
+    return new RequiredIdDocument(this.filter);
   }
 }
 
-module.exports = RequiredIdentityDocumentBuilder;
+module.exports = RequiredIdDocumentBuilder;

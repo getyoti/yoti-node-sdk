@@ -6,7 +6,7 @@ const {
   RequestedDocumentAuthenticityCheckBuilder,
   NotificationConfigBuilder,
   SdkConfigBuilder,
-  RequiredIdentityDocumentBuilder,
+  RequiredIdDocumentBuilder,
   DocumentRestrictionsFilterBuilder,
 } = require('../../../../');
 
@@ -38,7 +38,7 @@ describe('SessionSpecificationBuilder', () => {
     const documentFilter = new DocumentRestrictionsFilterBuilder()
       .forWhitelist()
       .build();
-    const requiredDocument = new RequiredIdentityDocumentBuilder()
+    const requiredDocument = new RequiredIdDocumentBuilder()
       .withFilter(documentFilter)
       .build();
 

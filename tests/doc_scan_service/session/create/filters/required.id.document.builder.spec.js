@@ -1,12 +1,12 @@
 const {
-  RequiredIdentityDocumentBuilder,
+  RequiredIdDocumentBuilder,
   OrthogonalRestrictionsFilterBuilder,
   DocumentRestrictionsFilterBuilder,
 } = require('../../../../..');
 
-describe('RequiredIdentityDocumentBuilder', () => {
+describe('RequiredIdDocumentBuilder', () => {
   it('builds RequiredIdentityDocument without filter', () => {
-    const requiredIdentityDocument = new RequiredIdentityDocumentBuilder()
+    const requiredIdentityDocument = new RequiredIdDocumentBuilder()
       .build();
 
     expect(JSON.stringify(requiredIdentityDocument))
@@ -16,7 +16,7 @@ describe('RequiredIdentityDocumentBuilder', () => {
   });
 
   it('builds RequiredIdentityDocument with orthogonal filter', () => {
-    const requiredIdentityDocument = new RequiredIdentityDocumentBuilder()
+    const requiredIdentityDocument = new RequiredIdDocumentBuilder()
       .withFilter(new OrthogonalRestrictionsFilterBuilder().build())
       .build();
 
@@ -30,7 +30,7 @@ describe('RequiredIdentityDocumentBuilder', () => {
   });
 
   it('builds RequiredIdentityDocument with document filter', () => {
-    const requiredIdentityDocument = new RequiredIdentityDocumentBuilder()
+    const requiredIdentityDocument = new RequiredIdDocumentBuilder()
       .withFilter(new DocumentRestrictionsFilterBuilder().forWhitelist().build())
       .build();
 
