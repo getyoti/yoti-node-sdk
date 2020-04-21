@@ -1,10 +1,10 @@
 const Validation = require('../../../../../yoti_common/validation');
-const RequiredDocumentFilter = require('../required.document.filter');
+const DocumentFilter = require('../document.filter');
 const DocScanConstants = require('../../../../doc.scan.constants');
 const TypeRestriction = require('./type.restriction');
 const CountryRestriction = require('./country.restriction');
 
-class OrthogonalRestrictionsFilter extends RequiredDocumentFilter {
+class OrthogonalRestrictionsFilter extends DocumentFilter {
   /**
    * @param {CountryRestriction} countryRestriction
    * @param {TypeRestriction} typeRestriction

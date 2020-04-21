@@ -1,9 +1,9 @@
 const Validation = require('../../../../../yoti_common/validation');
-const RequiredDocumentFilter = require('../required.document.filter');
+const DocumentFilter = require('../document.filter');
 const DocumentRestriction = require('./document.restriction');
 const DocScanConstants = require('../../../../doc.scan.constants');
 
-class DocumentRestrictionsFilter extends RequiredDocumentFilter {
+class DocumentRestrictionsFilter extends DocumentFilter {
   /**
    * @param {string} inclusion
    * @param {DocumentRestriction[]} documents
