@@ -1,5 +1,6 @@
 const DocumentRestrictionsFilter = require('./document.restrictions.filter');
 const DocumentRestriction = require('./document.restriction');
+const Validation = require('../../../../../yoti_common/validation');
 const DocScanConstants = require('../../../../doc.scan.constants');
 
 class DocumentRestrictionsFilterBuilder {
@@ -24,13 +25,13 @@ class DocumentRestrictionsFilterBuilder {
   }
 
   /**
-   * @param {string[]} countryCodes
-   * @param {string[]} documentTypes
+   * @param {DocumentRestriction} documentRestriction
    *
    * @returns {this}
    */
-  withDocumentRestriction(countryCodes, documentTypes) {
-    this.documents.push(new DocumentRestriction(countryCodes, documentTypes));
+  withDocumentRestriction(documentRestriction) {
+    Validation.instanceOf(documentRestriction, DocumentRestriction, 'documentRestriction');
+    this.documents.push(documentRestriction);
     return this;
   }
 
