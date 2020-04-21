@@ -1,15 +1,15 @@
 const RequiredIdDocument = require('./required.id.document');
-const RequiredDocumentFilter = require('./required.document.filter');
+const DocumentFilter = require('./document.filter');
 const Validation = require('../../../../yoti_common/validation');
 
 class RequiredIdDocumentBuilder {
   /**
-   * @param {RequiredDocumentFilter} filter
+   * @param {DocumentFilter} filter
    *
    * @returns {this}
    */
   withFilter(filter) {
-    Validation.instanceOf(filter, RequiredDocumentFilter, 'filter');
+    Validation.instanceOf(filter, DocumentFilter, 'filter');
     this.filter = filter;
     return this;
   }

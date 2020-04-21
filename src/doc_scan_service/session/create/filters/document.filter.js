@@ -1,12 +1,12 @@
 const Validation = require('../../../../yoti_common/validation');
 
-class RequiredDocumentFilter {
+class DocumentFilter {
   /**
    * @param {string} type
    */
   constructor(type) {
-    if (new.target === RequiredDocumentFilter) {
-      throw TypeError('RequiredDocumentFilter cannot be instantiated');
+    if (new.target === DocumentFilter) {
+      throw TypeError('DocumentFilter cannot be instantiated');
     }
 
     Validation.isString(type, 'type');
@@ -20,4 +20,4 @@ class RequiredDocumentFilter {
   }
 }
 
-module.exports = RequiredDocumentFilter;
+module.exports = DocumentFilter;
