@@ -1,7 +1,19 @@
 const RequiredIdentityDocument = require('./required.identity.document');
-const RequiredDocumentBuilder = require('./required.document.builder');
+const RequiredDocumentFilter = require('./required.document.filter');
+const Validation = require('../../../../yoti_common/validation');
 
-class RequiredIdentityDocumentBuilder extends RequiredDocumentBuilder {
+class RequiredIdentityDocumentBuilder {
+  /**
+   * @param {RequiredDocumentFilter} filter
+   *
+   * @returns {this}
+   */
+  withFilter(filter) {
+    Validation.instanceOf(filter, RequiredDocumentFilter, 'filter');
+    this.filter = filter;
+    return this;
+  }
+
   /**
    * @returns {RequiredIdentityDocument}
    */
