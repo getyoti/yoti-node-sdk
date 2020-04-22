@@ -9,6 +9,9 @@ const { YotiDate } = require('../../../data_type/date');
 
 class TaskResponse {
   constructor(task) {
+    Validation.isString(task.type, 'type', true);
+    this.type = task.type;
+
     Validation.isString(task.id, 'id', true);
     this.id = task.id;
 
@@ -46,6 +49,13 @@ class TaskResponse {
     } else {
       this.generatedMedia = [];
     }
+  }
+
+  /**
+   * @returns {string}
+   */
+  getType() {
+    return this.type;
   }
 
   /**

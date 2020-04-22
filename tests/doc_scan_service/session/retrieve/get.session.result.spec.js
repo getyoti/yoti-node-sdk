@@ -6,6 +6,11 @@ const TextDataCheckResponse = require('../../../../src/doc_scan_service/session/
 const ZoomLivenessCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/liveness.check.response');
 const ResourceContainer = require('../../../../src/doc_scan_service/session/retrieve/resource.container');
 
+const ID_DOCUMENT_AUTHENTICITY = 'ID_DOCUMENT_AUTHENTICITY';
+const ID_DOCUMENT_FACE_MATCH = 'ID_DOCUMENT_FACE_MATCH';
+const ID_DOCUMENT_TEXT_DATA_CHECK = 'ID_DOCUMENT_TEXT_DATA_CHECK';
+const LIVENESS = 'LIVENESS';
+
 describe('GetSessionResult', () => {
   let session;
 
@@ -22,16 +27,16 @@ describe('GetSessionResult', () => {
       },
       checks: [
         {
-          type: 'ID_DOCUMENT_AUTHENTICITY',
+          type: ID_DOCUMENT_AUTHENTICITY,
         },
         {
-          type: 'LIVENESS',
+          type: LIVENESS,
         },
         {
-          type: 'ID_DOCUMENT_FACE_MATCH',
+          type: ID_DOCUMENT_FACE_MATCH,
         },
         {
-          type: 'ID_DOCUMENT_TEXT_DATA_CHECK',
+          type: ID_DOCUMENT_TEXT_DATA_CHECK,
         },
       ],
     });
@@ -94,6 +99,7 @@ describe('GetSessionResult', () => {
       const checks = session.getAuthenticityChecks();
       expect(checks.length).toBe(1);
       expect(checks[0]).toBeInstanceOf(AuthenticityCheckResponse);
+      expect(checks[0].getType()).toBe(ID_DOCUMENT_AUTHENTICITY);
     });
   });
 
@@ -102,6 +108,7 @@ describe('GetSessionResult', () => {
       const checks = session.getLivenessChecks();
       expect(checks.length).toBe(1);
       expect(checks[0]).toBeInstanceOf(ZoomLivenessCheckResponse);
+      expect(checks[0].getType()).toBe(LIVENESS);
     });
   });
 
@@ -110,6 +117,7 @@ describe('GetSessionResult', () => {
       const checks = session.getTextDataChecks();
       expect(checks.length).toBe(1);
       expect(checks[0]).toBeInstanceOf(TextDataCheckResponse);
+      expect(checks[0].getType()).toBe(ID_DOCUMENT_TEXT_DATA_CHECK);
     });
   });
 
@@ -118,6 +126,7 @@ describe('GetSessionResult', () => {
       const checks = session.getFaceMatchChecks();
       expect(checks.length).toBe(1);
       expect(checks[0]).toBeInstanceOf(FaceMatchCheckResponse);
+      expect(checks[0].getType()).toBe(ID_DOCUMENT_FACE_MATCH);
     });
   });
 

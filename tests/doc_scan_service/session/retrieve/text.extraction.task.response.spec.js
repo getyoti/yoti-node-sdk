@@ -9,6 +9,7 @@ describe('TextExtractionTaskResponse', () => {
 
   beforeEach(() => {
     taskResponse = new TextExtractionTaskResponse({
+      type: 'some-type',
       id: 'some-id',
       state: 'some-state',
       created: '2006-01-02T22:04:05.123Z',
@@ -26,15 +27,19 @@ describe('TextExtractionTaskResponse', () => {
     });
   });
 
-  describe('#getId', () => {
-    it('should be instance of TaskResponse', () => {
-      expect(taskResponse).toBeInstanceOf(TaskResponse);
-    });
+  it('should be instance of TaskResponse', () => {
+    expect(taskResponse).toBeInstanceOf(TaskResponse);
   });
 
   describe('#getId', () => {
     it('should return ID', () => {
       expect(taskResponse.getId()).toBe('some-id');
+    });
+  });
+
+  describe('#getType', () => {
+    it('should return type', () => {
+      expect(taskResponse.getType()).toBe('some-type');
     });
   });
 

@@ -7,6 +7,9 @@ const { YotiDate } = require('../../../data_type/date');
 
 class CheckResponse {
   constructor(check) {
+    Validation.isString(check.type, 'type', true);
+    this.type = check.type;
+
     Validation.isString(check.id, 'id', true);
     this.id = check.id;
 
@@ -40,6 +43,13 @@ class CheckResponse {
       Validation.isString(check.last_updated, 'last_updated');
       this.lastUpdated = YotiDate.fromDateString(check.last_updated);
     }
+  }
+
+  /**
+   * @returns {string}
+   */
+  getType() {
+    return this.type;
   }
 
   /**
