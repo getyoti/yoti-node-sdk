@@ -10,6 +10,7 @@ const ID_DOCUMENT_AUTHENTICITY = 'ID_DOCUMENT_AUTHENTICITY';
 const ID_DOCUMENT_FACE_MATCH = 'ID_DOCUMENT_FACE_MATCH';
 const ID_DOCUMENT_TEXT_DATA_CHECK = 'ID_DOCUMENT_TEXT_DATA_CHECK';
 const LIVENESS = 'LIVENESS';
+const SOME_UNKNOWN_CHECK = 'SOME_UNKNOWN_CHECK';
 
 describe('GetSessionResult', () => {
   let session;
@@ -142,7 +143,7 @@ describe('GetSessionResult', () => {
       session = new GetSessionResult({
         checks: [
           {
-            type: 'SOME_UNKNOWN_CHECK',
+            type: SOME_UNKNOWN_CHECK,
           },
         ],
       });
@@ -150,6 +151,7 @@ describe('GetSessionResult', () => {
       const checks = session.getChecks();
       expect(checks.length).toBe(1);
       expect(checks[0]).toBeInstanceOf(CheckResponse);
+      expect(checks[0].getType()).toBe(SOME_UNKNOWN_CHECK);
     });
   });
 });
