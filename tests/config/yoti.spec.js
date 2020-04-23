@@ -13,7 +13,7 @@ describe('Yoti Config', () => {
 
   beforeEach(() => {
     jest.resetModules();
-    process.env = { ...INITIAL_ENV };
+    process.env = Object.assign({}, INITIAL_ENV);
   });
 
   afterEach(() => {
