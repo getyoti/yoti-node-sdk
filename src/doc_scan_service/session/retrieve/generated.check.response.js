@@ -6,6 +6,9 @@ class GeneratedCheckResponse {
   constructor(check) {
     Validation.isString(check.id, 'id', true);
     this.id = check.id;
+
+    Validation.isString(check.type, 'type', true);
+    this.type = check.type;
   }
 
   /**
@@ -13,6 +16,13 @@ class GeneratedCheckResponse {
    */
   getId() {
     return this.id;
+  }
+
+  /**
+   * @returns {string}
+   */
+  getType() {
+    return this.type;
   }
 }
 

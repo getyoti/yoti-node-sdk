@@ -8,6 +8,7 @@ describe('LivenessResourceResponse', () => {
 
   beforeEach(() => {
     resourceResponse = new LivenessResourceResponse({
+      liveness_type: 'some-liveness-type',
       id: 'some-id',
       tasks: [
         {
@@ -23,6 +24,12 @@ describe('LivenessResourceResponse', () => {
   describe('#getId', () => {
     it('should return ID', () => {
       expect(resourceResponse.getId()).toBe('some-id');
+    });
+  });
+
+  describe('#getType', () => {
+    it('should return type', () => {
+      expect(resourceResponse.getLivenessType()).toBe('some-liveness-type');
     });
   });
 
