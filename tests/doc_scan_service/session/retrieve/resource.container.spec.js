@@ -3,6 +3,9 @@ const IdDocumentResourceResponse = require('../../../../src/doc_scan_service/ses
 const ZoomLivenessResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/zoom.liveness.resource.response');
 const LivenessResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/liveness.resource.response');
 
+const ZOOM = 'ZOOM';
+const SOME_UNKNOWN_LIVENESS_TYPE = 'SOME_UNKNOWN_LIVENESS_TYPE';
+
 describe('ResourceContainer', () => {
   let resourceContainer;
 
@@ -14,9 +17,11 @@ describe('ResourceContainer', () => {
       ],
       liveness_capture: [
         {
-          liveness_type: 'ZOOM',
+          liveness_type: ZOOM,
         },
-        {},
+        {
+          liveness_type: SOME_UNKNOWN_LIVENESS_TYPE,
+        },
       ],
     });
   });
@@ -54,6 +59,13 @@ describe('ResourceContainer', () => {
       it('should return zoom liveness resource response', () => {
         const livenessCapture = resourceContainer.getLivenessCapture();
         expect(livenessCapture[0]).toBeInstanceOf(ZoomLivenessResourceResponse);
+        expect(livenessCapture[0].getLivenessType()).toBe(ZOOM);
+      });
+
+      it('should return unknown liveness resource response', () => {
+        const livenessCapture = resourceContainer.getLivenessCapture();
+        expect(livenessCapture[1]).toBeInstanceOf(LivenessResourceResponse);
+        expect(livenessCapture[1].getLivenessType()).toBe(SOME_UNKNOWN_LIVENESS_TYPE);
       });
     });
     describe('when liveness capture is not available', () => {
@@ -71,6 +83,7 @@ describe('ResourceContainer', () => {
       const livenessCapture = resourceContainer.getZoomLivenessResources();
       livenessCapture.forEach((item) => {
         expect(item).toBeInstanceOf(ZoomLivenessResourceResponse);
+        expect(item.getLivenessType()).toBe(ZOOM);
       });
     });
   });
