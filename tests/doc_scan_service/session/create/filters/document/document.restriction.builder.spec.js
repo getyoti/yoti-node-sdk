@@ -11,6 +11,7 @@ describe('DocumentRestrictionBuilder', () => {
     const documentRestriction = new DocumentRestrictionBuilder().build();
     expect(documentRestriction).toBeInstanceOf(DocumentRestriction);
   });
+
   it('should build DocumentRestriction with document types', () => {
     const documentRestriction = new DocumentRestrictionBuilder()
       .withDocumentTypes([
@@ -27,6 +28,7 @@ describe('DocumentRestrictionBuilder', () => {
         ],
       }));
   });
+
   it('should build DocumentRestriction with country codes', () => {
     const documentRestriction = new DocumentRestrictionBuilder()
       .withCountries([
@@ -57,6 +59,28 @@ describe('DocumentRestrictionBuilder', () => {
         country_codes: [
           SOME_COUNTRY_CODE,
         ],
+      }));
+  });
+
+  it('should allow empty country list', () => {
+    const documentRestriction = new DocumentRestrictionBuilder()
+      .withCountries([])
+      .build();
+
+    expect(JSON.stringify(documentRestriction))
+      .toBe(JSON.stringify({
+        country_codes: [],
+      }));
+  });
+
+  it('should allow empty document type list', () => {
+    const documentRestriction = new DocumentRestrictionBuilder()
+      .withDocumentTypes([])
+      .build();
+
+    expect(JSON.stringify(documentRestriction))
+      .toBe(JSON.stringify({
+        document_types: [],
       }));
   });
 });

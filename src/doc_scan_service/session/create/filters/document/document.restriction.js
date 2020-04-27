@@ -6,12 +6,12 @@ class DocumentRestriction {
    * @param {string[]} documentTypes
    */
   constructor(countryCodes, documentTypes) {
-    if (countryCodes && countryCodes.length > 0) {
+    if (countryCodes) {
       Validation.isArrayOfStrings(countryCodes, 'countryCodes');
       this.countryCodes = countryCodes;
     }
 
-    if (documentTypes && documentTypes.length > 0) {
+    if (documentTypes) {
       Validation.isArrayOfStrings(documentTypes, 'documentTypes');
       this.documentTypes = documentTypes;
     }
