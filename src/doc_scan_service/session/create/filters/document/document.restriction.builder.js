@@ -2,11 +2,6 @@ const Validation = require('../../../../../yoti_common/validation');
 const DocumentRestriction = require('./document.restriction');
 
 class DocumentRestrictionBuilder {
-  constructor() {
-    this.countryCodes = [];
-    this.documentTypes = [];
-  }
-
   withDocumentTypes(documentTypes) {
     Validation.isArrayOfStrings(documentTypes, 'documentType');
     this.documentTypes = documentTypes;
