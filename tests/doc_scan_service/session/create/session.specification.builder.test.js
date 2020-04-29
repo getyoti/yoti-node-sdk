@@ -38,6 +38,7 @@ describe('SessionSpecificationBuilder', () => {
     const documentFilter = new DocumentRestrictionsFilterBuilder()
       .forWhitelist()
       .build();
+
     const requiredDocument = new RequiredIdDocumentBuilder()
       .withFilter(documentFilter)
       .build();

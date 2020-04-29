@@ -66,8 +66,10 @@ class SessionSpecification {
     Validation.isArrayOfType(requestedTasks, RequestedTask, 'requestedTasks');
     this.requestedTasks = requestedTasks;
 
-    Validation.isArrayOfType(requiredDocuments, RequiredDocument, 'requiredDocuments');
-    this.requiredDocuments = requiredDocuments;
+    if (requiredDocuments) {
+      Validation.isArrayOfType(requiredDocuments, RequiredDocument, 'requiredDocuments');
+      this.requiredDocuments = requiredDocuments;
+    }
   }
 
   /**
