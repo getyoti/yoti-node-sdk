@@ -4,22 +4,26 @@ const GeneratedCheckResponse = require('../../../../src/doc_scan_service/session
 const GeneratedTextDataCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/generated.text.data.check.response');
 const GeneratedMedia = require('../../../../src/doc_scan_service/session/retrieve/generated.media');
 
+const ID_DOCUMENT_TEXT_DATA_CHECK = 'ID_DOCUMENT_TEXT_DATA_CHECK';
+const SOME_UNKNOWN_TYPE = 'SOME_UNKNOWN_TYPE';
+
 describe('TaskResponse', () => {
   let taskResponse;
 
   beforeEach(() => {
     taskResponse = new TaskResponse({
+      type: 'some-type',
       id: 'some-id',
       state: 'some-state',
       created: '2006-01-02T22:04:05.123Z',
       last_updated: '2006-02-02T22:04:05.123Z',
       generated_checks: [
         {
-          type: 'ID_DOCUMENT_TEXT_DATA_CHECK',
+          type: ID_DOCUMENT_TEXT_DATA_CHECK,
           id: 'some-id',
         },
         {
-          type: 'SOME_UNKNOWN_TYPE',
+          type: SOME_UNKNOWN_TYPE,
         },
       ],
       generated_media: [
@@ -29,9 +33,9 @@ describe('TaskResponse', () => {
     });
   });
 
-  describe('#getId', () => {
-    it('should be instance of TaskResponse', () => {
-      expect(taskResponse).toBeInstanceOf(TaskResponse);
+  describe('#getType', () => {
+    it('should return Type', () => {
+      expect(taskResponse.getType()).toBe('some-type');
     });
   });
 
@@ -68,11 +72,11 @@ describe('TaskResponse', () => {
 
         expect(checks.length).toBe(2);
 
-        checks.forEach((check) => {
-          expect(check).toBeInstanceOf(GeneratedCheckResponse);
-        });
-
         expect(checks[0]).toBeInstanceOf(GeneratedTextDataCheckResponse);
+        expect(checks[0].getType()).toBe(ID_DOCUMENT_TEXT_DATA_CHECK);
+
+        expect(checks[1]).toBeInstanceOf(GeneratedCheckResponse);
+        expect(checks[1].getType()).toBe(SOME_UNKNOWN_TYPE);
       });
     });
     describe('when checks are not available', () => {

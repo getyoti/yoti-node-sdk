@@ -3,6 +3,9 @@ const ResourceResponse = require('../../../../src/doc_scan_service/session/retri
 const TaskResponse = require('../../../../src/doc_scan_service/session/retrieve/task.response');
 const TextExtractionTaskResponse = require('../../../../src/doc_scan_service/session/retrieve/text.extraction.task.response');
 
+const ID_DOCUMENT_TEXT_DATA_EXTRACTION = 'ID_DOCUMENT_TEXT_DATA_EXTRACTION';
+const SOME_UNKNOWN_TASK = 'SOME_UNKNOWN_TASK';
+
 describe('ResourceResponse', () => {
   let resourceResponse;
 
@@ -11,10 +14,10 @@ describe('ResourceResponse', () => {
       id: 'some-id',
       tasks: [
         {
-          type: 'ID_DOCUMENT_TEXT_DATA_EXTRACTION',
+          type: ID_DOCUMENT_TEXT_DATA_EXTRACTION,
         },
         {
-          type: 'SOME_UNKNOWN_TYPE',
+          type: SOME_UNKNOWN_TASK,
         },
       ],
     });
@@ -38,6 +41,9 @@ describe('ResourceResponse', () => {
         });
 
         expect(tasks[0]).toBeInstanceOf(TextExtractionTaskResponse);
+        expect(tasks[0].getType()).toBe(ID_DOCUMENT_TEXT_DATA_EXTRACTION);
+
+        expect(tasks[1].getType()).toBe(SOME_UNKNOWN_TASK);
       });
     });
     describe('when tasks are not available', () => {

@@ -5,6 +5,7 @@ const NotificationConfig = require('./notification.config');
 const RequestedTask = require('./task/requested.task');
 const RequestedCheck = require('./check/requested.check');
 const SdkConfig = require('./sdk.config');
+const RequiredDocument = require('./filters/required.document');
 const Validation = require('../../../yoti_common/validation');
 
 /**
@@ -16,6 +17,7 @@ class SessionSpecificationBuilder {
   constructor() {
     this.requestedChecks = [];
     this.requestedTasks = [];
+    this.requiredDocuments = [];
   }
 
   /**
@@ -113,6 +115,19 @@ class SessionSpecificationBuilder {
   }
 
   /**
+   * Adds a {@link RequiredDocument} to the list documents required from the client
+   *
+   * @param {RequiredDocument} requiredDocument
+   *
+   * @returns {this}
+   */
+  withRequiredDocument(requiredDocument) {
+    Validation.instanceOf(requiredDocument, RequiredDocument, 'requiredDocument');
+    this.requiredDocuments.push(requiredDocument);
+    return this;
+  }
+
+  /**
    * Builds the {@link SessionSpec} based on the values supplied to the builder
    *
    * @returns {SessionSpec}
@@ -125,7 +140,8 @@ class SessionSpecificationBuilder {
       this.notifications,
       this.requestedChecks,
       this.requestedTasks,
-      this.sdkConfig
+      this.sdkConfig,
+      this.requiredDocuments
     );
   }
 }

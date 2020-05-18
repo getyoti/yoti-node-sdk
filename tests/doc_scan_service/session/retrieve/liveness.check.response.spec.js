@@ -9,6 +9,7 @@ describe('LivenessCheckResponse', () => {
 
   beforeEach(() => {
     checkResponse = new LivenessCheckResponse({
+      type: 'some-type',
       id: 'some-id',
       state: 'some-state',
       created: '2006-01-02T22:04:05.123Z',
@@ -27,6 +28,12 @@ describe('LivenessCheckResponse', () => {
 
   it('should be instance of CheckResponse', () => {
     expect(checkResponse).toBeInstanceOf(CheckResponse);
+  });
+
+  describe('#getType', () => {
+    it('should return Type', () => {
+      expect(checkResponse.getType()).toBe('some-type');
+    });
   });
 
   describe('#getId', () => {

@@ -8,11 +8,25 @@ describe('ZoomLivenessResourceResponse', () => {
 
   beforeEach(() => {
     zoomLivenessResourceResponse = new ZoomLivenessResourceResponse({
+      liveness_type: 'some-liveness-type',
+      id: 'some-id',
       facemap: {},
       frames: [
         {},
         {},
       ],
+    });
+  });
+
+  describe('#getId', () => {
+    it('should return ID', () => {
+      expect(zoomLivenessResourceResponse.getId()).toBe('some-id');
+    });
+  });
+
+  describe('#getType', () => {
+    it('should return type', () => {
+      expect(zoomLivenessResourceResponse.getLivenessType()).toBe('some-liveness-type');
     });
   });
 

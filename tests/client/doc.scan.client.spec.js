@@ -12,6 +12,7 @@ const {
 const CreateSessionResult = require('../../src/doc_scan_service/session/create/create.session.result');
 const GetSessionResult = require('../../src/doc_scan_service/session/retrieve/get.session.result');
 const Media = require('../../src/data_type/media');
+const SupportedDocumentResponse = require('../../src/doc_scan_service/support/supported.documents.response');
 
 const PEM_STRING = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 const APP_ID = uuid();
@@ -20,6 +21,7 @@ const MEDIA_ID = 'some-media-id';
 const SESSION_CREATE_URI = new RegExp(`^/idverify/v1/sessions\\?sdkId=${APP_ID}`);
 const SESSION_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}\\?sdkId=${APP_ID}`);
 const MEDIA_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/media/${MEDIA_ID}/content\\?sdkId=${APP_ID}`);
+const SUPPORTED_DOCUMENTS_URI = new RegExp('^/idverify/v1/supported-documents');
 
 describe('DocScanClient', () => {
   let docScanClient;
@@ -115,6 +117,25 @@ describe('DocScanClient', () => {
           done();
         })
         .catch(done);
+    });
+  });
+
+
+  describe('#getSupportedDocuments', () => {
+    describe('when a valid response is returned', () => {
+      it('should return SupportedDocumentResponse', (done) => {
+        nock(config.yoti.docScanApi)
+          .get(SUPPORTED_DOCUMENTS_URI)
+          .reply(200, '{}');
+
+        docScanClient
+          .getSupportedDocuments()
+          .then((result) => {
+            expect(result).toBeInstanceOf(SupportedDocumentResponse);
+            done();
+          })
+          .catch(done);
+      });
     });
   });
 });

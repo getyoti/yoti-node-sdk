@@ -29,6 +29,10 @@ const {
   RequestedLivenessCheckBuilder,
   RequestedTextExtractionTaskBuilder,
   DocScanConstants,
+  RequiredIdDocumentBuilder,
+  DocumentRestrictionsFilterBuilder,
+  DocumentRestrictionBuilder,
+  OrthogonalRestrictionsFilterBuilder,
 } = require('./src/doc_scan_service');
 
 module.exports = {
@@ -50,6 +54,7 @@ module.exports = {
   RequestBuilder,
   Payload,
   YotiDate,
+  constants,
   SessionSpecificationBuilder,
   NotificationConfigBuilder,
   SdkConfigBuilder,
@@ -57,5 +62,8 @@ module.exports = {
   RequestedFaceMatchCheckBuilder,
   RequestedLivenessCheckBuilder,
   RequestedTextExtractionTaskBuilder,
-  constants,
+  RequiredIdDocumentBuilder,
+  DocumentRestrictionsFilterBuilder,
+  DocumentRestrictionBuilder,
+  OrthogonalRestrictionsFilterBuilder,
 };

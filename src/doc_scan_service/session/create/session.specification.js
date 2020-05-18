@@ -5,6 +5,7 @@ const NotificationConfig = require('./notification.config');
 const SdkConfig = require('./sdk.config');
 const RequestedTask = require('./task/requested.task');
 const RequestedCheck = require('./check/requested.check');
+const RequiredDocument = require('./filters/required.document');
 
 /**
  * Definition for the Doc Scan Session to be created
@@ -27,6 +28,8 @@ class SessionSpecification {
    *   The Tasks to be performed on each Document
    * @param {SdkConfig} sdkConfig
    *   The SDK configuration set on the session specification
+   * @param {RequiredDocument[]} requiredDocuments
+   *   List of RequiredDocument defining the documents required from the client
    */
   constructor(
     clientSessionTokenTtl,
@@ -35,7 +38,8 @@ class SessionSpecification {
     notifications,
     requestedChecks,
     requestedTasks,
-    sdkConfig
+    sdkConfig,
+    requiredDocuments
   ) {
     Validation.isInteger(clientSessionTokenTtl, 'clientSessionTokenTtl', true);
     this.clientSessionTokenTtl = clientSessionTokenTtl;
@@ -61,6 +65,11 @@ class SessionSpecification {
 
     Validation.isArrayOfType(requestedTasks, RequestedTask, 'requestedTasks');
     this.requestedTasks = requestedTasks;
+
+    if (requiredDocuments) {
+      Validation.isArrayOfType(requiredDocuments, RequiredDocument, 'requiredDocuments');
+      this.requiredDocuments = requiredDocuments;
+    }
   }
 
   /**
@@ -75,6 +84,7 @@ class SessionSpecification {
       requested_checks: this.requestedChecks,
       requested_tasks: this.requestedTasks,
       sdk_config: this.sdkConfig,
+      required_documents: this.requiredDocuments,
     };
   }
 }
