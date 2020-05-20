@@ -20,7 +20,7 @@ describe('BreakdownResponse', () => {
   });
 
   describe('#getResult', () => {
-    it('should return result check', () => {
+    it('should return result', () => {
       expect(breakdownResponse.getResult()).toBe('some-result');
     });
   });

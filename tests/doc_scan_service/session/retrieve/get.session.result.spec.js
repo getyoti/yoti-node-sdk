@@ -3,7 +3,7 @@ const CheckResponse = require('../../../../src/doc_scan_service/session/retrieve
 const AuthenticityCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/authenticity.check.response');
 const FaceMatchCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/face.match.check.response');
 const TextDataCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/text.data.check.response');
-const ZoomLivenessCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/liveness.check.response');
+const LivenessCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/liveness.check.response');
 const ResourceContainer = require('../../../../src/doc_scan_service/session/retrieve/resource.container');
 
 const ID_DOCUMENT_AUTHENTICITY = 'ID_DOCUMENT_AUTHENTICITY';
@@ -79,7 +79,7 @@ describe('GetSessionResult', () => {
         const checks = session.getChecks();
         expect(checks.length).toBe(4);
         expect(checks[0]).toBeInstanceOf(AuthenticityCheckResponse);
-        expect(checks[1]).toBeInstanceOf(ZoomLivenessCheckResponse);
+        expect(checks[1]).toBeInstanceOf(LivenessCheckResponse);
         expect(checks[2]).toBeInstanceOf(FaceMatchCheckResponse);
         expect(checks[3]).toBeInstanceOf(TextDataCheckResponse);
         checks.forEach(check => expect(check).toBeInstanceOf(CheckResponse));
@@ -108,7 +108,7 @@ describe('GetSessionResult', () => {
     it('should return array of ZoomLivenessCheckResponse', () => {
       const checks = session.getLivenessChecks();
       expect(checks.length).toBe(1);
-      expect(checks[0]).toBeInstanceOf(ZoomLivenessCheckResponse);
+      expect(checks[0]).toBeInstanceOf(LivenessCheckResponse);
       expect(checks[0].getType()).toBe(LIVENESS);
     });
   });
