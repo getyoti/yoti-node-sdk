@@ -1,4 +1,4 @@
-const SupportedDocumentsResponse = require('../../../../src/doc_scan_service/support/supported.documents.response');
+const SupportedDocumentsResponse = require('../../../src/doc_scan_service/support/supported.documents.response');
 
 const SOME_DOCUMENT_TYPE = 'some-document-type';
 const SOME_OTHER_DOCUMENT_TYPE = 'some-other-document-type';
