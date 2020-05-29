@@ -21,7 +21,7 @@ function formatDatePart(part, length) {
  * @returns {number}
  */
 function extractMicrosecondsFromDateString(dateString) {
-  const secondsFractionMatch = dateString.match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.(\d+)[Z|+]/);
+  const secondsFractionMatch = dateString.match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.(\d+)[Z|+|-]/);
 
   if (secondsFractionMatch === null) {
     return 0;
