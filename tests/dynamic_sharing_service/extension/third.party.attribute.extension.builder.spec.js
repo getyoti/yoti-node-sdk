@@ -87,8 +87,12 @@ describe('ThirdPartyAttributeExtensionBuilder', () => {
     expect(thirdPartyAttributeExtension.content.getDefinitions()[1].getName()).toEqual('some_other_definition');
   });
 
-  it('should should convert to JSON correctly', () => {
-    const date = new Date();
+  test.each([
+    ['2020-01-02T00:00:00.123456Z', '2020-01-02T00:00:00.123Z'],
+    ['2020-01-02T00:00:00.123+04:00', '2020-01-01T20:00:00.123Z'],
+    ['2020-01-02T00:00:00.123-04:00', '2020-01-02T04:00:00.123Z'],
+  ])('should should convert to JSON correctly', (inputDate, outputDate) => {
+    const date = new Date(inputDate);
     const builder = new ThirdPartyAttributeExtensionBuilder()
       .withExpiryDate(date)
       .withDefinitions([
@@ -100,7 +104,7 @@ describe('ThirdPartyAttributeExtensionBuilder', () => {
     const expectedJson = {
       type: 'THIRD_PARTY_ATTRIBUTE',
       content: {
-        expiry_date: date.toISOString(),
+        expiry_date: outputDate,
         definitions: [
           { name: 'some_definition' },
           { name: 'some_other_definition' },

@@ -18,7 +18,7 @@ describe('DetailsResponse', () => {
   });
 
   describe('#getResult', () => {
-    it('should return result check', () => {
+    it('should return result', () => {
       expect(detailsResponse.getValue()).toBe('some-value');
     });
   });

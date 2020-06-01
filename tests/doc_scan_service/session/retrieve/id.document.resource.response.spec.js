@@ -34,7 +34,7 @@ describe('IdDocumentResourceResponse', () => {
   });
 
   describe('#getIssuingCountry', () => {
-    it('should return result check', () => {
+    it('should return issuing country', () => {
       expect(documentResourceResponse.getIssuingCountry()).toBe('some-country');
     });
   });
