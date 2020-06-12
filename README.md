@@ -62,18 +62,6 @@ Your package.json file will then be updated to include:
  }
  ```
 
-## Configuration
-
-The YotiClient is the SDK entry point. To initialise it you need include the following snippet inside your endpoint initialisation section:
-
-```javascript
-const yoti = require('yoti');
-const fs = require('fs');
-const CLIENT_SDK_ID = 'YOUR_SDK_ID';
-const PEM = fs.readFileSync('path/to/your-application-pem-file.pem');
-const yotiClient = new yoti.Client(CLIENT_SDK_ID, PEM);
-```
-
 ## Setup
 
 For each service you will need:
