@@ -5,3 +5,4 @@ coverage
 sonar-project.properties
 .travis.yml
 .dependabot
+docs
