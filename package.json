@@ -28,6 +28,7 @@
     "collectCoverageFrom": [
       "./*.js",
       "./src/**/*.js",
+      "./config/**/*.js",
       "!**/node_modules/**",
       "!**/vendor/**"
     ],
