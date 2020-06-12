@@ -7,7 +7,8 @@ git:
 
 jobs:
   include:
-    - stage: Test
+    - &test
+      stage: Test
       node_js: "10"
       before_install: npm install -g npm@latest
       install: npm ci
@@ -61,10 +62,14 @@ jobs:
         - cd ./examples/doc-scan
         - npm install
         - npm run lint
-    - stage: Coverage
-      name: Coveralls
-      if: type = pull_request OR branch = master
-      node_js: "10"
-      install: npm install
+    - <<: *test
+      stage: Analyze
+      name: Sonarcloud
+      dist: trusty
+      addons:
+        sonarcloud:
+          organization: "getyoti"
+      if: type == pull_request OR branch = master
       script:
-        - npm run coveralls
+        - npm test
+        - sonar-scanner
