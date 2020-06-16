@@ -37,8 +37,7 @@ If you're planning on using the Node SDK on Windows, you'll need to install a fe
 * [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) (normal version, not light) in the same bitness as your Node.js installation.
 
   * OpenSSL must be installed in its specific directory (`C:\OpenSSL-Win32` or `C:\OpenSSL-Win64`)
-  * The latest version of OpenSSL (v1.1.x) does not have the `libeay32.dll` file. **Install v1.0.2 instead**.
-  * If you get `Error: The specified module could not be found.`, copy `libeay32.dll` from the OpenSSL bin directory to this module's bin directory, or to `Windows\System32`.
+  * See [this wiki from Microsoft](https://github.com/microsoft/nodejs-guidelines/blob/master/windows-environment.md) for common configuration issues.
 
 * [node-gyp](https://github.com/nodejs/node-gyp) (`npm install -g node-gyp`)
 
