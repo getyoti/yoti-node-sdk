@@ -1,0 +1,33 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 3
+  target-branch: development
+  reviewers:
+  - echarrod
+  - davidgrayston
+  - MrBurtyyy
+  assignees:
+  - MrBurtyyy
+  ignore:
+  - dependency-name: coveralls
+    versions:
+    - "> 3.0.9"
+  - dependency-name: jest
+    versions:
+    - "> 24.9.0"
+  - dependency-name: nock
+    versions:
+    - ">= 12.a, < 13"
+  - dependency-name: nock
+    versions:
+    - "> 9.6.1"
+  - dependency-name: superagent
+    versions:
+    - "> 4.1.0"
+  - dependency-name: uuid
+    versions:
+    - "> 3.4.0"
