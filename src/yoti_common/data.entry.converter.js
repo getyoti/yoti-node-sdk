@@ -23,4 +23,3 @@ class DataEntryConverter {
 }
 
 module.exports = DataEntryConverter;
-

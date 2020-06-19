@@ -1,11 +1,12 @@
 const fs = require('fs');
+const Buffer = require('safe-buffer').Buffer;
+
 const { AttributeConverter } = require('../../src/yoti_common/attribute.converter');
 const protoRoot = require('../../src/proto-root');
 const ImageJpeg = require('../../src/data_type/image.jpeg');
 const ImagePng = require('../../src/data_type/image.png');
 const MultiValue = require('../../src/data_type/multi.value');
 const constants = require('../../src/yoti_common/constants');
-const Buffer = require('safe-buffer').Buffer;
 
 const sampleMultiValueAttribute = fs.readFileSync('./tests/sample-data/fixtures/attributes/multi-value.txt', 'utf8');
 const protoInst = protoRoot.initializeProtoBufObjects();

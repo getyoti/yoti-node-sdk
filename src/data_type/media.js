@@ -1,7 +1,7 @@
 'use strict';
 
-const Validation = require('../yoti_common/validation');
 const ByteBuffer = require('bytebuffer');
+const Validation = require('../yoti_common/validation');
 
 class Media {
   /**
