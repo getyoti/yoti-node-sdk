@@ -23,7 +23,11 @@ const SESSION_CREATE_URI = new RegExp(`^/idverify/v1/sessions\\?sdkId=${APP_ID}`
 const SESSION_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}\\?sdkId=${APP_ID}`);
 const MEDIA_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/media/${MEDIA_ID}/content\\?sdkId=${APP_ID}`);
 const SUPPORTED_DOCUMENTS_URI = new RegExp('^/idverify/v1/supported-documents');
-const SOME_RESPONSE = JSON.stringify({ some: 'response' });
+const SOME_CODE = 'SOME_CODE';
+const SOME_MESSAGE = 'SOME_MESSAGE';
+const SOME_ERROR_RESPONSE = JSON.stringify({ code: SOME_CODE, message: SOME_MESSAGE });
+const SOME_ERROR_MESSAGE = `${SOME_CODE} - ${SOME_MESSAGE}`;
+const JSON_RESPONSE_HEADERS = { 'Content-Type': 'application/json' };
 
 describe('DocScanService', () => {
   let docScanService;
@@ -52,11 +56,14 @@ describe('DocScanService', () => {
             SESSION_CREATE_URI,
             JSON.stringify(sessionSpec)
           )
-          .reply(200, JSON.stringify({
-            client_session_token_ttl: 30,
-            client_session_token: 'some-token',
-            session_id: 'some-id',
-          }));
+          .reply(
+            200,
+            JSON.stringify({
+              client_session_token_ttl: 30,
+              client_session_token: 'some-token',
+              session_id: 'some-id',
+            })
+          );
 
         docScanService
           .createSession(sessionSpec)
@@ -97,12 +104,12 @@ describe('DocScanService', () => {
             SESSION_CREATE_URI,
             JSON.stringify(sessionSpec)
           )
-          .reply(400, SOME_RESPONSE);
+          .reply(400, SOME_ERROR_RESPONSE, JSON_RESPONSE_HEADERS);
 
         docScanService
           .createSession(sessionSpec)
           .catch((err) => {
-            expect(err.message).toBe(`Bad Request: ${SOME_RESPONSE}`);
+            expect(err.message).toBe(SOME_ERROR_MESSAGE);
             expect(consoleLog)
               .toHaveBeenCalledWith('Error getting data from Connect API: Bad Request');
             done();
@@ -117,9 +124,10 @@ describe('DocScanService', () => {
             SESSION_CREATE_URI,
             JSON.stringify(sessionSpec)
           )
-          .reply(200, {
-            client_session_token_ttl: { some: 'invalid ttl' },
-          });
+          .reply(
+            200,
+            { client_session_token_ttl: { some: 'invalid ttl' } }
+          );
 
         docScanService
           .createSession(sessionSpec)
@@ -137,9 +145,10 @@ describe('DocScanService', () => {
       it('should return a DocScan session', (done) => {
         nock(config.yoti.docScanApi)
           .get(SESSION_URI)
-          .reply(200, JSON.stringify({
-            session_id: 'some-session-id',
-          }));
+          .reply(
+            200,
+            JSON.stringify({ session_id: 'some-session-id' })
+          );
 
         docScanService
           .getSession(SESSION_ID)
@@ -185,12 +194,12 @@ describe('DocScanService', () => {
       it('should reject with response body and message', (done) => {
         nock(config.yoti.docScanApi)
           .get(SESSION_URI)
-          .reply(400, SOME_RESPONSE);
+          .reply(400, SOME_ERROR_RESPONSE, JSON_RESPONSE_HEADERS);
 
         docScanService
           .getSession(SESSION_ID)
           .catch((err) => {
-            expect(err.message).toBe(`Bad Request: ${SOME_RESPONSE}`);
+            expect(err.message).toBe(SOME_ERROR_MESSAGE);
             done();
           })
           .catch(done);
@@ -233,12 +242,12 @@ describe('DocScanService', () => {
       it('should reject with response message and body', (done) => {
         nock(config.yoti.docScanApi)
           .delete(SESSION_URI)
-          .reply(400, SOME_RESPONSE);
+          .reply(400, SOME_ERROR_RESPONSE, JSON_RESPONSE_HEADERS);
 
         docScanService
           .deleteSession(SESSION_ID)
           .catch((err) => {
-            expect(err.message).toBe(`Bad Request: ${SOME_RESPONSE}`);
+            expect(err.message).toBe(SOME_ERROR_MESSAGE);
             done();
           })
           .catch(done);
@@ -324,12 +333,12 @@ describe('DocScanService', () => {
       it('should reject with response message and body', (done) => {
         nock(config.yoti.docScanApi)
           .get(MEDIA_URI)
-          .reply(400, SOME_RESPONSE);
+          .reply(400, SOME_ERROR_RESPONSE, JSON_RESPONSE_HEADERS);
 
         docScanService
           .getMediaContent(SESSION_ID, MEDIA_ID)
           .catch((err) => {
-            expect(err.message).toBe(`Bad Request: ${SOME_RESPONSE}`);
+            expect(err.message).toBe(SOME_ERROR_MESSAGE);
             done();
           })
           .catch(done);
@@ -372,12 +381,12 @@ describe('DocScanService', () => {
       it('should reject with response message and body', (done) => {
         nock(config.yoti.docScanApi)
           .delete(MEDIA_URI)
-          .reply(400, SOME_RESPONSE);
+          .reply(400, SOME_ERROR_RESPONSE, JSON_RESPONSE_HEADERS);
 
         docScanService
           .deleteMediaContent(SESSION_ID, MEDIA_ID)
           .catch((err) => {
-            expect(err.message).toBe(`Bad Request: ${SOME_RESPONSE}`);
+            expect(err.message).toBe(SOME_ERROR_MESSAGE);
             done();
           })
           .catch(done);
@@ -420,12 +429,12 @@ describe('DocScanService', () => {
       it('should reject with response message and body', (done) => {
         nock(config.yoti.docScanApi)
           .get(SUPPORTED_DOCUMENTS_URI)
-          .reply(400, SOME_RESPONSE);
+          .reply(400, SOME_ERROR_RESPONSE, JSON_RESPONSE_HEADERS);
 
         docScanService
           .getSupportedDocuments()
           .catch((err) => {
-            expect(err.message).toBe(`Bad Request: ${SOME_RESPONSE}`);
+            expect(err.message).toBe(SOME_ERROR_MESSAGE);
             done();
           })
           .catch(done);
