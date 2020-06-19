@@ -23,6 +23,7 @@ const SESSION_CREATE_URI = new RegExp(`^/idverify/v1/sessions\\?sdkId=${APP_ID}`
 const SESSION_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}\\?sdkId=${APP_ID}`);
 const MEDIA_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/media/${MEDIA_ID}/content\\?sdkId=${APP_ID}`);
 const SUPPORTED_DOCUMENTS_URI = new RegExp('^/idverify/v1/supported-documents');
+const SOME_RESPONSE = JSON.stringify({ some: 'response' });
 
 describe('DocScanService', () => {
   let docScanService;
@@ -89,6 +90,26 @@ describe('DocScanService', () => {
           .catch(done);
       });
     });
+    describe('when an invalid response code is returned with body', () => {
+      it('should log error and reject with response body', (done) => {
+        nock(config.yoti.docScanApi)
+          .post(
+            SESSION_CREATE_URI,
+            JSON.stringify(sessionSpec)
+          )
+          .reply(400, SOME_RESPONSE);
+
+        docScanService
+          .createSession(sessionSpec)
+          .catch((err) => {
+            expect(err.message).toBe(`Bad Request: ${SOME_RESPONSE}`);
+            expect(consoleLog)
+              .toHaveBeenCalledWith('Error getting data from Connect API: Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
     describe('when an invalid response body is returned', () => {
       it('should reject', (done) => {
         nock(config.yoti.docScanApi)
@@ -145,16 +166,31 @@ describe('DocScanService', () => {
           .catch(done);
       });
     });
-    describe('when response is invalid', () => {
+    describe('when response code is invalid', () => {
       it('should reject', (done) => {
         nock(config.yoti.docScanApi)
           .get(SESSION_URI)
-          .reply(400, '');
+          .reply(400);
 
         docScanService
           .getSession(SESSION_ID)
           .catch((err) => {
             expect(err.message).toBe('Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response code is invalid with body', () => {
+      it('should reject with response body and message', (done) => {
+        nock(config.yoti.docScanApi)
+          .get(SESSION_URI)
+          .reply(400, SOME_RESPONSE);
+
+        docScanService
+          .getSession(SESSION_ID)
+          .catch((err) => {
+            expect(err.message).toBe(`Bad Request: ${SOME_RESPONSE}`);
             done();
           })
           .catch(done);
@@ -178,16 +214,31 @@ describe('DocScanService', () => {
           .catch(done);
       });
     });
-    describe('when response is invalid', () => {
+    describe('when response code is invalid', () => {
       it('should reject', (done) => {
         nock(config.yoti.docScanApi)
           .delete(SESSION_URI)
-          .reply(400, '');
+          .reply(400);
 
         docScanService
           .deleteSession(SESSION_ID)
           .catch((err) => {
             expect(err.message).toBe('Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response code is invalid with body', () => {
+      it('should reject with response message and body', (done) => {
+        nock(config.yoti.docScanApi)
+          .delete(SESSION_URI)
+          .reply(400, SOME_RESPONSE);
+
+        docScanService
+          .deleteSession(SESSION_ID)
+          .catch((err) => {
+            expect(err.message).toBe(`Bad Request: ${SOME_RESPONSE}`);
             done();
           })
           .catch(done);
@@ -258,12 +309,27 @@ describe('DocScanService', () => {
       it('should reject', (done) => {
         nock(config.yoti.docScanApi)
           .get(MEDIA_URI)
-          .reply(400, '');
+          .reply(400);
 
         docScanService
           .getMediaContent(SESSION_ID, MEDIA_ID)
           .catch((err) => {
             expect(err.message).toBe('Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response code is invalid with response body', () => {
+      it('should reject with response message and body', (done) => {
+        nock(config.yoti.docScanApi)
+          .get(MEDIA_URI)
+          .reply(400, SOME_RESPONSE);
+
+        docScanService
+          .getMediaContent(SESSION_ID, MEDIA_ID)
+          .catch((err) => {
+            expect(err.message).toBe(`Bad Request: ${SOME_RESPONSE}`);
             done();
           })
           .catch(done);
@@ -287,16 +353,31 @@ describe('DocScanService', () => {
           .catch(done);
       });
     });
-    describe('when response is invalid', () => {
+    describe('when response code is invalid', () => {
       it('should reject', (done) => {
         nock(config.yoti.docScanApi)
           .delete(MEDIA_URI)
-          .reply(400, '');
+          .reply(400);
 
         docScanService
           .deleteMediaContent(SESSION_ID, MEDIA_ID)
           .catch((err) => {
             expect(err.message).toBe('Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response code is invalid with response body', () => {
+      it('should reject with response message and body', (done) => {
+        nock(config.yoti.docScanApi)
+          .delete(MEDIA_URI)
+          .reply(400, SOME_RESPONSE);
+
+        docScanService
+          .deleteMediaContent(SESSION_ID, MEDIA_ID)
+          .catch((err) => {
+            expect(err.message).toBe(`Bad Request: ${SOME_RESPONSE}`);
             done();
           })
           .catch(done);
@@ -320,16 +401,31 @@ describe('DocScanService', () => {
           .catch(done);
       });
     });
-    describe('when response is invalid', () => {
+    describe('when response code is invalid', () => {
       it('should reject', (done) => {
         nock(config.yoti.docScanApi)
           .get(SUPPORTED_DOCUMENTS_URI)
-          .reply(400, '{}');
+          .reply(400);
 
         docScanService
           .getSupportedDocuments()
           .catch((err) => {
             expect(err.message).toBe('Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response code is invalid with response body', () => {
+      it('should reject with response message and body', (done) => {
+        nock(config.yoti.docScanApi)
+          .get(SUPPORTED_DOCUMENTS_URI)
+          .reply(400, SOME_RESPONSE);
+
+        docScanService
+          .getSupportedDocuments()
+          .catch((err) => {
+            expect(err.message).toBe(`Bad Request: ${SOME_RESPONSE}`);
             done();
           })
           .catch(done);

@@ -1,13 +1,24 @@
 'use strict';
 
 /**
+ * @param {Error} error
+ */
+function errorMessage(error) {
+  if (!error.response || !error.response.text) {
+    return error.message;
+  }
+  return `${error.message}: ${error.response.text}`;
+}
+
+/**
  * Signals that a problem occurred in a Yoti Doc Scan call
  *
  * @class DocScanError
  */
 class DocScanError extends Error {
   constructor(error) {
-    super(error.message);
+    super(errorMessage(error));
+
     this.name = this.constructor.name;
     this.response = error.response || null;
   }

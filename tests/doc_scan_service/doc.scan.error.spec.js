@@ -1,5 +1,8 @@
 const DocScanError = require('../../src/doc_scan_service/doc.scan.error');
 
+const SOME_RESPONSE_BODY = { some: 'body' };
+const SOME_RESPONSE_TEXT = JSON.stringify(SOME_RESPONSE_BODY);
+
 describe('DocScanError', () => {
   let docScanError;
 
@@ -9,7 +12,8 @@ describe('DocScanError', () => {
 
       someError.response = {
         statusCode: 400,
-        body: 'some-body',
+        body: SOME_RESPONSE_BODY,
+        text: SOME_RESPONSE_TEXT,
       };
 
       docScanError = new DocScanError(someError);
@@ -21,7 +25,7 @@ describe('DocScanError', () => {
 
     describe('#message', () => {
       it('should return the error message', () => {
-        expect(docScanError.message).toBe('some error message');
+        expect(docScanError.message).toBe(`some error message: ${SOME_RESPONSE_TEXT}`);
       });
     });
 
@@ -39,7 +43,7 @@ describe('DocScanError', () => {
 
     describe('#getResponseBody', () => {
       it('should return the response body', () => {
-        expect(docScanError.getResponseBody()).toBe('some-body');
+        expect(docScanError.getResponseBody()).toBe(SOME_RESPONSE_BODY);
       });
     });
   });
