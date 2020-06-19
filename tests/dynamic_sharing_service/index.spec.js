@@ -1,6 +1,6 @@
 const fs = require('fs');
 const nock = require('nock');
-const uuid = require('uuid');
+const { v4: uuid } = require('uuid');
 
 const config = require('../../config');
 const {

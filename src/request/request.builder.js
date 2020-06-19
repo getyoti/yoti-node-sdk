@@ -5,7 +5,7 @@ const { YotiRequest } = require('./request');
 const fs = require('fs');
 const Validation = require('../yoti_common/validation');
 const yotiPackage = require('../../package.json');
-const uuid = require('uuid');
+const { v4: uuid } = require('uuid');
 
 const SDK_IDENTIFIER = 'Node';
 
@@ -167,7 +167,7 @@ class RequestBuilder {
     const queryString = buildQueryString(Object.assign(
       this.queryParams,
       {
-        nonce: uuid.v4(),
+        nonce: uuid(),
         timestamp: Date.now(),
       }
     ));
