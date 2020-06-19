@@ -4,10 +4,22 @@
  * @param {Error} error
  */
 function errorMessage(error) {
-  if (!error.response || !error.response.text) {
-    return error.message;
+  if (
+    error.response
+    && error.response.body
+    && error.response.body.code
+    && error.response.body.message
+  ) {
+    const message = `${error.response.body.code} - ${error.response.body.message}`;
+
+    if (error.response.body.errors) {
+      return `${message}: ${JSON.stringify(error.response.body.errors)}`;
+    }
+
+    return message;
   }
-  return `${error.message}: ${error.response.text}`;
+
+  return error.message;
 }
 
 /**
