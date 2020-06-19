@@ -115,4 +115,3 @@ describe('ThirdPartyAttributeExtensionBuilder', () => {
     expect(JSON.stringify(expectedJson)).toEqual(JSON.stringify(thirdPartyAttributeExtension));
   });
 });
-

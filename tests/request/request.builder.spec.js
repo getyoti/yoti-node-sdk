@@ -192,8 +192,7 @@ expect.extend({
       }
     });
     return {
-      message: () =>
-        'Request contains expected headers',
+      message: () => 'Request contains expected headers',
       pass: true,
     };
   },

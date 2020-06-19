@@ -203,8 +203,7 @@ expect.extend({
       expect(headerValue).toBe(expectedHeaderValue);
     });
     return {
-      message: () =>
-        'Response contains expected headers',
+      message: () => 'Response contains expected headers',
       pass: true,
     };
   },

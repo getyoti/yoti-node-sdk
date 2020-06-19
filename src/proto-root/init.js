@@ -1,5 +1,7 @@
 'use strict';
 
+const ProtoBuf = require('protobufjs');
+
 const utils = require('./utils');
 const attributeList = require('./proto.attribute.list');
 const commonEncryptedData = require('./proto.common.encrypted-data');
@@ -8,7 +10,6 @@ const signedTimeStamp = require('./proto.signed.timestamp');
 const extraData = require('./proto.share.extra-data');
 const thirdPartyAttribute = require('./proto.share.third-party-attribute');
 
-const ProtoBuf = require('protobufjs');
 const serverConfig = require('../../config/protobuf');
 
 let instance;
