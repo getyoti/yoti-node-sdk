@@ -13,7 +13,21 @@ function errorMessage(error) {
     const message = `${error.response.body.code} - ${error.response.body.message}`;
 
     if (error.response.body.errors) {
-      return `${message}: ${JSON.stringify(error.response.body.errors)}`;
+      const propertyErrors = error
+        .response
+        .body
+        .errors
+        .map((e) => {
+          if (e.property && e.message) {
+            return `${e.property} "${e.message}"`;
+          }
+          return null;
+        })
+        .filter(e => e !== null);
+
+      if (propertyErrors.length > 0) {
+        return `${message}: ${propertyErrors.join(', ')}`;
+      }
     }
 
     return message;
