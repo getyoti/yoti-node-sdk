@@ -8,12 +8,23 @@ const SOME_RESPONSE = {
   message: SOME_MESSAGE,
 };
 
+const SOME_PROPERTY = 'some.property';
+const SOME_PROPERTY_MESSAGE = 'some.property';
+const SOME_OTHER_PROPERTY = 'some.other.property';
+const SOME_OTHER_PROPERTY_MESSAGE = 'some other property message';
+
 const SOME_RESPONSE_WITH_ERRORS = {
   code: SOME_CODE,
   message: SOME_MESSAGE,
   errors: [
-    'some error',
-    'some other error',
+    {
+      property: SOME_PROPERTY,
+      message: SOME_PROPERTY_MESSAGE,
+    },
+    {
+      property: SOME_OTHER_PROPERTY,
+      message: SOME_OTHER_PROPERTY_MESSAGE,
+    },
   ],
 };
 
@@ -81,7 +92,7 @@ describe('DocScanError', () => {
     describe('#message', () => {
       it('should return the error message', () => {
         expect(docScanError.message)
-          .toBe(`${SOME_CODE} - ${SOME_MESSAGE}: ${JSON.stringify(SOME_RESPONSE_WITH_ERRORS.errors)}`);
+          .toBe(`${SOME_CODE} - ${SOME_MESSAGE}: ${SOME_PROPERTY} "${SOME_PROPERTY_MESSAGE}", ${SOME_OTHER_PROPERTY} "${SOME_OTHER_PROPERTY_MESSAGE}"`);
       });
     });
 
