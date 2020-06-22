@@ -39,7 +39,7 @@
     "bytebuffer": "^5.0.1",
     "node-forge": "^0.9.1",
     "node-rsa": "^1.0.3",
-    "protobufjs": "^5.0.3",
+    "protobufjs": "^6.9.0",
     "safe-buffer": "^5.1.2",
     "superagent": "^4.1.0",
     "uuid": "^3.3.2"
