@@ -28,6 +28,16 @@ const SOME_RESPONSE_WITH_ERRORS = {
   ],
 };
 
+const SOME_RESPONSE_WITH_UNKNOWN_ERRORS = {
+  code: SOME_CODE,
+  message: SOME_MESSAGE,
+  errors: [
+    {
+      some: 'unknown error',
+    },
+  ],
+};
+
 describe('DocScanError', () => {
   let docScanError;
 
@@ -111,6 +121,26 @@ describe('DocScanError', () => {
     describe('#getResponseBody', () => {
       it('should return the response body', () => {
         expect(docScanError.getResponseBody()).toBe(SOME_RESPONSE_WITH_ERRORS);
+      });
+    });
+  });
+  describe('when error has response with unknown errors', () => {
+    beforeEach(() => {
+      const someError = new Error('some error message');
+
+      someError.response = {
+        statusCode: 400,
+        body: SOME_RESPONSE_WITH_UNKNOWN_ERRORS,
+        text: JSON.stringify(SOME_RESPONSE_WITH_UNKNOWN_ERRORS),
+      };
+
+      docScanError = new DocScanError(someError);
+    });
+
+    describe('#message', () => {
+      it('should exclude unknown errors', () => {
+        expect(docScanError.message)
+          .toBe(`${SOME_CODE} - ${SOME_MESSAGE}`);
       });
     });
   });
