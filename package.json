@@ -14,8 +14,7 @@
   "scripts": {
     "lint": "eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
     "unit-test": "jest",
-    "test": "npm run lint && npm run unit-test",
-    "coveralls": "npm run unit-test && cat ./coverage/lcov.info | coveralls"
+    "test": "npm run lint && npm run unit-test"
   },
   "husky": {
     "hooks": {
@@ -45,7 +44,6 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "coveralls": "^3.0.7",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.18.2",
