@@ -9,7 +9,7 @@ const SOME_RESPONSE = {
 };
 
 const SOME_PROPERTY = 'some.property';
-const SOME_PROPERTY_MESSAGE = 'some.property';
+const SOME_PROPERTY_MESSAGE = 'some property message';
 const SOME_OTHER_PROPERTY = 'some.other.property';
 const SOME_OTHER_PROPERTY_MESSAGE = 'some other property message';
 
