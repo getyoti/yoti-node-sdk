@@ -13,7 +13,7 @@ jobs:
       before_install: npm install -g npm@latest
       install: npm ci
       script:
-        - npm audit --production
+        - npm audit
         - npm test
     - &test-compatibility
       stage: Compatibility
