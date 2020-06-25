@@ -17,13 +17,12 @@ function errorMessage(error) {
         .response
         .body
         .errors
-        .map((e) => {
-          if (e.property && e.message) {
-            return `${e.property} "${e.message}"`;
+        .reduce((acc, current) => {
+          if (current.property && current.message) {
+            acc.push(`${current.property} "${current.message}"`);
           }
-          return null;
-        })
-        .filter(e => e !== null);
+          return acc;
+        }, []);
 
       if (propertyErrors.length > 0) {
         return `${message}: ${propertyErrors.join(', ')}`;
