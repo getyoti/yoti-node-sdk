@@ -18,7 +18,7 @@ module.exports = class Constraints {
   }
 
   /**
-   * @returns {Array}
+   * @returns {Array} for JSON.stringify()
    */
   toJSON() {
     return this.constraints;

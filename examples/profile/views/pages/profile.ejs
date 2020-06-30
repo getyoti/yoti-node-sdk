@@ -1,83 +1,3 @@
-<%
-const fullName = profile.getFullName();
-const givenNames = profile.getGivenNames();
-const familyName = profile.getFamilyName();
-const phoneNumber = profile.getPhoneNumber();
-const dateOfBirth = profile.getDateOfBirth();
-const postalAddress = profile.getPostalAddress();
-const emailAddress = profile.getEmailAddress();
-const nationality = profile.getNationality();
-const gender = profile.getGender();
-const userSelfie = profile.getSelfie();
-const documentImages = profile.getDocumentImages();
-const documentDetails = profile.getDocumentDetails();
-const structuredPostalAddress = profile.getStructuredPostalAddress();
-
-const attributes = [
-  {
-    name: "Given names",
-    prop: givenNames,
-    icon: "yoti-icon-profile"
-  },
-  {
-    name: "Family names",
-    prop: familyName,
-    icon: "yoti-icon-profile"
-  },
-  {
-    name: "Mobile number",
-    prop: phoneNumber,
-    icon: "yoti-icon-phone"
-  },
-  {
-    name: "Email address",
-    prop: emailAddress,
-    icon: "yoti-icon-email"
-  },
-  {
-    name: "Date of birth",
-    prop: dateOfBirth,
-    icon: "yoti-icon-calendar"
-  },
-  {
-    name: "Address",
-    prop: postalAddress,
-    icon: "yoti-icon-address"
-  },
-  {
-    name: "Structured Address",
-    prop: structuredPostalAddress,
-    icon: "yoti-icon-address"
-  },
-  {
-    name: "Gender",
-    prop: gender,
-    icon: "yoti-icon-gender"
-  },
-  {
-    name: "Document Images",
-    prop: documentImages,
-    icon: "yoti-icon-profile"
-  },
-  {
-    name: "Document Details",
-    prop: documentDetails,
-    icon: "yoti-icon-profile"
-  },
-]
-
-const ageVerifications = profile.getAgeVerifications();
-if (ageVerifications) {
-  ageVerifications.forEach(ageVerification => {
-    attributes.push({
-      name: 'Age Verification',
-      prop: ageVerification.getAttribute(),
-      age_verification: ageVerification,
-      icon: "yoti-icon-verified"
-    });
-  });
-}
-%>
 <!DOCTYPE html>
 <html class="yoti-html">
 <head>
@@ -97,16 +17,18 @@ if (ageVerifications) {
       </div>
 
       <div class="yoti-profile-picture-section">
-        <% if (userProfile.selfie) { %>
+        <% if (profile.getSelfie()) { %>
         <div class="yoti-profile-picture-area">
-          <img src="/static/YotiSelfie.jpeg" class="yoti-profile-picture-image" alt="Yoti" />
+          <img src="<%= profile.getSelfie().getValue().getBase64Content() %>" class="yoti-profile-picture-image" alt="Yoti" />
 
           <i class="yoti-profile-picture-verified-icon"></i>
         </div>
         <% } %>
 
         <div class="yoti-profile-name">
-          <%= fullName.getValue() %>
+          <% if (profile.getFullName()) { %>
+            <%= profile.getFullName().getValue() %>
+          <% } %>
         </div>
       </div>
     </section>

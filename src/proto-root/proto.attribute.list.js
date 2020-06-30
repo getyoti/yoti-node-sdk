@@ -8,11 +8,17 @@ const Image = require('../data_type/image');
 
 module.exports = {
 
+  /**
+   * Decode all attributes.
+   *
+   * @param {Buffer} binaryData
+   */
   decodeAttributeList(binaryData) {
     const attributesList = this.builder.attrpubapi_v1.AttributeList.decode(binaryData);
     const attributes = attributesList.get('attributes');
     const attrList = [];
-    const profileAttributes = [];
+    const extendedProfile = {};
+    const extendedProfileList = [];
 
     for (let i = 0; i < attributes.length; i += 1) {
       const attribute = attributes[i];
@@ -49,15 +55,17 @@ module.exports = {
       } catch (err) {
         console.log(`${err.message} (Attribute: ${attrName})`);
       }
-      profileAttributes[attrName] = attrData;
+      extendedProfile[attrName] = attrData;
+      extendedProfileList.push(attrData);
 
       if (attrData && Age.conditionVerified(attrNameInCamelCase)) {
         const ageCondition = Object.assign({}, attrData);
         ageCondition.name = 'age_verified';
-        profileAttributes.age_verified = ageCondition;
+        extendedProfile.age_verified = ageCondition;
       }
     }
-    attrList.push({ extendedProfile: profileAttributes });
+    attrList.push({ extendedProfile });
+    attrList.push({ extendedProfileList });
 
     return attrList;
   },
