@@ -1,4 +1,3 @@
-
 const RecommendationResponse = require('../../../../src/doc_scan_service/session/retrieve/recommendation.response');
 
 describe('RecommendationResponse', () => {

@@ -8,7 +8,7 @@ class SupportedCountry {
 
     if (country.supported_documents) {
       this.supportedDocuments = country.supported_documents
-        .map(document => new SupportedDocument(document));
+        .map((document) => new SupportedDocument(document));
     } else {
       this.supportedDocuments = [];
     }

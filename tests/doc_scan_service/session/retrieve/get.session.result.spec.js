@@ -82,7 +82,7 @@ describe('GetSessionResult', () => {
         expect(checks[1]).toBeInstanceOf(LivenessCheckResponse);
         expect(checks[2]).toBeInstanceOf(FaceMatchCheckResponse);
         expect(checks[3]).toBeInstanceOf(TextDataCheckResponse);
-        checks.forEach(check => expect(check).toBeInstanceOf(CheckResponse));
+        checks.forEach((check) => expect(check).toBeInstanceOf(CheckResponse));
       });
     });
     describe('when checks are not available', () => {

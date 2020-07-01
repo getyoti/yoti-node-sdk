@@ -17,8 +17,8 @@ const SDK_IDENTIFIER = 'Node';
  *
  * @returns {string}
  */
-const buildQueryString = queryParams => Object.keys(queryParams)
-  .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(queryParams[k])}`)
+const buildQueryString = (queryParams) => Object.keys(queryParams)
+  .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(queryParams[k])}`)
   .join('&');
 
 /**

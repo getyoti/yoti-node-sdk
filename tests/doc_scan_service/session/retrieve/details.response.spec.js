@@ -1,4 +1,3 @@
-
 const DetailsResponse = require('../../../../src/doc_scan_service/session/retrieve/details.response');
 
 describe('DetailsResponse', () => {

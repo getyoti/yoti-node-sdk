@@ -345,7 +345,7 @@ class AnchorProcessor {
   static getAnchorListKeyByType(type) {
     const anchorTypesMap = this.getAnchorTypesMap();
     return Object.keys(anchorTypesMap)
-      .find(key => ANCHOR_TYPES[type] === anchorTypesMap[key]);
+      .find((key) => ANCHOR_TYPES[type] === anchorTypesMap[key]);
   }
 
   /**
@@ -355,7 +355,7 @@ class AnchorProcessor {
    */
   static getAnchorTypeByOid(oid) {
     return Object.keys(ANCHOR_TYPES)
-      .find(key => oid === ANCHOR_TYPES[key]) || 'UNKNOWN';
+      .find((key) => oid === ANCHOR_TYPES[key]) || 'UNKNOWN';
   }
 
   /**

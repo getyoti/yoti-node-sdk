@@ -35,7 +35,7 @@ class ThirdPartyAttributeConverter {
       } catch (err) {
         console.log(`Failed to retrieve/parse expiryDate from ThirdPartyAttribute: ${err}`);
       }
-      attributes = issuingAttributes.definitions.map(a => new AttributeDefinition(a.name));
+      attributes = issuingAttributes.definitions.map((a) => new AttributeDefinition(a.name));
     }
 
     return new AttributeIssuanceDetails(token, expiryDate, attributes);

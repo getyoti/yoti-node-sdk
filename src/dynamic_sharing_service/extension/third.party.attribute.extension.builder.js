@@ -26,7 +26,7 @@ class ThirdPartyAttributeExtensionBuilder {
 
   withDefinitions(definitions) {
     Validation.hasOnlyStringValues(definitions, 'definitions');
-    this.definitions = definitions.map(def => new AttributeDefinition(def));
+    this.definitions = definitions.map((def) => new AttributeDefinition(def));
     return this;
   }
 

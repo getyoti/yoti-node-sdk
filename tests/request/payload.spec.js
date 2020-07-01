@@ -1,5 +1,5 @@
 const { AmlAddress, AmlProfile } = require('../../src/aml_type');
-const { Payload } = require('../../');
+const { Payload } = require('../..');
 
 describe('amlPayload', () => {
   const amlAddress = new AmlAddress('GBR');

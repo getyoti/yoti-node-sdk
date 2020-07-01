@@ -61,8 +61,8 @@ class BaseProfile {
     Validation.isString(name, 'name');
 
     return Object.keys(this.getAttributes())
-      .map(key => this.getAttributes()[key])
-      .filter(attribute => attribute.getName().startsWith(name));
+      .map((key) => this.getAttributes()[key])
+      .filter((attribute) => attribute.getName().startsWith(name));
   }
 
   /**

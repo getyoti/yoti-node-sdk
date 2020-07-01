@@ -279,7 +279,7 @@ module.exports = class DynamicPolicyBuilder {
     if (enabled) {
       this.wantedAuthTypes.push(wantedAuthType);
     } else {
-      this.wantedAuthTypes = this.wantedAuthTypes.filter(value => value !== wantedAuthType);
+      this.wantedAuthTypes = this.wantedAuthTypes.filter((value) => value !== wantedAuthType);
     }
 
     return this;
@@ -298,7 +298,7 @@ module.exports = class DynamicPolicyBuilder {
    */
   build() {
     return new DynamicPolicy(
-      Object.keys(this.wantedAttributes).map(k => this.wantedAttributes[k]),
+      Object.keys(this.wantedAttributes).map((k) => this.wantedAttributes[k]),
       this.wantedAuthTypes.filter((value, index, self) => self.indexOf(value) === index),
       this.wantedRememberMe,
       false

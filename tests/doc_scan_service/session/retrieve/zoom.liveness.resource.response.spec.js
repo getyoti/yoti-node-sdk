@@ -1,4 +1,3 @@
-
 const ZoomLivenessResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/zoom.liveness.resource.response');
 const FaceMapResponse = require('../../../../src/doc_scan_service/session/retrieve/face.map.response');
 const FrameResponse = require('../../../../src/doc_scan_service/session/retrieve/frame.response');

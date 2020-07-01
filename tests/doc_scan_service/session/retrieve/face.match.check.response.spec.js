@@ -1,4 +1,3 @@
-
 const FaceMatchCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/face.match.check.response');
 const CheckResponse = require('../../../../src/doc_scan_service/session/retrieve/check.response');
 const GeneratedMedia = require('../../../../src/doc_scan_service/session/retrieve/generated.media');

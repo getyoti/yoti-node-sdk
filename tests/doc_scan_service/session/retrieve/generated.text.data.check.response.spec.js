@@ -1,4 +1,3 @@
-
 const GeneratedTextDataCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/generated.text.data.check.response');
 
 describe('GeneratedTextDataCheckResponse', () => {

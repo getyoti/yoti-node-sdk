@@ -1,4 +1,3 @@
-
 const ResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/resource.response');
 const TaskResponse = require('../../../../src/doc_scan_service/session/retrieve/task.response');
 const TextExtractionTaskResponse = require('../../../../src/doc_scan_service/session/retrieve/text.extraction.task.response');

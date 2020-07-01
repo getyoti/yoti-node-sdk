@@ -1,4 +1,3 @@
-
 const IdDocumentResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/id.document.resource.response');
 const PageResponse = require('../../../../src/doc_scan_service/session/retrieve/page.response');
 const DocumentFieldsResponse = require('../../../../src/doc_scan_service/session/retrieve/document.fields.response');

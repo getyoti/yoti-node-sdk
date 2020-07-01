@@ -25,7 +25,7 @@ class CheckResponse {
 
     if (check.generated_media) {
       Validation.isArray(check.generated_media, 'generated_media');
-      this.generatedMedia = check.generated_media.map(media => new GeneratedMedia(media));
+      this.generatedMedia = check.generated_media.map((media) => new GeneratedMedia(media));
     } else {
       this.generatedMedia = [];
     }

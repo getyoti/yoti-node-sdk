@@ -18,7 +18,7 @@ class IdDocumentResourceResponse extends ResourceResponse {
 
     if (resource.pages) {
       Validation.isArray(resource.pages, 'pages');
-      this.pages = resource.pages.map(page => new PageResponse(page));
+      this.pages = resource.pages.map((page) => new PageResponse(page));
     } else {
       this.pages = [];
     }
@@ -60,7 +60,7 @@ class IdDocumentResourceResponse extends ResourceResponse {
    * @returns {TextExtractionTaskResponse[]}
    */
   getTextExtractionTasks() {
-    return this.getTasks().filter(task => task instanceof TextExtractionTaskResponse);
+    return this.getTasks().filter((task) => task instanceof TextExtractionTaskResponse);
   }
 }
 

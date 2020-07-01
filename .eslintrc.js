@@ -12,7 +12,8 @@ module.exports = {
       "imports": "always-multiline",
       "objects": "always-multiline"
     }],
-    "no-console": 0
+    "no-console": 0,
+    "prefer-object-spread": 0,
   },
   env: {
     "node": true,
