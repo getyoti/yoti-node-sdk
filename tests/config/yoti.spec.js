@@ -1,4 +1,3 @@
-
 /**
  * Reloads yoti config module with current environment variables.
  */

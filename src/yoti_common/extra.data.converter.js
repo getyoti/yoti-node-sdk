@@ -17,9 +17,9 @@ class ExtraDataConverter {
     }
 
     const dataEntries = extraDataProto.list;
-    const parsed = dataEntries.map(entry => DataEntryConverter
+    const parsed = dataEntries.map((entry) => DataEntryConverter
       .convertValue(entry.type, entry.value))
-      .filter(i => i !== undefined);
+      .filter((i) => i !== undefined);
 
     return new ExtraData(parsed);
   }

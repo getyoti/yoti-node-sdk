@@ -1,4 +1,3 @@
-
 const PageResponse = require('../../../../src/doc_scan_service/session/retrieve/page.response');
 const MediaResponse = require('../../../../src/doc_scan_service/session/retrieve/media.response');
 

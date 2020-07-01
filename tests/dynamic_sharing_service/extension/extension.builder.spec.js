@@ -1,4 +1,4 @@
-const { ExtensionBuilder } = require('../../../');
+const { ExtensionBuilder } = require('../../..');
 const Extension = require('../../../src/dynamic_sharing_service/extension/extension');
 
 describe('ExtensionBuilder', () => {

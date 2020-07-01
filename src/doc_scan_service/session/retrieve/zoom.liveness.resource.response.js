@@ -15,7 +15,7 @@ class ZoomLivenessResourceResponse extends LivenessResourceResponse {
 
     if (resource.frames) {
       Validation.isArray(resource.frames, 'frames');
-      this.frames = resource.frames.map(frame => new FrameResponse(frame));
+      this.frames = resource.frames.map((frame) => new FrameResponse(frame));
     } else {
       this.frames = [];
     }

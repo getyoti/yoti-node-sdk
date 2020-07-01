@@ -1,6 +1,6 @@
 'use strict';
 
-const { ThirdPartyAttributeExtensionBuilder } = require('../../../');
+const { ThirdPartyAttributeExtensionBuilder } = require('../../..');
 const ThirdPartyAttributeExtensionContent = require('../../../src/dynamic_sharing_service/extension/third.party.attribute.extension.content');
 const AttributeDefinition = require('../../../src/data_type/attribute.definition');
 const Extension = require('../../../src/dynamic_sharing_service/extension/extension');

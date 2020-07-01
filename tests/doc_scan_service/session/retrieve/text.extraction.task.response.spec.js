@@ -1,4 +1,3 @@
-
 const TaskResponse = require('../../../../src/doc_scan_service/session/retrieve/task.response');
 const TextExtractionTaskResponse = require('../../../../src/doc_scan_service/session/retrieve/text.extraction.task.response');
 const GeneratedCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/generated.check.response');

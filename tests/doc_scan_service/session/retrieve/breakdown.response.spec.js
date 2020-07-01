@@ -1,4 +1,3 @@
-
 const BreakdownResponse = require('../../../../src/doc_scan_service/session/retrieve/breakdown.response');
 const DetailsResponse = require('../../../../src/doc_scan_service/session/retrieve/details.response');
 

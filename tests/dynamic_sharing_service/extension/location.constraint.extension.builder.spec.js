@@ -1,4 +1,4 @@
-const { LocationConstraintExtensionBuilder } = require('../../../');
+const { LocationConstraintExtensionBuilder } = require('../../..');
 const Extension = require('../../../src/dynamic_sharing_service/extension/extension');
 
 const LOCATION_CONSTRAINT = 'LOCATION_CONSTRAINT';

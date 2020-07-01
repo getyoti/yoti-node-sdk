@@ -93,28 +93,28 @@ class GetSessionResult {
    * @returns {AuthenticityCheckResponse[]}
    */
   getAuthenticityChecks() {
-    return this.getChecks().filter(check => check instanceof AuthenticityCheckResponse);
+    return this.getChecks().filter((check) => check instanceof AuthenticityCheckResponse);
   }
 
   /**
    * @returns {FaceMatchCheckResponse[]}
    */
   getFaceMatchChecks() {
-    return this.getChecks().filter(check => check instanceof FaceMatchCheckResponse);
+    return this.getChecks().filter((check) => check instanceof FaceMatchCheckResponse);
   }
 
   /**
    * @returns {TextDataCheckResponse[]}
    */
   getTextDataChecks() {
-    return this.getChecks().filter(check => check instanceof TextDataCheckResponse);
+    return this.getChecks().filter((check) => check instanceof TextDataCheckResponse);
   }
 
   /**
    * @returns {LivenessCheckResponse[]}
    */
   getLivenessChecks() {
-    return this.getChecks().filter(check => check instanceof LivenessCheckResponse);
+    return this.getChecks().filter((check) => check instanceof LivenessCheckResponse);
   }
 
   /**

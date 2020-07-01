@@ -1,6 +1,6 @@
 'use strict';
 
-const SessionSpecification = require('../doc_scan_service/session/create/session.specification');
+const SessionSpecification = require('./session/create/session.specification');
 const CreateSessionResult = require('./session/create/create.session.result');
 const GetSessionResult = require('./session/retrieve/get.session.result');
 const { RequestBuilder } = require('../request/request.builder');
@@ -16,7 +16,7 @@ const SupportedDocumentsResponse = require('./support/supported.documents.respon
  *
  * @returns {string}
  */
-const sessionPath = sessionId => `/sessions/${sessionId}`;
+const sessionPath = (sessionId) => `/sessions/${sessionId}`;
 
 /**
  * @param {string} sessionId
@@ -73,7 +73,7 @@ class DocScanService {
             return reject(new DocScanError(err));
           }
         })
-        .catch(err => reject(new DocScanError(err)));
+        .catch((err) => reject(new DocScanError(err)));
     });
   }
 
@@ -104,7 +104,7 @@ class DocScanService {
             return reject(new DocScanError(err));
           }
         })
-        .catch(err => reject(new DocScanError(err)));
+        .catch((err) => reject(new DocScanError(err)));
     });
   }
 
@@ -129,7 +129,7 @@ class DocScanService {
     return new Promise((resolve, reject) => {
       request.execute()
         .then(() => resolve())
-        .catch(err => reject(new DocScanError(err)));
+        .catch((err) => reject(new DocScanError(err)));
     });
   }
 
@@ -170,7 +170,7 @@ class DocScanService {
             return reject(new DocScanError(err));
           }
         })
-        .catch(err => reject(new DocScanError(err)));
+        .catch((err) => reject(new DocScanError(err)));
     });
   }
 
@@ -197,7 +197,7 @@ class DocScanService {
     return new Promise((resolve, reject) => {
       request.execute(true)
         .then(() => resolve())
-        .catch(err => reject(new DocScanError(err)));
+        .catch((err) => reject(new DocScanError(err)));
     });
   }
 
@@ -216,8 +216,8 @@ class DocScanService {
 
     return new Promise((resolve, reject) => {
       request.execute()
-        .then(response => resolve(new SupportedDocumentsResponse(response.getParsedResponse())))
-        .catch(err => reject(new DocScanError(err)));
+        .then((response) => resolve(new SupportedDocumentsResponse(response.getParsedResponse())))
+        .catch((err) => reject(new DocScanError(err)));
     });
   }
 }

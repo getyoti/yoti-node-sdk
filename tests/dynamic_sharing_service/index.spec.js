@@ -9,7 +9,7 @@ const {
 const {
   DynamicScenarioBuilder,
   DynamicPolicyBuilder,
-} = require('../../');
+} = require('../..');
 
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 

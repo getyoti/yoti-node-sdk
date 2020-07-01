@@ -1,4 +1,4 @@
-const { TransactionalFlowExtensionBuilder } = require('../../../');
+const { TransactionalFlowExtensionBuilder } = require('../../..');
 const Extension = require('../../../src/dynamic_sharing_service/extension/extension');
 
 const TRANSACTIONAL_FLOW = 'TRANSACTIONAL_FLOW';

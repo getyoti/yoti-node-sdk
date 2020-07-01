@@ -45,7 +45,7 @@ class TaskResponse {
 
     if (task.generated_media) {
       Validation.isArray(task.generated_media, 'generated_media');
-      this.generatedMedia = task.generated_media.map(media => new GeneratedMedia(media));
+      this.generatedMedia = task.generated_media.map((media) => new GeneratedMedia(media));
     } else {
       this.generatedMedia = [];
     }
@@ -99,7 +99,7 @@ class TaskResponse {
   getGeneratedTextDataChecks() {
     return this
       .getGeneratedChecks()
-      .filter(check => check instanceof GeneratedTextDataCheckResponse);
+      .filter((check) => check instanceof GeneratedTextDataCheckResponse);
   }
 
   /**

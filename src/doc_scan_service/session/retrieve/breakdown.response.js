@@ -13,7 +13,7 @@ class BreakdownResponse {
 
     if (breakdown.details) {
       Validation.isArrayOfType(breakdown.details, Object, 'details');
-      this.details = breakdown.details.map(details => new DetailsResponse(details));
+      this.details = breakdown.details.map((details) => new DetailsResponse(details));
     } else {
       this.details = [];
     }

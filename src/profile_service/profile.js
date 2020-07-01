@@ -69,7 +69,7 @@ class Profile extends BaseProfile {
   getAgeVerifications() {
     this.findAllAgeVerifications();
     return Object.keys(this.ageVerifications)
-      .map(key => this.ageVerifications[key]);
+      .map((key) => this.ageVerifications[key]);
   }
 
   /**
