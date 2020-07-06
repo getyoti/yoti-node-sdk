@@ -11,10 +11,15 @@ class RequestedTextExtractionConfig {
   /**
    * @param {string} manualCheck
    *   Describes the manual fallback behaviour applied to each Task
+   * @param {string} chipData
+   *   Describes the chip data requirement for each Task
    */
-  constructor(manualCheck) {
+  constructor(manualCheck, chipData) {
     Validation.isString(manualCheck, 'manualCheck');
     this.manualCheck = manualCheck;
+
+    Validation.isString(chipData, 'chipData', true);
+    this.chipData = chipData;
   }
 
   /**
@@ -23,6 +28,7 @@ class RequestedTextExtractionConfig {
   toJSON() {
     return {
       manual_check: this.manualCheck,
+      chip_data: this.chipData,
     };
   }
 }

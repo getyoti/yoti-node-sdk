@@ -2,6 +2,7 @@
 
 const ResourceResponse = require('./resource.response');
 const DocumentFieldsResponse = require('./document.fields.response');
+const DocumentIdPhotoResponse = require('./document.id.photo.response');
 const TextExtractionTaskResponse = require('./text.extraction.task.response');
 const PageResponse = require('./page.response');
 const Validation = require('../../../yoti_common/validation');
@@ -25,6 +26,10 @@ class IdDocumentResourceResponse extends ResourceResponse {
 
     if (resource.document_fields) {
       this.documentFields = new DocumentFieldsResponse(resource.document_fields);
+    }
+
+    if (resource.document_id_photo) {
+      this.documentIdPhoto = new DocumentIdPhotoResponse(resource.document_id_photo);
     }
   }
 
@@ -54,6 +59,13 @@ class IdDocumentResourceResponse extends ResourceResponse {
    */
   getDocumentFields() {
     return this.documentFields;
+  }
+
+  /**
+   * @returns {DocumentIdPhotoResponse}
+   */
+  getDocumentIdPhoto() {
+    return this.documentIdPhoto;
   }
 
   /**

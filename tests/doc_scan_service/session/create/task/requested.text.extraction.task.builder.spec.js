@@ -45,4 +45,38 @@ describe('RequestedTextExtractionBuilder', () => {
 
     expect(JSON.stringify(task)).toBe(expectedJson);
   });
+
+  it('should build RequestedTextExtractionTask with chip data desired', () => {
+    const expectedJson = JSON.stringify({
+      type: 'ID_DOCUMENT_TEXT_DATA_EXTRACTION',
+      config: {
+        manual_check: 'NEVER',
+        chip_data: 'DESIRED',
+      },
+    });
+
+    const task = new RequestedTextExtractionTaskBuilder()
+      .withManualCheckNever()
+      .withChipDataDesired()
+      .build();
+
+    expect(JSON.stringify(task)).toBe(expectedJson);
+  });
+
+  it('should build RequestedTextExtractionTask with chip data ignore', () => {
+    const expectedJson = JSON.stringify({
+      type: 'ID_DOCUMENT_TEXT_DATA_EXTRACTION',
+      config: {
+        manual_check: 'NEVER',
+        chip_data: 'IGNORE',
+      },
+    });
+
+    const task = new RequestedTextExtractionTaskBuilder()
+      .withManualCheckNever()
+      .withChipDataIgnore()
+      .build();
+
+    expect(JSON.stringify(task)).toBe(expectedJson);
+  });
 });
