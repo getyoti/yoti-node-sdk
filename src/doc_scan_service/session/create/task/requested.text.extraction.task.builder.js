@@ -42,6 +42,22 @@ class RequestedTextExtractionTaskBuilder {
   }
 
   /**
+   * @returns {this}
+   */
+  withChipDataDesired() {
+    this.chipData = DocScanConstants.DESIRED;
+    return this;
+  }
+
+  /**
+   * @returns {this}
+   */
+  withChipDataIgnore() {
+    this.chipData = DocScanConstants.IGNORE;
+    return this;
+  }
+
+  /**
    * Builds a {@link RequestedTextExtractionTask} using the values supplied to the builder
    *
    * @returns {RequestedTextExtractionTask}
@@ -49,7 +65,7 @@ class RequestedTextExtractionTaskBuilder {
   build() {
     Validation.notNullOrEmpty(this.manualCheck, 'manualCheck');
 
-    const config = new RequestedTextExtractionConfig(this.manualCheck);
+    const config = new RequestedTextExtractionConfig(this.manualCheck, this.chipData);
     return new RequestedTextExtractionTask(config);
   }
 }

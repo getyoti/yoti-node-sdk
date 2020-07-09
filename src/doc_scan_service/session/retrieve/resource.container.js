@@ -12,7 +12,7 @@ class ResourceContainer {
       Validation.isArray(resources.id_documents, 'id_documents');
       this.idDocuments = resources
         .id_documents
-        .map(resource => new IdDocumentResourceResponse(resource));
+        .map((resource) => new IdDocumentResourceResponse(resource));
     } else {
       this.idDocuments = [];
     }
@@ -61,7 +61,7 @@ class ResourceContainer {
   getZoomLivenessResources() {
     return this
       .getLivenessCapture()
-      .filter(resource => resource instanceof ZoomLivenessResourceResponse);
+      .filter((resource) => resource instanceof ZoomLivenessResourceResponse);
   }
 }
 

@@ -1,4 +1,3 @@
-
 const MediaResponse = require('../../../../src/doc_scan_service/session/retrieve/media.response');
 
 describe('MediaResponse', () => {

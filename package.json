@@ -1,6 +1,6 @@
 {
   "name": "yoti",
-  "version": "3.10.2",
+  "version": "3.11.0",
   "description": "Yoti NodeJS SDK for back-end integration",
   "author": "Yoti LTD <tech@yoti.com> (https://www.yoti.com/developers)",
   "license": "MIT",
@@ -14,8 +14,7 @@
   "scripts": {
     "lint": "eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
     "unit-test": "jest",
-    "test": "npm run lint && npm run unit-test",
-    "coveralls": "npm run unit-test && cat ./coverage/lcov.info | coveralls"
+    "test": "npm run lint && npm run unit-test"
   },
   "husky": {
     "hooks": {
@@ -42,14 +41,13 @@
     "protobufjs": "^5.0.3",
     "safe-buffer": "^5.1.2",
     "superagent": "^4.1.0",
-    "uuid": "^3.3.2"
+    "uuid": "^8.2.0"
   },
   "devDependencies": {
-    "coveralls": "^3.0.7",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jest": "^21.27.2",
+    "eslint-plugin-jest": "^22.21.0",
     "eslint-plugin-node": "8.0.1",
     "husky": "^4.2.3",
     "jest": "^24.9.0",

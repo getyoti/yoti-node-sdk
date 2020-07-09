@@ -1,7 +1,7 @@
 const nock = require('nock');
 const fs = require('fs');
 
-const { RequestBuilder, Payload } = require('../../');
+const { RequestBuilder, Payload } = require('../..');
 const yotiPackage = require('../../package.json');
 
 const PEM_FILE_PATH = './tests/sample-data/keys/node-sdk-test.pem';
@@ -192,8 +192,7 @@ expect.extend({
       }
     });
     return {
-      message: () =>
-        'Request contains expected headers',
+      message: () => 'Request contains expected headers',
       pass: true,
     };
   },

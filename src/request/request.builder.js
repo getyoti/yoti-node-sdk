@@ -1,11 +1,12 @@
 'use strict';
 
+const fs = require('fs');
+const { v4: uuid } = require('uuid');
+
 const yotiCommon = require('../yoti_common');
 const { YotiRequest } = require('./request');
-const fs = require('fs');
 const Validation = require('../yoti_common/validation');
 const yotiPackage = require('../../package.json');
-const uuid = require('uuid');
 
 const SDK_IDENTIFIER = 'Node';
 
@@ -16,8 +17,8 @@ const SDK_IDENTIFIER = 'Node';
  *
  * @returns {string}
  */
-const buildQueryString = queryParams => Object.keys(queryParams)
-  .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(queryParams[k])}`)
+const buildQueryString = (queryParams) => Object.keys(queryParams)
+  .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(queryParams[k])}`)
   .join('&');
 
 /**
@@ -167,7 +168,7 @@ class RequestBuilder {
     const queryString = buildQueryString(Object.assign(
       this.queryParams,
       {
-        nonce: uuid.v4(),
+        nonce: uuid(),
         timestamp: Date.now(),
       }
     ));

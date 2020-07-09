@@ -46,14 +46,14 @@ module.exports = class MultiValue {
     if (this.hasFilters()) {
       this.items = this
         .items
-        .filter(value => this.isAllowedType(value) || this.isAllowedInstance(value));
+        .filter((value) => this.isAllowedType(value) || this.isAllowedInstance(value));
     }
 
     // Apply filters on all nested MultiValue items.
     this.items.forEach((value) => {
       if (value instanceof MultiValue) {
-        this.allowedInstances.forEach(type => value.allowInstance(type));
-        this.allowedTypes.forEach(type => value.allowType(type));
+        this.allowedInstances.forEach((type) => value.allowInstance(type));
+        this.allowedTypes.forEach((type) => value.allowType(type));
         value.applyFilters();
       }
     });
@@ -74,7 +74,7 @@ module.exports = class MultiValue {
   isAllowedInstance(value) {
     let allowedInstance = false;
     if (this.allowedInstances.length > 0) {
-      allowedInstance = this.allowedInstances.find(type => value instanceof type);
+      allowedInstance = this.allowedInstances.find((type) => value instanceof type);
     }
     return allowedInstance;
   }
@@ -87,7 +87,7 @@ module.exports = class MultiValue {
   isAllowedType(value) {
     let allowedType = false;
     if (this.allowedTypes.length > 0) {
-      allowedType = this.allowedTypes.find(type => value.constructor.name === type);
+      allowedType = this.allowedTypes.find((type) => value.constructor.name === type);
     }
     return allowedType;
   }

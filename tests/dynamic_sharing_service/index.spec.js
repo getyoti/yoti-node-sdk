@@ -1,6 +1,6 @@
 const fs = require('fs');
 const nock = require('nock');
-const uuid = require('uuid');
+const { v4: uuid } = require('uuid');
 
 const config = require('../../config');
 const {
@@ -9,7 +9,7 @@ const {
 const {
   DynamicScenarioBuilder,
   DynamicPolicyBuilder,
-} = require('../../');
+} = require('../..');
 
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 

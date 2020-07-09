@@ -1,6 +1,6 @@
 'use strict';
 
-const { YotiDate } = require('../data_type/date');
+const { YotiDate } = require('./date');
 
 /**
  * SignedTimestamp is a timestamp associated with a message that has a

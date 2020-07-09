@@ -1,4 +1,3 @@
-
 const GeneratedCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/generated.check.response');
 
 describe('GeneratedCheckResponse', () => {

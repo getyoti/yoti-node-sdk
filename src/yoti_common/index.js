@@ -3,8 +3,9 @@
 const NodeRSA = require('node-rsa');
 const crypto = require('crypto');
 const forge = require('node-forge');
-const protoRoot = require('../proto-root').initializeProtoBufObjects();
 const Buffer = require('safe-buffer').Buffer;
+
+const protoRoot = require('../proto-root').initializeProtoBufObjects();
 
 const ExtraData = require('../profile_service/extra.data');
 const ExtraDataConverter = require('./extra.data.converter');

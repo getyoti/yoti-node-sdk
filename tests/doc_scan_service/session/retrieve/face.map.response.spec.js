@@ -1,4 +1,3 @@
-
 const FaceMapResponse = require('../../../../src/doc_scan_service/session/retrieve/face.map.response');
 const MediaResponse = require('../../../../src/doc_scan_service/session/retrieve/media.response');
 

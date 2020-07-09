@@ -1,13 +1,13 @@
 const fs = require('fs');
 const nock = require('nock');
-const uuid = require('uuid');
+const { v4: uuid } = require('uuid');
 
 const config = require('../../config');
 
 const {
   DocScanClient,
   SessionSpecificationBuilder,
-} = require('../../');
+} = require('../..');
 
 const CreateSessionResult = require('../../src/doc_scan_service/session/create/create.session.result');
 const GetSessionResult = require('../../src/doc_scan_service/session/retrieve/get.session.result');
@@ -119,7 +119,6 @@ describe('DocScanClient', () => {
         .catch(done);
     });
   });
-
 
   describe('#getSupportedDocuments', () => {
     describe('when a valid response is returned', () => {

@@ -2,6 +2,7 @@
 
 const ResourceResponse = require('./resource.response');
 const DocumentFieldsResponse = require('./document.fields.response');
+const DocumentIdPhotoResponse = require('./document.id.photo.response');
 const TextExtractionTaskResponse = require('./text.extraction.task.response');
 const PageResponse = require('./page.response');
 const Validation = require('../../../yoti_common/validation');
@@ -18,13 +19,17 @@ class IdDocumentResourceResponse extends ResourceResponse {
 
     if (resource.pages) {
       Validation.isArray(resource.pages, 'pages');
-      this.pages = resource.pages.map(page => new PageResponse(page));
+      this.pages = resource.pages.map((page) => new PageResponse(page));
     } else {
       this.pages = [];
     }
 
     if (resource.document_fields) {
       this.documentFields = new DocumentFieldsResponse(resource.document_fields);
+    }
+
+    if (resource.document_id_photo) {
+      this.documentIdPhoto = new DocumentIdPhotoResponse(resource.document_id_photo);
     }
   }
 
@@ -57,10 +62,17 @@ class IdDocumentResourceResponse extends ResourceResponse {
   }
 
   /**
+   * @returns {DocumentIdPhotoResponse}
+   */
+  getDocumentIdPhoto() {
+    return this.documentIdPhoto;
+  }
+
+  /**
    * @returns {TextExtractionTaskResponse[]}
    */
   getTextExtractionTasks() {
-    return this.getTasks().filter(task => task instanceof TextExtractionTaskResponse);
+    return this.getTasks().filter((task) => task instanceof TextExtractionTaskResponse);
   }
 }
 

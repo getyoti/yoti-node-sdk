@@ -1,4 +1,3 @@
-
 const ReportResponse = require('../../../../src/doc_scan_service/session/retrieve/report.response');
 const RecommendationResponse = require('../../../../src/doc_scan_service/session/retrieve/recommendation.response');
 const BreakdownResponse = require('../../../../src/doc_scan_service/session/retrieve/breakdown.response');

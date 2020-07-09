@@ -1,4 +1,3 @@
-
 const FrameResponse = require('../../../../src/doc_scan_service/session/retrieve/frame.response');
 const MediaResponse = require('../../../../src/doc_scan_service/session/retrieve/media.response');
 

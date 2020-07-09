@@ -34,12 +34,13 @@ async function createSession() {
     )
     .withRequestedCheck(
       new RequestedFaceMatchCheckBuilder()
-        .withManualCheckFallback()
+        .withManualCheckNever()
         .build()
     )
     .withRequestedTask(
       new RequestedTextExtractionTaskBuilder()
-        .withManualCheckAlways()
+        .withManualCheckNever()
+        .withChipDataDesired()
         .build()
     )
     .withSdkConfig(

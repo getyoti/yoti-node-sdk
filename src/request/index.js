@@ -27,7 +27,7 @@ module.exports.buildConnectApiRequest = (
     .withMethod(httpMethod);
 
   if (headers) {
-    Object.keys(headers).forEach(name => requestBuilder.withHeader(name, headers[name]));
+    Object.keys(headers).forEach((name) => requestBuilder.withHeader(name, headers[name]));
   }
 
   if (payload) {

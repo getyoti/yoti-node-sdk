@@ -1,4 +1,4 @@
-const { AmlAddress } = require('../../');
+const { AmlAddress } = require('../..');
 
 const SOME_COUNTRY_CODE = 'GBR';
 const SOME_POSTCODE = 'BN2 1TW';

@@ -1,4 +1,4 @@
-const { WantedAttributeBuilder, SourceConstraintBuilder, ConstraintsBuilder } = require('../../../');
+const { WantedAttributeBuilder, SourceConstraintBuilder, ConstraintsBuilder } = require('../../..');
 const WantedAttribute = require('../../../src/dynamic_sharing_service/policy/wanted.attribute');
 
 const TEST_NAME = 'test_name';

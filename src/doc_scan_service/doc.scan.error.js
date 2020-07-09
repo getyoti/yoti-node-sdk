@@ -1,13 +1,49 @@
 'use strict';
 
 /**
+ * @param {Error} error
+ */
+function errorMessage(error) {
+  if (
+    error.response
+    && error.response.body
+    && error.response.body.code
+    && error.response.body.message
+  ) {
+    const message = `${error.response.body.code} - ${error.response.body.message}`;
+
+    if (error.response.body.errors) {
+      const propertyErrors = error
+        .response
+        .body
+        .errors
+        .reduce((acc, current) => {
+          if (current.property && current.message) {
+            acc.push(`${current.property} "${current.message}"`);
+          }
+          return acc;
+        }, []);
+
+      if (propertyErrors.length > 0) {
+        return `${message}: ${propertyErrors.join(', ')}`;
+      }
+    }
+
+    return message;
+  }
+
+  return error.message;
+}
+
+/**
  * Signals that a problem occurred in a Yoti Doc Scan call
  *
  * @class DocScanError
  */
 class DocScanError extends Error {
   constructor(error) {
-    super(error.message);
+    super(errorMessage(error));
+
     this.name = this.constructor.name;
     this.response = error.response || null;
   }

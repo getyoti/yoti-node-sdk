@@ -1,4 +1,3 @@
-
 const GeneratedMedia = require('../../../../src/doc_scan_service/session/retrieve/generated.media');
 
 describe('GeneratedMedia', () => {
