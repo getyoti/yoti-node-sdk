@@ -6,3 +6,10 @@ sonar-project.properties
 .travis.yml
 .dependabot
 docs
+.github
+.eslintignore
+.eslintrc.js
+CONTRIBUTING.md
+idea
+.idea
+.vscode
