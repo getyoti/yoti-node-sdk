@@ -18,7 +18,11 @@ describe('ExtraDataConverter', () => {
       const attributeIssuanceDetails = extraData.getAttributeIssuanceDetails();
 
       expect(attributeIssuanceDetails).not.toBe(undefined);
-      expect(attributeIssuanceDetails.getToken()).toEqual('c29tZUlzc3VhbmNlVG9rZW4=');
+
+      const token = attributeIssuanceDetails.getToken();
+      expect(token).toEqual('c29tZUlzc3VhbmNlVG9rZW4');
+      expect(Buffer.from(token, 'base64').toString('utf8')).toEqual('someIssuanceToken');
+
       expect(attributeIssuanceDetails.getExpiryDate()).toBeInstanceOf(YotiDate);
       expect(attributeIssuanceDetails.getIssuingAttributes().length).toEqual(2);
       expect(attributeIssuanceDetails.getIssuingAttributes()[0].getName()).toEqual('com.thirdparty.id');

@@ -18,7 +18,12 @@ class ThirdPartyAttributeConverter {
       return undefined;
     }
 
-    const token = thirdPartyProto.issuanceToken.toString('base64');
+    const token = thirdPartyProto.issuanceToken
+      .toString('base64')
+      .replace(/=/g, '')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_');
+
     if (!token || token === '') {
       console.log('Failed to retrieve token from ThirdPartyAttribute');
       return undefined;

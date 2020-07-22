@@ -22,7 +22,10 @@ describe('ThirdPartyAttributeConverter', () => {
         .convertThirdPartyAttribute(sampleThirdPartyAttribute);
 
       expect(thirdPartyAttribute).toBeInstanceOf(AttributeIssuanceDetails);
-      expect(thirdPartyAttribute.getToken()).toEqual('c29tZUlzc3VhbmNlVG9rZW4=');
+
+      const token = thirdPartyAttribute.getToken();
+      expect(token).toEqual('c29tZUlzc3VhbmNlVG9rZW4');
+      expect(Buffer.from(token, 'base64').toString('utf8')).toEqual('someIssuanceToken');
 
       expect(thirdPartyAttribute.getExpiryDate()
         .getMicrosecondTimestamp()).toBe('2019-10-15T22:04:05.123000Z');
