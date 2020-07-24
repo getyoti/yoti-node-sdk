@@ -38,7 +38,7 @@ class RequestBuilder {
   /**
    * @param {string} baseUrl Base URL without trailing slashes.
    *
-   * @returns {RequestBuilder}
+   * @returns {this}
    */
   withBaseUrl(baseUrl) {
     this.baseUrl = baseUrl.replace(/\/+$/, '');
@@ -48,7 +48,7 @@ class RequestBuilder {
   /**
    * @param {string} endpoint Endpoint with a single leading slash.
    *
-   * @returns {RequestBuilder}
+   * @returns {this}
    */
   withEndpoint(endpoint) {
     this.endpoint = `/${endpoint.replace(/^\/+/, '')}`;
@@ -58,7 +58,7 @@ class RequestBuilder {
   /**
    * @param {string} pem
    *
-   * @returns {RequestBuilder}
+   * @returns {this}
    */
   withPemString(pem) {
     this.pem = pem;
@@ -68,7 +68,7 @@ class RequestBuilder {
   /**
    * @param {string} filePath
    *
-   * @returns {RequestBuilder}
+   * @returns {this}
    */
   withPemFilePath(filePath) {
     return this.withPemString(fs.readFileSync(filePath, 'utf8'));
@@ -78,7 +78,7 @@ class RequestBuilder {
    * @param {string} name
    * @param {string} value
    *
-   * @returns {RequestBuilder}
+   * @returns {this}
    */
   withHeader(name, value) {
     Validation.isString(name, 'Header name');
@@ -89,9 +89,9 @@ class RequestBuilder {
   }
 
   /**
-   * @param string $method
+   * @param {string} method
    *
-   * @returns {RequestBuilder}
+   * @returns {this}
    */
   withMethod(method) {
     this.method = method;
@@ -99,23 +99,23 @@ class RequestBuilder {
   }
 
   /**
-   * @returns {RequestBuilder}
+   * @returns {this}
    */
   withGet() {
     return this.withMethod('GET');
   }
 
   /**
-   * @returns {RequestBuilder}
+   * @returns {this}
    */
   withPost() {
     return this.withMethod('POST');
   }
 
   /**
-   * @param {string} payload
+   * @param {Payload} payload
    *
-   * @returns {RequestBuilder}
+   * @returns {this}
    */
   withPayload(payload) {
     this.payload = payload;
@@ -123,10 +123,10 @@ class RequestBuilder {
   }
 
   /**
-   * @param string name
-   * @param string value
+   * @param {string} name
+   * @param {string} value
    *
-   * @returns {RequestBuilder}
+   * @returns {this}
    */
   withQueryParam(name, value) {
     this.queryParams[name] = value;
@@ -136,7 +136,7 @@ class RequestBuilder {
   /**
    * Default request headers.
    *
-   * @param {*} messageSignature
+   * @param {string} messageSignature
    */
   getDefaultHeaders(messageSignature) {
     const defaultHeaders = {
