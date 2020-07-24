@@ -68,29 +68,20 @@
   <script src="https://www.yoti.com/share/client/"></script>
   <script>
     window.Yoti.Share.init({
-
-
-      "elements":
-        [
-          {
-            "domId": "yoti-share-button",
-            "scenarioId": "<%= yotiScenarioId %>",
-            "clientSdkId": "<%= yotiClientSdkId %>",
-            "button":
-            {
-              "label": "Use Yoti",
-              "align": "center",
-              "width": "auto",
-              "verticalAlign": "top"
-            },
-            "type": "modal",
-            "qr":
-            {
-              "title": "Scan with the Yoti app:"
-            }
-          }
-        ]
-
+      "elements": [
+        {
+          "domId": "yoti-share-button",
+          "scenarioId": "<%= yotiScenarioId %>",
+          "clientSdkId": "<%= yotiClientSdkId %>",
+          "button": {
+            "label": "Use Yoti",
+            "align": "center",
+            "width": "auto",
+            "verticalAlign": "top"
+          },
+          "type": "modal"
+        }
+      ]
     });
   </script>
 </body>
