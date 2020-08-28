@@ -7,6 +7,7 @@ const AuthenticityCheckResponse = require('./authenticity.check.response');
 const FaceMatchCheckResponse = require('./face.match.check.response');
 const TextDataCheckResponse = require('./text.data.check.response');
 const LivenessCheckResponse = require('./liveness.check.response');
+const IdDocumentComparisonCheckResponse = require('./id.document.comparison.check.response');
 const DocScanConstants = require('../../doc.scan.constants');
 
 class GetSessionResult {
@@ -34,6 +35,8 @@ class GetSessionResult {
           switch (check.type) {
             case DocScanConstants.ID_DOCUMENT_AUTHENTICITY:
               return new AuthenticityCheckResponse(check);
+            case DocScanConstants.ID_DOCUMENT_COMPARISON:
+              return new IdDocumentComparisonCheckResponse(check);
             case DocScanConstants.ID_DOCUMENT_FACE_MATCH:
               return new FaceMatchCheckResponse(check);
             case DocScanConstants.ID_DOCUMENT_TEXT_DATA_CHECK:
@@ -115,6 +118,13 @@ class GetSessionResult {
    */
   getLivenessChecks() {
     return this.getChecks().filter((check) => check instanceof LivenessCheckResponse);
+  }
+
+  /**
+   * @returns {IdDocumentComparisonCheckResponse[]}
+   */
+  getIdDocumentComparisonChecks() {
+    return this.getChecks().filter((check) => check instanceof IdDocumentComparisonCheckResponse);
   }
 
   /**
