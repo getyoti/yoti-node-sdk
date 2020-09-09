@@ -1,5 +1,4 @@
 const config = require('../../config');
-const FileType = require('file-type');
 
 const {
   DocScanClient,
@@ -17,11 +16,8 @@ module.exports = async (req, res) => {
       req.query.mediaId
     );
 
-    let contentType = media.getMimeType();
-    let buffer = media.getContent().toBuffer();
-
-    res.set('Content-Type', contentType);
-    res.status(200).end(buffer);
+    res.set('Content-Type', media.getMimeType());
+    res.status(200).end(media.getContent().toBuffer());
   } catch (error) {
     res.render('pages/error', { error });
   }
