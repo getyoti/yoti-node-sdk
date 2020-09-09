@@ -1,5 +1,7 @@
 'use strict';
 
+const Validation = require('../../../../yoti_common/validation');
+
 /**
  * The configuration applied when creating a DocumentAuthenticityCheck
  *
@@ -7,11 +9,20 @@
  */
 class RequestedDocumentAuthenticityConfig {
   /**
+   * @param {string} manualCheck
+   */
+  constructor(manualCheck) {
+    Validation.isString(manualCheck, 'manualCheck', true);
+    this.manualCheck = manualCheck;
+  }
+
+  /**
    * @returns {Object} data for JSON.stringify()
    */
-  // eslint-disable-next-line class-methods-use-this
   toJSON() {
-    return {};
+    return {
+      manual_check: this.manualCheck,
+    };
   }
 }
 
