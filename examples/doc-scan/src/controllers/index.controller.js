@@ -8,6 +8,9 @@ const {
   RequestedTextExtractionTaskBuilder,
   RequestedFaceMatchCheckBuilder,
   SdkConfigBuilder,
+  RequiredIdDocumentBuilder,
+  OrthogonalRestrictionsFilterBuilder,
+  RequestedIdDocumentComparisonCheckBuilder,
 } = require('yoti');
 
 /**
@@ -37,6 +40,10 @@ async function createSession() {
         .withManualCheckNever()
         .build()
     )
+    .withRequestedCheck(
+      new RequestedIdDocumentComparisonCheckBuilder()
+        .build()
+    )
     .withRequestedTask(
       new RequestedTextExtractionTaskBuilder()
         .withManualCheckNever()
@@ -53,6 +60,24 @@ async function createSession() {
         .withPresetIssuingCountry('GBR')
         .withSuccessUrl(`${config.YOTI_APP_BASE_URL}/success`)
         .withErrorUrl(`${config.YOTI_APP_BASE_URL}/error`)
+        .build()
+    )
+    .withRequiredDocument(
+      (new RequiredIdDocumentBuilder())
+        .withFilter(
+          (new OrthogonalRestrictionsFilterBuilder())
+            .withWhitelistedDocumentTypes(['PASSPORT'])
+            .build()
+        )
+        .build()
+    )
+    .withRequiredDocument(
+      (new RequiredIdDocumentBuilder())
+        .withFilter(
+          (new OrthogonalRestrictionsFilterBuilder())
+            .withWhitelistedDocumentTypes(['DRIVING_LICENCE'])
+            .build()
+        )
         .build()
     )
     .build();
