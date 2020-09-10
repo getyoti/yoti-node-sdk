@@ -9,6 +9,7 @@ const TextDataCheckResponse = require('./text.data.check.response');
 const LivenessCheckResponse = require('./liveness.check.response');
 const IdDocumentComparisonCheckResponse = require('./id.document.comparison.check.response');
 const DocScanConstants = require('../../doc.scan.constants');
+const { YotiDate } = require('../../../data_type/date');
 
 class GetSessionResult {
   constructor(response) {
@@ -54,6 +55,10 @@ class GetSessionResult {
     if (response.resources) {
       Validation.instanceOf(response.resources, Object);
       this.resources = new ResourceContainer(response.resources);
+    }
+
+    if (response.biometric_consent) {
+      this.biometricConsent = YotiDate.fromDateString(response.biometric_consent);
     }
   }
 
@@ -139,6 +144,13 @@ class GetSessionResult {
    */
   getUserTrackingId() {
     return this.userTrackingId;
+  }
+
+  /**
+   * @returns {YotiDate}
+   */
+  getBiometricConsentTimestamp() {
+    return this.biometricConsent;
   }
 }
 

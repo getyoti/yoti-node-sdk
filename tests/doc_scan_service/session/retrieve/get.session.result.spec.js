@@ -6,6 +6,7 @@ const TextDataCheckResponse = require('../../../../src/doc_scan_service/session/
 const LivenessCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/liveness.check.response');
 const ResourceContainer = require('../../../../src/doc_scan_service/session/retrieve/resource.container');
 const IdDocumentComparisonCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/id.document.comparison.check.response');
+const { YotiDate } = require('../../../..');
 
 const ID_DOCUMENT_AUTHENTICITY = 'ID_DOCUMENT_AUTHENTICITY';
 const ID_DOCUMENT_FACE_MATCH = 'ID_DOCUMENT_FACE_MATCH';
@@ -13,6 +14,7 @@ const ID_DOCUMENT_TEXT_DATA_CHECK = 'ID_DOCUMENT_TEXT_DATA_CHECK';
 const LIVENESS = 'LIVENESS';
 const ID_DOCUMENT_COMPARISON = 'ID_DOCUMENT_COMPARISON';
 const SOME_UNKNOWN_CHECK = 'SOME_UNKNOWN_CHECK';
+const SOME_DATE_STRING = '2019-12-02T12:00:00.123Z';
 
 describe('GetSessionResult', () => {
   let session;
@@ -45,6 +47,7 @@ describe('GetSessionResult', () => {
           type: ID_DOCUMENT_COMPARISON,
         },
       ],
+      biometric_consent: SOME_DATE_STRING,
     });
   });
 
@@ -167,6 +170,15 @@ describe('GetSessionResult', () => {
       expect(checks.length).toBe(1);
       expect(checks[0]).toBeInstanceOf(CheckResponse);
       expect(checks[0].getType()).toBe(SOME_UNKNOWN_CHECK);
+    });
+  });
+
+  describe('#getBiometricConsentTimestamp', () => {
+    it('should return biometric consent timestamp container', () => {
+      const biometricConsent = session.getBiometricConsentTimestamp();
+      expect(biometricConsent).toBeInstanceOf(YotiDate);
+      expect(biometricConsent).toBeInstanceOf(Date);
+      expect(biometricConsent.toISOString()).toBe(SOME_DATE_STRING);
     });
   });
 });
