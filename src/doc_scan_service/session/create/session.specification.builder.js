@@ -128,6 +128,19 @@ class SessionSpecificationBuilder {
   }
 
   /**
+   * Sets whether or not to block the collection of biometric consent
+   *
+   * @param {bool} blockBiometricConsent
+   *
+   * @return {this}
+   */
+  withBlockBiometricConsent(blockBiometricConsent) {
+    Validation.isBoolean(blockBiometricConsent, 'blockBiometricConsent');
+    this.blockBiometricConsent = blockBiometricConsent;
+    return this;
+  }
+
+  /**
    * Builds the {@link SessionSpec} based on the values supplied to the builder
    *
    * @returns {SessionSpec}
@@ -141,7 +154,8 @@ class SessionSpecificationBuilder {
       this.requestedChecks,
       this.requestedTasks,
       this.sdkConfig,
-      this.requiredDocuments
+      this.requiredDocuments,
+      this.blockBiometricConsent
     );
   }
 }

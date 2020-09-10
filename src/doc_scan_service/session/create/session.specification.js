@@ -30,6 +30,8 @@ class SessionSpecification {
    *   The SDK configuration set on the session specification
    * @param {RequiredDocument[]} requiredDocuments
    *   List of RequiredDocument defining the documents required from the client
+   * @param {bool} blockBiometricConsent
+   *   Sets whether or not to block the collection of biometric consent
    */
   constructor(
     clientSessionTokenTtl,
@@ -39,7 +41,8 @@ class SessionSpecification {
     requestedChecks,
     requestedTasks,
     sdkConfig,
-    requiredDocuments
+    requiredDocuments,
+    blockBiometricConsent
   ) {
     Validation.isInteger(clientSessionTokenTtl, 'clientSessionTokenTtl', true);
     this.clientSessionTokenTtl = clientSessionTokenTtl;
@@ -70,6 +73,9 @@ class SessionSpecification {
       Validation.isArrayOfType(requiredDocuments, RequiredDocument, 'requiredDocuments');
       this.requiredDocuments = requiredDocuments;
     }
+
+    Validation.isBoolean(blockBiometricConsent, 'blockBiometricConsent', true);
+    this.blockBiometricConsent = blockBiometricConsent;
   }
 
   /**
@@ -85,6 +91,7 @@ class SessionSpecification {
       requested_tasks: this.requestedTasks,
       sdk_config: this.sdkConfig,
       required_documents: this.requiredDocuments,
+      block_biometric_consent: this.blockBiometricConsent,
     };
   }
 }
