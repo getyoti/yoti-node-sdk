@@ -1,3 +1,5 @@
+'use strict';
+
 const DocumentRestrictionsFilter = require('./document.restrictions.filter');
 const DocumentRestriction = require('./document.restriction');
 const Validation = require('../../../../../yoti_common/validation');

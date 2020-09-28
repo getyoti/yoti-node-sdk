@@ -1,3 +1,5 @@
+'use strict';
+
 const Validation = require('../../../../../yoti_common/validation');
 const DocumentFilter = require('../document.filter');
 const DocScanConstants = require('../../../../doc.scan.constants');

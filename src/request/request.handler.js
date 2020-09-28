@@ -1,3 +1,5 @@
+'use strict';
+
 const superagent = require('superagent');
 const { YotiResponse } = require('./response');
 const yotiCommon = require('../yoti_common');
