@@ -1,3 +1,5 @@
+'use strict';
+
 const OrthogonalRestrictionsFilter = require('./orthogonal.restrictions.filter');
 const TypeRestriction = require('./type.restriction');
 const CountryRestriction = require('./country.restriction');

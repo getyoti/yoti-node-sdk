@@ -1,3 +1,5 @@
+'use strict';
+
 const SupportedCountry = require('./supported.country');
 
 class SupportedDocumentsResponse {
