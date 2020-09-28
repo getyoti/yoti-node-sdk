@@ -15,7 +15,7 @@ module.exports.DocumentDetails = class DocumentDetails {
   /**
    * @param {string} value
    *
-   * @deprecated 4.0.0 value is no longer validated using pattern.
+   * @deprecated value is no longer validated using pattern.
    */
   validateData(value) {
     const regex = new RegExp(VALIDATION_PATTERN);

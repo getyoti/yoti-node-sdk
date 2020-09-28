@@ -5,22 +5,22 @@ const {
 } = require('../../../../..');
 
 describe('RequiredIdDocumentBuilder', () => {
-  it('builds RequiredIdentityDocument without filter', () => {
-    const requiredIdentityDocument = new RequiredIdDocumentBuilder()
+  it('builds RequiredIdDocument without filter', () => {
+    const requiredIdDocument = new RequiredIdDocumentBuilder()
       .build();
 
-    expect(JSON.stringify(requiredIdentityDocument))
+    expect(JSON.stringify(requiredIdDocument))
       .toBe(JSON.stringify({
         type: 'ID_DOCUMENT',
       }));
   });
 
-  it('builds RequiredIdentityDocument with orthogonal filter', () => {
-    const requiredIdentityDocument = new RequiredIdDocumentBuilder()
+  it('builds RequiredIdDocument with orthogonal filter', () => {
+    const requiredIdDocument = new RequiredIdDocumentBuilder()
       .withFilter(new OrthogonalRestrictionsFilterBuilder().build())
       .build();
 
-    expect(JSON.stringify(requiredIdentityDocument))
+    expect(JSON.stringify(requiredIdDocument))
       .toBe(JSON.stringify({
         type: 'ID_DOCUMENT',
         filter: {
@@ -29,12 +29,12 @@ describe('RequiredIdDocumentBuilder', () => {
       }));
   });
 
-  it('builds RequiredIdentityDocument with document filter', () => {
-    const requiredIdentityDocument = new RequiredIdDocumentBuilder()
+  it('builds RequiredIdDocument with document filter', () => {
+    const requiredIdDocument = new RequiredIdDocumentBuilder()
       .withFilter(new DocumentRestrictionsFilterBuilder().forWhitelist().build())
       .build();
 
-    expect(JSON.stringify(requiredIdentityDocument))
+    expect(JSON.stringify(requiredIdDocument))
       .toBe(JSON.stringify({
         type: 'ID_DOCUMENT',
         filter: {

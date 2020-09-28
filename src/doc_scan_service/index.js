@@ -10,10 +10,13 @@ const RequestedIdDocumentComparisonCheckBuilder = require('./session/create/chec
 const RequestedFaceMatchCheckBuilder = require('./session/create/check/requested.face.match.check.builder');
 const RequestedLivenessCheckBuilder = require('./session/create/check/requested.liveness.check.builder');
 const RequestedTextExtractionTaskBuilder = require('./session/create/task/requested.text.extraction.task.builder');
+const RequestedSupplementaryDocTextExtractionTaskBuilder = require('./session/create/task/requested.supplementary.doc.text.extraction.task.builder');
 const RequiredIdDocumentBuilder = require('./session/create/filters/required.id.document.builder');
+const RequiredSupplementaryDocumentBuilder = require('./session/create/filters/required.supplementary.document.builder');
 const DocumentRestrictionsFilterBuilder = require('./session/create/filters/document/document.restrictions.filter.builder');
 const OrthogonalRestrictionsFilterBuilder = require('./session/create/filters/orthogonal/orthogonal.restrictions.filter.builder');
 const DocumentRestrictionBuilder = require('./session/create/filters/document/document.restriction.builder');
+const ProofOfAddressObjectiveBuilder = require('./session/create/filters/objective/proof.of.address.objective.builder');
 
 module.exports = {
   DocScanService,
@@ -26,8 +29,11 @@ module.exports = {
   RequestedFaceMatchCheckBuilder,
   RequestedLivenessCheckBuilder,
   RequestedTextExtractionTaskBuilder,
+  RequestedSupplementaryDocTextExtractionTaskBuilder,
   RequiredIdDocumentBuilder,
+  RequiredSupplementaryDocumentBuilder,
   DocumentRestrictionsFilterBuilder,
   DocumentRestrictionBuilder,
   OrthogonalRestrictionsFilterBuilder,
+  ProofOfAddressObjectiveBuilder,
 };

@@ -6,6 +6,7 @@ const CheckResponse = require('./check.response');
 const AuthenticityCheckResponse = require('./authenticity.check.response');
 const FaceMatchCheckResponse = require('./face.match.check.response');
 const TextDataCheckResponse = require('./text.data.check.response');
+const SupplementaryDocumentTextDataCheckResponse = require('./supplementary.document.text.data.check.response');
 const LivenessCheckResponse = require('./liveness.check.response');
 const IdDocumentComparisonCheckResponse = require('./id.document.comparison.check.response');
 const DocScanConstants = require('../../doc.scan.constants');
@@ -42,6 +43,8 @@ class GetSessionResult {
               return new FaceMatchCheckResponse(check);
             case DocScanConstants.ID_DOCUMENT_TEXT_DATA_CHECK:
               return new TextDataCheckResponse(check);
+            case DocScanConstants.SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK:
+              return new SupplementaryDocumentTextDataCheckResponse(check);
             case DocScanConstants.LIVENESS:
               return new LivenessCheckResponse(check);
             default:
@@ -114,8 +117,26 @@ class GetSessionResult {
   /**
    * @returns {TextDataCheckResponse[]}
    */
-  getTextDataChecks() {
+  getIdDocumentTextDataChecks() {
     return this.getChecks().filter((check) => check instanceof TextDataCheckResponse);
+  }
+
+  /**
+   * @deprecated replaced by getIdDocumentTextDataChecks()
+   *
+   * @returns {TextDataCheckResponse[]}
+   */
+  getTextDataChecks() {
+    return this.getIdDocumentTextDataChecks();
+  }
+
+  /**
+   * @returns {SupplementaryDocumentTextDataCheckResponse[]}
+   */
+  getSupplementaryDocumentTextDataChecks() {
+    return this
+      .getChecks()
+      .filter((check) => check instanceof SupplementaryDocumentTextDataCheckResponse);
   }
 
   /**

@@ -2,8 +2,10 @@ const TaskResponse = require('../../../../src/doc_scan_service/session/retrieve/
 const GeneratedCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/generated.check.response');
 const GeneratedTextDataCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/generated.text.data.check.response');
 const GeneratedMedia = require('../../../../src/doc_scan_service/session/retrieve/generated.media');
+const GeneratedSupplementaryDocumentTextDataCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/generated.supplementary.document.text.data.check.response');
 
 const ID_DOCUMENT_TEXT_DATA_CHECK = 'ID_DOCUMENT_TEXT_DATA_CHECK';
+const SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK = 'SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK';
 const SOME_UNKNOWN_TYPE = 'SOME_UNKNOWN_TYPE';
 
 describe('TaskResponse', () => {
@@ -23,6 +25,10 @@ describe('TaskResponse', () => {
         },
         {
           type: SOME_UNKNOWN_TYPE,
+        },
+        {
+          type: SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK,
+          id: 'some-id',
         },
       ],
       generated_media: [
@@ -69,13 +75,16 @@ describe('TaskResponse', () => {
       it('should return list of generated checks', () => {
         const checks = taskResponse.getGeneratedChecks();
 
-        expect(checks.length).toBe(2);
+        expect(checks.length).toBe(3);
 
         expect(checks[0]).toBeInstanceOf(GeneratedTextDataCheckResponse);
         expect(checks[0].getType()).toBe(ID_DOCUMENT_TEXT_DATA_CHECK);
 
         expect(checks[1]).toBeInstanceOf(GeneratedCheckResponse);
         expect(checks[1].getType()).toBe(SOME_UNKNOWN_TYPE);
+
+        expect(checks[2]).toBeInstanceOf(GeneratedSupplementaryDocumentTextDataCheckResponse);
+        expect(checks[2].getType()).toBe(SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK);
       });
     });
     describe('when checks are not available', () => {
