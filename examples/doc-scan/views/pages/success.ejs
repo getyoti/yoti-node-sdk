@@ -305,21 +305,26 @@
                 <% } %>
 
 
-                <% if (document.getPages().length > 0) { %>
-                <div class="card">
-                    <div class="card-header" id="document-pages-<%= docNum %>">
-                        <h4 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse"
-                                data-target="#collapse-document-pages-<%= docNum %>" aria-expanded="true"
-                                aria-controls="collapse-document-pages-<%= docNum %>">
-                                Pages
-                            </button>
-                        </h4>
-                    </div>
-                    <div id="collapse-document-pages-<%= docNum %>" class="collapse" aria-labelledby="document-pages-<%= docNum %>">
-                        <div class="card-body">
+                <%
+                if (document.getPages().length > 0) {
+                    let pageNum = 0;
+                    document.getPages().forEach(function(page) {
+                        pageNum++;
+                    %>
+                    <div class="card">
+                        <div class="card-header" id="document-pages-<%= docNum %>-<%= pageNum %>">
+                            <h4 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-document-pages-<%= docNum %>-<%= pageNum %>" aria-expanded="true"
+                                    aria-controls="collapse-document-pages-<%= docNum %>-<%= pageNum %>">
+                                    Page <%= pageNum %>
+                                </button>
+                            </h4>
+                        </div>
+
+                        <div id="collapse-document-pages-<%= docNum %>-<%= pageNum %>" class="collapse" aria-labelledby="document-pages-<%= docNum %>-<%= pageNum %>">
+
                             <div class="card-group">
-                                <% document.getPages().forEach(function(page) { %>
                                 <% if (page.getMedia()) { %>
                                 <div class="card" style="width: 18rem;">
                                     <img class="card-img-top" src="/media?mediaId=<%= page.getMedia().getId() %>" />
@@ -328,11 +333,27 @@
                                     </div>
                                 </div>
                                 <% } %>
+                            </div>
+
+                            <% if (page.getFrames().length > 0) { %>
+                            <div class="card-group">
+                                <% page.getFrames().forEach(function(frame) { %>
+                                    <% if (frame.getMedia()) { %>
+                                    <div class="card">
+                                        <img class="card-img-top" src="/media?mediaId=<%= frame.getMedia().getId() %>" />
+                                        <div class="card-body">
+                                            <h5 class="card-title">Frame</h5>
+                                        </div>
+                                    </div>
+                                    <% } %>
                                 <% }); %>
                             </div>
+                            <% } %>
+
                         </div>
                     </div>
-                </div>
+
+                    <% }); %>
                 <% } %>
 
             </div>
