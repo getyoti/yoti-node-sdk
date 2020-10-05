@@ -65,45 +65,49 @@ describe('SessionSpecificationBuilder', () => {
         topics: [],
       },
       requested_checks: [
-        {
-          type: 'ID_DOCUMENT_FACE_MATCH',
-          config: {
-            manual_check: 'NEVER',
-          },
-        },
-        {
-          type: 'LIVENESS',
-          config: {
-            max_retries: 1,
-            liveness_type: 'ZOOM',
-          },
-        },
-        {
-          type: 'ID_DOCUMENT_AUTHENTICITY',
-          config: {},
-        },
+        faceMatchCheck,
+        livenessCheck,
+        docAuthenticityCheck,
       ],
       requested_tasks: [
-        {
-          type: 'ID_DOCUMENT_TEXT_DATA_EXTRACTION',
-          config: {
-            manual_check: 'FALLBACK',
-          },
-        },
+        textExtractionTask,
       ],
       sdk_config: {
         allowed_capture_methods: 'CAMERA',
       },
       required_documents: [
-        {
-          type: 'ID_DOCUMENT',
-          filter: {
-            type: 'DOCUMENT_RESTRICTIONS',
-            inclusion: 'WHITELIST',
-            documents: [],
-          },
-        },
+        requiredDocument,
       ],
+    });
+
+    expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
+  });
+
+  it('should build SessionSpecification with block biometric consent true', () => {
+    const sessionSpec = new SessionSpecificationBuilder()
+      .withBlockBiometricConsent(true)
+      .build();
+
+    const expectedJson = JSON.stringify({
+      requested_checks: [],
+      requested_tasks: [],
+      required_documents: [],
+      block_biometric_consent: true,
+    });
+
+    expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
+  });
+
+  it('should build SessionSpecification with block biometric consent false', () => {
+    const sessionSpec = new SessionSpecificationBuilder()
+      .withBlockBiometricConsent(false)
+      .build();
+
+    const expectedJson = JSON.stringify({
+      requested_checks: [],
+      requested_tasks: [],
+      required_documents: [],
+      block_biometric_consent: false,
     });
 
     expect(JSON.stringify(sessionSpec)).toBe(expectedJson);

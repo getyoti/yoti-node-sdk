@@ -93,4 +93,14 @@ describe('NotificationConfigBuilder', () => {
 
     expect(JSON.stringify(notificationConfig)).toBe(expectedJson);
   });
+
+  it('should build NotificationConfig without topics', () => {
+    const notificationConfig = new NotificationConfigBuilder().build();
+
+    const expectedJson = JSON.stringify({
+      topics: [],
+    });
+
+    expect(JSON.stringify(notificationConfig)).toBe(expectedJson);
+  });
 });

@@ -7,7 +7,9 @@ const AuthenticityCheckResponse = require('./authenticity.check.response');
 const FaceMatchCheckResponse = require('./face.match.check.response');
 const TextDataCheckResponse = require('./text.data.check.response');
 const LivenessCheckResponse = require('./liveness.check.response');
+const IdDocumentComparisonCheckResponse = require('./id.document.comparison.check.response');
 const DocScanConstants = require('../../doc.scan.constants');
+const { YotiDate } = require('../../../data_type/date');
 
 class GetSessionResult {
   constructor(response) {
@@ -34,6 +36,8 @@ class GetSessionResult {
           switch (check.type) {
             case DocScanConstants.ID_DOCUMENT_AUTHENTICITY:
               return new AuthenticityCheckResponse(check);
+            case DocScanConstants.ID_DOCUMENT_COMPARISON:
+              return new IdDocumentComparisonCheckResponse(check);
             case DocScanConstants.ID_DOCUMENT_FACE_MATCH:
               return new FaceMatchCheckResponse(check);
             case DocScanConstants.ID_DOCUMENT_TEXT_DATA_CHECK:
@@ -51,6 +55,10 @@ class GetSessionResult {
     if (response.resources) {
       Validation.instanceOf(response.resources, Object);
       this.resources = new ResourceContainer(response.resources);
+    }
+
+    if (response.biometric_consent) {
+      this.biometricConsent = YotiDate.fromDateString(response.biometric_consent);
     }
   }
 
@@ -118,6 +126,13 @@ class GetSessionResult {
   }
 
   /**
+   * @returns {IdDocumentComparisonCheckResponse[]}
+   */
+  getIdDocumentComparisonChecks() {
+    return this.getChecks().filter((check) => check instanceof IdDocumentComparisonCheckResponse);
+  }
+
+  /**
    * @returns {ResourceContainer}
    */
   getResources() {
@@ -129,6 +144,13 @@ class GetSessionResult {
    */
   getUserTrackingId() {
     return this.userTrackingId;
+  }
+
+  /**
+   * @returns {YotiDate}
+   */
+  getBiometricConsentTimestamp() {
+    return this.biometricConsent;
   }
 }
 
