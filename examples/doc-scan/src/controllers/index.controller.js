@@ -11,6 +11,9 @@ const {
   RequiredIdDocumentBuilder,
   OrthogonalRestrictionsFilterBuilder,
   RequestedIdDocumentComparisonCheckBuilder,
+  RequiredSupplementaryDocumentBuilder,
+  ProofOfAddressObjectiveBuilder,
+  RequestedSupplementaryDocTextExtractionTaskBuilder,
 } = require('yoti');
 
 /**
@@ -28,6 +31,7 @@ async function createSession() {
     .withUserTrackingId('some-user-tracking-id')
     .withRequestedCheck(
       new RequestedDocumentAuthenticityCheckBuilder()
+        .withManualCheckAlways()
         .build()
     )
     .withRequestedCheck(
@@ -46,8 +50,13 @@ async function createSession() {
     )
     .withRequestedTask(
       new RequestedTextExtractionTaskBuilder()
-        .withManualCheckNever()
+        .withManualCheckAlways()
         .withChipDataDesired()
+        .build()
+    )
+    .withRequestedTask(
+      new RequestedSupplementaryDocTextExtractionTaskBuilder()
+        .withManualCheckAlways()
         .build()
     )
     .withSdkConfig(
@@ -77,6 +86,13 @@ async function createSession() {
           (new OrthogonalRestrictionsFilterBuilder())
             .withWhitelistedDocumentTypes(['DRIVING_LICENCE'])
             .build()
+        )
+        .build()
+    )
+    .withRequiredDocument(
+      (new RequiredSupplementaryDocumentBuilder())
+        .withObjective(
+          (new ProofOfAddressObjectiveBuilder()).build()
         )
         .build()
     )
