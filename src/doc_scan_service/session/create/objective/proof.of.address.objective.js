@@ -1,7 +1,7 @@
 'use strict';
 
 const Objective = require('./objective');
-const DocScanConstants = require('../../../../doc.scan.constants');
+const DocScanConstants = require('../../../doc.scan.constants');
 
 class ProofOfAddressObjective extends Objective {
   constructor() {

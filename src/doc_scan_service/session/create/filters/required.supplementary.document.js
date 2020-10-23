@@ -3,7 +3,7 @@
 const RequiredDocument = require('./required.document');
 const DocScanConstants = require('../../../doc.scan.constants');
 const Validation = require('../../../../yoti_common/validation');
-const Objective = require('./objective/objective');
+const Objective = require('../objective/objective');
 
 class RequiredSupplementaryDocument extends RequiredDocument {
   /**
