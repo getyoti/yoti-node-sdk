@@ -16,7 +16,7 @@ const RequiredSupplementaryDocumentBuilder = require('./session/create/filters/r
 const DocumentRestrictionsFilterBuilder = require('./session/create/filters/document/document.restrictions.filter.builder');
 const OrthogonalRestrictionsFilterBuilder = require('./session/create/filters/orthogonal/orthogonal.restrictions.filter.builder');
 const DocumentRestrictionBuilder = require('./session/create/filters/document/document.restriction.builder');
-const ProofOfAddressObjectiveBuilder = require('./session/create/filters/objective/proof.of.address.objective.builder');
+const ProofOfAddressObjectiveBuilder = require('./session/create/objective/proof.of.address.objective.builder');
 
 module.exports = {
   DocScanService,

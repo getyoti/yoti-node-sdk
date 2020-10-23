@@ -2,7 +2,7 @@
 
 const RequiredSupplementaryDocument = require('./required.supplementary.document');
 const Validation = require('../../../../yoti_common/validation');
-const Objective = require('./objective/objective');
+const Objective = require('../objective/objective');
 
 class RequiredSupplementaryDocumentBuilder {
   /**

@@ -1,4 +1,4 @@
-const Objective = require('../../../../../../src/doc_scan_service/session/create/filters/objective/objective');
+const Objective = require('../../../../../src/doc_scan_service/session/create/objective/objective');
 
 describe('Objective', () => {
   it('cannot be instantiated', () => {
