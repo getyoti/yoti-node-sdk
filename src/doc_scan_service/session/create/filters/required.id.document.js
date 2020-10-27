@@ -1,3 +1,5 @@
+'use strict';
+
 const RequiredDocument = require('./required.document');
 const DocumentFilter = require('./document.filter');
 const DocScanConstants = require('../../../doc.scan.constants');

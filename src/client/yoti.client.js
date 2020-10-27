@@ -34,7 +34,7 @@ class YotiClient {
     this.sdkId = sdkId;
     this.pem = pem;
 
-    /** @deprecated 4.0.0 replaced by this.sdkId */
+    /** @deprecated replaced by this.sdkId */
     this.applicationId = this.sdkId;
   }
 

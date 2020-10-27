@@ -2,6 +2,7 @@ const ResourceContainer = require('../../../../src/doc_scan_service/session/retr
 const IdDocumentResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/id.document.resource.response');
 const ZoomLivenessResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/zoom.liveness.resource.response');
 const LivenessResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/liveness.resource.response');
+const SupplementaryDocumentResourceResponse = require('../../../../src/doc_scan_service/session/retrieve/supplementary.document.resource.response');
 
 const ZOOM = 'ZOOM';
 const SOME_UNKNOWN_LIVENESS_TYPE = 'SOME_UNKNOWN_LIVENESS_TYPE';
@@ -12,6 +13,10 @@ describe('ResourceContainer', () => {
   beforeEach(() => {
     resourceContainer = new ResourceContainer({
       id_documents: [
+        {},
+        {},
+      ],
+      supplementary_documents: [
         {},
         {},
       ],
@@ -40,6 +45,26 @@ describe('ResourceContainer', () => {
       it('should return empty array', () => {
         resourceContainer = new ResourceContainer({});
         const resourceDocuments = resourceContainer.getIdDocuments();
+        expect(resourceDocuments).toBeInstanceOf(Array);
+        expect(resourceDocuments.length).toBe(0);
+      });
+    });
+  });
+
+  describe('#getSupplementaryDocuments', () => {
+    describe('when supplementary documents are available', () => {
+      it('should return supplementary documents', () => {
+        const resourceDocuments = resourceContainer.getSupplementaryDocuments();
+        expect(resourceDocuments.length).toBe(2);
+        resourceDocuments.forEach((resourceDocument) => {
+          expect(resourceDocument).toBeInstanceOf(SupplementaryDocumentResourceResponse);
+        });
+      });
+    });
+    describe('when supplementary documents are not available', () => {
+      it('should return empty array', () => {
+        resourceContainer = new ResourceContainer({});
+        const resourceDocuments = resourceContainer.getSupplementaryDocuments();
         expect(resourceDocuments).toBeInstanceOf(Array);
         expect(resourceDocuments.length).toBe(0);
       });

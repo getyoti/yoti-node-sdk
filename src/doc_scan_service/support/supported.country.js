@@ -1,3 +1,5 @@
+'use strict';
+
 const Validation = require('../../yoti_common/validation');
 const SupportedDocument = require('./supported.document');
 

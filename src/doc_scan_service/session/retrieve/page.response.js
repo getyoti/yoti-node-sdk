@@ -1,15 +1,23 @@
 'use strict';
 
+const FrameResponse = require('./frame.response');
 const MediaResponse = require('./media.response');
 const Validation = require('../../../yoti_common/validation');
 
 class PageResponse {
-  constructor(pages) {
-    Validation.isString(pages.capture_method, 'capture_method', true);
-    this.captureMethod = pages.capture_method;
+  constructor(page) {
+    Validation.isString(page.capture_method, 'capture_method', true);
+    this.captureMethod = page.capture_method;
 
-    if (pages.media) {
-      this.media = new MediaResponse(pages.media);
+    if (page.media) {
+      this.media = new MediaResponse(page.media);
+    }
+
+    if (page.frames) {
+      Validation.isArray(page.frames, 'frames');
+      this.frames = page.frames.map((frame) => new FrameResponse(frame));
+    } else {
+      this.frames = [];
     }
   }
 
@@ -25,6 +33,13 @@ class PageResponse {
    */
   getMedia() {
     return this.media;
+  }
+
+  /**
+   * @returns {FrameResponse[]}
+   */
+  getFrames() {
+    return this.frames;
   }
 }
 

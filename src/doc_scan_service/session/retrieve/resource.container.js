@@ -5,6 +5,7 @@ const ZoomLivenessResourceResponse = require('./zoom.liveness.resource.response'
 const LivenessResourceResponse = require('./liveness.resource.response');
 const DocScanConstants = require('../../doc.scan.constants');
 const Validation = require('../../../yoti_common/validation');
+const SupplementaryDocumentResourceResponse = require('./supplementary.document.resource.response');
 
 class ResourceContainer {
   constructor(resources) {
@@ -15,6 +16,15 @@ class ResourceContainer {
         .map((resource) => new IdDocumentResourceResponse(resource));
     } else {
       this.idDocuments = [];
+    }
+
+    if (resources.supplementary_documents) {
+      Validation.isArray(resources.supplementary_documents, 'supplementary_documents');
+      this.supplementaryDocuments = resources
+        .supplementary_documents
+        .map((resource) => new SupplementaryDocumentResourceResponse(resource));
+    } else {
+      this.supplementaryDocuments = [];
     }
 
     if (resources.liveness_capture) {
@@ -38,10 +48,20 @@ class ResourceContainer {
    * Returns ID documents that were uploaded by the user
    *
    * @returns {IdDocumentResourceResponse[]}
-   *   The list of documents
+   *   The list of ID documents
    */
   getIdDocuments() {
     return this.idDocuments;
+  }
+
+  /**
+   * Returns supplementary documents that were uploaded by the user
+   *
+   * @returns {SupplementaryDocumentResourceResponse[]}
+   *   The list of supplementary documents
+   */
+  getSupplementaryDocuments() {
+    return this.supplementaryDocuments;
   }
 
   /**

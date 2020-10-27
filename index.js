@@ -29,11 +29,14 @@ const {
   RequestedFaceMatchCheckBuilder,
   RequestedLivenessCheckBuilder,
   RequestedTextExtractionTaskBuilder,
+  RequestedSupplementaryDocTextExtractionTaskBuilder,
   DocScanConstants,
   RequiredIdDocumentBuilder,
+  RequiredSupplementaryDocumentBuilder,
   DocumentRestrictionsFilterBuilder,
   DocumentRestrictionBuilder,
   OrthogonalRestrictionsFilterBuilder,
+  ProofOfAddressObjectiveBuilder,
 } = require('./src/doc_scan_service');
 
 module.exports = {
@@ -64,8 +67,11 @@ module.exports = {
   RequestedFaceMatchCheckBuilder,
   RequestedLivenessCheckBuilder,
   RequestedTextExtractionTaskBuilder,
+  RequestedSupplementaryDocTextExtractionTaskBuilder,
   RequiredIdDocumentBuilder,
+  RequiredSupplementaryDocumentBuilder,
   DocumentRestrictionsFilterBuilder,
   DocumentRestrictionBuilder,
   OrthogonalRestrictionsFilterBuilder,
+  ProofOfAddressObjectiveBuilder,
 };

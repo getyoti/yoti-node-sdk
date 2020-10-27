@@ -1,14 +1,14 @@
 const TaskResponse = require('../../../../src/doc_scan_service/session/retrieve/task.response');
-const TextExtractionTaskResponse = require('../../../../src/doc_scan_service/session/retrieve/text.extraction.task.response');
 const GeneratedMedia = require('../../../../src/doc_scan_service/session/retrieve/generated.media');
-const GeneratedTextDataCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/generated.text.data.check.response');
+const GeneratedSupplementaryDocumentTextDataCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/generated.supplementary.document.text.data.check.response');
+const SupplementaryDocumentTextExtractionTaskResponse = require('../../../../src/doc_scan_service/session/retrieve/supplementary.document.text.extraction.task.response');
 const GeneratedCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/generated.check.response');
 
-describe('TextExtractionTaskResponse', () => {
+describe('SupplementaryDocumentTextExtractionTaskResponse', () => {
   let taskResponse;
 
   beforeEach(() => {
-    taskResponse = new TextExtractionTaskResponse({
+    taskResponse = new SupplementaryDocumentTextExtractionTaskResponse({
       type: 'some-type',
       id: 'some-id',
       state: 'some-state',
@@ -16,7 +16,7 @@ describe('TextExtractionTaskResponse', () => {
       last_updated: '2006-02-02T22:04:05.123Z',
       generated_checks: [
         {
-          type: 'ID_DOCUMENT_TEXT_DATA_CHECK',
+          type: 'SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK',
           id: 'some-id',
         },
       ],
@@ -77,7 +77,7 @@ describe('TextExtractionTaskResponse', () => {
       const checks = taskResponse.getGeneratedTextDataChecks();
       expect(checks.length).toBe(1);
       checks.forEach((check) => {
-        expect(check).toBeInstanceOf(GeneratedTextDataCheckResponse);
+        expect(check).toBeInstanceOf(GeneratedSupplementaryDocumentTextDataCheckResponse);
       });
     });
   });

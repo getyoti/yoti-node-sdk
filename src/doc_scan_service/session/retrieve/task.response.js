@@ -3,6 +3,7 @@
 const Validation = require('../../../yoti_common/validation');
 const GeneratedCheckResponse = require('./generated.check.response');
 const GeneratedTextDataCheckResponse = require('./generated.text.data.check.response');
+const GeneratedSupplementaryDocumentTextDataCheckResponse = require('./generated.supplementary.document.text.data.check.response');
 const GeneratedMedia = require('./generated.media');
 const DocScanConstants = require('../../doc.scan.constants');
 const { YotiDate } = require('../../../data_type/date');
@@ -35,6 +36,8 @@ class TaskResponse {
           switch (check.type) {
             case DocScanConstants.ID_DOCUMENT_TEXT_DATA_CHECK:
               return new GeneratedTextDataCheckResponse(check);
+            case DocScanConstants.SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK:
+              return new GeneratedSupplementaryDocumentTextDataCheckResponse(check);
             default:
               return new GeneratedCheckResponse(check);
           }
@@ -94,6 +97,8 @@ class TaskResponse {
   }
 
   /**
+   * @deprecated this method is now implemented on subclasses.
+   *
    * @returns {GeneratedTextDataCheckResponse[]}
    */
   getGeneratedTextDataChecks() {

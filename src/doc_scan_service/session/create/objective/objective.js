@@ -2,13 +2,13 @@
 
 const Validation = require('../../../../yoti_common/validation');
 
-class RequiredDocument {
+class Objective {
   /**
    * @param {string} type
    */
   constructor(type) {
-    if (new.target === RequiredDocument) {
-      throw TypeError('RequiredDocument cannot be instantiated');
+    if (new.target === Objective) {
+      throw TypeError('Objective cannot be instantiated');
     }
 
     Validation.isString(type, 'type');
@@ -22,4 +22,4 @@ class RequiredDocument {
   }
 }
 
-module.exports = RequiredDocument;
+module.exports = Objective;

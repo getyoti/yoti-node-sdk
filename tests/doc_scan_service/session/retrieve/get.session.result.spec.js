@@ -3,6 +3,7 @@ const CheckResponse = require('../../../../src/doc_scan_service/session/retrieve
 const AuthenticityCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/authenticity.check.response');
 const FaceMatchCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/face.match.check.response');
 const TextDataCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/text.data.check.response');
+const SupplementaryDocumentTextDataCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/supplementary.document.text.data.check.response');
 const LivenessCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/liveness.check.response');
 const ResourceContainer = require('../../../../src/doc_scan_service/session/retrieve/resource.container');
 const IdDocumentComparisonCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/id.document.comparison.check.response');
@@ -11,6 +12,7 @@ const { YotiDate } = require('../../../..');
 const ID_DOCUMENT_AUTHENTICITY = 'ID_DOCUMENT_AUTHENTICITY';
 const ID_DOCUMENT_FACE_MATCH = 'ID_DOCUMENT_FACE_MATCH';
 const ID_DOCUMENT_TEXT_DATA_CHECK = 'ID_DOCUMENT_TEXT_DATA_CHECK';
+const SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK = 'SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK';
 const LIVENESS = 'LIVENESS';
 const ID_DOCUMENT_COMPARISON = 'ID_DOCUMENT_COMPARISON';
 const SOME_UNKNOWN_CHECK = 'SOME_UNKNOWN_CHECK';
@@ -45,6 +47,9 @@ describe('GetSessionResult', () => {
         },
         {
           type: ID_DOCUMENT_COMPARISON,
+        },
+        {
+          type: SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK,
         },
       ],
       biometric_consent: SOME_DATE_STRING,
@@ -85,12 +90,13 @@ describe('GetSessionResult', () => {
     describe('when checks are available', () => {
       it('should return array of checks', () => {
         const checks = session.getChecks();
-        expect(checks.length).toBe(5);
+        expect(checks.length).toBe(6);
         expect(checks[0]).toBeInstanceOf(AuthenticityCheckResponse);
         expect(checks[1]).toBeInstanceOf(LivenessCheckResponse);
         expect(checks[2]).toBeInstanceOf(FaceMatchCheckResponse);
         expect(checks[3]).toBeInstanceOf(TextDataCheckResponse);
         expect(checks[4]).toBeInstanceOf(IdDocumentComparisonCheckResponse);
+        expect(checks[5]).toBeInstanceOf(SupplementaryDocumentTextDataCheckResponse);
         checks.forEach((check) => expect(check).toBeInstanceOf(CheckResponse));
       });
     });
@@ -137,6 +143,24 @@ describe('GetSessionResult', () => {
       expect(checks.length).toBe(1);
       expect(checks[0]).toBeInstanceOf(TextDataCheckResponse);
       expect(checks[0].getType()).toBe(ID_DOCUMENT_TEXT_DATA_CHECK);
+    });
+  });
+
+  describe('#getIdDocumentTextDataChecks', () => {
+    it('should return array of TextDataCheckResponse', () => {
+      const checks = session.getIdDocumentTextDataChecks();
+      expect(checks.length).toBe(1);
+      expect(checks[0]).toBeInstanceOf(TextDataCheckResponse);
+      expect(checks[0].getType()).toBe(ID_DOCUMENT_TEXT_DATA_CHECK);
+    });
+  });
+
+  describe('#getSupplementaryDocumentTextDataChecks', () => {
+    it('should return array of SupplementaryDocumentTextDataCheckResponse', () => {
+      const checks = session.getSupplementaryDocumentTextDataChecks();
+      expect(checks.length).toBe(1);
+      expect(checks[0]).toBeInstanceOf(SupplementaryDocumentTextDataCheckResponse);
+      expect(checks[0].getType()).toBe(SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK);
     });
   });
 
