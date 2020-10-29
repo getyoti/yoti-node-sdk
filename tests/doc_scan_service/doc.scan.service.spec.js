@@ -299,16 +299,18 @@ describe('DocScanService', () => {
       });
     });
 
-    describe('when content type is not available', () => {
-      it('should reject', (done) => {
+    describe('when response has no content', () => {
+      it('should return empty media', (done) => {
         nock(config.yoti.docScanApi)
           .get(MEDIA_URI)
-          .reply(200, '');
+          .reply(204, '');
 
         docScanService
           .getMediaContent(SESSION_ID, MEDIA_ID)
-          .catch((err) => {
-            expect(err.message).toBe('mimeType must be a string');
+          .then((result) => {
+            expect(result).toBeInstanceOf(Media);
+            expect(result.getContent().toBuffer()).toHaveLength(0);
+            expect(result.getMimeType()).toBe('');
             done();
           })
           .catch(done);
