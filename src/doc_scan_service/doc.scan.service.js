@@ -158,7 +158,7 @@ class DocScanService {
         .then((response) => {
           try {
             const contentType = response.getHeaders()['content-type'];
-            const mimeType = contentType ? contentType.split(';')[0] : null;
+            const mimeType = contentType ? contentType.split(';')[0] : '';
 
             let content = response.getBody();
             if (!Buffer.isBuffer(content)) {
