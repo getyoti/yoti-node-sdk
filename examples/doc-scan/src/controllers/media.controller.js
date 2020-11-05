@@ -16,8 +16,14 @@ module.exports = async (req, res) => {
       req.query.mediaId
     );
 
-    res.set('Content-Type', media.getMimeType());
-    res.status(200).end(media.getContent().toBuffer());
+    const { buffer } = media.getContent();
+
+    if (buffer.length === 0) {
+      res.status(204).end(buffer);
+    } else {
+      res.set('Content-Type', media.getMimeType());
+      res.status(200).end(buffer);
+    }
   } catch (error) {
     res.render('pages/error', { error });
   }

@@ -81,13 +81,7 @@ async function createSession() {
         .build()
     )
     .withRequiredDocument(
-      (new RequiredIdDocumentBuilder())
-        .withFilter(
-          (new OrthogonalRestrictionsFilterBuilder())
-            .withWhitelistedDocumentTypes(['DRIVING_LICENCE'])
-            .build()
-        )
-        .build()
+      (new RequiredIdDocumentBuilder()).build()
     )
     .withRequiredDocument(
       (new RequiredSupplementaryDocumentBuilder())
