@@ -139,6 +139,19 @@ class SdkConfigBuilder {
   }
 
   /**
+   * Sets the privacy policy URL
+   *
+   * @param {string} privacyPolicyUrl the privacy policy URL
+   *
+   * @returns {this}
+   */
+  withPrivacyPolicyUrl(privacyPolicyUrl) {
+    Validation.isString(privacyPolicyUrl, 'privacyPolicyUrl');
+    this.privacyPolicyUrl = privacyPolicyUrl;
+    return this;
+  }
+
+  /**
    * Builds the {@link SdkConfig} using the values supplied to the builder
    *
    * @returns {SdkConfig}
@@ -152,7 +165,8 @@ class SdkConfigBuilder {
       this.locale,
       this.presetIssuingCountry,
       this.successUrl,
-      this.errorUrl
+      this.errorUrl,
+      this.privacyPolicyUrl
     );
   }
 }
