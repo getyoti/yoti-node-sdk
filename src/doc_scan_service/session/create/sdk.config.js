@@ -20,6 +20,8 @@ class SdkConfig {
    *   The success URL
    * @param {string} errorUrl
    *   The error URL
+   * @param {string} privacyPolicyUrl
+   *   The privacy policy URL
    */
   constructor(
     allowedCaptureMethods,
@@ -29,7 +31,8 @@ class SdkConfig {
     locale,
     presetIssuingCountry,
     successUrl,
-    errorUrl
+    errorUrl,
+    privacyPolicyUrl
   ) {
     Validation.isString(allowedCaptureMethods, 'allowedCaptureMethods', true);
     this.allowedCaptureMethods = allowedCaptureMethods;
@@ -54,6 +57,9 @@ class SdkConfig {
 
     Validation.isString(errorUrl, 'errorUrl', true);
     this.errorUrl = errorUrl;
+
+    Validation.isString(privacyPolicyUrl, 'privacyPolicyUrl', true);
+    this.privacyPolicyUrl = privacyPolicyUrl;
   }
 
   /**
@@ -69,6 +75,7 @@ class SdkConfig {
       preset_issuing_country: this.presetIssuingCountry,
       success_url: this.successUrl,
       error_url: this.errorUrl,
+      privacy_policy_url: this.privacyPolicyUrl,
     };
   }
 }
