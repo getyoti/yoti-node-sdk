@@ -40,7 +40,6 @@ jobs:
       
       - run: pushd ./examples/doc-scan && npm update && npm run lint && popd
 
-
   compatibility:
     name: Compatibility ${{ matrix.os }} (Node ${{ matrix.node-version }})
     runs-on: ${{ matrix.os }}
@@ -65,6 +64,8 @@ jobs:
       - run: npm install
 
       - run: npm update
+
+      - run: yarn
 
       - run: npm test
 
