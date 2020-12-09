@@ -14,6 +14,10 @@ jobs:
 
       - uses: actions/setup-node@v2.1.2
 
+      - run: npm install
+
+      - run: npm update
+
       - run: npm audit --production
       
       - run: set -o pipefail && npm audit --audit-level=high --parseable | awk -F $'\t' 'NF {print $2,"("$3") - "$4" - "$5" - "$6}' | awk '!visited[$0]++'
@@ -33,12 +37,12 @@ jobs:
       - uses: actions/checkout@v2
 
       - uses: actions/setup-node@v2.1.2
-
-      - run: pushd ./examples/aml-check && npm update && npm run lint && popd
-
-      - run: pushd ./examples/profile && npm update && npm run lint && popd
       
-      - run: pushd ./examples/doc-scan && npm update && npm run lint && popd
+      - run: pushd ./examples/aml-check && npm install && npm update && npm run lint && popd
+
+      - run: pushd ./examples/profile && npm install && npm update && npm run lint && popd
+      
+      - run: pushd ./examples/doc-scan && npm install && npm update && npm run lint && popd
 
   compatibility:
     name: Compatibility ${{ matrix.os }} (Node ${{ matrix.node-version }})
@@ -64,8 +68,6 @@ jobs:
       - run: npm install
 
       - run: npm update
-
-      - run: yarn
 
       - run: npm test
 
