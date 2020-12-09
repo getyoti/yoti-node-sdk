@@ -19,9 +19,9 @@
     "yoti": "file:../.."
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-jest": "^24.1.3",
+    "eslint-plugin-jest": "24.1.3",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-node": "^6.0.1"
   }
