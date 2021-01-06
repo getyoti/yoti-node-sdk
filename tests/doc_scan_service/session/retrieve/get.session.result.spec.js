@@ -7,6 +7,7 @@ const SupplementaryDocumentTextDataCheckResponse = require('../../../../src/doc_
 const LivenessCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/liveness.check.response');
 const ResourceContainer = require('../../../../src/doc_scan_service/session/retrieve/resource.container');
 const IdDocumentComparisonCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/id.document.comparison.check.response');
+const ThirdPartyIdentityCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/third.party.identity.check.response');
 const { YotiDate } = require('../../../..');
 
 const ID_DOCUMENT_AUTHENTICITY = 'ID_DOCUMENT_AUTHENTICITY';
@@ -15,6 +16,7 @@ const ID_DOCUMENT_TEXT_DATA_CHECK = 'ID_DOCUMENT_TEXT_DATA_CHECK';
 const SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK = 'SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK';
 const LIVENESS = 'LIVENESS';
 const ID_DOCUMENT_COMPARISON = 'ID_DOCUMENT_COMPARISON';
+const THIRD_PARTY_IDENTITY = 'THIRD_PARTY_IDENTITY';
 const SOME_UNKNOWN_CHECK = 'SOME_UNKNOWN_CHECK';
 const SOME_DATE_STRING = '2019-12-02T12:00:00.123Z';
 
@@ -50,6 +52,9 @@ describe('GetSessionResult', () => {
         },
         {
           type: SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK,
+        },
+        {
+          type: THIRD_PARTY_IDENTITY,
         },
       ],
       biometric_consent: SOME_DATE_STRING,
@@ -90,13 +95,14 @@ describe('GetSessionResult', () => {
     describe('when checks are available', () => {
       it('should return array of checks', () => {
         const checks = session.getChecks();
-        expect(checks.length).toBe(6);
+        expect(checks.length).toBe(7);
         expect(checks[0]).toBeInstanceOf(AuthenticityCheckResponse);
         expect(checks[1]).toBeInstanceOf(LivenessCheckResponse);
         expect(checks[2]).toBeInstanceOf(FaceMatchCheckResponse);
         expect(checks[3]).toBeInstanceOf(TextDataCheckResponse);
         expect(checks[4]).toBeInstanceOf(IdDocumentComparisonCheckResponse);
         expect(checks[5]).toBeInstanceOf(SupplementaryDocumentTextDataCheckResponse);
+        expect(checks[6]).toBeInstanceOf(ThirdPartyIdentityCheckResponse);
         checks.forEach((check) => expect(check).toBeInstanceOf(CheckResponse));
       });
     });
@@ -161,6 +167,15 @@ describe('GetSessionResult', () => {
       expect(checks.length).toBe(1);
       expect(checks[0]).toBeInstanceOf(SupplementaryDocumentTextDataCheckResponse);
       expect(checks[0].getType()).toBe(SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK);
+    });
+  });
+
+  describe('#getThirdPartyIdentityChecks', () => {
+    it('should return array of ThirdPartyIdentityCheckResponse', () => {
+      const checks = session.getThirdPartyIdentityChecks();
+      expect(checks.length).toBe(1);
+      expect(checks[0]).toBeInstanceOf(ThirdPartyIdentityCheckResponse);
+      expect(checks[0].getType()).toBe(THIRD_PARTY_IDENTITY);
     });
   });
 
