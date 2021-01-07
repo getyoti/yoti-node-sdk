@@ -38,6 +38,10 @@ jobs:
 
       - uses: actions/setup-node@v2.1.2
       
+      - run: npm install
+
+      - run: npm update
+      
       - run: pushd ./examples/aml-check && npm install && npm update && npm run lint && popd
 
       - run: pushd ./examples/profile && npm install && npm update && npm run lint && popd
