@@ -13,6 +13,7 @@ describe('SdkConfigBuilder', () => {
       .withSuccessUrl('some-success-url')
       .withLocale('some-url')
       .withPresetIssuingCountry('some-country')
+      .withPrivacyPolicyUrl('some-privacy-policy-url')
       .build();
 
     const expectedJson = JSON.stringify({
@@ -24,6 +25,7 @@ describe('SdkConfigBuilder', () => {
       preset_issuing_country: 'some-country',
       success_url: 'some-success-url',
       error_url: 'some-error-url',
+      privacy_policy_url: 'some-privacy-policy-url',
     });
 
     expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
