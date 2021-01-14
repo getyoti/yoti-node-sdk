@@ -4,6 +4,8 @@ const {
   RequestedLivenessCheckBuilder,
   RequestedFaceMatchCheckBuilder,
   RequestedDocumentAuthenticityCheckBuilder,
+  RequestedIdDocumentComparisonCheckBuilder,
+  RequestedThirdPartyIdentityCheckBuilder,
   NotificationConfigBuilder,
   SdkConfigBuilder,
   RequiredIdDocumentBuilder,
@@ -32,8 +34,9 @@ describe('SessionSpecificationBuilder', () => {
       .forZoomLiveness()
       .build();
 
-    const docAuthenticityCheck = new RequestedDocumentAuthenticityCheckBuilder()
-      .build();
+    const docAuthenticityCheck = new RequestedDocumentAuthenticityCheckBuilder().build();
+    const idDocumentComparisonCheck = new RequestedIdDocumentComparisonCheckBuilder().build();
+    const thirdPartyIdentityCheck = new RequestedThirdPartyIdentityCheckBuilder().build();
 
     const documentFilter = new DocumentRestrictionsFilterBuilder()
       .forWhitelist()
@@ -52,6 +55,8 @@ describe('SessionSpecificationBuilder', () => {
       .withRequestedCheck(faceMatchCheck)
       .withRequestedCheck(livenessCheck)
       .withRequestedCheck(docAuthenticityCheck)
+      .withRequestedCheck(idDocumentComparisonCheck)
+      .withRequestedCheck(thirdPartyIdentityCheck)
       .withRequestedTask(textExtractionTask)
       .withRequiredDocument(requiredDocument)
       .build();
@@ -68,6 +73,8 @@ describe('SessionSpecificationBuilder', () => {
         faceMatchCheck,
         livenessCheck,
         docAuthenticityCheck,
+        idDocumentComparisonCheck,
+        thirdPartyIdentityCheck,
       ],
       requested_tasks: [
         textExtractionTask,

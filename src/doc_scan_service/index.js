@@ -7,6 +7,7 @@ const NotificationConfigBuilder = require('./session/create/notification.config.
 const SdkConfigBuilder = require('./session/create/sdk.config.builder');
 const RequestedDocumentAuthenticityCheckBuilder = require('./session/create/check/requested.document.authenticity.check.builder');
 const RequestedIdDocumentComparisonCheckBuilder = require('./session/create/check/requested.id.document.comparison.check.builder');
+const RequestedThirdPartyIdentityCheckBuilder = require('./session/create/check/requested.third.party.identity.check.builder');
 const RequestedFaceMatchCheckBuilder = require('./session/create/check/requested.face.match.check.builder');
 const RequestedLivenessCheckBuilder = require('./session/create/check/requested.liveness.check.builder');
 const RequestedTextExtractionTaskBuilder = require('./session/create/task/requested.text.extraction.task.builder');
@@ -26,6 +27,7 @@ module.exports = {
   SdkConfigBuilder,
   RequestedDocumentAuthenticityCheckBuilder,
   RequestedIdDocumentComparisonCheckBuilder,
+  RequestedThirdPartyIdentityCheckBuilder,
   RequestedFaceMatchCheckBuilder,
   RequestedLivenessCheckBuilder,
   RequestedTextExtractionTaskBuilder,
