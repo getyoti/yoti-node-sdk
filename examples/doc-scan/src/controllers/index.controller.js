@@ -11,6 +11,7 @@ const {
   RequiredIdDocumentBuilder,
   OrthogonalRestrictionsFilterBuilder,
   RequestedIdDocumentComparisonCheckBuilder,
+  RequestedThirdPartyIdentityCheckBuilder,
   RequiredSupplementaryDocumentBuilder,
   ProofOfAddressObjectiveBuilder,
   RequestedSupplementaryDocTextExtractionTaskBuilder,
@@ -46,6 +47,10 @@ async function createSession() {
     )
     .withRequestedCheck(
       new RequestedIdDocumentComparisonCheckBuilder()
+        .build()
+    )
+    .withRequestedCheck(
+      new RequestedThirdPartyIdentityCheckBuilder()
         .build()
     )
     .withRequestedTask(
