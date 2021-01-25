@@ -72,7 +72,7 @@ jobs:
 
       - run: npm update
 
-      - run: npm test
+      - run: npm run unit-test
 
   os-compatibility:
     name: Running in ${{ matrix.os }}
@@ -96,5 +96,5 @@ jobs:
 
       - run: npm update
 
-      - run: npm test
+      - run: npm run unit-test
 
