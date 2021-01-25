@@ -11,6 +11,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting for sonarcloud
+          fetch-depth: 0
 
       - uses: actions/setup-node@v2.1.2
 
