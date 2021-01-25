@@ -11,6 +11,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting for sonarcloud
+          fetch-depth: 0
 
       - uses: actions/setup-node@v2.1.2
 
@@ -24,7 +27,13 @@ jobs:
 
       - run: npm test
 
-      - run: npm run lint
+      - name: Fix code coverage paths
+        run: sed -i 's/\/home\/runner\/work\/yoti-node-sdk\/yoti-node-sdk\//\/github\/workspace\//g' ./coverage/lcov.info
+
+      - uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   examples:
     name: Lint Examples
@@ -97,4 +106,3 @@ jobs:
       - run: npm update
 
       - run: npm run unit-test
-
