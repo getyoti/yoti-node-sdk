@@ -9,6 +9,7 @@ const TextDataCheckResponse = require('./text.data.check.response');
 const SupplementaryDocumentTextDataCheckResponse = require('./supplementary.document.text.data.check.response');
 const LivenessCheckResponse = require('./liveness.check.response');
 const IdDocumentComparisonCheckResponse = require('./id.document.comparison.check.response');
+const ThirdPartyIdentityCheckResponse = require('./third.party.identity.check.response');
 const DocScanConstants = require('../../doc.scan.constants');
 const { YotiDate } = require('../../../data_type/date');
 
@@ -39,6 +40,8 @@ class GetSessionResult {
               return new AuthenticityCheckResponse(check);
             case DocScanConstants.ID_DOCUMENT_COMPARISON:
               return new IdDocumentComparisonCheckResponse(check);
+            case DocScanConstants.THIRD_PARTY_IDENTITY:
+              return new ThirdPartyIdentityCheckResponse(check);
             case DocScanConstants.ID_DOCUMENT_FACE_MATCH:
               return new FaceMatchCheckResponse(check);
             case DocScanConstants.ID_DOCUMENT_TEXT_DATA_CHECK:
@@ -151,6 +154,13 @@ class GetSessionResult {
    */
   getIdDocumentComparisonChecks() {
     return this.getChecks().filter((check) => check instanceof IdDocumentComparisonCheckResponse);
+  }
+
+  /**
+   * @returns {ThirdPartyIdentityCheckResponse[]}
+   */
+  getThirdPartyIdentityChecks() {
+    return this.getChecks().filter((check) => check instanceof ThirdPartyIdentityCheckResponse);
   }
 
   /**
