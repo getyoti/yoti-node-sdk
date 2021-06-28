@@ -1,18 +1,21 @@
 const {
   NotificationConfigBuilder,
 } = require('../../../../src/doc_scan_service');
+const DocScanConstants = require('../../../../src/doc_scan_service/doc.scan.constants');
 
 describe('NotificationConfigBuilder', () => {
   it('should build NotificationConfig', () => {
     const notificationConfig = new NotificationConfigBuilder()
       .withEndpoint('some-endpoint')
       .withAuthToken('some-auth-token')
+      .withAuthTypeBearer()
       .withTopic('some-topic')
       .withTopic('some-other-topic')
       .build();
 
     const expectedJson = JSON.stringify({
       auth_token: 'some-auth-token',
+      auth_type: DocScanConstants.BEARER,
       endpoint: 'some-endpoint',
       topics: [
         'some-topic',
@@ -98,6 +101,32 @@ describe('NotificationConfigBuilder', () => {
     const notificationConfig = new NotificationConfigBuilder().build();
 
     const expectedJson = JSON.stringify({
+      topics: [],
+    });
+
+    expect(JSON.stringify(notificationConfig)).toBe(expectedJson);
+  });
+
+  it('should build NotificationConfig with authType BEARER', () => {
+    const notificationConfig = new NotificationConfigBuilder()
+      .withAuthTypeBearer()
+      .build();
+
+    const expectedJson = JSON.stringify({
+      auth_type: DocScanConstants.BEARER,
+      topics: [],
+    });
+
+    expect(JSON.stringify(notificationConfig)).toBe(expectedJson);
+  });
+
+  it('should build NotificationConfig with authType BASIC', () => {
+    const notificationConfig = new NotificationConfigBuilder()
+      .withAuthTypeBasic()
+      .build();
+
+    const expectedJson = JSON.stringify({
+      auth_type: DocScanConstants.BASIC,
       topics: [],
     });
 

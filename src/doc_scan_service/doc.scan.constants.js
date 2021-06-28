@@ -33,4 +33,6 @@ module.exports = Object.freeze({
   DESIRED: 'DESIRED',
   IGNORE: 'IGNORE',
   PROOF_OF_ADDRESS: 'PROOF_OF_ADDRESS',
+  BASIC: 'BASIC',
+  BEARER: 'BEARER',
 });

@@ -1,13 +1,16 @@
 'use strict';
 
+const DocScanConstants = require('../../doc.scan.constants');
 const Validation = require('../../../yoti_common/validation');
+
+const acceptedAuthTypes = [DocScanConstants.BASIC, DocScanConstants.BEARER];
 
 /**
  * Configures call-back Notifications to some backend endpoint provided
  * by the Relying Business.
  *
  * Notifications can be configured to notified a client backend of certain
- * events, avoiding the neeed to poll for the state of the Session.
+ * events, avoiding the need to poll for the state of the Session.
  *
  * @class NotificationConfig
  */
@@ -15,14 +18,22 @@ class NotificationConfig {
   /**
    * @param {string} authToken
    *   The authorization token to be included in call-back messages
+   * @param {string} authType
+   *   The authorization type to used in call-back messages, accepts BASIC, BEARER
    * @param {string} endpoint
    *   The endpoint that notifications should be sent to
    * @param {string[]} topics
    *   The list of topics that should trigger notifications
    */
-  constructor(authToken, endpoint, topics) {
+  constructor(authToken, authType, endpoint, topics) {
     Validation.isString(authToken, 'authToken', true);
     this.authToken = authToken;
+
+    Validation.isString(authType, 'authType', true);
+    if (authType) {
+      Validation.oneOf(authType, acceptedAuthTypes, 'authType');
+      this.authType = authType;
+    }
 
     Validation.isString(endpoint, 'endpoint', true);
     this.endpoint = endpoint;
@@ -39,6 +50,7 @@ class NotificationConfig {
   toJSON() {
     return {
       auth_token: this.authToken,
+      auth_type: this.authType,
       endpoint: this.endpoint,
       topics: this.topics,
     };

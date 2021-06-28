@@ -10,7 +10,7 @@ const {
   SdkConfigBuilder,
   RequiredIdDocumentBuilder,
   DocumentRestrictionsFilterBuilder,
-} = require('../../../../');
+} = require('../../../..');
 
 describe('SessionSpecificationBuilder', () => {
   it('should build SessionSpecification', () => {
@@ -20,6 +20,7 @@ describe('SessionSpecificationBuilder', () => {
 
     const notificationConfig = new NotificationConfigBuilder()
       .withEndpoint('some-endpoint')
+      .withAuthTypeBearer()
       .build();
 
     const textExtractionTask = new RequestedTextExtractionTaskBuilder()
@@ -66,6 +67,7 @@ describe('SessionSpecificationBuilder', () => {
       resources_ttl: 10,
       user_tracking_id: 'some-tracking-id',
       notifications: {
+        auth_type: 'BEARER',
         endpoint: 'some-endpoint',
         topics: [],
       },

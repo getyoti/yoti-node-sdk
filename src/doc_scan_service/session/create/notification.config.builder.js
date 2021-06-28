@@ -31,6 +31,26 @@ class NotificationConfigBuilder {
   }
 
   /**
+   * Sets the authorization type as BASIC
+   *
+   * @returns {this}
+   */
+  withAuthTypeBasic() {
+    this.authType = DocScanConstants.BASIC;
+    return this;
+  }
+
+  /**
+   * Sets the authorization type as BEARER
+   *
+   * @returns {this}
+   */
+  withAuthTypeBearer() {
+    this.authType = DocScanConstants.BEARER;
+    return this;
+  }
+
+  /**
    * Sets the endpoint that notifications should be sent to
    *
    * @param {string} endpoint
@@ -100,6 +120,7 @@ class NotificationConfigBuilder {
   build() {
     return new NotificationConfig(
       this.authToken,
+      this.authType,
       this.endpoint,
       this.topics
     );
