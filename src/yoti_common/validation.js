@@ -236,4 +236,18 @@ module.exports = class Validation {
       throw TypeError(`${name} cannot be null or empty`);
     }
   }
+
+  /**
+   * @param {*} value
+   * @param {array} acceptedValues
+   * @param {string} name
+   *
+   * @throws {TypeError}
+   */
+  static oneOf(value, acceptedValues, name) {
+    this.isArray(acceptedValues, 'acceptedValues');
+    if (!acceptedValues.includes(value)) {
+      throw Error(`${name} is not an accepted value`);
+    }
+  }
 };

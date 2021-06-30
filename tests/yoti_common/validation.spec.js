@@ -126,4 +126,30 @@ describe('Validation', () => {
         .toThrow(new TypeError('name cannot be null or empty'));
     });
   });
+
+  describe('#oneOf', () => {
+    const acceptedValues = ['abc', 'def', 123];
+    describe('valid cases', () => {
+      test.each([
+        ['abc'],
+        ['def'],
+        [123],
+      ])('should not throw error as value is an accepted one', (value) => {
+        expect(() => Validation.oneOf(value, acceptedValues, 'name'))
+          .not.toThrow();
+      });
+    });
+    describe('invalid cases', () => {
+      test.each([
+        [''],
+        [null],
+        ['ab'],
+        [12],
+        ['123'],
+      ])('should throw error as value is not an accepted one', (value) => {
+        expect(() => Validation.oneOf(value, acceptedValues, 'name'))
+          .toThrow(new Error('name is not an accepted value'));
+      });
+    });
+  });
 });
