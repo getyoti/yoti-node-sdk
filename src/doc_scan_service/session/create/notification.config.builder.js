@@ -120,9 +120,9 @@ class NotificationConfigBuilder {
   build() {
     return new NotificationConfig(
       this.authToken,
-      this.authType,
       this.endpoint,
-      this.topics
+      this.topics,
+      this.authType
     );
   }
 }

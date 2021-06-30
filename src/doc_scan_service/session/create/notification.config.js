@@ -18,22 +18,16 @@ class NotificationConfig {
   /**
    * @param {string} authToken
    *   The authorization token to be included in call-back messages
-   * @param {string} authType
-   *   The authorization type to used in call-back messages, accepts BASIC, BEARER
    * @param {string} endpoint
    *   The endpoint that notifications should be sent to
    * @param {string[]} topics
    *   The list of topics that should trigger notifications
+   * @param {string} authType
+   *   The authorization type to used in call-back messages, accepts BASIC, BEARER
    */
-  constructor(authToken, authType, endpoint, topics) {
+  constructor(authToken, endpoint, topics, authType) {
     Validation.isString(authToken, 'authToken', true);
     this.authToken = authToken;
-
-    Validation.isString(authType, 'authType', true);
-    if (authType) {
-      Validation.oneOf(authType, acceptedAuthTypes, 'authType');
-      this.authType = authType;
-    }
 
     Validation.isString(endpoint, 'endpoint', true);
     this.endpoint = endpoint;
@@ -41,6 +35,12 @@ class NotificationConfig {
     if (topics) {
       Validation.isArrayOfStrings(topics, 'topics');
       this.topics = topics.filter((elem, pos) => topics.indexOf(elem) === pos);
+    }
+
+    Validation.isString(authType, 'authType', true);
+    if (authType) {
+      Validation.oneOf(authType, acceptedAuthTypes, 'authType');
+      this.authType = authType;
     }
   }
 
