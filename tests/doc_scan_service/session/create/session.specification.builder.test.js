@@ -6,6 +6,7 @@ const {
   RequestedDocumentAuthenticityCheckBuilder,
   RequestedIdDocumentComparisonCheckBuilder,
   RequestedThirdPartyIdentityCheckBuilder,
+  RequestedWatchListScreeningCheckBuilder,
   NotificationConfigBuilder,
   SdkConfigBuilder,
   RequiredIdDocumentBuilder,
@@ -38,6 +39,10 @@ describe('SessionSpecificationBuilder', () => {
     const docAuthenticityCheck = new RequestedDocumentAuthenticityCheckBuilder().build();
     const idDocumentComparisonCheck = new RequestedIdDocumentComparisonCheckBuilder().build();
     const thirdPartyIdentityCheck = new RequestedThirdPartyIdentityCheckBuilder().build();
+    const watchListScreeningCheck = new RequestedWatchListScreeningCheckBuilder()
+      .withAdverseMediaCategory()
+      .withSanctionsCategory()
+      .build();
 
     const documentFilter = new DocumentRestrictionsFilterBuilder()
       .forWhitelist()
@@ -58,6 +63,7 @@ describe('SessionSpecificationBuilder', () => {
       .withRequestedCheck(docAuthenticityCheck)
       .withRequestedCheck(idDocumentComparisonCheck)
       .withRequestedCheck(thirdPartyIdentityCheck)
+      .withRequestedCheck(watchListScreeningCheck)
       .withRequestedTask(textExtractionTask)
       .withRequiredDocument(requiredDocument)
       .build();
@@ -77,6 +83,7 @@ describe('SessionSpecificationBuilder', () => {
         docAuthenticityCheck,
         idDocumentComparisonCheck,
         thirdPartyIdentityCheck,
+        watchListScreeningCheck,
       ],
       requested_tasks: [
         textExtractionTask,
