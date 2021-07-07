@@ -8,6 +8,7 @@ const LivenessCheckResponse = require('../../../../src/doc_scan_service/session/
 const ResourceContainer = require('../../../../src/doc_scan_service/session/retrieve/resource.container');
 const IdDocumentComparisonCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/id.document.comparison.check.response');
 const ThirdPartyIdentityCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/third.party.identity.check.response');
+const WatchListScreeningCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.screening.check.response');
 const { YotiDate } = require('../../../..');
 
 const ID_DOCUMENT_AUTHENTICITY = 'ID_DOCUMENT_AUTHENTICITY';
@@ -17,6 +18,7 @@ const SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK = 'SUPPLEMENTARY_DOCUMENT_TEXT_DATA
 const LIVENESS = 'LIVENESS';
 const ID_DOCUMENT_COMPARISON = 'ID_DOCUMENT_COMPARISON';
 const THIRD_PARTY_IDENTITY = 'THIRD_PARTY_IDENTITY';
+const WATCHLIST_SCREENING = 'WATCHLIST_SCREENING';
 const SOME_UNKNOWN_CHECK = 'SOME_UNKNOWN_CHECK';
 const SOME_DATE_STRING = '2019-12-02T12:00:00.123Z';
 
@@ -55,6 +57,9 @@ describe('GetSessionResult', () => {
         },
         {
           type: THIRD_PARTY_IDENTITY,
+        },
+        {
+          type: WATCHLIST_SCREENING,
         },
       ],
       biometric_consent: SOME_DATE_STRING,
@@ -95,7 +100,7 @@ describe('GetSessionResult', () => {
     describe('when checks are available', () => {
       it('should return array of checks', () => {
         const checks = session.getChecks();
-        expect(checks.length).toBe(7);
+        expect(checks.length).toBe(8);
         expect(checks[0]).toBeInstanceOf(AuthenticityCheckResponse);
         expect(checks[1]).toBeInstanceOf(LivenessCheckResponse);
         expect(checks[2]).toBeInstanceOf(FaceMatchCheckResponse);
@@ -103,6 +108,7 @@ describe('GetSessionResult', () => {
         expect(checks[4]).toBeInstanceOf(IdDocumentComparisonCheckResponse);
         expect(checks[5]).toBeInstanceOf(SupplementaryDocumentTextDataCheckResponse);
         expect(checks[6]).toBeInstanceOf(ThirdPartyIdentityCheckResponse);
+        expect(checks[7]).toBeInstanceOf(WatchListScreeningCheckResponse);
         checks.forEach((check) => expect(check).toBeInstanceOf(CheckResponse));
       });
     });
@@ -176,6 +182,15 @@ describe('GetSessionResult', () => {
       expect(checks.length).toBe(1);
       expect(checks[0]).toBeInstanceOf(ThirdPartyIdentityCheckResponse);
       expect(checks[0].getType()).toBe(THIRD_PARTY_IDENTITY);
+    });
+  });
+
+  describe('#getWatchListScreeningChecks', () => {
+    it('should return array of WatchListScreeningCheckResponse', () => {
+      const checks = session.getWatchListScreeningChecks();
+      expect(checks.length).toBe(1);
+      expect(checks[0]).toBeInstanceOf(WatchListScreeningCheckResponse);
+      expect(checks[0].getType()).toBe(WATCHLIST_SCREENING);
     });
   });
 
