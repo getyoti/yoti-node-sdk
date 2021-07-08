@@ -1,3 +1,5 @@
+<% displayGeneratedProfile = typeof hasGeneratedProfile === 'undefined' ? false : hasGeneratedProfile %>
+<% displayWatchlistSummary = typeof hasWatchlistSummary === 'undefined' ? false : hasWatchlistSummary %>
 <table class="table table-striped">
     <tbody>
         <tr>
@@ -91,6 +93,71 @@
         </tr>
         <% } %>
 
+        <% if (displayWatchlistSummary && check.getReport().getWatchListSummary()) { %>
+        <tr>
+            <td>Watch List Summary</td>
+            <td>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td>Total hits</td>
+                            <td><%= check.getReport().getWatchListSummary().getTotalHits(); %></td>
+                        </tr>
+                        <% if (check.getReport().getWatchListSummary().getAssociatedCountryCodes().length > 0) { %>
+                        <tr>
+                            <td>Associated country codes</td>
+                            <td><%= check.getReport().getWatchListSummary().getAssociatedCountryCodes().join(', '); %></td>
+                        </tr>
+                        <% } %>
+                        <% if (check.getReport().getWatchListSummary().getRawResults() && check.getReport().getWatchListSummary().getRawResults().getMedia()) { %>
+                        <tr>
+                            <td>Raw results</td>
+                            <td>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: auto">Media</td>
+                                            <td>
+                                                <table class="table table-striped small">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width: auto">ID</td>
+                                                            <td><a href="/media?mediaId=<%= check.getReport().getWatchListSummary().getRawResults().getMedia().id %>"><%= check.getReport().getWatchListSummary().getRawResults().getMedia().id; %></a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: auto">Type</td>
+                                                            <td><%= check.getReport().getWatchListSummary().getRawResults().getMedia().type; %></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <% } %>
+                        <% if (check.getReport().getWatchListSummary().getSearchConfig() && check.getReport().getWatchListSummary().getSearchConfig().getCategories().length > 0) { %>
+                        <tr>
+                            <td>Search config</td>
+                            <td>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: auto">Categories</td>
+                                            <td><%= check.getReport().getWatchListSummary().getSearchConfig().getCategories().join(', '); %></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <% } %>
+
         <% } %>
 
         <% if (check.getGeneratedMedia().length > 0) { %>
@@ -111,6 +178,26 @@
                     </tbody>
                 </table>
                 <% }); %>
+            </td>
+        </tr>
+        <% } %>
+
+        <% if (displayGeneratedProfile && check.getGeneratedProfile()) { %>
+        <tr>
+            <td>Generated Profile</td>
+            <td>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td>ID</td>
+                            <td><a href="/media?mediaId=<%= check.getGeneratedProfile().media.id %>"><%= check.getGeneratedProfile().media.id; %></a></td>
+                        </tr>
+                        <tr>
+                            <td>Type</td>
+                            <td><%= check.getGeneratedProfile().media.type; %></td>
+                        </tr>
+                    </tbody>
+                </table>
             </td>
         </tr>
         <% } %>
