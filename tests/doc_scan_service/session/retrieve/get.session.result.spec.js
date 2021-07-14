@@ -8,7 +8,7 @@ const LivenessCheckResponse = require('../../../../src/doc_scan_service/session/
 const ResourceContainer = require('../../../../src/doc_scan_service/session/retrieve/resource.container');
 const IdDocumentComparisonCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/id.document.comparison.check.response');
 const ThirdPartyIdentityCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/third.party.identity.check.response');
-const WatchlistScreeningCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.screening.check.response');
+const WatchlistScreeningCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/watchlist.screening.check.response');
 const { YotiDate } = require('../../../..');
 
 const ID_DOCUMENT_AUTHENTICITY = 'ID_DOCUMENT_AUTHENTICITY';

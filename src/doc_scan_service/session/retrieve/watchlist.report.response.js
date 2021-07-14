@@ -1,7 +1,7 @@
 'use strict';
 
 const ReportResponse = require('./report.response');
-const WatchlistSummaryResponse = require('./watch.list.summary.response');
+const WatchlistSummaryResponse = require('./watchlist.summary.response');
 
 class WatchlistReportResponse extends ReportResponse {
   constructor(report) {

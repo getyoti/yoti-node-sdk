@@ -1,5 +1,5 @@
 const ProfileCheckResponse = require('./profile.check.response');
-const WatchlistReportResponse = require('./watch.list.report.response');
+const WatchlistReportResponse = require('./watchlist.report.response');
 
 class WatchlistCheckResponse extends ProfileCheckResponse {
   constructor(check) {

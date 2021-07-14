@@ -1,7 +1,7 @@
 'use strict';
 
-const RequestedWatchlistScreeningCheck = require('./requested.watch.list.screening.check');
-const RequestedWatchlistScreeningConfig = require('./requested.watch.list.screening.config');
+const RequestedWatchlistScreeningCheck = require('./requested.watchlist.screening.check');
+const RequestedWatchlistScreeningConfig = require('./requested.watchlist.screening.config');
 const DocScanConstants = require('../../../doc.scan.constants');
 const Validation = require('../../../../yoti_common/validation');
 

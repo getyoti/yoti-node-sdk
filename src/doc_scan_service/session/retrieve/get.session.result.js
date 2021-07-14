@@ -10,7 +10,7 @@ const SupplementaryDocumentTextDataCheckResponse = require('./supplementary.docu
 const LivenessCheckResponse = require('./liveness.check.response');
 const IdDocumentComparisonCheckResponse = require('./id.document.comparison.check.response');
 const ThirdPartyIdentityCheckResponse = require('./third.party.identity.check.response');
-const WatchlistScreeningCheckResponse = require('./watch.list.screening.check.response');
+const WatchlistScreeningCheckResponse = require('./watchlist.screening.check.response');
 const DocScanConstants = require('../../doc.scan.constants');
 const { YotiDate } = require('../../../data_type/date');
 

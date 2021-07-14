@@ -1,7 +1,7 @@
-const WatchlistReportResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.report.response');
+const WatchlistReportResponse = require('../../../../src/doc_scan_service/session/retrieve/watchlist.report.response');
 const RecommendationResponse = require('../../../../src/doc_scan_service/session/retrieve/recommendation.response');
 const BreakdownResponse = require('../../../../src/doc_scan_service/session/retrieve/breakdown.response');
-const WatchlistSummaryResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.summary.response');
+const WatchlistSummaryResponse = require('../../../../src/doc_scan_service/session/retrieve/watchlist.summary.response');
 
 describe('WatchlistReportResponse', () => {
   let reportResponse;

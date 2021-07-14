@@ -3,7 +3,7 @@
 const RequestedCheck = require('./requested.check');
 const DocScanConstants = require('../../../doc.scan.constants');
 const Validation = require('../../../../yoti_common/validation');
-const RequestedWatchlistScreeningConfig = require('./requested.watch.list.screening.config');
+const RequestedWatchlistScreeningConfig = require('./requested.watchlist.screening.config');
 
 /**
  * @class RequestedWatchlistScreeningCheck

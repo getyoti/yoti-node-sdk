@@ -1,7 +1,7 @@
-const WatchlistCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.check.response');
+const WatchlistCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/watchlist.check.response');
 const GeneratedMedia = require('../../../../src/doc_scan_service/session/retrieve/generated.media');
 const GeneratedProfileResponse = require('../../../../src/doc_scan_service/session/retrieve/generated.profile.response');
-const WatchlistReportResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.report.response');
+const WatchlistReportResponse = require('../../../../src/doc_scan_service/session/retrieve/watchlist.report.response');
 
 describe('WatchlistCheckResponse', () => {
   let watchListCheckResponse;
