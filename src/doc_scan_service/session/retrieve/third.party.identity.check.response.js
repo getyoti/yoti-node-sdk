@@ -1,8 +1,8 @@
 'use strict';
 
-const CheckResponse = require('./check.response');
+const ProfileCheckResponse = require('./profile.check.response');
 
-class ThirdPartyIdentityCheckResponse extends CheckResponse {
+class ThirdPartyIdentityCheckResponse extends ProfileCheckResponse {
 }
 
 module.exports = ThirdPartyIdentityCheckResponse;

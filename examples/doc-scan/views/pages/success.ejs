@@ -184,7 +184,29 @@
                     <div id="collapse-third-party-identity-checks" class="collapse" aria-labelledby="collapse-third-party-identity-checks">
                         <div class="card-body">
                             <% sessionResult.getThirdPartyIdentityChecks().forEach(function(check){ %>
-                            <%- include('partials/check', { check }); %>
+                            <%- include('partials/check', { check, hasGeneratedProfile: true }); %>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (sessionResult.getWatchlistScreeningChecks().length > 0) { %>
+                <div class="card">
+                    <div class="card-header" id="watch-list-screening-checks">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-watch-list-screening-checks" aria-expanded="true"
+                                aria-controls="collapse-watch-list-screening-checks">
+                                Watchlist Screening Checks
+                            </button>
+                        </h3>
+                    </div>
+
+                    <div id="collapse-watch-list-screening-checks" class="collapse" aria-labelledby="collapse-watch-list-screening-checks">
+                        <div class="card-body">
+                            <% sessionResult.getWatchlistScreeningChecks().forEach(function(check){ %>
+                            <%- include('partials/check', { check, hasGeneratedProfile: true, hasWatchlistSummary: true }); %>
                             <% }); %>
                         </div>
                     </div>
@@ -225,7 +247,7 @@
         </div>
     </div>
 
-    <% 
+    <%
     let docNum = 0;
     sessionResult.getResources().getIdDocuments().forEach(function(document) {
         docNum++;
