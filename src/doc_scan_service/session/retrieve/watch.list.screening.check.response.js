@@ -1,8 +1,8 @@
 'use strict';
 
-const WatchListCheckResponse = require('./watch.list.check.response');
+const WatchlistCheckResponse = require('./watch.list.check.response');
 
-class WatchListScreeningCheckResponse extends WatchListCheckResponse {
+class WatchlistScreeningCheckResponse extends WatchlistCheckResponse {
 }
 
-module.exports = WatchListScreeningCheckResponse;
+module.exports = WatchlistScreeningCheckResponse;

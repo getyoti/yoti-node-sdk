@@ -1,13 +1,13 @@
-const WatchListReportResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.report.response');
+const WatchlistReportResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.report.response');
 const RecommendationResponse = require('../../../../src/doc_scan_service/session/retrieve/recommendation.response');
 const BreakdownResponse = require('../../../../src/doc_scan_service/session/retrieve/breakdown.response');
-const WatchListSummaryResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.summary.response');
+const WatchlistSummaryResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.summary.response');
 
-describe('WatchListReportResponse', () => {
+describe('WatchlistReportResponse', () => {
   let reportResponse;
 
   beforeEach(() => {
-    reportResponse = new WatchListReportResponse({
+    reportResponse = new WatchlistReportResponse({
       recommendation: {},
       breakdown: [
         {},
@@ -35,7 +35,7 @@ describe('WatchListReportResponse', () => {
 
   describe('#getWatchlistSummary', () => {
     it('should return watchlistSummary', () => {
-      expect(reportResponse.getWatchListSummary()).toBeInstanceOf(WatchListSummaryResponse);
+      expect(reportResponse.getWatchlistSummary()).toBeInstanceOf(WatchlistSummaryResponse);
     });
   });
 });

@@ -1,20 +1,20 @@
 'use strict';
 
 const ReportResponse = require('./report.response');
-const WatchListSummaryResponse = require('./watch.list.summary.response');
+const WatchlistSummaryResponse = require('./watch.list.summary.response');
 
-class WatchListReportResponse extends ReportResponse {
+class WatchlistReportResponse extends ReportResponse {
   constructor(report) {
     super(report);
 
     if (report.watchlist_summary) {
-      this.watchListSummary = new WatchListSummaryResponse(report.watchlist_summary);
+      this.watchListSummary = new WatchlistSummaryResponse(report.watchlist_summary);
     }
   }
 
-  getWatchListSummary() {
+  getWatchlistSummary() {
     return this.watchListSummary;
   }
 }
 
-module.exports = WatchListReportResponse;
+module.exports = WatchlistReportResponse;

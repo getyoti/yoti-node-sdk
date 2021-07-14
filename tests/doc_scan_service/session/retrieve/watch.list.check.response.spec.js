@@ -1,13 +1,13 @@
-const WatchListCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.check.response');
+const WatchlistCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.check.response');
 const GeneratedMedia = require('../../../../src/doc_scan_service/session/retrieve/generated.media');
 const GeneratedProfileResponse = require('../../../../src/doc_scan_service/session/retrieve/generated.profile.response');
-const WatchListReportResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.report.response');
+const WatchlistReportResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.report.response');
 
-describe('WatchListCheckResponse', () => {
+describe('WatchlistCheckResponse', () => {
   let watchListCheckResponse;
 
   beforeEach(() => {
-    watchListCheckResponse = new WatchListCheckResponse({
+    watchListCheckResponse = new WatchlistCheckResponse({
       type: 'some-type',
       id: 'some-id',
       state: 'some-state',
@@ -69,7 +69,7 @@ describe('WatchListCheckResponse', () => {
     });
     describe('when resources used are not available', () => {
       it('should return empty array', () => {
-        watchListCheckResponse = new WatchListCheckResponse({});
+        watchListCheckResponse = new WatchlistCheckResponse({});
         const resources = watchListCheckResponse.getResourcesUsed();
         expect(resources).toBeInstanceOf(Array);
         expect(resources.length).toBe(0);
@@ -89,7 +89,7 @@ describe('WatchListCheckResponse', () => {
     });
     describe('when generated media is not available', () => {
       it('should return empty array', () => {
-        watchListCheckResponse = new WatchListCheckResponse({});
+        watchListCheckResponse = new WatchlistCheckResponse({});
         const media = watchListCheckResponse.getGeneratedMedia();
         expect(media).toBeInstanceOf(Array);
         expect(media.length).toBe(0);
@@ -98,9 +98,9 @@ describe('WatchListCheckResponse', () => {
   });
 
   describe('#getReport', () => {
-    it('should return report as instance of WatchListReportResponse', () => {
+    it('should return report as instance of WatchlistReportResponse', () => {
       const report = watchListCheckResponse.getReport();
-      expect(report).toBeInstanceOf(WatchListReportResponse);
+      expect(report).toBeInstanceOf(WatchlistReportResponse);
     });
   });
 

@@ -6,7 +6,7 @@ const {
   RequestedDocumentAuthenticityCheckBuilder,
   RequestedIdDocumentComparisonCheckBuilder,
   RequestedThirdPartyIdentityCheckBuilder,
-  RequestedWatchListScreeningCheckBuilder,
+  RequestedWatchlistScreeningCheckBuilder,
   NotificationConfigBuilder,
   SdkConfigBuilder,
   RequiredIdDocumentBuilder,
@@ -39,7 +39,7 @@ describe('SessionSpecificationBuilder', () => {
     const docAuthenticityCheck = new RequestedDocumentAuthenticityCheckBuilder().build();
     const idDocumentComparisonCheck = new RequestedIdDocumentComparisonCheckBuilder().build();
     const thirdPartyIdentityCheck = new RequestedThirdPartyIdentityCheckBuilder().build();
-    const watchListScreeningCheck = new RequestedWatchListScreeningCheckBuilder()
+    const watchListScreeningCheck = new RequestedWatchlistScreeningCheckBuilder()
       .withAdverseMediaCategory()
       .withSanctionsCategory()
       .build();

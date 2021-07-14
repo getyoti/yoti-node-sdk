@@ -8,7 +8,7 @@ const LivenessCheckResponse = require('../../../../src/doc_scan_service/session/
 const ResourceContainer = require('../../../../src/doc_scan_service/session/retrieve/resource.container');
 const IdDocumentComparisonCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/id.document.comparison.check.response');
 const ThirdPartyIdentityCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/third.party.identity.check.response');
-const WatchListScreeningCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.screening.check.response');
+const WatchlistScreeningCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.screening.check.response');
 const { YotiDate } = require('../../../..');
 
 const ID_DOCUMENT_AUTHENTICITY = 'ID_DOCUMENT_AUTHENTICITY';
@@ -108,7 +108,7 @@ describe('GetSessionResult', () => {
         expect(checks[4]).toBeInstanceOf(IdDocumentComparisonCheckResponse);
         expect(checks[5]).toBeInstanceOf(SupplementaryDocumentTextDataCheckResponse);
         expect(checks[6]).toBeInstanceOf(ThirdPartyIdentityCheckResponse);
-        expect(checks[7]).toBeInstanceOf(WatchListScreeningCheckResponse);
+        expect(checks[7]).toBeInstanceOf(WatchlistScreeningCheckResponse);
         checks.forEach((check) => expect(check).toBeInstanceOf(CheckResponse));
       });
     });
@@ -185,11 +185,11 @@ describe('GetSessionResult', () => {
     });
   });
 
-  describe('#getWatchListScreeningChecks', () => {
-    it('should return array of WatchListScreeningCheckResponse', () => {
-      const checks = session.getWatchListScreeningChecks();
+  describe('#getWatchlistScreeningChecks', () => {
+    it('should return array of WatchlistScreeningCheckResponse', () => {
+      const checks = session.getWatchlistScreeningChecks();
       expect(checks.length).toBe(1);
-      expect(checks[0]).toBeInstanceOf(WatchListScreeningCheckResponse);
+      expect(checks[0]).toBeInstanceOf(WatchlistScreeningCheckResponse);
       expect(checks[0].getType()).toBe(WATCHLIST_SCREENING);
     });
   });

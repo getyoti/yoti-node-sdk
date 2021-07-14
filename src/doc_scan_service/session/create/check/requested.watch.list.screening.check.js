@@ -3,19 +3,19 @@
 const RequestedCheck = require('./requested.check');
 const DocScanConstants = require('../../../doc.scan.constants');
 const Validation = require('../../../../yoti_common/validation');
-const RequestedWatchListScreeningConfig = require('./requested.watch.list.screening.config');
+const RequestedWatchlistScreeningConfig = require('./requested.watch.list.screening.config');
 
 /**
- * @class RequestedWatchListScreeningCheck
+ * @class RequestedWatchlistScreeningCheck
  */
-class RequestedWatchListScreeningCheck extends RequestedCheck {
+class RequestedWatchlistScreeningCheck extends RequestedCheck {
   /**
-   * @param {RequestedWatchListScreeningConfig} config
+   * @param {RequestedWatchlistScreeningConfig} config
    */
   constructor(config) {
-    Validation.instanceOf(config, RequestedWatchListScreeningConfig, 'config');
+    Validation.instanceOf(config, RequestedWatchlistScreeningConfig, 'config');
     super(DocScanConstants.WATCHLIST_SCREENING, config);
   }
 }
 
-module.exports = RequestedWatchListScreeningCheck;
+module.exports = RequestedWatchlistScreeningCheck;

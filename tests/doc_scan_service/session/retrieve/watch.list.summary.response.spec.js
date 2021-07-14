@@ -1,12 +1,12 @@
-const WatchListSummaryResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.summary.response');
+const WatchlistSummaryResponse = require('../../../../src/doc_scan_service/session/retrieve/watch.list.summary.response');
 const RawResultsResponse = require('../../../../src/doc_scan_service/session/retrieve/raw.results.response');
 const SearchConfigResponse = require('../../../../src/doc_scan_service/session/retrieve/search.config.response');
 
-describe('WatchListSummaryResponse', () => {
+describe('WatchlistSummaryResponse', () => {
   let watchListSummaryResponse;
 
   beforeEach(() => {
-    watchListSummaryResponse = new WatchListSummaryResponse({
+    watchListSummaryResponse = new WatchlistSummaryResponse({
       total_hits: 9,
       associated_country_codes: ['USA', 'GBR'],
       search_config: {},

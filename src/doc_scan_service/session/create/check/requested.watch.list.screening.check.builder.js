@@ -1,17 +1,17 @@
 'use strict';
 
-const RequestedWatchListScreeningCheck = require('./requested.watch.list.screening.check');
-const RequestedWatchListScreeningConfig = require('./requested.watch.list.screening.config');
+const RequestedWatchlistScreeningCheck = require('./requested.watch.list.screening.check');
+const RequestedWatchlistScreeningConfig = require('./requested.watch.list.screening.config');
 const DocScanConstants = require('../../../doc.scan.constants');
 const Validation = require('../../../../yoti_common/validation');
 
 /**
- * Builder to assist the creation of {@link RequestedWatchListScreeningCheck}.
+ * Builder to assist the creation of {@link RequestedWatchlistScreeningCheck}.
  *
- * @class RequestedWatchListScreeningCheckBuilder
+ * @class RequestedWatchlistScreeningCheckBuilder
  */
 /* eslint class-methods-use-this: ["error", { "exceptMethods": ["build"] }] */
-class RequestedWatchListScreeningCheckBuilder {
+class RequestedWatchlistScreeningCheckBuilder {
   constructor() {
     this.categories = [];
   }
@@ -49,9 +49,9 @@ class RequestedWatchListScreeningCheckBuilder {
   }
 
   build() {
-    const config = new RequestedWatchListScreeningConfig(this.categories);
-    return new RequestedWatchListScreeningCheck(config);
+    const config = new RequestedWatchlistScreeningConfig(this.categories);
+    return new RequestedWatchlistScreeningCheck(config);
   }
 }
 
-module.exports = RequestedWatchListScreeningCheckBuilder;
+module.exports = RequestedWatchlistScreeningCheckBuilder;

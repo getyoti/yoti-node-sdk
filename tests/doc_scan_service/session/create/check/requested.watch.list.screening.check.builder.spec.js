@@ -1,7 +1,7 @@
-const { RequestedWatchListScreeningCheckBuilder } = require('../../../../..');
+const { RequestedWatchlistScreeningCheckBuilder } = require('../../../../..');
 
-describe('RequestedWatchListScreeningCheckBuilder', () => {
-  it('should build RequestedWatchListScreeningCheck (default, without any categories specified)', () => {
+describe('RequestedWatchlistScreeningCheckBuilder', () => {
+  it('should build RequestedWatchlistScreeningCheck (default, without any categories specified)', () => {
     const expectedJson = JSON.stringify({
       type: 'WATCHLIST_SCREENING',
       config: {
@@ -9,7 +9,7 @@ describe('RequestedWatchListScreeningCheckBuilder', () => {
       },
     });
 
-    const check = new RequestedWatchListScreeningCheckBuilder().build();
+    const check = new RequestedWatchlistScreeningCheckBuilder().build();
 
     expect(JSON.stringify(check)).toBe(expectedJson);
   });
@@ -24,7 +24,7 @@ describe('RequestedWatchListScreeningCheckBuilder', () => {
 
     describe('using the "withAdverseMediaCategory()" method', () => {
       it('should add "ADVERSE-MEDIA" to the categories', () => {
-        const check = new RequestedWatchListScreeningCheckBuilder()
+        const check = new RequestedWatchlistScreeningCheckBuilder()
           .withAdverseMediaCategory()
           .build();
 
@@ -35,7 +35,7 @@ describe('RequestedWatchListScreeningCheckBuilder', () => {
     });
     describe('using the "withSanctionsCategory()" method', () => {
       it('should add "SANCTIONS" to the categories', () => {
-        const check = new RequestedWatchListScreeningCheckBuilder()
+        const check = new RequestedWatchlistScreeningCheckBuilder()
           .withSanctionsCategory()
           .build();
 
@@ -46,7 +46,7 @@ describe('RequestedWatchListScreeningCheckBuilder', () => {
     });
     describe('using the generic "withCategory()" method', () => {
       it('should add any passed string to the categories', () => {
-        const check = new RequestedWatchListScreeningCheckBuilder()
+        const check = new RequestedWatchlistScreeningCheckBuilder()
           .withCategory('A_NEW_CATEGORY')
           .build();
 
@@ -56,7 +56,7 @@ describe('RequestedWatchListScreeningCheckBuilder', () => {
       });
       it('should throw an TypeError when the category is not valid string', () => {
         expect(() => {
-          new RequestedWatchListScreeningCheckBuilder()
+          new RequestedWatchlistScreeningCheckBuilder()
             .withCategory(false)
             .build();
         }).toThrowError(TypeError);
@@ -64,7 +64,7 @@ describe('RequestedWatchListScreeningCheckBuilder', () => {
     });
     describe('when adding combination of category', () => {
       it('should ensure uniqueness of each category', () => {
-        const check = new RequestedWatchListScreeningCheckBuilder()
+        const check = new RequestedWatchlistScreeningCheckBuilder()
           .withAdverseMediaCategory()
           .withAdverseMediaCategory()
           .withCategory('ADVERSE-MEDIA')

@@ -4,7 +4,7 @@ const RawResultsResponse = require('./raw.results.response');
 const SearchConfigResponse = require('./search.config.response');
 const Validation = require('../../../yoti_common/validation');
 
-class WatchListSummaryResponse {
+class WatchlistSummaryResponse {
   constructor(summary) {
     if (summary.total_hits) {
       Validation.isNumber(summary.total_hits, 'total_hits');
@@ -58,4 +58,4 @@ class WatchListSummaryResponse {
   }
 }
 
-module.exports = WatchListSummaryResponse;
+module.exports = WatchlistSummaryResponse;

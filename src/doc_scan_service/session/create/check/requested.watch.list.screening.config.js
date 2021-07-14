@@ -2,11 +2,11 @@
 
 const Validation = require('../../../../yoti_common/validation');
 /**
- * The configuration applied when creating a RequestedWatchListScreeningCheck
+ * The configuration applied when creating a RequestedWatchlistScreeningCheck
  *
- * @class RequestedWatchListScreeningConfig
+ * @class RequestedWatchlistScreeningConfig
  */
-class RequestedWatchListScreeningConfig {
+class RequestedWatchlistScreeningConfig {
   /**
    * @param {string[]} categories
    *   The list of categories corresponding to each watchlist screening conducted
@@ -28,4 +28,4 @@ class RequestedWatchListScreeningConfig {
   }
 }
 
-module.exports = RequestedWatchListScreeningConfig;
+module.exports = RequestedWatchlistScreeningConfig;
