@@ -12,6 +12,7 @@ const {
   OrthogonalRestrictionsFilterBuilder,
   RequestedIdDocumentComparisonCheckBuilder,
   RequestedThirdPartyIdentityCheckBuilder,
+  RequestedWatchlistScreeningCheckBuilder,
   RequiredSupplementaryDocumentBuilder,
   ProofOfAddressObjectiveBuilder,
   RequestedSupplementaryDocTextExtractionTaskBuilder,
@@ -51,6 +52,12 @@ async function createSession() {
     )
     .withRequestedCheck(
       new RequestedThirdPartyIdentityCheckBuilder()
+        .build()
+    )
+    .withRequestedCheck(
+      new RequestedWatchlistScreeningCheckBuilder()
+        .withAdverseMediaCategory()
+        .withSanctionsCategory()
         .build()
     )
     .withRequestedTask(

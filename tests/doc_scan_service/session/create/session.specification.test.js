@@ -3,7 +3,7 @@ const SessionSpecification = require('../../../../src/doc_scan_service/session/c
 const {
   NotificationConfigBuilder,
   SdkConfigBuilder,
-} = require('../../../../');
+} = require('../../../..');
 
 const SOME_TRACKING_ID = 'some-tracking-id';
 
