@@ -28,6 +28,7 @@ const {
   RequestedIdDocumentComparisonCheckBuilder,
   RequestedThirdPartyIdentityCheckBuilder,
   RequestedWatchlistScreeningCheckBuilder,
+  RequestedWatchlistAdvancedCaCheckBuilder,
   RequestedFaceMatchCheckBuilder,
   RequestedLivenessCheckBuilder,
   RequestedTextExtractionTaskBuilder,
@@ -39,6 +40,12 @@ const {
   DocumentRestrictionBuilder,
   OrthogonalRestrictionsFilterBuilder,
   ProofOfAddressObjectiveBuilder,
+  RequestedCustomAccountWatchlistAdvancedCaConfigBuilder,
+  RequestedYotiAccountWatchlistAdvancedCaConfigBuilder,
+  RequestedExactMatchingStrategyBuilder,
+  RequestedFuzzyMatchingStrategyBuilder,
+  RequestedSearchProfileSourcesBuilder,
+  RequestedTypeListSourcesBuilder,
 } = require('./src/doc_scan_service');
 
 module.exports = {
@@ -68,6 +75,7 @@ module.exports = {
   RequestedIdDocumentComparisonCheckBuilder,
   RequestedThirdPartyIdentityCheckBuilder,
   RequestedWatchlistScreeningCheckBuilder,
+  RequestedWatchlistAdvancedCaCheckBuilder,
   RequestedFaceMatchCheckBuilder,
   RequestedLivenessCheckBuilder,
   RequestedTextExtractionTaskBuilder,
@@ -78,4 +86,10 @@ module.exports = {
   DocumentRestrictionBuilder,
   OrthogonalRestrictionsFilterBuilder,
   ProofOfAddressObjectiveBuilder,
+  RequestedCustomAccountWatchlistAdvancedCaConfigBuilder,
+  RequestedYotiAccountWatchlistAdvancedCaConfigBuilder,
+  RequestedExactMatchingStrategyBuilder,
+  RequestedFuzzyMatchingStrategyBuilder,
+  RequestedSearchProfileSourcesBuilder,
+  RequestedTypeListSourcesBuilder,
 };
