@@ -50,6 +50,29 @@ describe('Validation', () => {
     });
   });
 
+  describe('#isPlainObject', () => {
+    it('should accepts a plain object', () => {
+      expect(() => Validation.isPlainObject({ some: 'thing' }, 'name'))
+        .not.toThrow();
+    });
+    it('should throw type error when plain object is not provided (string)', () => {
+      expect(() => Validation.isPlainObject('a fake plain object', 'name'))
+        .toThrow(new TypeError('name must be a plain object'));
+    });
+    it('should throw type error when plain object is not provided (array)', () => {
+      expect(() => Validation.isPlainObject([123, 456], 'name'))
+        .toThrow(new TypeError('name must be a plain object'));
+    });
+    it('should throw type error when plain object is not provided (date)', () => {
+      expect(() => Validation.isPlainObject(new Date(), 'name'))
+        .toThrow(new TypeError('name must be a plain object'));
+    });
+    it('should throw type error when plain object is not provided (null)', () => {
+      expect(() => Validation.isPlainObject(null, 'name'))
+        .toThrow(new TypeError('name must be a plain object'));
+    });
+  });
+
   describe('#notNull', () => {
     it('should throw type error when value is null', () => {
       expect(() => Validation.notNull(null, 'name'))

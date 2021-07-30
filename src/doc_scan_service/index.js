@@ -9,6 +9,7 @@ const RequestedDocumentAuthenticityCheckBuilder = require('./session/create/chec
 const RequestedIdDocumentComparisonCheckBuilder = require('./session/create/check/requested.id.document.comparison.check.builder');
 const RequestedThirdPartyIdentityCheckBuilder = require('./session/create/check/requested.third.party.identity.check.builder');
 const RequestedWatchlistScreeningCheckBuilder = require('./session/create/check/requested.watchlist.screening.check.builder');
+const RequestedWatchlistAdvancedCaCheckBuilder = require('./session/create/check/requested.watchlist.advanced.ca.check.builder');
 const RequestedFaceMatchCheckBuilder = require('./session/create/check/requested.face.match.check.builder');
 const RequestedLivenessCheckBuilder = require('./session/create/check/requested.liveness.check.builder');
 const RequestedTextExtractionTaskBuilder = require('./session/create/task/requested.text.extraction.task.builder');
@@ -19,6 +20,12 @@ const DocumentRestrictionsFilterBuilder = require('./session/create/filters/docu
 const OrthogonalRestrictionsFilterBuilder = require('./session/create/filters/orthogonal/orthogonal.restrictions.filter.builder');
 const DocumentRestrictionBuilder = require('./session/create/filters/document/document.restriction.builder');
 const ProofOfAddressObjectiveBuilder = require('./session/create/objective/proof.of.address.objective.builder');
+const RequestedYotiAccountWatchlistAdvancedCaConfigBuilder = require('./session/create/check/requested.yoti.account.watchlist.advanced.ca.config.builder');
+const RequestedCustomAccountWatchlistAdvancedCaConfigBuilder = require('./session/create/check/requested.custom.account.watchlist.advanced.ca.config.builder');
+const RequestedExactMatchingStrategyBuilder = require('./session/create/check/requested.exact.matching.strategy.builder');
+const RequestedFuzzyMatchingStrategyBuilder = require('./session/create/check/requested.fuzzy.matching.strategy.builder');
+const RequestedTypeListSourcesBuilder = require('./session/create/check/requested.type.list.sources.builder');
+const RequestedSearchProfileSourcesBuilder = require('./session/create/check/requested.search.profile.sources.builder');
 
 module.exports = {
   DocScanService,
@@ -30,6 +37,7 @@ module.exports = {
   RequestedIdDocumentComparisonCheckBuilder,
   RequestedThirdPartyIdentityCheckBuilder,
   RequestedWatchlistScreeningCheckBuilder,
+  RequestedWatchlistAdvancedCaCheckBuilder,
   RequestedFaceMatchCheckBuilder,
   RequestedLivenessCheckBuilder,
   RequestedTextExtractionTaskBuilder,
@@ -40,4 +48,10 @@ module.exports = {
   DocumentRestrictionBuilder,
   OrthogonalRestrictionsFilterBuilder,
   ProofOfAddressObjectiveBuilder,
+  RequestedYotiAccountWatchlistAdvancedCaConfigBuilder,
+  RequestedCustomAccountWatchlistAdvancedCaConfigBuilder,
+  RequestedExactMatchingStrategyBuilder,
+  RequestedFuzzyMatchingStrategyBuilder,
+  RequestedSearchProfileSourcesBuilder,
+  RequestedTypeListSourcesBuilder,
 };

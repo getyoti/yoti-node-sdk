@@ -107,6 +107,18 @@ module.exports = class Validation {
    *
    * @throws {TypeError}
    */
+  static isPlainObject(value, name) {
+    if (Object.prototype.toString.call(value) !== '[object Object]') {
+      throw TypeError(`${name} must be a plain object`);
+    }
+  }
+
+  /**
+   * @param {*} value
+   * @param {string} name
+   *
+   * @throws {TypeError}
+   */
   static notNull(value, name) {
     if (value == null) {
       throw TypeError(`${name} cannot be null`);
