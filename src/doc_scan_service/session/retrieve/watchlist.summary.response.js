@@ -1,11 +1,16 @@
 'use strict';
 
-const RawResultsResponse = require('./raw.results.response');
-const SearchConfigResponse = require('./search.config.response');
 const Validation = require('../../../yoti_common/validation');
+const RawResultsResponse = require('./raw.results.response');
+// const WatchlistSearchConfigResponse = require('./watchlist.search.config.response');
 
 class WatchlistSummaryResponse {
   constructor(summary) {
+    const currentClass = new.target;
+    if (currentClass === WatchlistSummaryResponse) {
+      throw new Error('WatchlistSummaryResponse can not be instantiated');
+    }
+
     if (summary.total_hits) {
       Validation.isNumber(summary.total_hits, 'total_hits');
       this.totalHits = summary.total_hits;
@@ -22,10 +27,6 @@ class WatchlistSummaryResponse {
 
     if (summary.raw_results) {
       this.rawResults = new RawResultsResponse(summary.raw_results);
-    }
-
-    if (summary.search_config) {
-      this.searchConfig = new SearchConfigResponse(summary.search_config);
     }
   }
 
@@ -48,13 +49,6 @@ class WatchlistSummaryResponse {
    */
   getRawResults() {
     return this.rawResults;
-  }
-
-  /**
-   * @returns {SearchConfigResponse}
-   */
-  getSearchConfig() {
-    return this.searchConfig;
   }
 }
 

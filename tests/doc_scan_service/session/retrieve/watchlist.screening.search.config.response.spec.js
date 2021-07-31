@@ -1,10 +1,10 @@
-const SearchConfigResponse = require('../../../../src/doc_scan_service/session/retrieve/search.config.response');
+const WatchlistScreeningSearchConfigResponse = require('../../../../src/doc_scan_service/session/retrieve/watchlist.screening.search.config.response');
 
-describe('SearchConfigResponse', () => {
+describe('WatchlistScreeningSearchConfigResponse', () => {
   let searchConfigResponse;
 
   beforeEach(() => {
-    searchConfigResponse = new SearchConfigResponse({
+    searchConfigResponse = new WatchlistScreeningSearchConfigResponse({
       categories: ['NEWS', 'SPORTS', 'HISTORY'],
     });
   });
@@ -17,7 +17,7 @@ describe('SearchConfigResponse', () => {
 
   describe('#constructor', () => {
     it('should set up empty categories if none present', () => {
-      searchConfigResponse = new SearchConfigResponse({});
+      searchConfigResponse = new WatchlistScreeningSearchConfigResponse({});
       expect(searchConfigResponse.getCategories()).toEqual([]);
     });
   });
