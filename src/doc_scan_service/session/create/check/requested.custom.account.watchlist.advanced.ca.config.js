@@ -1,6 +1,7 @@
 'use strict';
 
 const Validation = require('../../../../yoti_common/validation');
+const { WITH_CUSTOM_ACCOUNT } = require('../../../doc.scan.constants');
 const RequestedWatchlistAdvancedCaConfig = require('./requested.watchlist.advanced.ca.config');
 
 /**
@@ -54,16 +55,13 @@ class RequestedCustomAccountWatchlistAdvancedCaConfig extends RequestedWatchlist
    * @returns {Object} data for JSON.stringify()
    */
   toJSON() {
-    return {
-      remove_deceased: this.removeDeceased,
-      share_url: this.shareUrl,
-      sources: this.sources,
-      matching_strategy: this.matchingStrategy,
+    return Object.assign({
+      type: WITH_CUSTOM_ACCOUNT,
       api_key: this.apiKey,
       monitoring: this.monitoring,
       tags: this.tags,
       client_ref: this.clientRef,
-    };
+    }, super.toJSON());
   }
 }
 

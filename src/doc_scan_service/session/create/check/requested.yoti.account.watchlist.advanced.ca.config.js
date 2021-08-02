@@ -1,5 +1,6 @@
 'use strict';
 
+const { WITH_YOTI_ACCOUNT } = require('../../../doc.scan.constants');
 const RequestedWatchlistAdvancedCaConfig = require('./requested.watchlist.advanced.ca.config');
 
 /**
@@ -13,12 +14,9 @@ class RequestedYotiAccountWatchlistAdvancedCaConfig extends RequestedWatchlistAd
    * @returns {Object} data for JSON.stringify()
    */
   toJSON() {
-    return {
-      remove_deceased: this.removeDeceased,
-      share_url: this.shareUrl,
-      sources: this.sources,
-      matching_strategy: this.matchingStrategy,
-    };
+    return Object.assign({
+      type: WITH_YOTI_ACCOUNT,
+    }, super.toJSON());
   }
 }
 

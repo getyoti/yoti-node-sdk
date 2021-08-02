@@ -7,7 +7,7 @@ const RequestedCaMatchingStrategy = require('./requested.ca.matching.strategy');
 /**
  * The base Builder to assist the creation of {@link RequestedWatchlistAdvancedCaConfig}.
  *
- * @class RequestedWatchlistScreeningCheckBuilder
+ * @class RequestedWatchlistAdvancedCaConfigBuilder
  */
 class RequestedWatchlistAdvancedCaConfigBuilder {
   /**

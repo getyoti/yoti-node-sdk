@@ -8,7 +8,7 @@ class WatchlistScreeningCheckResponse extends WatchlistCheckResponse {
     super(check);
 
     if (check.report) {
-      this.report = new WatchlistScreeningReportResponse(this.report);
+      this.report = new WatchlistScreeningReportResponse(check.report);
     }
   }
 

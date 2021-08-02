@@ -20,6 +20,11 @@ class RequestedWatchlistAdvancedCaConfig {
    * @param matchingStrategy {RequestedCaMatchingStrategy}
    */
   constructor(removeDeceased = false, shareUrl = false, sources, matchingStrategy) {
+    const currentClass = new.target;
+    if (currentClass === RequestedWatchlistAdvancedCaConfig) {
+      throw new Error('RequestedWatchlistAdvancedCaConfig can not be instantiated');
+    }
+
     Validation.isBoolean(removeDeceased, 'removeDeceased');
     this.removeDeceased = removeDeceased;
 
@@ -39,6 +44,18 @@ class RequestedWatchlistAdvancedCaConfig {
     } else {
       this.matchingStrategy = new RequestedExactMatchingStrategy();
     }
+  }
+
+  /**
+   * @returns {Object} data for JSON.stringify()
+   */
+  toJSON() {
+    return {
+      remove_deceased: this.removeDeceased,
+      share_url: this.shareUrl,
+      sources: this.sources,
+      matching_strategy: this.matchingStrategy,
+    };
   }
 }
 

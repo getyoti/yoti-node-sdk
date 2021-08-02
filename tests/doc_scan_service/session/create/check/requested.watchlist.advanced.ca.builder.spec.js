@@ -495,6 +495,7 @@ describe('RequestedWatchlistAdvancedCaCheckBuilder', () => {
       const expectedJson = JSON.stringify({
         type: 'WATCHLIST_ADVANCED_CA',
         config: {
+          type: 'WITH_YOTI_ACCOUNT',
           remove_deceased: false,
           share_url: false,
           sources: {
@@ -521,6 +522,11 @@ describe('RequestedWatchlistAdvancedCaCheckBuilder', () => {
       const expectedJson = JSON.stringify({
         type: 'WATCHLIST_ADVANCED_CA',
         config: {
+          type: 'WITH_CUSTOM_ACCOUNT',
+          api_key: 'the-key',
+          monitoring: false,
+          tags: {},
+          client_ref: 'the-referee',
           remove_deceased: false,
           share_url: false,
           sources: {
@@ -530,10 +536,6 @@ describe('RequestedWatchlistAdvancedCaCheckBuilder', () => {
           matching_strategy: {
             type: 'EXACT',
           },
-          api_key: 'the-key',
-          monitoring: false,
-          tags: {},
-          client_ref: 'the-referee',
         },
       });
 
