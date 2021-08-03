@@ -1,5 +1,12 @@
-<% displayGeneratedProfile = typeof hasGeneratedProfile === 'undefined' ? false : hasGeneratedProfile %>
-<% displayWatchlistSummary = typeof hasWatchlistSummary === 'undefined' ? false : hasWatchlistSummary %>
+<%
+formatString = function (value) {
+    if(value) {
+        const stringValue = value.toString()
+        return stringValue.charAt(0).toUpperCase() + stringValue.slice(1).replace(/_/g, ' ').replace(/-/g, ' ').toLowerCase()
+    }
+}
+%>
+
 <table class="table table-striped">
     <tbody>
         <tr>
@@ -29,24 +36,32 @@
 
 
         <% if (check.getReport()) { %>
-
         <% if (check.getReport().getRecommendation()) { %>
+        <%
+            const recommendation = check.getReport().getRecommendation()
+        %>
         <tr>
             <td>Recommendation</td>
             <td>
                 <table class="table table-bordered">
                     <tbody>
                         <tr>
+                            <% if (recommendation.getValue()) { %>
                             <td>Value</td>
-                            <td><%= check.getReport().getRecommendation().getValue(); %></td>
+                            <td><%= recommendation.getValue().replace(/_/g, ' '); %></td>
+                            <% } %>
                         </tr>
                         <tr>
+                            <% if (recommendation.getReason()) { %>
                             <td>Reason</td>
-                            <td><%= check.getReport().getRecommendation().getReason(); %></td>
+                            <td><%= recommendation.getReason().replace(/_/g, ' '); %></td>
+                            <% } %>
                         </tr>
                         <tr>
-                            <td>Recovery Suggestion</td>
-                            <td><%= check.getReport().getRecommendation().getRecoverySuggestion(); %></td>
+                            <% if (recommendation.getRecoverySuggestion()) { %>
+                            <td>Recovery suggestion</td>
+                            <td><%= recommendation.getRecoverySuggestion(); %></td>
+                            <% } %>
                         </tr>
                     </tbody>
                 </table>
@@ -54,7 +69,7 @@
         </tr>
         <% } %>
 
-        <% if (check.getReport().getBreakdown().length > 0) { %>
+        <% if (check.getReport().getBreakdown() && check.getReport().getBreakdown().length > 0) { %>
         <tr>
             <td>Breakdown</td>
             <td>
@@ -62,14 +77,18 @@
                 <table class="table table-bordered">
                     <tbody>
                         <tr>
-                            <td>Sub Check</td>
-                            <td><%= breakdown.getSubCheck(); %></td>
+                            <% if (breakdown.getSubCheck()) { %>
+                            <td>Sub check</td>
+                            <td><%= formatString(breakdown.getSubCheck()) %></td>
+                            <% } %>
                         </tr>
                         <tr>
+                            <% if (breakdown.getResult()) { %>
                             <td>Result</td>
                             <td><%= breakdown.getResult(); %></td>
+                            <% } %>
                         </tr>
-                        <% if (breakdown.getDetails().length > 0) { %>
+                        <% if (breakdown.getDetails() && breakdown.getDetails().length > 0) { %>
                         <tr>
                             <td>Details</td>
                             <td>
@@ -77,8 +96,8 @@
                                     <tbody>
                                         <% breakdown.getDetails().forEach(function(details) { %>
                                         <tr>
-                                            <td><%= details.getName(); %></td>
-                                            <td><%= details.getValue(); %></td>
+                                            <td><%= formatString(details.getName()); %></td>
+                                            <td><%= formatString(details.getValue()).split(',').map(value => formatString(value)).join(', '); %></td>
                                         </tr>
                                         <% }); %>
                                     </tbody>
@@ -93,23 +112,31 @@
         </tr>
         <% } %>
 
-        <% if (displayWatchlistSummary && check.getReport().getWatchlistSummary()) { %>
+        <% if ('getWatchlistSummary' in check.getReport() && check.getReport().getWatchlistSummary()) { %>
+        <%
+            const watchlistSummary = check.getReport().getWatchlistSummary()
+        %>
         <tr>
             <td>Watchlist Summary</td>
             <td>
                 <table class="table table-bordered">
                     <tbody>
+                        <% if (watchlistSummary.getTotalHits()) { %>
                         <tr>
                             <td>Total hits</td>
-                            <td><%= check.getReport().getWatchlistSummary().getTotalHits(); %></td>
-                        </tr>
-                        <% if (check.getReport().getWatchlistSummary().getAssociatedCountryCodes().length > 0) { %>
-                        <tr>
-                            <td>Associated country codes</td>
-                            <td><%= check.getReport().getWatchlistSummary().getAssociatedCountryCodes().join(', '); %></td>
+                            <td><%= watchlistSummary.getTotalHits(); %></td>
                         </tr>
                         <% } %>
-                        <% if (check.getReport().getWatchlistSummary().getRawResults() && check.getReport().getWatchlistSummary().getRawResults().getMedia()) { %>
+                        <% if (watchlistSummary.getAssociatedCountryCodes() && watchlistSummary.getAssociatedCountryCodes().length > 0) { %>
+                        <tr>
+                            <td>Associated country codes</td>
+                            <td><%= watchlistSummary.getAssociatedCountryCodes().join(', '); %></td>
+                        </tr>
+                        <% } %>
+                        <% if (watchlistSummary.getRawResults() && watchlistSummary.getRawResults().getMedia()) { %>
+                        <%
+                            const rawResultsMedia = watchlistSummary.getRawResults().getMedia()
+                        %>
                         <tr>
                             <td>Raw results</td>
                             <td>
@@ -122,11 +149,11 @@
                                                     <tbody>
                                                         <tr>
                                                             <td style="width: auto">ID</td>
-                                                            <td><a href="/media?mediaId=<%= check.getReport().getWatchlistSummary().getRawResults().getMedia().id %>"><%= check.getReport().getWatchlistSummary().getRawResults().getMedia().id; %></a></td>
+                                                            <td><a href="/media?mediaId=<%= rawResultsMedia.id %>"><%= rawResultsMedia.id; %></a></td>
                                                         </tr>
                                                         <tr>
                                                             <td style="width: auto">Type</td>
-                                                            <td><%= check.getReport().getWatchlistSummary().getRawResults().getMedia().type; %></td>
+                                                            <td><%= rawResultsMedia.type; %></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -137,16 +164,103 @@
                             </td>
                         </tr>
                         <% } %>
-                        <% if (check.getReport().getWatchlistSummary().getSearchConfig() && check.getReport().getWatchlistSummary().getSearchConfig().getCategories().length > 0) { %>
+                        <% if ('getSearchConfig' in watchlistSummary && watchlistSummary.getSearchConfig()) { %>
+                        <%
+                            const searchConfig = watchlistSummary.getSearchConfig()
+                        %>
                         <tr>
                             <td>Search config</td>
                             <td>
                                 <table class="table table-striped">
                                     <tbody>
+                                        <% if ('getCategories' in searchConfig && searchConfig.getCategories().length > 0) { %>
                                         <tr>
                                             <td style="width: auto">Categories</td>
-                                            <td><%= check.getReport().getWatchlistSummary().getSearchConfig().getCategories().join(', '); %></td>
+                                            <td><%= searchConfig.getCategories().map(category => formatString(category)).join(', '); %></td>
                                         </tr>
+                                        <% } %>
+                                        <% if ('getType' in searchConfig && searchConfig.getType()) { %>
+                                        <tr>
+                                            <td style="width: auto">Type</td>
+                                            <td><%= formatString(searchConfig.getType()); %></td>
+                                        </tr>
+                                        <% } %>
+                                        <% if ('isRemoveDeceased' in searchConfig && searchConfig.isRemoveDeceased()) { %>
+                                        <tr>
+                                            <td style="width: auto">Remove deceased</td>
+                                            <td><%= formatString(searchConfig.isRemoveDeceased()); %></td>
+                                        </tr>
+                                        <% } %>
+                                        <% if ('isShareUrl' in searchConfig && searchConfig.isShareUrl()) { %>
+                                        <tr>
+                                            <td style="width: auto">Share URL</td>
+                                            <td><%= formatString(searchConfig.isShareUrl()); %></td>
+                                        </tr>
+                                        <% } %>
+                                        <% if ('getSources' in searchConfig && searchConfig.getSources()) { %>
+                                        <%
+                                            const sources = searchConfig.getSources()
+                                        %>
+                                        <tr>
+                                            <td style="width: auto">Sources</td>
+                                            <td>
+                                                <table class="table table-striped small">
+                                                    <tbody>
+                                                        <% if ('getType' in sources) { %>
+                                                        <tr>
+                                                            <td style="width: auto">Type</td>
+                                                            <td><%= formatString(sources.getType()); %></td>
+                                                        </tr>
+                                                        <% } %>
+                                                        <% if ('getTypes' in sources && sources.getTypes().length > 0) { %>
+                                                        <tr>
+                                                            <td style="width: auto">Types</td>
+                                                            <td><%= sources.getTypes().map(type => formatString(type)).join(', '); %></td>
+                                                        </tr>
+                                                        <% } %>
+                                                        <% if ('getSearchProfile' in sources) { %>
+                                                        <tr>
+                                                            <td style="width: auto">Search profile</td>
+                                                            <td><%= sources.getSearchProfile(); %></td>
+                                                        </tr>
+                                                        <% } %>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                        <% if ('getMatchingStrategy' in searchConfig && searchConfig.getMatchingStrategy()) { %>
+                                        <%
+                                            const matchingStrategy = searchConfig.getMatchingStrategy()
+                                        %>
+                                        <tr>
+                                            <td style="width: auto">Matching strategy</td>
+                                            <td>
+                                                <table class="table table-striped small">
+                                                    <tbody>
+                                                        <% if ('getType' in matchingStrategy) { %>
+                                                        <tr>
+                                                            <td style="width: auto">Type</td>
+                                                            <td><%= formatString(matchingStrategy.getType()); %></td>
+                                                        </tr>
+                                                        <% } %>
+                                                        <% if ('getFuzziness' in matchingStrategy) { %>
+                                                        <tr>
+                                                            <td style="width: auto">Fuzziness</td>
+                                                            <td><%= matchingStrategy.getFuzziness(); %></td>
+                                                        </tr>
+                                                        <% } %>
+                                                        <% if ('isExactMatch' in matchingStrategy) { %>
+                                                        <tr>
+                                                            <td style="width: auto">Exact match</td>
+                                                            <td><%= formatString(matchingStrategy.isExactMatch()); %></td>
+                                                        </tr>
+                                                        <% } %>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <% } %>
                                     </tbody>
                                 </table>
                             </td>
@@ -160,7 +274,7 @@
 
         <% } %>
 
-        <% if (check.getGeneratedMedia().length > 0) { %>
+        <% if (check.getGeneratedMedia() && check.getGeneratedMedia().length > 0) { %>
         <tr>
             <td>Generated Media</td>
             <td>
@@ -182,7 +296,10 @@
         </tr>
         <% } %>
 
-        <% if (displayGeneratedProfile && check.getGeneratedProfile()) { %>
+        <% if ('getGeneratedProfile' in check && check.getGeneratedProfile()) { %>
+        <%
+            const generatedProfile = check.getGeneratedProfile()
+        %>
         <tr>
             <td>Generated Profile</td>
             <td>
@@ -190,11 +307,11 @@
                     <tbody>
                         <tr>
                             <td>ID</td>
-                            <td><a href="/media?mediaId=<%= check.getGeneratedProfile().media.id %>"><%= check.getGeneratedProfile().media.id; %></a></td>
+                            <td><a href="/media?mediaId=<%= generatedProfile.media.id %>"><%= generatedProfile.media.id; %></a></td>
                         </tr>
                         <tr>
                             <td>Type</td>
-                            <td><%= check.getGeneratedProfile().media.type; %></td>
+                            <td><%= generatedProfile.media.type; %></td>
                         </tr>
                     </tbody>
                 </table>
