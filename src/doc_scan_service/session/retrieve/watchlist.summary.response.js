@@ -2,7 +2,6 @@
 
 const Validation = require('../../../yoti_common/validation');
 const RawResultsResponse = require('./raw.results.response');
-// const WatchlistSearchConfigResponse = require('./watchlist.search.config.response');
 
 class WatchlistSummaryResponse {
   constructor(summary) {

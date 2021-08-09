@@ -1,5 +1,3 @@
-// eslint-disable-next-line max-len
-// const WatchlistSummaryResponse = require('../../../../src/doc_scan_service/session/retrieve/watchlist.summary.response');
 const RawResultsResponse = require('../../../../src/doc_scan_service/session/retrieve/raw.results.response');
 const WatchlistScreeningSearchConfigResponse = require('../../../../src/doc_scan_service/session/retrieve/watchlist.screening.search.config.response');
 const WatchlistSummaryResponse = require('../../../../src/doc_scan_service/session/retrieve/watchlist.summary.response');

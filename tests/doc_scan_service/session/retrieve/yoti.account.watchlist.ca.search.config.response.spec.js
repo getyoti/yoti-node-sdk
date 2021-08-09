@@ -40,7 +40,6 @@ describe('YotiAccountWatchlistCaSearchConfigResponse', () => {
     describe('with sources in response body', () => {
       describe('of type PROFILE', () => {
         beforeEach(() => {
-        // eslint-disable-next-line max-len
           const response = Object.assign({}, minimumResponseBody, {
             sources: {
               type: 'PROFILE',
@@ -60,7 +59,6 @@ describe('YotiAccountWatchlistCaSearchConfigResponse', () => {
       });
       describe('of type TYPE_LIST', () => {
         beforeEach(() => {
-        // eslint-disable-next-line max-len
           const response = Object.assign({}, minimumResponseBody, {
             sources: {
               type: 'TYPE_LIST',
@@ -82,7 +80,6 @@ describe('YotiAccountWatchlistCaSearchConfigResponse', () => {
     describe('with matching strategy in response body', () => {
       describe('of type EXACT', () => {
         beforeEach(() => {
-        // eslint-disable-next-line max-len
           const response = Object.assign({}, minimumResponseBody, {
             matching_strategy: {
               type: 'EXACT',
@@ -102,7 +99,6 @@ describe('YotiAccountWatchlistCaSearchConfigResponse', () => {
       });
       describe('of type FUZZY', () => {
         beforeEach(() => {
-        // eslint-disable-next-line max-len
           const response = Object.assign({}, minimumResponseBody, {
             matching_strategy: {
               type: 'FUZZY',
