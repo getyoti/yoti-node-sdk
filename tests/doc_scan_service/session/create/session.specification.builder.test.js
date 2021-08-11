@@ -7,10 +7,12 @@ const {
   RequestedIdDocumentComparisonCheckBuilder,
   RequestedThirdPartyIdentityCheckBuilder,
   RequestedWatchlistScreeningCheckBuilder,
+  RequestedWatchlistAdvancedCaCheckBuilder,
   NotificationConfigBuilder,
   SdkConfigBuilder,
   RequiredIdDocumentBuilder,
   DocumentRestrictionsFilterBuilder,
+  RequestedCustomAccountWatchlistAdvancedCaConfigBuilder,
 } = require('../../../..');
 
 describe('SessionSpecificationBuilder', () => {
@@ -44,6 +46,16 @@ describe('SessionSpecificationBuilder', () => {
       .withSanctionsCategory()
       .build();
 
+    // eslint-disable-next-line max-len
+    const customAccountWatchlistAdvancedCaConfigBuilder = new RequestedCustomAccountWatchlistAdvancedCaConfigBuilder();
+    const customAccountWatchlistAdvancedCaConfig = customAccountWatchlistAdvancedCaConfigBuilder
+      .withApiKey('api-key')
+      .withClientRef('client-ref')
+      .build();
+    const watchListAdvancedCaCheck = new RequestedWatchlistAdvancedCaCheckBuilder()
+      .withConfig(customAccountWatchlistAdvancedCaConfig)
+      .build();
+
     const documentFilter = new DocumentRestrictionsFilterBuilder()
       .forWhitelist()
       .build();
@@ -64,6 +76,7 @@ describe('SessionSpecificationBuilder', () => {
       .withRequestedCheck(idDocumentComparisonCheck)
       .withRequestedCheck(thirdPartyIdentityCheck)
       .withRequestedCheck(watchListScreeningCheck)
+      .withRequestedCheck(watchListAdvancedCaCheck)
       .withRequestedTask(textExtractionTask)
       .withRequiredDocument(requiredDocument)
       .build();
@@ -84,6 +97,7 @@ describe('SessionSpecificationBuilder', () => {
         idDocumentComparisonCheck,
         thirdPartyIdentityCheck,
         watchListScreeningCheck,
+        watchListAdvancedCaCheck,
       ],
       requested_tasks: [
         textExtractionTask,

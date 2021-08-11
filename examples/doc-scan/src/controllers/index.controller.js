@@ -13,6 +13,10 @@ const {
   RequestedIdDocumentComparisonCheckBuilder,
   RequestedThirdPartyIdentityCheckBuilder,
   RequestedWatchlistScreeningCheckBuilder,
+  RequestedWatchlistAdvancedCaCheckBuilder,
+  RequestedYotiAccountWatchlistAdvancedCaConfigBuilder,
+  RequestedFuzzyMatchingStrategyBuilder,
+  RequestedTypeListSourcesBuilder,
   RequiredSupplementaryDocumentBuilder,
   ProofOfAddressObjectiveBuilder,
   RequestedSupplementaryDocTextExtractionTaskBuilder,
@@ -26,6 +30,18 @@ async function createSession() {
     config.YOTI_CLIENT_SDK_ID,
     config.YOTI_PEM
   );
+
+  const yotiAccountWatchListAdvancedCaConfig =
+      new RequestedYotiAccountWatchlistAdvancedCaConfigBuilder()
+        .withRemoveDeceased(true)
+        .withShareUrl(true)
+        .withSources(new RequestedTypeListSourcesBuilder()
+          .withTypes(['pep', 'fitness-probity', 'warning'])
+          .build())
+        .withMatchingStrategy(new RequestedFuzzyMatchingStrategyBuilder()
+          .withFuzziness(0.5)
+          .build())
+        .build();
 
   const sessionSpec = new SessionSpecificationBuilder()
     .withClientSessionTokenTtl(600)
@@ -58,6 +74,11 @@ async function createSession() {
       new RequestedWatchlistScreeningCheckBuilder()
         .withAdverseMediaCategory()
         .withSanctionsCategory()
+        .build()
+    )
+    .withRequestedCheck(
+      new RequestedWatchlistAdvancedCaCheckBuilder()
+        .withConfig(yotiAccountWatchListAdvancedCaConfig)
         .build()
     )
     .withRequestedTask(
