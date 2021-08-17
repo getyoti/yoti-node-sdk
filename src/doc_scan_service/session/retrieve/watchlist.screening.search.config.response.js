@@ -1,9 +1,12 @@
 'use strict';
 
 const Validation = require('../../../yoti_common/validation');
+const WatchlistSearchConfigResponse = require('./watchlist.search.config.response');
 
-class SearchConfigResponse {
+class WatchlistScreeningSearchConfigResponse extends WatchlistSearchConfigResponse {
   constructor(searchConfig) {
+    super();
+
     if (searchConfig.categories) {
       Validation.isArrayOfStrings(searchConfig.categories, 'categories');
       this.categories = searchConfig.categories;
@@ -20,4 +23,4 @@ class SearchConfigResponse {
   }
 }
 
-module.exports = SearchConfigResponse;
+module.exports = WatchlistScreeningSearchConfigResponse;

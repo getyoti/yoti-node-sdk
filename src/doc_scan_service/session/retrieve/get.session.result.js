@@ -11,6 +11,7 @@ const LivenessCheckResponse = require('./liveness.check.response');
 const IdDocumentComparisonCheckResponse = require('./id.document.comparison.check.response');
 const ThirdPartyIdentityCheckResponse = require('./third.party.identity.check.response');
 const WatchlistScreeningCheckResponse = require('./watchlist.screening.check.response');
+const WatchlistAdvancedCaCheckResponse = require('./watchlist.advanced.ca.check.response');
 const DocScanConstants = require('../../doc.scan.constants');
 const { YotiDate } = require('../../../data_type/date');
 
@@ -45,6 +46,8 @@ class GetSessionResult {
               return new ThirdPartyIdentityCheckResponse(check);
             case DocScanConstants.WATCHLIST_SCREENING:
               return new WatchlistScreeningCheckResponse(check);
+            case DocScanConstants.WATCHLIST_ADVANCED_CA:
+              return new WatchlistAdvancedCaCheckResponse(check);
             case DocScanConstants.ID_DOCUMENT_FACE_MATCH:
               return new FaceMatchCheckResponse(check);
             case DocScanConstants.ID_DOCUMENT_TEXT_DATA_CHECK:
@@ -171,6 +174,13 @@ class GetSessionResult {
    */
   getWatchlistScreeningChecks() {
     return this.getChecks().filter((check) => check instanceof WatchlistScreeningCheckResponse);
+  }
+
+  /**
+   * @returns {WatchlistAdvancedCaCheckResponse[]}
+   */
+  getWatchlistAdvancedCaChecks() {
+    return this.getChecks().filter((check) => check instanceof WatchlistAdvancedCaCheckResponse);
   }
 
   /**

@@ -1,20 +1,12 @@
 const ProfileCheckResponse = require('./profile.check.response');
-const WatchlistReportResponse = require('./watchlist.report.response');
 
 class WatchlistCheckResponse extends ProfileCheckResponse {
   constructor(check) {
-    super(check);
-
-    if (check.report) {
-      this.report = new WatchlistReportResponse(check.report);
+    const currentClass = new.target;
+    if (currentClass === WatchlistCheckResponse) {
+      throw new Error('WatchlistCheckResponse can not be instantiated');
     }
-  }
-
-  /**
-   * @returns {WatchlistReportResponse}
-   */
-  getReport() {
-    return this.report;
+    super(check);
   }
 }
 

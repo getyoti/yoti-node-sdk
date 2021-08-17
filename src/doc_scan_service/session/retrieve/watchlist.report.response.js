@@ -1,19 +1,15 @@
 'use strict';
 
 const ReportResponse = require('./report.response');
-const WatchlistSummaryResponse = require('./watchlist.summary.response');
 
 class WatchlistReportResponse extends ReportResponse {
   constructor(report) {
-    super(report);
-
-    if (report.watchlist_summary) {
-      this.watchListSummary = new WatchlistSummaryResponse(report.watchlist_summary);
+    const currentClass = new.target;
+    if (currentClass === WatchlistReportResponse) {
+      throw new Error('WatchlistReportResponse can not be instantiated');
     }
-  }
 
-  getWatchlistSummary() {
-    return this.watchListSummary;
+    super(report);
   }
 }
 
