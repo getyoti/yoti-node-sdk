@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
 
   try {
     const media = await docScanClient.getMediaContent(
-      req.session.DOC_SCAN_SESSION_ID,
+     	req.query.sessionId,
       req.query.mediaId
     );
 

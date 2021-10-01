@@ -105,6 +105,7 @@ async function createSession() {
         .withPrivacyPolicyUrl(`${config.YOTI_APP_BASE_URL}/privacy-policy`)
         .build()
     )
+    .withBlockBiometricConsent(false)
     .withRequiredDocument(
       (new RequiredIdDocumentBuilder())
         .withFilter(
