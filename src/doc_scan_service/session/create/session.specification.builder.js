@@ -35,6 +35,20 @@ class SessionSpecificationBuilder {
   }
 
   /**
+   * Sets the session deadline (alternative to session token TTL)
+   *
+   * @param {Date} sessionDeadline
+   *   The session deadline date-time
+   *
+   * @returns {this}
+   */
+  withSessionDeadline(sessionDeadline) {
+    Validation.instanceOf(sessionDeadline, Date, 'sessionDeadline');
+    this.sessionDeadline = sessionDeadline;
+    return this;
+  }
+
+  /**
    * Sets the resources TTL (time-to-live)
    *
    * @param {int} resourcesTtl
@@ -148,6 +162,7 @@ class SessionSpecificationBuilder {
   build() {
     return new SessionSpecification(
       this.clientSessionTokenTtl,
+      this.sessionDeadline,
       this.resourcesTtl,
       this.userTrackingId,
       this.notifications,

@@ -16,6 +16,8 @@ class SessionSpecification {
   /**
    * @param {int} clientSessionTokenTtl
    *   Client-session-token time-to-live to apply to the created session
+   * @param {Date} sessionDeadline
+   *   The deadline that the session needs to be completed by
    * @param {int} resourcesTtl
    *   Time-to-live used for all Resources created in the course of the session
    * @param {string} userTrackingId
@@ -35,6 +37,7 @@ class SessionSpecification {
    */
   constructor(
     clientSessionTokenTtl,
+    sessionDeadline,
     resourcesTtl,
     userTrackingId,
     notifications,
@@ -46,6 +49,11 @@ class SessionSpecification {
   ) {
     Validation.isInteger(clientSessionTokenTtl, 'clientSessionTokenTtl', true);
     this.clientSessionTokenTtl = clientSessionTokenTtl;
+
+    if (sessionDeadline) {
+      Validation.instanceOf(sessionDeadline, Date, 'sessionDeadline');
+      this.sessionDeadline = sessionDeadline;
+    }
 
     Validation.isInteger(resourcesTtl, 'resourcesTtl', true);
     this.resourcesTtl = resourcesTtl;
@@ -84,6 +92,7 @@ class SessionSpecification {
   toJSON() {
     return {
       client_session_token_ttl: this.clientSessionTokenTtl,
+      session_deadline: this.sessionDeadline && this.sessionDeadline.toISOString(),
       resources_ttl: this.resourcesTtl,
       user_tracking_id: this.userTrackingId,
       notifications: this.notifications,

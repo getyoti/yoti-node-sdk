@@ -11,6 +11,7 @@ describe('SessionSpecification', () => {
   it('should serialize to JSON without optional parameters', () => {
     const sessionSpec = new SessionSpecification(
       30,
+      undefined,
       10,
       SOME_TRACKING_ID,
       new NotificationConfigBuilder().build(),
