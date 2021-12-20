@@ -103,6 +103,7 @@ async function createSession() {
         .withSuccessUrl(`${config.YOTI_APP_BASE_URL}/success`)
         .withErrorUrl(`${config.YOTI_APP_BASE_URL}/error`)
         .withPrivacyPolicyUrl(`${config.YOTI_APP_BASE_URL}/privacy-policy`)
+        .withAllowHandoff(true)
         .build()
     )
     .withRequiredDocument(

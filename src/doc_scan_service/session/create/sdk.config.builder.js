@@ -152,6 +152,20 @@ class SdkConfigBuilder {
   }
 
   /**
+   * Sets whether mobile handoff is allowed, so the user can start a session on their desktop
+   * and then switch to mobile to finish
+   *
+   * @param {boolean} allowHandoff allow mobile handoff
+   *
+   * @returns {this}
+   */
+  withAllowHandoff(allowHandoff) {
+    Validation.isBoolean(allowHandoff, 'allowHandoff');
+    this.allowHandoff = allowHandoff;
+    return this;
+  }
+
+  /**
    * Builds the {@link SdkConfig} using the values supplied to the builder
    *
    * @returns {SdkConfig}
@@ -166,7 +180,8 @@ class SdkConfigBuilder {
       this.presetIssuingCountry,
       this.successUrl,
       this.errorUrl,
-      this.privacyPolicyUrl
+      this.privacyPolicyUrl,
+      this.allowHandoff
     );
   }
 }
