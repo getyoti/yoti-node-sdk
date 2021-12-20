@@ -14,6 +14,7 @@ describe('SdkConfigBuilder', () => {
       .withLocale('some-url')
       .withPresetIssuingCountry('some-country')
       .withPrivacyPolicyUrl('some-privacy-policy-url')
+      .withAllowHandoff(true)
       .build();
 
     const expectedJson = JSON.stringify({
@@ -26,6 +27,7 @@ describe('SdkConfigBuilder', () => {
       success_url: 'some-success-url',
       error_url: 'some-error-url',
       privacy_policy_url: 'some-privacy-policy-url',
+      allow_handoff: true,
     });
 
     expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
