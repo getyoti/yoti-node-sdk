@@ -21,9 +21,9 @@ jobs:
 
       - run: npm update
 
-      - run: npm audit --production
+      - run: npm audit --production --audit-level=moderate
 
-      - run: npm test
+      - run: npm run unit-test
 
       - name: Fix code coverage paths
         run: sed -i 's/\/home\/runner\/work\/yoti-node-sdk\/yoti-node-sdk\//\/github\/workspace\//g' ./coverage/lcov.info
@@ -71,7 +71,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [6, 8, 9, 10, 11, 12, 13, 14]
+        node-version: [6, 8, 9, 10, 11, 12, 13, 14, 16]
 
     steps:
       - uses: actions/checkout@v2
