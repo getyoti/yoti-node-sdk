@@ -35,6 +35,20 @@ class SessionSpecificationBuilder {
   }
 
   /**
+   * Sets the session deadline (alternative to session token TTL)
+   *
+   * @param {Date} sessionDeadline
+   *   The session deadline date-time
+   *
+   * @returns {this}
+   */
+  withSessionDeadline(sessionDeadline) {
+    Validation.instanceOf(sessionDeadline, Date, 'sessionDeadline');
+    this.sessionDeadline = sessionDeadline;
+    return this;
+  }
+
+  /**
    * Sets the resources TTL (time-to-live)
    *
    * @param {int} resourcesTtl
@@ -155,7 +169,8 @@ class SessionSpecificationBuilder {
       this.requestedTasks,
       this.sdkConfig,
       this.requiredDocuments,
-      this.blockBiometricConsent
+      this.blockBiometricConsent,
+      this.sessionDeadline
     );
   }
 }
