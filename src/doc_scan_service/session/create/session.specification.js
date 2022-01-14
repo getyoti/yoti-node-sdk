@@ -32,6 +32,8 @@ class SessionSpecification {
    *   List of RequiredDocument defining the documents required from the client
    * @param {bool} blockBiometricConsent
    *   Sets whether or not to block the collection of biometric consent
+   * @param {Date} sessionDeadline
+   *   The deadline that the session needs to be completed by
    */
   constructor(
     clientSessionTokenTtl,
@@ -42,10 +44,16 @@ class SessionSpecification {
     requestedTasks,
     sdkConfig,
     requiredDocuments,
-    blockBiometricConsent
+    blockBiometricConsent,
+    sessionDeadline
   ) {
     Validation.isInteger(clientSessionTokenTtl, 'clientSessionTokenTtl', true);
     this.clientSessionTokenTtl = clientSessionTokenTtl;
+
+    if (sessionDeadline) {
+      Validation.instanceOf(sessionDeadline, Date, 'sessionDeadline');
+      this.sessionDeadline = sessionDeadline;
+    }
 
     Validation.isInteger(resourcesTtl, 'resourcesTtl', true);
     this.resourcesTtl = resourcesTtl;
@@ -84,6 +92,7 @@ class SessionSpecification {
   toJSON() {
     return {
       client_session_token_ttl: this.clientSessionTokenTtl,
+      session_deadline: this.sessionDeadline && this.sessionDeadline.toISOString(),
       resources_ttl: this.resourcesTtl,
       user_tracking_id: this.userTrackingId,
       notifications: this.notifications,

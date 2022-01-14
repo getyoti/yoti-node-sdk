@@ -113,6 +113,23 @@ describe('SessionSpecificationBuilder', () => {
     expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
   });
 
+  it('should build SessionSpecification with sessionDeadline specified', () => {
+    const sessionDeadline = '2021-12-15T16:46:43.739Z';
+
+    const sessionSpec = new SessionSpecificationBuilder()
+      .withSessionDeadline(new Date(sessionDeadline))
+      .build();
+
+    const expectedJson = JSON.stringify({
+      session_deadline: sessionDeadline,
+      requested_checks: [],
+      requested_tasks: [],
+      required_documents: [],
+    });
+
+    expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
+  });
+
   it('should build SessionSpecification with block biometric consent true', () => {
     const sessionSpec = new SessionSpecificationBuilder()
       .withBlockBiometricConsent(true)
