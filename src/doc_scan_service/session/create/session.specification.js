@@ -37,7 +37,6 @@ class SessionSpecification {
    */
   constructor(
     clientSessionTokenTtl,
-    sessionDeadline,
     resourcesTtl,
     userTrackingId,
     notifications,
@@ -45,7 +44,8 @@ class SessionSpecification {
     requestedTasks,
     sdkConfig,
     requiredDocuments,
-    blockBiometricConsent
+    blockBiometricConsent,
+    sessionDeadline
   ) {
     Validation.isInteger(clientSessionTokenTtl, 'clientSessionTokenTtl', true);
     this.clientSessionTokenTtl = clientSessionTokenTtl;

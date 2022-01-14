@@ -162,7 +162,6 @@ class SessionSpecificationBuilder {
   build() {
     return new SessionSpecification(
       this.clientSessionTokenTtl,
-      this.sessionDeadline,
       this.resourcesTtl,
       this.userTrackingId,
       this.notifications,
@@ -170,7 +169,8 @@ class SessionSpecificationBuilder {
       this.requestedTasks,
       this.sdkConfig,
       this.requiredDocuments,
-      this.blockBiometricConsent
+      this.blockBiometricConsent,
+      this.sessionDeadline
     );
   }
 }
