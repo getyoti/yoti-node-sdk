@@ -31,7 +31,7 @@ class SdkConfigBuilder {
   /**
    * Sets the allowed capture method
    *
-   * @param {string} allowedCaptureMethod the allowed capture method
+   * @param {string} allowedCaptureMethods the allowed capture method
    *
    * @returns {this}
    */
@@ -166,6 +166,61 @@ class SdkConfigBuilder {
   }
 
   /**
+   * Allows configuring the number of attempts permitted for text extraction on an ID document
+   *
+   * @param {string} category the category of retries
+   * @param {number} retries the number of retries (more than 0)
+   *
+   * @returns {this}
+   */
+  withIdDocumentTextExtractionCategoryRetries(category, retries) {
+    Validation.isString(category, 'category');
+    Validation.isInteger(retries, 'retries');
+    Validation.notLessThan(retries, 1, 'retries');
+
+    const attemptsTarget = DocScanConstants.ID_DOCUMENT_TEXT_DATA_EXTRACTION;
+
+    if (!this.attemptsConfiguration) {
+      this.attemptsConfiguration = {};
+    }
+
+    const attemptsConfiguration = this.attemptsConfiguration[attemptsTarget] || {};
+    attemptsConfiguration[category] = retries;
+    this.attemptsConfiguration[attemptsTarget] = attemptsConfiguration;
+    return this;
+  }
+
+  /**
+   * Allows configuring the number of 'Reclassification' attempts permitted for text extraction
+   * on an ID document
+   *
+   * @param {number} retries the number of retries (more than 0)
+   *
+   * @returns {this}
+   */
+  withIdDocumentTextExtractionReclassificationRetries(retries) {
+    return this.withIdDocumentTextExtractionCategoryRetries(
+      DocScanConstants.RECLASSIFICATION,
+      retries
+    );
+  }
+
+  /**
+   * Allows configuring the number of 'Generic' attempts permitted for text extraction
+   * on an ID document
+   *
+   * @param {number} retries the number of retries (more than 0)
+   *
+   * @returns {this}
+   */
+  withIdDocumentTextExtractionGenericRetries(retries) {
+    return this.withIdDocumentTextExtractionCategoryRetries(
+      DocScanConstants.GENERIC,
+      retries
+    );
+  }
+
+  /**
    * Builds the {@link SdkConfig} using the values supplied to the builder
    *
    * @returns {SdkConfig}
@@ -181,7 +236,8 @@ class SdkConfigBuilder {
       this.successUrl,
       this.errorUrl,
       this.privacyPolicyUrl,
-      this.allowHandoff
+      this.allowHandoff,
+      this.attemptsConfiguration
     );
   }
 }

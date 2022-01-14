@@ -45,4 +45,6 @@ module.exports = Object.freeze({
   PROFILE: 'PROFILE',
   EXACT: 'EXACT',
   FUZZY: 'FUZZY',
+  GENERIC: 'GENERIC',
+  RECLASSIFICATION: 'RECLASSIFICATION',
 });

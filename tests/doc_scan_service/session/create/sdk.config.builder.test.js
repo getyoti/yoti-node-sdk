@@ -56,4 +56,43 @@ describe('SdkConfigBuilder', () => {
 
     expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
   });
+
+  it('should build SdkConfig with attempts retries', () => {
+    let sdkConfig = new SdkConfigBuilder()
+      .withIdDocumentTextExtractionCategoryRetries('TEST', 2)
+      .withIdDocumentTextExtractionGenericRetries(3)
+      .withIdDocumentTextExtractionReclassificationRetries(4)
+      .withIdDocumentTextExtractionCategoryRetries('test', 5)
+      .build();
+
+    let expectedJson = JSON.stringify({
+      attempts_configuration: {
+        ID_DOCUMENT_TEXT_DATA_EXTRACTION: {
+          TEST: 2,
+          GENERIC: 3,
+          RECLASSIFICATION: 4,
+          test: 5,
+        },
+      },
+    });
+
+    expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
+
+    sdkConfig = new SdkConfigBuilder()
+      .withIdDocumentTextExtractionGenericRetries(1)
+      .withIdDocumentTextExtractionReclassificationRetries(2)
+      .withIdDocumentTextExtractionCategoryRetries('GENERIC', 3)
+      .build();
+
+    expectedJson = JSON.stringify({
+      attempts_configuration: {
+        ID_DOCUMENT_TEXT_DATA_EXTRACTION: {
+          GENERIC: 3,
+          RECLASSIFICATION: 2,
+        },
+      },
+    });
+
+    expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
+  });
 });

@@ -24,6 +24,8 @@ class SdkConfig {
    *   The privacy policy URL
    * @param {boolean} allowHandoff
    *   Allow user to handoff to mobile during session
+   * @param {object} attemptsConfiguration
+   *   The attempts configuration
    */
   constructor(
     allowedCaptureMethods,
@@ -35,7 +37,8 @@ class SdkConfig {
     successUrl,
     errorUrl,
     privacyPolicyUrl,
-    allowHandoff
+    allowHandoff,
+    attemptsConfiguration
   ) {
     Validation.isString(allowedCaptureMethods, 'allowedCaptureMethods', true);
     this.allowedCaptureMethods = allowedCaptureMethods;
@@ -66,6 +69,11 @@ class SdkConfig {
 
     Validation.isBoolean(allowHandoff, 'allowHandoff', true);
     this.allowHandoff = allowHandoff;
+
+    if (attemptsConfiguration) {
+      Validation.isPlainObject(attemptsConfiguration, 'attemptsConfiguration');
+      this.attemptsConfiguration = attemptsConfiguration;
+    }
   }
 
   /**
@@ -83,6 +91,7 @@ class SdkConfig {
       error_url: this.errorUrl,
       privacy_policy_url: this.privacyPolicyUrl,
       allow_handoff: this.allowHandoff,
+      attempts_configuration: this.attemptsConfiguration,
     };
   }
 }
