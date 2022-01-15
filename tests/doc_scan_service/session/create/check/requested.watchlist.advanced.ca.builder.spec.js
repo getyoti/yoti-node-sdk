@@ -378,7 +378,6 @@ describe('The config builder', () => {
         api_key: 'some-key',
         client_ref: 'some-ref',
         monitoring: false,
-        tags: {},
       });
 
       beforeEach(() => {
@@ -525,7 +524,6 @@ describe('RequestedWatchlistAdvancedCaCheckBuilder', () => {
           type: 'WITH_CUSTOM_ACCOUNT',
           api_key: 'the-key',
           monitoring: false,
-          tags: {},
           client_ref: 'the-referee',
           remove_deceased: false,
           share_url: false,

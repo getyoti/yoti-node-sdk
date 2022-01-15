@@ -13,12 +13,14 @@ class CustomAccountWatchlistCaSearchConfigResponse extends WatchlistAdvancedCaSe
     Validation.isBoolean(searchConfig.monitoring, 'monitoring');
     this.monitoring = searchConfig.monitoring;
 
-    Validation.isPlainObject(searchConfig.tags, 'tags');
-    const keys = Object.keys(searchConfig.tags);
-    const values = keys.map((key) => searchConfig.tags[key]);
-    Validation.isArrayOfStrings(keys, 'tags.keys');
-    Validation.isArrayOfStrings(values, 'tags.values');
-    this.tags = searchConfig.tags;
+    if (searchConfig.tags) {
+      Validation.isPlainObject(searchConfig.tags, 'tags');
+      const keys = Object.keys(searchConfig.tags);
+      const values = keys.map((key) => searchConfig.tags[key]);
+      Validation.isArrayOfStrings(keys, 'tags.keys');
+      Validation.isArrayOfStrings(values, 'tags.values');
+      this.tags = searchConfig.tags;
+    }
 
     Validation.isString(searchConfig.client_ref, 'client_ref');
     this.clientRef = searchConfig.client_ref;

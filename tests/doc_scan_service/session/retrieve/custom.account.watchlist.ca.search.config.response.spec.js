@@ -76,6 +76,18 @@ describe('CustomAccountWatchlistCaSearchConfigResponse', () => {
         });
       });
     });
+    describe('with missing tags in response body', () => {
+      beforeEach(() => {
+        const response = Object.assign({}, minimumResponseBody);
+        delete response.tags;
+        // eslint-disable-next-line max-len
+        customAccountWatchlistCaSearchConfigResponse = new CustomAccountWatchlistCaSearchConfigResponse(response);
+      });
+
+      it('#getTags', () => {
+        expect(customAccountWatchlistCaSearchConfigResponse.getTags()).toBe(undefined);
+      });
+    });
     describe('with sources in response body', () => {
       describe('of type PROFILE', () => {
         beforeEach(() => {
