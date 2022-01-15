@@ -29,7 +29,7 @@ class RequestedCustomAccountWatchlistAdvancedCaConfig extends RequestedWatchlist
     matchingStrategy,
     apiKey,
     monitoring = false,
-    tags = {},
+    tags,
     clientRef
   ) {
     super(removeDeceased, shareUrl, sources, matchingStrategy);
@@ -40,11 +40,14 @@ class RequestedCustomAccountWatchlistAdvancedCaConfig extends RequestedWatchlist
     Validation.isBoolean(monitoring, 'monitoring');
     this.monitoring = monitoring;
 
-    Validation.isArrayOfStrings(Object.keys(tags), 'tags.keys');
-    Object.keys(tags).forEach((key) => {
-      Validation.notNull(tags[key], `tags.${key}`);
-    });
-    this.tags = tags;
+    if (tags) {
+      Validation.isPlainObject(tags, 'tags');
+      Validation.isArrayOfStrings(Object.keys(tags), 'tags.keys');
+      Object.keys(tags).forEach((key) => {
+        Validation.notNull(tags[key], `tags.${key}`);
+      });
+      this.tags = tags;
+    }
 
     Validation.isString(clientRef, 'clientRef');
     Validation.notNullOrEmpty(clientRef, 'clientRef');
