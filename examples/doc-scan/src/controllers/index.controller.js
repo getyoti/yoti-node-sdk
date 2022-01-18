@@ -43,6 +43,32 @@ async function createSession() {
           .build())
         .build();
 
+  /**
+   * Example of setting up Watchlist Advanced Config for a custom account
+   * with search profile
+   *
+   const {
+        RequestedCustomAccountWatchlistAdvancedCaConfigBuilder,
+        RequestedSearchProfileSourcesBuilder,
+    } = require('yoti');
+
+   const customAccountWatchListAdvancedCaConfig =
+      new RequestedCustomAccountWatchlistAdvancedCaConfigBuilder()
+        .withRemoveDeceased(false)
+        .withShareUrl(false)
+        .withApiKey('your-api-key')
+        .withMonitoring(false)
+        .withClientRef('your-client-reference')
+        .withTags({ tag1: 'tag1-value' })
+        .withSources(new RequestedSearchProfileSourcesBuilder()
+          .withSearchProfile('your-search-profile-id')
+          .build())
+        .withMatchingStrategy(new RequestedFuzzyMatchingStrategyBuilder()
+          .withFuzziness(0.5)
+          .build())
+        .build();
+   */
+
   const sessionSpec = new SessionSpecificationBuilder()
     .withClientSessionTokenTtl(600)
     .withResourcesTtl(90000)
