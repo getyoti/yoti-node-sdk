@@ -305,6 +305,14 @@ module.exports = class DynamicPolicyBuilder {
   }
 
   /**
+   * @param {object} identityProfileRequirements
+   */
+  withIdentityProfileRequirements(identityProfileRequirements) {
+    this.identityProfileRequirements = identityProfileRequirements;
+    return this;
+  }
+
+  /**
    * @returns {DynamicPolicy}
    */
   build() {
@@ -312,7 +320,7 @@ module.exports = class DynamicPolicyBuilder {
       Object.keys(this.wantedAttributes).map((k) => this.wantedAttributes[k]),
       this.wantedAuthTypes.filter((value, index, self) => self.indexOf(value) === index),
       this.wantedRememberMe,
-      false
+      this.identityProfileRequirements
     );
   }
 };
