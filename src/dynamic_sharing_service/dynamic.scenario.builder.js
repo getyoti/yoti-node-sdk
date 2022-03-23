@@ -37,9 +37,22 @@ module.exports = class DynamicScenarioBuilder {
   }
 
   /**
+   * @param {Object} subject
+   */
+  withSubject(subject) {
+    this.subject = subject;
+    return this;
+  }
+
+  /**
    * @returns {DynamicScenario}
    */
   build() {
-    return new DynamicScenario(this.callbackEndpoint, this.dynamicPolicy, this.extensions);
+    return new DynamicScenario(
+      this.callbackEndpoint,
+      this.dynamicPolicy,
+      this.extensions,
+      this.subject
+    );
   }
 };
