@@ -73,7 +73,7 @@ describe('Profile', () => {
       describe: 'When profile data is provided as an Array (with attributes sharing names)',
       // (here each attribute are duplicated, so to check handling of several with the same name)
       profileData: [...loadProfileDataArray(), ...loadProfileDataArray()],
-      testCaseSameNameAttributes: true,
+      profileDataAsArray: true,
     },
   ].forEach((testItem) => {
     describe(testItem.describe, () => {
@@ -214,7 +214,7 @@ describe('Profile', () => {
       describe('#getAttributes', () => {
         it('should return all attributes keyed by name', () => {
           const attributes = profileObj.getAttributes();
-          expect(Object.keys(attributes).length).toBe(16);
+          expect(Object.keys(attributes).length).toBe(17);
           Object.keys(attributes).forEach((attributeName) => {
             expect(attributes[attributeName]).toBeInstanceOf(Attribute);
           });
@@ -227,7 +227,7 @@ describe('Profile', () => {
         it('should return all attributes as an array', () => {
           const attributes = profileObj.getAttributesList();
           expect(attributes).toBeInstanceOf(Array);
-          expect(attributes.length).toBe(testItem.testCaseSameNameAttributes ? 32 : 16);
+          expect(attributes.length).toBe(testItem.profileDataAsArray ? 34 : 17);
           attributes.forEach((attribute) => {
             expect(attribute).toBeInstanceOf(Attribute);
           });
@@ -239,7 +239,7 @@ describe('Profile', () => {
           const attributes = profileObj.getAttributes();
           const allGenderAttributes = profileObj.getAttributesByName('gender');
 
-          if (!testItem.testCaseSameNameAttributes) {
+          if (!testItem.profileDataAsArray) {
             expect(allGenderAttributes.length).toBe(1);
             expect(allGenderAttributes[0]).toBe(attributes.gender);
           } else {
@@ -311,6 +311,17 @@ describe('Profile', () => {
         it('should return NULL for no match', () => {
           const verification = profileObj.findAgeOverVerification(100);
           expect(verification).toBe(null);
+        });
+      });
+
+      describe('#getIdentityProfileReport', () => {
+        it('should return identity_profile_report value', () => {
+          let expectedSource = testItem.profileData.identity_profile_report;
+          if (testItem.profileDataAsArray) {
+            expectedSource = testItem.profileData.find((item) => item.name === 'identity_profile_report');
+          }
+          expect(profileObj.getIdentityProfileReport().getValue())
+            .toEqual(expectedSource.value);
         });
       });
     });
