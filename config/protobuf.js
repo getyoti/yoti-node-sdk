@@ -11,7 +11,7 @@ const CORE_ATTRIBUTE_LIST_PROTO_BUFF_PATH = path.resolve(`${PROTO_BUFF_ATTRIBUTE
 
 const PROTO_BUFF_COMMON_API_PATH = path.resolve(`${PROTO_BUFF_PATH}/common-public-api/compubapi_v1`);
 const CORE_ENCRYPTED_DATA_PROTO_BUFF_PATH = path.resolve(`${PROTO_BUFF_COMMON_API_PATH}/EncryptedData.proto`);
-const CORE_SIGNED_TIMESTAMP_PROTO__BUFF_PATH = path.resolve(`${PROTO_BUFF_COMMON_API_PATH}/SignedTimeStamp.proto`);
+const CORE_SIGNED_TIMESTAMP_PROTO__BUFF_PATH = path.resolve(`${PROTO_BUFF_COMMON_API_PATH}/SignedTimestamp.proto`);
 
 const PROTO_BUFF_SHARE_API_PATH = path.resolve(`${PROTO_BUFF_PATH}/share-public-api/sharepubapi_v1`);
 const CORE_EXTRA_DATA_PROTO_BUFF_PATH = path.resolve(`${PROTO_BUFF_SHARE_API_PATH}/ExtraData.proto`);
