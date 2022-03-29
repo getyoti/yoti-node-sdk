@@ -9,7 +9,8 @@
     "node": ">=8.9.4"
   },
   "scripts": {
-    "lint": "node_modules/.bin/eslint *.js"
+    "lint": "node_modules/.bin/eslint *.js",
+    "start": "node ./index.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
