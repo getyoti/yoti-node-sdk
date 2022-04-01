@@ -3,6 +3,7 @@
 const Validation = require('../../../yoti_common/validation');
 const NotificationConfig = require('./notification.config');
 const SdkConfig = require('./sdk.config');
+const IdentityProfileConfig = require('./identity.profile.config');
 const RequestedTask = require('./task/requested.task');
 const RequestedCheck = require('./check/requested.check');
 const RequiredDocument = require('./filters/required.document');
@@ -34,6 +35,7 @@ class SessionSpecification {
    *   Sets whether or not to block the collection of biometric consent
    * @param {Date} sessionDeadline
    *   The deadline that the session needs to be completed by
+   * @param {IdentityProfileConfig} identityProfile
    */
   constructor(
     clientSessionTokenTtl,
@@ -45,7 +47,8 @@ class SessionSpecification {
     sdkConfig,
     requiredDocuments,
     blockBiometricConsent,
-    sessionDeadline
+    sessionDeadline,
+    identityProfile
   ) {
     Validation.isInteger(clientSessionTokenTtl, 'clientSessionTokenTtl', true);
     this.clientSessionTokenTtl = clientSessionTokenTtl;
@@ -69,6 +72,11 @@ class SessionSpecification {
     if (sdkConfig) {
       Validation.instanceOf(sdkConfig, SdkConfig, 'sdkConfig');
       this.sdkConfig = sdkConfig;
+    }
+
+    if (identityProfile) {
+      Validation.instanceOf(identityProfile, IdentityProfileConfig, 'identityProfile');
+      this.identityProfile = identityProfile;
     }
 
     Validation.isArrayOfType(requestedChecks, RequestedCheck, 'requestedChecks');
@@ -101,6 +109,7 @@ class SessionSpecification {
       sdk_config: this.sdkConfig,
       required_documents: this.requiredDocuments,
       block_biometric_consent: this.blockBiometricConsent,
+      identity_profile_requirements: this.identityProfile,
     };
   }
 }
