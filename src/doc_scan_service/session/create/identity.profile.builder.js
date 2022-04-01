@@ -1,6 +1,6 @@
 'use strict';
 
-const RequestedIdentityProfileConfig = require('./identity.profile.config');
+const IdentityProfileConfig = require('./identity.profile.config');
 const Validation = require('../../../yoti_common/validation');
 
 /**
@@ -40,7 +40,7 @@ class IdentityProfileBuilder {
   }
 
   build() {
-    return new RequestedIdentityProfileConfig(
+    return new IdentityProfileConfig(
       this.trustFramework,
       this.scheme
     );

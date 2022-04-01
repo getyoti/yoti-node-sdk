@@ -7,6 +7,7 @@ const RequestedCheck = require('./check/requested.check');
 const SdkConfig = require('./sdk.config');
 const RequiredDocument = require('./filters/required.document');
 const Validation = require('../../../yoti_common/validation');
+const IdentityProfileConfig = require('./identity.profile.config');
 
 /**
  * Builder to assist the creation of {@link SessionSpecification}.
@@ -154,6 +155,12 @@ class SessionSpecificationBuilder {
     return this;
   }
 
+  withIdentityProfile(identityProfile) {
+    Validation.instanceOf(identityProfile, IdentityProfileConfig, 'identityProfileConfig');
+    this.identityProfile = identityProfile;
+    return this;
+  }
+
   /**
    * Builds the {@link SessionSpec} based on the values supplied to the builder
    *
@@ -170,7 +177,8 @@ class SessionSpecificationBuilder {
       this.sdkConfig,
       this.requiredDocuments,
       this.blockBiometricConsent,
-      this.sessionDeadline
+      this.sessionDeadline,
+      this.identityProfile
     );
   }
 }
