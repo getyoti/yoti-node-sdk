@@ -5,6 +5,7 @@ const DocScanConstants = require('./doc.scan.constants');
 const SessionSpecificationBuilder = require('./session/create/session.specification.builder');
 const NotificationConfigBuilder = require('./session/create/notification.config.builder');
 const SdkConfigBuilder = require('./session/create/sdk.config.builder');
+const RequestedIdentityProfileBuilder = require('./session/create/identity.profile.builder');
 const RequestedDocumentAuthenticityCheckBuilder = require('./session/create/check/requested.document.authenticity.check.builder');
 const RequestedIdDocumentComparisonCheckBuilder = require('./session/create/check/requested.id.document.comparison.check.builder');
 const RequestedThirdPartyIdentityCheckBuilder = require('./session/create/check/requested.third.party.identity.check.builder');
@@ -33,6 +34,7 @@ module.exports = {
   SessionSpecificationBuilder,
   NotificationConfigBuilder,
   SdkConfigBuilder,
+  RequestedIdentityProfileBuilder,
   RequestedDocumentAuthenticityCheckBuilder,
   RequestedIdDocumentComparisonCheckBuilder,
   RequestedThirdPartyIdentityCheckBuilder,

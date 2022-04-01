@@ -47,4 +47,11 @@ module.exports = Object.freeze({
   FUZZY: 'FUZZY',
   GENERIC: 'GENERIC',
   RECLASSIFICATION: 'RECLASSIFICATION',
+  UK_TFIDA: 'UK_TFIDA',
+  DBS: 'DBS',
+  RTW: 'RTW',
+  RTR: 'RTR',
+  DBS_RTW: 'DBS_RTW',
+  STANDARD: 'STANDARD',
+  ENHANCED: 'ENHANCED',
 });
