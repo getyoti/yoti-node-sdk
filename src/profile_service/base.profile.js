@@ -11,7 +11,7 @@ class BaseProfile {
   constructor(profileData) {
     this.attributes = Object
       .keys(Object.assign({}, profileData))
-      .map(key => new Attribute(profileData[key]));
+      .map((key) => new Attribute(profileData[key]));
 
     this.attributesMap = this.attributes.reduce((acc, current) => {
       const name = current.getName();
@@ -98,7 +98,7 @@ class BaseProfile {
     Validation.isString(name, 'name');
 
     return this.getAttributesList()
-      .filter(attribute => attribute.getName().startsWith(name));
+      .filter((attribute) => attribute.getName().startsWith(name));
   }
 
   /**

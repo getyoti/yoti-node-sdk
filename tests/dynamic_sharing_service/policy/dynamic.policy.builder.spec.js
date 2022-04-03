@@ -3,7 +3,7 @@ const {
   WantedAttributeBuilder,
   SourceConstraintBuilder,
   ConstraintsBuilder,
-} = require('../../../');
+} = require('../../..');
 
 const DynamicPolicy = require('../../../src/dynamic_sharing_service/policy/dynamic.policy');
 const WantedAttribute = require('../../../src/dynamic_sharing_service/policy/wanted.attribute');
@@ -127,7 +127,6 @@ describe('DynamicPolicyBuilder', () => {
       .withWantedAttribute(wantedFamilyName)
       .withWantedAttribute(wantedGivenNames)
       .build();
-
 
     const expectedWantedAttributeData = [
       { name: 'family_name', optional: false },
@@ -351,7 +350,6 @@ describe('DynamicPolicyBuilder', () => {
       .withFamilyName(passportConstraint)
       .withFamilyName(drivingLicenseConstraint, true)
       .build();
-
 
     const expectedWantedAttributeData = {
       wanted: [
