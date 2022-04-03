@@ -47,7 +47,7 @@ const loadProfileDataArray = () => {
   const profileData = loadProfileData();
   return Object
     .keys(profileData)
-    .map(key => profileData[key]);
+    .map((key) => profileData[key]);
 };
 
 /**
@@ -70,8 +70,10 @@ describe('Profile', () => {
       profileData: loadProfileData(),
     },
     {
-      describe: 'When profile data is provided as an Array',
-      profileData: loadProfileDataArray(),
+      describe: 'When profile data is provided as an Array (with attributes sharing names)',
+      // (here each attribute are duplicated, so to check handling of several with the same name)
+      profileData: [...loadProfileDataArray(), ...loadProfileDataArray()],
+      testCaseSameNameAttributes: true,
     },
   ].forEach((testItem) => {
     describe(testItem.describe, () => {
@@ -225,10 +227,28 @@ describe('Profile', () => {
         it('should return all attributes as an array', () => {
           const attributes = profileObj.getAttributesList();
           expect(attributes).toBeInstanceOf(Array);
-          expect(attributes.length).toBe(16);
+          expect(attributes.length).toBe(testItem.testCaseSameNameAttributes ? 32 : 16);
           attributes.forEach((attribute) => {
             expect(attribute).toBeInstanceOf(Attribute);
           });
+        });
+      });
+
+      describe('#getAttributesByName', () => {
+        it('should return all attributes with that name as an array', () => {
+          const attributes = profileObj.getAttributes();
+          const allGenderAttributes = profileObj.getAttributesByName('gender');
+
+          if (!testItem.testCaseSameNameAttributes) {
+            expect(allGenderAttributes.length).toBe(1);
+            expect(allGenderAttributes[0]).toBe(attributes.gender);
+          } else {
+            expect(allGenderAttributes.length).toBe(2);
+            expect(allGenderAttributes[0]).toBe(attributes.gender);
+            expect(allGenderAttributes[1]).not.toBe(attributes.gender);
+            expect(allGenderAttributes[1].getName()).toBe(attributes.gender.getName());
+            expect(allGenderAttributes[1].getValue()).toBe(attributes.gender.getValue());
+          }
         });
       });
 
