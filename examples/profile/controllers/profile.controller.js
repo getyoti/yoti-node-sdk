@@ -23,6 +23,7 @@ function buildViewAttributes(profile) {
 
     switch (attribute.getName()) {
       case constants.ATTR_SELFIE:
+        break;
       case constants.ATTR_FULL_NAME:
         // Handled separately.
         break;
@@ -39,7 +40,7 @@ function buildViewAttributes(profile) {
         attributes.push(createAttributeItem(attribute, 'Gender', 'yoti-icon-gender'));
         break;
       case constants.ATTR_NATIONALITY:
-        attributes.push(createAttributeItem(attribute, 'Nationality', 'yoti-icon-profile'));
+        attributes.push(createAttributeItem(attribute, 'Nationality', 'yoti-icon-nationality'));
         break;
       case constants.ATTR_PHONE_NUMBER:
         attributes.push(createAttributeItem(attribute, 'Mobile number', 'yoti-icon-phone'));
@@ -51,13 +52,13 @@ function buildViewAttributes(profile) {
         attributes.push(createAttributeItem(attribute, 'Address', 'yoti-icon-address'));
         break;
       case constants.ATTR_DOCUMENT_DETAILS:
-        attributes.push(createAttributeItem(attribute, 'Document Details', 'yoti-icon-profile'));
+        attributes.push(createAttributeItem(attribute, 'Document Details', 'yoti-icon-document'));
         break;
       case constants.ATTR_STRUCTURED_POSTAL_ADDRESS:
         attributes.push(createAttributeItem(attribute, 'Structured Address', 'yoti-icon-address'));
         break;
       case constants.ATTR_DOCUMENT_IMAGES:
-        attributes.push(createAttributeItem(attribute, 'Document Images', 'yoti-icon-profile'));
+        attributes.push(createAttributeItem(attribute, 'Document Images', 'yoti-icon-document'));
         break;
       default:
         attributes.push(createAttributeItem(attribute, attribute.getName().replace('_', ' '), 'yoti-icon-profile'));
