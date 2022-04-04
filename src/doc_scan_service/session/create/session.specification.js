@@ -35,6 +35,8 @@ class SessionSpecification {
    * @param {Date} sessionDeadline
    *   The deadline that the session needs to be completed by
    * @param {object} identityProfileRequirements
+   * @param {object} subject
+   *   Information about the subject of the session
    */
   constructor(
     clientSessionTokenTtl,
@@ -47,7 +49,8 @@ class SessionSpecification {
     requiredDocuments,
     blockBiometricConsent,
     sessionDeadline,
-    identityProfileRequirements
+    identityProfileRequirements,
+    subject
   ) {
     Validation.isInteger(clientSessionTokenTtl, 'clientSessionTokenTtl', true);
     this.clientSessionTokenTtl = clientSessionTokenTtl;
@@ -91,6 +94,11 @@ class SessionSpecification {
 
     Validation.isBoolean(blockBiometricConsent, 'blockBiometricConsent', true);
     this.blockBiometricConsent = blockBiometricConsent;
+
+    if (subject) {
+      Validation.isPlainObject(subject, 'subject');
+      this.subject = subject;
+    }
   }
 
   /**
@@ -109,6 +117,7 @@ class SessionSpecification {
       required_documents: this.requiredDocuments,
       block_biometric_consent: this.blockBiometricConsent,
       identity_profile_requirements: this.identityProfileRequirements,
+      subject: this.subject,
     };
   }
 }

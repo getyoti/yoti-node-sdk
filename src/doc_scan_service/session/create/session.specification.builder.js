@@ -154,11 +154,18 @@ class SessionSpecificationBuilder {
     return this;
   }
 
+  withSubject(subject) {
+    Validation.isPlainObject(subject, 'subject');
+    this.subject = subject;
+    return this;
+  }
+
   withIdentityProfileRequirements(identityProfileRequirements) {
     Validation.isPlainObject(identityProfileRequirements, 'identityProfileRequirementsConfig');
     this.identityProfileRequirements = identityProfileRequirements;
     return this;
   }
+
 
   /**
    * Builds the {@link SessionSpec} based on the values supplied to the builder
@@ -177,7 +184,8 @@ class SessionSpecificationBuilder {
       this.requiredDocuments,
       this.blockBiometricConsent,
       this.sessionDeadline,
-      this.identityProfileRequirements
+      this.identityProfileRequirements,
+      this.subject
     );
   }
 }
