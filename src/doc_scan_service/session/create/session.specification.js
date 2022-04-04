@@ -3,7 +3,6 @@
 const Validation = require('../../../yoti_common/validation');
 const NotificationConfig = require('./notification.config');
 const SdkConfig = require('./sdk.config');
-const IdentityProfileConfig = require('./identity.profile.config');
 const RequestedTask = require('./task/requested.task');
 const RequestedCheck = require('./check/requested.check');
 const RequiredDocument = require('./filters/required.document');
@@ -35,7 +34,7 @@ class SessionSpecification {
    *   Sets whether or not to block the collection of biometric consent
    * @param {Date} sessionDeadline
    *   The deadline that the session needs to be completed by
-   * @param {IdentityProfileConfig} identityProfile
+   * @param {object} identityProfile
    */
   constructor(
     clientSessionTokenTtl,
@@ -75,7 +74,7 @@ class SessionSpecification {
     }
 
     if (identityProfile) {
-      Validation.instanceOf(identityProfile, IdentityProfileConfig, 'identityProfile');
+      Validation.isPlainObject(identityProfile, 'identityProfile');
       this.identityProfile = identityProfile;
     }
 

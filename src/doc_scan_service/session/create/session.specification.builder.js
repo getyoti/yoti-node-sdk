@@ -7,7 +7,6 @@ const RequestedCheck = require('./check/requested.check');
 const SdkConfig = require('./sdk.config');
 const RequiredDocument = require('./filters/required.document');
 const Validation = require('../../../yoti_common/validation');
-const IdentityProfileConfig = require('./identity.profile.config');
 
 /**
  * Builder to assist the creation of {@link SessionSpecification}.
@@ -156,7 +155,7 @@ class SessionSpecificationBuilder {
   }
 
   withIdentityProfile(identityProfile) {
-    Validation.instanceOf(identityProfile, IdentityProfileConfig, 'identityProfileConfig');
+    Validation.isPlainObject(identityProfile, 'identityProfileConfig');
     this.identityProfile = identityProfile;
     return this;
   }

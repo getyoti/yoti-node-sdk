@@ -64,6 +64,14 @@ describe('SessionSpecificationBuilder', () => {
       .withFilter(documentFilter)
       .build();
 
+    const identityProfileRequirementsDescriptor = {
+      trust_framework: 'UK_TFIDA',
+      scheme: {
+        type: 'DBS',
+        objective: 'STANDARD',
+      },
+    };
+
     const sessionSpec = new SessionSpecificationBuilder()
       .withClientSessionTokenTtl(30)
       .withUserTrackingId('some-tracking-id')
@@ -79,6 +87,7 @@ describe('SessionSpecificationBuilder', () => {
       .withRequestedCheck(watchListAdvancedCaCheck)
       .withRequestedTask(textExtractionTask)
       .withRequiredDocument(requiredDocument)
+      .withIdentityProfile(identityProfileRequirementsDescriptor)
       .build();
 
     const expectedJson = JSON.stringify({
@@ -108,6 +117,13 @@ describe('SessionSpecificationBuilder', () => {
       required_documents: [
         requiredDocument,
       ],
+      identity_profile_requirements: {
+        trust_framework: 'UK_TFIDA',
+        scheme: {
+          type: 'DBS',
+          objective: 'STANDARD',
+        },
+      },
     });
 
     expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
@@ -155,6 +171,48 @@ describe('SessionSpecificationBuilder', () => {
       requested_tasks: [],
       required_documents: [],
       block_biometric_consent: false,
+    });
+
+    expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
+  });
+
+  it('should build SessionSpecification without identityProfile', () => {
+    const sessionSpec = new SessionSpecificationBuilder()
+      .build();
+
+    const expectedJson = JSON.stringify({
+      requested_checks: [],
+      requested_tasks: [],
+      required_documents: [],
+    });
+
+    expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
+  });
+
+  it('should build SessionSpecification with identityProfile', () => {
+    const identityProfileRequirementsDescriptor = {
+      trust_framework: 'UK_TFIDA',
+      scheme: {
+        type: 'DBS',
+        objective: 'STANDARD',
+      },
+    };
+
+    const sessionSpec = new SessionSpecificationBuilder()
+      .withIdentityProfile(identityProfileRequirementsDescriptor)
+      .build();
+
+    const expectedJson = JSON.stringify({
+      requested_checks: [],
+      requested_tasks: [],
+      required_documents: [],
+      identity_profile_requirements: {
+        trust_framework: 'UK_TFIDA',
+        scheme: {
+          type: 'DBS',
+          objective: 'STANDARD',
+        },
+      },
     });
 
     expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
