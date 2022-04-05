@@ -11,6 +11,7 @@ class BaseProfile {
   constructor(profileData) {
     this.attributes = Object
       .keys(Object.assign({}, profileData))
+      .filter((key) => profileData[key])
       .map((key) => new Attribute(profileData[key]));
 
     this.attributesMap = this.attributes.reduce((acc, current) => {

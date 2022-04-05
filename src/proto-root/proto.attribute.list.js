@@ -62,6 +62,7 @@ module.exports = {
         const ageCondition = Object.assign({}, attrData);
         ageCondition.name = 'age_verified';
         extendedProfile.age_verified = ageCondition;
+        extendedProfileList.push(ageCondition);
       }
     }
     attrList.push({ extendedProfile });
