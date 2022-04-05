@@ -17,11 +17,13 @@ jobs:
 
       - uses: actions/setup-node@v2.1.2
 
-      - run: npm install
-
       - run: npm update
 
-      - run: npm audit --production --audit-level=moderate
+      - run: npm install --no-audit
+
+      - run: npm install -D audit-ci
+
+      - run: npx audit-ci --moderate --skip-dev --allowlist node-forge
 
       - run: npm run unit-test
 
