@@ -92,7 +92,7 @@ describe('ActivityDetails', () => {
     });
   });
   describe('#getUserProfile', () => {
-    it.only('should return user profile object', () => {
+    it('should return user profile object', () => {
       const activityDetails = new ActivityDetails({}, [
         {
           attr_key: 'attr_value',
