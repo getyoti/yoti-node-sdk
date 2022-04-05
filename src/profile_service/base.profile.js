@@ -5,10 +5,28 @@ const Validation = require('../yoti_common/validation');
 
 class BaseProfile {
   /**
-   * @param {object} profileData
+   * @param {Object<string, Object>|Object[]} profileData
+   *   Provide Object[] to support multiple attributes with the same name.
    */
   constructor(profileData) {
-    this.profileData = Object.assign({}, profileData);
+    this.attributes = Object
+      .keys(Object.assign({}, profileData))
+      .map((key) => new Attribute(profileData[key]));
+
+    this.attributesMap = this.attributes.reduce((acc, current) => {
+      const name = current.getName();
+      acc[name] = acc[name] || [];
+      acc[name].push(current);
+      return acc;
+    }, {});
+
+    // @deprecated 4.0.0
+    // Process profile data into Object keyed by attribute name for backwards compatibility.
+    this.profileData = this.attributes.reduce((acc, current) => {
+      const name = current.getName();
+      acc[name] = acc[name] || current;
+      return acc;
+    }, {});
   }
 
   /**
@@ -16,32 +34,51 @@ class BaseProfile {
    *
    * @param attrName
    *
-   * @returns {null|Attribute}
+   * @returns {Attribute|null}
    */
   getAttribute(attrName) {
-    if (this.propertyExists(attrName)) {
-      const attrObj = this.profileData[attrName];
-      if (attrObj instanceof Object) {
-        return new Attribute(attrObj);
-      }
+    const attributes = this.getAttributesByName(attrName);
+    if ((attributes instanceof Array) && attributes.length > 0) {
+      return attributes[0];
     }
     return null;
   }
 
   /**
-   * Return all attributes for the profile.
+   * Return list of all Attribute objects for provided attribute name.
+   *
+   * @param attrName
+   *
+   * @returns {Attribute[]}
+   */
+  getAttributesByName(attrName) {
+    return this.attributesMap[attrName] || [];
+  }
+
+  /**
+   * Return array of all attributes for the profile.
+   *
+   * @returns {Attribute[]}
+   */
+  getAttributesList() {
+    return this.attributes;
+  }
+
+  /**
+   * Return map of all attributes for the profile.
+   *
+   * @deprecated 4.0.0 replaced by getAttributesList()
    *
    * @returns {Object.<string, Attribute>}
    */
   getAttributes() {
-    return Object.keys(this.profileData).reduce((acc, current) => {
-      acc[current] = this.getAttribute(current);
-      return acc;
-    }, {});
+    return this.profileData;
   }
 
   /**
    * @param {*} prop
+   *
+   * @deprecated 4.0.0 No longer in use.
    */
   propertyExists(prop) {
     if (prop && (this.profileData instanceof Object)) {
@@ -60,8 +97,7 @@ class BaseProfile {
   findAttributesStartingWith(name) {
     Validation.isString(name, 'name');
 
-    return Object.keys(this.getAttributes())
-      .map((key) => this.getAttributes()[key])
+    return this.getAttributesList()
       .filter((attribute) => attribute.getName().startsWith(name));
   }
 
