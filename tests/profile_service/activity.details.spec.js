@@ -6,127 +6,127 @@ const { Attribute } = require('../../src/data_type/attribute');
 describe('ActivityDetails', () => {
   describe('#getRememberMeId', () => {
     describe('when remember_me_id is available', () => {
-      const activityDetails = new ActivityDetails({
-        receipt: {
-          remember_me_id: 'test_remember_me_id',
-        },
-      });
       it('should return remember_me_id value', () => {
+        const activityDetails = new ActivityDetails({
+          receipt: {
+            remember_me_id: 'test_remember_me_id',
+          },
+        });
         expect(activityDetails.getRememberMeId()).toBe('test_remember_me_id');
       });
     });
     describe('when remember_me_id is undefined', () => {
-      const activityDetails = new ActivityDetails({
-        receipt: {},
-      });
       it('should return undefined', () => {
+        const activityDetails = new ActivityDetails({
+          receipt: {},
+        });
         expect(activityDetails.getRememberMeId()).toBe(undefined);
       });
     });
     describe('when remember_me_id is empty string', () => {
-      const activityDetails = new ActivityDetails({
-        receipt: {
-          remember_me_id: '',
-        },
-      });
       it('should return empty string value', () => {
+        const activityDetails = new ActivityDetails({
+          receipt: {
+            remember_me_id: '',
+          },
+        });
         expect(activityDetails.getRememberMeId()).toBe('');
       });
     });
   });
   describe('#getUserId', () => {
-    const activityDetails = new ActivityDetails({
-      receipt: {
-        remember_me_id: 'test_remember_me_id',
-      },
-    });
     it('should return remember_me_id value', () => {
+      const activityDetails = new ActivityDetails({
+        receipt: {
+          remember_me_id: 'test_remember_me_id',
+        },
+      });
       expect(activityDetails.getUserId()).toBe('test_remember_me_id');
     });
   });
   describe('#getParentRememberMeId', () => {
     describe('when parent_remember_me_id is available', () => {
-      const activityDetails = new ActivityDetails({
-        receipt: {
-          parent_remember_me_id: 'test_parent_remember_me_id',
-        },
-      });
       it('should return parent_remember_me_id value', () => {
+        const activityDetails = new ActivityDetails({
+          receipt: {
+            parent_remember_me_id: 'test_parent_remember_me_id',
+          },
+        });
         expect(activityDetails.getParentRememberMeId()).toBe('test_parent_remember_me_id');
       });
     });
     describe('when parent_remember_me_id is undefined', () => {
-      const activityDetails = new ActivityDetails({
-        receipt: {},
-      });
       it('should return undefined', () => {
+        const activityDetails = new ActivityDetails({
+          receipt: {},
+        });
         expect(activityDetails.getParentRememberMeId()).toBe(undefined);
       });
     });
     describe('when parent_remember_me_id is empty string', () => {
-      const activityDetails = new ActivityDetails({
-        receipt: {
-          parent_remember_me_id: '',
-        },
-      });
       it('should return empty string value', () => {
+        const activityDetails = new ActivityDetails({
+          receipt: {
+            parent_remember_me_id: '',
+          },
+        });
         expect(activityDetails.getParentRememberMeId()).toBe('');
       });
     });
   });
   describe('#getProfile', () => {
-    const activityDetails = new ActivityDetails({}, [
-      {
-        extendedProfile: {
-          attr_key: new Attribute({
-            name: 'attr_name',
-            value: 'attr_value',
-          }),
-        },
-      },
-    ]);
     it('should return Profile object', () => {
+      const activityDetails = new ActivityDetails({}, [
+        {
+          extendedProfile: {
+            attr_name: new Attribute({
+              name: 'attr_name',
+              value: 'attr_value',
+            }),
+          },
+        },
+      ]);
       const profile = activityDetails.getProfile();
       expect(profile).toBeInstanceOf(Profile);
-      expect(profile.getAttribute('attr_key').getValue()).toBe('attr_value');
+      expect(profile.getAttribute('attr_name').getValue()).toBe('attr_value');
     });
   });
   describe('#getUserProfile', () => {
-    const activityDetails = new ActivityDetails({}, [
-      {
-        attr_key: 'attr_value',
-      },
-    ]);
     it('should return user profile object', () => {
+      const activityDetails = new ActivityDetails({}, [
+        {
+          attr_key: 'attr_value',
+        },
+      ]);
       expect(activityDetails.getUserProfile()).toEqual({
         attr_key: 'attr_value',
       });
     });
   });
   describe('#getApplicationProfile', () => {
-    const activityDetails = new ActivityDetails({}, [], [
-      {
-        extendedProfile: {
-          attr_key: new Attribute({
-            name: 'attr_name',
-            value: 'attr_value',
-          }),
-        },
-      },
-    ]);
     it('should return ApplicationProfile object', () => {
+      const activityDetails = new ActivityDetails({}, [], [
+        {
+          extendedProfile: {
+            attr_name: new Attribute({
+              name: 'attr_name',
+              value: 'attr_value',
+            }),
+          },
+        },
+      ]);
       const applicationProfile = activityDetails.getApplicationProfile();
       expect(applicationProfile).toBeInstanceOf(ApplicationProfile);
-      expect(applicationProfile.getAttribute('attr_key').getValue()).toBe('attr_value');
+      expect(applicationProfile.getAttribute('attr_name').getValue()).toBe('attr_value');
     });
   });
   describe('#getOutcome', () => {
-    const activityDetails = new ActivityDetails({
-      receipt: {
-        sharing_outcome: 'test_outcome',
-      },
-    });
     it('should return sharing_outcome value', () => {
+      const activityDetails = new ActivityDetails({
+        receipt: {
+          sharing_outcome: 'test_outcome',
+        },
+      });
       expect(activityDetails.getOutcome()).toBe('test_outcome');
     });
   });
@@ -141,12 +141,12 @@ describe('ActivityDetails', () => {
     });
   });
   describe('#getTimestamp', () => {
-    const activityDetails = new ActivityDetails({
-      receipt: {
-        timestamp: '2003-11-04T12:51:07Z',
-      },
-    });
     it('should return timestamp value', () => {
+      const activityDetails = new ActivityDetails({
+        receipt: {
+          timestamp: '2003-11-04T12:51:07Z',
+        },
+      });
       expect(activityDetails.getTimestamp().toUTCString()).toBe('Tue, 04 Nov 2003 12:51:07 GMT');
     });
   });
