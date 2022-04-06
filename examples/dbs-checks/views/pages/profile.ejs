@@ -1,0 +1,240 @@
+<%
+const fullName = profile.getFullName();
+const givenNames = profile.getGivenNames();
+const familyName = profile.getFamilyName();
+const phoneNumber = profile.getPhoneNumber();
+const dateOfBirth = profile.getDateOfBirth();
+const postalAddress = profile.getPostalAddress();
+const emailAddress = profile.getEmailAddress();
+const nationality = profile.getNationality();
+const gender = profile.getGender();
+const userSelfie = profile.getSelfie();
+const documentImages = profile.getDocumentImages();
+const documentDetails = profile.getDocumentDetails();
+const structuredPostalAddress = profile.getStructuredPostalAddress();
+
+const attributes = [
+  {
+    name: "Given names",
+    prop: givenNames,
+    icon: "yoti-icon-profile"
+  },
+  {
+    name: "Family names",
+    prop: familyName,
+    icon: "yoti-icon-profile"
+  },
+  {
+    name: "Mobile number",
+    prop: phoneNumber,
+    icon: "yoti-icon-phone"
+  },
+  {
+    name: "Email address",
+    prop: emailAddress,
+    icon: "yoti-icon-email"
+  },
+  {
+    name: "Date of birth",
+    prop: dateOfBirth,
+    icon: "yoti-icon-calendar"
+  },
+  {
+    name: "Address",
+    prop: postalAddress,
+    icon: "yoti-icon-address"
+  },
+  {
+    name: "Structured Address",
+    prop: structuredPostalAddress,
+    icon: "yoti-icon-address"
+  },
+  {
+    name: "Gender",
+    prop: gender,
+    icon: "yoti-icon-gender"
+  },
+  {
+    name: "Document Images",
+    prop: documentImages,
+    icon: "yoti-icon-profile"
+  },
+  {
+    name: "Document Details",
+    prop: documentDetails,
+    icon: "yoti-icon-profile"
+  },
+]
+
+const ageVerifications = profile.getAgeVerifications();
+if (ageVerifications) {
+  ageVerifications.forEach(ageVerification => {
+    attributes.push({
+      name: 'Age Verification',
+      prop: ageVerification.getAttribute(),
+      age_verification: ageVerification,
+      icon: "yoti-icon-verified"
+    });
+  });
+}
+%>
+<!DOCTYPE html>
+<html class="yoti-html">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Yoti client example</title>
+    <link rel="stylesheet" type="text/css" href="/static/profile.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
+</head>
+<body class="yoti-body">
+  <main class="yoti-profile-layout">
+    <section class="yoti-profile-user-section">
+
+      <div class="yoti-profile-picture-powered-section">
+        <span class="yoti-profile-picture-powered">Powered by</span>
+        <img class="yoti-logo-image" src="/static/assets/logo.png" srcset="/static/assets/logo@2x.png 2x" alt="Yoti" />
+      </div>
+
+      <div class="yoti-profile-picture-section">
+        <% if (userProfile.selfie) { %>
+        <div class="yoti-profile-picture-area">
+          <img src="/static/YotiSelfie.jpeg" class="yoti-profile-picture-image" alt="Yoti" />
+
+          <i class="yoti-profile-picture-verified-icon"></i>
+        </div>
+        <% } %>
+
+        <div class="yoti-profile-name">
+          <% if (fullName && fullName.getValue()) { %>
+          <%= fullName.getValue() %>
+          <% } %>
+        </div>
+      </div>
+    </section>
+
+    <section class="yoti-attributes-section">
+      <img class="yoti-company-logo" src="/static/assets/company-logo.jpg" alt="company logo" />
+
+      <div class="yoti-attribute-list-header">
+        <div class="yoti-attribute-list-header-attribute">Attribute</div>
+        <div class="yoti-attribute-list-header-value">Value</div>
+        <div>Anchors</div>
+      </div>
+
+      <div class="yoti-attribute-list-subheader">
+        <div class="yoti-attribute-list-subhead-layout">
+          <div>S / V</div>
+          <div>Value</div>
+          <div>Sub type</div>
+        </div>
+      </div>
+
+      <div class="yoti-attribute-list">
+
+        <% attributes.forEach(function(item) { %>
+        <% if (!item.prop || !item.prop.getValue()) { return; } %>
+        <div class="yoti-attribute-list-item">
+          <div class="yoti-attribute-name">
+            <div class="yoti-attribute-name-cell">
+              <i class="<%= item.icon %>"></i>
+              <span class="yoti-attribute-name-cell-text"><%= item.name %></span>
+            </div>
+          </div>
+
+          <div class="yoti-attribute-value">
+            <div class="yoti-attribute-value-text">
+              <% switch (item.prop.getName()) {
+                  case 'document_images': %>
+                    <% item.prop.getValue().forEach((image) => { %>
+                      <img src="<%= image.getBase64Content() %>" />
+                    <% }) %>
+                  <% break;
+                  case 'document_details': %>
+                  <table>
+                    <tr>
+                      <td>Type</td>
+                      <td><%= item.prop.getValue().getType() %></td>
+                    </tr>
+                    <tr>
+                      <td>Issuing Country</td>
+                      <td><%= item.prop.getValue().getIssuingCountry() %></td>
+                    </tr>
+                    <tr>
+                      <td>Issuing Authority</td>
+                      <td><%= item.prop.getValue().getIssuingAuthority() %></td>
+                    </tr>
+                    <tr>
+                      <td>Document Number</td>
+                      <td><%= item.prop.getValue().getDocumentNumber() %></td>
+                    </tr>
+                    <tr>
+                      <td>Expiration Date</td>
+                      <td><%= item.prop.getValue().getExpirationDate() %></td>
+                    </tr>
+                  </table>
+                  <% break;
+                  case 'structured_postal_address': %>
+                  <table>
+                    <% Object.keys(item.prop.getValue()).forEach((key) => { %>
+                      <tr>
+                          <td><%= key %></td>
+                          <td><%= item.prop.getValue()[key] %></td>
+                      </tr>
+                    <% }) %>
+                  </table>
+                  <% break;
+                  default:
+                    if (item.age_verification) { %>
+                      <table>
+                        <tr>
+                          <td>Check Type</td>
+                          <td><%= item.age_verification.getCheckType() %></td>
+                        </tr>
+                        <tr>
+                          <td>Age</td>
+                          <td><%= item.age_verification.getAge() %></td>
+                        </tr>
+                        <tr>
+                          <td>Result</td>
+                          <td><%= item.age_verification.getResult() %></td>
+                        </tr>
+                      </table>
+                    <% } else { %>
+                      <%= item.prop.getValue() %>
+                    <% } %>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="yoti-attribute-anchors-layout">
+            <div class="yoti-attribute-anchors-head -s-v">S / V</div>
+            <div class="yoti-attribute-anchors-head -value">Value</div>
+            <div class="yoti-attribute-anchors-head -subtype">Sub type</div>
+
+            <% if (item.prop) { %>
+              <% for(let i = 0; i < item.prop.getSources().length; i += 1) { %>
+                <% let source = item.prop.getSources()[i] %>
+                <div class="yoti-attribute-anchors -s-v">Source</div>
+                <div class="yoti-attribute-anchors -value"><%= source.getValue() %></div>
+                <div class="yoti-attribute-anchors -subtype"><%= source.getSubType() %></div>
+              <% } %>
+            <% } %>
+
+            <% if (item.prop) { %>
+              <% for(let i = 0; i < item.prop.getVerifiers().length; i += 1) { %>
+                <% let verifier = item.prop.getVerifiers()[i] %>
+                <div class="yoti-attribute-anchors -s-v">Verifier</div>
+                <div class="yoti-attribute-anchors -value"><%= verifier.getValue() %></div>
+                <div class="yoti-attribute-anchors -subtype"><%= verifier.getSubType() %></div>
+              <% } %>
+            <% } %>
+          </div>
+        </div>
+        <% }); %>
+
+      </div>
+    </section>
+  </main>
+</body>
+</html>
