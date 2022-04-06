@@ -1,0 +1,28 @@
+{
+  "name": "yoti-node-sdk-client-example",
+  "version": "1.1.0",
+  "description": "A Yoti client example",
+  "private": true,
+  "author": "Yoti LTD <tech@yoti.com> (https://www.yoti.com/developers)",
+  "license": "MIT",
+  "engines": {
+    "node": ">=8.9.4"
+  },
+  "scripts": {
+    "lint": "node_modules/.bin/eslint *.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^5.0.1",
+    "ejs": "^3.1.8",
+    "express": "^4.17.1",
+    "yoti": "file:../.."
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^22.21.0",
+    "eslint-plugin-node": "8.0.1"
+  }
+}
