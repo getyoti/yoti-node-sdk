@@ -14,7 +14,7 @@ const port = process.env.PORT || 9443;
 const config = {
   SCENARIO_ID: process.env.YOTI_SCENARIO_ID, // Your Yoti Scenario ID
   CLIENT_SDK_ID: process.env.YOTI_CLIENT_SDK_ID, // Your Yoti Client SDK ID
-  PEM_KEY: fs.readFileSync(process.env.YOTI_KEY_FILE_PATH), // The content of your Yoti .pem key
+  PEM_KEY: fs.readFileSync(path.join(__dirname, process.env.YOTI_KEY_FILE_PATH)),
 };
 
 const yotiClient = new Yoti.Client(config.CLIENT_SDK_ID, config.PEM_KEY);
