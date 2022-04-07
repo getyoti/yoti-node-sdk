@@ -80,9 +80,11 @@ router.get('/profile', (req, res) => {
     if (profile
             && profile.getIdentityProfileReport()
             && profile.getIdentityProfileReport().getValue()) {
-      console.log('######## Identity profile report ', JSON.stringify(profile.getIdentityProfileReport().getValue(), null, 8), '########');
-      res.render('pages/profile', {
-        profile,
+      const identityProfile = JSON.stringify(profile.getIdentityProfileReport().getValue());
+      console.log('######## Identity profile report ', identityProfile, '########');
+
+      res.render('pages/identity-profile', {
+        identityProfile: identityProfile || '',
       });
     }
   }).catch((err) => {
