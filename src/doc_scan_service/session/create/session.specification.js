@@ -34,6 +34,7 @@ class SessionSpecification {
    *   Sets whether or not to block the collection of biometric consent
    * @param {Date} sessionDeadline
    *   The deadline that the session needs to be completed by
+   * @param {object} identityProfileRequirements
    */
   constructor(
     clientSessionTokenTtl,
@@ -45,7 +46,8 @@ class SessionSpecification {
     sdkConfig,
     requiredDocuments,
     blockBiometricConsent,
-    sessionDeadline
+    sessionDeadline,
+    identityProfileRequirements
   ) {
     Validation.isInteger(clientSessionTokenTtl, 'clientSessionTokenTtl', true);
     this.clientSessionTokenTtl = clientSessionTokenTtl;
@@ -69,6 +71,11 @@ class SessionSpecification {
     if (sdkConfig) {
       Validation.instanceOf(sdkConfig, SdkConfig, 'sdkConfig');
       this.sdkConfig = sdkConfig;
+    }
+
+    if (identityProfileRequirements) {
+      Validation.isPlainObject(identityProfileRequirements, 'identityProfileRequirements');
+      this.identityProfileRequirements = identityProfileRequirements;
     }
 
     Validation.isArrayOfType(requestedChecks, RequestedCheck, 'requestedChecks');
@@ -101,6 +108,7 @@ class SessionSpecification {
       sdk_config: this.sdkConfig,
       required_documents: this.requiredDocuments,
       block_biometric_consent: this.blockBiometricConsent,
+      identity_profile_requirements: this.identityProfileRequirements,
     };
   }
 }
