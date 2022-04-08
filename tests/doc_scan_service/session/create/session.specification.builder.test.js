@@ -64,6 +64,14 @@ describe('SessionSpecificationBuilder', () => {
       .withFilter(documentFilter)
       .build();
 
+    const identityProfileRequirementsDescriptor = {
+      trust_framework: 'UK_TFIDA',
+      scheme: {
+        type: 'DBS',
+        objective: 'STANDARD',
+      },
+    };
+
     const sessionSpec = new SessionSpecificationBuilder()
       .withClientSessionTokenTtl(30)
       .withUserTrackingId('some-tracking-id')
@@ -79,6 +87,7 @@ describe('SessionSpecificationBuilder', () => {
       .withRequestedCheck(watchListAdvancedCaCheck)
       .withRequestedTask(textExtractionTask)
       .withRequiredDocument(requiredDocument)
+      .withIdentityProfileRequirements(identityProfileRequirementsDescriptor)
       .build();
 
     const expectedJson = JSON.stringify({
@@ -108,6 +117,13 @@ describe('SessionSpecificationBuilder', () => {
       required_documents: [
         requiredDocument,
       ],
+      identity_profile_requirements: {
+        trust_framework: 'UK_TFIDA',
+        scheme: {
+          type: 'DBS',
+          objective: 'STANDARD',
+        },
+      },
     });
 
     expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
@@ -155,6 +171,35 @@ describe('SessionSpecificationBuilder', () => {
       requested_tasks: [],
       required_documents: [],
       block_biometric_consent: false,
+    });
+
+    expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
+  });
+
+  it('should build SessionSpecification with identityProfileRequirements', () => {
+    const identityProfileRequirementsDescriptor = {
+      trust_framework: 'UK_TFIDA',
+      scheme: {
+        type: 'DBS',
+        objective: 'STANDARD',
+      },
+    };
+
+    const sessionSpec = new SessionSpecificationBuilder()
+      .withIdentityProfileRequirements(identityProfileRequirementsDescriptor)
+      .build();
+
+    const expectedJson = JSON.stringify({
+      requested_checks: [],
+      requested_tasks: [],
+      required_documents: [],
+      identity_profile_requirements: {
+        trust_framework: 'UK_TFIDA',
+        scheme: {
+          type: 'DBS',
+          objective: 'STANDARD',
+        },
+      },
     });
 
     expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
