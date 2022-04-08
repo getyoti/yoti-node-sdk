@@ -79,6 +79,11 @@ class SessionSpecification {
     if (identityProfileRequirements) {
       Validation.isPlainObject(identityProfileRequirements, 'identityProfileRequirements');
       this.identityProfileRequirements = identityProfileRequirements;
+
+      if (subject) {
+        Validation.isPlainObject(subject, 'subject');
+        this.subject = subject;
+      }
     }
 
     Validation.isArrayOfType(requestedChecks, RequestedCheck, 'requestedChecks');
@@ -94,11 +99,6 @@ class SessionSpecification {
 
     Validation.isBoolean(blockBiometricConsent, 'blockBiometricConsent', true);
     this.blockBiometricConsent = blockBiometricConsent;
-
-    if (subject) {
-      Validation.isPlainObject(subject, 'subject');
-      this.subject = subject;
-    }
   }
 
   /**

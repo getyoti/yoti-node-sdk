@@ -212,4 +212,59 @@ describe('SessionSpecificationBuilder', () => {
 
     expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
   });
+
+  it('should build SessionSpecification with subject when identityProfileRequirements exists', () => {
+    const identityProfileRequirementsDescriptor = {
+      trust_framework: 'UK_TFIDA',
+      scheme: {
+        type: 'DBS',
+        objective: 'STANDARD',
+      },
+    };
+
+    const subjectDescriptor = {
+      subject_id: 'some_subject_id_string',
+    };
+
+    const sessionSpec = new SessionSpecificationBuilder()
+      .withIdentityProfileRequirements(identityProfileRequirementsDescriptor)
+      .withSubject(subjectDescriptor)
+      .build();
+
+    const expectedJson = JSON.stringify({
+      requested_checks: [],
+      requested_tasks: [],
+      required_documents: [],
+      identity_profile_requirements: {
+        trust_framework: 'UK_TFIDA',
+        scheme: {
+          type: 'DBS',
+          objective: 'STANDARD',
+        },
+      },
+      subject: {
+        subject_id: 'some_subject_id_string',
+      },
+    });
+
+    expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
+  });
+
+  it('should not build SessionSpecification with subject if identityProfile is not present', () => {
+    const subjectDescriptor = {
+      subject_id: 'some_subject_id_string',
+    };
+
+    const sessionSpec = new SessionSpecificationBuilder()
+      .withSubject(subjectDescriptor)
+      .build();
+
+    const expectedJson = JSON.stringify({
+      requested_checks: [],
+      requested_tasks: [],
+      required_documents: [],
+    });
+
+    expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
+  });
 });

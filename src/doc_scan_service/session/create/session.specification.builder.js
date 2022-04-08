@@ -166,7 +166,6 @@ class SessionSpecificationBuilder {
     return this;
   }
 
-
   /**
    * Builds the {@link SessionSpec} based on the values supplied to the builder
    *
