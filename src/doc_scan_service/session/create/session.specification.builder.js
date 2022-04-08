@@ -154,9 +154,9 @@ class SessionSpecificationBuilder {
     return this;
   }
 
-  withIdentityProfile(identityProfile) {
-    Validation.isPlainObject(identityProfile, 'identityProfileConfig');
-    this.identityProfile = identityProfile;
+  withIdentityProfileRequirements(identityProfileRequirements) {
+    Validation.isPlainObject(identityProfileRequirements, 'identityProfileRequirementsConfig');
+    this.identityProfileRequirements = identityProfileRequirements;
     return this;
   }
 
@@ -177,7 +177,7 @@ class SessionSpecificationBuilder {
       this.requiredDocuments,
       this.blockBiometricConsent,
       this.sessionDeadline,
-      this.identityProfile
+      this.identityProfileRequirements
     );
   }
 }
