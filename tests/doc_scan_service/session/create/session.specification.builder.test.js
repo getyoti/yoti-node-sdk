@@ -176,7 +176,7 @@ describe('SessionSpecificationBuilder', () => {
     expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
   });
 
-  it('should build SessionSpecification with identityProfile', () => {
+  it('should build SessionSpecification with identityProfileRequirements', () => {
     const identityProfileRequirementsDescriptor = {
       trust_framework: 'UK_TFIDA',
       scheme: {
