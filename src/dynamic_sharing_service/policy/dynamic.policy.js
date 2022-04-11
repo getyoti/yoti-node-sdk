@@ -19,7 +19,7 @@ module.exports = class DynamicPolicy {
     wantedAttributes,
     wantedAuthTypes,
     wantedRememberMe = false,
-    identityProfileRequirements
+    identityProfileRequirements = null
   ) {
     Validation.isArrayOfType(wantedAttributes, WantedAttribute, 'wantedAttribute');
     this.wantedAttributes = wantedAttributes;
