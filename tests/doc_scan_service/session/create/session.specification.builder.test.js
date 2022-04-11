@@ -64,6 +64,10 @@ describe('SessionSpecificationBuilder', () => {
       .withFilter(documentFilter)
       .build();
 
+    const subjectDescriptor = {
+      subject_id: 'some_subject_id_string',
+    };
+
     const identityProfileRequirementsDescriptor = {
       trust_framework: 'UK_TFIDA',
       scheme: {
@@ -88,6 +92,7 @@ describe('SessionSpecificationBuilder', () => {
       .withRequestedTask(textExtractionTask)
       .withRequiredDocument(requiredDocument)
       .withIdentityProfileRequirements(identityProfileRequirementsDescriptor)
+      .withSubject(subjectDescriptor)
       .build();
 
     const expectedJson = JSON.stringify({
@@ -123,6 +128,9 @@ describe('SessionSpecificationBuilder', () => {
           type: 'DBS',
           objective: 'STANDARD',
         },
+      },
+      subject: {
+        subject_id: 'some_subject_id_string',
       },
     });
 
@@ -199,6 +207,27 @@ describe('SessionSpecificationBuilder', () => {
           type: 'DBS',
           objective: 'STANDARD',
         },
+      },
+    });
+
+    expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
+  });
+
+  it('should build SessionSpecification with subject', () => {
+    const subjectDescriptor = {
+      subject_id: 'some_subject_id_string',
+    };
+
+    const sessionSpec = new SessionSpecificationBuilder()
+      .withSubject(subjectDescriptor)
+      .build();
+
+    const expectedJson = JSON.stringify({
+      requested_checks: [],
+      requested_tasks: [],
+      required_documents: [],
+      subject: {
+        subject_id: 'some_subject_id_string',
       },
     });
 
