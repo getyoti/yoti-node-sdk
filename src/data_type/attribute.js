@@ -15,6 +15,7 @@ class Attribute {
     this.name = attrObj.name;
     this.sources = attrObj.sources;
     this.verifiers = attrObj.verifiers;
+    this.id = attrObj.id;
 
     this.anchors = [];
     if (attrObj.anchors) {
@@ -22,6 +23,15 @@ class Attribute {
         this.anchors = this.anchors.concat(attrObj.anchors[key]);
       });
     }
+  }
+
+  /**
+   * Retrieves the id of an attribute. It can be undefined.
+   *
+   * @returns {*}
+   */
+  getId() {
+    return this.id;
   }
 
   /**
