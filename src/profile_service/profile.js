@@ -224,6 +224,15 @@ class Profile extends BaseProfile {
   getDocumentImages() {
     return this.getAttribute(constants.ATTR_DOCUMENT_IMAGES);
   }
+
+  /**
+   * Identity Profile Report.
+   *
+   * @returns {null|Attribute}
+   */
+  getIdentityProfileReport() {
+    return this.getAttribute(constants.ATTR_IDENTITY_PROFILE_REPORT);
+  }
 }
 
 module.exports = {
