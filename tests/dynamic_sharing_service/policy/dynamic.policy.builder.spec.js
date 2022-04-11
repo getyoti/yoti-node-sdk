@@ -11,9 +11,9 @@ const WantedAttribute = require('../../../src/dynamic_sharing_service/policy/wan
 const CONSTRAINT_TYPE_SOURCE = 'SOURCE';
 
 /**
- * Compares serlialized dynamic policy with expected JSON data.
+ * Compares serialized dynamic policy with expected JSON data.
  *
- * @param {DynamicPolicy} dynamicPolicy the dynamic policy to selialize.
+ * @param {DynamicPolicy} dynamicPolicy the dynamic policy to serialize.
  * @param {object} expectedJsonData expected JSON data to serialize.
  */
 const expectDynamicPolicyJson = (dynamicPolicy, expectedJsonData) => {
@@ -397,5 +397,58 @@ describe('DynamicPolicyBuilder', () => {
     };
 
     expectDynamicPolicyJson(dynamicPolicy, expectedWantedAttributeData);
+  });
+
+  describe('when using with identity profile requirements', () => {
+    const identityProfileRequirementsDescriptor = {
+      trust_framework: 'UK_TFIDA',
+      scheme: {
+        type: 'DBS',
+        objective: 'STANDARD',
+      },
+    };
+
+    it('should build with identity profile requirements only', () => {
+      const dynamicPolicy = new DynamicPolicyBuilder()
+        .withIdentityProfileRequirements(identityProfileRequirementsDescriptor)
+        .build();
+
+      expect(dynamicPolicy.getIdentityProfileRequirements())
+        .toEqual(identityProfileRequirementsDescriptor);
+
+      expectDynamicPolicyJson(dynamicPolicy, {
+        wanted: [],
+        wanted_auth_types: [],
+        wanted_remember_me: false,
+        wanted_remember_me_optional: false,
+        identity_profile_requirements: identityProfileRequirementsDescriptor,
+      });
+    });
+
+    it('should build with identity profile requirements alongside other wanted attributes', () => {
+      const dynamicPolicy = new DynamicPolicyBuilder()
+        .withGender()
+        .withNationality()
+        .withIdentityProfileRequirements(identityProfileRequirementsDescriptor)
+        .build();
+
+      const expectedWantedAttributeData = [
+        { name: 'gender', optional: false },
+        { name: 'nationality', optional: false },
+      ];
+
+      expectDynamicPolicyAttributes(dynamicPolicy, expectedWantedAttributeData);
+
+      expect(dynamicPolicy.getIdentityProfileRequirements())
+        .toEqual(identityProfileRequirementsDescriptor);
+
+      expectDynamicPolicyJson(dynamicPolicy, {
+        wanted: expectedWantedAttributeData,
+        wanted_auth_types: [],
+        wanted_remember_me: false,
+        wanted_remember_me_optional: false,
+        identity_profile_requirements: identityProfileRequirementsDescriptor,
+      });
+    });
   });
 });
