@@ -1,5 +1,6 @@
 const IdentityProfileResponse = require('../../../../src/doc_scan_service/session/retrieve/identity.profile.response');
 const IdentityProfileReportResponse = require('../../../../src/doc_scan_service/session/retrieve/identity.profile.report.response');
+const IdentityProfileFailureReasonResponse = require('../../../../src/doc_scan_service/session/retrieve/identity.profile.failure.reason.response');
 
 describe('IdentityProfileResponse', () => {
   let identityProfileResponse;
@@ -47,9 +48,11 @@ describe('IdentityProfileResponse', () => {
 
   describe('#getFailureReason', () => {
     it('Should return failureReason object', () => {
-      expect(identityProfileResponse.getFailureReason()).toMatchObject({
-        reason_code: 'MANDATORY_DOCUMENT_COULD_NOT_BE_PROVIDED',
-      });
+      const failureReason = identityProfileResponse.getFailureReason();
+      expect(failureReason)
+        .toBeInstanceOf(IdentityProfileFailureReasonResponse);
+
+      expect(failureReason.getReasonCode()).toBe('MANDATORY_DOCUMENT_COULD_NOT_BE_PROVIDED');
     });
   });
 

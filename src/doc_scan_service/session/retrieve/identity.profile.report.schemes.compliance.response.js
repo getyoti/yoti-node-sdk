@@ -2,7 +2,7 @@
 
 const Validation = require('../../../yoti_common/validation');
 
-class identityProfileReportSchemesComplianceResponse {
+class IdentityProfileReportSchemesComplianceResponse {
   constructor(schemesCompliance) {
     Validation.isPlainObject(schemesCompliance.scheme, 'scheme');
     this.scheme = schemesCompliance.scheme;
@@ -10,8 +10,10 @@ class identityProfileReportSchemesComplianceResponse {
     Validation.isBoolean(schemesCompliance.requirements_met, 'requirements_met');
     this.requirementsMet = schemesCompliance.requirements_met;
 
-    Validation.isString(schemesCompliance.requirements_not_met_info, 'requirements_not_met_info');
-    this.requirementsNotMetInfo = schemesCompliance.requirements_not_met_info;
+    if (schemesCompliance.requirements_not_met_info) {
+      Validation.isString(schemesCompliance.requirements_not_met_info, 'requirements_not_met_info');
+      this.requirementsNotMetInfo = schemesCompliance.requirements_not_met_info;
+    }
   }
 
   /**
@@ -36,4 +38,4 @@ class identityProfileReportSchemesComplianceResponse {
   }
 }
 
-module.exports = identityProfileReportSchemesComplianceResponse;
+module.exports = IdentityProfileReportSchemesComplianceResponse;
