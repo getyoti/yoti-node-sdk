@@ -1,0 +1,148 @@
+{
+  "identity_assertion": {
+    "current_name": {
+      "given_names": "EDUARDO",
+      "first_name": "EDUARDO",
+      "family_name": "GOMEZ FLORES",
+      "full_name": "EDUARDO GOMEZ FLORES"
+    },
+    "date_of_birth": "1979-02-20",
+    "current_address": {
+      "address": {
+        "address_format": 1,
+        "building_number": "151",
+        "address_line1": "151 Weavers Way",
+        "town_city": "LONDON",
+        "postal_code": "NW1 0XG",
+        "country_iso": "GBR",
+        "country": "United Kingdom",
+        "formatted_address": "151 Weavers Way\nLONDON\nNW1 0XG\nUnited Kingdom"
+      }
+    }
+  },
+  "verification_report": {
+    "report_id": "0546b23b-6222-46fc-9d04-4da50cfb8335",
+    "timestamp": "2022-04-12T09:33:31Z",
+    "trust_framework": "UK_TFIDA",
+    "schemes_compliance": [
+      {
+        "scheme": {
+          "type": "DBS",
+          "objective": "BASIC"
+        },
+        "requirements_met": true
+      }
+    ],
+    "assurance_process": {
+      "level_of_assurance": "MEDIUM",
+      "policy": "GPG45",
+      "procedure": "M1C",
+      "assurance": [
+        {
+          "type": "EVIDENCE_STRENGTH",
+          "classification": "4",
+          "evidence_links": [
+            "d936cb0c-9345-418e-8230-eaf59606d740"
+          ]
+        },
+        {
+          "type": "EVIDENCE_VALIDITY",
+          "classification": "3",
+          "evidence_links": [
+            "d936cb0c-9345-418e-8230-eaf59606d740"
+          ]
+        },
+        {
+          "type": "VERIFICATION",
+          "classification": "3",
+          "evidence_links": [
+            "d936cb0c-9345-418e-8230-eaf59606d740",
+            "3835808a-7675-4960-bf1e-11e7f4d9436a"
+          ]
+        }
+      ]
+    },
+    "evidence": {
+      "face": {
+        "evidence_id": "3835808a-7675-4960-bf1e-11e7f4d9436a",
+        "initial_liveness": {
+          "type": "ZOOM",
+          "timestamp": "2022-04-12T08:38:31Z"
+        },
+        "last_matched_liveness": {
+          "type": "ZOOM",
+          "timestamp": "2022-04-12T08:38:31Z"
+        },
+        "verifying_org": "Yoti Ltd",
+        "user_activity_ids": [
+          "cf9841d7-d15b-4e83-b551-2423f9f9ca5c"
+        ]
+      },
+      "documents": [
+        {
+          "evidence_id": "d936cb0c-9345-418e-8230-eaf59606d740",
+          "timestamp": "2022-04-12T08:40:29Z",
+          "document_fields": {
+            "full_name": "EDUARDO GOMEZ FLORES",
+            "date_of_birth": "1979-02-20",
+            "nationality": "ESP",
+            "given_names": "EDUARDO",
+            "family_name": "GOMEZ FLORES",
+            "gender": "MALE",
+            "document_type": "PASSPORT",
+            "issuing_country": "ESP",
+            "document_number": "PAM485095",
+            "expiration_date": "2031-08-27"
+          },
+          "passed_checks": [
+            {
+              "check": "DOCUMENT_IN_DATE"
+            },
+            {
+              "check": "CHIP_DIGITAL_SIGNATURE"
+            },
+            {
+              "check": "AUTOMATED_FACE_MATCH"
+            }
+          ],
+          "document_images_attribute_id": "deef495f-e5e2-44a6-a99f-4e8808091119",
+          "verifying_org": "Yoti Ltd",
+          "user_activity_ids": [
+            "34d82fa8-4576-4ed5-a7a9-097de686f07b",
+            "41e7fcdc-8b12-4f43-808e-e55c8ba9ee77",
+            "df803022-e0e2-4718-afec-b2a506788f70",
+            "c7b7dbe5-be86-4f17-9bf0-20647ed6cf11"
+          ]
+        }
+      ],
+      "electronic_records": [
+        {
+          "evidence_id": "1f855be3-01b2-433f-8eab-43f234d9e858",
+          "timestamp": "2022-04-12T08:41:23Z",
+          "identity_details": {
+            "given_names": "EDUARDO",
+            "first_name": "EDUARDO",
+            "family_name": "GOMEZ FLORES",
+            "full_name": "EDUARDO GOMEZ FLORES",
+            "date_of_birth": "1979-02-20",
+            "current_address": {
+              "address_format": 1,
+              "building_number": "151",
+              "address_line1": "151 Weavers Way",
+              "town_city": "LONDON",
+              "postal_code": "NW1 0XG",
+              "country_iso": "GBR",
+              "country": "United Kingdom",
+              "formatted_address": "151 Weavers Way\nLONDON\nNW1 0XG\nUnited Kingdom"
+            }
+          },
+          "verifying_org": "Yoti Ltd",
+          "provider_org": "Callcredit",
+          "user_activity_ids": [
+            "923f3cbe-3ca8-42ac-8e99-9653d0b61b93"
+          ]
+        }
+      ]
+    }
+  }
+}

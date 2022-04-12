@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 const Yoti = require('yoti');
+const profileEduardo = require('./profile-eduardo.json');
 
 const app = express();
 const port = process.env.PORT || 9443;
@@ -80,18 +81,76 @@ router.get('/profile', (req, res) => {
     if (profile
             && profile.getIdentityProfileReport()
             && profile.getIdentityProfileReport().getValue()) {
-      const identityProfile = JSON.stringify(profile.getIdentityProfileReport().getValue());
-      console.log('######## Identity profile report ', identityProfile, '########');
+      const identityProfilePrint = JSON.stringify(profile.getIdentityProfileReport().getValue());
+      console.log('######## Identity profile report ', identityProfilePrint, '########');
+
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+      const identityProfileAttribute = profile && profile.getIdentityProfileReport();
+      const identityProfile = identityProfileAttribute ? identityProfileAttribute.getValue() : profileEduardo;
+
+      const {
+        identity_assertion: identityAssertion,
+        verification_report: verificationReport,
+      } = identityProfile;
+
+      const { evidence } = verificationReport;
+      const { documents } = evidence;
+      const documentImagesAttributes = documents
+      // eslint-disable-next-line camelcase
+        .map(({ document_images_attribute_id }) => (document_images_attribute_id
+          ? (profile && profile.getAttributeById(document_images_attribute_id)) : null))
+        .filter((documentImagesAttribute) => documentImagesAttribute);
+
+      // documentImagesAttributes.map((documentImagesAttribute) => documentImagesAttribute.getValue());
 
       res.render('pages/identity-profile', {
-        identityProfile: identityProfile || '',
+        identityAssertion,
+        verificationReport,
+        documentImagesAttributes,
       });
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // res.render('pages/identity-profile', {
+      //   identityProfile: identityProfile || '',
+      // });
+      //
     }
   }).catch((err) => {
     console.error(err);
     res.render('pages/error', {
       error: err,
     });
+  });
+});
+
+router.get('/profile-test-mock-data', (req, res) => {
+  let activityDetails;
+  const profile = activityDetails && activityDetails.getProfile();
+
+  const identityProfileAttribute = profile && profile.getIdentityProfileReport();
+  const identityProfile = identityProfileAttribute ? identityProfileAttribute.getValue() : profileEduardo;
+
+  const {
+    identity_assertion: identityAssertion,
+    verification_report: verificationReport,
+  } = identityProfile;
+
+  const { evidence } = verificationReport;
+  const { documents } = evidence;
+  const documentImagesAttributes = documents
+    // eslint-disable-next-line camelcase
+    .map(({ document_images_attribute_id }) => (document_images_attribute_id
+      ? (profile && profile.getAttributeById(document_images_attribute_id)) : null))
+    .filter((documentImagesAttribute) => documentImagesAttribute);
+
+  // documentImagesAttributes.map((documentImagesAttribute) => documentImagesAttribute.getValue());
+
+  res.render('pages/identity-profile', {
+    identityAssertion,
+    verificationReport,
+    documentImagesAttributes,
   });
 });
 

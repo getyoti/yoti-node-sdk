@@ -21,9 +21,29 @@
 
             <h1 class="yoti-top-header">DBS Basic Checks Example</h1>
 
-            <span>
-                <%= identityProfile %>
-            </span>
+            <section class="yoti-attributes-section">
+                <div class="yoti-attribute-list-item">
+                    <h4>Identity Assertion</h4>
+                    <pre><%= JSON.stringify(identityAssertion, null, 2) %></pre>
+                </div>
+                <div class="yoti-attribute-list-item">
+                    <h4>Verification Report</h4>
+                    <pre><%= JSON.stringify(verificationReport, null, 2) %></pre>
+                </div>
+
+                <div class="yoti-attribute-list-item">
+                    <h4>Documents Images Attributes</h4>
+
+                    <% documentImagesAttributes.forEach((docImgAttr) => { %>
+                        <span><%= docImgAttr.getId() %></span>
+
+                        <% docImgAttr.getValue().forEach((image) => { %>
+                            <img src="<%= image.getBase64Content() %>" />
+                        <% }) %>
+
+                    <% }) %>
+                </div>
+            </section>
         </section>
     </main>
 </body>
