@@ -63,16 +63,25 @@ const createAttribute = (name, value) => new Attribute({
   verifiers: [],
 });
 
+const profileDataAsObject = loadProfileData();
+const profileDataAsArrayWithSameAttributes = [...loadProfileDataArray(), ...loadProfileDataArray()]
+  .map((attr, index) => {
+    if (['selfie', 'document_images'].includes(attr.name)) {
+      return Object.assign({}, attr, { id: `${attr.name}-${index}` });
+    }
+    return attr;
+  });
+
 describe('Profile', () => {
   [
     {
       describe: 'When profile data is provided as Object keyed by attribute name',
-      profileData: loadProfileData(),
+      profileData: profileDataAsObject,
     },
     {
       describe: 'When profile data is provided as an Array (with attributes sharing names)',
       // (here each attribute are duplicated, so to check handling of several with the same name)
-      profileData: [...loadProfileDataArray(), ...loadProfileDataArray()],
+      profileData: profileDataAsArrayWithSameAttributes,
       profileDataAsArray: true,
     },
   ].forEach((testItem) => {
@@ -322,6 +331,24 @@ describe('Profile', () => {
           }
           expect(profileObj.getIdentityProfileReport().getValue())
             .toEqual(expectedSource.value);
+        });
+      });
+
+      describe('#getAttributeById', () => {
+        it('should return corresponding attributes', () => {
+          if (testItem.profileDataAsArray) {
+            const selfies = profileObj.getAttributesByName('selfie');
+            expect(selfies.length).toBe(2);
+            expect(selfies[0].getId()).not.toBe(selfies[1].getId());
+            expect(profileObj.getAttributeById(selfies[0].getId())).toBe(selfies[0]);
+            expect(profileObj.getAttributeById(selfies[1].getId())).toBe(selfies[1]);
+
+            const documentImages = profileObj.getAttributesByName('document_images');
+            expect(documentImages.length).toBe(2);
+            expect(documentImages[0].getId()).not.toBe(documentImages[1].getId());
+            expect(profileObj.getAttributeById(documentImages[0].getId())).toBe(documentImages[0]);
+            expect(profileObj.getAttributeById(documentImages[1].getId())).toBe(documentImages[1]);
+          }
         });
       });
     });

@@ -57,6 +57,17 @@ class BaseProfile {
   }
 
   /**
+   * Return first attribute found by id.
+   *
+   * @param attrId
+   *
+   * @returns {Attribute}
+   */
+  getAttributeById(attrId) {
+    return this.attributes.find((attr) => attr.getId() === attrId);
+  }
+
+  /**
    * Return array of all attributes for the profile.
    *
    * @returns {Attribute[]}

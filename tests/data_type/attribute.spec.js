@@ -22,12 +22,14 @@ describe('Attribute', () => {
     verifiers,
     unknown: parseAnchorData(unknownAnchor).unknown,
   };
+  const id = '123-id';
   const attributeObj = new Attribute({
     value: documentDetails,
     name: 'document_details',
     sources,
     verifiers,
     anchors,
+    id,
   });
 
   describe('Attribute.getValue()', () => {
@@ -73,6 +75,11 @@ describe('Attribute', () => {
       expect(source.getType()).toBe('SOURCE');
       expect(verifier.getType()).toBe('VERIFIER');
       expect(unknown.getType()).toBe('UNKNOWN');
+    });
+  });
+  describe('Attribute.getId()', () => {
+    it('it should return the ephemeralId', () => {
+      expect(attributeObj.getId()).toBe(id);
     });
   });
   describe('When Attribute value is a DocumentDetails', () => {
