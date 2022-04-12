@@ -71,7 +71,6 @@ const profileDataAsArrayWithSameAttributes = [...loadProfileDataArray(), ...load
     }
     return attr;
   });
-console.log('>>>>', profileDataAsArrayWithSameAttributes, '<<<< profileDataAsArrayWithSameAttributes');
 
 describe('Profile', () => {
   [
