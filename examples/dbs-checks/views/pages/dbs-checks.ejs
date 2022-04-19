@@ -11,37 +11,95 @@
 <body class="yoti-body">
   <main>
     <section class="yoti-top-section">
-      <div class="yoti-logo-section">
-        <img
-          class="yoti-logo-image"
-          src="/static/assets/logo.png"
-          srcset="/static/assets/logo@2x.png 2x"
-          alt="Yoti"/>
-      </div>
-
-      <h1 class="yoti-top-header">DBS Basic Checks Example</h1>
-
-      <div class="yoti-sdk-integration-section">
-        <div id="yoti-share-button"></div>
-      </div>
+        <div class="yoti-logo-section">
+            <a href="/">
+                <img class="yoti-logo-image" src="/static/assets/logo.png" srcset="/static/assets/logo@2x.png 2x" alt="Yoti"/>
+            </a>
+        </div>
+    </section>
+    <section>
+        <div class="content">
+            <h2 class="main-title">Identity profile checks examples</h2>
+            <br>
+            <div class="row">
+                <div class="column yoti-blue-tint-background">
+                    <br>
+                    <h2 class="main-title">DBS basic check</h2>
+                    <br>
+                    <div id="yoti-dbs-basic-share-button"></div>
+                    <br>
+                </div>
+                <div class="column yoti-green-tint-background">
+                    <br>
+                    <h2 class="main-title">RTW check</h2>
+                    <br>
+                    <div id="yoti-rtw-share-button"></div>
+                    <br>
+                </div>
+                <div class="column yoti-orange-tint-background">
+                    <br>
+                    <h2 class="main-title">RTR check</h2>
+                    <br>
+                    <div id="yoti-rtr-share-button"></div>
+                    <br>
+                </div>
+            </div>
+        </div>
     </section>
   </main>
-  <script src="https://www.public.stg1.dmz.yoti.com/share/client/"></script>
+
+  <script src='<%= shareClient %>'></script>
   <script>
-    async function getShareUrl() {
+    async function getShareUrl(scheme) {
       console.log('The get share url has been called.')
-      const response = await fetch(`/get-new-share-url`);
+      const response = await fetch(`/get-new-share-url?scheme=${scheme}`);
       const myJson = await response.json();
       console.log(JSON.stringify(myJson));
       return myJson.shareUrl;
     }
 
+    async function getShareUrlForDbsBasicChecks() {
+        return await getShareUrl('dbs-basic');
+    }
+
+    async function getShareUrlForRtwChecks() {
+        return await getShareUrl('rtw');
+    }
+
+    async function getShareUrlForRtrChecks() {
+        return await getShareUrl('rtr');
+    }
+
     window.Yoti.Share.init({
       "elements": [
         {
-          "domId": "yoti-share-button",
+          "domId": "yoti-dbs-basic-share-button",
           "clientSdkId": "<%= yotiClientSdkId %>",
-          "shareUrlProvider": getShareUrl,
+          "shareUrlProvider": getShareUrlForDbsBasicChecks,
+          "button": {
+            "label": "Use Yoti",
+            "align": "center",
+            "width": "auto",
+            "verticalAlign": "top"
+          },
+          "type": "modal"
+        },
+        {
+          "domId": "yoti-rtw-share-button",
+          "clientSdkId": "<%= yotiClientSdkId %>",
+          "shareUrlProvider": getShareUrlForRtwChecks,
+          "button": {
+            "label": "Use Yoti",
+            "align": "center",
+            "width": "auto",
+            "verticalAlign": "top"
+          },
+          "type": "modal"
+        },
+        {
+          "domId": "yoti-rtr-share-button",
+          "clientSdkId": "<%= yotiClientSdkId %>",
+          "shareUrlProvider": getShareUrlForRtrChecks,
           "button": {
             "label": "Use Yoti",
             "align": "center",

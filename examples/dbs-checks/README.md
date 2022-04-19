@@ -6,7 +6,8 @@
 4. `npm install` in the root directory.
 5. `cd examples/dbs-checks`
 6. `npm install` in the dbs-checks directory.
-7. Rename `.env.example` file in the dbs-checks folder to `.env` which contains all the required SDK IDs.
-8. Start the server `npm run start`
+7. Start the server `npm run start:staging`
+8. To run the tests in preprod environment: `npm run start:preprod`
+9. To run the tests in production environment: `npm run start:live`
 
-Visiting the `https://localhost:9443` should show a Yoti button that requests a DBS Basic check.
+Visiting the `https://localhost:9443` should show a Yoti button that requests a check of specified type.

@@ -149,3 +149,49 @@
 .yoti-app-button-link {
     text-decoration: none;
 }
+
+.yoti-blue-tint-background {
+    background-color:#e5f3ff;
+}
+
+.yoti-green-tint-background {
+    background-color:#e4fff5;
+}
+
+.yoti-red-tint-background {
+    background-color:#ffe9e4;
+}
+
+.yoti-orange-tint-background {
+    background-color:#fff8ea;
+}
+
+.yoti-grey-tint-background {
+    background-color:#f2f4f6;
+}
+
+.main-title, .yoti-title {
+    text-align:center;
+    font-size:25px;
+    color:#2875bc;
+}
+
+.column {
+    float: left;
+    width: 31%;
+    padding: 10px;
+    height: 400px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+div.content {
+    margin-left: 300px;
+    margin-right: 300px;
+    padding: 1px 16px;
+    height: 1000px;
+}
