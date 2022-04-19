@@ -1,7 +1,7 @@
 const GeneratedProfileResponse = require('./generated.profile.response');
 const CheckResponse = require('./check.response');
 
-class CIFASIdentityCheckResponse extends CheckResponse {
+class ThirdPartyIdentityFraud1CheckResponse extends CheckResponse {
   constructor(check) {
     super(check);
 
@@ -18,4 +18,4 @@ class CIFASIdentityCheckResponse extends CheckResponse {
   }
 }
 
-module.exports = CIFASIdentityCheckResponse;
+module.exports = ThirdPartyIdentityFraud1CheckResponse;
