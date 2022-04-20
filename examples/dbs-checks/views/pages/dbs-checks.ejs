@@ -21,26 +21,27 @@
         <div class="content">
             <h2 class="main-title">Identity profile checks examples</h2>
             <br>
+            <select id="selectedScheme">
+                <option value="DBS_BASIC">DBS_BASIC</option>
+                <option value="RTW">RTW</option>
+                <option value="RTR">RTR</option>
+                <option value="DBS_STANDARD">DBS_STANDARD</option>
+                <option value="DBS_ENHANCED">DBS_ENHANCED</option>
+                <option value="DBS_RTW_BASIC">DBS_RTW_BASIC</option>
+                <option value="DBS_RTW_STANDARD">DBS_RTW_STANDARD</option>
+                <option value="DBS_RTW_ENHANCED">DBS_RTW_ENHANCED</option>
+            </select>
+            <input value="selfie" id="selfie" type="checkbox" onchange="checkAttribute(this)"/>
+            <input value="nationality" id="nationality" type="checkbox" onchange="checkAttribute(this)"/>
+            <input value="phonenumber" id="phoneNumber" type="checkbox" onchange="checkAttribute(this)" />
+            <input value="email" id="email" type="checkbox" onchange="checkAttribute(this)"/>
+            <input value="gender" id="gender" type="checkbox" onchange="checkAttribute(this)"/>
             <div class="row">
                 <div class="column yoti-blue-tint-background">
                     <br>
                     <h2 class="main-title">DBS basic check</h2>
                     <br>
                     <div id="yoti-dbs-basic-share-button"></div>
-                    <br>
-                </div>
-                <div class="column yoti-green-tint-background">
-                    <br>
-                    <h2 class="main-title">RTW check</h2>
-                    <br>
-                    <div id="yoti-rtw-share-button"></div>
-                    <br>
-                </div>
-                <div class="column yoti-orange-tint-background">
-                    <br>
-                    <h2 class="main-title">RTR check</h2>
-                    <br>
-                    <div id="yoti-rtr-share-button"></div>
                     <br>
                 </div>
             </div>
@@ -50,24 +51,41 @@
 
   <script src='<%= shareClient %>'></script>
   <script>
-    async function getShareUrl(scheme) {
+
+    let selectedScheme
+    let selectedAttributes = []
+
+    const dropDown = document.getElementById('selectedScheme')
+    selectedScheme = dropDown.options[dropDown.selectedIndex].value
+
+    dropDown.onchange = function() {
+      const { value } = dropDown.options[dropDown.selectedIndex]
+      selectedScheme = value
+    }
+
+    const checkAttribute = function (target) {
+      console.log(target.value, target.checked)
+      if (target.checked) {
+        selectedAttributes.push(target.value)
+      } else {
+        selectedAttributes = selectedAttributes.filter((i) => i !== target.value)
+      }
+      console.log(selectedAttributes)
+    }
+
+    // const checkbox = document.getElementById('checkbox')
+    //
+    // checkbox.onchange = function() {
+    //   console.log(checkbox.checked)
+    // }
+
+    async function getShareUrl() {
       console.log('The get share url has been called.')
-      const response = await fetch(`/get-new-share-url?scheme=${scheme}`);
+      const attributes = selectedAttributes.join(',')
+      const response = await fetch(`/get-new-share-url?scheme=${selectedScheme}&attributes=${attributes}`);
       const myJson = await response.json();
       console.log(JSON.stringify(myJson));
       return myJson.shareUrl;
-    }
-
-    async function getShareUrlForDbsBasicChecks() {
-        return await getShareUrl('dbs-basic');
-    }
-
-    async function getShareUrlForRtwChecks() {
-        return await getShareUrl('rtw');
-    }
-
-    async function getShareUrlForRtrChecks() {
-        return await getShareUrl('rtr');
     }
 
     window.Yoti.Share.init({
@@ -75,31 +93,7 @@
         {
           "domId": "yoti-dbs-basic-share-button",
           "clientSdkId": "<%= yotiClientSdkId %>",
-          "shareUrlProvider": getShareUrlForDbsBasicChecks,
-          "button": {
-            "label": "Use Yoti",
-            "align": "center",
-            "width": "auto",
-            "verticalAlign": "top"
-          },
-          "type": "modal"
-        },
-        {
-          "domId": "yoti-rtw-share-button",
-          "clientSdkId": "<%= yotiClientSdkId %>",
-          "shareUrlProvider": getShareUrlForRtwChecks,
-          "button": {
-            "label": "Use Yoti",
-            "align": "center",
-            "width": "auto",
-            "verticalAlign": "top"
-          },
-          "type": "modal"
-        },
-        {
-          "domId": "yoti-rtr-share-button",
-          "clientSdkId": "<%= yotiClientSdkId %>",
-          "shareUrlProvider": getShareUrlForRtrChecks,
+          "shareUrlProvider": getShareUrl,
           "button": {
             "label": "Use Yoti",
             "align": "center",

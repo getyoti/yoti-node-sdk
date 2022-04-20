@@ -89,7 +89,10 @@ router.get('/get-new-share-url', async (req, res) => {
     rtr: 'RTR',
     'dbs-basic': 'DBS_BASIC',
   };
-  const { scheme } = req.query;
+  const { scheme, attributes: attributesString } = req.query;
+
+  const attributes = attributesString.split(',');
+
   const schemeName = mapSchemeNames[scheme] || 'DBS_BASIC';
 
   const identityProfileRequirementsDescriptor = identityProfileRequirementsDescriptors[schemeName];
@@ -98,9 +101,14 @@ router.get('/get-new-share-url', async (req, res) => {
     subject_id: 'subject_id_string',
   };
 
-  const dynamicPolicy = new Yoti.DynamicPolicyBuilder()
-    .withIdentityProfileRequirements(identityProfileRequirementsDescriptor)
-    .build();
+  let dynamicPolicy = new Yoti.DynamicPolicyBuilder()
+    .withIdentityProfileRequirements(identityProfileRequirementsDescriptor);
+
+  if (attributes[0] !== '') {
+
+  }
+
+  dynamicPolicy = dynamicPolicy.build();
 
   const dynamicScenario = new Yoti.DynamicScenarioBuilder()
     .withCallbackEndpoint('/profile')
