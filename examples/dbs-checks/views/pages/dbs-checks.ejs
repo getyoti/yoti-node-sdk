@@ -19,8 +19,11 @@
     </section>
     <section>
         <div class="content">
-            <h2 class="main-title">Identity profile checks examples</h2>
+            <h2 class="main-title">Identity profile check example</h2>
             <br>
+            <h2 class="small-sub-title">Select identity profile check scheme:</h2>
+            <div style="margin: 10px;">
+            <label for="selectedScheme" class="checks-scheme">Scheme: </label>
             <select id="selectedScheme">
                 <option value="DBS_BASIC">DBS_BASIC</option>
                 <option value="RTW">RTW</option>
@@ -31,20 +34,24 @@
                 <option value="DBS_RTW_STANDARD">DBS_RTW_STANDARD</option>
                 <option value="DBS_RTW_ENHANCED">DBS_RTW_ENHANCED</option>
             </select>
-            <input value="selfie" id="selfie" type="checkbox" onchange="checkAttribute(this)"/>
-            <input value="nationality" id="nationality" type="checkbox" onchange="checkAttribute(this)"/>
-            <input value="phonenumber" id="phoneNumber" type="checkbox" onchange="checkAttribute(this)" />
-            <input value="email" id="email" type="checkbox" onchange="checkAttribute(this)"/>
-            <input value="gender" id="gender" type="checkbox" onchange="checkAttribute(this)"/>
-            <div class="row">
-                <div class="column yoti-blue-tint-background">
-                    <br>
-                    <h2 class="main-title">DBS basic check</h2>
-                    <br>
-                    <div id="yoti-dbs-basic-share-button"></div>
-                    <br>
-                </div>
             </div>
+
+            <h2 class="small-sub-title">Select additional attributes (optional):</h2>
+            <input style="margin: 10px;" value="selfie" id="selfie" type="checkbox" onchange="checkAttribute(this)"/><label for="selfie" class="checks-attributes">Photo</label>
+            <br>
+            <input style="margin: 10px" value="gender" id="gender" type="checkbox" onchange="checkAttribute(this)"/><label for="gender" class="checks-attributes">Gender</label>
+            <br>
+            <input style="margin: 10px" value="nationality" id="nationality" type="checkbox" onchange="checkAttribute(this)"/><label for="nationality" class="checks-attributes">Nationality</label>
+            <br>
+            <input style="margin: 10px" value="phoneNumber" id="phoneNumber" type="checkbox" onchange="checkAttribute(this)" /><label for="phoneNumber" class="checks-attributes">Phone number</label>
+            <br>
+            <input style="margin: 10px" value="email" id="email" type="checkbox" onchange="checkAttribute(this)"/><label for="email" class="checks-attributes">Email address</label>
+            <br>
+
+            <div class="yoti-sdk-integration-section">
+                <div id="yoti-share-button"></div>
+            </div>
+
         </div>
     </section>
   </main>
@@ -73,12 +80,6 @@
       console.log(selectedAttributes)
     }
 
-    // const checkbox = document.getElementById('checkbox')
-    //
-    // checkbox.onchange = function() {
-    //   console.log(checkbox.checked)
-    // }
-
     async function getShareUrl() {
       console.log('The get share url has been called.')
       const attributes = selectedAttributes.join(',')
@@ -91,14 +92,14 @@
     window.Yoti.Share.init({
       "elements": [
         {
-          "domId": "yoti-dbs-basic-share-button",
+          "domId": "yoti-share-button",
           "clientSdkId": "<%= yotiClientSdkId %>",
           "shareUrlProvider": getShareUrl,
           "button": {
             "label": "Use Yoti",
-            "align": "center",
+            "align": "left",
             "width": "auto",
-            "verticalAlign": "top"
+            "verticalAlign": "middle"
           },
           "type": "modal"
         }

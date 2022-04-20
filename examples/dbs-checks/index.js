@@ -84,18 +84,11 @@ router.get('/', (req, res) => {
 });
 
 router.get('/get-new-share-url', async (req, res) => {
-  const mapSchemeNames = {
-    rtw: 'RTW',
-    rtr: 'RTR',
-    'dbs-basic': 'DBS_BASIC',
-  };
   const { scheme, attributes: attributesString } = req.query;
 
   const attributes = attributesString.split(',');
 
-  const schemeName = mapSchemeNames[scheme] || 'DBS_BASIC';
-
-  const identityProfileRequirementsDescriptor = identityProfileRequirementsDescriptors[schemeName];
+  const identityProfileRequirementsDescriptor = identityProfileRequirementsDescriptors[scheme];
 
   const subject = {
     subject_id: 'subject_id_string',
@@ -105,7 +98,27 @@ router.get('/get-new-share-url', async (req, res) => {
     .withIdentityProfileRequirements(identityProfileRequirementsDescriptor);
 
   if (attributes[0] !== '') {
-
+    attributes.forEach((attribute) => {
+      switch (attribute) {
+        case 'selfie':
+          dynamicPolicy.withSelfie();
+          break;
+        case 'gender':
+          dynamicPolicy.withGender();
+          break;
+        case 'nationality':
+          dynamicPolicy.withNationality();
+          break;
+        case 'phoneNumber':
+          dynamicPolicy.withPhoneNumber();
+          break;
+        case 'email':
+          dynamicPolicy.withEmail();
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   dynamicPolicy = dynamicPolicy.build();
