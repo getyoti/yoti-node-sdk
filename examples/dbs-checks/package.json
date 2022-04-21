@@ -10,6 +10,7 @@
   },
   "scripts": {
     "lint": "node_modules/.bin/eslint *.js",
+    "start": "YOTI_CONNECT_API=https://connect.public.stg1.dmz.yoti.com/api/v1 ENVIRONMENT=staging1 node ./index.js",
     "start:staging": "YOTI_CONNECT_API=https://connect.public.stg1.dmz.yoti.com/api/v1 ENVIRONMENT=staging1 node ./index.js",
     "start:preprod": "YOTI_CONNECT_API=https://connect.public.ppd1.dmz.yoti.com/api/v1 ENVIRONMENT=preprod1 node ./index.js",
     "start:live": "YOTI_CONNECT_API=https://api.yoti.com/api/v1 ENVIRONMENT=live node ./index.js"
