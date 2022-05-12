@@ -160,6 +160,7 @@ router.get('/profile', (req, res) => {
       const {
         identity_assertion: identityAssertion,
         verification_report: verificationReport,
+        authentication_report: authenticationReport,
       } = identityProfile;
 
       const { evidence } = verificationReport;
@@ -176,6 +177,7 @@ router.get('/profile', (req, res) => {
       res.render('pages/identity-profile', {
         identityAssertion,
         verificationReport,
+        authenticationReport,
         documentImagesAttributes,
       });
     }
