@@ -140,6 +140,18 @@ class ActivityDetails {
     return this.receipt.sharing_outcome;
   }
 
+  getErrorDetails() {
+    // eslint-disable-next-line camelcase
+    const errorDetails = this.parsedResponse.error_details;
+    if (errorDetails) {
+      return {
+        errorCode: errorDetails.error_code,
+        description: errorDetails.description,
+      };
+    }
+    return undefined;
+  }
+
   /**
    * Base64 encoded selfie image.
    *
