@@ -20,26 +20,27 @@
                             alt="Yoti"/>
                 </a>
             </div>
+        </section>
 
-            <h1 class="main-title">Identity profile report</h1>
+        <h1 class="main-title">Identity profile report</h1>
 
-            <section class="yoti-attributes-section">
-                <div class="yoti-attribute-list-item">
+        <section>
+            <div class="content">
+                <% if (outcome === 'SUCCESS' ) { %>
+                <div>
                     <h4>Identity Assertion</h4>
                     <pre><%= JSON.stringify(identityAssertion, null, 2) %></pre>
                 </div>
-                <div class="yoti-attribute-list-item">
+                <div>
                     <h4>Verification Report</h4>
                     <pre><%= JSON.stringify(verificationReport, null, 2) %></pre>
                 </div>
-                <div class="yoti-attribute-list-item">
+                <div>
                     <h4>Authentication Report</h4>
                     <pre><%= JSON.stringify(authenticationReport, null, 2) %></pre>
                 </div>
-
-                <div class="yoti-attribute-list-item">
+                <div>
                     <h4>Documents Images Attributes</h4>
-
                     <% documentImagesAttributes.forEach((docImgAttr) => { %>
                         <span><%= docImgAttr.getId() %></span>
 
@@ -49,7 +50,14 @@
 
                     <% }) %>
                 </div>
-            </section>
+                <% } else { %>
+                <div>
+                    <h4>Sorry, the check was not successful</h4>
+                    <h4>Error:</h4>
+                    <pre><%= JSON.stringify(errorDetails, null, 2) %></pre>
+                </div>
+                <% } %>
+            </div>
         </section>
     </main>
 </body>

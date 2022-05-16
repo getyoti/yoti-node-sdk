@@ -147,40 +147,57 @@ router.get('/profile', (req, res) => {
     return;
   }
 
+  let identityAssertion = null;
+  let verificationReport = null;
+  let authenticationReport = null;
+  let documentImagesAttributes = [];
+  let errorDetails = null;
+
   const promise = yotiClient.getActivityDetails(token);
   promise.then((activityDetails) => {
-    const profile = activityDetails.getProfile();
+    const outcome = activityDetails.getOutcome();
+    console.log('######## Identity profile check outcome =', outcome, '########')
+    if (outcome === 'SUCCESS' ) {
+      const profile = activityDetails.getProfile();
 
-    if (profile
-            && profile.getIdentityProfileReport()
-            && profile.getIdentityProfileReport().getValue()) {
-      const identityProfile = profile.getIdentityProfileReport().getValue();
-      console.log('######## Identity profile report ', JSON.stringify(identityProfile, null, 2), '########');
+      if (profile && profile.getIdentityProfileReport() && profile.getIdentityProfileReport().getValue()) {
+        const identityProfile = profile.getIdentityProfileReport().getValue();
+        console.log('######## Identity profile report ', JSON.stringify(identityProfile, null, 2), '########');
 
-      const {
-        identity_assertion: identityAssertion,
-        verification_report: verificationReport,
-        authentication_report: authenticationReport,
-      } = identityProfile;
+        const {
+          identity_assertion,
+          verification_report,
+          authentication_report,
+        } = identityProfile;
 
-      const { evidence } = verificationReport;
-      const { documents } = evidence;
-      const documentImagesAttributes = documents
-      // eslint-disable-next-line camelcase
-        .map(({ document_images_attribute_id }) => (document_images_attribute_id
-          ? (profile && profile.getAttributeById(document_images_attribute_id)) : null))
-        .filter((documentImagesAttribute) => documentImagesAttribute);
+        identityAssertion = identity_assertion;
+        verificationReport = verification_report;
+        authenticationReport = authentication_report;
 
-      // eslint-disable-next-line max-len
-      // documentImagesAttributes.map((documentImagesAttribute) => documentImagesAttribute.getValue());
+        const {evidence} = verificationReport;
+        const {documents} = evidence;
+        documentImagesAttributes = documents
+          // eslint-disable-next-line camelcase
+          .map(({document_images_attribute_id}) => (document_images_attribute_id
+            ? (profile && profile.getAttributeById(document_images_attribute_id)) : null))
+          .filter((documentImagesAttribute) => documentImagesAttribute);
 
-      res.render('pages/identity-profile', {
-        identityAssertion,
-        verificationReport,
-        authenticationReport,
-        documentImagesAttributes,
-      });
+          // eslint-disable-next-line max-len
+          // documentImagesAttributes.map((documentImagesAttribute) => documentImagesAttribute.getValue());
+      }
+    } else {
+      errorDetails = activityDetails.getErrorDetails()
+      console.log('######## Error: ', JSON.stringify(errorDetails, null, 2), '########')
     }
+
+    res.render('pages/identity-profile', {
+      outcome,
+      identityAssertion,
+      verificationReport,
+      authenticationReport,
+      documentImagesAttributes,
+      errorDetails
+    });
   }).catch((err) => {
     console.error(err);
     res.render('pages/error', {
