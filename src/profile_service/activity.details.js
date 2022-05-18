@@ -142,14 +142,15 @@ class ActivityDetails {
 
   getErrorDetails() {
     // eslint-disable-next-line camelcase
-    const errorDetails = this.parsedResponse.error_details;
-    if (errorDetails) {
-      return {
+    const responseErrorDetails = this.parsedResponse.error_details;
+    let errorDetails;
+    if (responseErrorDetails) {
+      errorDetails = {
         errorCode: errorDetails.error_code,
         description: errorDetails.description,
       };
     }
-    return undefined;
+    return errorDetails;
   }
 
   /**
