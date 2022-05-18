@@ -146,8 +146,8 @@ class ActivityDetails {
     let errorDetails;
     if (responseErrorDetails) {
       errorDetails = {
-        errorCode: errorDetails.error_code,
-        description: errorDetails.description,
+        errorCode: responseErrorDetails.error_code,
+        description: responseErrorDetails.description,
       };
     }
     return errorDetails;
