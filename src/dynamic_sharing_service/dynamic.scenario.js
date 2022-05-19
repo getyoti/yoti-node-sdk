@@ -19,8 +19,10 @@ module.exports = class DynamicScenario {
    *   The customisable DynamicPolicy to use in the share.
    * @param {Extension[]} extensions
    *   List of Extension to be activated for the application.
+   * @param {Object} subject
+   *   The subject describing data.
    */
-  constructor(callbackEndpoint, dynamicPolicy, extensions) {
+  constructor(callbackEndpoint, dynamicPolicy, extensions, subject) {
     Validation.isString(callbackEndpoint, 'callbackEndpoint');
     this.callbackEndpoint = callbackEndpoint;
 
@@ -29,6 +31,11 @@ module.exports = class DynamicScenario {
 
     Validation.isArrayOfType(extensions, Extension, 'extensions');
     this.extensions = extensions;
+
+    if (subject) {
+      Validation.isPlainObject(subject, 'subject');
+      this.subject = subject;
+    }
   }
 
   /**
@@ -53,6 +60,13 @@ module.exports = class DynamicScenario {
   }
 
   /**
+   * @returns {Object} The subject describing data.
+   */
+  getSubject() {
+    return this.subject;
+  }
+
+  /**
    * @returns {Object} data for JSON.stringify()
    */
   toJSON() {
@@ -60,6 +74,7 @@ module.exports = class DynamicScenario {
       callback_endpoint: this.getCallbackEndpoint(),
       policy: this.getDynamicPolicy(),
       extensions: this.getExtensions(),
+      subject: this.getSubject(),
     };
   }
 };

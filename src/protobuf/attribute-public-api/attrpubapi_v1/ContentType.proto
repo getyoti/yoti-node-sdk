@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package attrpubapi_v1;
+
+
+enum ContentType {
+	UNDEFINED = 0;
+	STRING = 1;
+	JPEG = 2;
+	DATE = 3;
+	PNG = 4;
+	JSON = 5;
+	MULTI_VALUE = 6;
+	INT = 7;
+}

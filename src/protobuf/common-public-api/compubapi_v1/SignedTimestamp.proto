@@ -1,0 +1,12 @@
+﻿syntax = "proto3";
+
+package compubapi_v1;
+
+message SignedTimestamp {
+    int32 version = 1;
+    uint64 timestamp = 2;
+    bytes message_digest = 3;
+    bytes chain_digest = 4;
+    bytes chain_digest_skip1 = 5;
+    bytes chain_digest_skip2 = 6;
+}
