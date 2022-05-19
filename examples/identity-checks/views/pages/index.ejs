@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="yoti-html">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Yoti client example</title>
+  <link rel="stylesheet" type="text/css" href="/static/index.css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
+</head>
+
+<body class="yoti-body">
+  <main>
+    <section class="yoti-top-section">
+      <div class="yoti-logo-section">
+        <a href="/">
+          <img
+            class="yoti-logo-image"
+            src="/static/assets/logo.png"
+            srcset="/static/assets/logo@2x.png 2x"
+            alt="Yoti"/>
+        </a>
+      </div>
+    </section>
+
+    <h1 class="yoti-main-title">Identity check example</h1>
+    <section>
+      <div class="yoti-checks-section">
+        <div>
+          <label for="selectedScheme" class="yoti-checks-scheme">Select identity check scheme: </label>
+          <select id="selectedScheme">
+            <option value="DBS_BASIC">DBS_BASIC</option>
+            <option value="RTW">RTW</option>
+            <option value="RTR">RTR</option>
+          </select>
+        </div>
+        <div class="yoti-sdk-integration-section">
+          <div id="yoti-share-button"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://www.yoti.com/share/client/"></script>
+  <script>
+    let selectedScheme;
+
+    const dropDown = document.getElementById('selectedScheme');
+    selectedScheme = dropDown.options[dropDown.selectedIndex].value;
+
+    dropDown.onchange = function() {
+      const { value } = dropDown.options[dropDown.selectedIndex];
+      selectedScheme = value;
+    }
+
+    async function getShareUrl() {
+      const response = await fetch(`/get-new-share-url?scheme=${selectedScheme}`);
+      const myJson = await response.json();
+      return myJson.shareUrl;
+    }
+
+    window.Yoti.Share.init({
+      "elements": [
+        {
+          "domId": "yoti-share-button",
+          "clientSdkId": "<%= yotiClientSdkId %>",
+          "shareUrlProvider": getShareUrl,
+          "button": {
+            "label": "Use Yoti",
+            "align": "center",
+            "width": "auto",
+            "verticalAlign": "middle"
+          },
+          "type": "modal"
+        }
+      ]
+    });
+  </script>
+</body>
+</html>
