@@ -2,56 +2,45 @@ syntax = "proto3";
 
 package attrpubapi_v1;
 
-option java_package = "com.yoti.attrpubapi_v1";
-option java_outer_classname = "AttrProto";
-
-
-// ContentType indicates how to interpret the ‘Value’ field of an Attribute.
-enum ContentType {
-	UNDEFINED = 0;
-	
-	STRING = 1;
-
-	JPEG = 2;
-
-	DATE = 3;
-
-	PNG = 4;
-
-	MULTI_VALUE = 6;
-
-	INT = 7;
-}
+import "ContentType.proto";
 
 
 message Attribute {
-	optional string name = 1;
-
-	optional bytes value = 2;
-
-	optional ContentType content_type = 3;
-
+	string name = 1;
+	bytes value = 2;
+	ContentType content_type = 3;
 	repeated Anchor anchors = 4;
+	repeated UserMetadata user_metadata = 5;
+	Metadata metadata = 6;
+	string ephemeral_id = 7;
 }
 
+message Metadata {
+	string superseded_time_stamp = 1;
+	bool deletable = 2;
+	bytes receipt_id = 3;
+	bool revoked = 4;
+	bool locked = 5;
+}
 
 message Anchor {
-	optional bytes artifact_link = 1;
-
+	bytes artifact_link = 1;
 	repeated bytes origin_server_certs = 2;
+	bytes artifact_signature = 3;
+	string sub_type = 4;
+	bytes signature = 5;
+	bytes signed_time_stamp = 6;
+	string associated_source = 7;
+}
 
-	optional bytes artifact_signature = 3;
-
-	optional string sub_type = 4;
-
-	optional bytes signature = 5;
-
-	optional bytes signed_time_stamp = 6;
+message UserMetadata {
+	string key = 1;
+	string value = 2;
 }
 
 message MultiValue {
 
-	message Value {
+ 	message Value {
 		ContentType content_type = 1;
 		bytes data = 2;
 	}

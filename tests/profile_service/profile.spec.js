@@ -63,17 +63,26 @@ const createAttribute = (name, value) => new Attribute({
   verifiers: [],
 });
 
+const profileDataAsObject = loadProfileData();
+const profileDataAsArrayWithSameAttributes = [...loadProfileDataArray(), ...loadProfileDataArray()]
+  .map((attr, index) => {
+    if (['selfie', 'document_images'].includes(attr.name)) {
+      return Object.assign({}, attr, { id: `${attr.name}-${index}` });
+    }
+    return attr;
+  });
+
 describe('Profile', () => {
   [
     {
       describe: 'When profile data is provided as Object keyed by attribute name',
-      profileData: loadProfileData(),
+      profileData: profileDataAsObject,
     },
     {
       describe: 'When profile data is provided as an Array (with attributes sharing names)',
       // (here each attribute are duplicated, so to check handling of several with the same name)
-      profileData: [...loadProfileDataArray(), ...loadProfileDataArray()],
-      testCaseSameNameAttributes: true,
+      profileData: profileDataAsArrayWithSameAttributes,
+      profileDataAsArray: true,
     },
   ].forEach((testItem) => {
     describe(testItem.describe, () => {
@@ -214,7 +223,7 @@ describe('Profile', () => {
       describe('#getAttributes', () => {
         it('should return all attributes keyed by name', () => {
           const attributes = profileObj.getAttributes();
-          expect(Object.keys(attributes).length).toBe(16);
+          expect(Object.keys(attributes).length).toBe(17);
           Object.keys(attributes).forEach((attributeName) => {
             expect(attributes[attributeName]).toBeInstanceOf(Attribute);
           });
@@ -227,7 +236,7 @@ describe('Profile', () => {
         it('should return all attributes as an array', () => {
           const attributes = profileObj.getAttributesList();
           expect(attributes).toBeInstanceOf(Array);
-          expect(attributes.length).toBe(testItem.testCaseSameNameAttributes ? 32 : 16);
+          expect(attributes.length).toBe(testItem.profileDataAsArray ? 34 : 17);
           attributes.forEach((attribute) => {
             expect(attribute).toBeInstanceOf(Attribute);
           });
@@ -239,7 +248,7 @@ describe('Profile', () => {
           const attributes = profileObj.getAttributes();
           const allGenderAttributes = profileObj.getAttributesByName('gender');
 
-          if (!testItem.testCaseSameNameAttributes) {
+          if (!testItem.profileDataAsArray) {
             expect(allGenderAttributes.length).toBe(1);
             expect(allGenderAttributes[0]).toBe(attributes.gender);
           } else {
@@ -311,6 +320,35 @@ describe('Profile', () => {
         it('should return NULL for no match', () => {
           const verification = profileObj.findAgeOverVerification(100);
           expect(verification).toBe(null);
+        });
+      });
+
+      describe('#getIdentityProfileReport', () => {
+        it('should return identity_profile_report value', () => {
+          let expectedSource = testItem.profileData.identity_profile_report;
+          if (testItem.profileDataAsArray) {
+            expectedSource = testItem.profileData.find((item) => item.name === 'identity_profile_report');
+          }
+          expect(profileObj.getIdentityProfileReport().getValue())
+            .toEqual(expectedSource.value);
+        });
+      });
+
+      describe('#getAttributeById', () => {
+        it('should return corresponding attributes', () => {
+          if (testItem.profileDataAsArray) {
+            const selfies = profileObj.getAttributesByName('selfie');
+            expect(selfies.length).toBe(2);
+            expect(selfies[0].getId()).not.toBe(selfies[1].getId());
+            expect(profileObj.getAttributeById(selfies[0].getId())).toBe(selfies[0]);
+            expect(profileObj.getAttributeById(selfies[1].getId())).toBe(selfies[1]);
+
+            const documentImages = profileObj.getAttributesByName('document_images');
+            expect(documentImages.length).toBe(2);
+            expect(documentImages[0].getId()).not.toBe(documentImages[1].getId());
+            expect(profileObj.getAttributeById(documentImages[0].getId())).toBe(documentImages[0]);
+            expect(profileObj.getAttributeById(documentImages[1].getId())).toBe(documentImages[1]);
+          }
         });
       });
     });

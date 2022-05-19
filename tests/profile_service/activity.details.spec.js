@@ -130,6 +130,23 @@ describe('ActivityDetails', () => {
       expect(activityDetails.getOutcome()).toBe('test_outcome');
     });
   });
+  describe('#getErrorDetails', () => {
+    it('should return error_details value', () => {
+      const activityDetails = new ActivityDetails({
+        error_details: {
+          error_code: 'ERROR_CODE_FOR_SHARE',
+          description: 'Something terrible happened...users had no documents!',
+        },
+        receipt: {
+          sharing_outcome: 'NOT_SUCCESS',
+        },
+      });
+      expect(activityDetails.getErrorDetails()).toEqual({
+        errorCode: 'ERROR_CODE_FOR_SHARE',
+        description: 'Something terrible happened...users had no documents!',
+      });
+    });
+  });
   describe('#getBase64SelfieUri', () => {
     it('should return base64 encoded selfie uri', () => {
       const activityDetails = new ActivityDetails({}, [

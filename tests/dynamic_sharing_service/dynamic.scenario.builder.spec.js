@@ -24,16 +24,22 @@ describe('DynamicScenarioBuilder', () => {
       .withContent({ test: 'content 2' })
       .build();
 
+    const subject = {
+      subject_id: 'some_subject_id_string',
+    };
+
     const dynamicScenario = new DynamicScenarioBuilder()
       .withCallbackEndpoint('/test-callback')
       .withPolicy(dynamicPolicy)
       .withExtension(extension1)
       .withExtension(extension2)
+      .withSubject(subject)
       .build();
 
     expect(dynamicScenario.getCallbackEndpoint()).toBe('/test-callback');
     expect(dynamicScenario.getDynamicPolicy()).toBe(dynamicPolicy);
     expect(dynamicScenario.getExtensions()).toEqual([extension1, extension2]);
+    expect(dynamicScenario.getSubject()).toEqual(subject);
 
     const expectedJsonData = {
       callback_endpoint: '/test-callback',
@@ -66,6 +72,9 @@ describe('DynamicScenarioBuilder', () => {
           },
         },
       ],
+      subject: {
+        subject_id: 'some_subject_id_string',
+      },
     };
     const expectedJson = JSON.stringify(expectedJsonData);
 

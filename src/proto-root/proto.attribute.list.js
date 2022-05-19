@@ -25,6 +25,7 @@ module.exports = {
       const attrName = attribute.getName();
       const attrValue = attribute.getValue();
       const attrType = attribute.getContentType();
+      const attrId = attribute.getEphemeralId();
       const processedAnchors = AnchorProcessor.process(attribute.anchors);
       const attrNameInCamelCase = this.toCamelCase(attrName);
 
@@ -51,6 +52,7 @@ module.exports = {
           sources: processedAnchors.sources,
           verifiers: processedAnchors.verifiers,
           anchors: processedAnchors,
+          id: attrId,
         };
       } catch (err) {
         console.log(`${err.message} (Attribute: ${attrName})`);
