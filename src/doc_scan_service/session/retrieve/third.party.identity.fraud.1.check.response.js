@@ -1,21 +1,8 @@
-const GeneratedProfileResponse = require('./generated.profile.response');
-const CheckResponse = require('./check.response');
+'use strict';
 
-class ThirdPartyIdentityFraud1CheckResponse extends CheckResponse {
-  constructor(check) {
-    super(check);
+const ProfileCheckResponse = require('./profile.check.response');
 
-    if (check.generated_profile) {
-      this.generatedProfile = new GeneratedProfileResponse(check.generated_profile);
-    }
-  }
-
-  /**
-   * @returns {GeneratedProfileResponse}
-   */
-  getGeneratedProfile() {
-    return this.generatedProfile;
-  }
+class ThirdPartyIdentityFraud1CheckResponse extends ProfileCheckResponse {
 }
 
 module.exports = ThirdPartyIdentityFraud1CheckResponse;
