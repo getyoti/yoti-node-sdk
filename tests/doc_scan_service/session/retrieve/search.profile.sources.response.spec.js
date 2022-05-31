@@ -3,7 +3,7 @@ const SearchProfileSourcesResponse = require('../../../../src/doc_scan_service/s
 
 describe('SearchProfileSourcesResponse', () => {
   it('is a class that extends CaSourcesResponse', () => {
-    expect(SearchProfileSourcesResponse.prototype instanceof CaSourcesResponse);
+    expect(SearchProfileSourcesResponse.prototype).toBeInstanceOf(CaSourcesResponse);
   });
   describe('given an instance of the class (exact match is true)', () => {
     let searchProfileSourcesResponse;

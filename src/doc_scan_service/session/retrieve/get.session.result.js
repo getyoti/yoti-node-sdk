@@ -12,6 +12,7 @@ const IdDocumentComparisonCheckResponse = require('./id.document.comparison.chec
 const ThirdPartyIdentityCheckResponse = require('./third.party.identity.check.response');
 const WatchlistScreeningCheckResponse = require('./watchlist.screening.check.response');
 const WatchlistAdvancedCaCheckResponse = require('./watchlist.advanced.ca.check.response');
+const ThirdPartyIdentityFraud1CheckResponse = require('./third.party.identity.fraud.1.check.response');
 const IdentityProfileResponse = require('./identity.profile.response');
 const DocScanConstants = require('../../doc.scan.constants');
 const { YotiDate } = require('../../../data_type/date');
@@ -57,6 +58,8 @@ class GetSessionResult {
               return new SupplementaryDocumentTextDataCheckResponse(check);
             case DocScanConstants.LIVENESS:
               return new LivenessCheckResponse(check);
+            case DocScanConstants.THIRD_PARTY_IDENTITY_FRAUD_1:
+              return new ThirdPartyIdentityFraud1CheckResponse(check);
             default:
               return new CheckResponse(check);
           }
@@ -187,6 +190,14 @@ class GetSessionResult {
    */
   getWatchlistAdvancedCaChecks() {
     return this.getChecks().filter((check) => check instanceof WatchlistAdvancedCaCheckResponse);
+  }
+
+  /**
+   * @returns {ThirdPartyIdentityFraud1CheckResponse[]}
+   */
+  getThirdPartyIdentityFraud1Checks() {
+    return this.getChecks()
+      .filter((check) => check instanceof ThirdPartyIdentityFraud1CheckResponse);
   }
 
   /**

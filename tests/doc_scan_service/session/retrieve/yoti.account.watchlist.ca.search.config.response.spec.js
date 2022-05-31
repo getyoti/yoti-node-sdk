@@ -8,7 +8,7 @@ const FuzzyMatchingStrategyResponse = require('../../../../src/doc_scan_service/
 describe('YotiAccountWatchlistCaSearchConfigResponse', () => {
   it('is a class that extends WatchlistAdvancedCaSearchConfigResponse', () => {
     // eslint-disable-next-line max-len
-    expect(YotiAccountWatchlistCaSearchConfigResponse.prototype instanceof WatchlistAdvancedCaSearchConfigResponse);
+    expect(YotiAccountWatchlistCaSearchConfigResponse.prototype).toBeInstanceOf(WatchlistAdvancedCaSearchConfigResponse);
   });
   describe('given an instance of the class', () => {
     let yotiAccountWatchlistCaSearchConfigResponse;

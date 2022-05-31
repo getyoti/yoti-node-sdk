@@ -6,7 +6,7 @@ const WatchlistAdvancedCaSummaryResponse = require('../../../../src/doc_scan_ser
 
 describe('WatchlistAdvancedCaSummaryResponse', () => {
   it('is a class that extends WatchlistSummaryResponse', () => {
-    expect(WatchlistAdvancedCaSummaryResponse.prototype instanceof WatchlistSummaryResponse);
+    expect(WatchlistAdvancedCaSummaryResponse.prototype).toBeInstanceOf(WatchlistSummaryResponse);
   });
 
   describe('given an instance of the class (with no searchConfig)', () => {

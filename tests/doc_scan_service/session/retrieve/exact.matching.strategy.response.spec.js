@@ -3,7 +3,7 @@ const ExactMatchingStrategyResponse = require('../../../../src/doc_scan_service/
 
 describe('ExactMatchingStrategyResponse', () => {
   it('is a class that extends CaMatchingStrategyResponse', () => {
-    expect(ExactMatchingStrategyResponse.prototype instanceof CaMatchingStrategyResponse);
+    expect(ExactMatchingStrategyResponse.prototype).toBeInstanceOf(CaMatchingStrategyResponse);
   });
   describe('given an instance of the class (exact match is true)', () => {
     let exactMatchingStrategyResponse;
