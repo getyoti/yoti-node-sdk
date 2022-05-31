@@ -4,7 +4,7 @@ const WatchlistAdvancedCaSearchConfigResponse = require('../../../../src/doc_sca
 describe('WatchlistAdvancedCaSearchConfigResponse', () => {
   it('is a class that extends WatchlistSearchConfigResponse', () => {
     // eslint-disable-next-line max-len
-    expect(WatchlistAdvancedCaSearchConfigResponse.prototype instanceof WatchlistSearchConfigResponse);
+    expect(WatchlistAdvancedCaSearchConfigResponse.prototype).toBeInstanceOf(WatchlistSearchConfigResponse);
   });
   describe('is an abstract class', () => {
     it('should not be instantiable', () => {

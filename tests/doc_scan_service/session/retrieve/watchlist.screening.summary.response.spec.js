@@ -5,7 +5,7 @@ const WatchlistScreeningSummaryResponse = require('../../../../src/doc_scan_serv
 
 describe('WatchlistScreeningSummaryResponse', () => {
   it('is a class that extends WatchlistSummaryResponse', () => {
-    expect(WatchlistScreeningSummaryResponse.prototype instanceof WatchlistSummaryResponse);
+    expect(WatchlistScreeningSummaryResponse.prototype).toBeInstanceOf(WatchlistSummaryResponse);
   });
 
   describe('given an instance of the class', () => {
