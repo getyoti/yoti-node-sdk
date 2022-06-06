@@ -1,0 +1,47 @@
+<table class="table table-striped">
+    <tbody>
+    <tr>
+        <td>Subject ID</td>
+        <td>
+            <%= identityProfile.getSubjectId(); %>
+        </td>
+    </tr>
+    <tr>
+        <td>Result</td>
+        <td>
+            <%= identityProfile.getResult(); %>
+        </td>
+    </tr>
+    <tr>
+        <td>Identity Profile Report</td>
+        <td>
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+                    <td style="width: auto">Trust framework</td>
+                    <td><%= identityProfile.getIdentityProfileReport().getTrustFramework(); %></td>
+                </tr>
+                <tr>
+                    <td style="width: auto">Scheme</td>
+                    <% const scheme = identityProfile.getIdentityProfileReport().getSchemesCompliance()[0].getScheme();
+                    const schemeString = scheme.type + '-' + scheme.objective %>
+                    <td><%= schemeString; %></td>
+                </tr>
+                <tr>
+                    <td style="width: auto">Requirements met</td>
+                    <td><%= identityProfile.getIdentityProfileReport().getSchemesCompliance()[0].isRequirementsMet(); %></td>
+                </tr>
+                <tr>
+                    <td style="width: auto">Requirements met info</td>
+                    <td><%= identityProfile.getIdentityProfileReport().getSchemesCompliance()[0].getRequirementsNotMetInfo(); %></td>
+                </tr>
+                <tr>
+                    <td>Identity assertion media</td>
+                    <td><a href="/media?mediaId=<%= identityProfile.getIdentityProfileReport().getMedia().getId() %>"><%= identityProfile.getIdentityProfileReport().getMedia().getId(); %></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
