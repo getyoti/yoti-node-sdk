@@ -10,6 +10,8 @@ const IdDocumentComparisonCheckResponse = require('../../../../src/doc_scan_serv
 const ThirdPartyIdentityCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/third.party.identity.check.response');
 const WatchlistScreeningCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/watchlist.screening.check.response');
 const WatchlistAdvancedCaCheckResponse = require('../../../../src/doc_scan_service/session/retrieve/watchlist.advanced.ca.check.response');
+const ThirdPartyIdentityFraud1CheckResponse = require('../../../../src/doc_scan_service/session/retrieve/third.party.identity.fraud.1.check.response');
+const IdentityProfileResponse = require('../../../../src/doc_scan_service/session/retrieve/identity.profile.response');
 const { YotiDate } = require('../../../..');
 
 const ID_DOCUMENT_AUTHENTICITY = 'ID_DOCUMENT_AUTHENTICITY';
@@ -22,6 +24,7 @@ const THIRD_PARTY_IDENTITY = 'THIRD_PARTY_IDENTITY';
 const WATCHLIST_SCREENING = 'WATCHLIST_SCREENING';
 const WATCHLIST_ADVANCED_CA = 'WATCHLIST_ADVANCED_CA';
 const SOME_UNKNOWN_CHECK = 'SOME_UNKNOWN_CHECK';
+const THIRD_PARTY_IDENTITY_FRAUD_1 = 'THIRD_PARTY_IDENTITY_FRAUD_1';
 const SOME_DATE_STRING = '2019-12-02T12:00:00.123Z';
 
 describe('GetSessionResult', () => {
@@ -66,8 +69,37 @@ describe('GetSessionResult', () => {
         {
           type: WATCHLIST_ADVANCED_CA,
         },
+        {
+          type: THIRD_PARTY_IDENTITY_FRAUD_1,
+        },
       ],
       biometric_consent: SOME_DATE_STRING,
+      identity_profile: {
+        subject_id: 'someStringHere',
+        result: 'DONE',
+        failure_reason: {
+          reason_code: 'MANDATORY_DOCUMENT_COULD_NOT_BE_PROVIDED',
+        },
+        identity_profile_report: {
+          trust_framework: 'UK_TFIDA',
+          schemes_compliance: [
+            {
+              scheme: {
+                type: 'DBS',
+                objective: 'STANDARD',
+              },
+              requirements_met: true,
+              requirements_not_met_info: 'some string here',
+            },
+          ],
+          media: {
+            id: 'c69ff2db-6caf-4e74-8386-037711bbc8d7',
+            type: 'IMAGE',
+            created: '2022-03-29T11:39:24Z',
+            last_updated: '2022-03-29T11:39:24Z',
+          },
+        },
+      },
     });
   });
 
@@ -105,7 +137,7 @@ describe('GetSessionResult', () => {
     describe('when checks are available', () => {
       it('should return array of checks', () => {
         const checks = session.getChecks();
-        expect(checks.length).toBe(9);
+        expect(checks.length).toBe(10);
         expect(checks[0]).toBeInstanceOf(AuthenticityCheckResponse);
         expect(checks[1]).toBeInstanceOf(LivenessCheckResponse);
         expect(checks[2]).toBeInstanceOf(FaceMatchCheckResponse);
@@ -115,6 +147,7 @@ describe('GetSessionResult', () => {
         expect(checks[6]).toBeInstanceOf(ThirdPartyIdentityCheckResponse);
         expect(checks[7]).toBeInstanceOf(WatchlistScreeningCheckResponse);
         expect(checks[8]).toBeInstanceOf(WatchlistAdvancedCaCheckResponse);
+        expect(checks[9]).toBeInstanceOf(ThirdPartyIdentityFraud1CheckResponse);
         checks.forEach((check) => expect(check).toBeInstanceOf(CheckResponse));
       });
     });
@@ -218,6 +251,15 @@ describe('GetSessionResult', () => {
     });
   });
 
+  describe('#getThirdPartyIdentityFraud1Checks', () => {
+    it('should return array of ThirdPartyIdentityFraud1Checks', () => {
+      const checks = session.getThirdPartyIdentityFraud1Checks();
+      expect(checks.length).toBe(1);
+      expect(checks[0]).toBeInstanceOf(ThirdPartyIdentityFraud1CheckResponse);
+      expect(checks[0].getType()).toBe(THIRD_PARTY_IDENTITY_FRAUD_1);
+    });
+  });
+
   describe('#getResources', () => {
     it('should return resource container', () => {
       const resources = session.getResources();
@@ -248,6 +290,14 @@ describe('GetSessionResult', () => {
       expect(biometricConsent).toBeInstanceOf(YotiDate);
       expect(biometricConsent).toBeInstanceOf(Date);
       expect(biometricConsent.toISOString()).toBe(SOME_DATE_STRING);
+    });
+  });
+
+  describe('#getIdentityProfile', () => {
+    it('should return instance of IdentityProfileResponse', () => {
+      const identityProfile = session.getIdentityProfile();
+
+      expect(identityProfile).toBeInstanceOf(IdentityProfileResponse);
     });
   });
 });

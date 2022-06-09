@@ -64,6 +64,18 @@ describe('SessionSpecificationBuilder', () => {
       .withFilter(documentFilter)
       .build();
 
+    const subjectDescriptor = {
+      subject_id: 'some_subject_id_string',
+    };
+
+    const identityProfileRequirementsDescriptor = {
+      trust_framework: 'UK_TFIDA',
+      scheme: {
+        type: 'DBS',
+        objective: 'STANDARD',
+      },
+    };
+
     const sessionSpec = new SessionSpecificationBuilder()
       .withClientSessionTokenTtl(30)
       .withUserTrackingId('some-tracking-id')
@@ -79,6 +91,8 @@ describe('SessionSpecificationBuilder', () => {
       .withRequestedCheck(watchListAdvancedCaCheck)
       .withRequestedTask(textExtractionTask)
       .withRequiredDocument(requiredDocument)
+      .withIdentityProfileRequirements(identityProfileRequirementsDescriptor)
+      .withSubject(subjectDescriptor)
       .build();
 
     const expectedJson = JSON.stringify({
@@ -108,6 +122,16 @@ describe('SessionSpecificationBuilder', () => {
       required_documents: [
         requiredDocument,
       ],
+      identity_profile_requirements: {
+        trust_framework: 'UK_TFIDA',
+        scheme: {
+          type: 'DBS',
+          objective: 'STANDARD',
+        },
+      },
+      subject: {
+        subject_id: 'some_subject_id_string',
+      },
     });
 
     expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
@@ -155,6 +179,56 @@ describe('SessionSpecificationBuilder', () => {
       requested_tasks: [],
       required_documents: [],
       block_biometric_consent: false,
+    });
+
+    expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
+  });
+
+  it('should build SessionSpecification with identityProfileRequirements', () => {
+    const identityProfileRequirementsDescriptor = {
+      trust_framework: 'UK_TFIDA',
+      scheme: {
+        type: 'DBS',
+        objective: 'STANDARD',
+      },
+    };
+
+    const sessionSpec = new SessionSpecificationBuilder()
+      .withIdentityProfileRequirements(identityProfileRequirementsDescriptor)
+      .build();
+
+    const expectedJson = JSON.stringify({
+      requested_checks: [],
+      requested_tasks: [],
+      required_documents: [],
+      identity_profile_requirements: {
+        trust_framework: 'UK_TFIDA',
+        scheme: {
+          type: 'DBS',
+          objective: 'STANDARD',
+        },
+      },
+    });
+
+    expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
+  });
+
+  it('should build SessionSpecification with subject', () => {
+    const subjectDescriptor = {
+      subject_id: 'some_subject_id_string',
+    };
+
+    const sessionSpec = new SessionSpecificationBuilder()
+      .withSubject(subjectDescriptor)
+      .build();
+
+    const expectedJson = JSON.stringify({
+      requested_checks: [],
+      requested_tasks: [],
+      required_documents: [],
+      subject: {
+        subject_id: 'some_subject_id_string',
+      },
     });
 
     expect(JSON.stringify(sessionSpec)).toBe(expectedJson);

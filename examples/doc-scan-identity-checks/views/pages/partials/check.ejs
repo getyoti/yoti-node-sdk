@@ -1,0 +1,189 @@
+<%
+replaceDashAndUnderscoreWithSpace = function (value) {
+    if (value) {
+       return value.replace(/[_-]/g, ' ');
+   }
+}
+capitaliseString = function (value) {
+    if (value) {
+        return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    }
+}
+formatSpecialWords = function (value) {
+    if (value) {
+        let formattedString = value;
+        const uppercaseSpecialWords = ['ai', 'pep', 'dob', 'mrz', 'fail', 'pass'];
+
+        uppercaseSpecialWords.forEach(word => {
+            const regexp = new RegExp(`\\b${word}\\b`, 'gi');
+            formattedString = formattedString.replace(regexp, match => match.toUpperCase());
+        })
+
+        return formattedString;
+    }
+}
+formatString = function (value) {
+    if(value) {
+        const inputString = value.toString();
+        const stringWithoutDashesAndUnderscores = replaceDashAndUnderscoreWithSpace(inputString);
+        const capitalisedString = capitaliseString(stringWithoutDashesAndUnderscores);
+        return formatSpecialWords(capitalisedString);
+    }
+}
+%>
+
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <td>ID</td>
+            <td><%= check.getId(); %></td>
+        </tr>
+        <tr>
+            <td>State</td>
+            <td>
+                <span class="badge badge-<%= check.getState() === 'DONE' ? 'success' : 'secondary' %>">
+                    <%= check.getState(); %>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td>Created</td>
+            <td><%= check.getCreated(); %></td>
+        </tr>
+        <tr>
+            <td>Last Updated</td>
+            <td><%= check.getLastUpdated(); %></td>
+        </tr>
+        <tr>
+            <td>Resources Used</td>
+            <td><%= check.getResourcesUsed().join(', '); %></td>
+        </tr>
+
+
+        <% if (check.getReport()) { %>
+
+        <% if (check.getReport().getRecommendation()) { %>
+        <%
+            const recommendation = check.getReport().getRecommendation();
+        %>
+        <tr>
+            <td>Recommendation</td>
+            <td>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <% if (recommendation.getValue()) { %>
+                            <td>Value</td>
+                            <td><%= replaceDashAndUnderscoreWithSpace(recommendation.getValue().toString()); %></td>
+                            <% } %>
+                        </tr>
+                        <tr>
+                            <% if (recommendation.getReason()) { %>
+                            <td>Reason</td>
+                            <td><%= replaceDashAndUnderscoreWithSpace(recommendation.getReason().toString()); %></td>
+                            <% } %>
+                        </tr>
+                        <tr>
+                            <% if (recommendation.getRecoverySuggestion()) { %>
+                            <td>Recovery suggestion</td>
+                            <td><%= recommendation.getRecoverySuggestion(); %></td>
+                            <% } %>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <% } %>
+
+        <% if (check.getReport().getBreakdown() && check.getReport().getBreakdown().length > 0) { %>
+        <tr>
+            <td>Breakdown</td>
+            <td>
+                <% check.getReport().getBreakdown().forEach(function(breakdown) { %>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <% if (breakdown.getSubCheck()) { %>
+                            <td>Sub check</td>
+                            <td><%= formatString(breakdown.getSubCheck()); %></td>
+                            <% } %>
+                        </tr>
+                        <tr>
+                            <% if (breakdown.getResult()) { %>
+                            <td>Result</td>
+                            <td><%= breakdown.getResult(); %></td>
+                            <% } %>
+                        </tr>
+                        <% if (breakdown.getDetails() && breakdown.getDetails().length > 0) { %>
+                        <tr>
+                            <td>Details</td>
+                            <td>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <% breakdown.getDetails().forEach(function(details) { %>
+                                        <tr>
+                                            <td style="width: auto"><%= formatString(details.getName()); %></td>
+                                            <td style="width: auto"><%= details.getValue().split(',').map(value => formatString(value)).join(', '); %></td>
+                                        </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                <% }); %>
+            </td>
+        </tr>
+        <% } %>
+
+        <% } %>
+
+        <% if (check.getGeneratedMedia() && check.getGeneratedMedia().length > 0) { %>
+        <tr>
+            <td>Generated Media</td>
+            <td>
+                <% check.getGeneratedMedia().forEach(function(media) { %>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td>ID</td>
+                            <td><a href="/media?mediaId=<%= media.getId() %>"><%= media.getId(); %></a></td>
+                        </tr>
+                        <tr>
+                            <td>Type</td>
+                            <td><%= media.getType(); %></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <% }); %>
+            </td>
+        </tr>
+        <% } %>
+
+        <% if (typeof check.getGeneratedProfile === 'function' && check.getGeneratedProfile()) { %>
+        <%
+            const generatedProfile = check.getGeneratedProfile();
+        %>
+        <tr>
+            <td>Generated Profile</td>
+            <td>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td>ID</td>
+                            <td><a href="/media?mediaId=<%= generatedProfile.media.id %>"><%= generatedProfile.media.id; %></a></td>
+                        </tr>
+                        <tr>
+                            <td>Type</td>
+                            <td><%= generatedProfile.media.type; %></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <% } %>
+
+    </tbody>
+</table>
