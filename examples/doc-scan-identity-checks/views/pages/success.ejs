@@ -1,0 +1,707 @@
+<%- include('layout/header'); -%>
+<div class="container mb-3">
+
+    <div class="row">
+        <div class="col">
+            <h1>Get Session Result</h1>
+
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>Session ID</td>
+                        <td><%= sessionResult.getSessionId() %></td>
+                    </tr>
+                    <tr>
+                        <td>State</td>
+                        <td>
+                            <span class="badge badge-<%= sessionResult.getState() === 'COMPLETED' ? 'success' : 'secondary' %>">
+                                <%= sessionResult.getState() %>
+                            </span>
+                        </td>
+                    </tr>
+                    <% if (sessionResult.getClientSessionToken()) { %>
+                    <tr>
+                        <td>Client Session Token</td>
+                        <td>
+                            <%= sessionResult.getClientSessionToken() %>
+                        </td>
+                    </tr>
+                    <% } %>
+                    <tr>
+                        <td>Client Session Token TTL</td>
+                        <td><%= sessionResult.getClientSessionTokenTtl() %></td>
+                    </tr>
+                    <tr>
+                        <td>User Tracking ID</td>
+                        <td><%= sessionResult.getUserTrackingId() %></td>
+                    </tr>
+                    <% if (sessionResult.getBiometricConsentTimestamp()) { %>
+                    <tr>
+                        <td>Biometric Consent Timestamp</td>
+                        <td>
+                            <%= sessionResult.getBiometricConsentTimestamp() %>
+                        </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <% if (sessionResult.getIdentityProfile()) { %>
+        <div class="row pt-4">
+            <div class="col">
+                <h2>Identity profile</h2>
+
+                <div class="accordion mt-3" id="identity-profile">
+
+                    <div class="card">
+                        <div class="card-header" id="identity-profile">
+                            <h3 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                        data-target="#collapse-identity-profile" aria-expanded="true"
+                                        aria-controls="collapse-identity-profile">
+                                    Identity Profile
+                                </button>
+                            </h3>
+                        </div>
+
+                        <div id="collapse-identity-profile" class="collapse" aria-labelledby="collapse-identity-profile">
+                            <div class="card-body">
+                                <% const identityProfile = sessionResult.getIdentityProfile()%>
+                                <%- include('partials/identity-profile', { identityProfile }); %>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    <% } %>
+
+    <% if (sessionResult.getChecks().length > 0) { %>
+    <div class="row pt-4">
+        <div class="col">
+            <h2>Checks</h2>
+
+            <div class="accordion mt-3" id="checks">
+
+                <% if (sessionResult.getAuthenticityChecks().length > 0) { %>
+                <div class="card">
+                    <div class="card-header" id="authenticity-checks">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-authenticity-checks" aria-expanded="true"
+                                aria-controls="collapse-authenticity-checks">
+                                Authenticity Checks
+                            </button>
+                        </h3>
+                    </div>
+
+                    <div id="collapse-authenticity-checks" class="collapse" aria-labelledby="authenticity-checks">
+                        <div class="card-body">
+                            <% sessionResult.getAuthenticityChecks().forEach(function(check){ %>
+                            <%- include('partials/check', { check }); %>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (sessionResult.getIdDocumentTextDataChecks().length > 0) { %>
+                <div class="card">
+                    <div class="card-header" id="text-data-checks">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-text-data-checks" aria-expanded="true"
+                                aria-controls="collapse-text-data-checks">
+                                Text Data Checks
+                            </button>
+                        </h3>
+
+                    </div>
+
+                    <div id="collapse-text-data-checks" class="collapse" aria-labelledby="text-data-checks">
+                        <div class="card-body">
+                            <% sessionResult.getIdDocumentTextDataChecks().forEach(function(check){ %>
+                            <%- include('partials/check', { check }); %>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (sessionResult.getFaceMatchChecks().length > 0) { %>
+                <div class="card">
+                    <div class="card-header" id="face-match-checks">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-face-match-checks" aria-expanded="true"
+                                aria-controls="collapse-face-match-checks">
+                                FaceMatch Checks
+                            </button>
+                        </h3>
+
+                    </div>
+
+                    <div id="collapse-face-match-checks" class="collapse" aria-labelledby="face-match-checks">
+                        <div class="card-body">
+                            <% sessionResult.getFaceMatchChecks().forEach(function(check){ %>
+                            <%- include('partials/check', { check }); %>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (sessionResult.getLivenessChecks().length > 0) { %>
+                <div class="card">
+                    <div class="card-header" id="liveness-checks">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-liveness-checks" aria-expanded="true"
+                                aria-controls="collapse-liveness-checks">
+                                Liveness Checks
+                            </button>
+                        </h3>
+
+                    </div>
+
+                    <div id="collapse-liveness-checks" class="collapse" aria-labelledby="liveness-checks">
+                        <div class="card-body">
+                            <% sessionResult.getLivenessChecks().forEach(function(check){ %>
+                            <%- include('partials/check', { check }); %>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (sessionResult.getIdDocumentComparisonChecks().length > 0) { %>
+                <div class="card">
+                    <div class="card-header" id="comparison-checks">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-comparison-checks" aria-expanded="true"
+                                aria-controls="collapse-comparison-checks">
+                                ID Document Comparison Checks
+                            </button>
+                        </h3>
+                    </div>
+
+                    <div id="collapse-comparison-checks" class="collapse" aria-labelledby="comparison-checks">
+                        <div class="card-body">
+                            <% sessionResult.getIdDocumentComparisonChecks().forEach(function(check){ %>
+                            <%- include('partials/check', { check }); %>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (sessionResult.getThirdPartyIdentityChecks().length > 0) { %>
+                <div class="card">
+                    <div class="card-header" id="third-party-identity-checks">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-third-party-identity-checks" aria-expanded="true"
+                                aria-controls="collapse-third-party-identity-checks">
+                                Third Party Identity Checks
+                            </button>
+                        </h3>
+                    </div>
+
+                    <div id="collapse-third-party-identity-checks" class="collapse" aria-labelledby="collapse-third-party-identity-checks">
+                        <div class="card-body">
+                            <% sessionResult.getThirdPartyIdentityChecks().forEach(function(check){ %>
+                            <%- include('partials/check', { check }); %>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (sessionResult.getThirdPartyIdentityFraud1Checks().length > 0) { %>
+                    <div class="card">
+                        <div class="card-header" id="third-party-identity-fraud1-checks">
+                            <h3 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                        data-target="#collapse-third-party-identity-fraud1-checks" aria-expanded="true"
+                                        aria-controls="collapse-third-party-identity-fraud1-checks">
+                                    Third Party Identity Fraud Checks
+                                </button>
+                            </h3>
+                        </div>
+
+                        <div id="collapse-third-party-identity-fraud1-checks" class="collapse" aria-labelledby="collapse-third-party-identity-fraud1-checks">
+                            <div class="card-body">
+                                <% sessionResult.getThirdPartyIdentityFraud1Checks().forEach(function(check){ %>
+                                    <%- include('partials/check', { check }); %>
+                                <% }); %>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+
+                <% if (sessionResult.getSupplementaryDocumentTextDataChecks().length > 0) { %>
+                <div class="card">
+                    <div class="card-header" id="sup-text-data-checks">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-sup-text-data-checks" aria-expanded="true"
+                                aria-controls="collapse-sup-text-data-checks">
+                                Supplementary Document Text Data Checks
+                            </button>
+                        </h3>
+
+                    </div>
+
+                    <div id="collapse-sup-text-data-checks" class="collapse" aria-labelledby="sup-text-data-checks">
+                        <div class="card-body">
+                            <% sessionResult.getSupplementaryDocumentTextDataChecks().forEach(function(check){ %>
+                            <%- include('partials/check', { check }); %>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
+    <% if (sessionResult.getResources().getIdDocuments().length > 0) { %>
+    <div class="row pt-4">
+        <div class="col">
+            <h2>ID Documents</h2>
+        </div>
+    </div>
+
+    <%
+    let docNum = 0;
+    sessionResult.getResources().getIdDocuments().forEach(function(document) {
+        docNum++;
+        %>
+    <div class="row pt-4">
+        <div class="col">
+
+            <h3><%= document.getDocumentType(); %> <span class="badge badge-primary"><%= document.getIssuingCountry(); %></span></h3>
+
+            <div class="accordion mt-3">
+
+                <% if (document.getDocumentFields()) { %>
+                <div class="card">
+                    <div class="card-header" id="document-fields-<%= docNum %>">
+                        <h4 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-document-fields-<%= docNum %>" aria-expanded="true"
+                                aria-controls="collapse-document-fields-<%= docNum %>">
+                                Document Fields
+                            </button>
+                        </h4>
+                    </div>
+                    <div id="collapse-document-fields-<%= docNum %>" class="collapse" aria-labelledby="document-fields-<%= docNum %>">
+                        <div class="card-body">
+                            <% if (document.getDocumentFields().getMedia()) { %>
+                            <h5>Media</h5>
+                            <table class="table table-striped table-light">
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>
+                                            <a
+                                                href="/media?mediaId=<%= document.getDocumentFields().getMedia().getId() %>">
+                                                <%= document.getDocumentFields().getMedia().getId() %>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (document.getDocumentIdPhoto()) { %>
+                <div class="card">
+                    <div class="card-header" id="document-photo-<%= docNum %>">
+                        <h4 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-document-photo-<%= docNum %>" aria-expanded="true"
+                                aria-controls="collapse-document-photo-<%= docNum %>">
+                                Document ID Photo
+                            </button>
+                        </h4>
+                    </div>
+                    <div id="collapse-document-photo-<%= docNum %>" class="collapse" aria-labelledby="document-photo-<%= docNum %>">
+                        <div class="card-body">
+                            <% if (document.getDocumentIdPhoto().getMedia()) { %>
+                                <img class="card-img-top" src="/media?mediaId=<%= document.getDocumentIdPhoto().getMedia().getId() %>" />
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (document.getTextExtractionTasks().length > 0) { %>
+                <div class="card">
+                    <div class="card-header" id="text-extraction-tasks-<%= docNum %>">
+                        <h4 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-text-extraction-tasks-<%= docNum %>" aria-expanded="true"
+                                aria-controls="collapse-text-extraction-tasks-<%= docNum %>">
+                                Text Extraction Tasks
+                            </button>
+                        </h4>
+                    </div>
+                    <div id="collapse-text-extraction-tasks-<%= docNum %>" class="collapse" aria-labelledby="text-extraction-tasks-<%= docNum %>">
+                        <div class="card-body">
+                            <% document.getTextExtractionTasks().forEach(function(task) { %>
+                            <%- include('partials/task', { task }); %>
+
+                            <% if (task.getGeneratedTextDataChecks().length > 0) { %>
+                            <h5>Generated Text Data Checks</h5>
+                            <% task.getGeneratedTextDataChecks().forEach(function(check) { %>
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td><%= check.getId() %></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% }); %>
+                            <% } %>
+
+                            <% if (task.getGeneratedMedia().length > 0) { %>
+                            <h5>Generated Media</h5>
+
+                            <% task.getGeneratedMedia().forEach(function(media) { %>
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>
+                                            <a href="/media?mediaId=<%= media.getId() %>"><%= media.getId() %></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type</td>
+                                        <td><%= media.getType() %></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% }); %>
+                            <% } %>
+
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+
+                <%
+                if (document.getPages().length > 0) {
+                    let pageNum = 0;
+                    document.getPages().forEach(function(page) {
+                        pageNum++;
+                    %>
+                    <div class="card">
+                        <div class="card-header" id="document-pages-<%= docNum %>-<%= pageNum %>">
+                            <h4 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-document-pages-<%= docNum %>-<%= pageNum %>" aria-expanded="true"
+                                    aria-controls="collapse-document-pages-<%= docNum %>-<%= pageNum %>">
+                                    Page <%= pageNum %>
+                                </button>
+                            </h4>
+                        </div>
+
+                        <div id="collapse-document-pages-<%= docNum %>-<%= pageNum %>" class="collapse" aria-labelledby="document-pages-<%= docNum %>-<%= pageNum %>">
+
+                            <div class="card-group">
+                                <% if (page.getMedia()) { %>
+                                <div class="card" style="width: 18rem;">
+                                    <img class="card-img-top" src="/media?mediaId=<%= page.getMedia().getId() %>" />
+                                    <div class="card-body">
+                                        <p>Method: <%= page.getCaptureMethod(); %></p>
+                                    </div>
+                                </div>
+                                <% } %>
+                            </div>
+
+                            <% if (page.getFrames().length > 0) { %>
+                            <div class="card-group">
+                                <% page.getFrames().forEach(function(frame) { %>
+                                    <% if (frame.getMedia()) { %>
+                                    <div class="card">
+                                        <img class="card-img-top" src="/media?mediaId=<%= frame.getMedia().getId() %>" />
+                                        <div class="card-body">
+                                            <h5 class="card-title">Frame</h5>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                <% }); %>
+                            </div>
+                            <% } %>
+
+                        </div>
+                    </div>
+
+                    <% }); %>
+                <% } %>
+
+            </div>
+
+        </div>
+    </div>
+
+    <% }); %>
+    <% } %>
+
+    <% if (sessionResult.getResources().getSupplementaryDocuments().length > 0) { %>
+    <div class="row pt-4">
+        <div class="col">
+            <h2>Supplementary Documents</h2>
+        </div>
+    </div>
+
+    <%
+    let supDocNum = 0;
+    sessionResult.getResources().getSupplementaryDocuments().forEach(function(document) {
+        supDocNum++;
+        %>
+    <div class="row pt-4">
+        <div class="col">
+
+            <h3><%= document.getDocumentType(); %> <span class="badge badge-primary"><%= document.getIssuingCountry(); %></span></h3>
+
+            <div class="accordion mt-3">
+
+                <% if (document.getDocumentFields()) { %>
+                <div class="card">
+                    <div class="card-header" id="sup-doc-fields-<%= supDocNum %>">
+                        <h4 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-sup-doc-fields-<%= supDocNum %>" aria-expanded="true"
+                                aria-controls="collapse-sup-doc-fields-<%= supDocNum %>">
+                                Document Fields
+                            </button>
+                        </h4>
+                    </div>
+                    <div id="collapse-sup-doc-fields-<%= supDocNum %>" class="collapse" aria-labelledby="sup-doc-fields-<%= supDocNum %>">
+                        <div class="card-body">
+                            <% if (document.getDocumentFields().getMedia()) { %>
+                            <h5>Media</h5>
+                            <table class="table table-striped table-light">
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>
+                                            <a
+                                                href="/media?mediaId=<%= document.getDocumentFields().getMedia().getId() %>">
+                                                <%= document.getDocumentFields().getMedia().getId() %>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (document.getTextExtractionTasks().length > 0) { %>
+                <div class="card">
+                    <div class="card-header" id="sup-doc-text-extraction-tasks-<%= supDocNum %>">
+                        <h4 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-sup-doc-text-extraction-tasks-<%= supDocNum %>" aria-expanded="true"
+                                aria-controls="collapse-sup-doc-text-extraction-tasks-<%= supDocNum %>">
+                                Text Extraction Tasks
+                            </button>
+                        </h4>
+                    </div>
+                    <div id="collapse-sup-doc-text-extraction-tasks-<%= supDocNum %>" class="collapse" aria-labelledby="sup-doc-text-extraction-tasks-<%= supDocNum %>">
+                        <div class="card-body">
+                            <% document.getTextExtractionTasks().forEach(function(task) { %>
+                            <%- include('partials/task', { task }); %>
+
+                            <% if (task.getGeneratedTextDataChecks().length > 0) { %>
+                            <h5>Generated Text Data Checks</h5>
+                            <% task.getGeneratedTextDataChecks().forEach(function(check) { %>
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td><%= check.getId() %></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% }); %>
+                            <% } %>
+
+                            <% if (task.getGeneratedMedia().length > 0) { %>
+                            <h5>Generated Media</h5>
+
+                            <% task.getGeneratedMedia().forEach(function(media) { %>
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>
+                                            <a href="/media?mediaId=<%= media.getId() %>"><%= media.getId() %></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type</td>
+                                        <td><%= media.getType() %></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% }); %>
+                            <% } %>
+
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (document.getDocumentFile()) { %>
+                <div class="card">
+                    <div class="card-header" id="sup-doc-file-<%= supDocNum %>">
+                        <h4 class="mb-0">
+                            <a class="btn btn-link" type="button" href="/media?mediaId=<%= document.getDocumentFile().getMedia().getId() %>">
+                                Download File
+                            </a>
+                        </h4>
+                    </div>
+                </div>
+                <% } %>
+
+                <%
+                if (document.getPages().length > 0) {
+                    let pageNum = 0;
+                    document.getPages().forEach(function(page) {
+                        pageNum++;
+                    %>
+                    <div class="card">
+                        <div class="card-header" id="sup-doc-pages-<%= supDocNum %>-<%= pageNum %>">
+                            <h4 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-sup-doc-pages-<%= supDocNum %>-<%= pageNum %>" aria-expanded="true"
+                                    aria-controls="collapse-sup-doc-pages-<%= supDocNum %>-<%= pageNum %>">
+                                    Page <%= pageNum %>
+                                </button>
+                            </h4>
+                        </div>
+
+                        <div id="collapse-sup-doc-pages-<%= supDocNum %>-<%= pageNum %>" class="collapse" aria-labelledby="sup-doc-pages-<%= supDocNum %>-<%= pageNum %>">
+
+                            <div class="card-group">
+                                <% if (page.getMedia()) { %>
+                                <div class="card" style="width: 18rem;">
+                                    <img class="card-img-top" src="/media?mediaId=<%= page.getMedia().getId() %>" />
+                                    <div class="card-body">
+                                        <p>Method: <%= page.getCaptureMethod(); %></p>
+                                    </div>
+                                </div>
+                                <% } %>
+                            </div>
+
+                            <% if (page.getFrames().length > 0) { %>
+                            <div class="card-group">
+                                <% page.getFrames().forEach(function(frame) { %>
+                                    <% if (frame.getMedia()) { %>
+                                    <div class="card">
+                                        <img class="card-img-top" src="/media?mediaId=<%= frame.getMedia().getId() %>" />
+                                        <div class="card-body">
+                                            <h5 class="card-title">Frame</h5>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                <% }); %>
+                            </div>
+                            <% } %>
+
+                        </div>
+                    </div>
+
+                    <% }); %>
+                <% } %>
+
+            </div>
+
+        </div>
+    </div>
+
+    <% }); %>
+    <% } %>
+
+    <% if (sessionResult.getResources().getZoomLivenessResources().length > 0) { %>
+    <div class="row pt-4">
+        <div class="col">
+            <h2>Zoom Liveness Resources</h2>
+        </div>
+    </div>
+
+    <%
+    let livenessNum = 0;
+    sessionResult.getResources().getZoomLivenessResources().forEach(function(livenessResource){
+        livenessNum++;
+    %>
+
+    <div class="row pt-4">
+        <div class="col">
+            <table class="table table-striped table-light">
+                <tbody>
+                    <tr>
+                        <td>ID</td>
+                        <td><%= livenessResource.getId() %></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="accordion mt-3">
+
+                <% if (livenessResource.getFrames().length > 0){ %>
+                <div class="card">
+                    <div class="card-header" id="liveness-<%= livenessNum %>-frames">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-liveness-<%= livenessNum %>-frames" aria-expanded="true"
+                                aria-controls="collapse-liveness-<%= livenessNum %>-frames">
+                                Frames
+                            </button>
+                        </h3>
+                    </div>
+                    <div id="collapse-liveness-<%= livenessNum %>-frames" class="collapse" aria-labelledby="liveness-<%= livenessNum %>-frames">
+                        <div class="card-group">
+                            <% livenessResource.getFrames().forEach(function(frame) { %>
+                            <% if (frame.getMedia()) { %>
+                            <div class="card">
+                                <img class="card-img-top" src="/media?mediaId=<%= frame.getMedia().getId() %>" />
+                                <div class="card-body">
+                                    <h5 class="card-title">Frame</h5>
+                                </div>
+                            </div>
+                            <% } %>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+            </div>
+        </div>
+    </div>
+
+    <% }); %>
+
+    <% } %>
+</div>
+<%- include('layout/footer'); -%>
