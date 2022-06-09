@@ -35,18 +35,12 @@ async function createSession() {
     .withIdentityProfileRequirements(identityProfileRequirements)
     .withSdkConfig(
       new SdkConfigBuilder()
-        .withAllowsCameraAndUpload()
         .withPrimaryColour('#2d9fff')
-        .withSecondaryColour('#FFFFFF')
-        .withFontColour('#FFFFFF')
         .withLocale('en-GB')
         .withPresetIssuingCountry('GBR')
         .withSuccessUrl(`${config.YOTI_APP_BASE_URL}/success`)
         .withErrorUrl(`${config.YOTI_APP_BASE_URL}/error`)
-        .withPrivacyPolicyUrl(`${config.YOTI_APP_BASE_URL}/privacy-policy`)
         .withAllowHandoff(true)
-        .withIdDocumentTextExtractionGenericRetries(5)
-        .withIdDocumentTextExtractionReclassificationRetries(5)
         .build()
     )
     .build();
