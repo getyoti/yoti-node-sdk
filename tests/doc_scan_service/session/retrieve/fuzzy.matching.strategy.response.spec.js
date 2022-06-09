@@ -3,7 +3,7 @@ const FuzzyMatchingStrategyResponse = require('../../../../src/doc_scan_service/
 
 describe('FuzzyMatchingStrategyResponse', () => {
   it('is a class that extends CaMatchingStrategyResponse', () => {
-    expect(FuzzyMatchingStrategyResponse.prototype instanceof CaMatchingStrategyResponse);
+    expect(FuzzyMatchingStrategyResponse.prototype).toBeInstanceOf(CaMatchingStrategyResponse);
   });
   describe('given an instance of the class', () => {
     let fuzzyMatchingStrategyResponse;

@@ -7,8 +7,8 @@ const FuzzyMatchingStrategyResponse = require('../../../../src/doc_scan_service/
 
 describe('CustomAccountWatchlistCaSearchConfigResponse', () => {
   it('is a class that extends WatchlistAdvancedCaSearchConfigResponse', () => {
-    // eslint-disable-next-line max-len
-    expect(CustomAccountWatchlistCaSearchConfigResponse.prototype instanceof WatchlistAdvancedCaSearchConfigResponse);
+    expect(CustomAccountWatchlistCaSearchConfigResponse.prototype)
+      .toBeInstanceOf(WatchlistAdvancedCaSearchConfigResponse);
   });
   describe('given an instance of the class', () => {
     let customAccountWatchlistCaSearchConfigResponse;

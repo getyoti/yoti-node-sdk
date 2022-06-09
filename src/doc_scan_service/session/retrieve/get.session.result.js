@@ -12,6 +12,8 @@ const IdDocumentComparisonCheckResponse = require('./id.document.comparison.chec
 const ThirdPartyIdentityCheckResponse = require('./third.party.identity.check.response');
 const WatchlistScreeningCheckResponse = require('./watchlist.screening.check.response');
 const WatchlistAdvancedCaCheckResponse = require('./watchlist.advanced.ca.check.response');
+const ThirdPartyIdentityFraud1CheckResponse = require('./third.party.identity.fraud.1.check.response');
+const IdentityProfileResponse = require('./identity.profile.response');
 const DocScanConstants = require('../../doc.scan.constants');
 const { YotiDate } = require('../../../data_type/date');
 
@@ -56,6 +58,8 @@ class GetSessionResult {
               return new SupplementaryDocumentTextDataCheckResponse(check);
             case DocScanConstants.LIVENESS:
               return new LivenessCheckResponse(check);
+            case DocScanConstants.THIRD_PARTY_IDENTITY_FRAUD_1:
+              return new ThirdPartyIdentityFraud1CheckResponse(check);
             default:
               return new CheckResponse(check);
           }
@@ -71,6 +75,11 @@ class GetSessionResult {
 
     if (response.biometric_consent) {
       this.biometricConsent = YotiDate.fromDateString(response.biometric_consent);
+    }
+
+    if (response.identity_profile) {
+      Validation.isPlainObject(response.identity_profile, 'identity_profile');
+      this.identityProfile = new IdentityProfileResponse(response.identity_profile);
     }
   }
 
@@ -184,6 +193,14 @@ class GetSessionResult {
   }
 
   /**
+   * @returns {ThirdPartyIdentityFraud1CheckResponse[]}
+   */
+  getThirdPartyIdentityFraud1Checks() {
+    return this.getChecks()
+      .filter((check) => check instanceof ThirdPartyIdentityFraud1CheckResponse);
+  }
+
+  /**
    * @returns {ResourceContainer}
    */
   getResources() {
@@ -202,6 +219,13 @@ class GetSessionResult {
    */
   getBiometricConsentTimestamp() {
     return this.biometricConsent;
+  }
+
+  /**
+   * @returns {IdentityProfileResponse}
+   */
+  getIdentityProfile() {
+    return this.identityProfile;
   }
 }
 

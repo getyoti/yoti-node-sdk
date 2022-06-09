@@ -3,7 +3,7 @@ const TypeListSourcesResponse = require('../../../../src/doc_scan_service/sessio
 
 describe('TypeListSourcesResponse', () => {
   it('is a class that extends CaSourcesResponse', () => {
-    expect(TypeListSourcesResponse.prototype instanceof CaSourcesResponse);
+    expect(TypeListSourcesResponse.prototype).toBeInstanceOf(CaSourcesResponse);
   });
   describe('given an instance of the class (exact match is true)', () => {
     let typeListSourcesResponse;
