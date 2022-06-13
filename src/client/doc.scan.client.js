@@ -1,5 +1,6 @@
 'use strict';
 
+const config = require('../../config');
 const { DocScanService } = require('../doc_scan_service');
 
 /**
@@ -13,9 +14,14 @@ class DocScanClient {
   /**
    * @param {string} sdkId
    * @param {string|Buffer} pem
+   * @param {Object} options
+   * @param {string} options.apiUrl
    */
-  constructor(sdkId, pem) {
-    this.docScanService = new DocScanService(sdkId, pem);
+  constructor(sdkId, pem, { apiUrl } = {}) {
+    const options = {
+      apiUrl: apiUrl || config.yoti.docScanApi,
+    };
+    this.docScanService = new DocScanService(sdkId, pem, options);
   }
 
   /**

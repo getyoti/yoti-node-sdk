@@ -1,5 +1,6 @@
 const nock = require('nock');
 const fs = require('fs');
+const { v4: uuid } = require('uuid');
 
 const config = require('../../config');
 const yoti = require('../..');
@@ -8,8 +9,10 @@ const AmlProfile = require('../../src/aml_type').AmlProfile;
 const Payload = require('../../src/request/payload').Payload;
 const ShareUrlResult = require('../../src/dynamic_sharing_service/share.url.result');
 
+const GENERIC_API_PATH = '/api/v1';
+
+const APP_ID = uuid();
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
-const yotiClient = new yoti.Client('stub-app-id', privateKeyFile);
 
 const CONTENT_TYPE_HEADER_NAME = 'Content-Type';
 const CONTENT_TYPE_JSON = 'application/json';
@@ -18,33 +21,61 @@ const DIGEST_KEY_PATTERN = /^[a-zA-Z0-9/+=]{344}$/;
 const AUTH_KEY_HEADER_NAME = 'X-Yoti-Auth-Key';
 const AUTH_KEY_PATTERN = /^[a-zA-Z0-9/+]{392}$/;
 
-describe('yotiClient', () => {
-  const encryptedYotiToken = 'c31Db4y6ClxSWy26xDpa9LEX3ZTUuR-rKaAhjQWnmKilR20IshkysR5Y3Hh3R6hanOyxcu7fl5vbjikkGZZb3_iH6NjxmBXuGY_Fr23AhrHvGL9WMg4EtemVvr6VI2f_5H_PDhDpYUvv-YpEM0f_SReoVxGIc8VGfj1gukuhPyNJ9hs55-SDdUjN77JiA6FPcYZxEIaqQE_yT_c3Y4V72Jnq3RHbG0vL6SefSfY_fFsnx_HeddsJc10qJYCwAkdGzVzbJH2DQ2Swp821Gwyj9eNK54S6HvpIg7LclID7BtymG6z7cTNp3fXX7mgKYoQlh_DHmPmaiqyj398w424RBg==';
-  const decryptedToken = 'i79CctmY-22ad195c-d166-49a2-af16-8f356788c9dd-be094d26-19b5-450d-afce-070101760f0b';
-  const profileEndpointPattern = new RegExp(`^/api/v1/profile/${decryptedToken}.*appId=stub-app-id&nonce=.*?&timestamp=.*?`);
+describe.each([
+  [
+    'default',
+    {
+      apiUrlDomain: config.yoti.connectApi.replace(GENERIC_API_PATH, ''),
+      apiUrlPath: GENERIC_API_PATH,
+      useDefaultApiUrl: true,
+    },
+  ],
+  [
+    'custom options.apiUrl',
+    {
+      apiUrlDomain: 'https://some.api.com',
+      apiUrlPath: GENERIC_API_PATH,
+      useDefaultApiUrl: false,
+    },
+  ],
+])('YotiClient (%s)', (description, { apiUrlDomain, apiUrlPath, useDefaultApiUrl }) => {
+  let yotiClient;
 
-  const selfie = fs.readFileSync('./tests/sample-data/fixtures/selfie.txt', 'utf8');
-  const phoneNumber = '+447474747474';
-  const rememberMeId = 'Hig2yAT79cWvseSuXcIuCLa5lNkAPy70rxetUaeHlTJGmiwc/g1MWdYWYrexWvPU';
-  const parentRememberMeId = 'f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrNijH4k4qafTG0FSNUgQIvd2Z3Nx1j8';
+  beforeEach(() => {
+    if (useDefaultApiUrl) {
+      yotiClient = new yoti.Client(APP_ID, privateKeyFile);
+    } else {
+      yotiClient = new yoti.Client(APP_ID, privateKeyFile, { apiUrl: apiUrlDomain + apiUrlPath });
+    }
+  });
 
-  afterEach((done) => {
+  afterEach(() => {
     nock.cleanAll();
-    done();
   });
 
   describe('#getActivityDetails', () => {
-    describe('when the profile has attributes', () => {
-      const responseContent = fs.readFileSync('./tests/sample-data/payloads/payload.json', 'utf8');
+    const encryptedYotiToken = 'c31Db4y6ClxSWy26xDpa9LEX3ZTUuR-rKaAhjQWnmKilR20IshkysR5Y3Hh3R6hanOyxcu7fl5vbjikkGZZb3_iH6NjxmBXuGY_Fr23AhrHvGL9WMg4EtemVvr6VI2f_5H_PDhDpYUvv-YpEM0f_SReoVxGIc8VGfj1gukuhPyNJ9hs55-SDdUjN77JiA6FPcYZxEIaqQE_yT_c3Y4V72Jnq3RHbG0vL6SefSfY_fFsnx_HeddsJc10qJYCwAkdGzVzbJH2DQ2Swp821Gwyj9eNK54S6HvpIg7LclID7BtymG6z7cTNp3fXX7mgKYoQlh_DHmPmaiqyj398w424RBg==';
+    const decryptedToken = 'i79CctmY-22ad195c-d166-49a2-af16-8f356788c9dd-be094d26-19b5-450d-afce-070101760f0b';
 
-      beforeEach((done) => {
-        nock(`${config.yoti.connectApi}`)
-          .get(profileEndpointPattern)
-          .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
-          .matchHeader(AUTH_KEY_HEADER_NAME, AUTH_KEY_PATTERN)
-          .reply(200, responseContent);
-        done();
+    const selfie = fs.readFileSync('./tests/sample-data/fixtures/selfie.txt', 'utf8');
+    const phoneNumber = '+447474747474';
+    const rememberMeId = 'Hig2yAT79cWvseSuXcIuCLa5lNkAPy70rxetUaeHlTJGmiwc/g1MWdYWYrexWvPU';
+    const parentRememberMeId = 'f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrNijH4k4qafTG0FSNUgQIvd2Z3Nx1j8';
+
+    const setupResponse = (responseBody, responseStatusCode = 200) => {
+      nock(apiUrlDomain)
+        .get(new RegExp(`${apiUrlPath}/profile/${decryptedToken}.*appId=${APP_ID}&nonce=.*?&timestamp=.*?`))
+        .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
+        .matchHeader(AUTH_KEY_HEADER_NAME, AUTH_KEY_PATTERN)
+        .reply(responseStatusCode, responseBody);
+    };
+
+    describe('when the profile has attributes', () => {
+      beforeEach(() => {
+        const responseContent = fs.readFileSync('./tests/sample-data/payloads/payload.json', 'utf8');
+        setupResponse(responseContent);
       });
+
       it('should fetch and decrypt the profile', (done) => {
         yotiClient.getActivityDetails(encryptedYotiToken)
           .then((activityDetails) => {
@@ -87,15 +118,9 @@ describe('yotiClient', () => {
     });
 
     describe('when the profile is empty', () => {
-      const responseContentNull = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-null.json', 'utf8');
-
-      beforeEach((done) => {
-        nock(`${config.yoti.connectApi}`)
-          .get(profileEndpointPattern)
-          .matchHeader(AUTH_KEY_HEADER_NAME, AUTH_KEY_PATTERN)
-          .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
-          .reply(200, responseContentNull);
-        done();
+      beforeEach(() => {
+        const responseContentNull = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-null.json', 'utf8');
+        setupResponse(responseContentNull);
       });
 
       it('should fetch and decrypt the empty profile', (done) => {
@@ -118,15 +143,9 @@ describe('yotiClient', () => {
     });
 
     describe('when the profile contains an empty object', () => {
-      const responseContentEmptyObj = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-empty-object.json', 'utf8');
-
-      beforeEach((done) => {
-        nock(`${config.yoti.connectApi}`)
-          .get(profileEndpointPattern)
-          .matchHeader(AUTH_KEY_HEADER_NAME, AUTH_KEY_PATTERN)
-          .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
-          .reply(200, responseContentEmptyObj);
-        done();
+      beforeEach(() => {
+        const responseContentEmptyObj = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-empty-object.json', 'utf8');
+        setupResponse(responseContentEmptyObj);
       });
 
       it('should fetch and decrypt the empty profile', (done) => {
@@ -149,15 +168,9 @@ describe('yotiClient', () => {
     });
 
     describe('when the response does not have profile attributes', () => {
-      const responseContentNonExistent = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-non-existent.json', 'utf8');
-
-      beforeEach((done) => {
-        nock(`${config.yoti.connectApi}`)
-          .get(profileEndpointPattern)
-          .matchHeader(AUTH_KEY_HEADER_NAME, AUTH_KEY_PATTERN)
-          .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
-          .reply(200, responseContentNonExistent);
-        done();
+      beforeEach(() => {
+        const responseContentNonExistent = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-non-existent.json', 'utf8');
+        setupResponse(responseContentNonExistent);
       });
 
       it('should fetch and decrypt the empty profile', (done) => {
@@ -187,8 +200,8 @@ describe('yotiClient', () => {
     const amlCheckResult = fs.readFileSync('./tests/sample-data/responses/aml-check-result.json', 'utf8');
 
     beforeEach((done) => {
-      nock(`${config.yoti.connectApi}`)
-        .post(new RegExp('^/api/v1/aml-check?.*appId=stub-app-id&nonce=.*?&timestamp=.*?'), amlPayload.getPayloadJSON())
+      nock(apiUrlDomain)
+        .post(new RegExp(`${apiUrlPath}/aml-check?.*appId=${APP_ID}&nonce=.*?&timestamp=.*?`), amlPayload.getPayloadJSON())
         .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
         .matchHeader(CONTENT_TYPE_HEADER_NAME, CONTENT_TYPE_JSON)
         .reply(200, amlCheckResult);
@@ -217,8 +230,8 @@ describe('yotiClient', () => {
 
     const SHARE_URL_RESULT = './tests/sample-data/responses/share-url-result.json';
     beforeEach((done) => {
-      nock(`${config.yoti.connectApi}`)
-        .post(new RegExp('^/api/v1/qrcodes/apps/'), JSON.stringify(dynamicScenario))
+      nock(apiUrlDomain)
+        .post(new RegExp(`${apiUrlPath}/qrcodes/apps/`), JSON.stringify(dynamicScenario))
         .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
         .matchHeader(CONTENT_TYPE_HEADER_NAME, CONTENT_TYPE_JSON)
         .reply(200, fs.readFileSync(SHARE_URL_RESULT));
