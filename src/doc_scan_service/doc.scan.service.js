@@ -29,7 +29,7 @@ const sessionPath = (sessionId) => `/sessions/${sessionId}`;
 const mediaContentPath = (sessionId, mediaId) => `${sessionPath(sessionId)}/media/${mediaId}/content`;
 
 /**
- * Service built to handle the interactions between the client and Doc Scan APIs
+ * Service Class to handle interactions with the doc scan API
  *
  * @class DocScanService
  */

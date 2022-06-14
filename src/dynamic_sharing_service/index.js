@@ -21,7 +21,7 @@ const Validation = require('../yoti_common/validation');
 const DEFAULT_API_URL = config.yoti.connectApi;
 
 /**
- * Service built to handle the interactions between the client and Doc Scan APIs
+ * Service Class to handle interactions with the dynamic share API
  *
  * @class DynamicShareService
  */

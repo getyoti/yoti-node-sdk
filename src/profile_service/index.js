@@ -9,7 +9,7 @@ const ActivityDetails = require('./activity.details').ActivityDetails;
 const DEFAULT_API_URL = config.yoti.connectApi;
 
 /**
- * Service built to handle the interactions between the client and Doc Scan APIs
+ * Service Class to handle interactions with the profile API
  *
  * @class ProfileService
  */

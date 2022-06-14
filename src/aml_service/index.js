@@ -36,7 +36,7 @@ AmlResult.prototype = {
 };
 
 /**
- * Service built to handle the interactions between the client and Doc Scan APIs
+ * Service Class to handle interactions with the aml API
  *
  * @class AmlService
  */
