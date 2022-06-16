@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const express = require('express');
 const https = require('https');
 const bodyParser = require('body-parser');
@@ -103,17 +104,14 @@ router.get('/get-new-share-url', async (req, res) => {
         case 'selfie':
           dynamicPolicy.withSelfie();
           break;
-        case 'gender':
-          dynamicPolicy.withGender();
-          break;
-        case 'nationality':
-          dynamicPolicy.withNationality();
-          break;
         case 'phoneNumber':
           dynamicPolicy.withPhoneNumber();
           break;
         case 'email':
           dynamicPolicy.withEmail();
+          break;
+        case 'covid19VirusTest':
+          dynamicPolicy.withWantedAttributeByName('com.yoti.virus.covid19.test');
           break;
         default:
           break;
@@ -156,11 +154,13 @@ router.get('/profile', (req, res) => {
   const promise = yotiClient.getActivityDetails(token);
   promise.then((activityDetails) => {
     const outcome = activityDetails.getOutcome();
-    console.log('######## Identity profile check outcome =', outcome, '########')
-    if (outcome === 'SUCCESS' ) {
+    console.log('######## Identity profile check outcome =', outcome, '########');
+    if (outcome === 'SUCCESS') {
       const profile = activityDetails.getProfile();
 
-      if (profile && profile.getIdentityProfileReport() && profile.getIdentityProfileReport().getValue()) {
+      if (profile
+          && profile.getIdentityProfileReport()
+          && profile.getIdentityProfileReport().getValue()) {
         const identityProfile = profile.getIdentityProfileReport().getValue();
         console.log('######## Identity profile report ', JSON.stringify(identityProfile, null, 2), '########');
 
@@ -174,20 +174,20 @@ router.get('/profile', (req, res) => {
         verificationReport = verification_report;
         authenticationReport = authentication_report;
 
-        const {evidence} = verificationReport;
-        const {documents} = evidence;
+        const { evidence } = verificationReport;
+        const { documents } = evidence;
         documentImagesAttributes = documents
           // eslint-disable-next-line camelcase
-          .map(({document_images_attribute_id}) => (document_images_attribute_id
+          .map(({ document_images_attribute_id }) => (document_images_attribute_id
             ? (profile && profile.getAttributeById(document_images_attribute_id)) : null))
           .filter((documentImagesAttribute) => documentImagesAttribute);
 
-          // eslint-disable-next-line max-len
-          // documentImagesAttributes.map((documentImagesAttribute) => documentImagesAttribute.getValue());
+        // eslint-disable-next-line max-len
+        // documentImagesAttributes.map((documentImagesAttribute) => documentImagesAttribute.getValue());
       }
     } else {
-      errorDetails = activityDetails.getErrorDetails()
-      console.log('######## Error: ', JSON.stringify(errorDetails, null, 2), '########')
+      errorDetails = activityDetails.getErrorDetails();
+      console.log('######## Error: ', JSON.stringify(errorDetails, null, 2), '########');
     }
 
     res.render('pages/identity-profile', {
@@ -196,7 +196,7 @@ router.get('/profile', (req, res) => {
       verificationReport,
       authenticationReport,
       documentImagesAttributes,
-      errorDetails
+      errorDetails,
     });
   }).catch((err) => {
     console.error(err);
