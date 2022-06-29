@@ -23,17 +23,20 @@
             <br>
             <h2 class="small-sub-title">Select identity profile check scheme:</h2>
             <div style="margin: 10px;">
-            <label for="selectedScheme" class="checks-scheme">Scheme: </label>
-            <select id="selectedScheme">
-                <option value="DBS_BASIC">DBS_BASIC</option>
-                <option value="RTW">RTW</option>
-                <option value="RTR">RTR</option>
-                <option value="DBS_STANDARD">DBS_STANDARD</option>
-                <option value="DBS_ENHANCED">DBS_ENHANCED</option>
-                <option value="DBS_RTW_BASIC">DBS_RTW_BASIC</option>
-                <option value="DBS_RTW_STANDARD">DBS_RTW_STANDARD</option>
-                <option value="DBS_RTW_ENHANCED">DBS_RTW_ENHANCED</option>
-            </select>
+                <label for="selectedScheme" class="checks-scheme">Scheme: </label>
+                <select id="selectedScheme">
+                    <option value="DBS_BASIC">DBS_BASIC</option>
+                    <option value="RTW">RTW</option>
+                    <option value="RTR">RTR</option>
+                    <option value="DBS_STANDARD">DBS_STANDARD</option>
+                    <option value="DBS_ENHANCED">DBS_ENHANCED</option>
+                    <option value="DBS_RTW_BASIC">DBS_RTW_BASIC</option>
+                    <option value="DBS_RTW_STANDARD">DBS_RTW_STANDARD</option>
+                    <option value="DBS_RTW_ENHANCED">DBS_RTW_ENHANCED</option>
+                </select>
+                <br>
+                <label for="subjectId" class="checks-subjectId">Subject ID:</label><input style="margin: 10px; width: 250px;" placeholder="Subject ID" id="subjectId" type="text"/>
+                <br>
             </div>
 
             <h2 class="small-sub-title">Select additional attributes (optional):</h2>
@@ -44,6 +47,8 @@
             <input style="margin: 10px" value="email" id="email" type="checkbox" onchange="checkAttribute(this)"/><label for="email" class="checks-attributes">Email address</label>
             <br>
             <input style="margin: 10px" value="covid19VirusTest" id="covid19VirusTest" type="checkbox" onchange="checkAttribute(this)"/><label for="covid19VirusTest" class="checks-attributes">COVID 19 virus test</label>
+            <br>
+            <input style="margin: 10px" value="rememberMeId" id="rememberMeId" type="checkbox" onchange="checkAttribute(this)"/><label for="rememberMeId" class="checks-attributes">Remember me ID</label>
             <br>
 
             <div class="yoti-sdk-integration-section">
@@ -59,6 +64,7 @@
 
     let selectedScheme
     let selectedAttributes = []
+    let subjectId
 
     const dropDown = document.getElementById('selectedScheme')
     selectedScheme = dropDown.options[dropDown.selectedIndex].value
@@ -66,6 +72,11 @@
     dropDown.onchange = function() {
       const { value } = dropDown.options[dropDown.selectedIndex]
       selectedScheme = value
+    }
+
+    const text = document.getElementById('subjectId')
+    text.onchange = function() {
+        subjectId = text.value
     }
 
     const checkAttribute = function (target) {
@@ -81,7 +92,11 @@
     async function getShareUrl() {
       console.log('The get share url has been called.')
       const attributes = selectedAttributes.join(',')
-      const response = await fetch(`/get-new-share-url?scheme=${selectedScheme}&attributes=${attributes}`);
+        const urlWithoutSubjectId = `/get-new-share-url?scheme=${selectedScheme}&attributes=${attributes}`
+        const url = subjectId
+          ? `${urlWithoutSubjectId}&subjectId=${subjectId}`
+          : urlWithoutSubjectId
+      const response = await fetch(url);
       const myJson = await response.json();
       console.log(JSON.stringify(myJson));
       return myJson.shareUrl;

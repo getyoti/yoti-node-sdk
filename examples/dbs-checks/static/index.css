@@ -186,7 +186,7 @@
     color:#2875bc;
 }
 
-.checks-scheme, .checks-attributes {
+.checks-scheme, .checks-attributes, .checks-subjectId {
     font-weight: bold;
     font-size: medium
 }

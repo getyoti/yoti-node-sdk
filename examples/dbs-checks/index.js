@@ -85,15 +85,11 @@ router.get('/', (req, res) => {
 });
 
 router.get('/get-new-share-url', async (req, res) => {
-  const { scheme, attributes: attributesString } = req.query;
+  const { scheme, attributes: attributesString, subjectId } = req.query;
 
   const attributes = attributesString.split(',');
 
   const identityProfileRequirementsDescriptor = identityProfileRequirementsDescriptors[scheme];
-
-  const subject = {
-    subject_id: 'subject_id_string',
-  };
 
   let dynamicPolicy = new Yoti.DynamicPolicyBuilder()
     .withIdentityProfileRequirements(identityProfileRequirementsDescriptor);
@@ -113,6 +109,9 @@ router.get('/get-new-share-url', async (req, res) => {
         case 'covid19VirusTest':
           dynamicPolicy.withWantedAttributeByName('com.yoti.virus.covid19.test');
           break;
+        case 'rememberMeId':
+          dynamicPolicy.withWantedRememberMe(true);
+          break;
         default:
           break;
       }
@@ -121,11 +120,17 @@ router.get('/get-new-share-url', async (req, res) => {
 
   dynamicPolicy = dynamicPolicy.build();
 
-  const dynamicScenario = new Yoti.DynamicScenarioBuilder()
+  let dynamicScenario = new Yoti.DynamicScenarioBuilder()
     .withCallbackEndpoint('/profile')
-    .withPolicy(dynamicPolicy)
-    .withSubject(subject)
-    .build();
+    .withPolicy(dynamicPolicy);
+
+  if (subjectId) {
+    dynamicScenario.withSubject({
+      subject_id: subjectId,
+    });
+  }
+
+  dynamicScenario = dynamicScenario.build();
 
   console.log('######## DBS check scenario', JSON.stringify(dynamicScenario, null, 8), '########');
 
@@ -145,10 +150,13 @@ router.get('/profile', (req, res) => {
     return;
   }
 
+  let profile = null;
   let identityAssertion = null;
   let verificationReport = null;
   let authenticationReport = null;
   let documentImagesAttributes = [];
+  let selfie = null;
+  let rememberMeId = null;
   let errorDetails = null;
 
   const promise = yotiClient.getActivityDetails(token);
@@ -156,7 +164,7 @@ router.get('/profile', (req, res) => {
     const outcome = activityDetails.getOutcome();
     console.log('######## Identity profile check outcome =', outcome, '########');
     if (outcome === 'SUCCESS') {
-      const profile = activityDetails.getProfile();
+      profile = activityDetails.getProfile();
 
       if (profile
           && profile.getIdentityProfileReport()
@@ -175,13 +183,19 @@ router.get('/profile', (req, res) => {
         authenticationReport = authentication_report;
 
         const { evidence } = verificationReport;
-        const { documents } = evidence;
+        const { documents, face } = evidence;
+        const { selfie_attribute_id } = face;
         documentImagesAttributes = documents
           // eslint-disable-next-line camelcase
           .map(({ document_images_attribute_id }) => (document_images_attribute_id
             ? (profile && profile.getAttributeById(document_images_attribute_id)) : null))
           .filter((documentImagesAttribute) => documentImagesAttribute);
 
+        selfie = selfie_attribute_id
+          ? (profile && profile.getAttributeById(selfie_attribute_id))
+          : null;
+
+        rememberMeId = activityDetails.getRememberMeId();
         // eslint-disable-next-line max-len
         // documentImagesAttributes.map((documentImagesAttribute) => documentImagesAttribute.getValue());
       }
@@ -195,7 +209,10 @@ router.get('/profile', (req, res) => {
       identityAssertion,
       verificationReport,
       authenticationReport,
+      profile,
       documentImagesAttributes,
+      selfie,
+      rememberMeId,
       errorDetails,
     });
   }).catch((err) => {

@@ -1,3 +1,9 @@
+<%
+    const phoneNumber = profile && profile.getPhoneNumber();
+    const emailAddress = profile && profile.getEmailAddress();
+    const covidTestResult = profile && profile.getAttributesByName('com.yoti.virus.covid19.test');
+%>
+
 <!DOCTYPE html>
 <html class="yoti-html">
 <head>
@@ -27,35 +33,79 @@
         <section>
             <div class="content">
                 <% if (outcome === 'SUCCESS' ) { %>
-                <div>
-                    <h4>Identity Assertion</h4>
-                    <pre><%= JSON.stringify(identityAssertion, null, 2) %></pre>
-                </div>
-                <div>
-                    <h4>Verification Report</h4>
-                    <pre><%= JSON.stringify(verificationReport, null, 2) %></pre>
-                </div>
-                <div>
-                    <h4>Authentication Report</h4>
-                    <pre><%= JSON.stringify(authenticationReport, null, 2) %></pre>
-                </div>
-                <div>
-                    <h4>Documents Images Attributes</h4>
-                    <% documentImagesAttributes.forEach((docImgAttr) => { %>
-                        <span><%= docImgAttr.getId() %></span>
-
-                        <% docImgAttr.getValue().forEach((image) => { %>
-                            <img src="<%= image.getBase64Content() %>"  alt="Document image"/>
-                        <% }) %>
-
-                    <% }) %>
-                </div>
+                    <div>
+                        <h4>Identity assertion:</h4>
+                        <pre><%= JSON.stringify(identityAssertion, null, 2) %></pre>
+                    </div>
+                    <div>
+                        <h4>Verification report:</h4>
+                        <pre><%= JSON.stringify(verificationReport, null, 2) %></pre>
+                    </div>
+                    <div>
+                        <h4>Authentication report:</h4>
+                        <pre><%= JSON.stringify(authenticationReport, null, 2) %></pre>
+                    </div>
+                    <br>
+                    <br>
+                    <div>
+                        <% if (phoneNumber || emailAddress || covidTestResult[0]) { %>
+                            <h4>Additional attributes:</h4>
+                        <% } %>
+                        <% if (phoneNumber && phoneNumber.getValue()) { %>
+                            <span>Phone number: </span>
+                            <span><%= phoneNumber.getValue() %></span>
+                            <br>
+                            <br>
+                        <% } %>
+                        <% if (rememberMeId) { %>
+                            <span>Remember me ID: </span>
+                            <span><%= rememberMeId %></span>
+                            <br>
+                            <br>
+                        <% } %>
+                        <% if (emailAddress && emailAddress.getValue()) { %>
+                            <span>Email address: </span>
+                            <span><%= emailAddress.getValue() %></span>
+                            <br>
+                            <br>
+                        <% } %>
+                        <% if (covidTestResult[0] && covidTestResult[0].getValue()) { %>
+                            <span>Covid 19 Test Result: </span>
+                            <pre><%= JSON.stringify(covidTestResult.getValue(), null, 2) %></pre>
+                            <br>
+                            <br>
+                        <% } %>
+                    </div>
+                    <div>
+                        <% if(documentImagesAttributes[0]) { %>
+                            <h4>Documents images attributes:</h4>
+                            <% documentImagesAttributes.forEach((docImgAttr) => { %>
+                                <span>Document image ID: </span>
+                                <span><%= docImgAttr.getId() %></span>
+                                <br>
+                                <br>
+                                <% docImgAttr.getValue().forEach((image) => { %>
+                                    <img src="<%= image.getBase64Content() %>"  alt="Document image"/>
+                                <% }) %>
+                            <% }) %>
+                        <% } %>
+                    </div>
+                    <div>
+                        <% if (selfie && selfie.getValue()) { %>
+                            <h4>Selfie:</h4>
+                            <span>Selfie ID: </span>
+                            <span><%= selfie.getId() %></span>
+                            <br>
+                            <br>
+                            <img src="<%= selfie.getValue().getBase64Content() %>"  alt="Document image"/>
+                        <% } %>
+                    </div>
                 <% } else { %>
-                <div>
-                    <h4>Sorry, the check was not successful</h4>
-                    <h4>Error:</h4>
-                    <pre><%= JSON.stringify(errorDetails, null, 2) %></pre>
-                </div>
+                    <div>
+                        <h4>Sorry, the check was not successful</h4>
+                        <h4>Error:</h4>
+                        <pre><%= JSON.stringify(errorDetails, null, 2) %></pre>
+                    </div>
                 <% } %>
             </div>
         </section>
