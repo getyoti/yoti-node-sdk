@@ -2,21 +2,21 @@ const nock = require('nock');
 const fs = require('fs');
 
 const config = require('../../config');
-const profileService = require('../../src/profile_service');
+const { ProfileService, getReceipt } = require('../../src/profile_service');
 
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 
 describe('profileService', () => {
+  const rememberMeId = 'Hig2yAT79cWvseSuXcIuCLa5lNkAPy70rxetUaeHlTJGmiwc/g1MWdYWYrexWvPU';
+  const parentRememberMeId = 'f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrNijH4k4qafTG0FSNUgQIvd2Z3Nx1j8';
+  const receiptId = '9HNJDX5bEIN5TqBm0OGzVIc1LaAmbzfx6eIrwNdwpHvKeQmgPujyogC+r7hJCVPl';
+
   afterEach((done) => {
     nock.cleanAll();
     done();
   });
 
   describe('#getReceipt', () => {
-    const rememberMeId = 'Hig2yAT79cWvseSuXcIuCLa5lNkAPy70rxetUaeHlTJGmiwc/g1MWdYWYrexWvPU';
-    const parentRememberMeId = 'f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrNijH4k4qafTG0FSNUgQIvd2Z3Nx1j8';
-    const receiptId = '9HNJDX5bEIN5TqBm0OGzVIc1LaAmbzfx6eIrwNdwpHvKeQmgPujyogC+r7hJCVPl';
-
     describe('when the profile has attributes', () => {
       const response = fs.readFileSync('./tests/sample-data/payloads/payload.json', 'utf8');
 
@@ -31,7 +31,7 @@ describe('profileService', () => {
       });
 
       it('should get the receipt', (done) => {
-        profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
+        getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
           .then((receipt) => {
             const profile = receipt.getUserProfile();
             const outcome = receipt.getOutcome();
@@ -65,7 +65,7 @@ describe('profileService', () => {
       });
 
       it('should get an empty receipt from an empty profile share', (done) => {
-        profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
+        getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
           .then((receipt) => {
             const profile = receipt.getUserProfile();
             const outcome = receipt.getOutcome();
@@ -95,7 +95,7 @@ describe('profileService', () => {
       });
 
       it('should get an empty receipt from an empty profile share', (done) => {
-        profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
+        getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
           .then((receipt) => {
             const profile = receipt.getUserProfile();
             const outcome = receipt.getOutcome();
@@ -125,7 +125,7 @@ describe('profileService', () => {
       });
 
       it('should get an empty receipt from an empty profile share', (done) => {
-        profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
+        getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
           .then((receipt) => {
             const profile = receipt.getUserProfile();
             const outcome = receipt.getOutcome();
@@ -141,6 +141,138 @@ describe('profileService', () => {
             done();
           })
           .catch(done);
+      });
+    });
+  });
+
+  describe('ProfileService class', () => {
+    const apiUrlDomain = 'https://some.api.com';
+    const apiUrlPath = '/api/v1';
+    const apiUrl = apiUrlDomain + apiUrlPath;
+
+    let profileService;
+
+    beforeAll(() => {
+      profileService = new ProfileService('stub-app-id', privateKeyFile, { apiUrl });
+    });
+
+    const setupResponse = (response) => {
+      nock(apiUrlDomain)
+        .get(new RegExp(`${apiUrlPath}/profile`))
+        .reply(200, response);
+    };
+
+    describe('#getReceipt', () => {
+      describe('when the profile has attributes', () => {
+        const selfie = fs.readFileSync('./tests/sample-data/fixtures/selfie.txt', 'utf8');
+        const phoneNumber = '+447474747474';
+
+        beforeEach(() => {
+          const response = fs.readFileSync('./tests/sample-data/payloads/payload.json', 'utf8');
+          setupResponse(response);
+        });
+
+        it('should get the receipt', (done) => {
+          profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
+            .then((receipt) => {
+              const profile = receipt.getUserProfile();
+              const outcome = receipt.getOutcome();
+
+              expect(profile).not.toBe(undefined);
+              expect(receipt.getReceiptId()).toBe(receiptId);
+              expect(receipt.getUserId()).toBe(rememberMeId);
+              expect(receipt.getRememberMeId()).toBe(rememberMeId);
+              expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
+              expect(receipt.getTimestamp()).toBeInstanceOf(Date);
+              expect(receipt.getTimestamp().toUTCString()).toBe('Tue, 19 Jul 2016 08:55:38 GMT');
+              expect(profile.phoneNumber).toBe(phoneNumber);
+              expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).toBe(selfie);
+              expect(receipt.getBase64SelfieUri()).toBe(selfie);
+              expect(outcome).toBe('SUCCESS');
+
+              done();
+            })
+            .catch(done);
+        });
+      });
+
+      describe('when the profile is empty', () => {
+        beforeEach(() => {
+          const responseContentNull = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-null.json', 'utf8');
+          setupResponse(responseContentNull);
+        });
+
+        it('should get an empty receipt from an empty profile share', (done) => {
+          profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
+            .then((receipt) => {
+              const profile = receipt.getUserProfile();
+              const outcome = receipt.getOutcome();
+
+              expect(profile).not.toBe(undefined);
+              expect(profile).toEqual({});
+              expect(receipt.getReceiptId()).toBe(receiptId);
+              expect(receipt.getUserId()).toBe(rememberMeId);
+              expect(receipt.getRememberMeId()).toBe(rememberMeId);
+              expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
+              expect(outcome).toBe('SUCCESS');
+
+              done();
+            })
+            .catch(done);
+        });
+      });
+
+      describe('when the profile contains an empty object', () => {
+        beforeEach(() => {
+          const responseContentEmptyObj = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-empty-object.json', 'utf8');
+          setupResponse(responseContentEmptyObj);
+        });
+
+        it('should get an empty receipt from an empty profile share', (done) => {
+          profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
+            .then((receipt) => {
+              const profile = receipt.getUserProfile();
+              const outcome = receipt.getOutcome();
+
+              expect(profile).not.toBe(undefined);
+              expect(profile).toEqual({});
+              expect(receipt.getReceiptId()).toBe(receiptId);
+              expect(receipt.getUserId()).toBe(rememberMeId);
+              expect(receipt.getRememberMeId()).toBe(rememberMeId);
+              expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
+              expect(outcome).toBe('SUCCESS');
+
+              done();
+            })
+            .catch(done);
+        });
+      });
+
+      describe('when the response does not have profile attributes', () => {
+        const responseContentNonExistent = fs.readFileSync('./tests/sample-data/payloads/payload-other-party-non-existent.json', 'utf8');
+
+        beforeEach(() => {
+          setupResponse(responseContentNonExistent);
+        });
+
+        it('should get an empty receipt from an empty profile share', (done) => {
+          profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
+            .then((receipt) => {
+              const profile = receipt.getUserProfile();
+              const outcome = receipt.getOutcome();
+
+              expect(profile).not.toBe(undefined);
+              expect(profile).toEqual({});
+              expect(receipt.getReceiptId()).toBe(receiptId);
+              expect(receipt.getUserId()).toBe(rememberMeId);
+              expect(receipt.getRememberMeId()).toBe(rememberMeId);
+              expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
+              expect(outcome).toBe('SUCCESS');
+
+              done();
+            })
+            .catch(done);
+        });
       });
     });
   });

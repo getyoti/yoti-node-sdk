@@ -11,6 +11,8 @@ const Media = require('../data_type/media');
 const DocScanError = require('./doc.scan.error');
 const SupportedDocumentsResponse = require('./support/supported.documents.response');
 
+const DEFAULT_API_URL = config.yoti.docScanApi;
+
 /**
  * @param {string} sessionId
  *
@@ -27,7 +29,7 @@ const sessionPath = (sessionId) => `/sessions/${sessionId}`;
 const mediaContentPath = (sessionId, mediaId) => `${sessionPath(sessionId)}/media/${mediaId}/content`;
 
 /**
- * Service built to handle the interactions between the client and Doc Scan APIs
+ * Service Class to handle interactions with the doc scan API
  *
  * @class DocScanService
  */
@@ -35,13 +37,16 @@ class DocScanService {
   /**
    * @param {string} sdkId
    * @param {string|Buffer} pem
+   * @param {Object} options
+   * @param {string} options.apiUrl
    */
-  constructor(sdkId, pem) {
+  constructor(sdkId, pem, { apiUrl = DEFAULT_API_URL } = {}) {
     Validation.isString(sdkId, 'sdkId');
     Validation.notNullOrEmpty(pem, 'pem');
 
     this.sdkId = sdkId;
     this.pem = pem;
+    this.apiUrl = apiUrl;
   }
 
   /**
@@ -56,7 +61,7 @@ class DocScanService {
 
     const request = new RequestBuilder()
       .withPemString(this.pem)
-      .withBaseUrl(config.yoti.docScanApi)
+      .withBaseUrl(this.apiUrl)
       .withEndpoint('/sessions')
       .withQueryParam('sdkId', this.sdkId)
       .withPost()
@@ -89,7 +94,7 @@ class DocScanService {
 
     const request = new RequestBuilder()
       .withPemString(this.pem)
-      .withBaseUrl(config.yoti.docScanApi)
+      .withBaseUrl(this.apiUrl)
       .withEndpoint(sessionPath(sessionId))
       .withQueryParam('sdkId', this.sdkId)
       .withGet()
@@ -120,7 +125,7 @@ class DocScanService {
 
     const request = new RequestBuilder()
       .withPemString(this.pem)
-      .withBaseUrl(config.yoti.docScanApi)
+      .withBaseUrl(this.apiUrl)
       .withEndpoint(sessionPath(sessionId))
       .withQueryParam('sdkId', this.sdkId)
       .withMethod('DELETE')
@@ -147,7 +152,7 @@ class DocScanService {
 
     const request = new RequestBuilder()
       .withPemString(this.pem)
-      .withBaseUrl(config.yoti.docScanApi)
+      .withBaseUrl(this.apiUrl)
       .withEndpoint(mediaContentPath(sessionId, mediaId))
       .withQueryParam('sdkId', this.sdkId)
       .withGet()
@@ -188,7 +193,7 @@ class DocScanService {
 
     const request = new RequestBuilder()
       .withPemString(this.pem)
-      .withBaseUrl(config.yoti.docScanApi)
+      .withBaseUrl(this.apiUrl)
       .withEndpoint(mediaContentPath(sessionId, mediaId))
       .withQueryParam('sdkId', this.sdkId)
       .withMethod('DELETE')
@@ -209,7 +214,7 @@ class DocScanService {
   getSupportedDocuments() {
     const request = new RequestBuilder()
       .withPemString(this.pem)
-      .withBaseUrl(config.yoti.docScanApi)
+      .withBaseUrl(this.apiUrl)
       .withEndpoint('/supported-documents')
       .withGet()
       .build();

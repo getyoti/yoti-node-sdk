@@ -1,10 +1,10 @@
 'use strict';
 
 const NodeRSA = require('node-rsa');
-const profileService = require('../profile_service');
-const amlService = require('../aml_service');
-const dynamicSharingService = require('../dynamic_sharing_service');
-
+const { AmlService } = require('../aml_service');
+const { DynamicShareService } = require('../dynamic_sharing_service');
+const { ProfileService } = require('../profile_service');
+const config = require('../../config');
 /**
  * Decrypt the provided connect token.
  *
@@ -29,13 +29,23 @@ class YotiClient {
   /**
    * @param {string} sdkId
    * @param {string} pem
+   * @param {Object} options
+   * @param {string} options.apiUrl
    */
-  constructor(sdkId, pem) {
+  constructor(sdkId, pem, { apiUrl } = {}) {
     this.sdkId = sdkId;
     this.pem = pem;
 
+    const options = {
+      apiUrl: apiUrl || config.yoti.connectApi,
+    };
+
+    this.amlService = new AmlService(sdkId, pem, options);
+    this.profileService = new ProfileService(sdkId, pem, options);
+    this.dynamicShareService = new DynamicShareService(sdkId, pem, options);
+
     /** @deprecated replaced by this.sdkId */
-    this.applicationId = this.sdkId;
+    // this.applicationId = this.sdkId;
   }
 
   /**
@@ -58,7 +68,7 @@ class YotiClient {
     } catch (err) {
       return Promise.reject(err);
     }
-    return profileService.getReceipt(decryptedToken, this.pem, this.sdkId);
+    return this.profileService.getReceipt(decryptedToken);
   }
 
   /**
@@ -70,7 +80,7 @@ class YotiClient {
    * @returns {Promise} resolving AmlResult with the results of the check
    */
   performAmlCheck(amlProfile) {
-    return amlService.performAmlCheck(amlProfile, this.pem, this.sdkId);
+    return this.amlService.performAmlCheck(amlProfile);
   }
 
   /**
@@ -82,11 +92,7 @@ class YotiClient {
    * @returns {Promise} containing a ShareUrlResult
    */
   createShareUrl(dynamicScenario) {
-    return dynamicSharingService.createShareUrl(
-      dynamicScenario,
-      this.pem,
-      this.sdkId
-    );
+    return this.dynamicShareService.createShareUrl(dynamicScenario);
   }
 }
 
