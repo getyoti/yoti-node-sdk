@@ -1,7 +1,8 @@
 'use strict';
 
+const config = require('../../config');
+const { RequestBuilder } = require('../request/request.builder');
 const { Payload } = require('../request/payload');
-const yotiRequest = require('../request');
 
 const DynamicScenarioBuilder = require('./dynamic.scenario.builder');
 const DynamicScenario = require('./dynamic.scenario');
@@ -17,6 +18,64 @@ const SourceConstraintBuilder = require('./policy/source.constraint.builder');
 const ShareUrlResult = require('./share.url.result');
 const Validation = require('../yoti_common/validation');
 
+const DEFAULT_API_URL = config.yoti.connectApi;
+
+/**
+ * Service Class to handle interactions with the dynamic share API
+ *
+ * @class DynamicShareService
+ */
+class DynamicShareService {
+  /**
+   * @param {string} sdkId
+   * @param {string|Buffer} pem
+   * @param {Object} options
+   * @param {string} options.apiUrl
+   */
+  constructor(sdkId, pem, { apiUrl = DEFAULT_API_URL } = {}) {
+    Validation.isString(sdkId, 'sdkId');
+    Validation.notNullOrEmpty(pem, 'pem');
+
+    this.sdkId = sdkId;
+    this.pem = pem;
+    this.apiUrl = apiUrl;
+  }
+
+  createShareUrl(dynamicScenario) {
+    Validation.instanceOf(dynamicScenario, DynamicScenario, 'dynamicScenario');
+
+    const payload = new Payload(dynamicScenario);
+
+    const requestBuilder = new RequestBuilder()
+      .withBaseUrl(this.apiUrl)
+      .withPemString(this.pem)
+      .withEndpoint(`/qrcodes/apps/${this.sdkId}`)
+      .withQueryParam('appId', this.sdkId)
+      .withMethod('POST');
+
+    requestBuilder.withPayload(payload);
+
+    const request = requestBuilder.build();
+
+    return new Promise((resolve, reject) => {
+      request.execute()
+        .then((response) => {
+          try {
+            const parsedResponse = response.getParsedResponse();
+            return resolve(new ShareUrlResult(parsedResponse));
+          } catch (err) {
+            console.log(`Error getting response data: ${err}`);
+            return reject(err);
+          }
+        })
+        .catch((err) => {
+          console.log(`Error retrieving requested data: ${err}`);
+          return reject(err);
+        });
+    });
+  }
+}
+
 /**
  * Requests a share URL for provided Dynamic Scenario.
  *
@@ -27,37 +86,13 @@ const Validation = require('../yoti_common/validation');
  * @returns {Promise} containing a ShareUrlResult
  */
 const createShareUrl = (dynamicScenario, pem, sdkId) => {
-  Validation.instanceOf(dynamicScenario, DynamicScenario, 'dynamicScenario');
-
-  const payload = new Payload(dynamicScenario);
-  const request = yotiRequest.buildConnectApiRequest(
-    'POST',
-    `/qrcodes/apps/${sdkId}`,
-    pem,
-    sdkId,
-    payload
-  );
-
-  return new Promise((resolve, reject) => {
-    request.execute()
-      .then((response) => {
-        try {
-          const parsedResponse = response.getParsedResponse();
-          return resolve(new ShareUrlResult(parsedResponse));
-        } catch (err) {
-          console.log(`Error getting response data: ${err}`);
-          return reject(err);
-        }
-      })
-      .catch((err) => {
-        console.log(`Error retrieving requested data: ${err}`);
-        return reject(err);
-      });
-  });
+  const dynamicShareService = new DynamicShareService(sdkId, pem);
+  return dynamicShareService.createShareUrl(dynamicScenario);
 };
 
 module.exports = {
   createShareUrl,
+  DynamicShareService,
   DynamicScenarioBuilder,
   DynamicPolicyBuilder,
   WantedAttributeBuilder,

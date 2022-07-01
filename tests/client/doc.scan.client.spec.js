@@ -14,33 +14,64 @@ const GetSessionResult = require('../../src/doc_scan_service/session/retrieve/ge
 const Media = require('../../src/data_type/media');
 const SupportedDocumentResponse = require('../../src/doc_scan_service/support/supported.documents.response');
 
+const GENERIC_API_PATH = '/idverify/v1';
+
 const PEM_STRING = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 const APP_ID = uuid();
 const SESSION_ID = 'some-session-id';
 const MEDIA_ID = 'some-media-id';
-const SESSION_CREATE_URI = new RegExp(`^/idverify/v1/sessions\\?sdkId=${APP_ID}`);
-const SESSION_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}\\?sdkId=${APP_ID}`);
-const MEDIA_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/media/${MEDIA_ID}/content\\?sdkId=${APP_ID}`);
-const SUPPORTED_DOCUMENTS_URI = new RegExp('^/idverify/v1/supported-documents');
 
-describe('DocScanClient', () => {
+describe.each([
+  [
+    'default',
+    {
+      apiUrlDomain: config.yoti.docScanApi.replace(GENERIC_API_PATH, ''),
+      apiUrlPath: GENERIC_API_PATH,
+      useDefaultApiUrl: true,
+    },
+  ],
+  [
+    'custom options.apiUrl',
+    {
+      apiUrlDomain: 'https://some.api.com',
+      apiUrlPath: GENERIC_API_PATH,
+      useDefaultApiUrl: false,
+    },
+  ],
+])('DocScanClient (%s)', (description, { apiUrlDomain, apiUrlPath, useDefaultApiUrl }) => {
+  const createSessionUriRegExp = new RegExp(`${apiUrlPath}/sessions\\?sdkId=${APP_ID}`);
+  const sessionUriRegExp = new RegExp(`${apiUrlPath}/sessions/${SESSION_ID}\\?sdkId=${APP_ID}`);
+  const sessionMediaUriRegExp = new RegExp(`${apiUrlPath}/sessions/${SESSION_ID}/media/${MEDIA_ID}/content\\?sdkId=${APP_ID}`);
+  const supportedDocumentsUriRegExp = new RegExp(`${apiUrlPath}/supported-documents`);
+
   let docScanClient;
 
   beforeEach(() => {
-    docScanClient = new DocScanClient(APP_ID, PEM_STRING);
+    if (useDefaultApiUrl) {
+      docScanClient = new DocScanClient(APP_ID, PEM_STRING);
+    } else {
+      docScanClient = new DocScanClient(APP_ID, PEM_STRING, { apiUrl: apiUrlDomain + apiUrlPath });
+    }
+  });
+
+  afterEach(() => {
+    nock.cleanAll();
   });
 
   describe('#createSession', () => {
+    const sessionSpec = new SessionSpecificationBuilder().build();
+
+    const setupResponse = (responseBody, responseStatusCode = 200) => {
+      nock(apiUrlDomain)
+        .post(createSessionUriRegExp, JSON.stringify(sessionSpec))
+        .reply(responseStatusCode, responseBody);
+    };
+
+    beforeEach(() => {
+      setupResponse(JSON.stringify({}));
+    });
+
     it('should return a session response', (done) => {
-      const sessionSpec = new SessionSpecificationBuilder().build();
-
-      nock(config.yoti.docScanApi)
-        .post(
-          SESSION_CREATE_URI,
-          JSON.stringify(sessionSpec)
-        )
-        .reply(200, JSON.stringify({}));
-
       docScanClient
         .createSession(sessionSpec)
         .then((result) => {
@@ -52,18 +83,24 @@ describe('DocScanClient', () => {
   });
 
   describe('#getSession', () => {
-    it('should return a DocScan session', (done) => {
-      nock(config.yoti.docScanApi)
-        .get(SESSION_URI)
-        .reply(200, JSON.stringify({
-          session_id: 'some-session-id',
-        }));
+    const setupResponse = (responseBody, responseStatusCode = 200) => {
+      nock(apiUrlDomain)
+        .get(sessionUriRegExp)
+        .reply(responseStatusCode, responseBody);
+    };
 
+    beforeEach(() => {
+      setupResponse(JSON.stringify({
+        session_id: SESSION_ID,
+      }));
+    });
+
+    it('should return a DocScan session', (done) => {
       docScanClient
         .getSession(SESSION_ID)
         .then((result) => {
           expect(result).toBeInstanceOf(GetSessionResult);
-          expect(result.getSessionId()).toBe('some-session-id');
+          expect(result.getSessionId()).toBe(SESSION_ID);
           done();
         })
         .catch(done);
@@ -71,11 +108,17 @@ describe('DocScanClient', () => {
   });
 
   describe('#deleteSession', () => {
-    it('should have no response', (done) => {
-      nock(config.yoti.docScanApi)
-        .delete(SESSION_URI)
-        .reply(204);
+    const setupResponse = (responseStatusCode = 204) => {
+      nock(apiUrlDomain)
+        .delete(sessionUriRegExp)
+        .reply(responseStatusCode);
+    };
 
+    beforeEach(() => {
+      setupResponse();
+    });
+
+    it('should have no response', (done) => {
       docScanClient
         .deleteSession(SESSION_ID)
         .then((result) => {
@@ -87,13 +130,19 @@ describe('DocScanClient', () => {
   });
 
   describe('#getMediaContent', () => {
-    it('should return media', (done) => {
-      nock(config.yoti.docScanApi)
-        .get(MEDIA_URI)
+    const setupResponse = () => {
+      nock(apiUrlDomain)
+        .get(sessionMediaUriRegExp)
         .reply(200, '', {
           'Content-Type': 'image/jpeg',
         });
+    };
 
+    beforeEach(() => {
+      setupResponse();
+    });
+
+    it('should return media', (done) => {
       docScanClient
         .getMediaContent(SESSION_ID, MEDIA_ID)
         .then((result) => {
@@ -105,11 +154,17 @@ describe('DocScanClient', () => {
   });
 
   describe('#deleteMediaContent', () => {
-    it('should have no response', (done) => {
-      nock(config.yoti.docScanApi)
-        .delete(MEDIA_URI)
-        .reply(204);
+    const setupResponse = (responseStatusCode = 204) => {
+      nock(apiUrlDomain)
+        .delete(sessionMediaUriRegExp)
+        .reply(responseStatusCode);
+    };
 
+    beforeEach(() => {
+      setupResponse();
+    });
+
+    it('should have no response', (done) => {
       docScanClient
         .deleteMediaContent(SESSION_ID, MEDIA_ID)
         .then((result) => {
@@ -121,12 +176,18 @@ describe('DocScanClient', () => {
   });
 
   describe('#getSupportedDocuments', () => {
-    describe('when a valid response is returned', () => {
-      it('should return SupportedDocumentResponse', (done) => {
-        nock(config.yoti.docScanApi)
-          .get(SUPPORTED_DOCUMENTS_URI)
-          .reply(200, '{}');
+    const setupResponse = (responseBody, responseStatusCode = 200) => {
+      nock(apiUrlDomain)
+        .get(supportedDocumentsUriRegExp)
+        .reply(responseStatusCode, responseBody);
+    };
 
+    describe('when a valid response is returned', () => {
+      beforeEach(() => {
+        setupResponse(JSON.stringify({}));
+      });
+
+      it('should return SupportedDocumentResponse', (done) => {
         docScanClient
           .getSupportedDocuments()
           .then((result) => {
