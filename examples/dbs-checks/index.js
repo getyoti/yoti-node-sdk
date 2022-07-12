@@ -153,6 +153,7 @@ router.get('/profile', (req, res) => {
   let profile = null;
   let identityAssertion = null;
   let verificationReport = null;
+  let proofValue = null;
   let authenticationReport = null;
   let documentImagesAttributes = [];
   let selfie = null;
@@ -175,11 +176,13 @@ router.get('/profile', (req, res) => {
         const {
           identity_assertion,
           verification_report,
+          proof,
           authentication_report,
         } = identityProfile;
 
         identityAssertion = identity_assertion;
         verificationReport = verification_report;
+        proofValue = proof;
         authenticationReport = authentication_report;
 
         const { evidence } = verificationReport;
@@ -208,6 +211,7 @@ router.get('/profile', (req, res) => {
       outcome,
       identityAssertion,
       verificationReport,
+      proofValue,
       authenticationReport,
       profile,
       documentImagesAttributes,
