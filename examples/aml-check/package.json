@@ -13,14 +13,14 @@
     "lint": "node_modules/.bin/eslint *.js"
   },
   "dependencies": {
-    "dotenv": "5.0.0",
+    "dotenv": "16.0.2",
     "yoti": "file:../.."
   },
   "devDependencies": {
-    "eslint": "4.18.1",
-    "eslint-config-airbnb-base": "12.1.0",
-    "eslint-plugin-import": "2.9.0",
-    "eslint-plugin-jest": "24.1.3",
-    "eslint-plugin-node": "6.0.1"
+    "eslint": "8.23.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jest": "27.0.1",
+    "eslint-plugin-node": "11.1.0"
   }
 }
