@@ -9,7 +9,7 @@ jobs:
   include:
     - &test
       stage: Test
-      node_js: "10"
+      node_js: "14"
       before_install: npm install -g npm@latest
       install: npm ci
       script:
@@ -26,43 +26,35 @@ jobs:
       script:
         - npm test
     - <<: *test-compatibility
-      node_js: "6"
-    - <<: *test-compatibility
-      node_js: "8"
-    - <<: *test-compatibility
-      node_js: "9"
-    - <<: *test-compatibility
-      node_js: "10"
-    - <<: *test-compatibility
-      node_js: "11"
-    - <<: *test-compatibility
-      node_js: "12"
-    - <<: *test-compatibility
-      node_js: "13"
-    - <<: *test-compatibility
       node_js: "14"
+    - <<: *test-compatibility
+      node_js: "16"
+    - <<: *test-compatibility
+      node_js: "18"
     - &test-compatibility-osx
       <<: *test-compatibility
       os: osx
     - <<: *test-compatibility-osx
-      node_js: "8"
+      node_js: "14"
     - <<: *test-compatibility-osx
-      node_js: "10"
+      node_js: "16"
+    - <<: *test-compatibility-osx
+      node_js: "18"
     - stage: Lint Examples
       name: AML Check
-      node_js: "10"
+      node_js: "14"
       script:
         - cd ./examples/aml-check
         - npm update
         - npm run lint
     - name: Profile
-      node_js: "10"
+      node_js: "14"
       script:
         - cd ./examples/profile
         - npm update
         - npm run lint
     - name: Doc Scan
-      node_js: "10"
+      node_js: "14"
       script:
         - cd ./examples/doc-scan
         - npm install
