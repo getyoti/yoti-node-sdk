@@ -1,5 +1,3 @@
-const config = require('../../config');
-
 const {
   DocScanClient,
   SessionSpecificationBuilder,
@@ -21,6 +19,7 @@ const {
   ProofOfAddressObjectiveBuilder,
   RequestedSupplementaryDocTextExtractionTaskBuilder,
 } = require('yoti');
+const config = require('../../config');
 
 /**
  * Create a Doc Scan session.
@@ -31,17 +30,16 @@ async function createSession() {
     config.YOTI_PEM
   );
 
-  const yotiAccountWatchListAdvancedCaConfig =
-      new RequestedYotiAccountWatchlistAdvancedCaConfigBuilder()
-        .withRemoveDeceased(true)
-        .withShareUrl(true)
-        .withSources(new RequestedTypeListSourcesBuilder()
-          .withTypes(['pep', 'fitness-probity', 'warning'])
-          .build())
-        .withMatchingStrategy(new RequestedFuzzyMatchingStrategyBuilder()
-          .withFuzziness(0.5)
-          .build())
-        .build();
+  const yotiAccountWatchListAdvancedCaConfig = new RequestedYotiAccountWatchlistAdvancedCaConfigBuilder()
+    .withRemoveDeceased(true)
+    .withShareUrl(true)
+    .withSources(new RequestedTypeListSourcesBuilder()
+      .withTypes(['pep', 'fitness-probity', 'warning'])
+      .build())
+    .withMatchingStrategy(new RequestedFuzzyMatchingStrategyBuilder()
+      .withFuzziness(0.5)
+      .build())
+    .build();
 
   /**
    * Example of setting up Watchlist Advanced Config for a custom account

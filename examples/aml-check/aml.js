@@ -18,7 +18,6 @@ const yoti = new Yoti.Client(config.CLIENT_SDK_ID, config.PEM_KEY);
 const amlAddress = new Yoti.AmlAddress(countryCode);
 const amlProfile = new Yoti.AmlProfile(firstName, lastName, amlAddress);
 
-
 yoti.performAmlCheck(amlProfile).then((amlResult) => {
   console.log(`On PEP list: ${amlResult.isOnPepList}`);
   console.log(`On fraud list: ${amlResult.isOnFraudList}`);

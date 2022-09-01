@@ -1,8 +1,7 @@
-const config = require('../../config');
-
 const {
   DocScanClient,
 } = require('yoti');
+const config = require('../../config');
 
 module.exports = async (req, res) => {
   const docScanClient = new DocScanClient(
