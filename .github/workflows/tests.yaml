@@ -73,7 +73,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [6, 8, 9, 10, 11, 12, 13, 14, 16]
+        node-version: [14, 16, 18]
 
     steps:
       - uses: actions/checkout@v2
