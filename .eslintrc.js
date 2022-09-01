@@ -14,6 +14,8 @@ module.exports = {
     }],
     "no-console": 0,
     "prefer-object-spread": 0,
+    "default-param-last": "off",
+    "prefer-regex-literals": "off"
   },
   env: {
     "node": true,
