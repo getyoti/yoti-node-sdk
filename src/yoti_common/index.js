@@ -1,6 +1,5 @@
 'use strict';
 
-const NodeRSA = require('node-rsa');
 const crypto = require('crypto');
 const forge = require('node-forge');
 
@@ -22,9 +21,11 @@ const methodsThatIncludePayload = ['POST', 'PUT', 'PATCH'];
  */
 function unwrapKey(wrappedKey, pem) {
   const wrappedKeyBuffer = Buffer.from(wrappedKey, 'base64');
-  const privateKey = new NodeRSA(pem, 'pkcs1', { encryptionScheme: 'pkcs1' });
-  const unwrappedKey = privateKey.decrypt(wrappedKeyBuffer, 'base64');
-  return forge.util.decode64(unwrappedKey);
+  const unwrappedKey = crypto.privateDecrypt({
+    key: pem,
+    padding: crypto.constants.RSA_PKCS1_PADDING,
+  }, wrappedKeyBuffer);
+  return unwrappedKey.toString('binary');
 }
 
 /**
