@@ -9,7 +9,7 @@
     "url": "https://github.com/getyoti/yoti-node-sdk.git"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=14"
   },
   "scripts": {
     "lint": "eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
