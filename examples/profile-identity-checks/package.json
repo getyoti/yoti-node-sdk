@@ -6,7 +6,7 @@
   "author": "Yoti LTD <tech@yoti.com> (https://www.yoti.com/developers)",
   "license": "MIT",
   "engines": {
-    "node": ">=8.9.4"
+    "node": ">=14"
   },
   "scripts": {
     "lint": "node_modules/.bin/eslint *.js"
