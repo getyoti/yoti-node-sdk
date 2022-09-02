@@ -20,12 +20,13 @@ const methodsThatIncludePayload = ['POST', 'PUT', 'PATCH'];
  * @returns {string}
  */
 function unwrapKey(wrappedKey, pem) {
-  const wrappedKeyBuffer = Buffer.from(wrappedKey, 'base64');
-  const unwrappedKey = crypto.privateDecrypt({
-    key: pem,
-    padding: crypto.constants.RSA_PKCS1_PADDING,
-  }, wrappedKeyBuffer);
-  return unwrappedKey.toString('binary');
+  const privateKey = forge.pki.privateKeyFromPem(pem);
+
+  const wrappedKeyBuffer = Buffer
+    .from(wrappedKey, 'base64')
+    .toString('binary');
+
+  return privateKey.decrypt(wrappedKeyBuffer).toString('binary');
 }
 
 /**

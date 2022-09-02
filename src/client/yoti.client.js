@@ -1,6 +1,6 @@
 'use strict';
 
-const crypto = require('crypto');
+const forge = require('node-forge');
 const { AmlService } = require('../aml_service');
 const { DynamicShareService } = require('../dynamic_sharing_service');
 const { ProfileService } = require('../profile_service');
@@ -13,17 +13,16 @@ const config = require('../../config');
  * @param {string} pem
  */
 function decryptToken(encryptedConnectToken, pem) {
-  let decryptedToken;
+  const privateKey = forge.pki.privateKeyFromPem(pem);
+
   try {
-    decryptedToken = crypto.privateDecrypt({
-      key: pem,
-      padding: crypto.constants.RSA_PKCS1_PADDING,
-    },
-    Buffer.from(encryptedConnectToken, 'base64'));
-  } catch (err) {
+    const encryptedConnectTokenBinary = Buffer
+      .from(encryptedConnectToken, 'base64')
+      .toString('binary');
+    return privateKey.decrypt(encryptedConnectTokenBinary);
+  } catch (e) {
     throw new Error(`Could not decrypt token: ${encryptedConnectToken}`);
   }
-  return decryptedToken.toString();
 }
 
 /**
