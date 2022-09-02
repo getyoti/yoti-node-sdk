@@ -1,10 +1,11 @@
 module.exports = {
-  "plugins": ["node"],
-  "extends": ["plugin:node/recommended", "airbnb-base"],
+  plugins: ['node'],
+  extends: ['plugin:node/recommended', 'airbnb-base'],
   rules: {
-    "no-console": 0
+    'no-console': 0,
   },
   env: {
-    "node": true
-  }
+    node: true,
+  },
+  root: true,
 };
