@@ -22,11 +22,11 @@ const methodsThatIncludePayload = ['POST', 'PUT', 'PATCH'];
 function unwrapKey(wrappedKey, pem) {
   const privateKey = forge.pki.privateKeyFromPem(pem);
 
-  const wrappedKeyBuffer = Buffer
+  const wrappedKeyBinary = Buffer
     .from(wrappedKey, 'base64')
     .toString('binary');
 
-  return privateKey.decrypt(wrappedKeyBuffer).toString('binary');
+  return privateKey.decrypt(wrappedKeyBinary).toString('binary');
 }
 
 /**
