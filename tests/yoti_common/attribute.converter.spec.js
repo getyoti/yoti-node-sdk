@@ -1,5 +1,4 @@
 const fs = require('fs');
-const Buffer = require('safe-buffer').Buffer;
 
 const { AttributeConverter } = require('../../src/yoti_common/attribute.converter');
 const protoRoot = require('../../src/proto-root');
