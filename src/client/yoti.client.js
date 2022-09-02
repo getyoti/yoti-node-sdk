@@ -1,10 +1,11 @@
 'use strict';
 
-const NodeRSA = require('node-rsa');
+const forge = require('node-forge');
 const { AmlService } = require('../aml_service');
 const { DynamicShareService } = require('../dynamic_sharing_service');
 const { ProfileService } = require('../profile_service');
 const config = require('../../config');
+
 /**
  * Decrypt the provided connect token.
  *
@@ -12,14 +13,16 @@ const config = require('../../config');
  * @param {string} pem
  */
 function decryptToken(encryptedConnectToken, pem) {
-  const privateKey = new NodeRSA(pem, 'pkcs1', { encryptionScheme: 'pkcs1' });
-  let decryptedToken;
+  const privateKey = forge.pki.privateKeyFromPem(pem);
+
   try {
-    decryptedToken = privateKey.decrypt(encryptedConnectToken, 'utf8');
-  } catch (err) {
+    const encryptedConnectTokenBinary = Buffer
+      .from(encryptedConnectToken, 'base64')
+      .toString('binary');
+    return privateKey.decrypt(encryptedConnectTokenBinary);
+  } catch (e) {
     throw new Error(`Could not decrypt token: ${encryptedConnectToken}`);
   }
-  return decryptedToken;
 }
 
 /**
