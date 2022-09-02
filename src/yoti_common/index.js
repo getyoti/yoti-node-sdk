@@ -3,7 +3,6 @@
 const NodeRSA = require('node-rsa');
 const crypto = require('crypto');
 const forge = require('node-forge');
-const Buffer = require('safe-buffer').Buffer;
 
 const protoRoot = require('../proto-root').initializeProtoBufObjects();
 

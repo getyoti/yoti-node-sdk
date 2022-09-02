@@ -1,7 +1,5 @@
 'use strict';
 
-const Buffer = require('safe-buffer').Buffer;
-
 module.exports.Payload = class Payload {
   constructor(data) {
     this.data = data;
