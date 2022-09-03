@@ -1,5 +1,6 @@
 'use strict';
 
+const Protobuf = require('protobufjs');
 const Age = require('../yoti_common/age').Age;
 const { AttributeConverter } = require('../yoti_common/attribute.converter');
 const AnchorProcessor = require('../yoti_common/anchor.processor').AnchorProcessor;
@@ -14,20 +15,20 @@ module.exports = {
    * @param {Buffer} binaryData
    */
   decodeAttributeList(binaryData) {
-    const attributesList = this.builder.attrpubapi_v1.AttributeList.decode(binaryData);
-    const attributes = attributesList.get('attributes');
+    const attributesList = this.builder.lookup('attrpubapi_v1.AttributeList').decode(binaryData);
+    const attributes = attributesList.attributes;
     const attrList = [];
     const extendedProfile = {};
     const extendedProfileList = [];
 
     for (let i = 0; i < attributes.length; i += 1) {
       const attribute = attributes[i];
-      const attrName = attribute.getName();
-      const attrValue = attribute.getValue();
-      const attrType = attribute.getContentType();
-      const attrId = attribute.getEphemeralId();
+      const attrName = attribute.name;
+      const attrValue = attribute.value;
+      const attrType = attribute.contentType;
+      const attrId = attribute.ephemeralId;
       const processedAnchors = AnchorProcessor.process(attribute.anchors);
-      const attrNameInCamelCase = this.toCamelCase(attrName);
+      const attrNameInCamelCase = Protobuf.util.camelCase(attrName);
 
       let attrData = null;
       try {
@@ -74,6 +75,6 @@ module.exports = {
   },
 
   encodeAttributeList(notificationData) {
-    return new this.builder.attrpubapi_v1.AttributeList(notificationData).toArrayBuffer();
+    return this.builder.lookup('attrpubapi_v1.AttributeList').encode({ attributes: notificationData }).finish();
   },
 };

@@ -3,10 +3,10 @@
 module.exports = {
 
   decodeSignedTimeStamp(binaryData) {
-    return this.builder.compubapi_v1.SignedTimestamp.decode(binaryData);
+    return this.builder.lookup('compubapi_v1.SignedTimestamp').decode(binaryData);
   },
 
   encodeSignedTimeStamp(notificationData) {
-    return new this.builder.compubapi_v1.SignedTimestamp(notificationData).toArrayBuffer();
+    return this.builder.lookup('compubapi_v1.SignedTimestamp').encode(notificationData).finish();
   },
 };

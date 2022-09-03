@@ -94,7 +94,7 @@ describe.each([
 
             expect(profile).not.toBe(undefined);
             expect(profile.phoneNumber).toBe(phoneNumber);
-            expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).toBe(selfie);
+            expect(`data:image/jpeg;base64,${profile.selfie.toString('base64')}`).toBe(selfie);
 
             expect(extendedProfile.getPhoneNumber().getValue()).toBe(phoneNumber);
             expect(extendedProfile.getSelfie().getValue().getBase64Content()).toBe(selfie);

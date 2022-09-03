@@ -19,7 +19,7 @@ imageTypes.forEach((type) => {
   describe(`${type.imageObj.constructor.name}`, () => {
     describe('#getContent()', () => {
       it('should return original image content', () => {
-        expect(type.imageObj.getContent().buffer).toStrictEqual(imageContent);
+        expect(type.imageObj.getContent()).toStrictEqual(imageContent);
       });
     });
     describe('#getBase64Content()', () => {

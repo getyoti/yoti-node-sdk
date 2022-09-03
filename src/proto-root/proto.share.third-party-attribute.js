@@ -2,6 +2,6 @@
 
 module.exports = {
   decodeThirdPartyAttribute(binaryData) {
-    return this.builder.sharepubapi_v1.ThirdPartyAttribute.decode(binaryData);
+    return this.builder.lookup('sharepubapi_v1.ThirdPartyAttribute').decode(Buffer.from(binaryData, 'base64'));
   },
 };

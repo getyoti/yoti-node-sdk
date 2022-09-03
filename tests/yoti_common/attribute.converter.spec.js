@@ -26,10 +26,8 @@ const CONTENT_TYPE_INT = 7;
  */
 const convertSampleMultiValue = () => {
   const protoAttribute = protoInst
-    .builder
-    .attrpubapi_v1
-    .Attribute
-    .decode(sampleMultiValueAttribute);
+    .builder.lookup('attrpubapi_v1.Attribute')
+    .decode(Buffer.from(sampleMultiValueAttribute, 'base64'));
 
   return AttributeConverter.convertValueBasedOnContentType(
     protoAttribute.value,
@@ -45,15 +43,12 @@ const convertSampleMultiValue = () => {
  */
 const createTestMultiValueValue = (contentType, value) => {
   const multiValueValue = protoInst
-    .builder
-    .attrpubapi_v1
-    .MultiValue
-    .Value;
+    .builder.lookup('.attrpubapi_v1.MultiValue.Value');
 
   const encoded = multiValueValue.encode({
     contentType,
     data: Buffer.from(value, 'utf8'),
-  });
+  }).finish();
 
   return multiValueValue.decode(encoded);
 };
@@ -65,10 +60,8 @@ const createTestMultiValueValue = (contentType, value) => {
  */
 const createTestMultiValue = (multiValueItems) => {
   const nestedProtoMultiValue = protoInst
-    .builder
-    .attrpubapi_v1
-    .MultiValue
-    .encode(multiValueItems);
+    .builder.lookup('attrpubapi_v1.MultiValue')
+    .encode(multiValueItems).finish();
 
   // Add a nested MultiValue attribute.
   multiValueItems.values.push({
@@ -77,10 +70,8 @@ const createTestMultiValue = (multiValueItems) => {
   });
 
   const protoMultiValue = protoInst
-    .builder
-    .attrpubapi_v1
-    .MultiValue
-    .encode(multiValueItems);
+    .builder.lookup('attrpubapi_v1.MultiValue')
+    .encode(multiValueItems).finish();
 
   return protoMultiValue;
 };
@@ -105,14 +96,12 @@ const nonStringContentTypes = [
  */
 const createTestAttribute = (contentType, value) => {
   const attribute = protoInst
-    .builder
-    .attrpubapi_v1
-    .Attribute;
+    .builder.lookup('attrpubapi_v1.Attribute');
 
   const encoded = attribute.encode({
     contentType,
     value: Buffer.from(value, 'utf8'),
-  });
+  }).finish();
 
   return attribute.decode(encoded);
 };

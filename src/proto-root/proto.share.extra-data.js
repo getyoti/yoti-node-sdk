@@ -2,6 +2,6 @@
 
 module.exports = {
   decodeExtraData(binaryData) {
-    return this.builder.sharepubapi_v1.ExtraData.decode(binaryData);
+    return this.builder.lookup('sharepubapi_v1.ExtraData').decode(Buffer.from(binaryData, 'base64'));
   },
 };

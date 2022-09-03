@@ -8,9 +8,9 @@ const protoInst = protoRoot.initializeProtoBufObjects();
 describe('DataEntryConverter', () => {
   describe('#convertValue', () => {
     it('should return undefined if no value supplied', () => {
-      const dataEntryProto = protoInst.builder.sharepubapi_v1.DataEntry.encode({
+      const dataEntryProto = protoInst.builder.lookup('sharepubapi_v1.DataEntry').encode({
         type: 6,
-      });
+      }).finish;
 
       const dataEntry = DataEntryConverter.convertValue(dataEntryProto.type, dataEntryProto.value);
 

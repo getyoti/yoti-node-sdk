@@ -1,8 +1,7 @@
-const ProtoBuf = require('protobufjs');
 const { initializeProtoBufObjects } = require('../../src/proto-root');
 
-function stringAttributeValueToByteBuffer(value) {
-  return ProtoBuf.ByteBuffer.fromUTF8(value);
+function stringAttributeValueToBuffer(value) {
+  return Buffer.from(value, 'utf8');
 }
 
 describe('the proto-root', () => {
@@ -14,9 +13,9 @@ describe('the proto-root', () => {
 
   describe('once initialised', () => {
     it('should expose its proto definitions builder with registered definition namespaces', () => {
-      expect(protoRoot.builder.attrpubapi_v1).toBeDefined();
-      expect(protoRoot.builder.compubapi_v1).toBeDefined();
-      expect(protoRoot.builder.sharepubapi_v1).toBeDefined();
+      expect(protoRoot.builder.lookup('attrpubapi_v1')).toBeDefined();
+      expect(protoRoot.builder.lookup('compubapi_v1')).toBeDefined();
+      expect(protoRoot.builder.lookup('sharepubapi_v1')).toBeDefined();
     });
 
     it('should expose commodity methods', () => {
@@ -43,12 +42,12 @@ describe('the proto-root', () => {
         rawAttributesList = [
           {
             name: 'name',
-            value: stringAttributeValueToByteBuffer('Bob'),
+            value: stringAttributeValueToBuffer('Bob'),
             contentType: 1,
           },
           {
             name: 'gender',
-            value: stringAttributeValueToByteBuffer('male'),
+            value: stringAttributeValueToBuffer('male'),
             contentType: 1,
           },
         ];
@@ -127,13 +126,13 @@ describe('the proto-root', () => {
         rawAttributesList = [
           {
             name: 'name',
-            value: stringAttributeValueToByteBuffer('Bob1'),
+            value: stringAttributeValueToBuffer('Bob1'),
             contentType: 1,
             ephemeralId: 'firstBob',
           },
           {
             name: 'name',
-            value: stringAttributeValueToByteBuffer('Bob2'),
+            value: stringAttributeValueToBuffer('Bob2'),
             contentType: 1,
             ephemeralId: 'secondBob',
           },

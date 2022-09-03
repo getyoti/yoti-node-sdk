@@ -40,7 +40,7 @@ module.exports.AttributeConverter = class AttributeConverter {
   static convertValueBasedOnContentType(value, contentType) {
     if (
       !value
-      || (contentType !== CONTENT_TYPE_STRING && !value.limit)
+      || (contentType !== CONTENT_TYPE_STRING && !value.length)
     ) {
       throw new Error('Warning: value is NULL');
     }
@@ -48,7 +48,7 @@ module.exports.AttributeConverter = class AttributeConverter {
     switch (contentType) {
       case CONTENT_TYPE_STRING: // STRING means the value is UTF-8 encoded text.
       case CONTENT_TYPE_DATE: // Date as string in RFC3339 format (YYYY-MM-DD).
-        return value.toUTF8();
+        return value.toString('utf8');
       case CONTENT_TYPE_BYTES: {
         // Convert ByteArray to JSON
         const attrValue = Buffer.from(value.toArrayBuffer()).toString();
@@ -61,16 +61,16 @@ module.exports.AttributeConverter = class AttributeConverter {
       case CONTENT_TYPE_MULTI_VALUE:
         return AttributeConverter.convertMultiValue(value);
       case CONTENT_TYPE_INT:
-        return parseInt(value.toUTF8(), 10);
+        return parseInt(value.toString('utf8'), 10);
       default:
         console.log(`Unknown Content Type '${contentType}', parsing as a String`);
-        return value.toUTF8();
+        return value.toString('utf8');
     }
   }
 
   static convertMultiValue(value) {
     const protoInst = protoRoot.initializeProtoBufObjects();
-    const protoMultiValue = protoInst.builder.attrpubapi_v1.MultiValue.decode(value);
+    const protoMultiValue = protoInst.builder.lookup('attrpubapi_v1.MultiValue').decode(value);
     const items = [];
     protoMultiValue.values.forEach((item) => {
       items.push(AttributeConverter.convertValueBasedOnContentType(

@@ -6,7 +6,7 @@ const { Attribute } = require('../../src/data_type/attribute');
 const { DocumentDetails } = require('../../src/data_type/document.details');
 
 function parseAnchorData(anchorString) {
-  const anchorObj = protoRoot.builder.attrpubapi_v1.Anchor.decode(anchorString);
+  const anchorObj = protoRoot.builder.lookup('attrpubapi_v1.Anchor').decode(Buffer.from(anchorString, 'base64'));
   return AnchorProcessor.process([anchorObj]);
 }
 

@@ -9,10 +9,10 @@ const protoInst = protoRoot.initializeProtoBufObjects();
 const sampleThirdPartyAttribute = fs.readFileSync('./tests/sample-data/fixtures/extra_data/valid_third_party_attribute.txt', 'utf8');
 
 function createTestThirdPartyAttribute(token, issuingAttributes) {
-  return protoInst.builder.sharepubapi_v1.ThirdPartyAttribute.encode({
+  return protoInst.builder.lookup('sharepubapi_v1.ThirdPartyAttribute').encode({
     issuanceToken: token ? Buffer.from(token, 'utf-8') : undefined,
     issuingAttributes,
-  });
+  }).finish();
 }
 
 describe('ThirdPartyAttributeConverter', () => {

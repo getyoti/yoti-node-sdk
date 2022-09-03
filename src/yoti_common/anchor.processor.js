@@ -33,9 +33,9 @@ class AnchorProcessor {
     const anchorsData = this.getResultFormat();
     for (let i = 0; i < anchors.length; i += 1) {
       const certificatesList = anchors[i].originServerCerts;
-      const signedTimestamp = this.processSignedTimeStamp(anchors[i].getSignedTimeStamp());
+      const signedTimestamp = this.processSignedTimeStamp(anchors[i].signedTimeStamp);
       const originServerCerts = AnchorProcessor.convertCertsListToX509(certificatesList);
-      const subType = anchors[i].getSubType();
+      const subType = anchors[i].subType;
 
       const yotiAnchor = this.getAnchorFromCerts(
         certificatesList,
@@ -103,9 +103,9 @@ class AnchorProcessor {
     }
 
     const certificatesList = anchorObj.originServerCerts;
-    const yotiSignedTimestamp = this.processSignedTimeStamp(anchorObj.getSignedTimeStamp());
+    const yotiSignedTimestamp = this.processSignedTimeStamp(anchorObj.signedTimeStamp);
     const serverX509Certs = AnchorProcessor.convertCertsListToX509(anchorObj.originServerCerts);
-    const subType = anchorObj.getSubType();
+    const subType = anchorObj.subType;
 
     for (let j = 0; j < certificatesList.length; j += 1) {
       const certAnchors = this.getAnchorsByCertificate(
@@ -235,9 +235,8 @@ class AnchorProcessor {
     const protoInst = protoRoot.initializeProtoBufObjects();
 
     if (signedTimestampByteBuffer) {
-      const signedTimestampBuffer = signedTimestampByteBuffer.toBuffer();
-      const signedTimestamp = protoInst.decodeSignedTimeStamp(signedTimestampBuffer);
-      version = signedTimestamp.getVersion();
+      const signedTimestamp = protoInst.decodeSignedTimeStamp(signedTimestampByteBuffer);
+      version = signedTimestamp.version;
       timestamp = new YotiDate(Number(signedTimestamp.timestamp.toString()));
     }
     return new YotiSignedTimeStamp(version, timestamp);
@@ -287,8 +286,7 @@ class AnchorProcessor {
    * @returns {Certificate}
    */
   static convertCertToX509(certArrayBuffer) {
-    const certBuffer = certArrayBuffer.toBuffer();
-    const anchorAsn1Obj = forge.asn1.fromDer(certBuffer.toString('binary'));
+    const anchorAsn1Obj = forge.asn1.fromDer(certArrayBuffer.toString('binary'));
     return forge.pki.certificateFromAsn1(anchorAsn1Obj);
   }
 
