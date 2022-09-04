@@ -1,12 +1,12 @@
 'use strict';
 
-const constants = require('./constants');
-const { DocumentDetails } = require('../data_type/document.details');
-const Image = require('../data_type/image');
-const ImageJpeg = require('../data_type/image.jpeg');
-const ImagePng = require('../data_type/image.png');
-const protoRoot = require('../proto-root');
-const MultiValue = require('../data_type/multi.value');
+const constants = require('../constants');
+const { messages } = require('../../proto');
+const { DocumentDetails } = require('../../data_type/document.details');
+const Image = require('../../data_type/image');
+const ImageJpeg = require('../../data_type/image.jpeg');
+const ImagePng = require('../../data_type/image.png');
+const MultiValue = require('../../data_type/multi.value');
 
 const CONTENT_TYPE_STRING = 1;
 const CONTENT_TYPE_JPEG = 2;
@@ -69,8 +69,7 @@ module.exports.AttributeConverter = class AttributeConverter {
   }
 
   static convertMultiValue(value) {
-    const protoInst = protoRoot.initializeProtoBufObjects();
-    const protoMultiValue = protoInst.builder.lookup('attrpubapi_v1.MultiValue').decode(value);
+    const protoMultiValue = messages.decodeMultiValue(value);
     const items = [];
     protoMultiValue.values.forEach((item) => {
       items.push(AttributeConverter.convertValueBasedOnContentType(

@@ -1,21 +1,15 @@
 'use strict';
 
-const Protobuf = require('protobufjs');
-const Age = require('../yoti_common/age').Age;
-const { AttributeConverter } = require('../yoti_common/attribute.converter');
-const AnchorProcessor = require('../yoti_common/anchor.processor').AnchorProcessor;
-const constants = require('../yoti_common/constants');
-const Image = require('../data_type/image');
+const { util: { camelCase } } = require('protobufjs');
 
-module.exports = {
+const Age = require('../age').Age;
+const { AttributeConverter } = require('./attribute.converter');
+const AnchorProcessor = require('../anchor.processor').AnchorProcessor;
+const constants = require('../constants');
+const Image = require('../../data_type/image');
 
-  /**
-   * Decode all attributes.
-   *
-   * @param {Buffer} binaryData
-   */
-  decodeAttributeList(binaryData) {
-    const attributesList = this.builder.lookup('attrpubapi_v1.AttributeList').decode(binaryData);
+module.exports.AttributeListConverter = class AttributeListConverter {
+  static convertAttributeList(attributesList) {
     const attributes = attributesList.attributes;
     const attrList = [];
     const extendedProfile = {};
@@ -28,7 +22,8 @@ module.exports = {
       const attrType = attribute.contentType;
       const attrId = attribute.ephemeralId;
       const processedAnchors = AnchorProcessor.process(attribute.anchors);
-      const attrNameInCamelCase = Protobuf.util.camelCase(attrName);
+
+      const attrNameInCamelCase = camelCase(attrName);
 
       let attrData = null;
       try {
@@ -72,9 +67,5 @@ module.exports = {
     attrList.push({ extendedProfileList });
 
     return attrList;
-  },
-
-  encodeAttributeList(notificationData) {
-    return this.builder.lookup('attrpubapi_v1.AttributeList').encode({ attributes: notificationData }).finish();
-  },
+  }
 };

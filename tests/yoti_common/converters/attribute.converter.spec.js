@@ -1,14 +1,13 @@
 const fs = require('fs');
 
-const { AttributeConverter } = require('../../src/yoti_common/attribute.converter');
-const protoRoot = require('../../src/proto-root');
-const ImageJpeg = require('../../src/data_type/image.jpeg');
-const ImagePng = require('../../src/data_type/image.png');
-const MultiValue = require('../../src/data_type/multi.value');
-const constants = require('../../src/yoti_common/constants');
+const { AttributeConverter } = require('../../../src/yoti_common/converters/attribute.converter');
+const { types } = require('../../../src/proto');
+const ImageJpeg = require('../../../src/data_type/image.jpeg');
+const ImagePng = require('../../../src/data_type/image.png');
+const MultiValue = require('../../../src/data_type/multi.value');
+const constants = require('../../../src/yoti_common/constants');
 
 const sampleMultiValueAttribute = fs.readFileSync('./tests/sample-data/fixtures/attributes/multi-value.txt', 'utf8');
-const protoInst = protoRoot.initializeProtoBufObjects();
 
 const CONTENT_TYPE_UNDEFINED = 0;
 const CONTENT_TYPE_STRING = 1;
@@ -25,9 +24,7 @@ const CONTENT_TYPE_INT = 7;
  * @returns {MultiValue}
  */
 const convertSampleMultiValue = () => {
-  const protoAttribute = protoInst
-    .builder.lookup('attrpubapi_v1.Attribute')
-    .decode(Buffer.from(sampleMultiValueAttribute, 'base64'));
+  const protoAttribute = types.Attribute.decode(Buffer.from(sampleMultiValueAttribute, 'base64'));
 
   return AttributeConverter.convertValueBasedOnContentType(
     protoAttribute.value,
@@ -38,12 +35,11 @@ const convertSampleMultiValue = () => {
 /**
  * Creates a test MultiValue Value.
  *
- * @param {String} contentType
+ * @param {Number} contentType
  * @param {String} value
  */
 const createTestMultiValueValue = (contentType, value) => {
-  const multiValueValue = protoInst
-    .builder.lookup('.attrpubapi_v1.MultiValue.Value');
+  const multiValueValue = types.MultiValue.Value;
 
   const encoded = multiValueValue.encode({
     contentType,
@@ -56,12 +52,10 @@ const createTestMultiValueValue = (contentType, value) => {
 /**
  * Creates a test MultiValue attribute.
  *
- * @returns {ByteBuffer}
+ * @returns {Uint8Array}
  */
 const createTestMultiValue = (multiValueItems) => {
-  const nestedProtoMultiValue = protoInst
-    .builder.lookup('attrpubapi_v1.MultiValue')
-    .encode(multiValueItems).finish();
+  const nestedProtoMultiValue = types.MultiValue.encode(multiValueItems).finish();
 
   // Add a nested MultiValue attribute.
   multiValueItems.values.push({
@@ -69,11 +63,7 @@ const createTestMultiValue = (multiValueItems) => {
     data: nestedProtoMultiValue,
   });
 
-  const protoMultiValue = protoInst
-    .builder.lookup('attrpubapi_v1.MultiValue')
-    .encode(multiValueItems).finish();
-
-  return protoMultiValue;
+  return types.MultiValue.encode(multiValueItems).finish();
 };
 
 /**
@@ -91,19 +81,16 @@ const nonStringContentTypes = [
 /**
  * Creates a test attribute.
  *
- * @param {String} contentType
+ * @param {Number} contentType
  * @param {String} value
  */
 const createTestAttribute = (contentType, value) => {
-  const attribute = protoInst
-    .builder.lookup('attrpubapi_v1.Attribute');
-
-  const encoded = attribute.encode({
+  const encoded = types.Attribute.encode({
     contentType,
     value: Buffer.from(value, 'utf8'),
   }).finish();
 
-  return attribute.decode(encoded);
+  return types.Attribute.decode(encoded);
 };
 
 /**

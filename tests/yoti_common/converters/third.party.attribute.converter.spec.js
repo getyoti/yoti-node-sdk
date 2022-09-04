@@ -1,15 +1,14 @@
 'use strict';
 
 const fs = require('fs');
-const protoRoot = require('../../src/proto-root');
-const ThirdPartyAttributeConverter = require('../../src/yoti_common/third.party.attribute.converter');
-const AttributeIssuanceDetails = require('../../src/data_type/attribute.issuance.details');
+const { types } = require('../../../src/proto');
+const ThirdPartyAttributeConverter = require('../../../src/yoti_common/converters/third.party.attribute.converter');
+const AttributeIssuanceDetails = require('../../../src/data_type/attribute.issuance.details');
 
-const protoInst = protoRoot.initializeProtoBufObjects();
 const sampleThirdPartyAttribute = fs.readFileSync('./tests/sample-data/fixtures/extra_data/valid_third_party_attribute.txt', 'utf8');
 
 function createTestThirdPartyAttribute(token, issuingAttributes) {
-  return protoInst.builder.lookup('sharepubapi_v1.ThirdPartyAttribute').encode({
+  return types.ThirdPartyAttribute.encode({
     issuanceToken: token ? Buffer.from(token, 'utf-8') : undefined,
     issuingAttributes,
   }).finish();

@@ -1,9 +1,9 @@
 'use strict';
 
 const fs = require('fs');
-const ExtraDataConverter = require('../../src/yoti_common/extra.data.converter');
-const ExtraData = require('../../src/profile_service/extra.data');
-const { YotiDate } = require('../../src/data_type/date');
+const ExtraDataConverter = require('../../../src/yoti_common/converters/extra.data.converter');
+const ExtraData = require('../../../src/profile_service/extra.data');
+const { YotiDate } = require('../../../src/data_type/date');
 
 const sampleExtraData = fs.readFileSync('./tests/sample-data/fixtures/extra_data/valid_extra_data.txt', 'utf8');
 

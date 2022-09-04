@@ -1,7 +1,8 @@
 'use strict';
 
 const forge = require('node-forge');
-const protoRoot = require('../proto-root');
+
+const { messages } = require('../proto');
 const { YotiAnchor } = require('../data_type/anchor');
 const { YotiSignedTimeStamp } = require('../data_type/signed.timestamp');
 const { YotiDate } = require('../data_type/date');
@@ -232,10 +233,10 @@ class AnchorProcessor {
   static processSignedTimeStamp(signedTimestampByteBuffer) {
     let version = 0;
     let timestamp = 0;
-    const protoInst = protoRoot.initializeProtoBufObjects();
 
     if (signedTimestampByteBuffer) {
-      const signedTimestamp = protoInst.decodeSignedTimeStamp(signedTimestampByteBuffer);
+      // eslint-disable-next-line max-len
+      const signedTimestamp = messages.decodeSignedTimeStamp(signedTimestampByteBuffer);
       version = signedTimestamp.version;
       timestamp = new YotiDate(Number(signedTimestamp.timestamp.toString()));
     }

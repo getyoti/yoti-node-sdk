@@ -1,9 +1,9 @@
 const fs = require('fs');
 const AnchorProcessor = require('../../src/yoti_common/anchor.processor').AnchorProcessor;
-const protoRoot = require('../../src/proto-root').initializeProtoBufObjects();
+const { types } = require('../../src/proto');
 
 function parseAnchorData(anchorString) {
-  return protoRoot.builder.lookup('attrpubapi_v1.Anchor').decode(Buffer.from(anchorString, 'base64'));
+  return types.Anchor.decode(Buffer.from(anchorString, 'base64'));
 }
 
 describe('anchorProcessor', () => {
