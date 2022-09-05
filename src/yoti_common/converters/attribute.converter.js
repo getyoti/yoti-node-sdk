@@ -12,7 +12,7 @@ const CONTENT_TYPE_STRING = 1;
 const CONTENT_TYPE_JPEG = 2;
 const CONTENT_TYPE_DATE = 3;
 const CONTENT_TYPE_PNG = 4;
-const CONTENT_TYPE_BYTES = 5;
+const CONTENT_TYPE_JSON = 5;
 const CONTENT_TYPE_MULTI_VALUE = 6;
 const CONTENT_TYPE_INT = 7;
 
@@ -49,10 +49,9 @@ module.exports.AttributeConverter = class AttributeConverter {
       case CONTENT_TYPE_STRING: // STRING means the value is UTF-8 encoded text.
       case CONTENT_TYPE_DATE: // Date as string in RFC3339 format (YYYY-MM-DD).
         return value.toString('utf8');
-      case CONTENT_TYPE_BYTES: {
-        // Convert ByteArray to JSON
-        const attrValue = Buffer.from(value.toArrayBuffer()).toString();
-        return JSON.parse(attrValue);
+      case CONTENT_TYPE_JSON: {
+        const jsonString = value.toString('utf8');
+        return JSON.parse(jsonString);
       }
       case CONTENT_TYPE_JPEG:
         return new ImageJpeg(value);

@@ -14,7 +14,7 @@ const CONTENT_TYPE_STRING = 1;
 const CONTENT_TYPE_JPEG = 2;
 const CONTENT_TYPE_DATE = 3;
 const CONTENT_TYPE_PNG = 4;
-const CONTENT_TYPE_BYTES = 5;
+const CONTENT_TYPE_JSON = 5;
 const CONTENT_TYPE_MULTI_VALUE = 6;
 const CONTENT_TYPE_INT = 7;
 
@@ -73,7 +73,7 @@ const nonStringContentTypes = [
   CONTENT_TYPE_JPEG,
   CONTENT_TYPE_DATE,
   CONTENT_TYPE_PNG,
-  CONTENT_TYPE_BYTES,
+  CONTENT_TYPE_JSON,
   CONTENT_TYPE_MULTI_VALUE,
   CONTENT_TYPE_INT,
 ];
@@ -171,6 +171,15 @@ describe('AttributeConverter', () => {
         100
       );
       expect(value).toBe('test unknown string');
+    });
+    it('should return an object as representation of a JSON type', () => {
+      const jsonSample = { some: 'json', with: { nested: [1, 2, 3] } };
+      const protoAttr = createTestAttribute(CONTENT_TYPE_JSON, JSON.stringify(jsonSample));
+      const value = AttributeConverter.convertValueBasedOnContentType(
+        protoAttr.value,
+        CONTENT_TYPE_JSON
+      );
+      expect(value).toStrictEqual(jsonSample);
     });
     it('should not allow empty non-string values', () => {
       nonStringContentTypes.forEach((contentType) => {
