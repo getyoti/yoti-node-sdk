@@ -4,7 +4,7 @@ const Validation = require('../yoti_common/validation');
 
 class Media {
   /**
-   * @param {Buffer|ByteBuffer} content
+   * @param {Buffer} content
    * @param {string} mimeType
    */
   constructor(content, mimeType) {
@@ -21,7 +21,7 @@ class Media {
   /**
    * Get the raw image content.
    *
-   * @returns {ByteBuffer}
+   * @returns {Buffer}
    */
   getContent() {
     return this.content;

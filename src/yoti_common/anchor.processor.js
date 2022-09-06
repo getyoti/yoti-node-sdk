@@ -126,7 +126,7 @@ class AnchorProcessor {
    *
    * @deprecated no longer in use.
    *
-   * @param {ByteBuffer} certArrayBuffer
+   * @param {Buffer} certArrayBuffer
    * @param {YotiSignedTimeStamp} signedTimestamp
    * @param {Certificate[]} originServerCerts
    * @param {string} subType
@@ -226,17 +226,17 @@ class AnchorProcessor {
   /**
    * Return Yoti signedTimestamp.
    *
-   * @param {ByteBuffer} signedTimestampByteBuffer
+   * @param {Buffer} signedTimestampBuffer
    *
    * @returns {YotiSignedTimeStamp}
    */
-  static processSignedTimeStamp(signedTimestampByteBuffer) {
+  static processSignedTimeStamp(signedTimestampBuffer) {
     let version = 0;
     let timestamp = 0;
 
-    if (signedTimestampByteBuffer) {
+    if (signedTimestampBuffer) {
       // eslint-disable-next-line max-len
-      const signedTimestamp = messages.decodeSignedTimeStamp(signedTimestampByteBuffer);
+      const signedTimestamp = messages.decodeSignedTimeStamp(signedTimestampBuffer);
       version = signedTimestamp.version;
       timestamp = new YotiDate(Number(signedTimestamp.timestamp.toString()));
     }
@@ -264,7 +264,7 @@ class AnchorProcessor {
   /**
    * Convert certificate list to a list of X509 certificates.
    *
-   * @param {ByteBuffer[]} certificatesList
+   * @param {Buffer[]} certificatesList
    *
    * @returns {Certificate[]}
    */
@@ -282,7 +282,7 @@ class AnchorProcessor {
   /**
    * Convert certificate from byte arrays to X509 certificate.
    *
-   * @param {ByteBuffer} certArrayBuffer
+   * @param {Buffer} certArrayBuffer
    *
    * @returns {Certificate}
    */

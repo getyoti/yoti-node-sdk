@@ -19,11 +19,6 @@ describe('Media', () => {
       expect(media).toBeInstanceOf(Media);
       expect(media.getContent()).toStrictEqual(SOME_BUFFER_CONTENT);
     });
-    it('should allow ByteBuffer content', () => {
-      media = new Media(SOME_BUFFER_CONTENT, SOME_MIME_TYPE);
-      expect(media).toBeInstanceOf(Media);
-      expect(media.getContent()).toStrictEqual(SOME_BUFFER_CONTENT);
-    });
     it('should throw TypeError when content is incorrect type', () => {
       expect(() => new Media('', SOME_MIME_TYPE))
         .toThrow(new TypeError('content must be of type Buffer'));

@@ -7,7 +7,7 @@ const Media = require('./media');
  */
 class Image extends Media {
   /**
-   * @param {ByteBuffer} content
+   * @param {Buffer} content
    * @param {string} mimeType
    */
   constructor(content, mimeType) {
