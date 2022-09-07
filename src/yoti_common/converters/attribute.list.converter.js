@@ -1,33 +1,29 @@
 'use strict';
 
-const Age = require('../yoti_common/age').Age;
-const { AttributeConverter } = require('../yoti_common/attribute.converter');
-const AnchorProcessor = require('../yoti_common/anchor.processor').AnchorProcessor;
-const constants = require('../yoti_common/constants');
-const Image = require('../data_type/image');
+const { util: { camelCase } } = require('protobufjs');
 
-module.exports = {
+const Age = require('../age').Age;
+const { AttributeConverter } = require('./attribute.converter');
+const AnchorProcessor = require('../anchor.processor').AnchorProcessor;
+const constants = require('../constants');
+const Image = require('../../data_type/image');
 
-  /**
-   * Decode all attributes.
-   *
-   * @param {Buffer} binaryData
-   */
-  decodeAttributeList(binaryData) {
-    const attributesList = this.builder.attrpubapi_v1.AttributeList.decode(binaryData);
-    const attributes = attributesList.get('attributes');
+module.exports.AttributeListConverter = class AttributeListConverter {
+  static convertAttributeList(attributesList) {
+    const attributes = attributesList.attributes;
     const attrList = [];
     const extendedProfile = {};
     const extendedProfileList = [];
 
     for (let i = 0; i < attributes.length; i += 1) {
       const attribute = attributes[i];
-      const attrName = attribute.getName();
-      const attrValue = attribute.getValue();
-      const attrType = attribute.getContentType();
-      const attrId = attribute.getEphemeralId();
+      const attrName = attribute.name;
+      const attrValue = attribute.value;
+      const attrType = attribute.contentType;
+      const attrId = attribute.ephemeralId;
       const processedAnchors = AnchorProcessor.process(attribute.anchors);
-      const attrNameInCamelCase = this.toCamelCase(attrName);
+
+      const attrNameInCamelCase = camelCase(attrName);
 
       let attrData = null;
       try {
@@ -71,9 +67,5 @@ module.exports = {
     attrList.push({ extendedProfileList });
 
     return attrList;
-  },
-
-  encodeAttributeList(notificationData) {
-    return new this.builder.attrpubapi_v1.AttributeList(notificationData).toArrayBuffer();
-  },
+  }
 };

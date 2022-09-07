@@ -92,9 +92,12 @@ describe.each([
 
             expect(outcome).toBe('SUCCESS');
 
-            expect(profile).not.toBe(undefined);
-            expect(profile.phoneNumber).toBe(phoneNumber);
-            expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).toBe(selfie);
+            expect(profile).toBeDefined();
+            // eslint-disable-next-line dot-notation
+            expect(profile['phoneNumber']).toBe(phoneNumber);
+            // eslint-disable-next-line dot-notation
+            const assembledSelfieFromProfileValue = `data:image/jpeg;base64,${profile['selfie'].toString('base64')}`;
+            expect(assembledSelfieFromProfileValue).toBe(selfie);
 
             expect(extendedProfile.getPhoneNumber().getValue()).toBe(phoneNumber);
             expect(extendedProfile.getSelfie().getValue().getBase64Content()).toBe(selfie);
@@ -105,11 +108,11 @@ describe.each([
 
             expect(applicationProfile.getName().getValue()).toBe('Node SDK Test');
             expect(applicationProfile.getUrl().getValue()).toBe('https://example.com');
-            expect(applicationProfile.getLogo().getValue().getBase64Content()).toBe('data:image/jpeg;base64,');
+            expect(applicationProfile.getLogo()).toBeNull();
             expect(applicationProfile.getReceiptBgColor().getValue()).toBe('#ffffff');
 
-            expect(extraData).not.toBe(undefined);
-            expect(extraData.getAttributeIssuanceDetails()).not.toBe(undefined);
+            expect(extraData).toBeDefined();
+            expect(extraData.getAttributeIssuanceDetails()).toBeDefined();
 
             done();
           })
@@ -129,7 +132,7 @@ describe.each([
             const profile = activityDetails.getUserProfile();
             const outcome = activityDetails.getOutcome();
 
-            expect(profile).not.toBe(undefined);
+            expect(profile).toBeDefined();
             expect(profile).toEqual({});
             expect(activityDetails.getUserId()).toBe(rememberMeId);
             expect(activityDetails.getRememberMeId()).toBe(rememberMeId);
@@ -154,7 +157,7 @@ describe.each([
             const profile = activityDetails.getUserProfile();
             const outcome = activityDetails.getOutcome();
 
-            expect(profile).not.toBe(undefined);
+            expect(profile).toBeDefined();
             expect(profile).toEqual({});
             expect(activityDetails.getUserId()).toBe(rememberMeId);
             expect(activityDetails.getRememberMeId()).toBe(rememberMeId);
@@ -179,7 +182,7 @@ describe.each([
             const profile = activityDetails.getUserProfile();
             const outcome = activityDetails.getOutcome();
 
-            expect(profile).not.toBe(undefined);
+            expect(profile).toBeDefined();
             expect(profile).toEqual({});
             expect(activityDetails.getUserId()).toBe(rememberMeId);
             expect(activityDetails.getRememberMeId()).toBe(rememberMeId);

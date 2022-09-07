@@ -1,7 +1,8 @@
 'use strict';
 
 const forge = require('node-forge');
-const protoRoot = require('../proto-root');
+
+const { messages } = require('../proto');
 const { YotiAnchor } = require('../data_type/anchor');
 const { YotiSignedTimeStamp } = require('../data_type/signed.timestamp');
 const { YotiDate } = require('../data_type/date');
@@ -33,9 +34,9 @@ class AnchorProcessor {
     const anchorsData = this.getResultFormat();
     for (let i = 0; i < anchors.length; i += 1) {
       const certificatesList = anchors[i].originServerCerts;
-      const signedTimestamp = this.processSignedTimeStamp(anchors[i].getSignedTimeStamp());
+      const signedTimestamp = this.processSignedTimeStamp(anchors[i].signedTimeStamp);
       const originServerCerts = AnchorProcessor.convertCertsListToX509(certificatesList);
-      const subType = anchors[i].getSubType();
+      const subType = anchors[i].subType;
 
       const yotiAnchor = this.getAnchorFromCerts(
         certificatesList,
@@ -103,9 +104,9 @@ class AnchorProcessor {
     }
 
     const certificatesList = anchorObj.originServerCerts;
-    const yotiSignedTimestamp = this.processSignedTimeStamp(anchorObj.getSignedTimeStamp());
+    const yotiSignedTimestamp = this.processSignedTimeStamp(anchorObj.signedTimeStamp);
     const serverX509Certs = AnchorProcessor.convertCertsListToX509(anchorObj.originServerCerts);
-    const subType = anchorObj.getSubType();
+    const subType = anchorObj.subType;
 
     for (let j = 0; j < certificatesList.length; j += 1) {
       const certAnchors = this.getAnchorsByCertificate(
@@ -125,7 +126,7 @@ class AnchorProcessor {
    *
    * @deprecated no longer in use.
    *
-   * @param {ByteBuffer} certArrayBuffer
+   * @param {Buffer} certArrayBuffer
    * @param {YotiSignedTimeStamp} signedTimestamp
    * @param {Certificate[]} originServerCerts
    * @param {string} subType
@@ -225,19 +226,18 @@ class AnchorProcessor {
   /**
    * Return Yoti signedTimestamp.
    *
-   * @param {ByteBuffer} signedTimestampByteBuffer
+   * @param {Buffer} signedTimestampBuffer
    *
    * @returns {YotiSignedTimeStamp}
    */
-  static processSignedTimeStamp(signedTimestampByteBuffer) {
+  static processSignedTimeStamp(signedTimestampBuffer) {
     let version = 0;
     let timestamp = 0;
-    const protoInst = protoRoot.initializeProtoBufObjects();
 
-    if (signedTimestampByteBuffer) {
-      const signedTimestampBuffer = signedTimestampByteBuffer.toBuffer();
-      const signedTimestamp = protoInst.decodeSignedTimeStamp(signedTimestampBuffer);
-      version = signedTimestamp.getVersion();
+    if (signedTimestampBuffer) {
+      // eslint-disable-next-line max-len
+      const signedTimestamp = messages.decodeSignedTimeStamp(signedTimestampBuffer);
+      version = signedTimestamp.version;
       timestamp = new YotiDate(Number(signedTimestamp.timestamp.toString()));
     }
     return new YotiSignedTimeStamp(version, timestamp);
@@ -264,7 +264,7 @@ class AnchorProcessor {
   /**
    * Convert certificate list to a list of X509 certificates.
    *
-   * @param {ByteBuffer[]} certificatesList
+   * @param {Buffer[]} certificatesList
    *
    * @returns {Certificate[]}
    */
@@ -282,13 +282,12 @@ class AnchorProcessor {
   /**
    * Convert certificate from byte arrays to X509 certificate.
    *
-   * @param {ByteBuffer} certArrayBuffer
+   * @param {Buffer} certArrayBuffer
    *
    * @returns {Certificate}
    */
   static convertCertToX509(certArrayBuffer) {
-    const certBuffer = certArrayBuffer.toBuffer();
-    const anchorAsn1Obj = forge.asn1.fromDer(certBuffer.toString('binary'));
+    const anchorAsn1Obj = forge.asn1.fromDer(certArrayBuffer.toString('binary'));
     return forge.pki.certificateFromAsn1(anchorAsn1Obj);
   }
 

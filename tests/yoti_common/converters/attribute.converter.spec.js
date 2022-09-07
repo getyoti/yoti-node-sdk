@@ -1,21 +1,20 @@
 const fs = require('fs');
 
-const { AttributeConverter } = require('../../src/yoti_common/attribute.converter');
-const protoRoot = require('../../src/proto-root');
-const ImageJpeg = require('../../src/data_type/image.jpeg');
-const ImagePng = require('../../src/data_type/image.png');
-const MultiValue = require('../../src/data_type/multi.value');
-const constants = require('../../src/yoti_common/constants');
+const { AttributeConverter } = require('../../../src/yoti_common/converters/attribute.converter');
+const { types } = require('../../../src/proto');
+const ImageJpeg = require('../../../src/data_type/image.jpeg');
+const ImagePng = require('../../../src/data_type/image.png');
+const MultiValue = require('../../../src/data_type/multi.value');
+const constants = require('../../../src/yoti_common/constants');
 
 const sampleMultiValueAttribute = fs.readFileSync('./tests/sample-data/fixtures/attributes/multi-value.txt', 'utf8');
-const protoInst = protoRoot.initializeProtoBufObjects();
 
 const CONTENT_TYPE_UNDEFINED = 0;
 const CONTENT_TYPE_STRING = 1;
 const CONTENT_TYPE_JPEG = 2;
 const CONTENT_TYPE_DATE = 3;
 const CONTENT_TYPE_PNG = 4;
-const CONTENT_TYPE_BYTES = 5;
+const CONTENT_TYPE_JSON = 5;
 const CONTENT_TYPE_MULTI_VALUE = 6;
 const CONTENT_TYPE_INT = 7;
 
@@ -25,11 +24,7 @@ const CONTENT_TYPE_INT = 7;
  * @returns {MultiValue}
  */
 const convertSampleMultiValue = () => {
-  const protoAttribute = protoInst
-    .builder
-    .attrpubapi_v1
-    .Attribute
-    .decode(sampleMultiValueAttribute);
+  const protoAttribute = types.Attribute.decode(Buffer.from(sampleMultiValueAttribute, 'base64'));
 
   return AttributeConverter.convertValueBasedOnContentType(
     protoAttribute.value,
@@ -40,20 +35,16 @@ const convertSampleMultiValue = () => {
 /**
  * Creates a test MultiValue Value.
  *
- * @param {String} contentType
+ * @param {Number} contentType
  * @param {String} value
  */
 const createTestMultiValueValue = (contentType, value) => {
-  const multiValueValue = protoInst
-    .builder
-    .attrpubapi_v1
-    .MultiValue
-    .Value;
+  const multiValueValue = types.MultiValue.Value;
 
   const encoded = multiValueValue.encode({
     contentType,
     data: Buffer.from(value, 'utf8'),
-  });
+  }).finish();
 
   return multiValueValue.decode(encoded);
 };
@@ -61,14 +52,10 @@ const createTestMultiValueValue = (contentType, value) => {
 /**
  * Creates a test MultiValue attribute.
  *
- * @returns {ByteBuffer}
+ * @returns {Uint8Array}
  */
 const createTestMultiValue = (multiValueItems) => {
-  const nestedProtoMultiValue = protoInst
-    .builder
-    .attrpubapi_v1
-    .MultiValue
-    .encode(multiValueItems);
+  const nestedProtoMultiValue = types.MultiValue.encode(multiValueItems).finish();
 
   // Add a nested MultiValue attribute.
   multiValueItems.values.push({
@@ -76,13 +63,7 @@ const createTestMultiValue = (multiValueItems) => {
     data: nestedProtoMultiValue,
   });
 
-  const protoMultiValue = protoInst
-    .builder
-    .attrpubapi_v1
-    .MultiValue
-    .encode(multiValueItems);
-
-  return protoMultiValue;
+  return types.MultiValue.encode(multiValueItems).finish();
 };
 
 /**
@@ -92,7 +73,7 @@ const nonStringContentTypes = [
   CONTENT_TYPE_JPEG,
   CONTENT_TYPE_DATE,
   CONTENT_TYPE_PNG,
-  CONTENT_TYPE_BYTES,
+  CONTENT_TYPE_JSON,
   CONTENT_TYPE_MULTI_VALUE,
   CONTENT_TYPE_INT,
 ];
@@ -100,21 +81,16 @@ const nonStringContentTypes = [
 /**
  * Creates a test attribute.
  *
- * @param {String} contentType
+ * @param {Number} contentType
  * @param {String} value
  */
 const createTestAttribute = (contentType, value) => {
-  const attribute = protoInst
-    .builder
-    .attrpubapi_v1
-    .Attribute;
-
-  const encoded = attribute.encode({
+  const encoded = types.Attribute.encode({
     contentType,
     value: Buffer.from(value, 'utf8'),
-  });
+  }).finish();
 
-  return attribute.decode(encoded);
+  return types.Attribute.decode(encoded);
 };
 
 /**
@@ -195,6 +171,15 @@ describe('AttributeConverter', () => {
         100
       );
       expect(value).toBe('test unknown string');
+    });
+    it('should return an object as representation of a JSON type', () => {
+      const jsonSample = { some: 'json', with: { nested: [1, 2, 3] } };
+      const protoAttr = createTestAttribute(CONTENT_TYPE_JSON, JSON.stringify(jsonSample));
+      const value = AttributeConverter.convertValueBasedOnContentType(
+        protoAttr.value,
+        CONTENT_TYPE_JSON
+      );
+      expect(value).toStrictEqual(jsonSample);
     });
     it('should not allow empty non-string values', () => {
       nonStringContentTypes.forEach((contentType) => {
