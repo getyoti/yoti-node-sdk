@@ -309,7 +309,7 @@ describe('DocScanService', () => {
           .getMediaContent(SESSION_ID, MEDIA_ID)
           .then((result) => {
             expect(result).toBeInstanceOf(Media);
-            expect(result.getContent().buffer).toHaveLength(0);
+            expect(result.getContent()).toHaveLength(0);
             expect(result.getMimeType()).toBe('');
             done();
           })

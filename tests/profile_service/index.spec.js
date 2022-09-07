@@ -44,7 +44,7 @@ describe('profileService', () => {
             expect(receipt.getTimestamp()).toBeInstanceOf(Date);
             expect(receipt.getTimestamp().toUTCString()).toBe('Tue, 19 Jul 2016 08:55:38 GMT');
             expect(profile.phoneNumber).toBe(phoneNumber);
-            expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).toBe(selfie);
+            expect(`data:image/jpeg;base64,${profile.selfie.toString('base64')}`).toBe(selfie);
             expect(receipt.getBase64SelfieUri()).toBe(selfie);
             expect(outcome).toBe('SUCCESS');
 
@@ -186,7 +186,7 @@ describe('profileService', () => {
               expect(receipt.getTimestamp()).toBeInstanceOf(Date);
               expect(receipt.getTimestamp().toUTCString()).toBe('Tue, 19 Jul 2016 08:55:38 GMT');
               expect(profile.phoneNumber).toBe(phoneNumber);
-              expect(`data:image/jpeg;base64,${profile.selfie.toBase64()}`).toBe(selfie);
+              expect(`data:image/jpeg;base64,${profile.selfie.toString('base64')}`).toBe(selfie);
               expect(receipt.getBase64SelfieUri()).toBe(selfie);
               expect(outcome).toBe('SUCCESS');
 

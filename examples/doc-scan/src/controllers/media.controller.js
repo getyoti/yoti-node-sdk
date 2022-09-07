@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
       req.query.mediaId
     );
 
-    const { buffer } = media.getContent();
+    const buffer = media.getContent();
 
     if (buffer.length === 0) {
       res.status(204).end(buffer);

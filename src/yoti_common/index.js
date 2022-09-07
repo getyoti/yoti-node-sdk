@@ -3,10 +3,10 @@
 const crypto = require('crypto');
 const forge = require('node-forge');
 
-const protoRoot = require('../proto-root').initializeProtoBufObjects();
-
+const { messages } = require('../proto');
 const ExtraData = require('../profile_service/extra.data');
-const ExtraDataConverter = require('./extra.data.converter');
+const { AttributeListConverter } = require('./converters/attribute.list.converter');
+const ExtraDataConverter = require('./converters/extra.data.converter');
 
 // Request methods that can include payload data.
 const methodsThatIncludePayload = ['POST', 'PUT', 'PATCH'];
@@ -39,7 +39,7 @@ function unwrapKey(wrappedKey, pem) {
  * @returns {Buffer}
  */
 function decryptEncryptedData(encryptedData, wrappedReceiptKey, pem) {
-  const decodedData = protoRoot.decodeEncryptedData(Buffer.from(encryptedData, 'base64'));
+  const decodedData = messages.decodeEncryptedData(Buffer.from(encryptedData, 'base64'));
 
   const iv = forge.util.decode64(decodedData.iv);
   const cipherText = forge.util.decode64(decodedData.cipherText);
@@ -113,7 +113,8 @@ module.exports.decryptProfileContent = (profileContent, wrappedReceiptKey, pem) 
 
   if (receiptNotEmpty) {
     const decryptedProfileData = decryptEncryptedData(profileContent, wrappedReceiptKey, pem);
-    return protoRoot.decodeAttributeList(decryptedProfileData);
+    const attributesList = messages.decodeAttributeList(decryptedProfileData);
+    return AttributeListConverter.convertAttributeList(attributesList);
   }
   console.log('Receipt data is empty');
   return [];

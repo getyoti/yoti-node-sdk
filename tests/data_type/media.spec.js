@@ -1,8 +1,6 @@
-const ByteBuffer = require('bytebuffer');
 const Media = require('../../src/data_type/media');
 
 const SOME_BUFFER_CONTENT = Buffer.from('test_content');
-const SOME_BYTE_BUFFER_CONTENT = ByteBuffer.wrap(SOME_BUFFER_CONTENT);
 const SOME_MIME_TYPE = 'some/mime';
 
 describe('Media', () => {
@@ -19,22 +17,17 @@ describe('Media', () => {
     it('should allow Buffer content', () => {
       media = new Media(SOME_BUFFER_CONTENT, SOME_MIME_TYPE);
       expect(media).toBeInstanceOf(Media);
-      expect(media.getContent()).toStrictEqual(SOME_BYTE_BUFFER_CONTENT);
-    });
-    it('should allow ByteBuffer content', () => {
-      media = new Media(SOME_BYTE_BUFFER_CONTENT, SOME_MIME_TYPE);
-      expect(media).toBeInstanceOf(Media);
-      expect(media.getContent()).toStrictEqual(SOME_BYTE_BUFFER_CONTENT);
+      expect(media.getContent()).toStrictEqual(SOME_BUFFER_CONTENT);
     });
     it('should throw TypeError when content is incorrect type', () => {
       expect(() => new Media('', SOME_MIME_TYPE))
-        .toThrow(new TypeError('content must be of type Buffer|ByteBuffer'));
+        .toThrow(new TypeError('content must be of type Buffer'));
     });
   });
 
   describe('#getContent()', () => {
     it('should return original image content', () => {
-      expect(media.getContent()).toStrictEqual(SOME_BYTE_BUFFER_CONTENT);
+      expect(media.getContent()).toStrictEqual(SOME_BUFFER_CONTENT);
     });
   });
 
