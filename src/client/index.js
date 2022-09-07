@@ -1,9 +1,9 @@
 'use strict';
 
 const YotiClient = require('./yoti.client');
-const DocScanClient = require('./doc.scan.client');
+const IDVClient = require('./idv.client');
 
 module.exports = {
   YotiClient,
-  DocScanClient,
+  IDVClient,
 };
