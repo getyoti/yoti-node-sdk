@@ -1,16 +1,14 @@
 'use strict';
 
-const protoRoot = require('../../src/proto-root');
-const DataEntryConverter = require('../../src/yoti_common/data.entry.converter');
-
-const protoInst = protoRoot.initializeProtoBufObjects();
+const { types } = require('../../../src/proto');
+const DataEntryConverter = require('../../../src/yoti_common/converters/data.entry.converter');
 
 describe('DataEntryConverter', () => {
   describe('#convertValue', () => {
     it('should return undefined if no value supplied', () => {
-      const dataEntryProto = protoInst.builder.sharepubapi_v1.DataEntry.encode({
+      const dataEntryProto = types.DataEntry.encode({
         type: 6,
-      });
+      }).finish;
 
       const dataEntry = DataEntryConverter.convertValue(dataEntryProto.type, dataEntryProto.value);
 

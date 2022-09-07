@@ -1,9 +1,9 @@
 const fs = require('fs');
 const AnchorProcessor = require('../../src/yoti_common/anchor.processor').AnchorProcessor;
-const protoRoot = require('../../src/proto-root').initializeProtoBufObjects();
+const { types } = require('../../src/proto');
 
 function parseAnchorData(anchorString) {
-  return protoRoot.builder.attrpubapi_v1.Anchor.decode(anchorString);
+  return types.Anchor.decode(Buffer.from(anchorString, 'base64'));
 }
 
 describe('anchorProcessor', () => {
@@ -152,8 +152,8 @@ describe('anchorProcessor', () => {
         const certificateObj = AnchorProcessor.convertCertToX509(data.originServerCerts[0]);
         const anchor = AnchorProcessor.getAnchorByOid(
           certificateObj.extensions,
-          data.getSubType(),
-          AnchorProcessor.processSignedTimeStamp(data.getSignedTimeStamp()),
+          data.subType,
+          AnchorProcessor.processSignedTimeStamp(data.signedTimeStamp),
           AnchorProcessor.convertCertsListToX509(data.originServerCerts),
           '1.3.6.1.4.1.47127.1.1.1'
         );
@@ -185,8 +185,8 @@ describe('anchorProcessor', () => {
         const anchorObj = parseAnchorData(sourceAnchor);
         const anchors = AnchorProcessor.getAnchorsByCertificate(
           anchorObj.originServerCerts[0],
-          anchorObj.getSubType(),
-          AnchorProcessor.processSignedTimeStamp(anchorObj.getSignedTimeStamp()),
+          anchorObj.subType,
+          AnchorProcessor.processSignedTimeStamp(anchorObj.signedTimeStamp),
           AnchorProcessor.convertCertsListToX509(anchorObj.originServerCerts)
         );
         expect(anchors.sources).toHaveLength(1);
