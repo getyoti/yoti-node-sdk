@@ -91,7 +91,7 @@ describe('DocScanService', () => {
           .catch((err) => {
             expect(err.message).toBe('Bad Request');
             expect(consoleLog)
-              .toHaveBeenCalledWith('Error getting data from Connect API: Bad Request');
+              .toHaveBeenCalledWith('Error getting data from Yoti API: Bad Request');
             done();
           })
           .catch(done);
@@ -111,7 +111,7 @@ describe('DocScanService', () => {
           .catch((err) => {
             expect(err.message).toBe(SOME_ERROR_MESSAGE);
             expect(consoleLog)
-              .toHaveBeenCalledWith('Error getting data from Connect API: Bad Request');
+              .toHaveBeenCalledWith('Error getting data from Yoti API: Bad Request');
             done();
           })
           .catch(done);
