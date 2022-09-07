@@ -38,7 +38,6 @@ describe('profileService', () => {
 
             expect(profile).not.toBe(undefined);
             expect(receipt.getReceiptId()).toBe(receiptId);
-            expect(receipt.getUserId()).toBe(rememberMeId);
             expect(receipt.getRememberMeId()).toBe(rememberMeId);
             expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
             expect(receipt.getTimestamp()).toBeInstanceOf(Date);
@@ -73,7 +72,6 @@ describe('profileService', () => {
             expect(profile).not.toBe(undefined);
             expect(profile).toEqual({});
             expect(receipt.getReceiptId()).toBe(receiptId);
-            expect(receipt.getUserId()).toBe(rememberMeId);
             expect(receipt.getRememberMeId()).toBe(rememberMeId);
             expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
             expect(outcome).toBe('SUCCESS');
@@ -103,7 +101,6 @@ describe('profileService', () => {
             expect(profile).not.toBe(undefined);
             expect(profile).toEqual({});
             expect(receipt.getReceiptId()).toBe(receiptId);
-            expect(receipt.getUserId()).toBe(rememberMeId);
             expect(receipt.getRememberMeId()).toBe(rememberMeId);
             expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
             expect(outcome).toBe('SUCCESS');
@@ -133,7 +130,6 @@ describe('profileService', () => {
             expect(profile).not.toBe(undefined);
             expect(profile).toEqual({});
             expect(receipt.getReceiptId()).toBe(receiptId);
-            expect(receipt.getUserId()).toBe(rememberMeId);
             expect(receipt.getRememberMeId()).toBe(rememberMeId);
             expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
             expect(outcome).toBe('SUCCESS');
@@ -180,7 +176,6 @@ describe('profileService', () => {
 
               expect(profile).not.toBe(undefined);
               expect(receipt.getReceiptId()).toBe(receiptId);
-              expect(receipt.getUserId()).toBe(rememberMeId);
               expect(receipt.getRememberMeId()).toBe(rememberMeId);
               expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
               expect(receipt.getTimestamp()).toBeInstanceOf(Date);
@@ -211,7 +206,6 @@ describe('profileService', () => {
               expect(profile).not.toBe(undefined);
               expect(profile).toEqual({});
               expect(receipt.getReceiptId()).toBe(receiptId);
-              expect(receipt.getUserId()).toBe(rememberMeId);
               expect(receipt.getRememberMeId()).toBe(rememberMeId);
               expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
               expect(outcome).toBe('SUCCESS');
@@ -237,7 +231,6 @@ describe('profileService', () => {
               expect(profile).not.toBe(undefined);
               expect(profile).toEqual({});
               expect(receipt.getReceiptId()).toBe(receiptId);
-              expect(receipt.getUserId()).toBe(rememberMeId);
               expect(receipt.getRememberMeId()).toBe(rememberMeId);
               expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
               expect(outcome).toBe('SUCCESS');
@@ -264,7 +257,6 @@ describe('profileService', () => {
               expect(profile).not.toBe(undefined);
               expect(profile).toEqual({});
               expect(receipt.getReceiptId()).toBe(receiptId);
-              expect(receipt.getUserId()).toBe(rememberMeId);
               expect(receipt.getRememberMeId()).toBe(rememberMeId);
               expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
               expect(outcome).toBe('SUCCESS');

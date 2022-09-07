@@ -85,7 +85,6 @@ describe.each([
             const extraData = activityDetails.getExtraData();
             const outcome = activityDetails.getOutcome();
 
-            expect(activityDetails.getUserId()).toBe(rememberMeId);
             expect(activityDetails.getRememberMeId()).toBe(rememberMeId);
             expect(activityDetails.getParentRememberMeId()).toBe(parentRememberMeId);
             expect(activityDetails.getBase64SelfieUri()).toBe(selfie);
@@ -134,7 +133,6 @@ describe.each([
 
             expect(profile).toBeDefined();
             expect(profile).toEqual({});
-            expect(activityDetails.getUserId()).toBe(rememberMeId);
             expect(activityDetails.getRememberMeId()).toBe(rememberMeId);
             expect(activityDetails.getParentRememberMeId()).toBe(parentRememberMeId);
             expect(outcome).toBe('SUCCESS');
@@ -159,7 +157,6 @@ describe.each([
 
             expect(profile).toBeDefined();
             expect(profile).toEqual({});
-            expect(activityDetails.getUserId()).toBe(rememberMeId);
             expect(activityDetails.getRememberMeId()).toBe(rememberMeId);
             expect(activityDetails.getParentRememberMeId()).toBe(parentRememberMeId);
             expect(outcome).toBe('SUCCESS');
@@ -184,7 +181,6 @@ describe.each([
 
             expect(profile).toBeDefined();
             expect(profile).toEqual({});
-            expect(activityDetails.getUserId()).toBe(rememberMeId);
             expect(activityDetails.getRememberMeId()).toBe(rememberMeId);
             expect(activityDetails.getParentRememberMeId()).toBe(parentRememberMeId);
             expect(outcome).toBe('SUCCESS');
