@@ -351,6 +351,14 @@ describe('Profile', () => {
           }
         });
       });
+
+      describe('#getDateOfBirth', () => {
+        it.only('should return an instance of Date', () => {
+          const dob = profileObj.getDateOfBirth();
+          expect(dob).toBeInstanceOf(Date);
+          expect(dob.getFullYear()).toBe(1979);
+        });
+      });
     });
   });
 });

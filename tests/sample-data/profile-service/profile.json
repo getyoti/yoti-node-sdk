@@ -12,6 +12,12 @@
     "sources": [],
     "verifiers": []
   },
+  "date_of_birth": {
+    "name": "date_of_birth",
+    "value": "1979-01-01",
+    "sources": [],
+    "verifiers": []
+  },
   "phone_number":
   {
     "name": "phone_number",

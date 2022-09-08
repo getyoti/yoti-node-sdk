@@ -42,10 +42,11 @@ class Profile extends BaseProfile {
   /**
    * Date of birth.
    *
-   * @returns {null|Attribute}
+   * @returns {null|Date}
    */
   getDateOfBirth() {
-    return this.getAttribute(constants.ATTR_DATE_OF_BIRTH);
+    const dob = this.getAttribute(constants.ATTR_DATE_OF_BIRTH);
+    return new Date(dob.value);
   }
 
   /**
