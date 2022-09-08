@@ -1,6 +1,6 @@
 {
-  "name": "yoti-node-sdk-doc-scan-demo",
-  "description": "A Yoti Doc Scan Demo",
+  "name": "yoti-node-sdk-idv-demo",
+  "description": "A Yoti IDV Demo",
   "private": true,
   "license": "MIT",
   "engines": {
