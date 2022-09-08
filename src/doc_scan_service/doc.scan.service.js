@@ -162,6 +162,8 @@ class DocScanService {
       request.execute(true)
         .then((response) => {
           try {
+            if (response.statusCode === 204) return resolve(null);
+
             const contentType = response.getHeaders()['content-type'];
             const mimeType = contentType ? contentType.split(';')[0] : '';
 
