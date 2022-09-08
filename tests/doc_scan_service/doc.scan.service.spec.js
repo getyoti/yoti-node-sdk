@@ -300,7 +300,7 @@ describe('DocScanService', () => {
     });
 
     describe('when response has no content', () => {
-      it('should return empty media', (done) => {
+      it('should return null', (done) => {
         nock(config.yoti.docScanApi)
           .get(MEDIA_URI)
           .reply(204, '');
@@ -308,9 +308,7 @@ describe('DocScanService', () => {
         docScanService
           .getMediaContent(SESSION_ID, MEDIA_ID)
           .then((result) => {
-            expect(result).toBeInstanceOf(Media);
-            expect(result.getContent()).toHaveLength(0);
-            expect(result.getMimeType()).toBe('');
+            expect(result).toBe(null);
             done();
           })
           .catch(done);
