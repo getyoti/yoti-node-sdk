@@ -34,16 +34,6 @@ describe('ActivityDetails', () => {
       });
     });
   });
-  describe('#getUserId', () => {
-    it('should return remember_me_id value', () => {
-      const activityDetails = new ActivityDetails({
-        receipt: {
-          remember_me_id: 'test_remember_me_id',
-        },
-      });
-      expect(activityDetails.getUserId()).toBe('test_remember_me_id');
-    });
-  });
   describe('#getParentRememberMeId', () => {
     describe('when parent_remember_me_id is available', () => {
       it('should return parent_remember_me_id value', () => {
