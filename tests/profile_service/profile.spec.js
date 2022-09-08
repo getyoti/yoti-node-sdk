@@ -351,19 +351,6 @@ describe('Profile', () => {
           }
         });
       });
-
-      describe('#getDateOfBirth', () => {
-        it.only('should return an instance of Date', () => {
-          const dob = profileObj.getDateOfBirth();
-          const expectedYear = 1979;
-          const expectedMonth = 0;
-          const expectedDay = 1;
-          expect(dob).toBeInstanceOf(Date);
-          expect(dob.getFullYear()).toBe(expectedYear);
-          expect(dob.getMonth()).toBe(expectedMonth);
-          expect(dob.getDay()).toBe(expectedDay);
-        });
-      });
     });
   });
 });

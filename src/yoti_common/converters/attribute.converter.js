@@ -47,8 +47,9 @@ module.exports.AttributeConverter = class AttributeConverter {
 
     switch (contentType) {
       case CONTENT_TYPE_STRING: // STRING means the value is UTF-8 encoded text.
-      case CONTENT_TYPE_DATE: // Date as string in RFC3339 format (YYYY-MM-DD).
         return value.toString('utf8');
+      case CONTENT_TYPE_DATE:
+        return new Date(value);
       case CONTENT_TYPE_JSON: {
         const jsonString = value.toString('utf8');
         return JSON.parse(jsonString);

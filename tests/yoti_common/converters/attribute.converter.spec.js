@@ -239,6 +239,10 @@ describe('AttributeConverter', () => {
         expect(errMessage).toBe('Warning: value is NULL', `Content Type: ${contentType}`);
       });
     });
+    it('should return Date values', () => {
+      const converted = AttributeConverter.convertValueBasedOnContentType('1979-01-01', CONTENT_TYPE_DATE);
+      expect(converted).toBeInstanceOf(Date);
+    });
   });
   describe('#convertValueBasedOnAttributeName', () => {
     it('should return array of image objects', () => {
