@@ -1,17 +1,17 @@
 const {
-  DocScanClient,
+  IDVClient,
 } = require('yoti');
 const config = require('../../config');
 
 module.exports = async (req, res) => {
-  const docScanClient = new DocScanClient(
+  const idvClient = new IDVClient(
     config.YOTI_CLIENT_SDK_ID,
     config.YOTI_PEM
   );
 
   try {
-    const media = await docScanClient.getMediaContent(
-      req.session.DOC_SCAN_SESSION_ID,
+    const media = await idvClient.getMediaContent(
+      req.session.IDV_SESSION_ID,
       req.query.mediaId
     );
 

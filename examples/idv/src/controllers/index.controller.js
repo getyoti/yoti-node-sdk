@@ -1,5 +1,5 @@
 const {
-  DocScanClient,
+  IDVClient,
   SessionSpecificationBuilder,
   RequestedDocumentAuthenticityCheckBuilder,
   RequestedLivenessCheckBuilder,
@@ -22,10 +22,10 @@ const {
 const config = require('../../config');
 
 /**
- * Create a Doc Scan session.
+ * Create an IDV session.
  */
 async function createSession() {
-  const docScanClient = new DocScanClient(
+  const idvClient = new IDVClient(
     config.YOTI_CLIENT_SDK_ID,
     config.YOTI_PEM
   );
@@ -153,18 +153,18 @@ async function createSession() {
     )
     .build();
 
-  return docScanClient.createSession(sessionSpec);
+  return idvClient.createSession(sessionSpec);
 }
 
 module.exports = async (req, res) => {
   try {
     const session = await createSession();
 
-    req.session.DOC_SCAN_SESSION_ID = session.getSessionId();
-    req.session.DOC_SCAN_SESSION_TOKEN = session.getClientSessionToken();
+    req.session.IDV_SESSION_ID = session.getSessionId();
+    req.session.IDV_SESSION_TOKEN = session.getClientSessionToken();
 
     res.render('pages/index', {
-      iframeUrl: `${config.YOTI_DOC_SCAN_IFRAME_URL}?sessionID=${req.session.DOC_SCAN_SESSION_ID}&sessionToken=${req.session.DOC_SCAN_SESSION_TOKEN}`,
+      iframeUrl: `${config.YOTI_IDV_IFRAME_URL}?sessionID=${req.session.IDV_SESSION_ID}&sessionToken=${req.session.IDV_SESSION_TOKEN}`,
     });
   } catch (error) {
     res.render('pages/error', { error });
