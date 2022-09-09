@@ -53,10 +53,10 @@ jobs:
         - cd ./examples/profile
         - npm update
         - npm run lint
-    - name: Doc Scan
+    - name: IDV
       node_js: "14"
       script:
-        - cd ./examples/doc-scan
+        - cd ./examples/idv
         - npm install
         - npm run lint
     - <<: *test
