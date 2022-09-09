@@ -1,6 +1,6 @@
 'use strict';
 
-const { YotiClient, DocScanClient } = require('./src/client');
+const { YotiClient, IDVClient } = require('./src/client');
 const { AmlAddress, AmlProfile } = require('./src/aml_type');
 const { RequestBuilder } = require('./src/request/request.builder');
 const { Payload } = require('./src/request/payload');
@@ -33,7 +33,7 @@ const {
   RequestedLivenessCheckBuilder,
   RequestedTextExtractionTaskBuilder,
   RequestedSupplementaryDocTextExtractionTaskBuilder,
-  DocScanConstants,
+  IDVConstants,
   RequiredIdDocumentBuilder,
   RequiredSupplementaryDocumentBuilder,
   DocumentRestrictionsFilterBuilder,
@@ -46,12 +46,12 @@ const {
   RequestedFuzzyMatchingStrategyBuilder,
   RequestedSearchProfileSourcesBuilder,
   RequestedTypeListSourcesBuilder,
-} = require('./src/doc_scan_service');
+} = require('./src/idv_service');
 
 module.exports = {
   Client: YotiClient,
-  DocScanClient,
-  DocScanConstants,
+  IDVClient,
+  IDVConstants,
   AmlAddress,
   AmlProfile,
   DynamicScenarioBuilder,

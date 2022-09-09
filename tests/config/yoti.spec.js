@@ -37,21 +37,21 @@ describe('Yoti Config', () => {
     });
   });
 
-  describe('docScanApi', () => {
-    it('should default to production DOC SCAN API URL', () => {
-      expect(yotiConfig.docScanApi).toBe('https://api.yoti.com/idverify/v1');
+  describe('idvApi', () => {
+    it('should default to production IDV API URL', () => {
+      expect(yotiConfig.idvApi).toBe('https://api.yoti.com/idverify/v1');
     });
 
-    it('should use YOTI_DOC_SCAN_API environment variable', () => {
-      process.env.YOTI_DOC_SCAN_API = 'some-doc-scan-url';
+    it('should use YOTI_IDV_API environment variable', () => {
+      process.env.YOTI_IDV_API = 'some-idv-url';
       yotiConfig = getYotiConfig();
-      expect(yotiConfig.docScanApi).toBe('some-doc-scan-url');
+      expect(yotiConfig.idvApi).toBe('some-idv-url');
     });
 
-    it('should use YOTI_DOC_SCAN_API_URL environment variable', () => {
-      process.env.YOTI_DOC_SCAN_API_URL = 'some-other-doc-scan-url';
+    it('should use YOTI_IDV_API_URL environment variable', () => {
+      process.env.YOTI_IDV_API_URL = 'some-other-idv-url';
       yotiConfig = getYotiConfig();
-      expect(yotiConfig.docScanApi).toBe('some-other-doc-scan-url');
+      expect(yotiConfig.idvApi).toBe('some-other-idv-url');
     });
   });
 });
