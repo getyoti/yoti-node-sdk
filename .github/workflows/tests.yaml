@@ -58,9 +58,13 @@ jobs:
 
       - run: pushd ./examples/aml-check && npm install && npm update && npm run lint && popd
 
+      - run: pushd ./examples/idv && npm install && npm update && npm run lint && popd
+
+      - run: pushd ./examples/idv-identity-checks && npm install && npm update && npm run lint && popd
+
       - run: pushd ./examples/profile && npm install && npm update && npm run lint && popd
 
-      - run: pushd ./examples/doc-scan && npm install && npm update && npm run lint && popd
+      - run: pushd ./examples/profile-identity-checks && npm install && npm update && npm run lint && popd
 
   node-compatibility:
     name: Node ${{ matrix.node-version }}
