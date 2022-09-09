@@ -95,7 +95,7 @@ describe.each([
       }));
     });
 
-    it('should return a DocScan session', (done) => {
+    it('should return a IDV session', (done) => {
       idvClient
         .getSession(SESSION_ID)
         .then((result) => {
