@@ -1,0 +1,28 @@
+{
+  "name": "yoti-node-sdk-idv-demo",
+  "description": "A Yoti IDV Demo",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "lint": "node_modules/.bin/eslint *.js src/*/**.js"
+  },
+  "dependencies": {
+    "body-parser": "1.20.0",
+    "dotenv": "16.0.2",
+    "ejs": "3.1.8",
+    "express": "4.18.1",
+    "express-session": "1.17.3",
+    "yoti": "file:../.."
+  },
+  "devDependencies": {
+    "eslint": "8.23.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-jest": "27.0.1",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-node": "11.1.0"
+  }
+}
