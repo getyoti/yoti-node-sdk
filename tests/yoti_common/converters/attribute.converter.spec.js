@@ -239,6 +239,16 @@ describe('AttributeConverter', () => {
         expect(errMessage).toBe('Warning: value is NULL', `Content Type: ${contentType}`);
       });
     });
+    it('should return Date values', () => {
+      const converted = AttributeConverter.convertValueBasedOnContentType('1979-01-01', CONTENT_TYPE_DATE);
+      const expectedYear = 1979;
+      const expectedMonth = 0;
+      const expectedDay = 1;
+      expect(converted).toBeInstanceOf(Date);
+      expect(converted.getFullYear()).toBe(expectedYear);
+      expect(converted.getMonth()).toBe(expectedMonth);
+      expect(converted.getDay()).toBe(expectedDay);
+    });
   });
   describe('#convertValueBasedOnAttributeName', () => {
     it('should return array of image objects', () => {
