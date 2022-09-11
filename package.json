@@ -12,14 +12,9 @@
     "node": ">=14"
   },
   "scripts": {
-    "lint": "eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
-    "unit-test": "jest",
-    "test": "npm run lint && npm run unit-test"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run test"
-    }
+    "lint": "npx eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
+    "test": "jest",
+    "pre-commit": "npm run test"
   },
   "jest": {
     "verbose": true,

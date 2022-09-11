@@ -1,6 +1,23 @@
 # Contributing
 
-After cloning the repository, run `npm install` to install dependencies.
+After cloning the repository, run 
+
+```shell
+# Install dependencies
+npm install
+
+# Enable git hooks
+npx husky install
+```
+
+## Node version
+
+Use one of the following version:
+
+* v14 (use npm v7, run `npm i -g npm@7`)
+* v16
+* v18
+
 
 ## Testing
 
@@ -10,19 +27,7 @@ Running the tests:
 npm test
 ```
 
-The following Node.js versions have been tested:
 
-* 6.13.0
-* 8.9.4
-* 9.11.2
-* 10.15.1
-* 11.10.0
-
-To test a Node.js version. install [nvm](https://github.com/creationix/nvm) and run the following command:
-
-```shell
-nvm use <version> && npm test
-```
 
 ## Code coverage
 

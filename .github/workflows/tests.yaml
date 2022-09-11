@@ -25,7 +25,7 @@ jobs:
 
       - run: npx audit-ci --moderate
 
-      - run: npm run unit-test
+      - run: npm run test
 
       - name: Fix code coverage paths
         run: sed -i 's/\/home\/runner\/work\/yoti-node-sdk\/yoti-node-sdk\//\/github\/workspace\//g' ./coverage/lcov.info
@@ -90,7 +90,7 @@ jobs:
 
       - run: npm update
 
-      - run: npm run unit-test
+      - run: npm run test
 
   os-compatibility:
     name: Running in ${{ matrix.os }}
@@ -114,4 +114,4 @@ jobs:
 
       - run: npm update
 
-      - run: npm run unit-test
+      - run: npm run test
