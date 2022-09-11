@@ -1,139 +1,147 @@
 const fs = require('fs');
+const {
+  ATTR_SELFIE,
+  ATTR_GENDER,
+  ATTR_DATE_OF_BIRTH,
+  ATTR_POSTAL_ADDRESS,
+  ATTR_STRUCTURED_POSTAL_ADDRESS,
+  ATTR_AGE_OVER,
+  ATTR_AGE_UNDER,
+  ATTR_DOCUMENT_IMAGES,
+  ATTR_IDENTITY_PROFILE_REPORT,
+} = require('../../src/yoti_common/constants');
 const { Profile } = require('../../src/profile_service/profile');
 const { Attribute } = require('../../src/data_type/attribute');
+const { YotiAnchor } = require('../../src/data_type/anchor');
+const { AgeVerification } = require('../../src/data_type/age.verification');
 
-const YotiAnchor = function main(anchorObj) {
-  this.value = anchorObj.value;
-  this.subType = anchorObj.subType;
-  this.signedTimeStamp = anchorObj.signedTimeStamp;
-  this.originServerCerts = anchorObj.originServerCerts;
-};
-
-YotiAnchor.prototype = {
-  getValue() { return this.value; },
-  getSubType() { return this.subType; },
-  getSignedTimeStamp() { return this.signedTimeStamp; },
-  getOriginServerCerts() { return this.originServerCerts; },
+const buildYotiAnchorFromJsonAnchor = (jsonAnchor) => {
+  const {
+    type, value, subType, signedTimeStamp, originServerCerts,
+  } = jsonAnchor;
+  return new YotiAnchor(type, value, subType, signedTimeStamp, originServerCerts);
 };
 
 /**
- * Load sample profile data as Object keyed by attribute name.
+ * Load sample profile data as array of raw attributes, and update their anchor to YotiAnchor.
  *
- * @returns {Object.<string, Object>}
+ * @returns Array
  */
-const loadProfileData = () => {
-  const profileDataPath = './tests/sample-data/profile-service/profile.json';
-  const profileData = JSON.parse(fs.readFileSync(profileDataPath, 'utf8'));
-
-  Object.keys(profileData).forEach((attrName) => {
-    // Convert anchor data into an Anchor Objects.
+const loadProfileContent = () => {
+  const profileContentPath = './tests/sample-data/profile-service/profile.json';
+  const profileContent = JSON.parse(fs.readFileSync(profileContentPath, 'utf8'));
+  return profileContent.map((attribute) => {
+    const refinedAttribute = { ...attribute };
     ['sources', 'verifiers'].forEach((anchorKey) => {
-      if (profileData[attrName][anchorKey].length > 0) {
-        const anchors = JSON.parse(JSON.stringify(profileData[attrName][anchorKey]));
-        profileData[attrName][anchorKey] = [new YotiAnchor(anchors[0])];
+      const rawAnchors = attribute[anchorKey];
+      if (rawAnchors.length > 0) {
+        refinedAttribute[anchorKey] = JSON.parse(JSON.stringify(rawAnchors))
+          .map(buildYotiAnchorFromJsonAnchor);
       }
     });
+    if (attribute.name === ATTR_DATE_OF_BIRTH) {
+      refinedAttribute.value = new Date(attribute.value);
+    } else if (AgeVerification.isAttributeNameMatchingAgeVerification(attribute.name)) {
+      refinedAttribute.value = new AgeVerification(attribute.name, attribute.value);
+    }
+    return refinedAttribute;
   });
-
-  return profileData;
 };
 
-/**
- * Load sample data as Array of Object.
- *
- * @returns {Object[]}
- */
-const loadProfileDataArray = () => {
-  const profileData = loadProfileData();
-  return Object
-    .keys(profileData)
-    .map((key) => profileData[key]);
-};
-
-/**
- * Create a test attribute.
- *
- * @param {string} name
- * @param {string} value
- */
-const createAttribute = (name, value) => new Attribute({
-  name,
-  value,
-  sources: [],
-  verifiers: [],
-});
-
-const profileDataAsObject = loadProfileData();
-const profileDataAsArrayWithSameAttributes = [...loadProfileDataArray(), ...loadProfileDataArray()]
+const profileContentSingle = loadProfileContent();
+const profileContentRepeatedAttributes = [...profileContentSingle, ...profileContentSingle]
   .map((attr, index) => {
-    if (['selfie', 'document_images'].includes(attr.name)) {
+    if ([ATTR_SELFIE, ATTR_DOCUMENT_IMAGES].includes(attr.name)) {
       return Object.assign({}, attr, { id: `${attr.name}-${index}` });
     }
     return attr;
   });
 
+const anyPostalAddressAttributesName = [ATTR_POSTAL_ADDRESS, ATTR_STRUCTURED_POSTAL_ADDRESS];
+
 describe('Profile', () => {
   [
     {
-      describe: 'When profile data is provided as Object keyed by attribute name',
-      profileData: profileDataAsObject,
+      description: 'When profile data is has one attribute for one name',
+      profileContent: profileContentSingle,
+      hasMultipleAttributeByName: false,
     },
     {
-      describe: 'When profile data is provided as an Array (with attributes sharing names)',
-      // (here each attribute are duplicated, so to check handling of several with the same name)
-      profileData: profileDataAsArrayWithSameAttributes,
-      profileDataAsArray: true,
+      description: 'When profile data is has several attribute for one name',
+      profileContent: profileContentRepeatedAttributes,
+      hasMultipleAttributeByName: true,
     },
-  ].forEach((testItem) => {
-    describe(testItem.describe, () => {
-      const profileObj = new Profile(testItem.profileData);
+  ].forEach(({ description, profileContent, hasMultipleAttributeByName }) => {
+    describe(description, () => {
+      const profileContentWithoutPostalAddress = profileContent
+        .filter((attribute) => attribute.name !== ATTR_POSTAL_ADDRESS);
+      const profileContentWithoutAnyPostalAddress = profileContent
+        .filter((attribute) => !anyPostalAddressAttributesName.includes(attribute.name));
+
+      let profile;
+      let profileWithoutPostalAddress;
+      let profileWithoutAnyPostalAddress;
+
+      beforeEach(() => {
+        profile = new Profile(profileContent);
+        profileWithoutPostalAddress = new Profile(profileContentWithoutPostalAddress);
+        profileWithoutAnyPostalAddress = new Profile(profileContentWithoutAnyPostalAddress);
+      });
 
       describe('#getFullName', () => {
         const expectedValue = 'TEST FULL_NAME';
         it('should return full_name value', () => {
-          expect(profileObj.getFullName().getValue()).toBe(expectedValue);
+          expect(profile.getFullName().getValue()).toBe(expectedValue);
         });
       });
 
       describe('#getGivenNames', () => {
         const expectedValue = 'TEST GIVEN_NAMES';
         it('should return given_names value', () => {
-          expect(profileObj.getGivenNames().getValue()).toBe(expectedValue);
+          expect(profile.getGivenNames().getValue()).toBe(expectedValue);
         });
       });
 
       describe('#getFamilyName', () => {
         const expectedValue = 'TEST FAMILY_NAME';
         it('should return family_name value', () => {
-          expect(profileObj.getFamilyName().getValue()).toBe(expectedValue);
+          expect(profile.getFamilyName().getValue()).toBe(expectedValue);
         });
       });
 
       describe('#getGender', () => {
         const expectedValue = 'TEST MALE';
         it('should return gender value', () => {
-          expect(profileObj.getGender().getValue()).toBe(expectedValue);
+          expect(profile.getGender().getValue()).toBe(expectedValue);
+        });
+      });
+
+      describe('#getPhoneNumber', () => {
+        const expectedValue = '+447474747474';
+        it('should return gender value', () => {
+          expect(profile.getPhoneNumber().getValue()).toBe(expectedValue);
+        });
+      });
+
+      describe('#getDateOfBirth', () => {
+        const expectedValue = '2080-09-11T10:05:08.000Z';
+        it('should return gender value', () => {
+          expect(profile.getDateOfBirth().getValue()).toBeInstanceOf(Date);
+          expect(profile.getDateOfBirth().getValue().toISOString()).toBe(expectedValue);
         });
       });
 
       describe('#getEmailAddress', () => {
         const expectedValue = 'example@yoti.com';
         it('should return email_address value', () => {
-          expect(profileObj.getEmailAddress().getValue()).toBe(expectedValue);
-        });
-      });
-
-      describe('#getAgeVerified', () => {
-        const expectedValue = 'true';
-        it('should return age_verified value', () => {
-          expect(profileObj.getAgeVerified().getValue()).toBe(expectedValue);
+          expect(profile.getEmailAddress().getValue()).toBe(expectedValue);
         });
       });
 
       describe('#getFullName#getSources#getValue', () => {
         it('should return full_name first source value', () => {
           const expectedValue = 'PASSPORT';
-          const sourceValue = profileObj.getFullName().getSources()[0].getValue();
+          const sourceValue = profile.getFullName().getSources()[0].getValue();
           expect(sourceValue).toBe(expectedValue);
         });
       });
@@ -141,7 +149,7 @@ describe('Profile', () => {
       describe('#getFullName#getVerifiers#getValue', () => {
         it('should return full_name first verifier value', () => {
           const expectedValue = 'YOTI_ADMIN';
-          const verifierValue = profileObj.getFullName().getVerifiers()[0].getValue();
+          const verifierValue = profile.getFullName().getVerifiers()[0].getValue();
           expect(verifierValue).toBe(expectedValue);
         });
       });
@@ -150,43 +158,19 @@ describe('Profile', () => {
         describe('when postal address is available', () => {
           it('should return postal_address value', () => {
             const expectedValue = 'TEST ADDRESS';
-            expect(profileObj.getPostalAddress().getValue()).toBe(expectedValue);
+            expect(profile.getPostalAddress().getValue()).toBe(expectedValue);
           });
         });
         describe('when postal address is null', () => {
-          const expectedValue = 'SOME FORMATTED ADDRESS';
-          const expectedName = 'postal_address';
-          const expectedSources = [new YotiAnchor({
-            value: 'SOME SOURCE',
-            subType: '',
-            signedTimeStamp: '',
-            originServerCerts: [],
-          })];
-          const expectedVerifiers = [new YotiAnchor({
-            value: 'SOME VERIFIER',
-            subType: '',
-            signedTimeStamp: '',
-            originServerCerts: [],
-          })];
-
-          const profileDataNoAddress = loadProfileData();
-
-          // Remove postal address from profile data.
-          delete profileDataNoAddress.postal_address;
-
-          // Set formatted address and anchors.
-          Object.assign(profileDataNoAddress.structured_postal_address, {
-            value: {
-              formatted_address: expectedValue,
-            },
-            sources: expectedSources,
-            verifiers: expectedVerifiers,
-          });
-
-          const profileNoAddress = new Profile(profileDataNoAddress);
-
           it('should return formatted address with structured address anchors', () => {
-            const postalAddressAttr = profileNoAddress.getPostalAddress();
+            const testedProfile = profileWithoutPostalAddress;
+            const structuredPostalAddressAttribute = testedProfile.getStructuredPostalAddress();
+            const expectedName = ATTR_POSTAL_ADDRESS;
+            const { formatted_address: expectedValue } = structuredPostalAddressAttribute.value;
+            const expectedSources = structuredPostalAddressAttribute.sources;
+            const expectedVerifiers = structuredPostalAddressAttribute.verifiers;
+
+            const postalAddressAttr = testedProfile.getPostalAddress();
             expect(postalAddressAttr.getName()).toBe(expectedName);
             expect(postalAddressAttr.getValue()).toBe(expectedValue);
             expect(postalAddressAttr.getSources()).toBe(expectedSources);
@@ -194,49 +178,37 @@ describe('Profile', () => {
           });
         });
         describe('when both postal address and structured address are null', () => {
-          const profileDataNoAddress = loadProfileData();
-          delete profileDataNoAddress.postal_address;
-          delete profileDataNoAddress.structured_postal_address;
-          const profileNoAddress = new Profile(profileDataNoAddress);
           it('should return null', () => {
-            expect(profileNoAddress.getPostalAddress()).toBe(null);
+            expect(profileWithoutAnyPostalAddress.getPostalAddress()).toBe(null);
           });
         });
       });
 
       describe('#getStructuredPostalAddress', () => {
         it('should return structured_postal_address value', () => {
-          const profileData = loadProfileData();
-          expect(profileObj.getStructuredPostalAddress().getValue())
-            .toStrictEqual(profileData.structured_postal_address.value);
+          const matchingAttribute = profileContent
+            .find((attribute) => attribute.name === ATTR_STRUCTURED_POSTAL_ADDRESS);
+          const expectedValue = matchingAttribute.value;
+          expect(profile.getStructuredPostalAddress().getValue())
+            .toStrictEqual(expectedValue);
         });
       });
 
       describe('#getDocumentImages', () => {
         it('should return document_images value', () => {
-          const profileData = loadProfileData();
-          expect(profileObj.getDocumentImages().getValue())
-            .toStrictEqual(profileData.document_images.value);
-        });
-      });
-
-      describe('#getAttributes', () => {
-        it('should return all attributes keyed by name', () => {
-          const attributes = profileObj.getAttributes();
-          expect(Object.keys(attributes).length).toBe(17);
-          Object.keys(attributes).forEach((attributeName) => {
-            expect(attributes[attributeName]).toBeInstanceOf(Attribute);
-          });
-          expect(attributes.gender.getName()).toBe('gender');
-          expect(attributes.gender.getValue()).toBe('TEST MALE');
+          const matchingAttribute = profileContent
+            .find((attribute) => attribute.name === ATTR_DOCUMENT_IMAGES);
+          const expectedValue = matchingAttribute.value;
+          expect(profile.getDocumentImages().getValue())
+            .toStrictEqual(expectedValue);
         });
       });
 
       describe('#getAttributesList', () => {
         it('should return all attributes as an array', () => {
-          const attributes = profileObj.getAttributesList();
+          const attributes = profile.getAttributesList();
           expect(attributes).toBeInstanceOf(Array);
-          expect(attributes.length).toBe(testItem.profileDataAsArray ? 34 : 17);
+          expect(attributes.length).toBe(profileContent.length);
           attributes.forEach((attribute) => {
             expect(attribute).toBeInstanceOf(Attribute);
           });
@@ -245,38 +217,52 @@ describe('Profile', () => {
 
       describe('#getAttributesByName', () => {
         it('should return all attributes with that name as an array', () => {
-          const attributes = profileObj.getAttributes();
-          const allGenderAttributes = profileObj.getAttributesByName('gender');
+          const matchingAttribute = profileContent
+            .find((attribute) => attribute.name === ATTR_GENDER);
+          const allGenderAttributes = profile.getAttributesByName(ATTR_GENDER);
 
-          if (!testItem.profileDataAsArray) {
+          if (!hasMultipleAttributeByName) {
             expect(allGenderAttributes.length).toBe(1);
-            expect(allGenderAttributes[0]).toBe(attributes.gender);
+            const [onlyAttribute] = allGenderAttributes;
+            expect(onlyAttribute.getValue()).toBe(matchingAttribute.value);
           } else {
             expect(allGenderAttributes.length).toBe(2);
-            expect(allGenderAttributes[0]).toBe(attributes.gender);
-            expect(allGenderAttributes[1]).not.toBe(attributes.gender);
-            expect(allGenderAttributes[1].getName()).toBe(attributes.gender.getName());
-            expect(allGenderAttributes[1].getValue()).toBe(attributes.gender.getValue());
+            const [firstAttribute, secondAttribute] = allGenderAttributes;
+            expect(firstAttribute.getValue()).toBe(matchingAttribute.value);
+            expect(secondAttribute.getValue()).toBe(matchingAttribute.value);
+            // Given the multiple attributes are built as repetition of one definition
+            expect(firstAttribute).toStrictEqual(secondAttribute);
           }
         });
       });
 
       describe('#getAgeVerifications', () => {
         it('should only find age derived attributes', () => {
-          const expectedAgeAttributes = [
-            createAttribute('age_under:18', 'false'),
-            createAttribute('age_under:21', 'true'),
-            createAttribute('age_over:18', 'true'),
-            createAttribute('age_over:21', 'false'),
+          const expectedAgeVerificationAttributesPrint = [
+            `${ATTR_AGE_UNDER}18-age_under-18-false`,
+            `${ATTR_AGE_UNDER}21-age_under-21-true`,
+            `${ATTR_AGE_OVER}18-age_over-18-true`,
+            `${ATTR_AGE_OVER}21-age_over-21-false`,
           ];
-          const ageVerifications = profileObj.getAgeVerifications();
+          const ageVerifications = profile.getAgeVerifications();
 
           expect(ageVerifications).toBeInstanceOf(Array);
           expect(ageVerifications).toHaveLength(4);
 
-          ageVerifications.forEach((ageVerification) => {
-            expect(expectedAgeAttributes).toContainEqual(ageVerification.getAttribute());
+          const ageVerificationAttributesPrint = [];
+          ageVerifications.forEach((attribute) => {
+            const value = attribute.getValue();
+            expect(value).toBeInstanceOf(AgeVerification);
+
+            ageVerificationAttributesPrint.push([
+              attribute.getName(),
+              value.getCheckType(),
+              value.getAge(),
+              value.getResult(),
+            ].join('-'));
           });
+
+          expect(ageVerificationAttributesPrint).toEqual(expectedAgeVerificationAttributesPrint);
         });
 
         it('should return an empty array when there are no age verifications', () => {
@@ -286,68 +272,93 @@ describe('Profile', () => {
           expect(ageVerifications).toHaveLength(0);
         });
       });
+
       describe('#findAgeUnderVerification', () => {
         it('should find unsuccessful age under verification', () => {
-          const verification = profileObj.findAgeUnderVerification(18);
+          const attribute = profile.findAgeUnderVerification(18);
+          const verification = attribute.getValue();
           expect(verification.getAge()).toBe(18);
           expect(verification.getCheckType()).toBe('age_under');
           expect(verification.getResult()).toBe(false);
         });
         it('should find successful age under verification', () => {
-          const verification = profileObj.findAgeUnderVerification(21);
+          const attribute = profile.findAgeUnderVerification(21);
+          const verification = attribute.getValue();
           expect(verification.getAge()).toBe(21);
           expect(verification.getCheckType()).toBe('age_under');
           expect(verification.getResult()).toBe(true);
         });
         it('should return NULL for no match', () => {
-          const verification = profileObj.findAgeUnderVerification(100);
+          const verification = profile.findAgeUnderVerification(100);
           expect(verification).toBe(null);
         });
       });
+
       describe('#findAgeOverVerification', () => {
         it('should find successful age over verification', () => {
-          const verification = profileObj.findAgeOverVerification(18);
+          const attribute = profile.findAgeOverVerification(18);
+          const verification = attribute.getValue();
           expect(verification.getAge()).toBe(18);
           expect(verification.getCheckType()).toBe('age_over');
           expect(verification.getResult()).toBe(true);
         });
         it('should find unsuccessful age over verification', () => {
-          const verification = profileObj.findAgeOverVerification(21);
+          const attribute = profile.findAgeOverVerification(21);
+          const verification = attribute.getValue();
           expect(verification.getAge()).toBe(21);
           expect(verification.getCheckType()).toBe('age_over');
           expect(verification.getResult()).toBe(false);
         });
         it('should return NULL for no match', () => {
-          const verification = profileObj.findAgeOverVerification(100);
+          const verification = profile.findAgeOverVerification(100);
+          expect(verification).toBe(null);
+        });
+      });
+
+      describe('#findAgeVerification', () => {
+        it('should find successful age over verification', () => {
+          const attribute = profile.findAgeVerification(ATTR_AGE_OVER, 18);
+          const verification = attribute.getValue();
+          expect(verification.getAge()).toBe(18);
+          expect(verification.getCheckType()).toBe('age_over');
+          expect(verification.getResult()).toBe(true);
+        });
+        it('should find unsuccessful age over verification', () => {
+          const attribute = profile.findAgeVerification(ATTR_AGE_OVER, 21);
+          const verification = attribute.getValue();
+          expect(verification.getAge()).toBe(21);
+          expect(verification.getCheckType()).toBe('age_over');
+          expect(verification.getResult()).toBe(false);
+        });
+        it('should return NULL for no match', () => {
+          const verification = profile.findAgeVerification('above:', 21);
           expect(verification).toBe(null);
         });
       });
 
       describe('#getIdentityProfileReport', () => {
         it('should return identity_profile_report value', () => {
-          let expectedSource = testItem.profileData.identity_profile_report;
-          if (testItem.profileDataAsArray) {
-            expectedSource = testItem.profileData.find((item) => item.name === 'identity_profile_report');
-          }
-          expect(profileObj.getIdentityProfileReport().getValue())
-            .toEqual(expectedSource.value);
+          const matchingAttribute = profileContent
+            .find((item) => item.name === ATTR_IDENTITY_PROFILE_REPORT);
+          expect(profile.getIdentityProfileReport().getValue())
+            .toEqual(matchingAttribute.value);
         });
       });
 
       describe('#getAttributeById', () => {
         it('should return corresponding attributes', () => {
-          if (testItem.profileDataAsArray) {
-            const selfies = profileObj.getAttributesByName('selfie');
+          if (hasMultipleAttributeByName) {
+            const selfies = profile.getAttributesByName('selfie');
             expect(selfies.length).toBe(2);
             expect(selfies[0].getId()).not.toBe(selfies[1].getId());
-            expect(profileObj.getAttributeById(selfies[0].getId())).toBe(selfies[0]);
-            expect(profileObj.getAttributeById(selfies[1].getId())).toBe(selfies[1]);
+            expect(profile.getAttributeById(selfies[0].getId())).toBe(selfies[0]);
+            expect(profile.getAttributeById(selfies[1].getId())).toBe(selfies[1]);
 
-            const documentImages = profileObj.getAttributesByName('document_images');
+            const documentImages = profile.getAttributesByName(ATTR_DOCUMENT_IMAGES);
             expect(documentImages.length).toBe(2);
             expect(documentImages[0].getId()).not.toBe(documentImages[1].getId());
-            expect(profileObj.getAttributeById(documentImages[0].getId())).toBe(documentImages[0]);
-            expect(profileObj.getAttributeById(documentImages[1].getId())).toBe(documentImages[1]);
+            expect(profile.getAttributeById(documentImages[0].getId())).toBe(documentImages[0]);
+            expect(profile.getAttributeById(documentImages[1].getId())).toBe(documentImages[1]);
           }
         });
       });

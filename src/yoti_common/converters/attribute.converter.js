@@ -2,6 +2,7 @@
 
 const constants = require('../constants');
 const { messages } = require('../../proto');
+const { AgeVerification } = require('../../data_type/age.verification');
 const { DocumentDetails } = require('../../data_type/document.details');
 const Image = require('../../data_type/image');
 const ImageJpeg = require('../../data_type/image.jpeg');
@@ -17,12 +18,16 @@ const CONTENT_TYPE_MULTI_VALUE = 6;
 const CONTENT_TYPE_INT = 7;
 
 module.exports.AttributeConverter = class AttributeConverter {
-  static convertValueBasedOnAttributeName(value, attrName) {
+  static convertValueBasedOnAttributeName(value, name) {
     if (!value) {
       return null;
     }
 
-    switch (attrName) {
+    if (AgeVerification.isAttributeNameMatchingAgeVerification(name)) {
+      return new AgeVerification(name, value);
+    }
+
+    switch (name) {
       case constants.ATTR_DOCUMENT_DETAILS:
         return new DocumentDetails(value);
       case constants.ATTR_DOCUMENT_IMAGES:

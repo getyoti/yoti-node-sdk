@@ -33,20 +33,19 @@ describe('profileService', () => {
       it('should get the receipt', (done) => {
         getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
           .then((receipt) => {
-            const profile = receipt.getUserProfile();
-            const outcome = receipt.getOutcome();
-
-            expect(profile).not.toBe(undefined);
             expect(receipt.getReceiptId()).toBe(receiptId);
             expect(receipt.getRememberMeId()).toBe(rememberMeId);
             expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
             expect(receipt.getTimestamp()).toBeInstanceOf(Date);
             expect(receipt.getTimestamp().toUTCString()).toBe('Tue, 19 Jul 2016 08:55:38 GMT');
-            expect(profile.phoneNumber).toBe(phoneNumber);
-            expect(`data:image/jpeg;base64,${profile.selfie.toString('base64')}`).toBe(selfie);
-            expect(receipt.getBase64SelfieUri()).toBe(selfie);
+
+            const outcome = receipt.getOutcome();
             expect(outcome).toBe('SUCCESS');
 
+            const profile = receipt.getProfile();
+            expect(profile).toBeDefined();
+            expect(profile.getPhoneNumber().getValue()).toBe(phoneNumber);
+            expect(profile.getSelfie().getValue().getBase64Content()).toBe(selfie);
             done();
           })
           .catch(done);
@@ -66,15 +65,16 @@ describe('profileService', () => {
       it('should get an empty receipt from an empty profile share', (done) => {
         getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
           .then((receipt) => {
-            const profile = receipt.getUserProfile();
-            const outcome = receipt.getOutcome();
-
-            expect(profile).not.toBe(undefined);
-            expect(profile).toEqual({});
             expect(receipt.getReceiptId()).toBe(receiptId);
             expect(receipt.getRememberMeId()).toBe(rememberMeId);
             expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
+
+            const outcome = receipt.getOutcome();
             expect(outcome).toBe('SUCCESS');
+
+            const profile = receipt.getProfile();
+            expect(profile).toBeDefined();
+            expect(profile.getAttributesList()).toEqual([]);
 
             done();
           })
@@ -95,15 +95,16 @@ describe('profileService', () => {
       it('should get an empty receipt from an empty profile share', (done) => {
         getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
           .then((receipt) => {
-            const profile = receipt.getUserProfile();
-            const outcome = receipt.getOutcome();
-
-            expect(profile).not.toBe(undefined);
-            expect(profile).toEqual({});
             expect(receipt.getReceiptId()).toBe(receiptId);
             expect(receipt.getRememberMeId()).toBe(rememberMeId);
             expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
+
+            const outcome = receipt.getOutcome();
             expect(outcome).toBe('SUCCESS');
+
+            const profile = receipt.getProfile();
+            expect(profile).toBeDefined();
+            expect(profile.getAttributesList()).toEqual([]);
 
             done();
           })
@@ -124,15 +125,16 @@ describe('profileService', () => {
       it('should get an empty receipt from an empty profile share', (done) => {
         getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
           .then((receipt) => {
-            const profile = receipt.getUserProfile();
-            const outcome = receipt.getOutcome();
-
-            expect(profile).not.toBe(undefined);
-            expect(profile).toEqual({});
             expect(receipt.getReceiptId()).toBe(receiptId);
             expect(receipt.getRememberMeId()).toBe(rememberMeId);
             expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
+
+            const outcome = receipt.getOutcome();
             expect(outcome).toBe('SUCCESS');
+
+            const profile = receipt.getProfile();
+            expect(profile).toBeDefined();
+            expect(profile.getAttributesList()).toEqual([]);
 
             done();
           })
@@ -171,19 +173,19 @@ describe('profileService', () => {
         it('should get the receipt', (done) => {
           profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
             .then((receipt) => {
-              const profile = receipt.getUserProfile();
-              const outcome = receipt.getOutcome();
-
-              expect(profile).not.toBe(undefined);
               expect(receipt.getReceiptId()).toBe(receiptId);
               expect(receipt.getRememberMeId()).toBe(rememberMeId);
               expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
               expect(receipt.getTimestamp()).toBeInstanceOf(Date);
               expect(receipt.getTimestamp().toUTCString()).toBe('Tue, 19 Jul 2016 08:55:38 GMT');
-              expect(profile.phoneNumber).toBe(phoneNumber);
-              expect(`data:image/jpeg;base64,${profile.selfie.toString('base64')}`).toBe(selfie);
-              expect(receipt.getBase64SelfieUri()).toBe(selfie);
+
+              const outcome = receipt.getOutcome();
               expect(outcome).toBe('SUCCESS');
+
+              const profile = receipt.getProfile();
+              expect(profile).toBeDefined();
+              expect(profile.getPhoneNumber().getValue()).toBe(phoneNumber);
+              expect(profile.getSelfie().getValue().getBase64Content()).toBe(selfie);
 
               done();
             })
@@ -200,15 +202,16 @@ describe('profileService', () => {
         it('should get an empty receipt from an empty profile share', (done) => {
           profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
             .then((receipt) => {
-              const profile = receipt.getUserProfile();
-              const outcome = receipt.getOutcome();
-
-              expect(profile).not.toBe(undefined);
-              expect(profile).toEqual({});
               expect(receipt.getReceiptId()).toBe(receiptId);
               expect(receipt.getRememberMeId()).toBe(rememberMeId);
               expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
+
+              const outcome = receipt.getOutcome();
               expect(outcome).toBe('SUCCESS');
+
+              const profile = receipt.getProfile();
+              expect(profile).toBeDefined();
+              expect(profile.getAttributesList()).toEqual([]);
 
               done();
             })
@@ -225,15 +228,16 @@ describe('profileService', () => {
         it('should get an empty receipt from an empty profile share', (done) => {
           profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
             .then((receipt) => {
-              const profile = receipt.getUserProfile();
-              const outcome = receipt.getOutcome();
-
-              expect(profile).not.toBe(undefined);
-              expect(profile).toEqual({});
               expect(receipt.getReceiptId()).toBe(receiptId);
               expect(receipt.getRememberMeId()).toBe(rememberMeId);
               expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
+
+              const outcome = receipt.getOutcome();
               expect(outcome).toBe('SUCCESS');
+
+              const profile = receipt.getProfile();
+              expect(profile).toBeDefined();
+              expect(profile.getAttributesList()).toEqual([]);
 
               done();
             })
@@ -251,15 +255,16 @@ describe('profileService', () => {
         it('should get an empty receipt from an empty profile share', (done) => {
           profileService.getReceipt('a-test-token', privateKeyFile, 'stub-app-id')
             .then((receipt) => {
-              const profile = receipt.getUserProfile();
-              const outcome = receipt.getOutcome();
-
-              expect(profile).not.toBe(undefined);
-              expect(profile).toEqual({});
               expect(receipt.getReceiptId()).toBe(receiptId);
               expect(receipt.getRememberMeId()).toBe(rememberMeId);
               expect(receipt.getParentRememberMeId()).toBe(parentRememberMeId);
+
+              const outcome = receipt.getOutcome();
               expect(outcome).toBe('SUCCESS');
+
+              const profile = receipt.getProfile();
+              expect(profile).toBeDefined();
+              expect(profile.getAttributesList()).toEqual([]);
 
               done();
             })

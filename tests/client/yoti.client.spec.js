@@ -79,29 +79,20 @@ describe.each([
       it('should fetch and decrypt the profile', (done) => {
         yotiClient.getActivityDetails(encryptedYotiToken)
           .then((activityDetails) => {
-            const profile = activityDetails.getUserProfile();
-            const extendedProfile = activityDetails.getProfile();
+            const profile = activityDetails.getProfile();
             const applicationProfile = activityDetails.getApplicationProfile();
             const extraData = activityDetails.getExtraData();
             const outcome = activityDetails.getOutcome();
 
             expect(activityDetails.getRememberMeId()).toBe(rememberMeId);
             expect(activityDetails.getParentRememberMeId()).toBe(parentRememberMeId);
-            expect(activityDetails.getBase64SelfieUri()).toBe(selfie);
 
             expect(outcome).toBe('SUCCESS');
 
-            expect(profile).toBeDefined();
-            // eslint-disable-next-line dot-notation
-            expect(profile['phoneNumber']).toBe(phoneNumber);
-            // eslint-disable-next-line dot-notation
-            const assembledSelfieFromProfileValue = `data:image/jpeg;base64,${profile['selfie'].toString('base64')}`;
-            expect(assembledSelfieFromProfileValue).toBe(selfie);
+            expect(profile.getPhoneNumber().getValue()).toBe(phoneNumber);
+            expect(profile.getSelfie().getValue().getBase64Content()).toBe(selfie);
 
-            expect(extendedProfile.getPhoneNumber().getValue()).toBe(phoneNumber);
-            expect(extendedProfile.getSelfie().getValue().getBase64Content()).toBe(selfie);
-
-            const phoneNumberAnchor = extendedProfile.getPhoneNumber().getAnchors()[0];
+            const phoneNumberAnchor = profile.getPhoneNumber().getAnchors()[0];
             expect(phoneNumberAnchor.getType()).toBe('UNKNOWN');
             expect(phoneNumberAnchor.getValue()).toBe('');
 
@@ -128,11 +119,11 @@ describe.each([
       it('should fetch and decrypt the empty profile', (done) => {
         yotiClient.getActivityDetails(encryptedYotiToken)
           .then((activityDetails) => {
-            const profile = activityDetails.getUserProfile();
+            const profile = activityDetails.getProfile();
             const outcome = activityDetails.getOutcome();
 
             expect(profile).toBeDefined();
-            expect(profile).toEqual({});
+            expect(profile.getAttributesList()).toEqual([]);
             expect(activityDetails.getRememberMeId()).toBe(rememberMeId);
             expect(activityDetails.getParentRememberMeId()).toBe(parentRememberMeId);
             expect(outcome).toBe('SUCCESS');
@@ -152,11 +143,11 @@ describe.each([
       it('should fetch and decrypt the empty profile', (done) => {
         yotiClient.getActivityDetails(encryptedYotiToken)
           .then((activityDetails) => {
-            const profile = activityDetails.getUserProfile();
+            const profile = activityDetails.getProfile();
             const outcome = activityDetails.getOutcome();
 
             expect(profile).toBeDefined();
-            expect(profile).toEqual({});
+            expect(profile.getAttributesList()).toEqual([]);
             expect(activityDetails.getRememberMeId()).toBe(rememberMeId);
             expect(activityDetails.getParentRememberMeId()).toBe(parentRememberMeId);
             expect(outcome).toBe('SUCCESS');
@@ -176,11 +167,11 @@ describe.each([
       it('should fetch and decrypt the empty profile', (done) => {
         yotiClient.getActivityDetails(encryptedYotiToken)
           .then((activityDetails) => {
-            const profile = activityDetails.getUserProfile();
+            const profile = activityDetails.getProfile();
             const outcome = activityDetails.getOutcome();
 
             expect(profile).toBeDefined();
-            expect(profile).toEqual({});
+            expect(profile.getAttributesList()).toEqual([]);
             expect(activityDetails.getRememberMeId()).toBe(rememberMeId);
             expect(activityDetails.getParentRememberMeId()).toBe(parentRememberMeId);
             expect(outcome).toBe('SUCCESS');
