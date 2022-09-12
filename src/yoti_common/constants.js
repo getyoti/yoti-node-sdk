@@ -15,7 +15,6 @@ module.exports = Object.freeze({
   ATTR_GIVEN_NAMES: 'given_names',
   ATTR_FULL_NAME: 'full_name',
   ATTR_DATE_OF_BIRTH: 'date_of_birth',
-  ATTR_AGE_VERIFIED: 'age_verified',
   ATTR_AGE_UNDER: 'age_under:',
   ATTR_AGE_OVER: 'age_over:',
   ATTR_GENDER: 'gender',
