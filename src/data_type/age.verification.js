@@ -1,24 +1,30 @@
 'use strict';
 
 const Validation = require('../yoti_common/validation');
+const constants = require('../yoti_common/constants');
 
 /**
- * Wraps an 'Age Verify/Condition' attribute to provide behaviour specific
+ * Based on an 'Age Verify/Condition' attribute name and value, provides behaviour specific
  * to verifying someone's age.
  *
  * @class AgeVerification
  */
 class AgeVerification {
-  constructor(attribute) {
-    Validation.notNull(attribute, 'attribute');
-    Validation.matchesPattern(attribute.getName(), /^[^:]+:(?!.*:)[0-9]+$/, 'attribute.name');
-    this.attribute = attribute;
+  static isAttributeNameMatchingAgeVerification(name) {
+    return name.startsWith(constants.ATTR_AGE_OVER)
+      || name.startsWith(constants.ATTR_AGE_UNDER);
+  }
 
-    const split = attribute.getName().split(':');
+  constructor(name, value) {
+    Validation.isString(name, 'name');
+    Validation.oneOf(value, ['true', 'false'], 'value');
+    Validation.matchesPattern(name, /^[^:]+:(?!.*:)[0-9]+$/, 'attribute.name');
+
+    const split = name.split(':');
     this.checkType = split[0];
 
     this.age = parseInt(split[1], 10);
-    this.result = attribute.getValue() === 'true';
+    this.result = value === 'true';
   }
 
   /**
@@ -42,7 +48,7 @@ class AgeVerification {
   }
 
   /**
-   * Whether or not the profile passed the age check.
+   * Whether the profile passed the age check.
    *
    * @returns {boolean}
    */

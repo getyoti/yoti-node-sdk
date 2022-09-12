@@ -62,6 +62,24 @@ function decryptEncryptedData(encryptedData, wrappedReceiptKey, pem) {
 }
 
 /**
+ * @param {string} profileContent
+ * @param {string} wrappedReceiptKey
+ * @param {string} pem
+ *
+ * @returns {{attributes: Object[]}}
+ */
+function decryptProfileContent(profileContent, wrappedReceiptKey, pem) {
+  const profileNotEmpty = profileContent && Object.keys(profileContent).length > 0;
+
+  if (profileNotEmpty) {
+    const decryptedProfileContent = decryptEncryptedData(profileContent, wrappedReceiptKey, pem);
+    const { attributes: rawAttributes } = messages.decodeAttributeList(decryptedProfileContent);
+    return { attributes: AttributeListConverter.convertAttributeList(rawAttributes) };
+  }
+  return { attributes: [] };
+}
+
+/**
  * @param {string} httpMethod
  *
  * @returns {boolean}
@@ -102,31 +120,12 @@ module.exports.getAuthKeyFromPem = (pem) => {
 };
 
 /**
- * @param {string} profileContent
- * @param {string} wrappedReceiptKey
- * @param {string} pem
- *
- * @returns {Object[]}
- */
-module.exports.decryptProfileContent = (profileContent, wrappedReceiptKey, pem) => {
-  const receiptNotEmpty = profileContent && Object.keys(profileContent).length > 0;
-
-  if (receiptNotEmpty) {
-    const decryptedProfileData = decryptEncryptedData(profileContent, wrappedReceiptKey, pem);
-    const attributesList = messages.decodeAttributeList(decryptedProfileData);
-    return AttributeListConverter.convertAttributeList(attributesList);
-  }
-  console.log('Receipt data is empty');
-  return [];
-};
-
-/**
  * @param {Object} receipt
  * @param {string} pem
  *
- * @returns {Object[]}
+ * @returns {{attributes: Object[]}}
  */
-module.exports.decryptCurrentUserReceipt = (receipt, pem) => this.decryptProfileContent(
+module.exports.decryptUserProfile = (receipt, pem) => decryptProfileContent(
   receipt.other_party_profile_content,
   receipt.wrapped_receipt_key,
   pem
@@ -136,9 +135,9 @@ module.exports.decryptCurrentUserReceipt = (receipt, pem) => this.decryptProfile
  * @param {Object} receipt
  * @param {string} pem
  *
- * @returns {Object[]}
+ * @returns {{attributes: Object[]}}
  */
-module.exports.decryptApplicationProfile = (receipt, pem) => this.decryptProfileContent(
+module.exports.decryptApplicationProfile = (receipt, pem) => decryptProfileContent(
   receipt.profile_content,
   receipt.wrapped_receipt_key,
   pem

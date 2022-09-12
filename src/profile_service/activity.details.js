@@ -1,27 +1,9 @@
 'use strict';
 
-const { Age } = require('../yoti_common/age');
 const { Profile } = require('./profile');
 const { ApplicationProfile } = require('./application.profile');
 const ExtraData = require('./extra.data');
 const Validation = require('../yoti_common/validation');
-
-/**
- * Processes profile array data into object.
- *
- * @param {array} profile
- * @returns {object}
- */
-function parseProfile(profile) {
-  if (!profile) {
-    return {};
-  }
-  return profile.reduce((acc, current) => {
-    const propName = Object.getOwnPropertyNames(current)[0];
-    acc[propName] = current[propName];
-    return acc;
-  }, {});
-}
 
 /**
  * Details of an activity between a user and the application.
@@ -32,38 +14,26 @@ class ActivityDetails {
   /**
    * @param {object} parsedResponse
    *   Parsed JSON response.
-   * @param {array} decryptedProfile
+   * @param {{attributes: Object[]}} userProfile
    *   Decrypted user profile data.
-   * @param {array} decryptedApplicationProfile
+   * @param {{attributes: Object[]}} applicationProfile
    *   Decrypted application profile data.
    * @param {ExtraData} extraData
    *   Decrypted and converted extra data.
    */
-  constructor(parsedResponse, decryptedProfile, decryptedApplicationProfile, extraData) {
+  constructor(parsedResponse, userProfile, applicationProfile, extraData) {
     this.parsedResponse = parsedResponse;
-    this.decryptedProfile = decryptedProfile;
     this.receipt = parsedResponse.receipt;
-    this.profile = parseProfile(decryptedProfile);
+
+    const { attributes: userProfileAttributes } = userProfile || {};
+    const { attributes: applicationProfileAttributes } = applicationProfile || {};
+    this.userProfile = new Profile(userProfileAttributes);
+    this.applicationProfile = new ApplicationProfile(applicationProfileAttributes);
 
     if (extraData !== undefined) {
       Validation.instanceOf(extraData, ExtraData, 'extraData');
     }
     this.extraData = extraData;
-
-    // This is the new profile attribute - `extendedProfileList` supersedes `extendedProfile`
-    // to support multiple attributes with the same name.
-    const extendedProfile = this.profile.extendedProfileList || this.profile.extendedProfile;
-    this.extendedProfile = new Profile(extendedProfile);
-    delete this.profile.extendedProfile;
-    delete this.profile.extendedProfileList;
-
-    const applicationProfile = parseProfile(decryptedApplicationProfile);
-    this.applicationProfile = new ApplicationProfile(applicationProfile.extendedProfile);
-
-    const age = new Age(this.profile);
-    if (age.isVerified() !== null) {
-      this.profile.isAgeVerified = age.isVerified();
-    }
   }
 
   /**
@@ -93,24 +63,13 @@ class ActivityDetails {
   }
 
   /**
-   * The user profile returned by Yoti if the request was successful.
-   *
-   * @deprecated replaced by getProfile()
-   *
-   * @returns {Object}
-   */
-  getUserProfile() {
-    return this.profile;
-  }
-
-  /**
    * The user profile with shared attributes and anchor information, returned
    * by Yoti if the request was successful.
    *
    * @returns {Profile}
    */
   getProfile() {
-    return this.extendedProfile;
+    return this.userProfile;
   }
 
   /**
@@ -123,7 +82,7 @@ class ActivityDetails {
   }
 
   /**
-   * A enum to represent the success state when requesting a profile.
+   * An enum to represent the success state when requesting a profile.
    *
    * @returns {string}
    */
@@ -142,15 +101,6 @@ class ActivityDetails {
       };
     }
     return errorDetails;
-  }
-
-  /**
-   * Base64 encoded selfie image.
-   *
-   * @returns {string}
-   */
-  getBase64SelfieUri() {
-    return this.profile.base64SelfieUri;
   }
 
   /**

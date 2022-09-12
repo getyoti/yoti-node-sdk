@@ -1,7 +1,6 @@
 const { ActivityDetails } = require('../../src/profile_service/activity.details');
 const { Profile } = require('../../src/profile_service/profile');
 const { ApplicationProfile } = require('../../src/profile_service/application.profile');
-const { Attribute } = require('../../src/data_type/attribute');
 
 describe('ActivityDetails', () => {
   describe('#getRememberMeId', () => {
@@ -66,45 +65,33 @@ describe('ActivityDetails', () => {
   });
   describe('#getProfile', () => {
     it('should return Profile object', () => {
-      const activityDetails = new ActivityDetails({}, [
-        {
-          extendedProfile: {
-            attr_name: new Attribute({
-              name: 'attr_name',
-              value: 'attr_value',
-            }),
+      const activityDetails = new ActivityDetails({}, {
+        attributes: [
+          {
+            name: 'attr_name',
+            value: 'attr_value',
           },
-        },
-      ]);
+        ],
+      });
       const profile = activityDetails.getProfile();
       expect(profile).toBeInstanceOf(Profile);
       expect(profile.getAttribute('attr_name').getValue()).toBe('attr_value');
     });
   });
-  describe('#getUserProfile', () => {
-    it('should return user profile object', () => {
-      const activityDetails = new ActivityDetails({}, [
-        {
-          attr_key: 'attr_value',
-        },
-      ]);
-      expect(activityDetails.getUserProfile()).toEqual({
-        attr_key: 'attr_value',
-      });
-    });
-  });
   describe('#getApplicationProfile', () => {
     it('should return ApplicationProfile object', () => {
-      const activityDetails = new ActivityDetails({}, [], [
+      const activityDetails = new ActivityDetails(
+        {},
+        [],
         {
-          extendedProfile: {
-            attr_name: new Attribute({
+          attributes: [
+            {
               name: 'attr_name',
               value: 'attr_value',
-            }),
-          },
-        },
-      ]);
+            },
+          ],
+        }
+      );
       const applicationProfile = activityDetails.getApplicationProfile();
       expect(applicationProfile).toBeInstanceOf(ApplicationProfile);
       expect(applicationProfile.getAttribute('attr_name').getValue()).toBe('attr_value');
@@ -135,16 +122,6 @@ describe('ActivityDetails', () => {
         errorCode: 'ERROR_CODE_FOR_SHARE',
         description: 'Something terrible happened...users had no documents!',
       });
-    });
-  });
-  describe('#getBase64SelfieUri', () => {
-    it('should return base64 encoded selfie uri', () => {
-      const activityDetails = new ActivityDetails({}, [
-        {
-          base64SelfieUri: 'test_base64_encoded_uri',
-        },
-      ]);
-      expect(activityDetails.getBase64SelfieUri()).toBe('test_base64_encoded_uri');
     });
   });
   describe('#getTimestamp', () => {

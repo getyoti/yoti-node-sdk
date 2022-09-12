@@ -1,32 +1,33 @@
-{
-  "gender":
+[
   { "name": "gender",
     "value": "TEST MALE",
     "sources": [],
     "verifiers": []
   },
-  "nationality":
   {
     "name": "nationality",
     "value": "GBR",
     "sources": [],
     "verifiers": []
   },
-  "phone_number":
   {
     "name": "phone_number",
     "value": "+447474747474",
     "sources": [],
     "verifiers": []
   },
-  "given_names":
+  {
+    "name": "date_of_birth",
+    "value": "2080-09-11",
+    "sources": [],
+    "verifiers": []
+  },
   {
     "name": "given_names",
     "value": "TEST GIVEN_NAMES",
     "sources": [],
     "verifiers": []
   },
-  "full_name":
   {
     "name": "full_name",
     "value": "TEST FULL_NAME",
@@ -49,14 +50,12 @@
       "associatedSource":""
     }]
   },
-  "postal_address":
   {
     "name": "postal_address",
     "value": "TEST ADDRESS",
     "sources": [],
     "verifiers": []
   },
-  "structured_postal_address":
   {
     "name": "structured_postal_address",
     "value": {
@@ -72,66 +71,67 @@
       "country": "United Kingdom",
       "formatted_address": "123 TEST ADDRESS\nLONDON\nAB1 2CD\nUnited Kingdom"
     },
-    "sources": [],
-    "verifiers": []
+    "sources": [{
+      "value":"PASSPORT",
+      "artifactSignature":"",
+      "subType":"OCR",
+      "signature":"",
+      "signedTimeStamp":"",
+      "originServerCerts":[],
+      "associatedSource":""
+    }],
+    "verifiers": [{
+      "value":"YOTI_ADMIN",
+      "artifactSignature":"",
+      "subType":"",
+      "signature":"",
+      "signedTimeStamp":"",
+      "originServerCerts":[],
+      "associatedSource":""
+    }]
   },
-  "family_name":
   {
     "name": "family_name",
     "value": "TEST FAMILY_NAME",
     "sources": [],
     "verifiers": []
   },
-  "selfie":
   {
     "name": "selfie",
     "value": "",
     "sources": [],
     "verifiers": []
   },
-  "email_address":
   {
     "name": "email_address",
     "value": "example@yoti.com",
     "sources": [],
     "verifiers": []
   },
-  "age_verified":
-  {
-    "name": "age_verified",
-    "value": "true",
-    "sources": [],
-    "verifiers": []
-  },
-  "age_under:18":
   {
     "name": "age_under:18",
     "value": "false",
     "sources": [],
     "verifiers": []
   },
-  "age_under:21":
   {
     "name": "age_under:21",
     "value": "true",
     "sources": [],
     "verifiers": []
   },
-  "age_over:18":
   {
     "name": "age_over:18",
     "value": "true",
     "sources": [],
     "verifiers": []
   },
-  "age_over:21":
   {
     "name": "age_over:21",
     "value": "false",
     "sources": [],
     "verifiers": []
   },
-  "document_images":
   {
     "name": "document_images",
     "value": [
@@ -141,7 +141,6 @@
     "sources": [],
     "verifiers": []
   },
-  "identity_profile_report":
   {
     "name": "identity_profile_report",
     "value": {
@@ -265,4 +264,4 @@
     "sources": [],
     "verifiers": []
   }
-}
+]
