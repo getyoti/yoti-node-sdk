@@ -92,7 +92,7 @@ const displayAttributesMapping = {
   [ATTR_DOCUMENT_IMAGES]: {
     label: 'Document Images',
     icon: 'yoti-icon-document',
-    toDisplayableValue: (value) => value.forEach((image) => image.getBase64Content()),
+    toDisplayableValue: (value) => value.map((image) => image.getBase64Content()),
   },
   [ATTR_AGE_OVER]: {
     label: 'Age Over',

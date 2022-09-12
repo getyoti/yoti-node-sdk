@@ -65,7 +65,7 @@
 
 @media (min-width: 1100px) {
     .yoti-profile-layout {
-        grid-template-columns: 300px 1fr;
+        grid-template-columns: 260px 1fr;
         height: 100%;
     }
 }
@@ -184,10 +184,6 @@
     .yoti-attributes-section.-condensed {
         padding: 0;
     }
-}
-
-.company-logo {
-    margin-bottom: 40px;
 }
 
 

@@ -10,18 +10,14 @@
     <body class="yoti-body">
         <main class="yoti-profile-layout">
             <section class="yoti-profile-user-section">
-
                 <div class="yoti-profile-picture-powered-section">
                     <span class="yoti-profile-picture-powered">Powered by</span>
                     <img class="yoti-logo-image" src="/static/assets/logo.png" srcset="/static/assets/logo@2x.png 2x"
                          alt="Yoti"/>
                 </div>
-
-                <img class="company-logo" src="/static/assets/company-logo.jpg" alt="company logo"/>
             </section>
 
             <section class="yoti-attributes-section">
-
 
                 <div class="yoti-attribute-list-header">
                     <div class="yoti-attribute-list-header-attribute">Attribute</div>
@@ -47,7 +43,7 @@
                             <div class="yoti-attribute-name">
                                 <div class="yoti-attribute-name-cell">
                                     <i class="<%= icon %>"></i>
-                                    <span class="yoti-attribute-name-cell-text"><%= name %></span>
+                                    <span class="yoti-attribute-name-cell-text"><%= label %></span>
                                 </div>
                             </div>
 
@@ -59,12 +55,6 @@
                                     <div class="yoti-profile-picture-area">
                                         <img src="<%= value %>" class="yoti-profile-picture-image" alt="selfie"/>
                                         <i class="yoti-profile-picture-verified-icon"></i>
-                                    </div>
-                                    <% break;
-
-                                    case 'full_name': %>
-                                    <div class="yoti-profile-name">
-                                    <%= value %>
                                     </div>
                                     <% break;
 
