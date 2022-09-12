@@ -124,7 +124,7 @@ describe('Profile', () => {
       });
 
       describe('#getDateOfBirth', () => {
-        const expectedValue = '2080-09-11T10:05:08.000Z';
+        const expectedValue = '2080-09-11T00:00:00.000Z';
         it('should return gender value', () => {
           expect(profile.getDateOfBirth().getValue()).toBeInstanceOf(Date);
           expect(profile.getDateOfBirth().getValue().toISOString()).toBe(expectedValue);
