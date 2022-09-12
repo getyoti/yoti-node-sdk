@@ -133,18 +133,18 @@
 
                                 <% if (sources) { %>
                                     <% for(let i = 0; i < sources.length; i += 1) { %>
-                                        <% let { type, subType } = sources[ i ] %>
+                                        <% let { value, subType } = sources[ i ] %>
                                         <div class="yoti-attribute-anchors -s-v">Source</div>
-                                        <div class="yoti-attribute-anchors -value"><%= type %></div>
+                                        <div class="yoti-attribute-anchors -value"><%= value %></div>
                                         <div class="yoti-attribute-anchors -subtype"><%= subType %></div>
                                     <% } %>
                                 <% } %>
 
                                 <% if (verifiers) { %>
                                     <% for(let i = 0; i < verifiers.length; i += 1) { %>
-                                        <% let { type, subType } = verifiers[ i ] %>
+                                        <% let { value, subType } = verifiers[ i ] %>
                                         <div class="yoti-attribute-anchors -s-v">Verifier</div>
-                                        <div class="yoti-attribute-anchors -value"><%= type %></div>
+                                        <div class="yoti-attribute-anchors -value"><%= value %></div>
                                         <div class="yoti-attribute-anchors -subtype"><%= subType %></div>
                                     <% } %>
                                 <% } %>

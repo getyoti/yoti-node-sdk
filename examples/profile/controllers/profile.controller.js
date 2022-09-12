@@ -135,7 +135,7 @@ function extractAttributesFromProfile(profile) {
 
 function toDisplayableSourceOrVerifier(sourceOrVerifier) {
   return {
-    type: sourceOrVerifier.getType(),
+    value: sourceOrVerifier.getValue(),
     subType: sourceOrVerifier.getSubType(),
   };
 }
@@ -179,9 +179,6 @@ module.exports = (req, res) => {
     const attributes = extractAttributesFromProfile(profile);
     const displayableAttributes = attributes.map(toDisplayableAttribute)
       .filter((attribute) => !!attribute);
-
-    // DEBUG
-    // console.log('>>>>\n', JSON.stringify(displayableAttributes, null, 2), '\n<<<< displayableAttributes');
 
     res.render('pages/profile', {
       profile,
