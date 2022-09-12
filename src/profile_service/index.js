@@ -47,14 +47,13 @@ class ProfileService {
           try {
             const receipt = response.getReceipt();
             const parsedResponse = response.getParsedResponse();
-            const decryptedProfile = yotiCommon.decryptCurrentUserReceipt(receipt, this.pem);
-            // eslint-disable-next-line max-len
-            const decryptedApplicationProfile = yotiCommon.decryptApplicationProfile(receipt, this.pem);
+            const userProfile = yotiCommon.decryptUserProfile(receipt, this.pem);
+            const applicationProfile = yotiCommon.decryptApplicationProfile(receipt, this.pem);
             const extraData = yotiCommon.parseExtraData(receipt, this.pem);
             return resolve(new ActivityDetails(
               parsedResponse,
-              decryptedProfile,
-              decryptedApplicationProfile,
+              userProfile,
+              applicationProfile,
               extraData
             ));
           } catch (err) {

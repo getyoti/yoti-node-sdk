@@ -2,8 +2,8 @@
 
 const constants = require('../yoti_common/constants');
 const { BaseProfile } = require('./base.profile');
-const { Attribute } = require('../data_type/attribute');
 const { AgeVerification } = require('../data_type/age.verification');
+const { Attribute } = require('../data_type/attribute');
 const Validation = require('../yoti_common/validation');
 
 /**
@@ -12,6 +12,17 @@ const Validation = require('../yoti_common/validation');
  * @class Profile
  */
 class Profile extends BaseProfile {
+  constructor(attributes = []) {
+    super(attributes);
+
+    this.ageVerifications = this.attributes
+      .filter((attribute) => attribute.getValue() instanceof AgeVerification)
+      .reduce((acc, attribute) => ({
+        ...acc,
+        [attribute.getName()]: attribute,
+      }), {});
+  }
+
   /**
    * The full name attribute.
    *
@@ -49,27 +60,13 @@ class Profile extends BaseProfile {
   }
 
   /**
-   * Did the user pass the age verification check?
-   *
-   * @deprecated use getAgeVerifications(), findAgeOverVerification(age)
-   * or findAgeUnderVerification(age)
-   *
-   * @returns {null|Attribute}
-   */
-  getAgeVerified() {
-    return this.getAttribute(constants.ATTR_AGE_VERIFIED);
-  }
-
-  /**
    * Finds all the 'Age Over' and 'Age Under' derived attributes returned with the profile,
    * and returns them wrapped in AgeVerification objects
    *
    * @returns {Array}
    */
   getAgeVerifications() {
-    this.findAllAgeVerifications();
-    return Object.keys(this.ageVerifications)
-      .map((key) => this.ageVerifications[key]);
+    return Object.values(this.ageVerifications);
   }
 
   /**
@@ -105,24 +102,7 @@ class Profile extends BaseProfile {
   findAgeVerification(type, age) {
     Validation.isString(type);
     Validation.isInteger(age);
-    this.findAllAgeVerifications();
     return this.ageVerifications[type + age] || null;
-  }
-
-  /**
-   * Find all age verifications and put in key value object.
-   */
-  findAllAgeVerifications() {
-    if (this.ageVerifications) {
-      return;
-    }
-    this.ageVerifications = {};
-    this.findAttributesStartingWith(constants.ATTR_AGE_OVER).forEach((attribute) => {
-      this.ageVerifications[attribute.getName()] = new AgeVerification(attribute);
-    });
-    this.findAttributesStartingWith(constants.ATTR_AGE_UNDER).forEach((attribute) => {
-      this.ageVerifications[attribute.getName()] = new AgeVerification(attribute);
-    });
   }
 
   /**
@@ -184,15 +164,13 @@ class Profile extends BaseProfile {
       return postalAddress;
     }
 
-    // Return formatted address if postal address is null.
-    if (this.propertyExists(constants.ATTR_STRUCTURED_POSTAL_ADDRESS)) {
-      const structuredAddrObj = this.profileData[constants.ATTR_STRUCTURED_POSTAL_ADDRESS];
-      if (structuredAddrObj instanceof Object) {
-        const formattedAddrObj = Object.assign({}, structuredAddrObj);
-        formattedAddrObj.name = constants.ATTR_POSTAL_ADDRESS;
-        formattedAddrObj.value = structuredAddrObj.value.formatted_address;
-        return new Attribute(formattedAddrObj);
-      }
+    const structuredPostalAddress = this.getStructuredPostalAddress();
+    if (structuredPostalAddress) {
+      return new Attribute({
+        ...structuredPostalAddress,
+        name: constants.ATTR_POSTAL_ADDRESS,
+        value: structuredPostalAddress.value.formatted_address,
+      });
     }
 
     return null;

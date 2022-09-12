@@ -30,68 +30,35 @@ describe('AttributeListConverter', () => {
           },
         ];
         const decodedMessage = getDecodedAttributesListMessageFromInitialPayload(rawAttributesList);
-        convertedAttributeList = AttributeListConverter.convertAttributeList(decodedMessage);
+        const { attributes: attributesList } = decodedMessage;
+        convertedAttributeList = AttributeListConverter.convertAttributeList(attributesList);
       });
 
       describe('where the first item ', () => {
         it('should be the first attribute', () => {
           const [firstItem] = convertedAttributeList;
-          expect(firstItem).toEqual({ name: 'Bob' });
+          expect(firstItem).toEqual(
+            expect.objectContaining({
+              name: 'name',
+              value: 'Bob',
+              sources: expect.any(Object),
+              verifiers: expect.any(Object),
+              anchors: expect.any(Object),
+            })
+          );
         });
       });
 
       describe('where the second item ', () => {
         it('should be the second attribute', () => {
           const [, secondItem] = convertedAttributeList;
-          expect(secondItem).toEqual({ gender: 'male' });
-        });
-      });
-
-      describe('where the before last item ', () => {
-        it('should be containing the extendedProfile', () => {
-          const [, , beforeLastItem] = convertedAttributeList;
-          const { extendedProfile } = beforeLastItem;
-          expect(extendedProfile).toBeDefined();
-          expect(extendedProfile).toEqual({
-            name: expect.objectContaining({
-              name: 'name',
-              value: 'Bob',
-              sources: expect.any(Object),
-              verifiers: expect.any(Object),
-              anchors: expect.any(Object),
-            }),
-            gender: expect.objectContaining({
-              name: 'gender',
-              value: 'male',
-              sources: expect.any(Object),
-              verifiers: expect.any(Object),
-              anchors: expect.any(Object),
-            }),
-          });
-        });
-      });
-
-      describe('where the last item ', () => {
-        it('should be containing the extendedProfileList', () => {
-          const [, , , lastItem] = convertedAttributeList;
-          const { extendedProfileList } = lastItem;
-          expect(extendedProfileList).toBeDefined();
-          expect(extendedProfileList).toEqual([
-            expect.objectContaining({
-              name: 'name',
-              value: 'Bob',
-              sources: expect.any(Object),
-              verifiers: expect.any(Object),
-              anchors: expect.any(Object),
-            }),
-            expect.objectContaining({
-              name: 'gender',
-              value: 'male',
-              sources: expect.any(Object),
-              verifiers: expect.any(Object),
-              anchors: expect.any(Object),
-            }),
-          ]);
+          expect(secondItem).toEqual(expect.objectContaining({
+            name: 'gender',
+            value: 'male',
+            sources: expect.any(Object),
+            verifiers: expect.any(Object),
+            anchors: expect.any(Object),
+          }));
         });
       });
     });
@@ -116,28 +83,16 @@ describe('AttributeListConverter', () => {
           },
         ];
         const decodedMessage = getDecodedAttributesListMessageFromInitialPayload(rawAttributesList);
-        convertedAttributeList = AttributeListConverter.convertAttributeList(decodedMessage);
+        const { attributes: attributesList } = decodedMessage;
+        convertedAttributeList = AttributeListConverter.convertAttributeList(attributesList);
       });
 
       it('should include an id (with the ephemeralId value)', () => {
         const [
           firstItem,
           secondItem,
-          { extendedProfile },
-          { extendedProfileList },
         ] = convertedAttributeList;
-        expect(firstItem).toEqual({ name: 'Bob1' });
-        expect(secondItem).toEqual({ name: 'Bob2' });
-        expect(extendedProfile.name).toEqual({
-          name: 'name',
-          value: 'Bob2',
-          id: 'secondBob',
-          sources: expect.any(Object),
-          verifiers: expect.any(Object),
-          anchors: expect.any(Object),
-        });
-        expect(extendedProfileList.length).toBe(2);
-        expect(extendedProfileList[0]).toEqual({
+        expect(firstItem).toEqual({
           name: 'name',
           value: 'Bob1',
           id: 'firstBob',
@@ -145,7 +100,7 @@ describe('AttributeListConverter', () => {
           verifiers: expect.any(Object),
           anchors: expect.any(Object),
         });
-        expect(extendedProfileList[1]).toEqual({
+        expect(secondItem).toEqual({
           name: 'name',
           value: 'Bob2',
           id: 'secondBob',
