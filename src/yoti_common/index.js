@@ -76,7 +76,6 @@ function decryptProfileContent(profileContent, wrappedReceiptKey, pem) {
     const { attributes: rawAttributes } = messages.decodeAttributeList(decryptedProfileContent);
     return { attributes: AttributeListConverter.convertAttributeList(rawAttributes) };
   }
-  console.log('Profile data is empty');
   return { attributes: [] };
 }
 
