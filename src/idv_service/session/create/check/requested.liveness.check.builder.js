@@ -23,6 +23,15 @@ class RequestedLivenessCheckBuilder {
   }
 
   /**
+   * Sets the type to be of a Static liveness check
+   *
+   * @returns {this}
+   */
+  forStaticLiveness() {
+    return this.forLivenessType(IDVConstants.STATIC);
+  }
+
+  /**
    * Sets the type of the liveness check to the supplied value
    *
    * @param {string} livenessType
