@@ -696,5 +696,37 @@
     <% }); %>
 
     <% } %>
+
+    <% if (sessionResult.getResources().getStaticLivenessResources().length > 0) { %>
+    <div class="row pt-4">
+        <div class="col">
+            <h2>Static Liveness Resources</h2>
+        </div>
+    </div>
+
+    <%
+    let livenessNum = 0;
+    sessionResult.getResources().getStaticLivenessResources().forEach(function(livenessResource){
+        livenessNum++;
+    %>
+
+    <div class="row pt-4">
+        <div class="col">
+            <table class="table table-striped table-light">
+                <tbody>
+                <tr>
+                    <td><%= livenessResource.getImage().getId() %></td>
+                </tr>
+                <tr>
+                    <img class="card-img-top" src="/media?mediaId=<%= livenessResource.getImage().getId() %>" />
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <% }); %>
+
+    <% } %>
 </div>
 <%- include('layout/footer'); -%>
