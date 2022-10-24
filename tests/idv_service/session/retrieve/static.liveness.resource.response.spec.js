@@ -26,7 +26,7 @@ describe('StaticLivenessResourceResponse', () => {
     });
   });
 
-  describe('#getMedia', () => {
+  describe('#getImage', () => {
     it('should return media', () => {
       expect(staticLivenessResourceResponse.getImage()).toBeInstanceOf(MediaResponse);
     });
