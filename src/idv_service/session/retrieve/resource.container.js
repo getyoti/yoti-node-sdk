@@ -2,6 +2,7 @@
 
 const IdDocumentResourceResponse = require('./id.document.resource.response');
 const ZoomLivenessResourceResponse = require('./zoom.liveness.resource.response');
+const StaticLivenessResourceResponse = require('./static.liveness.resource.response');
 const LivenessResourceResponse = require('./liveness.resource.response');
 const IDVConstants = require('../../idv.constants');
 const Validation = require('../../../yoti_common/validation');
@@ -35,6 +36,8 @@ class ResourceContainer {
           switch (resource.liveness_type) {
             case IDVConstants.ZOOM:
               return new ZoomLivenessResourceResponse(resource);
+            case IDVConstants.STATIC:
+              return new StaticLivenessResourceResponse(resource);
             default:
               return new LivenessResourceResponse(resource);
           }
@@ -82,6 +85,16 @@ class ResourceContainer {
     return this
       .getLivenessCapture()
       .filter((resource) => resource instanceof ZoomLivenessResourceResponse);
+  }
+
+  /**
+   * @returns {StaticLivenessResourceResponse[]}
+   *   The list of Static liveness resources
+   */
+  getStaticLivenessResources() {
+    return this
+      .getLivenessCapture()
+      .filter((resource) => resource instanceof StaticLivenessResourceResponse);
   }
 }
 

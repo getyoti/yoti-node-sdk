@@ -76,11 +76,18 @@ async function createSession() {
         .withManualCheckAlways()
         .build()
     )
+    // For zoom liveness check [only one type of liveness check to be enabled at a time]
     .withRequestedCheck(
       new RequestedLivenessCheckBuilder()
         .forZoomLiveness()
         .build()
     )
+    // For static liveness check
+    // .withRequestedCheck(
+    //   new RequestedLivenessCheckBuilder()
+    //     .forStaticLiveness()
+    //     .build()
+    // )
     .withRequestedCheck(
       new RequestedFaceMatchCheckBuilder()
         .withManualCheckNever()
