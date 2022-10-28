@@ -3,8 +3,10 @@ const IdDocumentResourceResponse = require('../../../../src/idv_service/session/
 const ZoomLivenessResourceResponse = require('../../../../src/idv_service/session/retrieve/zoom.liveness.resource.response');
 const LivenessResourceResponse = require('../../../../src/idv_service/session/retrieve/liveness.resource.response');
 const SupplementaryDocumentResourceResponse = require('../../../../src/idv_service/session/retrieve/supplementary.document.resource.response');
+const StaticLivenessResourceResponse = require('../../../../src/idv_service/session/retrieve/static.liveness.resource.response');
 
 const ZOOM = 'ZOOM';
+const STATIC = 'STATIC';
 const SOME_UNKNOWN_LIVENESS_TYPE = 'SOME_UNKNOWN_LIVENESS_TYPE';
 
 describe('ResourceContainer', () => {
@@ -23,6 +25,9 @@ describe('ResourceContainer', () => {
       liveness_capture: [
         {
           liveness_type: ZOOM,
+        },
+        {
+          liveness_type: STATIC,
         },
         {
           liveness_type: SOME_UNKNOWN_LIVENESS_TYPE,
@@ -75,7 +80,7 @@ describe('ResourceContainer', () => {
     describe('when liveness capture is available', () => {
       it('should return array of liveness resource response', () => {
         const livenessCapture = resourceContainer.getLivenessCapture();
-        expect(livenessCapture.length).toBe(2);
+        expect(livenessCapture.length).toBe(3);
         livenessCapture.forEach((item) => {
           expect(item).toBeInstanceOf(LivenessResourceResponse);
         });
@@ -87,10 +92,16 @@ describe('ResourceContainer', () => {
         expect(livenessCapture[0].getLivenessType()).toBe(ZOOM);
       });
 
+      it('should return static liveness resource response', () => {
+        const livenessCapture = resourceContainer.getLivenessCapture();
+        expect(livenessCapture[1]).toBeInstanceOf(StaticLivenessResourceResponse);
+        expect(livenessCapture[1].getLivenessType()).toBe(STATIC);
+      });
+
       it('should return unknown liveness resource response', () => {
         const livenessCapture = resourceContainer.getLivenessCapture();
-        expect(livenessCapture[1]).toBeInstanceOf(LivenessResourceResponse);
-        expect(livenessCapture[1].getLivenessType()).toBe(SOME_UNKNOWN_LIVENESS_TYPE);
+        expect(livenessCapture[2]).toBeInstanceOf(LivenessResourceResponse);
+        expect(livenessCapture[2].getLivenessType()).toBe(SOME_UNKNOWN_LIVENESS_TYPE);
       });
     });
     describe('when liveness capture is not available', () => {
@@ -109,6 +120,16 @@ describe('ResourceContainer', () => {
       livenessCapture.forEach((item) => {
         expect(item).toBeInstanceOf(ZoomLivenessResourceResponse);
         expect(item.getLivenessType()).toBe(ZOOM);
+      });
+    });
+  });
+
+  describe('#getStaticLivenessResources', () => {
+    it('should return array of StaticLivenessResourceResponse', () => {
+      const livenessCapture = resourceContainer.getStaticLivenessResources();
+      livenessCapture.forEach((item) => {
+        expect(item).toBeInstanceOf(StaticLivenessResourceResponse);
+        expect(item.getLivenessType()).toBe(STATIC);
       });
     });
   });
