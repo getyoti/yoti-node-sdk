@@ -1,6 +1,6 @@
 const { RequestedFaceComparisonCheckBuilder } = require('../../../../../src/idv_service');
 
-describe.only('RequestedFaceComparisonCheckBuilder', () => {
+describe('RequestedFaceComparisonCheckBuilder', () => {
   it('should build RequestedFaceComparisonCheck with manual check never', () => {
     const expectedJson = JSON.stringify({
       type: 'FACE_COMPARISON',
