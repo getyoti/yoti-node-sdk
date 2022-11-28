@@ -94,6 +94,27 @@ class IDVClient {
   }
 
   /**
+   * @param {string} sessionId
+   * @param {CreateFaceCaptureResourcePayload} createFaceCaptureResourcePayload
+   *
+   * @returns {Promise} Resolves CreateFaceCaptureResourceResponse
+   */
+  createFaceCaptureResource(sessionId, createFaceCaptureResourcePayload) {
+    this.idvService.createFaceCaptureResource(sessionId, createFaceCaptureResourcePayload);
+  }
+
+  /**
+   * @param {string} sessionId
+   * @param {string} resourceId
+   * @param {UploadFaceCaptureImagePayload} uploadFaceCaptureImagePayload
+   *
+   * @returns {Promise} Resolves CreateFaceCaptureResourceResponse
+   */
+  uploadFaceCaptureImage(sessionId, resourceId, uploadFaceCaptureImagePayload) {
+    this.idvService.uploadFaceCaptureImage(sessionId, resourceId, uploadFaceCaptureImagePayload);
+  }
+
+  /**
    * Fetches the configuration for the given sessionID.
    *
    * @param {string} sessionId
