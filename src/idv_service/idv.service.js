@@ -10,6 +10,7 @@ const config = require('../../config');
 const Media = require('../data_type/media');
 const IDVError = require('./idv.error');
 const SupportedDocumentsResponse = require('./support/supported.documents.response');
+const SessionConfigurationResponse = require('./session/retrieve/configuration/session.configuration.response');
 
 const DEFAULT_API_URL = config.yoti.idvApi;
 
@@ -224,6 +225,27 @@ class IDVService {
     return new Promise((resolve, reject) => {
       request.execute()
         .then((response) => resolve(new SupportedDocumentsResponse(response.getParsedResponse())))
+        .catch((err) => reject(new IDVError(err)));
+    });
+  }
+
+  /**
+   * @param {string} sessionId
+   *
+   * @returns {Promise}
+   */
+  getSessionConfiguration(sessionId) {
+    const request = new RequestBuilder()
+      .withPemString(this.pem)
+      .withBaseUrl(this.apiUrl)
+      .withEndpoint(`/sessions/${sessionId}/configuration`)
+      .withQueryParam('sdkId', this.sdkId)
+      .withGet()
+      .build();
+
+    return new Promise((resolve, reject) => {
+      request.execute()
+        .then((response) => resolve(new SessionConfigurationResponse(response.getParsedResponse())))
         .catch((err) => reject(new IDVError(err)));
     });
   }

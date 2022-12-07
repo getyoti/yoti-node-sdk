@@ -92,6 +92,18 @@ class IDVClient {
   getSupportedDocuments() {
     return this.idvService.getSupportedDocuments();
   }
+
+  /**
+   * Fetches the configuration for the given sessionID.
+   *
+   * @param {string} sessionId
+   * @return {SessionConfigurationResponse}
+   *
+   * @returns {Promise}
+   */
+  getSessionConfiguration(sessionId) {
+    return this.idvService.getSessionConfiguration(sessionId);
+  }
 }
 
 module.exports = IDVClient;

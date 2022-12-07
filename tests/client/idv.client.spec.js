@@ -13,6 +13,8 @@ const CreateSessionResult = require('../../src/idv_service/session/create/create
 const GetSessionResult = require('../../src/idv_service/session/retrieve/get.session.result');
 const Media = require('../../src/data_type/media');
 const SupportedDocumentResponse = require('../../src/idv_service/support/supported.documents.response');
+const SessionConfigurationResponse = require('../../src/idv_service/session/retrieve/configuration/session.configuration.response');
+const CaptureResponse = require('../../src/idv_service/session/retrieve/configuration/capture/capture.response');
 
 const GENERIC_API_PATH = '/idverify/v1';
 
@@ -43,6 +45,7 @@ describe.each([
   const sessionUriRegExp = new RegExp(`${apiUrlPath}/sessions/${SESSION_ID}\\?sdkId=${APP_ID}`);
   const sessionMediaUriRegExp = new RegExp(`${apiUrlPath}/sessions/${SESSION_ID}/media/${MEDIA_ID}/content\\?sdkId=${APP_ID}`);
   const supportedDocumentsUriRegExp = new RegExp(`${apiUrlPath}/supported-documents`);
+  const sessionConfigUriRegExp = new RegExp(`/sessions/${SESSION_ID}/configuration`);
 
   let idvClient;
 
@@ -196,6 +199,39 @@ describe.each([
           })
           .catch(done);
       });
+    });
+  });
+
+  describe('#getSessionConfiguration', () => {
+    const setupResponse = (responseBody, responseStatusCode = 200) => {
+      nock(apiUrlDomain)
+        .get(sessionConfigUriRegExp)
+        .reply(responseStatusCode, responseBody);
+    };
+
+    beforeEach(() => {
+      setupResponse(JSON.stringify({
+        session_id: SESSION_ID,
+        client_session_token_ttl: 123,
+        requested_checks: [],
+        capture: {
+          biometric_consent: '',
+        },
+      }));
+    });
+
+    it('should return an IDV session configuration', (done) => {
+      idvClient
+        .getSessionConfiguration(SESSION_ID)
+        .then((result) => {
+          expect(result).toBeInstanceOf(SessionConfigurationResponse);
+          expect(result.getSessionId()).toBe(SESSION_ID);
+          expect(result.getClientSessionTokenTtl()).toBe(123);
+          expect(result.getRequestedChecks()).toEqual([]);
+          expect(result.getCapture()).toBeInstanceOf(CaptureResponse);
+          done();
+        })
+        .catch(done);
     });
   });
 });
