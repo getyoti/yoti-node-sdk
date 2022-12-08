@@ -12,7 +12,7 @@ const IDVConstants = require('../../../../idv.constants');
  * @return {AllowedSourceResponse}
  */
 function createAllowedSourceFromArray(source) {
-  switch (source) {
+  switch (source.type) {
     case IDVConstants.END_USER:
       return new EndUserAllowedSourceResponse();
     case IDVConstants.IBV:
