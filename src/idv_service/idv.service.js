@@ -55,7 +55,7 @@ class IDVService {
    *
    * @param {SessionSpecification} sessionSpecification
    *
-   * @returns {Promise} Resolves CreateSessionResult
+   * @returns {Promise<CreateSessionResult>}
    */
   createSession(sessionSpecification) {
     Validation.instanceOf(sessionSpecification, SessionSpecification, 'sessionSpecification');
@@ -88,7 +88,7 @@ class IDVService {
    *
    * @param {string} sessionId
    *
-   * @returns {Promise} Resolves GetSessionResult
+   * @returns {Promise<GetSessionResult>}
    */
   getSession(sessionId) {
     Validation.isString(sessionId, 'sessionId');
@@ -145,7 +145,7 @@ class IDVService {
    * @param {string} sessionId
    * @param {string} mediaId
    *
-   * @returns {Promise} resolving Media
+   * @returns {Promise<Media>}
    */
   getMediaContent(sessionId, mediaId) {
     Validation.isString(sessionId, 'sessionId');
@@ -212,7 +212,7 @@ class IDVService {
   /**
    * Gets a list of supported documents.
    *
-   * @returns {Promise}
+   * @returns {Promise<SupportedDocumentsResponse>}
    */
   getSupportedDocuments() {
     const request = new RequestBuilder()
@@ -232,7 +232,7 @@ class IDVService {
   /**
    * @param {string} sessionId
    *
-   * @returns {Promise}
+   * @returns {Promise<SessionConfigurationResponse>}
    */
   getSessionConfiguration(sessionId) {
     const request = new RequestBuilder()

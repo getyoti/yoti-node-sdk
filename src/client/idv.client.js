@@ -29,7 +29,7 @@ class IDVClient {
    *
    * @param {SessionSpecification} sessionSpecification
    *
-   * @returns {Promise} Resolving CreateSessionResult
+   * @returns {Promise<CreateSessionResult>}
    */
   createSession(sessionSpecification) {
     return this.idvService.createSession(sessionSpecification);
@@ -40,7 +40,7 @@ class IDVClient {
    *
    * @param {string} sessionId
    *
-   * @returns {Promise} Resolving GetSessionResult
+   * @returns {Promise<GetSessionResult>}
    */
   getSession(sessionId) {
     return this.idvService.getSession(sessionId);
@@ -65,7 +65,7 @@ class IDVClient {
    * @param {string} sessionId
    * @param {string} mediaId
    *
-   * @returns {Promise} resolving Media
+   * @returns {Promise<Media>}
    */
   getMediaContent(sessionId, mediaId) {
     return this.idvService.getMediaContent(sessionId, mediaId);
@@ -87,7 +87,7 @@ class IDVClient {
   /**
    * Gets a list of supported documents.
    *
-   * @returns {Promise}
+   * @returns {Promise<SupportedDocumentsResponse>}
    */
   getSupportedDocuments() {
     return this.idvService.getSupportedDocuments();
@@ -97,9 +97,8 @@ class IDVClient {
    * Fetches the configuration for the given sessionID.
    *
    * @param {string} sessionId
-   * @return {SessionConfigurationResponse}
    *
-   * @returns {Promise}
+   * @returns {Promise<SessionConfigurationResponse>}
    */
   getSessionConfiguration(sessionId) {
     return this.idvService.getSessionConfiguration(sessionId);
