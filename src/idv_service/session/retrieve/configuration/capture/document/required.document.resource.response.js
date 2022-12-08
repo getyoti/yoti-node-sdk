@@ -31,7 +31,7 @@ class RequiredDocumentResourceResponse extends RequiredResourceResponse {
     super(requiredResource);
 
     if (requiredResource.requested_tasks) {
-      Validation.isArray(requiredResource.requested_tasks);
+      Validation.isArray(requiredResource.requested_tasks, 'requested_tasks');
       this.requestedTasks = requiredResource.requested_tasks.map(
         (requestedTask) => createTaskFromArray(requestedTask)
       );

@@ -39,7 +39,7 @@ class RequiredResourceResponse {
     this.state = requiredResource.state;
 
     if (requiredResource.allowed_sources) {
-      Validation.isArray(requiredResource.allowed_sources);
+      Validation.isArray(requiredResource.allowed_sources, 'allowed_sources');
       this.allowedSources = requiredResource.allowed_sources.map(
         (allowedSource) => createAllowedSourceFromArray(allowedSource)
       );

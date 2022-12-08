@@ -12,16 +12,16 @@ class RequiredIdDocumentResourceResponse extends RequiredDocumentResourceRespons
     super(requiredResource);
 
     if (requiredResource.supported_countries) {
-      Validation.isArray(requiredResource.supported_countries);
+      Validation.isArray(requiredResource.supported_countries, 'supported_countries');
       this.supportedCountries = requiredResource.supported_countries.map(
         (supportedCountry) => new SupportedCountryResponse(supportedCountry)
       );
     }
 
-    Validation.isString(requiredResource.allowed_capture_methods);
+    Validation.isString(requiredResource.allowed_capture_methods, 'allowed_capture_methods');
     this.allowedCaptureMethods = requiredResource.allowed_capture_methods;
 
-    Validation.isPlainObject(requiredResource.attempts_remaining);
+    Validation.isPlainObject(requiredResource.attempts_remaining, 'attempts_remaining');
     this.attemptsRemaining = requiredResource.attempts_remaining;
   }
 
