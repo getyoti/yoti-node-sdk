@@ -10,7 +10,7 @@ class RequiredLivenessResourceResponse extends RequiredResourceResponse {
   constructor(requiredResource) {
     super(requiredResource);
 
-    Validation.isString(requiredResource.liveness_type);
+    Validation.isString(requiredResource.liveness_type, 'liveness_type');
     this.livenessType = requiredResource.liveness_type;
   }
 

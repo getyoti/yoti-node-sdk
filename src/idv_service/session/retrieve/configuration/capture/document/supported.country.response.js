@@ -12,7 +12,7 @@ class SupportedCountryResponse {
     this.code = supportedCountry.code;
 
     if (supportedCountry.supported_documents) {
-      Validation.isArray(supportedCountry.supported_documents);
+      Validation.isArray(supportedCountry.supported_documents, 'supported_documents');
       this.supportedDocuments = supportedCountry.supported_documents.map(
         (supportedDocument) => new SupportedDocumentResponse(supportedDocument)
       );

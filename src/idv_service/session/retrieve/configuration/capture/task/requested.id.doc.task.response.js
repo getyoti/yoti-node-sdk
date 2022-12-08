@@ -9,10 +9,10 @@ class RequestedIdDocTaskResponse extends RequestedTaskResponse {
   constructor(requestedTask) {
     super();
 
-    Validation.isString(requestedTask.type);
+    Validation.isString(requestedTask.type, 'type');
     this.type = requestedTask.type;
 
-    Validation.isString(requestedTask.state);
+    Validation.isString(requestedTask.state, 'state');
     this.state = requestedTask.state;
   }
 }

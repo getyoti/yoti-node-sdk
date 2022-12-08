@@ -7,7 +7,7 @@ class ObjectiveResponse {
    * @param {object} objective
    */
   constructor(objective) {
-    Validation.isString(objective.type);
+    Validation.isString(objective.type, 'type');
     this.type = objective.type;
   }
 
