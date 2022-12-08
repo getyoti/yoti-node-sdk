@@ -13,6 +13,8 @@ const CreateSessionResult = require('../../src/idv_service/session/create/create
 const GetSessionResult = require('../../src/idv_service/session/retrieve/get.session.result');
 const Media = require('../../src/data_type/media');
 const SupportedDocumentResponse = require('../../src/idv_service/support/supported.documents.response');
+const SessionConfigurationResponse = require('../../src/idv_service/session/retrieve/configuration/session.configuration.response');
+const CaptureResponse = require('../../src/idv_service/session/retrieve/configuration/capture/capture.response');
 
 const PEM_STRING = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 const SESSION_ID = 'some-session-id';
@@ -21,6 +23,7 @@ const APP_ID = uuid();
 
 const SESSION_CREATE_URI = new RegExp(`^/idverify/v1/sessions\\?sdkId=${APP_ID}`);
 const SESSION_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}\\?sdkId=${APP_ID}`);
+const SESSION_CONFIG_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/configuration`);
 const MEDIA_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/media/${MEDIA_ID}/content\\?sdkId=${APP_ID}`);
 const SUPPORTED_DOCUMENTS_URI = new RegExp('^/idverify/v1/supported-documents');
 const SOME_CODE = 'SOME_CODE';
@@ -433,6 +436,81 @@ describe('IDVService', () => {
 
         idvService
           .getSupportedDocuments()
+          .catch((err) => {
+            expect(err.message).toBe(SOME_ERROR_MESSAGE);
+            done();
+          })
+          .catch(done);
+      });
+    });
+  });
+
+  describe('#getSessionConfiguration', () => {
+    describe('when a valid response is returned', () => {
+      it('should return a session configuration', (done) => {
+        nock(config.yoti.idvApi)
+          .get(SESSION_CONFIG_URI)
+          .reply(
+            200,
+            JSON.stringify({
+              session_id: SESSION_ID,
+              client_session_token_ttl: 123,
+              requested_checks: [],
+              capture: {
+                biometric_consent: '',
+              },
+            })
+          );
+
+        idvService
+          .getSessionConfiguration(SESSION_ID)
+          .then((result) => {
+            expect(result).toBeInstanceOf(SessionConfigurationResponse);
+            expect(result.getSessionId()).toBe(SESSION_ID);
+            expect(result.getClientSessionTokenTtl()).toBe(123);
+            expect(result.getRequestedChecks()).toEqual([]);
+            expect(result.getCapture()).toBeInstanceOf(CaptureResponse);
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response content is invalid', () => {
+      it('should reject', (done) => {
+        nock(config.yoti.idvApi)
+          .get(SESSION_CONFIG_URI)
+          .reply(200, { client_session_token_ttl: {} });
+
+        idvService
+          .getSessionConfiguration(SESSION_ID)
+          .catch((err) => {
+            expect(err.message).toBe('client_session_token_ttl must be a number');
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response code is invalid', () => {
+      it('should reject', (done) => {
+        nock(config.yoti.idvApi).get(SESSION_CONFIG_URI).reply(400);
+
+        idvService
+          .getSessionConfiguration(SESSION_ID)
+          .catch((err) => {
+            expect(err.message).toBe('Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response code is invalid with body', () => {
+      it('should reject with response body and message', (done) => {
+        nock(config.yoti.idvApi)
+          .get(SESSION_CONFIG_URI)
+          .reply(400, SOME_ERROR_RESPONSE, JSON_RESPONSE_HEADERS);
+
+        idvService
+          .getSessionConfiguration(SESSION_ID)
           .catch((err) => {
             expect(err.message).toBe(SOME_ERROR_MESSAGE);
             done();
