@@ -14,6 +14,6 @@ describe('AllowedSourceResponse', () => {
     expect(endUserSource.getType()).toBe(IDVConstants.END_USER);
     expect(relyingBusinessSource.getType()).toBe(IDVConstants.RELYING_BUSINESS);
     expect(ibvSource.getType()).toBe(IDVConstants.IBV);
-    expect(unknownSource.getType()).toBe(undefined);
+    expect(unknownSource.getType()).toBe('');
   });
 });

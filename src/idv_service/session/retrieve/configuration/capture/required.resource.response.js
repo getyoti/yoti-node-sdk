@@ -85,9 +85,9 @@ class RequiredResourceResponse {
    */
   isRelyingBusinessAllowed() {
     if (this.allowedSources) {
-      return this.allowedSources.findIndex(
+      return this.allowedSources.some(
         (item) => item instanceof RelyingBusinessAllowedSourceResponse
-      ) > -1;
+      );
     }
 
     return false;

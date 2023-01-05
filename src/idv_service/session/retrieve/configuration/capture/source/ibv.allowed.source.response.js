@@ -3,8 +3,7 @@ const AllowedSourceResponse = require('./allowed.source.response');
 
 class IbvAllowedSourceResponse extends AllowedSourceResponse {
   constructor() {
-    super();
-    this.type = IDVConstants.IBV;
+    super(IDVConstants.IBV);
   }
 }
 

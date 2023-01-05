@@ -10,13 +10,13 @@ describe('RequiredSupplementaryDocumentResourceResponse', () => {
       id: '',
       state: '',
       document_types: [
-        '',
+        'BANK_STATEMENT',
       ],
       country_codes: [
         'GBR',
       ],
       objective: {
-        type: '',
+        type: 'objective',
       },
     });
   });
@@ -24,7 +24,7 @@ describe('RequiredSupplementaryDocumentResourceResponse', () => {
   describe('#getDocumentTypes', () => {
     it('should return document types', () => {
       expect(requiredSupplementaryDocumentResourceResponse.getDocumentTypes()).toHaveLength(1);
-      expect(requiredSupplementaryDocumentResourceResponse.getDocumentTypes()[0]).toBe('');
+      expect(requiredSupplementaryDocumentResourceResponse.getDocumentTypes()[0]).toBe('BANK_STATEMENT');
     });
   });
 
@@ -38,7 +38,7 @@ describe('RequiredSupplementaryDocumentResourceResponse', () => {
   describe('#getObjective', () => {
     it('should return objective', () => {
       expect(requiredSupplementaryDocumentResourceResponse.getObjective()).toEqual({
-        type: '',
+        type: 'objective',
       });
     });
   });

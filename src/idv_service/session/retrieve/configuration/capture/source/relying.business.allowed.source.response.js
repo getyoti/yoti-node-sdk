@@ -3,8 +3,7 @@ const AllowedSourceResponse = require('./allowed.source.response');
 
 class RelyingBusinessAllowedSourceResponse extends AllowedSourceResponse {
   constructor() {
-    super();
-    this.type = IDVConstants.RELYING_BUSINESS;
+    super(IDVConstants.RELYING_BUSINESS);
   }
 }
 

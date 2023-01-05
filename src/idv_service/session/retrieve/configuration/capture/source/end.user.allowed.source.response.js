@@ -3,8 +3,7 @@ const AllowedSourceResponse = require('./allowed.source.response');
 
 class EndUserAllowedSourceResponse extends AllowedSourceResponse {
   constructor() {
-    super();
-    this.type = IDVConstants.END_USER;
+    super(IDVConstants.END_USER);
   }
 }
 

@@ -5,13 +5,13 @@ describe('ObjectiveResponse', () => {
 
   beforeEach(() => {
     objectiveResponse = new ObjectiveResponse({
-      type: '',
+      type: 'objective',
     });
   });
 
   describe('#getType', () => {
     it('should return type', () => {
-      expect(objectiveResponse.getType()).toBe('');
+      expect(objectiveResponse.getType()).toBe('objective');
     });
   });
 });
