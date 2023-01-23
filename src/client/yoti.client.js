@@ -4,6 +4,7 @@ const forge = require('node-forge');
 const { AmlService } = require('../aml_service');
 const { DynamicShareService } = require('../dynamic_sharing_service');
 const { ProfileService } = require('../profile_service');
+const { ShareService } = require('../share_service');
 const config = require('../../config');
 
 /**
@@ -46,6 +47,10 @@ class YotiClient {
     this.amlService = new AmlService(sdkId, pem, options);
     this.profileService = new ProfileService(sdkId, pem, options);
     this.dynamicShareService = new DynamicShareService(sdkId, pem, options);
+    this.shareService = new ShareService(sdkId, pem, {
+      // apiUrl: 'http://localhost:8060',
+      apiUrl,
+    });
 
     /** @deprecated replaced by this.sdkId */
     // this.applicationId = this.sdkId;
@@ -96,6 +101,14 @@ class YotiClient {
    */
   createShareUrl(dynamicScenario) {
     return this.dynamicShareService.createShareUrl(dynamicScenario);
+  }
+
+  createShareSession(dynamicScenario) {
+    return this.shareService.createSession(dynamicScenario);
+  }
+
+  createShareQrCode(sessionId) {
+    return this.shareService.createQrCode(sessionId);
   }
 }
 

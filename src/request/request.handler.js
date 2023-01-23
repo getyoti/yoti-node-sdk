@@ -28,30 +28,32 @@ module.exports.execute = (yotiRequest, buffer = false) => new Promise((resolve, 
   }
 
   request
-    .then((response) => {
+    .then(({
+      body: rawBody, headers, statusCode, text,
+    }) => {
       let parsedResponse = null;
-      let body = null;
       let receipt = null;
+      let body = null;
 
-      if (response.body instanceof Buffer) {
-        body = response.body;
-        parsedResponse = response.body;
-      } else if (response.text) {
-        body = response.text;
-        parsedResponse = response.headers['content-type'] ? response.body : JSON.parse(response.text);
+      if (body instanceof Buffer) {
+        body = rawBody;
+        parsedResponse = rawBody;
+      } else if (text) {
+        body = text;
+        parsedResponse = headers['content-type'] ? rawBody : JSON.parse(text);
         receipt = parsedResponse.receipt || null;
       }
-
       return resolve(new YotiResponse(
         parsedResponse,
-        response.statusCode,
+        statusCode,
         receipt,
         body,
-        response.headers
+        headers
       ));
     })
     .catch((err) => {
-      console.log(`Error getting data from Yoti API: ${err.message}`);
+      const { response: { text } = {} } = err;
+      console.log(`Error getting data from Yoti API: ${err.message}(${text})`);
       return reject(err);
     });
 });

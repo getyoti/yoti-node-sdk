@@ -9,6 +9,7 @@ const fs = require('fs');
 const indexController = require('./controllers/index.controller');
 const profileController = require('./controllers/profile.controller');
 const dynamicShareController = require('./controllers/dynamic.share.controller');
+const shareController = require('./controllers/share.controller');
 
 const app = express();
 const port = process.env.PORT || 9443;
@@ -23,6 +24,7 @@ const router = express.Router();
 router.get('/', indexController);
 router.get('/dynamic-share', dynamicShareController);
 router.get('/profile', profileController);
+router.get('/share', shareController);
 
 app.use('/', router);
 
