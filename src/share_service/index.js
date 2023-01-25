@@ -18,6 +18,7 @@ const SourceConstraintBuilder = require('./policy/source.constraint.builder');
 
 const ShareSessionResult = require('./share.session.result');
 const ShareQrCodeResult = require('./share.qr.code.result');
+const ShareSessionFetchResult = require('./share.session.fetch.result');
 const Validation = require('../yoti_common/validation');
 
 const DEFAULT_API_URL = config.yoti.connectApi;
@@ -111,6 +112,36 @@ class ShareService {
           try {
             const parsedResponse = response.getParsedResponse();
             return resolve(new ShareQrCodeResult(parsedResponse));
+          } catch (err) {
+            console.log(`Error getting response data: ${err}`);
+            return reject(err);
+          }
+        })
+        .catch((err) => {
+          console.log(`Error retrieving requested data: ${err}`);
+          return reject(err);
+        });
+    });
+  }
+
+  fetchSession(sessionId) {
+    console.log('⚡️>>>> fetch session Time!');
+    const requestBuilder = new RequestBuilder()
+      .withBaseUrl(this.apiUrl)
+      .withHeader('X-Yoti-Auth-Id', this.sdkId)
+      .withPemString(this.pem)
+      .withEndpoint(`/v2/sessions/${sessionId}`)
+      .withQueryParam('appId', this.sdkId)
+      .withMethod('GET');
+
+    const request = requestBuilder.build();
+
+    return new Promise((resolve, reject) => {
+      request.execute()
+        .then((response) => {
+          try {
+            const parsedResponse = response.getParsedResponse();
+            return resolve(new ShareSessionFetchResult(parsedResponse));
           } catch (err) {
             console.log(`Error getting response data: ${err}`);
             return reject(err);

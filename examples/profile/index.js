@@ -24,7 +24,7 @@ const router = express.Router();
 router.get('/', indexController);
 router.get('/dynamic-share', dynamicShareController);
 router.get('/profile', profileController);
-router.get('/share', shareController);
+router.use('/share', shareController);
 
 app.use('/', router);
 

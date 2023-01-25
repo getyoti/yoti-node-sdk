@@ -1,9 +1,12 @@
+const express = require('express');
 const Yoti = require('yoti');
 const config = require('../config');
 
 const yotiClient = new Yoti.Client(config.CLIENT_SDK_ID, config.PEM_KEY);
 
-module.exports = (req, res) => {
+const router = express.Router();
+
+router.get('/createSession', (req, res) => {
   const dynamicPolicy = new Yoti.DynamicPolicyBuilder()
     .withFullName()
     .build();
@@ -21,4 +24,19 @@ module.exports = (req, res) => {
       console.error(error.message);
       res.status(400).json(error);
     });
-};
+});
+
+router.get('/fetchSession/:sessionId', (req, res) => {
+  const { sessionId } = req.params;
+
+  yotiClient.fetchShareSession(sessionId)
+    .then((fetchShareSessionResult) => {
+      res.status(200).json(fetchShareSessionResult);
+    })
+    .catch((error) => {
+      console.error(error.message);
+      res.status(400).json(error);
+    });
+});
+
+module.exports = router;

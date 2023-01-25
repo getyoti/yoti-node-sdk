@@ -110,6 +110,10 @@ class YotiClient {
   createShareQrCode(sessionId) {
     return this.shareService.createQrCode(sessionId);
   }
+
+  fetchShareSession(sessionId) {
+    return this.shareService.fetchSession(sessionId);
+  }
 }
 
 module.exports = YotiClient;
