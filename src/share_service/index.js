@@ -21,6 +21,7 @@ const ShareQrCodeResult = require('./share.qr.code.result');
 const ShareSessionFetchResult = require('./share.session.fetch.result');
 const Validation = require('../yoti_common/validation');
 const ShareReceiptResult = require('./share.receipt.result');
+const ShareReceiptItemKeyResult = require('./share.receipt.item.key.result');
 
 const DEFAULT_API_URL = config.yoti.connectApi;
 
@@ -172,6 +173,36 @@ class ShareService {
           try {
             const parsedResponse = response.getParsedResponse();
             return resolve(new ShareReceiptResult(parsedResponse));
+          } catch (err) {
+            console.log(`Error getting response data: ${err}`);
+            return reject(err);
+          }
+        })
+        .catch((err) => {
+          console.log(`Error retrieving requested data: ${err}`);
+          return reject(err);
+        });
+    });
+  }
+
+  fetchReceiptItemKey(id) {
+    console.log('⚡️>>>> fetch Receipt Item Key Time!');
+    const requestBuilder = new RequestBuilder()
+      .withBaseUrl(this.apiUrl)
+      .withHeader('X-Yoti-Auth-Id', this.sdkId)
+      .withPemString(this.pem)
+      .withEndpoint(`/v2/wrapped-item-keys/${id}`)
+      .withQueryParam('appId', this.sdkId)
+      .withMethod('GET');
+
+    const request = requestBuilder.build();
+
+    return new Promise((resolve, reject) => {
+      request.execute()
+        .then((response) => {
+          try {
+            const parsedResponse = response.getParsedResponse();
+            return resolve(new ShareReceiptItemKeyResult(parsedResponse));
           } catch (err) {
             console.log(`Error getting response data: ${err}`);
             return reject(err);

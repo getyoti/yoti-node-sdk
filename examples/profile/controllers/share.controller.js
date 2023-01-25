@@ -53,4 +53,17 @@ router.get('/fetchReceipt/:receiptId', (req, res) => {
     });
 });
 
+router.get('/fetchReceiptItemKey/:id', (req, res) => {
+  const { id } = req.params;
+
+  yotiClient.fetchReceiptItemKey(id)
+    .then((fetchShareSessionResult) => {
+      res.status(200).json(fetchShareSessionResult);
+    })
+    .catch((error) => {
+      console.error(error.message);
+      res.status(400).json(error);
+    });
+});
+
 module.exports = router;

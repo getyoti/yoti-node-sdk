@@ -118,6 +118,10 @@ class YotiClient {
   fetchReceiptById(receiptId) {
     return this.shareService.fetchReceiptById(receiptId);
   }
+
+  fetchReceiptItemKey(receiptId) {
+    return this.shareService.fetchReceiptItemKey(receiptId);
+  }
 }
 
 module.exports = YotiClient;
