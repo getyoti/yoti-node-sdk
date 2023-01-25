@@ -20,7 +20,8 @@ router.get('/createSession', (req, res) => {
     .then((shareSessionResult) => yotiClient.createShareQrCode(shareSessionResult.getId())
       .then((shareQrCodeResult) => {
         res.status(200).json({ session: shareSessionResult, qrCode: shareQrCodeResult });
-      })).catch((error) => {
+      }))
+    .catch((error) => {
       console.error(error.message);
       res.status(400).json(error);
     });
@@ -30,6 +31,19 @@ router.get('/fetchSession/:sessionId', (req, res) => {
   const { sessionId } = req.params;
 
   yotiClient.fetchShareSession(sessionId)
+    .then((ShareReceiptResult) => {
+      res.status(200).json(ShareReceiptResult);
+    })
+    .catch((error) => {
+      console.error(error.message);
+      res.status(400).json(error);
+    });
+});
+
+router.get('/fetchReceipt/:receiptId', (req, res) => {
+  const { receiptId } = req.params;
+
+  yotiClient.fetchReceiptById(receiptId)
     .then((fetchShareSessionResult) => {
       res.status(200).json(fetchShareSessionResult);
     })
