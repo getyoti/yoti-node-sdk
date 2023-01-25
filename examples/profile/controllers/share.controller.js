@@ -66,4 +66,17 @@ router.get('/fetchReceiptItemKey/:id', (req, res) => {
     });
 });
 
+router.get('/fetchQrCode/:qrCodeId', (req, res) => {
+  const { qrCodeId } = req.params;
+
+  yotiClient.fetchQrCode(qrCodeId)
+    .then((fetchShareSessionResult) => {
+      res.status(200).json(fetchShareSessionResult);
+    })
+    .catch((error) => {
+      console.error(error.message);
+      res.status(400).json(error);
+    });
+});
+
 module.exports = router;

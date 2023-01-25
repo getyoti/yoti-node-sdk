@@ -122,6 +122,10 @@ class YotiClient {
   fetchReceiptItemKey(receiptId) {
     return this.shareService.fetchReceiptItemKey(receiptId);
   }
+
+  fetchQrCode(qrCodeId) {
+    return this.shareService.fetchQrCode(qrCodeId);
+  }
 }
 
 module.exports = YotiClient;
