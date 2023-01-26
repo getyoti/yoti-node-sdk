@@ -17,9 +17,6 @@ module.exports = class ShareQrCodeFetchResult {
     Validation.isString(response.id, 'QrCode ID');
     this.id = response.id;
 
-    Validation.isString(response.uri, 'Uri');
-    this.uri = response.uri;
-
     Validation.isString(response.expiry, 'Expiry');
     const expiryDate = new Date(response.expiry);
     if (expiryDate.toString() === 'Invalid Date') throw TypeError('Expiry must be a date like string');

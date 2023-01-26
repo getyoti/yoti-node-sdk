@@ -217,11 +217,10 @@ class ShareService {
   }
 
   fetchQrCode(qrCodeId) {
-    console.log('⚡️>>>> fetch Receipt Item Key Time!');
+    console.log('⚡️>>>> fetch QR Code Time!');
     const requestBuilder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withHeader('X-Yoti-Auth-Id', this.sdkId)
-      .withHeader('Yoti-Share-Mobile-Token', '<Mobile App Token>')
       .withPemString(this.pem)
       .withEndpoint(`/v2/qr-codes/${qrCodeId}`)
       .withQueryParam('appId', this.sdkId)
