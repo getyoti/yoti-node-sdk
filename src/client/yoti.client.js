@@ -126,6 +126,10 @@ class YotiClient {
   fetchQrCode(qrCodeId) {
     return this.shareService.fetchQrCode(qrCodeId);
   }
+
+  fetchReceiptsBySessionId(sessionId) {
+    return this.shareService.fetchReceiptsBySessionId(sessionId);
+  }
 }
 
 module.exports = YotiClient;

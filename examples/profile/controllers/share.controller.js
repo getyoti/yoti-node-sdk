@@ -79,4 +79,18 @@ router.get('/fetchQrCode/:qrCodeId', (req, res) => {
     });
 });
 
+router.get('/fetchReceipts/:sessionId', (req, res) => {
+  const { sessionId } = req.params;
+
+  yotiClient.fetchReceiptsBySessionId(sessionId)
+    .then((fetchReceiptsResult) => {
+      res.status(200).json(fetchReceiptsResult);
+    })
+    .catch((error) => {
+      console.error(error.message);
+      res.status(400).json(error);
+    });
+
+});
+
 module.exports = router;
