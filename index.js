@@ -21,6 +21,11 @@ const {
 } = require('./src/dynamic_sharing_service');
 
 const {
+  ShareNotificationBuilder,
+  ShareSessionBuilder
+} = require('./src/share_service');
+
+const {
   SessionSpecificationBuilder,
   NotificationConfigBuilder,
   SdkConfigBuilder,
@@ -92,4 +97,6 @@ module.exports = {
   RequestedFuzzyMatchingStrategyBuilder,
   RequestedSearchProfileSourcesBuilder,
   RequestedTypeListSourcesBuilder,
+  ShareNotificationBuilder,
+  ShareSessionBuilder,
 };

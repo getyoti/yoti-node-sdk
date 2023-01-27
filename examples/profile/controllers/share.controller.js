@@ -11,12 +11,20 @@ router.get('/createSession', (req, res) => {
     .withFullName()
     .build();
 
-  const dynamicScenario = new Yoti.DynamicScenarioBuilder()
-    .withCallbackEndpoint('/profile')
-    .withPolicy(dynamicPolicy)
+  const notificationConfig = new Yoti.ShareNotificationBuilder()
+    .withUrl('https://localhost:9443')
+    .withHeader('Auth', 'hi')
+    .withMethod('GET')
     .build();
 
-  yotiClient.createShareSession(dynamicScenario)
+  const sessionConfig = new Yoti.ShareSessionBuilder()
+    .withPolicy(dynamicPolicy)
+    .withRedirectUri('https://lala.co/gogo')
+    .withNotification(notificationConfig)
+    .withSubject({ subject_id: 'hello' })
+    .build();
+
+  yotiClient.createShareSession(sessionConfig)
     .then((shareSessionResult) => yotiClient.createShareQrCode(shareSessionResult.getId())
       .then((shareQrCodeResult) => {
         res.status(200).json({ session: shareSessionResult, qrCode: shareQrCodeResult });
@@ -90,7 +98,6 @@ router.get('/fetchReceipts/:sessionId', (req, res) => {
       console.error(error.message);
       res.status(400).json(error);
     });
-
 });
 
 module.exports = router;

@@ -25,6 +25,9 @@ const ShareReceiptItemKeyResult = require('./share.receipt.item.key.result');
 const ShareQrCodeFetchResult = require('./share.qr.code.fetch.result');
 const ShareReceiptsResult = require('./share.receipts.result');
 
+const ShareSessionBuilder = require('./share.session.builder');
+const ShareNotificationBuilder = require('./share.notification.builder');
+
 const DEFAULT_API_URL = config.yoti.connectApi;
 
 /**
@@ -50,21 +53,14 @@ class ShareService {
 
   /**
    *
-   * @param dynamicScenario
+   * @param ShareSession
    * @returns {Promise<ShareSessionResult>}
    */
-  createSession(dynamicScenario) {
+  createSession(ShareSession) {
     console.log('⚡️>>>> create Session Time!');
-    const jsonDynamicScenario = JSON.parse(JSON.stringify(dynamicScenario));
+    const jsonShareSession = JSON.parse(JSON.stringify(ShareSession));
 
-    const rawData = {
-      policy: { ...jsonDynamicScenario }, // required
-      extensions: [], // optional
-      subject: { subject_id: 'hello' }, // optional
-      redirectUri: 'http://lala.com/gogo', // required
-    };
-
-    const payload = new Payload(rawData);
+    const payload = new Payload(jsonShareSession);
 
     const requestBuilder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
@@ -296,6 +292,8 @@ const createSession = (dynamicScenario, pem, sdkId) => {
 module.exports = {
   createSession,
   ShareService,
+  ShareSessionBuilder,
+  ShareNotificationBuilder,
   // DynamicScenarioBuilder,
   // DynamicPolicyBuilder,
   // WantedAttributeBuilder,
