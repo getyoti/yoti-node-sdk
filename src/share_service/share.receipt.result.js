@@ -43,11 +43,15 @@ module.exports = class ShareReceiptResult {
       this.otherPartyContent = response.otherPartyContent;
     }
 
-    Validation.isString(response.wrappedItemKeyId, 'Wrapped Item Key Id');
-    this.wrappedItemKeyId = response.wrappedItemKeyId;
+    if (response.wrappedItemKeyId) {
+      Validation.isString(response.wrappedItemKeyId, 'Wrapped Item Key Id');
+      this.wrappedItemKeyId = response.wrappedItemKeyId;
+    }
 
-    Validation.isString(response.wrappedKey, 'Wrapped Key');
-    this.wrappedKey = response.wrappedKey;
+    if (response.wrappedKey) {
+      Validation.isString(response.wrappedKey, 'Wrapped Key');
+      this.wrappedKey = response.wrappedKey;
+    }
   }
 
   /**

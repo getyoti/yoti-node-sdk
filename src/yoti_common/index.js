@@ -165,3 +165,61 @@ module.exports.parseExtraData = (receipt, pem) => {
 
   return new ExtraData(undefined);
 };
+
+const AES_256_GCM = 'AES-GCM';
+const decryptGCM = (payload, secret, iv) => {
+  /* extract the cipher text and authentication tag,
+   * the authentication tag is not used at the moment in hub
+   * but should be */
+  const cipherText = new forge.util.ByteBuffer(payload);
+  const length = cipherText.length();
+  const trimmedCipherText = cipherText.getBytes(length - 16);
+  const authenticationTag = cipherText.getBytes();
+  const authenticationTagBuffer = new forge.util.ByteBuffer(authenticationTag);
+  const decipher = forge.cipher.createDecipher(AES_256_GCM, secret);
+  const data = forge.util.createBuffer();
+  // begin decipher
+  data.putBytes(trimmedCipherText);
+  decipher.start({ iv, tag: authenticationTagBuffer });
+  decipher.update(data);
+  const pass = decipher.finish();
+  if (pass) {
+    return decipher.output.getBytes();
+  }
+  throw new Error('Could not decipher');
+};
+
+module.exports.decryptReceiptKey = (encryptedReceiptKey, decryptionMaterial) => {
+  const receiptKeyBinary = decryptGCM(
+    forge.util.decode64(encryptedReceiptKey),
+    forge.util.decode64(decryptionMaterial.kek),
+    forge.util.decode64(decryptionMaterial.iv)
+  );
+
+  return receiptKeyBinary;
+};
+
+module.exports.decryptEncryptedDataNew = (encryptedData, receiptKey) => {
+  const decodedData = messages.decodeEncryptedData(Buffer.from(encryptedData, 'base64'));
+
+  const iv = forge.util.decode64(decodedData.iv);
+  const cipherText = forge.util.decode64(decodedData.cipherText);
+
+  const data = forge.util
+    .createBuffer()
+    .putBytes(cipherText);
+
+  const decipher = forge.cipher
+    .createDecipher(
+      'AES-CBC',
+      receiptKey
+    );
+
+  decipher.start({ iv });
+  decipher.update(data);
+  decipher.finish();
+
+  return Buffer.from(decipher.output.getBytes(), 'binary');
+};
+
+module.exports.unwrapKey = unwrapKey;

@@ -28,6 +28,11 @@ const ShareReceiptsResult = require('./share.receipts.result');
 const ShareSessionBuilder = require('./share.session.builder');
 const ShareNotificationBuilder = require('./share.notification.builder');
 
+const { decryptReceiptKey, unwrapKey, decryptEncryptedDataNew } = require('../yoti_common');
+const { AttributeListConverter } = require('../yoti_common/converters/attribute.list.converter');
+
+const { AttributeList } = require('../proto/types');
+
 const DEFAULT_API_URL = config.yoti.connectApi;
 
 /**
@@ -272,6 +277,34 @@ class ShareService {
           return reject(err);
         });
     });
+  }
+
+  async fetchAndDecryptReceipt(receiptId) {
+    const receiptIdUrl = Buffer.from(receiptId, 'base64').toString('base64url');
+    const receipt = await this.fetchReceiptById(receiptIdUrl);
+    const receiptItemKey = await this.fetchReceiptItemKey(receipt.getWrappedItemKeyId());
+
+    const encryptedItemKey = receiptItemKey.getValue();
+    const decryptedItemKey = unwrapKey(encryptedItemKey, this.pem);
+
+    const decryptionMaterial = {
+      kek: Buffer.from(decryptedItemKey, 'binary').toString('base64'),
+      iv: receiptItemKey.getIv(),
+    };
+
+    const decryptedWrappedKey = decryptReceiptKey(receipt.getWrappedKey(), decryptionMaterial);
+
+    const otherPartyProfile = receipt.getOtherPartyContent();
+    const decryptedOtherPartyProfile = decryptEncryptedDataNew(
+      otherPartyProfile.profile,
+      decryptedWrappedKey
+    );
+
+    const decodedOtherPartyProfile = AttributeList.decode(decryptedOtherPartyProfile);
+    const convertedOtherPartyProfile = AttributeListConverter.convertAttributeList(
+      decodedOtherPartyProfile.attributes
+    );
+    console.log(convertedOtherPartyProfile);
   }
 }
 

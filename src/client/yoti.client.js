@@ -130,6 +130,10 @@ class YotiClient {
   fetchReceiptsBySessionId(sessionId) {
     return this.shareService.fetchReceiptsBySessionId(sessionId);
   }
+
+  fetchAndDecryptReceipt(receiptId) {
+    return this.shareService.fetchAndDecryptReceipt(receiptId);
+  }
 }
 
 module.exports = YotiClient;

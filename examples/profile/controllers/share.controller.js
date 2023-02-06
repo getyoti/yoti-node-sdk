@@ -48,8 +48,8 @@ router.get('/fetchSession/:sessionId', (req, res) => {
     });
 });
 
-router.get('/fetchReceipt/:receiptId', (req, res) => {
-  const { receiptId } = req.params;
+router.post('/fetchReceipt', (req, res) => {
+  const { receiptId } = req.body;
 
   yotiClient.fetchReceiptById(receiptId)
     .then((fetchShareSessionResult) => {
@@ -98,6 +98,13 @@ router.get('/fetchReceipts/:sessionId', (req, res) => {
       console.error(error.message);
       res.status(400).json(error);
     });
+});
+
+router.post('/fetchAndDecryptReceipt', (req, res) => {
+  const { receiptId } = req.body;
+
+  yotiClient.fetchAndDecryptReceipt(receiptId);
+  res.status(200).send();
 });
 
 module.exports = router;
