@@ -5,7 +5,7 @@ const Validation = require('../yoti_common/validation');
 /**
  * The share qrcode result
  *
- * @class ShareSessionResult
+ * @class ShareQrCodeResult
  */
 module.exports = class ShareQrCodeResult {
   /**
@@ -15,8 +15,10 @@ module.exports = class ShareQrCodeResult {
     Validation.isString(response.id, 'QrCode ID');
     this.id = response.id;
 
-    Validation.isString(response.uri, 'Uri');
-    this.uri = response.uri;
+    if (response.uri) {
+      Validation.isString(response.uri, 'Uri');
+      this.uri = response.uri;
+    }
   }
 
   /**

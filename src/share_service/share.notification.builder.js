@@ -1,6 +1,6 @@
 'use strict';
 
-const ShareNotification = require('./share.notification')
+const ShareNotification = require('./share.notification');
 
 /**
  * Builder for share v2 notifications.

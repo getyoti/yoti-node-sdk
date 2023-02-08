@@ -4,23 +4,27 @@ const config = require('../../config');
 const { RequestBuilder } = require('../request/request.builder');
 const { Payload } = require('../request/payload');
 
-const DynamicScenario = require('./dynamic.scenario');
-const DynamicScenarioBuilder = require('./dynamic.scenario.builder');
-const DynamicPolicyBuilder = require('./policy/dynamic.policy.builder');
-const WantedAttributeBuilder = require('./policy/wanted.attribute.builder');
-const ExtensionBuilder = require('./extension/extension.builder');
-const LocationConstraintExtensionBuilder = require('./extension/location.constraint.extension.builder');
-const TransactionalFlowExtensionBuilder = require('./extension/transactional.flow.extension.builder');
-const ThirdPartyAttributeExtensionBuilder = require('./extension/third.party.attribute.extension.builder');
-const WantedAnchorBuilder = require('./policy/wanted.anchor.builder');
-const ConstraintsBuilder = require('./policy/constraints.builder');
-const SourceConstraintBuilder = require('./policy/source.constraint.builder');
+// const DynamicScenario = require('./dynamic.scenario');
+// const DynamicScenarioBuilder = require('./dynamic.scenario.builder');
+// const DynamicPolicyBuilder = require('./policy/dynamic.policy.builder');
+// const WantedAttributeBuilder = require('./policy/wanted.attribute.builder');
+// const ExtensionBuilder = require('./extension/extension.builder');
+// const LocationConstraintExtensionBuilder
+// = require('./extension/location.constraint.extension.builder');
+// const TransactionalFlowExtensionBuilder
+// = require('./extension/transactional.flow.extension.builder');
+// const ThirdPartyAttributeExtensionBuilder
+// = require('./extension/third.party.attribute.extension.builder');
+// const WantedAnchorBuilder = require('./policy/wanted.anchor.builder');
+// const ConstraintsBuilder = require('./policy/constraints.builder');
+// const SourceConstraintBuilder = require('./policy/source.constraint.builder');
 
 const ShareSessionResult = require('./share.session.result');
 const ShareQrCodeResult = require('./share.qr.code.result');
 const ShareSessionFetchResult = require('./share.session.fetch.result');
 const Validation = require('../yoti_common/validation');
 const ShareReceiptResult = require('./share.receipt.result');
+const ShareReceipt = require('./share.receipt');
 const ShareReceiptItemKeyResult = require('./share.receipt.item.key.result');
 const ShareQrCodeFetchResult = require('./share.qr.code.fetch.result');
 const ShareReceiptsResult = require('./share.receipts.result');
@@ -36,9 +40,9 @@ const { AttributeList } = require('../proto/types');
 const DEFAULT_API_URL = config.yoti.connectApi;
 
 /**
- * Service Class to handle interactions with the dynamic share API
+ * Service Class to handle interactions with the Share v2 API
  *
- * @class DynamicShareService
+ * @class ShareService
  */
 class ShareService {
   /**
@@ -58,12 +62,12 @@ class ShareService {
 
   /**
    *
-   * @param ShareSession
+   * @param shareSessionConfig
    * @returns {Promise<ShareSessionResult>}
    */
-  createSession(ShareSession) {
+  createSession(shareSessionConfig) {
     console.log('⚡️>>>> create Session Time!');
-    const jsonShareSession = JSON.parse(JSON.stringify(ShareSession));
+    const jsonShareSession = JSON.parse(JSON.stringify(shareSessionConfig));
 
     const payload = new Payload(jsonShareSession);
 
@@ -96,6 +100,11 @@ class ShareService {
     });
   }
 
+  /**
+   *
+   * @param sessionId
+   * @returns {Promise<ShareQrCodeResult>}
+   */
   createQrCode(sessionId) {
     console.log('⚡️>>>> create QR Time!');
     const payload = new Payload({});
@@ -128,6 +137,11 @@ class ShareService {
     });
   }
 
+  /**
+   *
+   * @param sessionId
+   * @returns {Promise<ShareSessionFetchResult>}
+   */
   fetchSession(sessionId) {
     console.log('⚡️>>>> fetch session Time!');
     const requestBuilder = new RequestBuilder()
@@ -158,6 +172,11 @@ class ShareService {
     });
   }
 
+  /**
+   *
+   * @param receiptId
+   * @returns {Promise<ShareReceiptResult>}
+   */
   fetchReceiptById(receiptId) {
     console.log('⚡️>>>> fetch Receipt by id Time!');
     const requestBuilder = new RequestBuilder()
@@ -188,6 +207,11 @@ class ShareService {
     });
   }
 
+  /**
+   *
+   * @param id
+   * @returns {Promise<ShareReceiptItemKeyResult>}
+   */
   fetchReceiptItemKey(id) {
     console.log('⚡️>>>> fetch Receipt Item Key Time!');
     const requestBuilder = new RequestBuilder()
@@ -218,6 +242,11 @@ class ShareService {
     });
   }
 
+  /**
+   *
+   * @param qrCodeId
+   * @returns {Promise<ShareQrCodeFetchResult>}
+   */
   fetchQrCode(qrCodeId) {
     console.log('⚡️>>>> fetch QR Code Time!');
     const requestBuilder = new RequestBuilder()
@@ -248,6 +277,11 @@ class ShareService {
     });
   }
 
+  /**
+   *
+   * @param sessionId
+   * @returns {Promise<ShareReceiptsResult>}
+   */
   fetchReceiptsBySessionId(sessionId) {
     console.log('⚡️>>>> fetch receipts by sessionId Time!');
     const requestBuilder = new RequestBuilder()
@@ -281,45 +315,67 @@ class ShareService {
 
   async fetchAndDecryptReceipt(receiptId) {
     const receiptIdUrl = Buffer.from(receiptId, 'base64').toString('base64url');
-    const receipt = await this.fetchReceiptById(receiptIdUrl);
-    const receiptItemKey = await this.fetchReceiptItemKey(receipt.getWrappedItemKeyId());
 
-    const encryptedItemKey = receiptItemKey.getValue();
-    const decryptedItemKey = unwrapKey(encryptedItemKey, this.pem);
+    try {
+      const response = await this.fetchReceiptById(receiptIdUrl);
+      const receiptItemKey = await this.fetchReceiptItemKey(response.getWrappedItemKeyId());
 
-    const decryptionMaterial = {
-      kek: Buffer.from(decryptedItemKey, 'binary').toString('base64'),
-      iv: receiptItemKey.getIv(),
-    };
+      const encryptedItemKey = receiptItemKey.getValue();
+      const decryptedItemKey = unwrapKey(encryptedItemKey, this.pem);
 
-    const decryptedWrappedKey = decryptReceiptKey(receipt.getWrappedKey(), decryptionMaterial);
+      const decryptionMaterial = {
+        kek: Buffer.from(decryptedItemKey, 'binary').toString('base64'),
+        iv: receiptItemKey.getIv(),
+      };
 
-    const otherPartyProfile = receipt.getOtherPartyContent();
-    const decryptedOtherPartyProfile = decryptEncryptedDataNew(
-      otherPartyProfile.profile,
-      decryptedWrappedKey
-    );
+      const decryptedWrappedKey = decryptReceiptKey(response.getWrappedKey(), decryptionMaterial);
 
-    const decodedOtherPartyProfile = AttributeList.decode(decryptedOtherPartyProfile);
-    const convertedOtherPartyProfile = AttributeListConverter.convertAttributeList(
-      decodedOtherPartyProfile.attributes
-    );
-    console.log(convertedOtherPartyProfile);
+      const otherPartyContent = response.getOtherPartyContent();
+      const decryptedUserProfile = decryptEncryptedDataNew(
+        otherPartyContent.profile,
+        decryptedWrappedKey
+      );
+      const decodedUserProfile = AttributeList.decode(decryptedUserProfile);
+      const convertedUserProfile = AttributeListConverter.convertAttributeList(
+        decodedUserProfile.attributes
+      );
+      const userProfile = {
+        attributes: convertedUserProfile,
+      };
+
+      const content = response.getContent();
+      const decryptedApplicationProfile = decryptEncryptedDataNew(
+        content.profile,
+        decryptedWrappedKey
+      );
+      const decodedApplicationProfile = AttributeList.decode(decryptedApplicationProfile);
+      const convertedApplicationProfile = AttributeListConverter.convertAttributeList(
+        decodedApplicationProfile.attributes
+      );
+      const applicationProfile = {
+        attributes: convertedApplicationProfile,
+      };
+
+      return new ShareReceipt(response, userProfile, applicationProfile);
+    } catch (err) {
+      console.log(`Error getting response data: ${err}`);
+      return err;
+    }
   }
 }
 
 /**
- * Requests a share URL for provided Dynamic Scenario.
+ * Requests a share session to be created with given config.
  *
- * @param {DynamicScenario} dynamicScenario
+ * @param {ShareSession} shareSessionConfig
  * @param {string} pem
  * @param {string} sdkId
  *
- * @returns {Promise} containing a ShareUrlResult
+ * @returns {Promise} containing a ShareSessionResult
  */
-const createSession = (dynamicScenario, pem, sdkId) => {
-  const dynamicShareService = new ShareService(sdkId, pem);
-  return dynamicShareService.createSession();
+const createSession = (shareSessionConfig, pem, sdkId) => {
+  const shareService = new ShareService(sdkId, pem);
+  return shareService.createSession(shareSessionConfig);
 };
 
 module.exports = {

@@ -3,7 +3,7 @@
 const Validation = require('../yoti_common/validation');
 
 /**
- * The share session fetch result
+ * The share receipt result
  *
  * @class ShareReceiptResult
  */
@@ -18,7 +18,7 @@ module.exports = class ShareReceiptResult {
     Validation.isString(response.sessionId, 'Session Id');
     this.sessionId = response.sessionId;
 
-    Validation.isString(response.timestamp, 'timestamp');
+    // Validation.isString(response.timestamp, 'timestamp');
     const timestamp = new Date(response.timestamp);
     if (timestamp.toString() === 'Invalid Timestamp') throw TypeError('timestamp must be a date like string');
     this.timestamp = timestamp;
@@ -64,9 +64,9 @@ module.exports = class ShareReceiptResult {
   }
 
   /**
-   * The session Id
+   * The session id
    *
-   * @returns {string} The session Id
+   * @returns {string} The session id
    */
   getSessionId() {
     return this.sessionId;
@@ -82,18 +82,18 @@ module.exports = class ShareReceiptResult {
   }
 
   /**
-   * The Remember Me Id
+   * The Remember Me id
    *
-   * @returns {string} The Remember Me Id
+   * @returns {string} The Remember Me id
    */
   getRememberMeId() {
     return this.rememberMeId;
   }
 
   /**
-   * The Parent Remember Me Id
+   * The Parent Remember Me id
    *
-   * @returns {string} The Parent Remember Me Id
+   * @returns {string} The Parent Remember Me id
    */
   getParentRememberMeId() {
     return this.parentRememberMeId;

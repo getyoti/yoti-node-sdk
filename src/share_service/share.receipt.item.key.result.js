@@ -3,7 +3,7 @@
 const Validation = require('../yoti_common/validation');
 
 /**
- * The share session fetch result
+ * The share receipt item key result
  *
  * @class ShareReceiptItemKeyResult
  */

@@ -1,13 +1,12 @@
 'use strict';
 
 const DynamicPolicy = require('../dynamic_sharing_service/policy/dynamic.policy');
-const Extension = require('./extension/extension');
+const Extension = require('../dynamic_sharing_service/extension/extension');
 const Validation = require('../yoti_common/validation');
 const ShareNotification = require('./share.notification');
 
 /**
- * Defines the Dynamic Scenario callback endpoint, policy
- * and extensions.
+ * The share session
  *
  * @class ShareSession
  */

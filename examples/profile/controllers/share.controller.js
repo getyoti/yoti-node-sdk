@@ -19,9 +19,9 @@ router.get('/createSession', (req, res) => {
 
   const sessionConfig = new Yoti.ShareSessionBuilder()
     .withPolicy(dynamicPolicy)
-    .withRedirectUri('https://lala.co/gogo')
+    .withRedirectUri('/profile')
     .withNotification(notificationConfig)
-    .withSubject({ subject_id: 'hello' })
+    .withSubject({ subject_id: 'Harry Potter' })
     .build();
 
   yotiClient.createShareSession(sessionConfig)
@@ -39,8 +39,8 @@ router.get('/fetchSession/:sessionId', (req, res) => {
   const { sessionId } = req.params;
 
   yotiClient.fetchShareSession(sessionId)
-    .then((ShareReceiptResult) => {
-      res.status(200).json(ShareReceiptResult);
+    .then((shareSessionResult) => {
+      res.status(200).json(shareSessionResult);
     })
     .catch((error) => {
       console.error(error.message);
@@ -65,8 +65,8 @@ router.get('/fetchReceiptItemKey/:id', (req, res) => {
   const { id } = req.params;
 
   yotiClient.fetchReceiptItemKey(id)
-    .then((fetchShareSessionResult) => {
-      res.status(200).json(fetchShareSessionResult);
+    .then((shareReceiptItemKeyResult) => {
+      res.status(200).json(shareReceiptItemKeyResult);
     })
     .catch((error) => {
       console.error(error.message);
@@ -78,8 +78,8 @@ router.get('/fetchQrCode/:qrCodeId', (req, res) => {
   const { qrCodeId } = req.params;
 
   yotiClient.fetchQrCode(qrCodeId)
-    .then((fetchShareSessionResult) => {
-      res.status(200).json(fetchShareSessionResult);
+    .then((shareQrCodeResult) => {
+      res.status(200).json(shareQrCodeResult);
     })
     .catch((error) => {
       console.error(error.message);
@@ -91,8 +91,8 @@ router.get('/fetchReceipts/:sessionId', (req, res) => {
   const { sessionId } = req.params;
 
   yotiClient.fetchReceiptsBySessionId(sessionId)
-    .then((fetchReceiptsResult) => {
-      res.status(200).json(fetchReceiptsResult);
+    .then((shareReceiptsResult) => {
+      res.status(200).json(shareReceiptsResult);
     })
     .catch((error) => {
       console.error(error.message);
@@ -103,8 +103,14 @@ router.get('/fetchReceipts/:sessionId', (req, res) => {
 router.post('/fetchAndDecryptReceipt', (req, res) => {
   const { receiptId } = req.body;
 
-  yotiClient.fetchAndDecryptReceipt(receiptId);
-  res.status(200).send();
+  yotiClient.fetchAndDecryptReceipt(receiptId)
+    .then((fetchAndDecryptReceiptResult) => {
+      res.status(200).json(fetchAndDecryptReceiptResult);
+    })
+    .catch((error) => {
+      console.error(error.message);
+      res.status(400).json(error);
+    });
 });
 
 module.exports = router;

@@ -19,11 +19,6 @@ module.exports = class ShareSessionFetchResult {
     Validation.isString(response.status, 'Status');
     this.status = response.status;
 
-    Validation.isString(response.expiry, 'Expiry');
-    const expiryDate = new Date(response.expiry);
-    if (expiryDate.toString() === 'Invalid Date') throw TypeError('Expiry must be a date like string');
-    this.expiry = expiryDate;
-
     Validation.isString(response.created, 'Created');
     const createdDate = new Date(response.created);
     if (createdDate.toString() === 'Invalid Date') throw TypeError('Expiry must be a date like string');
@@ -33,6 +28,13 @@ module.exports = class ShareSessionFetchResult {
     const updatedDate = new Date(response.updated);
     if (updatedDate.toString() === 'Invalid Date') throw TypeError('Expiry must be a date like string');
     this.updated = updatedDate;
+
+    if (response.expiry) {
+      Validation.isString(response.expiry, 'Expiry');
+      const expiryDate = new Date(response.expiry);
+      if (expiryDate.toString() === 'Invalid Date') throw TypeError('Expiry must be a date like string');
+      this.expiry = expiryDate;
+    }
 
     if (response.qrCode) {
       Validation.isPlainObject(response.qrCode, 'QrCode');
