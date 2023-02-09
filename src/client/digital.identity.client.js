@@ -17,6 +17,15 @@ class DigitalIdentityClient {
 
     this.digitalIdentityService = new DigitalIdentityService(sdkId, pem, options);
   }
+
+  /**
+   *
+   * @param shareSessionConfig
+   * @returns {Promise<ShareSessionCreateResult>}
+   */
+  async createShareSession(shareSessionConfig) {
+    return this.digitalIdentityService.createShareSession(shareSessionConfig);
+  }
 }
 
 module.exports = DigitalIdentityClient;

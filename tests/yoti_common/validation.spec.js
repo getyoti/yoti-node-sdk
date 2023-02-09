@@ -15,6 +15,13 @@ describe('Validation', () => {
     });
   });
 
+  describe('#isStringDate', () => {
+    it('should throw type error when string date is not provided', () => {
+      expect(() => Validation.isStringDate([], 'name'))
+        .toThrow(new TypeError('name must be a date like string'));
+    });
+  });
+
   describe('#isBoolean', () => {
     it('should throw type error when boolean is not provided', () => {
       expect(() => Validation.isBoolean('some-string', 'name'))
