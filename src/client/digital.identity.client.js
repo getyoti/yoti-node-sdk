@@ -26,6 +26,10 @@ class DigitalIdentityClient {
   async createShareSession(shareSessionConfig) {
     return this.digitalIdentityService.createShareSession(shareSessionConfig);
   }
+
+  createQrCode(sessionId) {
+    this.digitalIdentityService.createQrCode(sessionId);
+  }
 }
 
 module.exports = DigitalIdentityClient;
