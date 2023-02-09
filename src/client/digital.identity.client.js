@@ -28,7 +28,7 @@ class DigitalIdentityClient {
   }
 
   createQrCode(sessionId) {
-    this.digitalIdentityService.createQrCode(sessionId);
+    return this.digitalIdentityService.createQrCode(sessionId);
   }
 }
 
