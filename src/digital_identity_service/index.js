@@ -2,9 +2,20 @@
 
 const config = require('../../config');
 const Validation = require('../yoti_common/validation');
+const { messages } = require('../proto');
+const { AttributeList } = require('../proto/types');
+const { AttributeListConverter } = require('../yoti_common/converters/attribute.list.converter');
+const { ExtraDataConverter } = require('../yoti_common/converters/extra.data.converter');
+const { decryptAESGCM, decryptAESCBC, decryptAsymmetric } = require('../yoti_common');
 
 const { RequestBuilder } = require('../request/request.builder');
 const { Payload } = require('../request/payload');
+
+const ReceiptResponse = require('./receipts/receipt.response');
+const ReceiptItemKeyResponse = require('./receipts/receipt.item.key.response');
+const Receipt = require('./receipts/receipt');
+const ExtraData = require('./receipts/extra.data');
+
 const ShareSessionCreateResult = require('./share.session.create.result');
 const ShareSessionFetchResult = require('./share.session.fetch.result');
 const ShareQrCodeCreateResult = require('./share.qr.code.create.result');
@@ -200,6 +211,134 @@ class DigitalIdentityService {
 
       throw err;
     }
+  }
+
+  /**
+   * @param {string} receiptId
+   */
+  async fetchReceiptById(receiptId) {
+    const receiptIdUrl = Buffer.from(receiptId, 'base64').toString('base64url');
+
+    const request = new RequestBuilder()
+      .withBaseUrl(this.apiUrl)
+      .withHeader('X-Yoti-Auth-Id', this.sdkId)
+      .withPemString(this.pem)
+      .withEndpoint(`/v2/receipts/${receiptIdUrl}`)
+      .withQueryParam('appId', this.sdkId)
+      .withMethod('GET')
+      .build();
+
+    try {
+      const response = await request.execute();
+      const parsedResponse = response.getParsedResponse();
+
+      return new ReceiptResponse(parsedResponse);
+    } catch (e) {
+      console.log(`fetching receipt error ${e}`);
+      throw e;
+    }
+  }
+
+  /**
+   * @param {string} receiptItemKeyId
+   */
+  async fetchReceiptItemKey(receiptItemKeyId) {
+    const request = new RequestBuilder()
+      .withBaseUrl(this.apiUrl)
+      .withHeader('X-Yoti-Auth-Id', this.sdkId)
+      .withPemString(this.pem)
+      .withEndpoint(`/v2/wrapped-item-keys/${receiptItemKeyId}`)
+      .withQueryParam('appId', this.sdkId)
+      .withMethod('GET')
+      .build();
+
+    try {
+      const response = await request.execute();
+      const parsedResponse = response.getParsedResponse();
+
+      return new ReceiptItemKeyResponse(parsedResponse);
+    } catch (e) {
+      console.log('fetching receipt item key error', e.message);
+      throw e;
+    }
+  }
+
+  /**
+   * @param {string} receiptId
+   */
+  async getReceipt(receiptId) {
+    const receipt = await this.fetchReceiptById(receiptId);
+
+    const itemKeyId = receipt.getWrappedItemKeyId();
+    if (!itemKeyId) return new Receipt(receipt);
+
+    const encryptedItemKey = await this.fetchReceiptItemKey(itemKeyId);
+
+    const itemKeyIv = Buffer.from(
+      encryptedItemKey.getIv(),
+      'base64'
+    );
+    const encryptedItemKeyValue = Buffer.from(
+      encryptedItemKey.getValue(),
+      'base64'
+    );
+
+    const decryptedItemKey = decryptAsymmetric(encryptedItemKeyValue, this.pem);
+
+    const wrappedKey = Buffer.from(receipt.getWrappedKey(), 'base64');
+    const wrappedKeyCipherText = wrappedKey.subarray(0, wrappedKey.length - 16);
+    const wrappedKeyTag = wrappedKey.subarray(wrappedKey.length - 16);
+
+    const unwrappedWrappedKey = decryptAESGCM(
+      wrappedKeyCipherText.toString('binary'),
+      wrappedKeyTag.toString('binary'),
+      itemKeyIv.toString('binary'),
+      decryptedItemKey.toString('binary')
+    );
+
+    const {
+      profile: encryptedProfile,
+      extraData: encryptedExtraData,
+    } = receipt.getOtherPartyContent() || {};
+
+    const decryptContent = (content) => {
+      if (!content) return undefined;
+
+      const { iv, cipherText } = messages.decodeEncryptedData(
+        Buffer.from(content, 'base64')
+      );
+
+      return decryptAESCBC(
+        Buffer.from(cipherText, 'base64').toString('binary'),
+        Buffer.from(iv, 'base64').toString('binary'),
+        unwrappedWrappedKey.toString('binary')
+      );
+    };
+
+    const decryptedProfile = decryptContent(encryptedProfile);
+    const decryptedExtraData = decryptContent(encryptedExtraData);
+
+    let convertedProfileAttributes;
+    let convertedExtraData;
+
+    if (decryptedProfile) {
+      const { attributes: decodedProfileAttributes } = AttributeList.decode(decryptedProfile);
+      convertedProfileAttributes = {
+        attributes: AttributeListConverter.convertAttributeList(
+          decodedProfileAttributes
+        ),
+      };
+    } else {
+      convertedProfileAttributes = { attributes: [] };
+    }
+
+    if (decryptedExtraData) {
+      convertedExtraData = ExtraDataConverter.convertExtraData(decryptedExtraData);
+    } else {
+      convertedExtraData = new ExtraData(undefined);
+    }
+
+    return new Receipt(receipt, convertedProfileAttributes, convertedExtraData);
   }
 }
 
