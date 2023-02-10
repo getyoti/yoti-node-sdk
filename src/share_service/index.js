@@ -318,45 +318,50 @@ class ShareService {
 
     try {
       const response = await this.fetchReceiptById(receiptIdUrl);
-      const receiptItemKey = await this.fetchReceiptItemKey(response.getWrappedItemKeyId());
+      // If wrapped key is present
+      if (response.getWrappedItemKeyId()) {
+        const receiptItemKey = await this.fetchReceiptItemKey(response.getWrappedItemKeyId());
 
-      const encryptedItemKey = receiptItemKey.getValue();
-      const decryptedItemKey = unwrapKey(encryptedItemKey, this.pem);
+        const encryptedItemKey = receiptItemKey.getValue();
+        const decryptedItemKey = unwrapKey(encryptedItemKey, this.pem);
 
-      const decryptionMaterial = {
-        kek: Buffer.from(decryptedItemKey, 'binary').toString('base64'),
-        iv: receiptItemKey.getIv(),
-      };
+        const decryptionMaterial = {
+          kek: Buffer.from(decryptedItemKey, 'binary').toString('base64'),
+          iv: receiptItemKey.getIv(),
+        };
 
-      const decryptedWrappedKey = decryptReceiptKey(response.getWrappedKey(), decryptionMaterial);
+        const decryptedWrappedKey = decryptReceiptKey(response.getWrappedKey(), decryptionMaterial);
 
-      const otherPartyContent = response.getOtherPartyContent();
-      const decryptedUserProfile = decryptEncryptedDataNew(
-        otherPartyContent.profile,
-        decryptedWrappedKey
-      );
-      const decodedUserProfile = AttributeList.decode(decryptedUserProfile);
-      const convertedUserProfile = AttributeListConverter.convertAttributeList(
-        decodedUserProfile.attributes
-      );
-      const userProfile = {
-        attributes: convertedUserProfile,
-      };
+        const otherPartyContent = response.getOtherPartyContent();
+        const decryptedUserProfile = decryptEncryptedDataNew(
+          otherPartyContent.profile,
+          decryptedWrappedKey
+        );
+        const decodedUserProfile = AttributeList.decode(decryptedUserProfile);
+        const convertedUserProfile = AttributeListConverter.convertAttributeList(
+          decodedUserProfile.attributes
+        );
+        const userProfile = {
+          attributes: convertedUserProfile,
+        };
 
-      const content = response.getContent();
-      const decryptedApplicationProfile = decryptEncryptedDataNew(
-        content.profile,
-        decryptedWrappedKey
-      );
-      const decodedApplicationProfile = AttributeList.decode(decryptedApplicationProfile);
-      const convertedApplicationProfile = AttributeListConverter.convertAttributeList(
-        decodedApplicationProfile.attributes
-      );
-      const applicationProfile = {
-        attributes: convertedApplicationProfile,
-      };
+        const content = response.getContent();
+        const decryptedApplicationProfile = decryptEncryptedDataNew(
+          content.profile,
+          decryptedWrappedKey
+        );
+        const decodedApplicationProfile = AttributeList.decode(decryptedApplicationProfile);
+        const convertedApplicationProfile = AttributeListConverter.convertAttributeList(
+          decodedApplicationProfile.attributes
+        );
+        const applicationProfile = {
+          attributes: convertedApplicationProfile,
+        };
 
-      return new ShareReceipt(response, userProfile, applicationProfile);
+        return new ShareReceipt(response, userProfile, applicationProfile);
+      }
+      // If wrapped key is not present
+      return new ShareReceipt(response);
     } catch (err) {
       console.log(`Error getting response data: ${err}`);
       return err;

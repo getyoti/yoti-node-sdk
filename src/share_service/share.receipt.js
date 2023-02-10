@@ -18,7 +18,7 @@ module.exports = class ShareReceipt extends ShareReceiptResult {
      * @param {{attributes: Object[]}} applicationProfile
      *   Decrypted application profile data.
      */
-  constructor(response, userProfile, applicationProfile) {
+  constructor(response, userProfile = {}, applicationProfile = {}) {
     super(response);
 
     const { attributes: userProfileAttributes } = userProfile || {};

@@ -52,6 +52,11 @@ module.exports = class ShareReceiptResult {
       Validation.isString(response.wrappedKey, 'Wrapped Key');
       this.wrappedKey = response.wrappedKey;
     }
+
+    if (response.error) {
+      Validation.isString(response.error, 'Error');
+      this.error = response.error;
+    }
   }
 
   /**
