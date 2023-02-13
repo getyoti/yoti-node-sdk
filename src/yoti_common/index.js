@@ -199,11 +199,6 @@ module.exports.decryptAESGCM = (cipherText, tag, iv, secret) => {
  * @returns {Buffer}
  */
 module.exports.decryptAESCBC = (cipherText, iv, secret) => {
-  // const decodedData = messages.decodeEncryptedData(Buffer.from(encryptedData, 'base64'));
-  //
-  // const iv = forge.util.decode64(decodedData.iv);
-  // const cipherText = forge.util.decode64(decodedData.cipherText);
-
   const data = forge.util
     .createBuffer()
     .putBytes(cipherText);
