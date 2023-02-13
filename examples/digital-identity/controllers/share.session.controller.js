@@ -1,3 +1,4 @@
+const { Router } = require('express');
 const {
   DigitalIdentityBuilders: {
     PolicyBuilder,
@@ -14,7 +15,11 @@ const digitalIdentityClient = new DigitalIdentityClient(
   config.PEM_KEY,
 );
 
-module.exports = (req, res) => {
+const router = Router();
+
+const jsonToFormattedString = (json) => JSON.stringify(json, undefined, 2);
+
+router.get('/createSession', (req, res) => {
   const locationExtension = new LocationConstraintExtensionBuilder()
     .withLatitude(51.5074)
     .withLongitude(-0.1278)
@@ -49,7 +54,7 @@ module.exports = (req, res) => {
   digitalIdentityClient
     .createShareSession(shareSessionConfig)
     .then((shareSessionCreateResult) => {
-      res.json({ ShareSessionResult: shareSessionCreateResult });
+      res.end(jsonToFormattedString({ ShareSessionResult: shareSessionCreateResult }));
     })
     .catch((error) => {
       const {
@@ -59,6 +64,16 @@ module.exports = (req, res) => {
         status, code, reason, message,
       };
       console.error(errorData);
-      res.json(errorData);
+      res.end(jsonToFormattedString(errorData));
     });
-};
+});
+
+router.get('/fetchSession/:sessionId', (req, res) => {
+  const { sessionId } = req.params;
+
+  digitalIdentityClient.fetchShareSession(sessionId).then((shareSessionFetchResult) => {
+    res.end(jsonToFormattedString(shareSessionFetchResult));
+  });
+});
+
+module.exports = router;

@@ -18,7 +18,7 @@ app.use('/static', express.static('static'));
 
 const router = express.Router();
 
-router.get('/createSession', shareSessionController);
+router.use('/', shareSessionController);
 
 app.use('/', router);
 

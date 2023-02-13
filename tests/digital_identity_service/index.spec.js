@@ -145,6 +145,137 @@ describe('DigitalIdentityService', () => {
     });
   });
 
+  describe('#fetchShareSession', () => {
+    const SESSION_ID = '123';
+
+    const setupResponse = (responseBody, responseStatusCode = 200) => {
+      nock(apiUrlDomain)
+        .get(new RegExp(`/v2/sessions/${SESSION_ID}`))
+        .reply(responseStatusCode, responseBody);
+    };
+
+    describe('when a valid response is returned', () => {
+      beforeEach(() => {
+        const content = {
+          id: SESSION_ID,
+          status: '',
+          created: '2023-02-01',
+          updated: '2023-02-01',
+          expiry: '2023-02-03',
+          qrCode: {
+            id: '',
+          },
+          receipt: {
+            id: '',
+          },
+        };
+        setupResponse(content);
+      });
+
+      it('should get the correct response', (done) => {
+        digitalIdentityService.fetchShareSession(SESSION_ID)
+          .then((result) => {
+            expect(result.getId()).toBe('123');
+            expect(result.getStatus()).toBe('');
+            expect(result.getExpiry().toString()).toBe(new Date('2023-02-03').toString());
+            expect(result.getUpdated().toString()).toBe(new Date('2023-02-01').toString());
+            expect(result.getCreated().toString()).toBe(new Date('2023-02-01').toString());
+            expect(result.getQrCode()).toEqual({ id: '' });
+            expect(result.getReceipt()).toEqual({ id: '' });
+            done();
+          })
+          .catch(done);
+      });
+    });
+
+    describe('when a sessionId is not provided', () => {
+      it('should throw error', async () => {
+        try {
+          await digitalIdentityService.fetchShareSession([]);
+        } catch (error) {
+          expect(error).toEqual(new TypeError('sessionId must be a string'));
+        }
+      });
+    });
+
+    describe('when an invalid response is returned', () => {
+      [
+        {
+          error: 'Status must be a string',
+          json: '{"id":"1"}',
+          status: 200,
+        },
+        {
+          error: 'Session ID must be a string',
+          json: '{"status":"a"}',
+          status: 200,
+        },
+        {
+          error: 'Created must be a date like string',
+          json: '{"status":"a", "id":"1", "created": []}',
+          status: 200,
+        },
+        {
+          error: 'Bad Request',
+          json: '',
+          status: 400,
+        },
+        {
+          error: 'Internal Server Error',
+          json: '',
+          status: 500,
+        },
+      ].forEach((invalidResponse) => {
+        it('promise should reject', (done) => {
+          setupResponse(invalidResponse.json, invalidResponse.status);
+
+          digitalIdentityService.fetchShareSession(SESSION_ID)
+            .catch((err) => {
+              expect(err.message).toBe(invalidResponse.error);
+              done();
+            })
+            .catch(done);
+        });
+      });
+    });
+
+    describe('when an error response is received', () => {
+      [
+        {
+          error: 'Bad Request',
+          json: { error: 'INVALID_PAYLOAD', message: 'This is not quite right' },
+          status: 400,
+        },
+        {
+          error: 'Forbidden',
+          json: { error: 'INVALID_ORG_STATUS', message: 'Org is not quite ok' },
+          status: 403,
+        },
+        {
+          error: 'Internal Server Error',
+          json: '',
+          status: 500,
+        },
+      ].forEach((invalidResponse) => {
+        it('promise should reject', (done) => {
+          setupResponse(invalidResponse.json, invalidResponse.status);
+
+          digitalIdentityService.fetchShareSession(SESSION_ID)
+            .catch((err) => {
+              expect(err.message).toBe(invalidResponse.error);
+              expect(err.status).toBe(invalidResponse.status);
+              if (invalidResponse.json) {
+                expect(err.code).toBe(invalidResponse.json.error);
+                expect(err.reason).toBe(invalidResponse.json.message);
+              }
+              done();
+            })
+            .catch(done);
+        });
+      });
+    });
+  });
+
   describe('#createShareQrCode', () => {
     const sessionId = 'session-6d9a999d-30bc-4733-b68c-518133531d1c';
 
