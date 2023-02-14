@@ -7,10 +7,10 @@ class ReceiptItemKeyResponse {
     Validation.isString(response.id, 'Receipt wrapped item key ID');
     this.id = response.id;
 
-    Validation.isString(response.id, 'Receipt wrapped item key ID');
+    Validation.isString(response.iv, 'Receipt wrapped item key iv');
     this.iv = response.iv;
 
-    Validation.isString(response.value, 'Receipt wrapped item key ID');
+    Validation.isString(response.value, 'Receipt wrapped item key value');
     this.value = response.value;
   }
 

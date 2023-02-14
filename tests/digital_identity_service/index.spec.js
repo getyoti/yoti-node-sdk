@@ -1,6 +1,7 @@
 const fs = require('fs');
 const nock = require('nock');
 const { v4: uuid } = require('uuid');
+const config = require('../../config');
 const {
   DigitalIdentityService,
 } = require('../../src/digital_identity_service');
@@ -21,6 +22,158 @@ describe('DigitalIdentityService', () => {
 
   beforeAll(() => {
     digitalIdentityService = new DigitalIdentityService(APP_ID, privateKeyFile, { apiUrl });
+  });
+
+  describe('#fetchReceiptById', () => {
+    describe('when a valid response is returned', () => {
+      it('should get the correct response', async () => {
+        const receiptId = 'test_receipt_id';
+        nock(config.yoti.digitalIdentityApi)
+          .get(new RegExp('/v2/receipts'))
+          .reply(200, {
+            id: 'test_receipt_id',
+            sessionId: 'test_receipt_session_id',
+            timestamp: '2003-11-04T12:51:07Z',
+          });
+
+        const client = new DigitalIdentityService(
+          APP_ID,
+          privateKeyFile,
+          { apiUrl: config.yoti.digitalIdentityApi }
+        );
+
+        const receipt = await client.fetchReceiptById(receiptId);
+
+        expect(receipt.getId()).toEqual('test_receipt_id');
+        expect(receipt.getSessionId()).toEqual('test_receipt_session_id');
+        expect(receipt.getTimestamp().toUTCString()).toEqual('Tue, 04 Nov 2003 12:51:07 GMT');
+      });
+    });
+
+    describe('when an invalid response is returned', () => {
+      [
+        {
+          error: 'Receipt ID must be a string',
+          json: '{"id":0}',
+          status: 200,
+        },
+        {
+          error: 'Session ID must be a string',
+          json: '{"id": "test_receipt_id", "sessionId":0}',
+          status: 200,
+        },
+        {
+          error: 'timestamp must be a string',
+          json: '{"id": "test_receipt_id", "sessionId":"test_session_id", "timestamp": 0}',
+          status: 200,
+        },
+        {
+          error: 'Bad Request',
+          json: '',
+          status: 400,
+        },
+        {
+          error: 'Internal Server Error',
+          json: '',
+          status: 500,
+        },
+      ].forEach((invalidResponse) => {
+        it('promise should reject', async () => {
+          const receiptId = 'test_receipt_id';
+          nock(`${config.yoti.connectApi}`)
+            .get(new RegExp('/v2/receipts'))
+            .reply(invalidResponse.status, invalidResponse.json);
+
+          const client = new DigitalIdentityService(
+            APP_ID,
+            privateKeyFile,
+            { apiUrl: config.yoti.digitalIdentityApi }
+          );
+
+          try {
+            await client.fetchReceiptById(receiptId);
+          } catch (err) {
+            expect(err.message).toBe(invalidResponse.error);
+          }
+        });
+      });
+    });
+  });
+
+  describe('#fetchReceiptItemKey', () => {
+    describe('when a valid response is returned', () => {
+      it('should get the correct response', async () => {
+        const receiptItemKeyId = 'test_receipt_item_key_id';
+        nock(config.yoti.digitalIdentityApi)
+          .get(new RegExp('/v2/wrapped-item-keys'))
+          .reply(200, {
+            id: 'test_receipt_item_key_id',
+            iv: 'test_receipt_item_key_iv',
+            value: 'test_receipt_item_key_value',
+          });
+
+        const client = new DigitalIdentityService(
+          APP_ID,
+          privateKeyFile,
+          { apiUrl: config.yoti.digitalIdentityApi }
+        );
+
+        const receipt = await client.fetchReceiptItemKey(receiptItemKeyId);
+
+        expect(receipt.getId()).toEqual('test_receipt_item_key_id');
+        expect(receipt.getIv()).toEqual('test_receipt_item_key_iv');
+        expect(receipt.getValue()).toEqual('test_receipt_item_key_value');
+      });
+    });
+
+    describe('when an invalid response is returned', () => {
+      [
+        {
+          error: 'Receipt wrapped item key ID must be a string',
+          json: '{"id":0}',
+          status: 200,
+        },
+        {
+          error: 'Receipt wrapped item key iv must be a string',
+          json: '{"id": "h", "iv": 0}',
+          status: 200,
+        },
+        {
+          error: 'Receipt wrapped item key value must be a string',
+          json: '{"id": "h", "iv": "h", "value": 0}',
+          status: 200,
+        },
+        {
+          error: 'Bad Request',
+          json: '',
+          status: 400,
+        },
+        {
+          error: 'Internal Server Error',
+          json: '',
+          status: 500,
+        },
+      ].forEach((invalidResponse) => {
+        it('promise should reject', async () => {
+          const receiptItemKeyId = 'test_receipt_item_key_id';
+          nock(config.yoti.connectApi)
+            .get(new RegExp('/v2/wrapped-item-keys'))
+            .reply(invalidResponse.status, invalidResponse.json);
+
+          const client = new DigitalIdentityService(
+            APP_ID,
+            privateKeyFile,
+            { apiUrl: config.yoti.digitalIdentityApi }
+          );
+
+          try {
+            await client.fetchReceiptItemKey(receiptItemKeyId);
+          } catch (err) {
+            expect(err.message).toBe(invalidResponse.error);
+          }
+        });
+      });
+    });
   });
 
   describe('#createShareSession', () => {

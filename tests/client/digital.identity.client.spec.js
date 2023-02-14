@@ -53,8 +53,19 @@ describe.each([
     }
   });
 
-  it('placeholder test', () => {
-    expect(yotiClient).toBeDefined();
+  describe('#getReceipt', () => {
+    it('it should get a ReceiptResponse', async () => {
+      nock(apiUrlDomain)
+        .get(new RegExp(`${apiUrlPath}/v2/receipts`))
+        .reply(200, {
+          id: 'test_receipt_id',
+          sessionId: 'test_receipt_session_id',
+          timestamp: '2003-11-04T12:51:07Z',
+        });
+
+      const receipt = await yotiClient.getReceipt('test_receipt_id');
+      expect(receipt.getReceiptId()).toEqual('test_receipt_id');
+    });
   });
 
   describe('#createShareSession', () => {

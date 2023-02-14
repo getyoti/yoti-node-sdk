@@ -7,7 +7,7 @@ class ReceiptResponse {
     Validation.isString(response.id, 'Receipt ID');
     this.id = response.id;
 
-    Validation.isString(response.sessionId, 'Session Id');
+    Validation.isString(response.sessionId, 'Session ID');
     this.sessionId = response.sessionId;
 
     Validation.isString(response.timestamp, 'timestamp');
@@ -129,6 +129,15 @@ class ReceiptResponse {
    */
   getWrappedKey() {
     return this.wrappedKey;
+  }
+
+  /**
+   * The error of the receipt
+   *
+   * @returns {string} The error of the receipt
+   */
+  getError() {
+    return this.error;
   }
 }
 
