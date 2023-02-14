@@ -52,7 +52,13 @@ module.exports = (req, res) => {
       res.json({ ShareSessionResult: shareSessionCreateResult });
     })
     .catch((error) => {
-      console.error({ status: error.status, message: error.response.text });
-      res.end();
+      const {
+        status, code, reason, message,
+      } = error;
+      const errorData = {
+        status, code, reason, message,
+      };
+      console.error(errorData);
+      res.json(errorData);
     });
 };

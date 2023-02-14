@@ -1,5 +1,5 @@
-const config = require('../config');
 const Yoti = require('yoti');
+const config = require('../config');
 
 const yotiClient = new Yoti.Client(config.CLIENT_SDK_ID, config.PEM_KEY);
 
@@ -33,5 +33,8 @@ module.exports = (req, res) => {
       });
     }).catch((error) => {
       console.error(error.message);
+      res.render('pages/error', {
+        error,
+      });
     });
 };

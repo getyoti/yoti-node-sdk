@@ -84,22 +84,10 @@ describe('DigitalIdentityService', () => {
           json: '{"status":"a"}',
           status: 200,
         },
-        {
-          error: 'Bad Request',
-          json: '',
-          status: 400,
-        },
-        {
-          error: 'Internal Server Error',
-          json: '',
-          status: 500,
-        },
       ].forEach((invalidResponse) => {
-        beforeEach(() => {
-          setupResponse(invalidResponse.json, invalidResponse.status);
-        });
-
         it('promise should reject', (done) => {
+          setupResponse(invalidResponse.json, invalidResponse.status);
+
           const shareSessionConfig = new ShareSessionConfigurationBuilder()
             .withRedirectUri('/test-callback-url')
             .withPolicy(new PolicyBuilder().build())
@@ -108,6 +96,47 @@ describe('DigitalIdentityService', () => {
           digitalIdentityService.createShareSession(shareSessionConfig, privateKeyFile, APP_ID)
             .catch((err) => {
               expect(err.message).toBe(invalidResponse.error);
+              done();
+            })
+            .catch(done);
+        });
+      });
+    });
+
+    describe('when an error response is received', () => {
+      [
+        {
+          error: 'Bad Request',
+          json: { error: 'INVALID_PAYLOAD', message: 'This is not quite right' },
+          status: 400,
+        },
+        {
+          error: 'Forbidden',
+          json: { error: 'INVALID_ORG_STATUS', message: 'Org is not quite ok' },
+          status: 403,
+        },
+        {
+          error: 'Internal Server Error',
+          json: '',
+          status: 500,
+        },
+      ].forEach((invalidResponse) => {
+        it('promise should reject', (done) => {
+          setupResponse(invalidResponse.json, invalidResponse.status);
+
+          const shareSessionConfig = new ShareSessionConfigurationBuilder()
+            .withRedirectUri('/test-callback-url')
+            .withPolicy(new PolicyBuilder().build())
+            .build();
+
+          digitalIdentityService.createShareSession(shareSessionConfig, privateKeyFile, APP_ID)
+            .catch((err) => {
+              expect(err.message).toBe(invalidResponse.error);
+              expect(err.status).toBe(invalidResponse.status);
+              if (invalidResponse.json) {
+                expect(err.code).toBe(invalidResponse.json.error);
+                expect(err.reason).toBe(invalidResponse.json.message);
+              }
               done();
             })
             .catch(done);

@@ -21,6 +21,7 @@ const ExtensionBuilder = require('./extension/extension.builder');
 const ShareSessionConfigurationBuilder = require('./share.session.configuration.builder');
 const ShareSessionNotificationBuilder = require('./share.session.notification.builder');
 const ShareSessionConfiguration = require('./share.session.configuration');
+const DigitalIdentityServiceError = require('./digital.identity.service.error');
 
 const DEFAULT_API_URL = config.yoti.digitalIdentityApi;
 
@@ -66,8 +67,7 @@ class DigitalIdentityService {
       response = await request.execute();
     } catch (error) {
       console.log(`Error retrieving requested data: ${error}`);
-
-      throw error;
+      throw new DigitalIdentityServiceError(error);
     }
 
     try {
