@@ -3,7 +3,7 @@
 const Validation = require('../yoti_common/validation');
 
 /**
- * The share session result
+ * Defines the Share session creation result.
  *
  * @class ShareSessionCreateResult
  */

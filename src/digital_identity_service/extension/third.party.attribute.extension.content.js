@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Defines third party attribute extension content.
+ *
+ * @class ThirdPartyAttributeExtensionContent
+ */
 class ThirdPartyAttributeExtensionContent {
   constructor(expiryDate, definitions) {
     this.expiryDate = expiryDate;

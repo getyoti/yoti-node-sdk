@@ -6,7 +6,7 @@ const LocationConstraintExtensionContent = require('./location.constraint.extens
 const LOCATION_CONSTRAINT = 'LOCATION_CONSTRAINT';
 
 /**
- * Builds location constraint Extension.
+ * Builds a location constraint Extension.
  *
  * @class LocationConstraintExtensionBuilder
  */

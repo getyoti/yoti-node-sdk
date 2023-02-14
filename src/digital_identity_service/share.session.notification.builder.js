@@ -3,7 +3,7 @@
 const ShareSessionNotification = require('./share.session.notification');
 
 /**
- * Builder for share v2 notifications.
+ * Builder for Share session notifications.
  *
  * @class ShareSessionNotificationBuilder
  */

@@ -6,7 +6,7 @@ const Validation = require('../yoti_common/validation');
 const ShareSessionNotification = require('./share.session.notification');
 
 /**
- * The share session
+ * Defines the Share session.
  *
  * @class ShareSession
  */

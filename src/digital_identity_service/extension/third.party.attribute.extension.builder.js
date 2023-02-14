@@ -7,6 +7,11 @@ const Validation = require('../../yoti_common/validation');
 
 const THIRD_PARTY_ATTRIBUTE_EXTENSION_TYPE = 'THIRD_PARTY_ATTRIBUTE';
 
+/**
+ * Builds a third party attribute Extension.
+ *
+ * @class ThirdPartyAttributeExtensionBuilder
+ */
 class ThirdPartyAttributeExtensionBuilder {
   constructor() {
     this.definitions = [];

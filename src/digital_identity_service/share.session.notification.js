@@ -3,7 +3,7 @@
 const Validation = require('../yoti_common/validation');
 
 /**
- * Defines the notification config for a share v2 session.
+ * Defines the Notification config for Share session.
  *
  * @class ShareSessionNotification
  */

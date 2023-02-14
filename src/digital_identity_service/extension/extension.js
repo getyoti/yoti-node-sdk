@@ -3,7 +3,7 @@
 const Validation = require('../../yoti_common/validation');
 
 /**
- * Defines Extension for Dynamic Scenario.
+ * Defines Extension for Share session.
  *
  * @class Extension
  */

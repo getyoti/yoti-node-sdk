@@ -2,7 +2,7 @@
 
 const crypto = require('crypto');
 
-const DynamicPolicy = require('./policy');
+const Policy = require('./policy');
 const WantedAttributeBuilder = require('./wanted.attribute.builder');
 const WantedAttribute = require('./wanted.attribute');
 const constants = require('../../yoti_common/constants');
@@ -12,11 +12,11 @@ const SELFIE_AUTH_TYPE = 1;
 const PIN_AUTH_TYPE = 2;
 
 /**
- * Builder for DynamicPolicy.
+ * Builder for Policy.
  *
- * @class DynamicPolicyBuilder
+ * @class PolicyBuilder
  */
-module.exports = class DynamicPolicyBuilder {
+module.exports = class PolicyBuilder {
   constructor() {
     this.wantedAttributes = {};
     this.wantedAuthTypes = [];
@@ -313,10 +313,10 @@ module.exports = class DynamicPolicyBuilder {
   }
 
   /**
-   * @returns {DynamicPolicy}
+   * @returns {Policy}
    */
   build() {
-    return new DynamicPolicy(
+    return new Policy(
       Object.keys(this.wantedAttributes).map((k) => this.wantedAttributes[k]),
       this.wantedAuthTypes.filter((value, index, self) => self.indexOf(value) === index),
       this.wantedRememberMe,

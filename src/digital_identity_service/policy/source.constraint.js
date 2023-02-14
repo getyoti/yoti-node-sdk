@@ -6,7 +6,7 @@ const WantedAnchor = require('./wanted.anchor');
 const CONSTRAINT_TYPE_SOURCE = 'SOURCE';
 
 /**
- * Defines a contraint for wanted attributes.
+ * Defines a source constraint for wanted attributes.
  *
  * @class SourceConstraint
  */

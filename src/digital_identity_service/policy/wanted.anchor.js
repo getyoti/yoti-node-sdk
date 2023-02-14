@@ -3,7 +3,7 @@
 const Validation = require('../../yoti_common/validation');
 
 /**
- * Defines the wanted anchor value and sub type.
+ * Defines the wanted anchor value and subtype.
  *
  * @class WantedAnchor
  */

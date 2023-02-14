@@ -3,7 +3,7 @@
 const ShareSessionConfiguration = require('./share.session.configuration');
 
 /**
- * Builder for share v2 sessions.
+ * Builder for Share sessions.
  *
  * @class ShareSessionBuilder
  */
@@ -21,10 +21,10 @@ module.exports = class ShareSessionBuilder {
   }
 
   /**
-   * @param {DynamicPolicy} dynamicPolicy
+   * @param {Policy} policy
    */
-  withPolicy(dynamicPolicy) {
-    this.dynamicPolicy = dynamicPolicy;
+  withPolicy(policy) {
+    this.policy = policy;
     return this;
   }
 
@@ -57,7 +57,7 @@ module.exports = class ShareSessionBuilder {
    */
   build() {
     return new ShareSessionConfiguration(
-      this.dynamicPolicy,
+      this.policy,
       this.extensions,
       this.subject,
       this.redirectUri,

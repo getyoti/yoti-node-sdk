@@ -4,11 +4,11 @@ const WantedAttribute = require('./wanted.attribute');
 const Validation = require('../../yoti_common/validation');
 
 /**
- * Defines the list of wanted attributes.
+ * Defines the list of wanted attributes for the Share session Policy.
  *
- * @class DynamicPolicy
+ * @class Policy
  */
-module.exports = class DynamicPolicy {
+module.exports = class Policy {
   /**
    * @param {WantedAttribute[]} wantedAttributes - array of attributes to be requested.
    * @param {integer[]} wantedAuthTypes - auth types represents the authentication type to be used.
