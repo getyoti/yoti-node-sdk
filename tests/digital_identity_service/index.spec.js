@@ -144,4 +144,34 @@ describe('DigitalIdentityService', () => {
       });
     });
   });
+
+  describe('#createQrCode', () => {
+    const sessionId = 'session-6d9a999d-30bc-4733-b68c-518133531d1c';
+
+    const setupResponse = (responseBody, responseStatusCode = 200) => {
+      nock(apiUrlDomain)
+        .post(new RegExp(`/v2/sessions/${sessionId}/qr-codes`))
+        .reply(responseStatusCode, responseBody);
+    };
+
+    describe('when a valid response is returned', () => {
+      beforeEach(() => {
+        const content = {
+          id: 'qr-code-id',
+          uri: 'https://test.com',
+        };
+        setupResponse(content);
+      });
+
+      it('should get the correct response', (done) => {
+        digitalIdentityService.createQrCode(sessionId)
+          .then((result) => {
+            expect(result.getId()).toBe('qr-code-id');
+            expect(result.getUri()).toBe('https://test.com');
+            done();
+          })
+          .catch(done);
+      });
+    });
+  });
 });

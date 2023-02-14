@@ -103,12 +103,17 @@ class DigitalIdentityService {
 
     const request = requestBuilder.build();
 
-    try {
-      const response = await request.execute().catch((error) => {
-        console.log(`Error retrieving requested data: ${error}`);
-        throw error;
-      });
+    let response;
 
+    try {
+      response = await request.execute();
+    } catch (error) {
+      console.log(`Error retrieving requested data: ${error}`);
+
+      throw error;
+    }
+
+    try {
       const parsedResponse = response.getParsedResponse();
 
       return new ShareQrCodeResult(parsedResponse);
