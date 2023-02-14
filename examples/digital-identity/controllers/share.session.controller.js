@@ -1,16 +1,18 @@
 const {
-  DigitalIdentityBuilders:
-    {
-      PolicyBuilder,
-      LocationConstraintExtensionBuilder,
-      ShareSessionConfigurationBuilder,
-    },
+  DigitalIdentityBuilders: {
+    PolicyBuilder,
+    LocationConstraintExtensionBuilder,
+    ShareSessionConfigurationBuilder,
+  },
   DigitalIdentityClient,
 } = require('yoti');
 
 const config = require('../config');
 
-const digitalIdentityClient = new DigitalIdentityClient(config.CLIENT_SDK_ID, config.PEM_KEY);
+const digitalIdentityClient = new DigitalIdentityClient(
+  config.CLIENT_SDK_ID,
+  config.PEM_KEY,
+);
 
 module.exports = (req, res) => {
   const locationExtension = new LocationConstraintExtensionBuilder()
@@ -44,10 +46,12 @@ module.exports = (req, res) => {
     .withSubject(subject)
     .build();
 
-  digitalIdentityClient.createShareSession(shareSessionConfig)
+  digitalIdentityClient
+    .createShareSession(shareSessionConfig)
     .then((shareSessionCreateResult) => {
       res.json({ ShareSessionResult: shareSessionCreateResult });
-    }).catch((error) => {
+    })
+    .catch((error) => {
       console.error({ status: error.status, message: error.response.text });
       res.end();
     });
