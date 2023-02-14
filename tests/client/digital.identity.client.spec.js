@@ -5,6 +5,7 @@ const { v4: uuid } = require('uuid');
 const config = require('../../config');
 const yoti = require('../../index');
 const ShareSessionCreateResult = require('../../src/digital_identity_service/share.session.create.result');
+const ShareQrCodeResult = require('../../src/digital_identity_service/share.qr.code.result');
 
 const GENERIC_API_PATH = '/share';
 const APP_ID = uuid();
@@ -82,6 +83,36 @@ describe.each([
       yotiClient.createShareSession(shareSessionConfig)
         .then((result) => {
           expect(result).toBeInstanceOf(ShareSessionCreateResult);
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe('#createQrCode', () => {
+    const sessionId = 'session-6d9a999d-30bc-4733-b68c-518133531d1c';
+
+    beforeEach((done) => {
+      nock(apiUrlDomain)
+        .post(new RegExp(`${apiUrlPath}/v2/sessions/${sessionId}/qr-codes`))
+        .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
+        .matchHeader(CONTENT_TYPE_HEADER_NAME, CONTENT_TYPE_JSON)
+        .reply(200, {
+          id: 'qr-code-c69d77b4-2235-4f02-95a0-d3f911d5d3e8',
+          uri: 'https://code.localhost.yoti.com/CAEaLHFyLWNvZGUtYzY5ZDc3YjQtMjIzNS00ZjAyLTk1YTAtZDNmOTExZDVkM2U4',
+        });
+      done();
+    });
+
+    afterEach((done) => {
+      nock.cleanAll();
+      done();
+    });
+
+    it('should return a ShareQrCodeResult', (done) => {
+      yotiClient.createQrCode(sessionId)
+        .then((result) => {
+          expect(result).toBeInstanceOf(ShareQrCodeResult);
           done();
         })
         .catch(done);

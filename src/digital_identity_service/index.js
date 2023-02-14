@@ -87,35 +87,36 @@ class DigitalIdentityService {
    * @param sessionId
    * @returns {Promise<ShareQrCodeResult>}
    */
-  createQrCode(sessionId) {
+  async createQrCode(sessionId) {
+    Validation.isString(sessionId, 'sessionId');
+
     const payload = new Payload({});
+
     const requestBuilder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withHeader('X-Yoti-Auth-Id', this.sdkId)
       .withPemString(this.pem)
-      .withEndpoint(`/sessions/${sessionId}/qr-codes`)
+      .withEndpoint(`/v2/sessions/${sessionId}/qr-codes`)
       .withQueryParam('appId', this.sdkId)
       .withMethod('POST')
       .withPayload(payload);
 
     const request = requestBuilder.build();
 
-    return new Promise((resolve, reject) => {
-      request.execute()
-        .then((response) => {
-          try {
-            const parsedResponse = response.getParsedResponse();
-            return resolve(new ShareQrCodeResult(parsedResponse));
-          } catch (err) {
-            console.log(`Error getting response data: ${err}`);
-            return reject(err);
-          }
-        })
-        .catch((err) => {
-          console.log(`Error retrieving requested data: ${err}`);
-          return reject(err);
-        });
-    });
+    try {
+      const response = await request.execute().catch((error) => {
+        console.log(`Error retrieving requested data: ${error}`);
+        throw error;
+      });
+
+      const parsedResponse = response.getParsedResponse();
+
+      return new ShareQrCodeResult(parsedResponse);
+    } catch (err) {
+      console.log(`Error getting response data: ${err}`);
+
+      throw err;
+    }
   }
 }
 
