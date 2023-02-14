@@ -332,31 +332,38 @@ class ShareService {
 
         const decryptedWrappedKey = decryptReceiptKey(response.getWrappedKey(), decryptionMaterial);
 
+        let userProfile = null;
+        let applicationProfile = null;
+
         const otherPartyContent = response.getOtherPartyContent();
-        const decryptedUserProfile = decryptEncryptedDataNew(
-          otherPartyContent.profile,
-          decryptedWrappedKey
-        );
-        const decodedUserProfile = AttributeList.decode(decryptedUserProfile);
-        const convertedUserProfile = AttributeListConverter.convertAttributeList(
-          decodedUserProfile.attributes
-        );
-        const userProfile = {
-          attributes: convertedUserProfile,
-        };
+        if (otherPartyContent) {
+          const decryptedUserProfile = decryptEncryptedDataNew(
+            otherPartyContent.profile,
+            decryptedWrappedKey
+          );
+          const decodedUserProfile = AttributeList.decode(decryptedUserProfile);
+          const convertedUserProfile = AttributeListConverter.convertAttributeList(
+            decodedUserProfile.attributes
+          );
+          userProfile = {
+            attributes: convertedUserProfile,
+          };
+        }
 
         const content = response.getContent();
-        const decryptedApplicationProfile = decryptEncryptedDataNew(
-          content.profile,
-          decryptedWrappedKey
-        );
-        const decodedApplicationProfile = AttributeList.decode(decryptedApplicationProfile);
-        const convertedApplicationProfile = AttributeListConverter.convertAttributeList(
-          decodedApplicationProfile.attributes
-        );
-        const applicationProfile = {
-          attributes: convertedApplicationProfile,
-        };
+        if (content) {
+          const decryptedApplicationProfile = decryptEncryptedDataNew(
+            content.profile,
+            decryptedWrappedKey
+          );
+          const decodedApplicationProfile = AttributeList.decode(decryptedApplicationProfile);
+          const convertedApplicationProfile = AttributeListConverter.convertAttributeList(
+            decodedApplicationProfile.attributes
+          );
+          applicationProfile = {
+            attributes: convertedApplicationProfile,
+          };
+        }
 
         return new ShareReceipt(response, userProfile, applicationProfile);
       }
