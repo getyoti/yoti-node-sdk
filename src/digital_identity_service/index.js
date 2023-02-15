@@ -109,8 +109,7 @@ class DigitalIdentityService {
       response = await request.execute();
     } catch (error) {
       console.log(`Error retrieving requested data: ${error}`);
-
-      throw error;
+      throw new DigitalIdentityServiceError(error);
     }
 
     try {
