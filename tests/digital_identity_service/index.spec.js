@@ -93,7 +93,7 @@ describe('DigitalIdentityService', () => {
             .withPolicy(new PolicyBuilder().build())
             .build();
 
-          digitalIdentityService.createShareSession(shareSessionConfig, privateKeyFile, APP_ID)
+          digitalIdentityService.createShareSession(shareSessionConfig)
             .catch((err) => {
               expect(err.message).toBe(invalidResponse.error);
               done();
@@ -129,7 +129,7 @@ describe('DigitalIdentityService', () => {
             .withPolicy(new PolicyBuilder().build())
             .build();
 
-          digitalIdentityService.createShareSession(shareSessionConfig, privateKeyFile, APP_ID)
+          digitalIdentityService.createShareSession(shareSessionConfig)
             .catch((err) => {
               expect(err.message).toBe(invalidResponse.error);
               expect(err.status).toBe(invalidResponse.status);
