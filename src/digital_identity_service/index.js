@@ -6,7 +6,7 @@ const Validation = require('../yoti_common/validation');
 const { RequestBuilder } = require('../request/request.builder');
 const { Payload } = require('../request/payload');
 const ShareSessionCreateResult = require('./share.session.create.result');
-const ShareQrCodeResult = require('./share.qr.code.result');
+const ShareQrCodeCreateResult = require('./share.qr.code.create.result');
 
 const WantedAnchorBuilder = require('./policy/wanted.anchor.builder');
 const ConstraintsBuilder = require('./policy/constraints.builder');
@@ -85,7 +85,7 @@ class DigitalIdentityService {
   /**
    *
    * @param sessionId
-   * @returns {Promise<ShareQrCodeResult>}
+   * @returns {Promise<ShareQrCodeCreateResult>}
    */
   async createQrCode(sessionId) {
     Validation.isString(sessionId, 'sessionId');
@@ -115,7 +115,7 @@ class DigitalIdentityService {
     try {
       const parsedResponse = response.getParsedResponse();
 
-      return new ShareQrCodeResult(parsedResponse);
+      return new ShareQrCodeCreateResult(parsedResponse);
     } catch (err) {
       console.log(`Error getting response data: ${err}`);
 

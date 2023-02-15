@@ -5,7 +5,7 @@ const { v4: uuid } = require('uuid');
 const config = require('../../config');
 const yoti = require('../../index');
 const ShareSessionCreateResult = require('../../src/digital_identity_service/share.session.create.result');
-const ShareQrCodeResult = require('../../src/digital_identity_service/share.qr.code.result');
+const ShareQrCodeCreateResult = require('../../src/digital_identity_service/share.qr.code.create.result');
 
 const GENERIC_API_PATH = '/share';
 const APP_ID = uuid();
@@ -109,10 +109,10 @@ describe.each([
       done();
     });
 
-    it('should return a ShareQrCodeResult', (done) => {
+    it('should return a ShareQrCodeCreateResult', (done) => {
       yotiClient.createQrCode(sessionId)
         .then((result) => {
-          expect(result).toBeInstanceOf(ShareQrCodeResult);
+          expect(result).toBeInstanceOf(ShareQrCodeCreateResult);
           done();
         })
         .catch(done);

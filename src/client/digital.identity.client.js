@@ -30,7 +30,7 @@ class DigitalIdentityClient {
   /**
    *
    * @param sessionId
-   * @returns {Promise<ShareQrCodeResult>}
+   * @returns {Promise<ShareQrCodeCreateResult>}
    */
   async createQrCode(sessionId) {
     return this.digitalIdentityService.createQrCode(sessionId);
