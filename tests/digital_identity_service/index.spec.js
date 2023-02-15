@@ -26,7 +26,7 @@ describe('DigitalIdentityService', () => {
   describe('#createShareSession', () => {
     const setupResponse = (responseBody, responseStatusCode = 200) => {
       nock(apiUrlDomain)
-        .post(new RegExp('/v2/sessions'))
+        .post(new RegExp('/v2/sessions[^/]'))
         .reply(responseStatusCode, responseBody);
     };
 
@@ -171,6 +171,49 @@ describe('DigitalIdentityService', () => {
             done();
           })
           .catch(done);
+      });
+    });
+
+    describe('when a session id is not provided', () => {
+      it('should throw error', async () => {
+        try {
+          await digitalIdentityService.createQrCode();
+        } catch (error) {
+          expect(error).toEqual(new TypeError('sessionId must be a string'));
+        }
+      });
+    });
+
+    describe('when an invalid response is returned', () => {
+      [
+        {
+          error: 'QR code ID must be a string',
+          json: '{"status":"a"}',
+          status: 200,
+        },
+        {
+          error: 'Bad Request',
+          json: '',
+          status: 400,
+        },
+        {
+          error: 'Internal Server Error',
+          json: '',
+          status: 500,
+        },
+      ].forEach((invalidResponse) => {
+        beforeEach(() => {
+          setupResponse(invalidResponse.json, invalidResponse.status);
+        });
+
+        it('promise should reject', (done) => {
+          digitalIdentityService.createQrCode(sessionId)
+            .catch((err) => {
+              expect(err.message).toBe(invalidResponse.error);
+              done();
+            })
+            .catch(done);
+        });
       });
     });
   });
