@@ -9,7 +9,7 @@
     "node": ">=14"
   },
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "lint": "node_modules/.bin/eslint *.js"
   },
   "dependencies": {
