@@ -1,18 +1,25 @@
+const nock = require('nock');
 const fs = require('fs');
 const { v4: uuid } = require('uuid');
 
 const config = require('../../config');
 const yoti = require('../../index');
+const ShareSessionCreateResult = require('../../src/digital_identity_service/share.session.create.result');
 
-const GENERIC_API_PATH = '/api/v1';
+const GENERIC_API_PATH = '/share';
 const APP_ID = uuid();
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
+
+const CONTENT_TYPE_HEADER_NAME = 'Content-Type';
+const CONTENT_TYPE_JSON = 'application/json';
+const DIGEST_KEY_HEADER_NAME = 'X-Yoti-Auth-Digest';
+const DIGEST_KEY_PATTERN = /^[a-zA-Z0-9/+=]{344}$/;
 
 describe.each([
   [
     'default',
     {
-      apiUrlDomain: config.yoti.connectApi.replace(GENERIC_API_PATH, ''),
+      apiUrlDomain: config.yoti.digitalIdentityApi.replace(GENERIC_API_PATH, ''),
       apiUrlPath: GENERIC_API_PATH,
       useDefaultApiUrl: true,
     },
@@ -45,5 +52,39 @@ describe.each([
 
   it('placeholder test', () => {
     expect(yotiClient).toBeDefined();
+  });
+
+  describe('#createShareSession', () => {
+    const shareSessionConfig = new yoti.DigitalIdentityBuilders.ShareSessionConfigurationBuilder()
+      .withRedirectUri('/test-redirect-url')
+      .withPolicy(new yoti.DigitalIdentityBuilders.PolicyBuilder().build())
+      .build();
+
+    beforeEach((done) => {
+      nock(apiUrlDomain)
+        .post(new RegExp(`${apiUrlPath}/v2/sessions`), JSON.stringify(shareSessionConfig))
+        .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
+        .matchHeader(CONTENT_TYPE_HEADER_NAME, CONTENT_TYPE_JSON)
+        .reply(200, {
+          id: '',
+          status: '',
+          expiry: '2000-02-03',
+        });
+      done();
+    });
+
+    afterEach((done) => {
+      nock.cleanAll();
+      done();
+    });
+
+    it('it should get a ShareSessionCreateResult', (done) => {
+      yotiClient.createShareSession(shareSessionConfig)
+        .then((result) => {
+          expect(result).toBeInstanceOf(ShareSessionCreateResult);
+          done();
+        })
+        .catch(done);
+    });
   });
 });

@@ -21,6 +21,10 @@ const {
 } = require('./src/dynamic_sharing_service');
 
 const {
+  DigitalIdentityBuilders,
+} = require('./src/digital_identity_service');
+
+const {
   SessionSpecificationBuilder,
   NotificationConfigBuilder,
   SdkConfigBuilder,
@@ -55,6 +59,7 @@ module.exports = {
   IDVConstants,
   AmlAddress,
   AmlProfile,
+  DigitalIdentityBuilders,
   DynamicScenarioBuilder,
   DynamicPolicyBuilder,
   WantedAttributeBuilder,
