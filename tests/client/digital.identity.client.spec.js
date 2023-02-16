@@ -89,7 +89,7 @@ describe.each([
     });
   });
 
-  describe('#createQrCode', () => {
+  describe('#createShareQrCode', () => {
     const sessionId = 'session-6d9a999d-30bc-4733-b68c-518133531d1c';
 
     beforeEach((done) => {
@@ -110,7 +110,7 @@ describe.each([
     });
 
     it('should return a ShareQrCodeCreateResult', (done) => {
-      yotiClient.createQrCode(sessionId)
+      yotiClient.createShareQrCode(sessionId)
         .then((result) => {
           expect(result).toBeInstanceOf(ShareQrCodeCreateResult);
           done();

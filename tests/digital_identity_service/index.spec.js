@@ -145,7 +145,7 @@ describe('DigitalIdentityService', () => {
     });
   });
 
-  describe('#createQrCode', () => {
+  describe('#createShareQrCode', () => {
     const sessionId = 'session-6d9a999d-30bc-4733-b68c-518133531d1c';
 
     const setupResponse = (responseBody, responseStatusCode = 200) => {
@@ -164,7 +164,7 @@ describe('DigitalIdentityService', () => {
       });
 
       it('should get the correct response', (done) => {
-        digitalIdentityService.createQrCode(sessionId)
+        digitalIdentityService.createShareQrCode(sessionId)
           .then((result) => {
             expect(result.getId()).toBe('qr-code-id');
             expect(result.getUri()).toBe('https://test.com');
@@ -177,7 +177,7 @@ describe('DigitalIdentityService', () => {
     describe('when a session id is not provided', () => {
       it('should throw error', async () => {
         try {
-          await digitalIdentityService.createQrCode();
+          await digitalIdentityService.createShareQrCode();
         } catch (error) {
           expect(error).toEqual(new TypeError('sessionId must be a string'));
         }
@@ -197,7 +197,7 @@ describe('DigitalIdentityService', () => {
         });
 
         it('promise should reject', (done) => {
-          digitalIdentityService.createQrCode(sessionId)
+          digitalIdentityService.createShareQrCode(sessionId)
             .catch((err) => {
               expect(err.message).toBe(invalidResponse.error);
               done();
@@ -228,7 +228,7 @@ describe('DigitalIdentityService', () => {
         it('promise should reject', (done) => {
           setupResponse(invalidResponse.json, invalidResponse.status);
 
-          digitalIdentityService.createQrCode(sessionId)
+          digitalIdentityService.createShareQrCode(sessionId)
             .catch((err) => {
               expect(err.message).toBe(invalidResponse.error);
               expect(err.status).toBe(invalidResponse.status);

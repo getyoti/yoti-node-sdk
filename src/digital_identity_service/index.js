@@ -87,7 +87,7 @@ class DigitalIdentityService {
    * @param sessionId
    * @returns {Promise<ShareQrCodeCreateResult>}
    */
-  async createQrCode(sessionId) {
+  async createShareQrCode(sessionId) {
     Validation.isString(sessionId, 'sessionId');
 
     const payload = new Payload({});
