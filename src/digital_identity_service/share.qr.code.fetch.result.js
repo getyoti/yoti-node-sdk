@@ -14,7 +14,7 @@ module.exports = class ShareQrCodeFetchResult {
    * @param {Object} response
    */
   constructor(response) {
-    Validation.isString(response.id, 'Qr Code ID');
+    Validation.isString(response.id, 'QR code ID');
     this.id = response.id;
 
     Validation.isString(response.expiry, 'Expiry');

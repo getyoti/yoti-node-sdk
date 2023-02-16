@@ -50,8 +50,8 @@ class DigitalIdentityClient {
    * @param qrCodeId
    * @returns {Promise<ShareQrCodeFetchResult>}
    */
-  async fetchQrCode(qrCodeId) {
-    return this.digitalIdentityService.fetchQrCode(qrCodeId);
+  async fetchShareQrCode(qrCodeId) {
+    return this.digitalIdentityService.fetchShareQrCode(qrCodeId);
   }
 }
 

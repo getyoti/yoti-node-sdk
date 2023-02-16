@@ -169,7 +169,9 @@ class DigitalIdentityService {
    * @param qrCodeId
    * @returns {Promise<ShareQrCodeFetchResult>}
    */
-  async fetchQrCode(qrCodeId) {
+  async fetchShareQrCode(qrCodeId) {
+    Validation.isString(qrCodeId, 'qrCodeId');
+
     const requestBuilder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withHeader('X-Yoti-Auth-Id', this.sdkId)

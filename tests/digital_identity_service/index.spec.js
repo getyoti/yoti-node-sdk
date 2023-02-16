@@ -374,4 +374,117 @@ describe('DigitalIdentityService', () => {
       });
     });
   });
+
+  describe('#fetchShareQrCode', () => {
+    const qrCodeId = 'qr-code-id';
+
+    const setupResponse = (responseBody, responseStatusCode = 200) => {
+      nock(apiUrlDomain)
+        .get(new RegExp(`/v2/qr-codes/${qrCodeId}`))
+        .reply(responseStatusCode, responseBody);
+    };
+
+    describe('when a valid response is returned', () => {
+      beforeEach(() => {
+        const content = {
+          id: '',
+          expiry: '2023-02-16T11:30:20.432Z',
+          policy: '',
+          extensions: [],
+          session: {
+            id: '',
+            status: '',
+            expiry: '2023-02-16T11:30:20.432Z',
+          },
+          redirectUri: '',
+        };
+        setupResponse(content);
+      });
+
+      it('should get the correct response', (done) => {
+        digitalIdentityService.fetchShareQrCode(qrCodeId)
+          .then((result) => {
+            expect(result.getId()).toBe('');
+            expect(result.getExpiry()).toStrictEqual(new Date('2023-02-16T11:30:20.432Z'));
+            expect(result.getPolicy()).toBe('');
+            expect(result.getExtensions()).toStrictEqual([]);
+            expect(result.getSession().getId()).toBe('');
+            expect(result.getSession().getStatus()).toBe('');
+            expect(result.getSession().getExpiry()).toStrictEqual(new Date('2023-02-16T11:30:20.432Z'));
+            expect(result.getRedirectUri()).toBe('');
+            done();
+          })
+          .catch(done);
+      });
+    });
+
+    describe('when a QR code id is not provided', () => {
+      it('should throw error', async () => {
+        try {
+          await digitalIdentityService.fetchShareQrCode();
+        } catch (error) {
+          expect(error).toEqual(new TypeError('qrCodeId must be a string'));
+        }
+      });
+    });
+
+    describe('when an invalid response is returned', () => {
+      [
+        {
+          error: 'QR code ID must be a string',
+          json: '{"status":"a"}',
+          status: 200,
+        },
+      ].forEach((invalidResponse) => {
+        beforeEach(() => {
+          setupResponse(invalidResponse.json, invalidResponse.status);
+        });
+
+        it('promise should reject', (done) => {
+          digitalIdentityService.fetchShareQrCode(qrCodeId)
+            .catch((err) => {
+              expect(err.message).toBe(invalidResponse.error);
+              done();
+            })
+            .catch(done);
+        });
+      });
+    });
+
+    describe('when an error response is received', () => {
+      [
+        {
+          error: 'Bad Request',
+          json: { error: 'INVALID_PAYLOAD', message: 'This is not quite right' },
+          status: 400,
+        },
+        {
+          error: 'Forbidden',
+          json: { error: 'INVALID_ORG_STATUS', message: 'Org is not quite ok' },
+          status: 403,
+        },
+        {
+          error: 'Internal Server Error',
+          json: '',
+          status: 500,
+        },
+      ].forEach((invalidResponse) => {
+        it('promise should reject', (done) => {
+          setupResponse(invalidResponse.json, invalidResponse.status);
+
+          digitalIdentityService.fetchShareQrCode(qrCodeId)
+            .catch((err) => {
+              expect(err.message).toBe(invalidResponse.error);
+              expect(err.status).toBe(invalidResponse.status);
+              if (invalidResponse.json) {
+                expect(err.code).toBe(invalidResponse.json.error);
+                expect(err.reason).toBe(invalidResponse.json.message);
+              }
+              done();
+            })
+            .catch(done);
+        });
+      });
+    });
+  });
 });

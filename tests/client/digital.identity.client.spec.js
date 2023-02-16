@@ -158,17 +158,24 @@ describe.each([
     });
   });
 
-  describe('#fetchQrCode', () => {
-    const qrCodeId = 'session-6d9a999d-30bc-4733-b68c-518133531d1c';
+  describe('#fetchShareQrCode', () => {
+    const qrCodeId = 'qr-code-id';
 
     beforeEach((done) => {
       nock(apiUrlDomain)
-        .post(new RegExp(`${apiUrlPath}/v2/sessions/${sessionId}/qr-codes`))
+        .get(new RegExp(`${apiUrlPath}/v2/qr-codes/${qrCodeId}`))
         .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
-        .matchHeader(CONTENT_TYPE_HEADER_NAME, CONTENT_TYPE_JSON)
         .reply(200, {
-          id: 'qr-code-c69d77b4-2235-4f02-95a0-d3f911d5d3e8',
-          uri: 'https://code.localhost.yoti.com/CAEaLHFyLWNvZGUtYzY5ZDc3YjQtMjIzNS00ZjAyLTk1YTAtZDNmOTExZDVkM2U4',
+          id: '',
+          expiry: '2023-02-16T11:30:20.432Z',
+          policy: '',
+          extensions: [],
+          session: {
+            id: '',
+            status: '',
+            expiry: '2023-02-16T11:30:20.432Z',
+          },
+          redirectUri: '',
         });
       done();
     });
@@ -179,7 +186,7 @@ describe.each([
     });
 
     it('should return a ShareQrCodeFetchResult', (done) => {
-      yotiClient.createQrCode(qrCodeId)
+      yotiClient.fetchShareQrCode(qrCodeId)
         .then((result) => {
           expect(result).toBeInstanceOf(ShareQrCodeFetchResult);
           done();
