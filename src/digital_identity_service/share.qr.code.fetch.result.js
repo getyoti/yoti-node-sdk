@@ -5,7 +5,7 @@ const Validation = require('../yoti_common/validation');
 const ShareSessionCreateResult = require('./share.session.create.result');
 
 /**
- * The fetch share qrcode result
+ * The fetch share QR code result
  *
  * @class ShareQrCodeFetchResult
  */
@@ -36,9 +36,9 @@ module.exports = class ShareQrCodeFetchResult {
   }
 
   /**
-   * The qrcode id
+   * The QR code ID
    *
-   * @returns {string} The qrcode id
+   * @returns {string} The QR code ID
    */
   getId() {
     return this.id;
