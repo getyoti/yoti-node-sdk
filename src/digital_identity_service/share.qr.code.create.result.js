@@ -3,7 +3,7 @@
 const Validation = require('../yoti_common/validation');
 
 /**
- * The share qrcode result
+ * The share QR code result
  *
  * @class ShareQrCodeResult
  */
@@ -22,18 +22,18 @@ module.exports = class ShareQrCodeResult {
   }
 
   /**
-   * The qrcode id
+   * The QR code ID
    *
-   * @returns {string} The qrcode id
+   * @returns {string} The QR code ID
    */
   getId() {
     return this.id;
   }
 
   /**
-   * The qrcode uri
+   * The URI
    *
-   * @returns {string} The qrcode uri
+   * @returns {string} The URI
    */
   getUri() {
     return this.uri;
