@@ -44,6 +44,15 @@ class DigitalIdentityClient {
   async createShareQrCode(sessionId) {
     return this.digitalIdentityService.createShareQrCode(sessionId);
   }
+
+  /**
+   *
+   * @param qrCodeId
+   * @returns {Promise<ShareQrCodeFetchResult>}
+   */
+  async fetchQrCode(qrCodeId) {
+    return this.digitalIdentityService.fetchQrCode(qrCodeId);
+  }
 }
 
 module.exports = DigitalIdentityClient;
