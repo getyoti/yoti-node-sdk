@@ -8,6 +8,7 @@ const { Payload } = require('../request/payload');
 const ShareSessionCreateResult = require('./share.session.create.result');
 const ShareSessionFetchResult = require('./share.session.fetch.result');
 const ShareQrCodeCreateResult = require('./share.qr.code.create.result');
+const ShareQrCodeFetchResult = require('./share.qr.code.fetch.result');
 
 const WantedAnchorBuilder = require('./policy/wanted.anchor.builder');
 const ConstraintsBuilder = require('./policy/constraints.builder');
@@ -156,6 +157,44 @@ class DigitalIdentityService {
       const parsedResponse = response.getParsedResponse();
 
       return new ShareQrCodeCreateResult(parsedResponse);
+    } catch (err) {
+      console.log(`Error getting response data: ${err}`);
+
+      throw err;
+    }
+  }
+
+  /**
+   *
+   * @param qrCodeId
+   * @returns {Promise<ShareQrCodeFetchResult>}
+   */
+  async fetchShareQrCode(qrCodeId) {
+    Validation.isString(qrCodeId, 'qrCodeId');
+
+    const requestBuilder = new RequestBuilder()
+      .withBaseUrl(this.apiUrl)
+      .withHeader('X-Yoti-Auth-Id', this.sdkId)
+      .withPemString(this.pem)
+      .withEndpoint(`/v2/qr-codes/${qrCodeId}`)
+      .withQueryParam('appId', this.sdkId)
+      .withMethod('GET');
+
+    const request = requestBuilder.build();
+
+    let response;
+
+    try {
+      response = await request.execute();
+    } catch (error) {
+      console.log(`Error retrieving requested data: ${error}`);
+      throw new DigitalIdentityServiceError(error);
+    }
+
+    try {
+      const parsedResponse = response.getParsedResponse();
+
+      return new ShareQrCodeFetchResult(parsedResponse);
     } catch (err) {
       console.log(`Error getting response data: ${err}`);
 

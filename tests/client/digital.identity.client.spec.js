@@ -7,6 +7,7 @@ const yoti = require('../../index');
 const ShareSessionCreateResult = require('../../src/digital_identity_service/share.session.create.result');
 const ShareSessionFetchResult = require('../../src/digital_identity_service/share.session.fetch.result');
 const ShareQrCodeCreateResult = require('../../src/digital_identity_service/share.qr.code.create.result');
+const ShareQrCodeFetchResult = require('../../src/digital_identity_service/share.qr.code.fetch.result');
 
 const GENERIC_API_PATH = '/share';
 const APP_ID = uuid();
@@ -151,6 +152,41 @@ describe.each([
       yotiClient.createShareQrCode(sessionId)
         .then((result) => {
           expect(result).toBeInstanceOf(ShareQrCodeCreateResult);
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe('#fetchShareQrCode', () => {
+    const qrCodeId = 'qr-code-id';
+
+    beforeEach((done) => {
+      nock(apiUrlDomain)
+        .get(new RegExp(`${apiUrlPath}/v2/qr-codes/${qrCodeId}`))
+        .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
+        .reply(200, {
+          id: 'qr-code-id',
+          expiry: '2023-02-16T11:30:20.432Z',
+          session: {
+            id: 'session-id',
+            status: 'CREATED',
+            expiry: '2023-02-16T11:30:20.432Z',
+          },
+          redirectUri: 'https://test.com',
+        });
+      done();
+    });
+
+    afterEach((done) => {
+      nock.cleanAll();
+      done();
+    });
+
+    it('should return a ShareQrCodeFetchResult', (done) => {
+      yotiClient.fetchShareQrCode(qrCodeId)
+        .then((result) => {
+          expect(result).toBeInstanceOf(ShareQrCodeFetchResult);
           done();
         })
         .catch(done);
