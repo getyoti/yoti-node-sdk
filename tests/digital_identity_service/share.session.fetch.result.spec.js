@@ -49,15 +49,15 @@ describe('ShareSessionFetchResult', () => {
     });
   });
 
-  describe('#getQrCode', () => {
-    it('should return qrCode', () => {
-      expect(shareSessionFetchResult.getQrCode()).toEqual({ id: '1' });
+  describe('#getScannedQrCodeId', () => {
+    it('should return qrCode id', () => {
+      expect(shareSessionFetchResult.getScannedQrCodeId()).toEqual('1');
     });
   });
 
-  describe('#getReceipt', () => {
-    it('should return receipt', () => {
-      expect(shareSessionFetchResult.getReceipt()).toEqual({ id: '2' });
+  describe('#getReceiptId', () => {
+    it('should return receipt id', () => {
+      expect(shareSessionFetchResult.getReceiptId()).toEqual('2');
     });
   });
 });

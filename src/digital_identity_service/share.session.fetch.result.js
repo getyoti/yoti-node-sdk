@@ -32,21 +32,13 @@ module.exports = class ShareSessionFetchResult {
     if (response.qrCode) {
       Validation.isString(response.qrCode.id, 'QrCode ID');
 
-      const { id } = response.qrCode;
-
-      this.qrCode = {
-        id,
-      };
+      this.scannedQrCodeId = response.qrCode.id;
     }
 
     if (response.receipt) {
       Validation.isString(response.receipt.id, 'Receipt ID');
 
-      const { id } = response.receipt;
-
-      this.receipt = {
-        id,
-      };
+      this.receiptId = response.receipt.id;
     }
   }
 
@@ -96,20 +88,20 @@ module.exports = class ShareSessionFetchResult {
   }
 
   /**
-   * The session qr code
+   * The session qr code id
    *
-   * @returns {{id: string}} The session qr code
+   * @returns {string} The session qr code id
    */
-  getQrCode() {
-    return this.qrCode;
+  getScannedQrCodeId() {
+    return this.scannedQrCodeId;
   }
 
   /**
-   * The session receipt
+   * The session receipt id
    *
-   * @returns {{id: string}} The session receipt
+   * @returns {string} The session receipt id
    */
-  getReceipt() {
-    return this.receipt;
+  getReceiptId() {
+    return this.receiptId;
   }
 };

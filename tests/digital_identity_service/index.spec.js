@@ -163,10 +163,10 @@ describe('DigitalIdentityService', () => {
           updated: '2023-02-01',
           expiry: '2023-02-03',
           qrCode: {
-            id: '',
+            id: '1',
           },
           receipt: {
-            id: '',
+            id: '2',
           },
         };
         setupResponse(content);
@@ -180,8 +180,8 @@ describe('DigitalIdentityService', () => {
             expect(result.getExpiry().toString()).toBe(new Date('2023-02-03').toString());
             expect(result.getUpdated().toString()).toBe(new Date('2023-02-01').toString());
             expect(result.getCreated().toString()).toBe(new Date('2023-02-01').toString());
-            expect(result.getQrCode()).toEqual({ id: '' });
-            expect(result.getReceipt()).toEqual({ id: '' });
+            expect(result.getScannedQrCodeId()).toEqual('1');
+            expect(result.getReceiptId()).toEqual('2');
             done();
           })
           .catch(done);
