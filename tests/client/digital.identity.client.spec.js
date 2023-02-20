@@ -168,8 +168,6 @@ describe.each([
         .reply(200, {
           id: '',
           expiry: '2023-02-16T11:30:20.432Z',
-          policy: '',
-          extensions: [],
           session: {
             id: '',
             status: '',

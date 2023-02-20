@@ -389,8 +389,6 @@ describe('DigitalIdentityService', () => {
         const content = {
           id: '',
           expiry: '2023-02-16T11:30:20.432Z',
-          policy: '',
-          extensions: [],
           session: {
             id: '',
             status: '',
@@ -406,8 +404,6 @@ describe('DigitalIdentityService', () => {
           .then((result) => {
             expect(result.getId()).toBe('');
             expect(result.getExpiry()).toStrictEqual(new Date('2023-02-16T11:30:20.432Z'));
-            expect(result.getPolicy()).toBe('');
-            expect(result.getExtensions()).toStrictEqual([]);
             expect(result.getSession().getId()).toBe('');
             expect(result.getSession().getStatus()).toBe('');
             expect(result.getSession().getExpiry()).toStrictEqual(new Date('2023-02-16T11:30:20.432Z'));

@@ -20,12 +20,6 @@ module.exports = class ShareQrCodeFetchResult {
     Validation.isStringDate(response.expiry, 'Expiry');
     this.expiry = new Date(response.expiry);
 
-    Validation.isString(response.policy, 'Policy');
-    this.policy = response.policy;
-
-    Validation.isArray(response.extensions, 'Extensions');
-    this.extensions = response.extensions;
-
     Validation.isPlainObject(response.session, 'Session');
     this.session = new ShareSessionCreateResult(response.session);
 
@@ -49,24 +43,6 @@ module.exports = class ShareQrCodeFetchResult {
    */
   getExpiry() {
     return this.expiry;
-  }
-
-  /**
-   * The policy
-   *
-   * @returns {string} The policy
-   */
-  getPolicy() {
-    return this.policy;
-  }
-
-  /**
-   * The extensions
-   *
-   * @returns {Array} The extensions
-   */
-  getExtensions() {
-    return this.extensions;
   }
 
   /**
