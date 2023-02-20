@@ -2,8 +2,6 @@
 
 const Validation = require('../yoti_common/validation');
 
-const ShareSessionCreateResult = require('./share.session.create.result');
-
 /**
  * The fetch share QR code result
  *
@@ -21,7 +19,8 @@ module.exports = class ShareQrCodeFetchResult {
     this.expiry = new Date(response.expiry);
 
     Validation.isPlainObject(response.session, 'Session');
-    this.session = new ShareSessionCreateResult(response.session);
+    Validation.isString(response.session.id, 'Session ID');
+    this.sessionId = response.session.id;
 
     Validation.isString(response.redirectUri, 'Redirect URI');
     this.redirectUri = response.redirectUri;
@@ -46,12 +45,12 @@ module.exports = class ShareQrCodeFetchResult {
   }
 
   /**
-   * The session
+   * The session ID
    *
-   * @returns {ShareSessionCreateResult} The session
+   * @returns {string} The session ID
    */
-  getSession() {
-    return this.session;
+  getSessionId() {
+    return this.sessionId;
   }
 
   /**

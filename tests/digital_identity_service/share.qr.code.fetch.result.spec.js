@@ -1,25 +1,24 @@
 const ShareQrCodeFetchResult = require('../../src/digital_identity_service/share.qr.code.fetch.result');
-const ShareSessionCreateResult = require('../../src/digital_identity_service/share.session.create.result');
 
 describe('ShareSessionQrCodeResult', () => {
   let shareQrCodeFetchResult;
 
   beforeEach(() => {
     shareQrCodeFetchResult = new ShareQrCodeFetchResult({
-      id: '',
+      id: 'qr-code-id',
       expiry: '2023-02-16T11:30:20.432Z',
       session: {
-        id: '',
-        status: '',
+        id: 'session-id',
+        status: 'CREATED',
         expiry: '2023-02-16T11:30:20.432Z',
       },
-      redirectUri: '',
+      redirectUri: 'https://test.com',
     });
   });
 
   describe('#getId', () => {
     it('should return ID', () => {
-      expect(shareQrCodeFetchResult.getId()).toBe('');
+      expect(shareQrCodeFetchResult.getId()).toBe('qr-code-id');
     });
   });
 
@@ -29,15 +28,15 @@ describe('ShareSessionQrCodeResult', () => {
     });
   });
 
-  describe('#getSession', () => {
-    it('should return session', () => {
-      expect(shareQrCodeFetchResult.getSession()).toBeInstanceOf(ShareSessionCreateResult);
+  describe('#getSessionId', () => {
+    it('should return session ID', () => {
+      expect(shareQrCodeFetchResult.getSessionId()).toBe('session-id');
     });
   });
 
   describe('#getRedirectUri', () => {
     it('should return redirect URI', () => {
-      expect(shareQrCodeFetchResult.getRedirectUri()).toBe('');
+      expect(shareQrCodeFetchResult.getRedirectUri()).toBe('https://test.com');
     });
   });
 });

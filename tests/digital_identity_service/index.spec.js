@@ -387,14 +387,14 @@ describe('DigitalIdentityService', () => {
     describe('when a valid response is returned', () => {
       beforeEach(() => {
         const content = {
-          id: '',
+          id: 'qr-code-id',
           expiry: '2023-02-16T11:30:20.432Z',
           session: {
-            id: '',
-            status: '',
+            id: 'session-id',
+            status: 'CREATED',
             expiry: '2023-02-16T11:30:20.432Z',
           },
-          redirectUri: '',
+          redirectUri: 'https://test.com',
         };
         setupResponse(content);
       });
@@ -402,12 +402,10 @@ describe('DigitalIdentityService', () => {
       it('should get the correct response', (done) => {
         digitalIdentityService.fetchShareQrCode(qrCodeId)
           .then((result) => {
-            expect(result.getId()).toBe('');
+            expect(result.getId()).toBe('qr-code-id');
             expect(result.getExpiry()).toStrictEqual(new Date('2023-02-16T11:30:20.432Z'));
-            expect(result.getSession().getId()).toBe('');
-            expect(result.getSession().getStatus()).toBe('');
-            expect(result.getSession().getExpiry()).toStrictEqual(new Date('2023-02-16T11:30:20.432Z'));
-            expect(result.getRedirectUri()).toBe('');
+            expect(result.getSessionId()).toBe('session-id');
+            expect(result.getRedirectUri()).toBe('https://test.com');
             done();
           })
           .catch(done);

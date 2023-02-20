@@ -166,14 +166,14 @@ describe.each([
         .get(new RegExp(`${apiUrlPath}/v2/qr-codes/${qrCodeId}`))
         .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
         .reply(200, {
-          id: '',
+          id: 'qr-code-id',
           expiry: '2023-02-16T11:30:20.432Z',
           session: {
-            id: '',
-            status: '',
+            id: 'session-id',
+            status: 'CREATED',
             expiry: '2023-02-16T11:30:20.432Z',
           },
-          redirectUri: '',
+          redirectUri: 'https://test.com',
         });
       done();
     });
