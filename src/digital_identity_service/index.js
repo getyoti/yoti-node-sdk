@@ -6,6 +6,7 @@ const Validation = require('../yoti_common/validation');
 const { RequestBuilder } = require('../request/request.builder');
 const { Payload } = require('../request/payload');
 const ShareSessionCreateResult = require('./share.session.create.result');
+const ShareSessionFetchResult = require('./share.session.fetch.result');
 const ShareQrCodeCreateResult = require('./share.qr.code.create.result');
 
 const WantedAnchorBuilder = require('./policy/wanted.anchor.builder');
@@ -75,6 +76,45 @@ class DigitalIdentityService {
       const parsedResponse = response.getParsedResponse();
 
       return new ShareSessionCreateResult(parsedResponse);
+    } catch (err) {
+      console.log(`Error getting response data: ${err}`);
+
+      throw err;
+    }
+  }
+
+  /**
+   *
+   * @param sessionId
+   * @returns {Promise<ShareSessionFetchResult>}
+   */
+  async fetchShareSession(sessionId) {
+    Validation.isString(sessionId, 'sessionId');
+
+    const requestBuilder = new RequestBuilder()
+      .withBaseUrl(this.apiUrl)
+      .withHeader('X-Yoti-Auth-Id', this.sdkId)
+      .withPemString(this.pem)
+      .withEndpoint(`/v2/sessions/${sessionId}`)
+      .withQueryParam('appId', this.sdkId)
+      .withMethod('GET');
+
+    const request = requestBuilder.build();
+
+    let response;
+
+    try {
+      response = await request.execute();
+    } catch (error) {
+      console.log(`Error retrieving requested data: ${error}`);
+
+      throw new DigitalIdentityServiceError(error);
+    }
+
+    try {
+      const parsedResponse = response.getParsedResponse();
+
+      return new ShareSessionFetchResult(parsedResponse);
     } catch (err) {
       console.log(`Error getting response data: ${err}`);
 

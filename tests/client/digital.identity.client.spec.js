@@ -5,6 +5,7 @@ const { v4: uuid } = require('uuid');
 const config = require('../../config');
 const yoti = require('../../index');
 const ShareSessionCreateResult = require('../../src/digital_identity_service/share.session.create.result');
+const ShareSessionFetchResult = require('../../src/digital_identity_service/share.session.fetch.result');
 const ShareQrCodeCreateResult = require('../../src/digital_identity_service/share.qr.code.create.result');
 
 const GENERIC_API_PATH = '/share';
@@ -83,6 +84,43 @@ describe.each([
       yotiClient.createShareSession(shareSessionConfig)
         .then((result) => {
           expect(result).toBeInstanceOf(ShareSessionCreateResult);
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe('#fetchShareSession', () => {
+    const SESSION_ID = '123';
+    const mockedResponse = {
+      id: SESSION_ID,
+      status: '',
+      created: '2023-02-01',
+      updated: '2023-02-01',
+      expiry: '2023-02-03',
+      qrCode: {
+        id: '',
+      },
+      receipt: {
+        id: '',
+      },
+    };
+    beforeEach((done) => {
+      nock(apiUrlDomain)
+        .get(new RegExp(`${apiUrlPath}/v2/sessions/${SESSION_ID}`))
+        .reply(200, mockedResponse);
+      done();
+    });
+
+    afterEach((done) => {
+      nock.cleanAll();
+      done();
+    });
+
+    it('it should get a ShareSessionFetchResult', (done) => {
+      yotiClient.fetchShareSession(SESSION_ID)
+        .then((result) => {
+          expect(result).toBeInstanceOf(ShareSessionFetchResult);
           done();
         })
         .catch(done);

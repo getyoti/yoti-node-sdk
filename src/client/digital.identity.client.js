@@ -30,6 +30,15 @@ class DigitalIdentityClient {
   /**
    *
    * @param sessionId
+   * @returns {Promise<ShareSessionFetchResult>}
+   */
+  async fetchShareSession(sessionId) {
+    return this.digitalIdentityService.fetchShareSession(sessionId);
+  }
+
+  /**
+   *
+   * @param sessionId
    * @returns {Promise<ShareQrCodeCreateResult>}
    */
   async createShareQrCode(sessionId) {
