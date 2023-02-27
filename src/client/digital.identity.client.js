@@ -23,8 +23,8 @@ class DigitalIdentityClient {
    * @param {string} receiptId
    * @returns {Promise<Receipt>}
    */
-  async getReceipt(receiptId) {
-    return this.digitalIdentityService.getReceipt(receiptId);
+  async fetchReceipt(receiptId) {
+    return this.digitalIdentityService.fetchAndDecryptReceipt(receiptId);
   }
 
   /**

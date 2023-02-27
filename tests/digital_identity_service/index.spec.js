@@ -8,6 +8,7 @@ const {
 const {
   DigitalIdentityBuilders: { ShareSessionConfigurationBuilder, PolicyBuilder },
 } = require('../..');
+const DigitalIdentityServiceError = require('../../src/digital_identity_service/digital.identity.service.error');
 
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 
@@ -24,7 +25,7 @@ describe('DigitalIdentityService', () => {
     digitalIdentityService = new DigitalIdentityService(APP_ID, privateKeyFile, { apiUrl });
   });
 
-  describe('#fetchReceiptById', () => {
+  describe('#fetchEncryptedReceipt', () => {
     describe('when a valid response is returned', () => {
       it('should get the correct response', async () => {
         const receiptId = 'test_receipt_id';
@@ -42,7 +43,7 @@ describe('DigitalIdentityService', () => {
           { apiUrl: config.yoti.digitalIdentityApi }
         );
 
-        const receipt = await client.fetchReceiptById(receiptId);
+        const receipt = await client.fetchEncryptedReceipt(receiptId);
 
         expect(receipt.getId()).toEqual('test_receipt_id');
         expect(receipt.getSessionId()).toEqual('test_receipt_session_id');
@@ -91,8 +92,9 @@ describe('DigitalIdentityService', () => {
           );
 
           try {
-            await client.fetchReceiptById(receiptId);
+            await client.fetchEncryptedReceipt(receiptId);
           } catch (err) {
+            expect(err).toBeInstanceOf(DigitalIdentityServiceError);
             expect(err.message).toBe(invalidResponse.error);
           }
         });
@@ -169,6 +171,7 @@ describe('DigitalIdentityService', () => {
           try {
             await client.fetchReceiptItemKey(receiptItemKeyId);
           } catch (err) {
+            expect(err).toBeInstanceOf(DigitalIdentityServiceError);
             expect(err.message).toBe(invalidResponse.error);
           }
         });

@@ -79,7 +79,7 @@ router.get('/fetchSession/:sessionId', (req, res) => {
 router.post('/fetchReceipt', (req, res) => {
   const { receiptId } = req.body;
 
-  digitalIdentityClient.getReceipt(receiptId).then((receipt) => {
+  digitalIdentityClient.fetchReceipt(receiptId).then((receipt) => {
     res.end(jsonToFormattedString(receipt));
   });
 });

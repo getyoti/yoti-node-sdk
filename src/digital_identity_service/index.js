@@ -216,7 +216,7 @@ class DigitalIdentityService {
   /**
    * @param {string} receiptId
    */
-  async fetchReceiptById(receiptId) {
+  async fetchEncryptedReceipt(receiptId) {
     const receiptIdUrl = Buffer.from(receiptId, 'base64').toString('base64url');
 
     const request = new RequestBuilder()
@@ -233,9 +233,8 @@ class DigitalIdentityService {
       const parsedResponse = response.getParsedResponse();
 
       return new ReceiptResponse(parsedResponse);
-    } catch (e) {
-      console.log(`fetching receipt error ${e}`);
-      throw e;
+    } catch (error) {
+      throw new DigitalIdentityServiceError(error);
     }
   }
 
@@ -257,17 +256,16 @@ class DigitalIdentityService {
       const parsedResponse = response.getParsedResponse();
 
       return new ReceiptItemKeyResponse(parsedResponse);
-    } catch (e) {
-      console.log('fetching receipt item key error', e.message);
-      throw e;
+    } catch (error) {
+      throw new DigitalIdentityServiceError(error);
     }
   }
 
   /**
    * @param {string} receiptId
    */
-  async getReceipt(receiptId) {
-    const receipt = await this.fetchReceiptById(receiptId);
+  async fetchAndDecryptReceipt(receiptId) {
+    const receipt = await this.fetchEncryptedReceipt(receiptId);
 
     const itemKeyId = receipt.getWrappedItemKeyId();
     if (!itemKeyId) return new Receipt(receipt);
