@@ -243,7 +243,7 @@ module.exports.decryptAsymmetric = (cipherText, pem) => {
  *
  * @returns {{ cipherText: Buffer, tag: Buffer }}
  */
-module.exports.decomposeAESGCMSecret = (secret, tagSize = 16) => {
+module.exports.decomposeAESGCMCipherText = (secret, tagSize = 16) => {
   const cipherText = secret.subarray(0, secret.length - tagSize);
   const tag = secret.subarray(secret.length - tagSize);
 

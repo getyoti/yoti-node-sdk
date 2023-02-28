@@ -7,7 +7,7 @@ const { AttributeList } = require('../proto/types');
 const { AttributeListConverter } = require('../yoti_common/converters/attribute.list.converter');
 const { ExtraDataConverter } = require('../yoti_common/converters/extra.data.converter');
 const {
-  decryptAESGCM, decryptAESCBC, decryptAsymmetric, decomposeAESGCMSecret,
+  decryptAESGCM, decryptAESCBC, decryptAsymmetric, decomposeAESGCMCipherText,
 } = require('../yoti_common');
 
 const { RequestBuilder } = require('../request/request.builder');
@@ -289,7 +289,7 @@ class DigitalIdentityService {
     const {
       cipherText: wrappedKeyCipherText,
       tag: wrappedKeyTag,
-    } = decomposeAESGCMSecret(wrappedKey);
+    } = decomposeAESGCMCipherText(wrappedKey);
 
     const unwrappedWrappedKey = decryptAESGCM(
       wrappedKeyCipherText,
