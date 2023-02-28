@@ -167,20 +167,23 @@ module.exports.parseExtraData = (receipt, pem) => {
 };
 
 /**
- * @param {string} cipherText
- * @param {string} tag
- * @param {string} iv
- * @param {string} secret
+ * @param {Buffer} cipherText
+ * @param {Buffer} tag
+ * @param {Buffer} iv
+ * @param {Buffer} secret
  *
  * @returns {Buffer}
  */
 module.exports.decryptAESGCM = (cipherText, tag, iv, secret) => {
-  const decipher = forge.cipher.createDecipher('AES-GCM', secret);
+  const decipher = forge.cipher.createDecipher('AES-GCM', secret.toString('binary'));
 
   const data = forge.util.createBuffer();
-  data.putBytes(cipherText);
+  data.putBytes(cipherText.toString('binary'));
 
-  decipher.start({ iv, tag });
+  decipher.start({
+    iv: iv.toString('binary'),
+    tag: tag.toString('binary'),
+  });
   decipher.update(data);
   const pass = decipher.finish();
 
@@ -192,23 +195,23 @@ module.exports.decryptAESGCM = (cipherText, tag, iv, secret) => {
 };
 
 /**
- * @param {string} cipherText
- * @param {string} iv
- * @param {string} secret
+ * @param {Buffer} cipherText
+ * @param {Buffer} iv
+ * @param {Buffer} secret
  *
  * @returns {Buffer}
  */
 module.exports.decryptAESCBC = (cipherText, iv, secret) => {
   const data = forge.util
     .createBuffer()
-    .putBytes(cipherText);
+    .putBytes(cipherText.toString('binary'));
 
   const decipher = forge.cipher.createDecipher(
     'AES-CBC',
-    secret
+    secret.toString('binary')
   );
 
-  decipher.start({ iv });
+  decipher.start({ iv: iv.toString('binary') });
   decipher.update(data);
   decipher.finish();
 
@@ -232,4 +235,20 @@ module.exports.decryptAsymmetric = (cipherText, pem) => {
     privateKey.decrypt(cipherTextBinary).toString('binary'),
     'binary'
   );
+};
+
+/**
+ * @param {Buffer} secret
+ * @param {number} [tagSize]
+ *
+ * @returns {{ cipherText: Buffer, tag: Buffer }}
+ */
+module.exports.decomposeAESGCMKey = (secret, tagSize = 16) => {
+  const cipherText = secret.subarray(0, secret.length - tagSize);
+  const tag = secret.subarray(secret.length - tagSize);
+
+  return {
+    cipherText,
+    tag,
+  };
 };

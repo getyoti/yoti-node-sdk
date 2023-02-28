@@ -6,7 +6,9 @@ const { messages } = require('../proto');
 const { AttributeList } = require('../proto/types');
 const { AttributeListConverter } = require('../yoti_common/converters/attribute.list.converter');
 const { ExtraDataConverter } = require('../yoti_common/converters/extra.data.converter');
-const { decryptAESGCM, decryptAESCBC, decryptAsymmetric } = require('../yoti_common');
+const {
+  decryptAESGCM, decryptAESCBC, decryptAsymmetric, decomposeAESGCMKey,
+} = require('../yoti_common');
 
 const { RequestBuilder } = require('../request/request.builder');
 const { Payload } = require('../request/payload');
@@ -284,14 +286,16 @@ class DigitalIdentityService {
     const decryptedItemKey = decryptAsymmetric(encryptedItemKeyValue, this.pem);
 
     const wrappedKey = Buffer.from(receipt.getWrappedKey(), 'base64');
-    const wrappedKeyCipherText = wrappedKey.subarray(0, wrappedKey.length - 16);
-    const wrappedKeyTag = wrappedKey.subarray(wrappedKey.length - 16);
+    const {
+      cipherText: wrappedKeyCipherText,
+      tag: wrappedKeyTag,
+    } = decomposeAESGCMKey(wrappedKey);
 
     const unwrappedWrappedKey = decryptAESGCM(
-      wrappedKeyCipherText.toString('binary'),
-      wrappedKeyTag.toString('binary'),
-      itemKeyIv.toString('binary'),
-      decryptedItemKey.toString('binary')
+      wrappedKeyCipherText,
+      wrappedKeyTag,
+      itemKeyIv,
+      decryptedItemKey
     );
 
     const {
@@ -307,9 +311,9 @@ class DigitalIdentityService {
       );
 
       return decryptAESCBC(
-        Buffer.from(cipherText, 'base64').toString('binary'),
-        Buffer.from(iv, 'base64').toString('binary'),
-        unwrappedWrappedKey.toString('binary')
+        Buffer.from(cipherText, 'base64'),
+        Buffer.from(iv, 'base64'),
+        unwrappedWrappedKey
       );
     };
 
