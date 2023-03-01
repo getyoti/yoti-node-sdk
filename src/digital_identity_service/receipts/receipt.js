@@ -19,7 +19,12 @@ class Receipt {
    *   Decrypted and converted extra data.
    */
   constructor(receipt, userProfile = { attributes: [] }, extraData = undefined) {
-    this.receipt = receipt;
+    this.sessionId = receipt.sessionId;
+    this.rememberMeId = receipt.rememberMeId;
+    this.parentRememberMeId = receipt.parentRememberMeId;
+    this.timestamp = receipt.timestamp;
+    this.error = receipt.error;
+    this.id = receipt.id;
 
     const { attributes: userProfileAttributes } = userProfile;
     this.userProfile = new Profile(userProfileAttributes);
@@ -36,7 +41,7 @@ class Receipt {
    * @returns {string}
    */
   getSessionId() {
-    return this.receipt.sessionId;
+    return this.sessionId;
   }
 
   /**
@@ -49,7 +54,7 @@ class Receipt {
    * @returns {string}
    */
   getRememberMeId() {
-    return this.receipt.rememberMeId;
+    return this.rememberMeId;
   }
 
   /**
@@ -62,7 +67,7 @@ class Receipt {
    * @returns {string}
    */
   getParentRememberMeId() {
-    return this.receipt.parentRememberMeId;
+    return this.parentRememberMeId;
   }
 
   /**
@@ -81,7 +86,7 @@ class Receipt {
    * @returns {string}
    */
   getReceiptId() {
-    return this.receipt.id;
+    return this.id;
   }
 
   /**
@@ -90,7 +95,7 @@ class Receipt {
    * @returns {Date}
    */
   getTimestamp() {
-    return new Date(this.receipt.timestamp);
+    return new Date(this.timestamp);
   }
 
   /**
@@ -108,7 +113,7 @@ class Receipt {
    * @returns {string}
    */
   getError() {
-    return this.receipt.error;
+    return this.error;
   }
 }
 
