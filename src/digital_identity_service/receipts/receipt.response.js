@@ -10,10 +10,8 @@ class ReceiptResponse {
     Validation.isString(response.sessionId, 'Session ID');
     this.sessionId = response.sessionId;
 
-    Validation.isString(response.timestamp, 'timestamp');
-    const timestamp = new Date(response.timestamp);
-    if (timestamp.toString() === 'Invalid Timestamp') throw TypeError('timestamp must be a date like string');
-    this.timestamp = timestamp;
+    Validation.isStringDate(response.timestamp, 'timestamp');
+    this.timestamp = new Date(response.timestamp);
 
     if (response.error) {
       this.error = response.error;

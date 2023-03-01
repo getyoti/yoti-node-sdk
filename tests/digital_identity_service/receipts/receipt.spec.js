@@ -4,6 +4,23 @@ const ExtraData = require('../../../src/digital_identity_service/receipts/extra.
 const AttributeIssuanceDetails = require('../../../src/data_type/attribute.issuance.details');
 
 describe('Receipt', () => {
+  describe('#getSessionId', () => {
+    describe('when sessionId is available', () => {
+      it('should return the sessionId value', () => {
+        const receipt = new Receipt({
+          sessionId: 'test_session_id',
+        });
+
+        expect(receipt.getSessionId()).toEqual('test_session_id');
+      });
+    });
+    describe('when sessionId is undefined', () => {
+      it('should return undefined', () => {
+        const receipt = new Receipt({});
+        expect(receipt.getSessionId()).toBe(undefined);
+      });
+    });
+  });
   describe('#getRememberMeId', () => {
     describe('when rememberMeId is available', () => {
       it('should return rememberMeId value', () => {

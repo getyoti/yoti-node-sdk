@@ -31,6 +31,15 @@ class Receipt {
   }
 
   /**
+   * Returns the ID of the Session that the receipt belongs to.
+   *
+   * @returns {string}
+   */
+  getSessionId() {
+    return this.receipt.sessionId;
+  }
+
+  /**
    * Return the Remember Me ID, which is a unique, stable identifier for
    * a user in the context of an application.
    *
