@@ -90,7 +90,7 @@ describe('yotiCommon', () => {
     });
   });
 
-  describe('#decryptAssymetric', () => {
+  describe('#decryptAsymmetric', () => {
     it('should decrypt the cipherText using the provided pem', () => {
       const { cipherText, plainText, pemString } = RSAPKCS1EncryptedMessage;
 
