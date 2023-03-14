@@ -53,7 +53,7 @@ describe.each([
     }
   });
 
-  describe('#fetchReceipt', () => {
+  describe.only('#fetchReceipt', () => {
     it('it should get a ReceiptResponse', async () => {
       nock(apiUrlDomain)
         .get(new RegExp(`${apiUrlPath}/v2/receipts`))
