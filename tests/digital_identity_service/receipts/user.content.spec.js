@@ -1,6 +1,6 @@
 'use strict';
 
-jest.mock('../../../src/digital_identity_service/receipts/User.profile');
+jest.mock('../../../src/digital_identity_service/receipts/user.profile');
 jest.mock('../../../src/digital_identity_service/receipts/extra.data');
 
 const UserContent = require('../../../src/digital_identity_service/receipts/user.content');
