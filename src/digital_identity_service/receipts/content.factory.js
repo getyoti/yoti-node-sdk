@@ -7,7 +7,7 @@ const ApplicationContent = require('./application.content');
 const UserContent = require('./user.content');
 const ExtraDataConverter = require('../../yoti_common/converters/extra.data.converter');
 
-function decryptedAndExtractContentData(
+function decryptAndExtractContentData(
   { profile, extraData } = {},
   receiptContentKey
 ) {
@@ -39,7 +39,7 @@ function decryptedAndExtractContentData(
  * @returns {ApplicationContent}
  */
 function buildApplicationContentFromEncryptedContent(content = {}, receiptContentKey) {
-  const { attributes, extraData } = decryptedAndExtractContentData(
+  const { attributes, extraData } = decryptAndExtractContentData(
     content,
     receiptContentKey
   );
@@ -53,7 +53,7 @@ function buildApplicationContentFromEncryptedContent(content = {}, receiptConten
  * @returns {UserContent}
  */
 function buildUserContentFromEncryptedContent(content = {}, receiptContentKey) {
-  const { attributes, extraData } = decryptedAndExtractContentData(
+  const { attributes, extraData } = decryptAndExtractContentData(
     content,
     receiptContentKey
   );

@@ -97,7 +97,7 @@ class Receipt {
    * @returns {UserProfile}
    */
   getProfile() {
-    return this.userContent.getProfile();
+    return this.userContent && this.userContent.getProfile();
   }
 
   /**
@@ -106,7 +106,7 @@ class Receipt {
    * @returns {ExtraData}
    */
   getExtraData() {
-    return this.userContent.getExtraData();
+    return this.userContent && this.userContent.getExtraData();
   }
 
   /**

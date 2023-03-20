@@ -274,7 +274,6 @@ class DigitalIdentityService {
       encryptedItemKeyResponse.getIv(),
       this.pem
     );
-
     const applicationContent = buildApplicationContentFromEncryptedContent(
       receiptResponse.getContent(),
       receiptContentKey
