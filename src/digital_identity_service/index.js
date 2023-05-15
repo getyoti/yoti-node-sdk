@@ -210,7 +210,9 @@ class DigitalIdentityService {
   }
 
   /**
+   *
    * @param {string} receiptId
+   * @returns {Promise<ReceiptResponse>}
    */
   async fetchReceipt(receiptId) {
     const receiptIdUrl = Buffer.from(receiptId, 'base64').toString('base64url');
@@ -235,7 +237,9 @@ class DigitalIdentityService {
   }
 
   /**
+   *
    * @param {string} receiptItemKeyId
+   * @returns {Promise<ReceiptItemKeyResponse>}
    */
   async fetchReceiptItemKey(receiptItemKeyId) {
     const request = new RequestBuilder()
@@ -258,7 +262,9 @@ class DigitalIdentityService {
   }
 
   /**
+   *
    * @param {string} receiptId
+   * @returns {Promise<GetShareReceiptResult>}
    */
   async getShareReceipt(receiptId) {
     const receiptResponse = await this.fetchReceipt(receiptId);
