@@ -20,6 +20,15 @@ class DigitalIdentityClient {
 
   /**
    *
+   * @param {string} receiptId
+   * @returns {Promise<Receipt>}
+   */
+  async fetchShareReceipt(receiptId) {
+    return this.digitalIdentityService.fetchShareReceipt(receiptId);
+  }
+
+  /**
+   *
    * @param shareSessionConfig
    * @returns {Promise<ShareSessionCreateResult>}
    */

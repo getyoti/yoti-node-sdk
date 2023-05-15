@@ -5,6 +5,12 @@ const Validation = require('../yoti_common/validation');
 
 const { RequestBuilder } = require('../request/request.builder');
 const { Payload } = require('../request/payload');
+
+const ReceiptResponse = require('./receipts/receipt.response');
+const ReceiptItemKeyResponse = require('./receipts/receipt.item.key.response');
+const { unwrapReceiptKey } = require('./receipts/decryption.utils');
+const Receipt = require('./receipts/receipt');
+
 const ShareSessionCreateResult = require('./share.session.create.result');
 const ShareSessionFetchResult = require('./share.session.fetch.result');
 const ShareQrCodeCreateResult = require('./share.qr.code.create.result');
@@ -25,6 +31,7 @@ const ShareSessionConfigurationBuilder = require('./share.session.configuration.
 const ShareSessionNotificationBuilder = require('./share.session.notification.builder');
 const ShareSessionConfiguration = require('./share.session.configuration');
 const DigitalIdentityServiceError = require('./digital.identity.service.error');
+const { buildApplicationContentFromEncryptedContent, buildUserContentFromEncryptedContent } = require('./receipts/content.factory');
 
 const DEFAULT_API_URL = config.yoti.digitalIdentityApi;
 
@@ -200,6 +207,84 @@ class DigitalIdentityService {
 
       throw err;
     }
+  }
+
+  /**
+   * @param {string} receiptId
+   */
+  async fetchReceipt(receiptId) {
+    const receiptIdUrl = Buffer.from(receiptId, 'base64').toString('base64url');
+
+    const request = new RequestBuilder()
+      .withBaseUrl(this.apiUrl)
+      .withHeader('X-Yoti-Auth-Id', this.sdkId)
+      .withPemString(this.pem)
+      .withEndpoint(`/v2/receipts/${receiptIdUrl}`)
+      .withQueryParam('appId', this.sdkId)
+      .withMethod('GET')
+      .build();
+
+    try {
+      const response = await request.execute();
+      const parsedResponse = response.getParsedResponse();
+
+      return new ReceiptResponse(parsedResponse);
+    } catch (error) {
+      throw new DigitalIdentityServiceError(error);
+    }
+  }
+
+  /**
+   * @param {string} receiptItemKeyId
+   */
+  async fetchReceiptItemKey(receiptItemKeyId) {
+    const request = new RequestBuilder()
+      .withBaseUrl(this.apiUrl)
+      .withHeader('X-Yoti-Auth-Id', this.sdkId)
+      .withPemString(this.pem)
+      .withEndpoint(`/v2/wrapped-item-keys/${receiptItemKeyId}`)
+      .withQueryParam('appId', this.sdkId)
+      .withMethod('GET')
+      .build();
+
+    try {
+      const response = await request.execute();
+      const parsedResponse = response.getParsedResponse();
+
+      return new ReceiptItemKeyResponse(parsedResponse);
+    } catch (error) {
+      throw new DigitalIdentityServiceError(error);
+    }
+  }
+
+  /**
+   * @param {string} receiptId
+   */
+  async fetchShareReceipt(receiptId) {
+    const receiptResponse = await this.fetchReceipt(receiptId);
+
+    const itemKeyId = receiptResponse.getWrappedItemKeyId();
+    if (!itemKeyId) return new Receipt(receiptResponse);
+
+    const encryptedItemKeyResponse = await this.fetchReceiptItemKey(itemKeyId);
+
+    const receiptContentKey = unwrapReceiptKey(
+      receiptResponse.getWrappedKey(),
+      encryptedItemKeyResponse.getValue(),
+      encryptedItemKeyResponse.getIv(),
+      this.pem
+    );
+    const applicationContent = buildApplicationContentFromEncryptedContent(
+      receiptResponse.getContent(),
+      receiptContentKey
+    );
+
+    const userContent = buildUserContentFromEncryptedContent(
+      receiptResponse.getOtherPartyContent(),
+      receiptContentKey
+    );
+
+    return new Receipt(receiptResponse, userContent, applicationContent);
   }
 }
 

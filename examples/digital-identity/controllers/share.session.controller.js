@@ -76,4 +76,12 @@ router.get('/fetchSession/:sessionId', (req, res) => {
   });
 });
 
+router.post('/fetchReceipt', (req, res) => {
+  const { receiptId } = req.body;
+
+  digitalIdentityClient.fetchShareReceipt(receiptId).then((receipt) => {
+    res.end(jsonToFormattedString(receipt));
+  });
+});
+
 module.exports = router;

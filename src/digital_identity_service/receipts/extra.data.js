@@ -1,17 +1,14 @@
 'use strict';
 
-const AttributeIssuanceDetails = require('../data_type/attribute.issuance.details');
+const AttributeIssuanceDetails = require('../../data_type/attribute.issuance.details');
 
 /**
- * @param {Object[]} dataEntries
+ *
+ * @param {[]} dataEntries
+ * @returns {AttributeIssuanceDetails}
  */
 function getAttributeIssuanceDetails(dataEntries) {
-  const filtered = dataEntries.filter((i) => i instanceof AttributeIssuanceDetails);
-  if (filtered.length > 0) {
-    return filtered[0];
-  }
-
-  return undefined;
+  return dataEntries.find((element) => element instanceof AttributeIssuanceDetails);
 }
 
 class ExtraData {

@@ -1,13 +1,19 @@
+jest.mock('../../src/digital_identity_service/receipts/decryption.utils');
+jest.mock('../../src/digital_identity_service/receipts/content.factory');
 const nock = require('nock');
 const fs = require('fs');
 const { v4: uuid } = require('uuid');
 
 const config = require('../../config');
 const yoti = require('../../index');
+const DecryptionUtils = require('../../src/digital_identity_service/receipts/decryption.utils');
+const ContentFactory = require('../../src/digital_identity_service/receipts/content.factory');
 const ShareSessionCreateResult = require('../../src/digital_identity_service/share.session.create.result');
 const ShareSessionFetchResult = require('../../src/digital_identity_service/share.session.fetch.result');
 const ShareQrCodeCreateResult = require('../../src/digital_identity_service/share.qr.code.create.result');
 const ShareQrCodeFetchResult = require('../../src/digital_identity_service/share.qr.code.fetch.result');
+const ApplicationContent = require('../../src/digital_identity_service/receipts/application.content');
+const UserContent = require('../../src/digital_identity_service/receipts/user.content');
 
 const GENERIC_API_PATH = '/share';
 const APP_ID = uuid();
@@ -53,8 +59,65 @@ describe.each([
     }
   });
 
-  it('placeholder test', () => {
-    expect(yotiClient).toBeDefined();
+  describe('#fetchShareReceipt', () => {
+    afterEach(() => {
+      ContentFactory.buildUserContentFromEncryptedContent.mockReset();
+      ContentFactory.buildApplicationContentFromEncryptedContent.mockReset();
+    });
+
+    it('it should get a Receipt', async () => {
+      const mockReceiptContent = {
+        profile: 'some-content-profile',
+        extraData: 'some-content-extra-data',
+      };
+      const mockReceiptOtherPartyContent = {
+        profile: 'some-other-party-content-profile',
+        extraData: 'some-other-party-content-extra-data',
+      };
+      nock(apiUrlDomain)
+        .get(new RegExp(`${apiUrlPath}/v2/receipts`))
+        .reply(200, {
+          id: 'test_receipt_id',
+          sessionId: 'test_receipt_session_id',
+          timestamp: '2003-11-04T12:51:07Z',
+          wrappedItemKeyId: 'some_wrapped_item_key',
+          content: mockReceiptContent,
+          otherPartyContent: mockReceiptOtherPartyContent,
+        });
+
+      nock(apiUrlDomain)
+        .get(new RegExp(`${apiUrlPath}/v2/wrapped-item-keys/some_wrapped_item_key`))
+        .reply(200, {
+          id: 'some_wrapped_item_key',
+          iv: 'some_iv',
+          value: 'some_key',
+        });
+
+      const mockReceiptKey = 'some-receipt-key';
+      DecryptionUtils.unwrapReceiptKey.mockReturnValue(mockReceiptKey);
+
+      const userContent = new UserContent();
+      const applicationContent = new ApplicationContent();
+      ContentFactory.buildUserContentFromEncryptedContent
+        .mockReturnValue(userContent);
+      ContentFactory.buildApplicationContentFromEncryptedContent
+        .mockReturnValue(applicationContent);
+
+      const receipt = await yotiClient.fetchShareReceipt('test_receipt_id');
+
+      expect(ContentFactory.buildUserContentFromEncryptedContent).toHaveBeenCalledTimes(1);
+      expect(ContentFactory.buildUserContentFromEncryptedContent)
+        .toHaveBeenCalledWith(mockReceiptOtherPartyContent, mockReceiptKey);
+
+      expect(ContentFactory.buildApplicationContentFromEncryptedContent).toHaveBeenCalledTimes(1);
+      expect(ContentFactory.buildApplicationContentFromEncryptedContent)
+        .toHaveBeenCalledWith(mockReceiptContent, mockReceiptKey);
+
+      expect(receipt.getReceiptId()).toEqual('test_receipt_id');
+      expect(receipt.getSessionId()).toEqual('test_receipt_session_id');
+      expect(receipt.getUserContent()).toEqual(userContent);
+      expect(receipt.getApplicationContent()).toEqual(applicationContent);
+    });
   });
 
   describe('#createShareSession', () => {
