@@ -3,20 +3,17 @@
 const AttributeIssuanceDetails = require('../../data_type/attribute.issuance.details');
 
 /**
- * @param {Object[]} parsedDataEntries
+ *
+ * @param {[]} dataEntries
+ * @returns {AttributeIssuanceDetails}
  */
-function getAttributeIssuanceDetails(parsedDataEntries) {
-  const filtered = parsedDataEntries.filter((i) => i instanceof AttributeIssuanceDetails);
-  if (filtered.length > 0) {
-    return filtered[0];
-  }
-
-  return undefined;
+function getAttributeIssuanceDetails(dataEntries) {
+  return dataEntries.find((element) => element instanceof AttributeIssuanceDetails);
 }
 
 class ExtraData {
   /**
-   * @param {Object[]} attributeIssuanceDetails
+   * @param {Object[]} dataEntries
    */
   constructor(dataEntries = []) {
     this.attributeIssuanceDetails = getAttributeIssuanceDetails(dataEntries);

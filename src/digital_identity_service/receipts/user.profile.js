@@ -11,7 +11,7 @@ const Validation = require('../../yoti_common/validation');
  *
  * @class Profile
  */
-class Profile extends BaseProfile {
+class UserProfile extends BaseProfile {
   constructor(attributes = []) {
     super(attributes);
 
@@ -213,4 +213,4 @@ class Profile extends BaseProfile {
   }
 }
 
-module.exports = Profile;
+module.exports = UserProfile;

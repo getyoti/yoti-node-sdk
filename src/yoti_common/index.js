@@ -4,7 +4,6 @@ const crypto = require('crypto');
 const forge = require('node-forge');
 
 const { messages } = require('../proto');
-const ExtraData = require('../profile_service/extra.data');
 const { AttributeListConverter } = require('./converters/attribute.list.converter');
 const ExtraDataConverter = require('./converters/extra.data.converter');
 
@@ -147,7 +146,7 @@ module.exports.decryptApplicationProfile = (receipt, pem) => decryptProfileConte
  * @param {Object} receipt
  * @param {string} pem
  *
- * @returns {ExtraData}
+ * @returns {[]}
  */
 module.exports.parseExtraData = (receipt, pem) => {
   const extraDataNotEmpty = receipt.extra_data_content
@@ -162,8 +161,7 @@ module.exports.parseExtraData = (receipt, pem) => {
 
     return ExtraDataConverter.convertExtraData(decryptedExtraData);
   }
-
-  return new ExtraData(undefined);
+  return [];
 };
 
 /**

@@ -1,7 +1,8 @@
 const Receipt = require('../../../src/digital_identity_service/receipts/receipt');
-const Profile = require('../../../src/digital_identity_service/receipts/profile');
 const ExtraData = require('../../../src/digital_identity_service/receipts/extra.data');
 const AttributeIssuanceDetails = require('../../../src/data_type/attribute.issuance.details');
+const UserContent = require('../../../src/digital_identity_service/receipts/user.content');
+const UserProfile = require('../../../src/digital_identity_service/receipts/user.profile');
 
 describe('Receipt', () => {
   describe('#getSessionId', () => {
@@ -73,17 +74,26 @@ describe('Receipt', () => {
   });
   describe('#getProfile', () => {
     it('should return Profile object', () => {
-      const activityDetails = new Receipt({}, {
-        attributes: [
-          {
-            name: 'attr_name',
-            value: 'attr_value',
-          },
-        ],
-      });
+      const activityDetails = new Receipt({}, new UserContent([
+        {
+          name: 'attr_name',
+          value: 'attr_value',
+        },
+      ]));
       const profile = activityDetails.getProfile();
-      expect(profile).toBeInstanceOf(Profile);
+      expect(profile).toBeInstanceOf(UserProfile);
       expect(profile.getAttribute('attr_name').getValue()).toBe('attr_value');
+    });
+  });
+  describe('#getExtraData', () => {
+    it('should return extraData', () => {
+      const extraData = [
+        new AttributeIssuanceDetails('some_token', new Date()),
+      ];
+
+      const activityDetails = new Receipt({}, new UserContent([], extraData));
+      expect(activityDetails.getExtraData()).toBeInstanceOf(ExtraData);
+      expect(activityDetails.getExtraData().getAttributeIssuanceDetails()).toEqual(extraData[0]);
     });
   });
   describe('#getError', () => {
@@ -113,16 +123,6 @@ describe('Receipt', () => {
         id: receiptId,
       });
       expect(activityDetails.getReceiptId()).toBe(receiptId);
-    });
-  });
-  describe('#getExtraData', () => {
-    it('should return extraData', () => {
-      const extraData = new ExtraData([
-        new AttributeIssuanceDetails('some_token', new Date()),
-      ]);
-
-      const activityDetails = new Receipt({}, {}, extraData);
-      expect(activityDetails.getExtraData()).toBe(extraData);
     });
   });
 });

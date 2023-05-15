@@ -2,21 +2,14 @@
 
 const config = require('../../config');
 const Validation = require('../yoti_common/validation');
-const { messages } = require('../proto');
-const { AttributeList } = require('../proto/types');
-const { AttributeListConverter } = require('../yoti_common/converters/attribute.list.converter');
-const { ExtraDataConverter } = require('../yoti_common/converters/extra.data.converter');
-const {
-  decryptAESGCM, decryptAESCBC, decryptAsymmetric, decomposeAESGCMCipherText,
-} = require('../yoti_common');
 
 const { RequestBuilder } = require('../request/request.builder');
 const { Payload } = require('../request/payload');
 
 const ReceiptResponse = require('./receipts/receipt.response');
 const ReceiptItemKeyResponse = require('./receipts/receipt.item.key.response');
+const { unwrapReceiptKey } = require('./receipts/decryption.utils');
 const Receipt = require('./receipts/receipt');
-const ExtraData = require('./receipts/extra.data');
 
 const ShareSessionCreateResult = require('./share.session.create.result');
 const ShareSessionFetchResult = require('./share.session.fetch.result');
@@ -38,6 +31,7 @@ const ShareSessionConfigurationBuilder = require('./share.session.configuration.
 const ShareSessionNotificationBuilder = require('./share.session.notification.builder');
 const ShareSessionConfiguration = require('./share.session.configuration');
 const DigitalIdentityServiceError = require('./digital.identity.service.error');
+const { buildApplicationContentFromEncryptedContent, buildUserContentFromEncryptedContent } = require('./receipts/content.factory');
 
 const DEFAULT_API_URL = config.yoti.digitalIdentityApi;
 
@@ -218,7 +212,7 @@ class DigitalIdentityService {
   /**
    * @param {string} receiptId
    */
-  async fetchEncryptedReceipt(receiptId) {
+  async fetchReceipt(receiptId) {
     const receiptIdUrl = Buffer.from(receiptId, 'base64').toString('base64url');
 
     const request = new RequestBuilder()
@@ -266,81 +260,31 @@ class DigitalIdentityService {
   /**
    * @param {string} receiptId
    */
-  async fetchAndDecryptReceipt(receiptId) {
-    const receipt = await this.fetchEncryptedReceipt(receiptId);
+  async fetchShareReceipt(receiptId) {
+    const receiptResponse = await this.fetchReceipt(receiptId);
 
-    const itemKeyId = receipt.getWrappedItemKeyId();
-    if (!itemKeyId) return new Receipt(receipt);
+    const itemKeyId = receiptResponse.getWrappedItemKeyId();
+    if (!itemKeyId) return new Receipt(receiptResponse);
 
-    const encryptedItemKey = await this.fetchReceiptItemKey(itemKeyId);
+    const encryptedItemKeyResponse = await this.fetchReceiptItemKey(itemKeyId);
 
-    const itemKeyIv = Buffer.from(
-      encryptedItemKey.getIv(),
-      'base64'
+    const receiptContentKey = unwrapReceiptKey(
+      receiptResponse.getWrappedKey(),
+      encryptedItemKeyResponse.getValue(),
+      encryptedItemKeyResponse.getIv(),
+      this.pem
     );
-    const encryptedItemKeyValue = Buffer.from(
-      encryptedItemKey.getValue(),
-      'base64'
-    );
-
-    const decryptedItemKey = decryptAsymmetric(encryptedItemKeyValue, this.pem);
-
-    const wrappedKey = Buffer.from(receipt.getWrappedKey(), 'base64');
-    const {
-      cipherText: wrappedKeyCipherText,
-      tag: wrappedKeyTag,
-    } = decomposeAESGCMCipherText(wrappedKey);
-
-    const unwrappedWrappedKey = decryptAESGCM(
-      wrappedKeyCipherText,
-      wrappedKeyTag,
-      itemKeyIv,
-      decryptedItemKey
+    const applicationContent = buildApplicationContentFromEncryptedContent(
+      receiptResponse.getContent(),
+      receiptContentKey
     );
 
-    const {
-      profile: encryptedProfile,
-      extraData: encryptedExtraData,
-    } = receipt.getOtherPartyContent() || {};
+    const userContent = buildUserContentFromEncryptedContent(
+      receiptResponse.getOtherPartyContent(),
+      receiptContentKey
+    );
 
-    const decryptContent = (content) => {
-      if (!content) return undefined;
-
-      const { iv, cipherText } = messages.decodeEncryptedData(
-        Buffer.from(content, 'base64')
-      );
-
-      return decryptAESCBC(
-        Buffer.from(cipherText, 'base64'),
-        Buffer.from(iv, 'base64'),
-        unwrappedWrappedKey
-      );
-    };
-
-    const decryptedProfile = decryptContent(encryptedProfile);
-    const decryptedExtraData = decryptContent(encryptedExtraData);
-
-    let convertedProfileAttributes;
-    let convertedExtraData;
-
-    if (decryptedProfile) {
-      const { attributes: decodedProfileAttributes } = AttributeList.decode(decryptedProfile);
-      convertedProfileAttributes = {
-        attributes: AttributeListConverter.convertAttributeList(
-          decodedProfileAttributes
-        ),
-      };
-    } else {
-      convertedProfileAttributes = { attributes: [] };
-    }
-
-    if (decryptedExtraData) {
-      convertedExtraData = ExtraDataConverter.convertExtraData(decryptedExtraData);
-    } else {
-      convertedExtraData = new ExtraData(undefined);
-    }
-
-    return new Receipt(receipt, convertedProfileAttributes, convertedExtraData);
+    return new Receipt(receiptResponse, userContent, applicationContent);
   }
 }
 

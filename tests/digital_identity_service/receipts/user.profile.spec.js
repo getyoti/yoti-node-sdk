@@ -10,7 +10,7 @@ const {
   ATTR_DOCUMENT_IMAGES,
   ATTR_IDENTITY_PROFILE_REPORT,
 } = require('../../../src/yoti_common/constants');
-const Profile = require('../../../src/digital_identity_service/receipts/profile');
+const UserProfile = require('../../../src/digital_identity_service/receipts/user.profile');
 const { Attribute } = require('../../../src/data_type/attribute');
 const { YotiAnchor } = require('../../../src/data_type/anchor');
 const { AgeVerification } = require('../../../src/data_type/age.verification');
@@ -59,7 +59,7 @@ const profileContentRepeatedAttributes = [...profileContentSingle, ...profileCon
 
 const anyPostalAddressAttributesName = [ATTR_POSTAL_ADDRESS, ATTR_STRUCTURED_POSTAL_ADDRESS];
 
-describe('Profile', () => {
+describe('UserProfile', () => {
   [
     {
       description: 'When profile data is has one attribute for one name',
@@ -83,9 +83,9 @@ describe('Profile', () => {
       let profileWithoutAnyPostalAddress;
 
       beforeEach(() => {
-        profile = new Profile(profileContent);
-        profileWithoutPostalAddress = new Profile(profileContentWithoutPostalAddress);
-        profileWithoutAnyPostalAddress = new Profile(profileContentWithoutAnyPostalAddress);
+        profile = new UserProfile(profileContent);
+        profileWithoutPostalAddress = new UserProfile(profileContentWithoutPostalAddress);
+        profileWithoutAnyPostalAddress = new UserProfile(profileContentWithoutAnyPostalAddress);
       });
 
       describe('#getFullName', () => {
@@ -266,7 +266,7 @@ describe('Profile', () => {
         });
 
         it('should return an empty array when there are no age verifications', () => {
-          const emptyProfile = new Profile();
+          const emptyProfile = new UserProfile();
           const ageVerifications = emptyProfile.getAgeVerifications();
           expect(ageVerifications).toBeInstanceOf(Array);
           expect(ageVerifications).toHaveLength(0);

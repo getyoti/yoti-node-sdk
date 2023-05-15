@@ -1,7 +1,7 @@
 'use strict';
 
-const Profile = require('./profile');
-const ExtraData = require('./extra.data');
+const UserContent = require('./user.content');
+const ApplicationContent = require('./application.content');
 const Validation = require('../../yoti_common/validation');
 
 /**
@@ -11,28 +11,30 @@ const Validation = require('../../yoti_common/validation');
  */
 class Receipt {
   /**
-   * @param {object} receipt
-   *   Parsed receipt.
-   * @param {{attributes: Object[]}} userProfile
-   *   Decrypted user profile data.
-   * @param {ExtraData} extraData
-   *   Decrypted and converted extra data.
+   * @param {ReceiptResponse} receiptResponse
+   *   Parsed ReceiptResponse.
+   * @param {UserContent} userContent
+   *   The user content, including profile and extra data
+   * @param {ApplicationContent} applicationContent
+   *  The application content, including profile and extra data
    */
-  constructor(receipt, userProfile = { attributes: [] }, extraData = undefined) {
-    this.sessionId = receipt.sessionId;
-    this.rememberMeId = receipt.rememberMeId;
-    this.parentRememberMeId = receipt.parentRememberMeId;
-    this.timestamp = receipt.timestamp;
-    this.error = receipt.error;
-    this.id = receipt.id;
+  constructor(
+    receiptResponse,
+    userContent = new UserContent(),
+    applicationContent = new ApplicationContent()
+  ) {
+    this.sessionId = receiptResponse.sessionId;
+    this.rememberMeId = receiptResponse.rememberMeId;
+    this.parentRememberMeId = receiptResponse.parentRememberMeId;
+    this.timestamp = receiptResponse.timestamp;
+    this.error = receiptResponse.error;
+    this.id = receiptResponse.id;
 
-    const { attributes: userProfileAttributes } = userProfile;
-    this.userProfile = new Profile(userProfileAttributes);
+    if (userContent) Validation.instanceOf(userContent, UserContent, 'userContent');
+    if (applicationContent) Validation.instanceOf(applicationContent, ApplicationContent, 'applicationContent');
 
-    if (extraData) {
-      Validation.instanceOf(extraData, ExtraData, 'extraData');
-      this.extraData = extraData;
-    }
+    this.userContent = userContent;
+    this.applicationContent = applicationContent;
   }
 
   /**
@@ -71,16 +73,6 @@ class Receipt {
   }
 
   /**
-   * The user profile with shared attributes and anchor information, returned
-   * by Yoti if the request was successful.
-   *
-   * @returns {Profile}
-   */
-  getProfile() {
-    return this.userProfile;
-  }
-
-  /**
    * Receipt ID identifying a completed activity.
    *
    * @returns {string}
@@ -99,12 +91,40 @@ class Receipt {
   }
 
   /**
-   * Extra data associated with the receipt
+   * The user profile with shared attributes and anchor information, returned
+   * by Yoti if the request was successful.
+   *
+   * @returns {UserProfile}
+   */
+  getProfile() {
+    return this.userContent && this.userContent.getProfile();
+  }
+
+  /**
+   * Extra data associated with the user content
    *
    * @returns {ExtraData}
    */
   getExtraData() {
-    return this.extraData;
+    return this.userContent && this.userContent.getExtraData();
+  }
+
+  /**
+   * The user content (profile + extraData)
+   *
+   * @returns {UserContent}
+   */
+  getUserContent() {
+    return this.userContent;
+  }
+
+  /**
+   * The application content (profile + extraData)
+   *
+   * @returns {ApplicationContent}
+   */
+  getApplicationContent() {
+    return this.applicationContent;
   }
 
   /**
