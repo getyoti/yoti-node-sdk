@@ -6,7 +6,7 @@ const { v4: uuid } = require('uuid');
 
 const config = require('../../config');
 const yoti = require('../../index');
-const DecryptionUutils = require('../../src/digital_identity_service/receipts/decryption.utils');
+const DecryptionUtils = require('../../src/digital_identity_service/receipts/decryption.utils');
 const ContentFactory = require('../../src/digital_identity_service/receipts/content.factory');
 const ShareSessionCreateResult = require('../../src/digital_identity_service/share.session.create.result');
 const ShareSessionFetchResult = require('../../src/digital_identity_service/share.session.fetch.result');
@@ -33,14 +33,14 @@ describe.each([
       useDefaultApiUrl: true,
     },
   ],
-  // [
-  //   'custom options.apiUrl',
-  //   {
-  //     apiUrlDomain: 'https://some.api.com',
-  //     apiUrlPath: GENERIC_API_PATH,
-  //     useDefaultApiUrl: false,
-  //   },
-  // ],
+  [
+    'custom options.apiUrl',
+    {
+      apiUrlDomain: 'https://some.api.com',
+      apiUrlPath: GENERIC_API_PATH,
+      useDefaultApiUrl: false,
+    },
+  ],
 ])('YotiClient (%s)', (description, { apiUrlDomain, apiUrlPath, useDefaultApiUrl }) => {
   let yotiClient;
 
@@ -59,8 +59,13 @@ describe.each([
     }
   });
 
-  describe('#fetchReceipt', () => {
-    it('it should get a ReceiptResponse', async () => {
+  describe('#fetchShareReceipt', () => {
+    afterEach(() => {
+      ContentFactory.buildUserContentFromEncryptedContent.mockReset();
+      ContentFactory.buildApplicationContentFromEncryptedContent.mockReset();
+    });
+
+    it('it should get a Receipt', async () => {
       const mockReceiptContent = {
         profile: 'some-content-profile',
         extraData: 'some-content-extra-data',
@@ -89,7 +94,7 @@ describe.each([
         });
 
       const mockReceiptKey = 'some-receipt-key';
-      DecryptionUutils.unwrapReceiptKey.mockReturnValue(mockReceiptKey);
+      DecryptionUtils.unwrapReceiptKey.mockReturnValue(mockReceiptKey);
 
       const userContent = new UserContent();
       const applicationContent = new ApplicationContent();

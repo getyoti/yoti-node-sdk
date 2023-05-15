@@ -1,7 +1,10 @@
 const fs = require('fs');
 const nock = require('nock');
 const { v4: uuid } = require('uuid');
-const config = require('../../config');
+
+jest.mock('../../src/digital_identity_service/receipts/decryption.utils');
+jest.mock('../../src/digital_identity_service/receipts/content.factory');
+
 const {
   DigitalIdentityService,
 } = require('../../src/digital_identity_service');
@@ -9,6 +12,10 @@ const {
   DigitalIdentityBuilders: { ShareSessionConfigurationBuilder, PolicyBuilder },
 } = require('../..');
 const DigitalIdentityServiceError = require('../../src/digital_identity_service/digital.identity.service.error');
+const DecryptionUtils = require('../../src/digital_identity_service/receipts/decryption.utils');
+const UserContent = require('../../src/digital_identity_service/receipts/user.content');
+const ApplicationContent = require('../../src/digital_identity_service/receipts/application.content');
+const ContentFactory = require('../../src/digital_identity_service/receipts/content.factory');
 
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 
@@ -16,7 +23,7 @@ const APP_ID = uuid();
 
 describe('DigitalIdentityService', () => {
   const apiUrlDomain = 'https://some.api.com';
-  const apiUrlPath = '/api/v1';
+  const apiUrlPath = '/share';
   const apiUrl = apiUrlDomain + apiUrlPath;
 
   let digitalIdentityService;
@@ -29,7 +36,7 @@ describe('DigitalIdentityService', () => {
     describe('when a valid response is returned', () => {
       it('should get the correct response', async () => {
         const receiptId = 'test_receipt_id';
-        nock(config.yoti.digitalIdentityApi)
+        nock(apiUrl)
           .get(new RegExp('/v2/receipts'))
           .reply(200, {
             id: 'test_receipt_id',
@@ -37,13 +44,7 @@ describe('DigitalIdentityService', () => {
             timestamp: '2003-11-04T12:51:07Z',
           });
 
-        const client = new DigitalIdentityService(
-          APP_ID,
-          privateKeyFile,
-          { apiUrl: config.yoti.digitalIdentityApi }
-        );
-
-        const receipt = await client.fetchReceipt(receiptId);
+        const receipt = await digitalIdentityService.fetchReceipt(receiptId);
 
         expect(receipt.getId()).toEqual('test_receipt_id');
         expect(receipt.getSessionId()).toEqual('test_receipt_session_id');
@@ -81,18 +82,12 @@ describe('DigitalIdentityService', () => {
       ].forEach((invalidResponse) => {
         it('promise should reject', async () => {
           const receiptId = 'test_receipt_id';
-          nock(`${config.yoti.connectApi}`)
+          nock(apiUrl)
             .get(new RegExp('/v2/receipts'))
             .reply(invalidResponse.status, invalidResponse.json);
 
-          const client = new DigitalIdentityService(
-            APP_ID,
-            privateKeyFile,
-            { apiUrl: config.yoti.digitalIdentityApi }
-          );
-
           try {
-            await client.fetchReceipt(receiptId);
+            await digitalIdentityService.fetchReceipt(receiptId);
           } catch (err) {
             expect(err).toBeInstanceOf(DigitalIdentityServiceError);
             expect(err.message).toBe(invalidResponse.error);
@@ -106,7 +101,7 @@ describe('DigitalIdentityService', () => {
     describe('when a valid response is returned', () => {
       it('should get the correct response', async () => {
         const receiptItemKeyId = 'test_receipt_item_key_id';
-        nock(config.yoti.digitalIdentityApi)
+        nock(apiUrl)
           .get(new RegExp('/v2/wrapped-item-keys'))
           .reply(200, {
             id: 'test_receipt_item_key_id',
@@ -114,13 +109,7 @@ describe('DigitalIdentityService', () => {
             value: 'test_receipt_item_key_value',
           });
 
-        const client = new DigitalIdentityService(
-          APP_ID,
-          privateKeyFile,
-          { apiUrl: config.yoti.digitalIdentityApi }
-        );
-
-        const receipt = await client.fetchReceiptItemKey(receiptItemKeyId);
+        const receipt = await digitalIdentityService.fetchReceiptItemKey(receiptItemKeyId);
 
         expect(receipt.getId()).toEqual('test_receipt_item_key_id');
         expect(receipt.getIv()).toEqual('test_receipt_item_key_iv');
@@ -158,24 +147,74 @@ describe('DigitalIdentityService', () => {
       ].forEach((invalidResponse) => {
         it('promise should reject', async () => {
           const receiptItemKeyId = 'test_receipt_item_key_id';
-          nock(config.yoti.connectApi)
+          nock(apiUrl)
             .get(new RegExp('/v2/wrapped-item-keys'))
             .reply(invalidResponse.status, invalidResponse.json);
 
-          const client = new DigitalIdentityService(
-            APP_ID,
-            privateKeyFile,
-            { apiUrl: config.yoti.digitalIdentityApi }
-          );
-
           try {
-            await client.fetchReceiptItemKey(receiptItemKeyId);
+            await digitalIdentityService.fetchReceiptItemKey(receiptItemKeyId);
           } catch (err) {
             expect(err).toBeInstanceOf(DigitalIdentityServiceError);
             expect(err.message).toBe(invalidResponse.error);
           }
         });
       });
+    });
+  });
+
+  describe('#fetchShareReceipt', () => {
+    it('it should get a Receipt', async () => {
+      const mockReceiptContent = {
+        profile: 'some-content-profile',
+        extraData: 'some-content-extra-data',
+      };
+      const mockReceiptOtherPartyContent = {
+        profile: 'some-other-party-content-profile',
+        extraData: 'some-other-party-content-extra-data',
+      };
+      nock(apiUrl)
+        .get(new RegExp('/v2/receipts'))
+        .reply(200, {
+          id: 'test_receipt_id',
+          sessionId: 'test_receipt_session_id',
+          timestamp: '2003-11-04T12:51:07Z',
+          wrappedItemKeyId: 'some_wrapped_item_key',
+          content: mockReceiptContent,
+          otherPartyContent: mockReceiptOtherPartyContent,
+        });
+
+      nock(apiUrl)
+        .get(new RegExp('/v2/wrapped-item-keys/some_wrapped_item_key'))
+        .reply(200, {
+          id: 'some_wrapped_item_key',
+          iv: 'some_iv',
+          value: 'some_key',
+        });
+
+      const mockReceiptKey = 'some-receipt-key';
+      DecryptionUtils.unwrapReceiptKey.mockReturnValue(mockReceiptKey);
+
+      const userContent = new UserContent();
+      const applicationContent = new ApplicationContent();
+      ContentFactory.buildUserContentFromEncryptedContent
+        .mockReturnValue(userContent);
+      ContentFactory.buildApplicationContentFromEncryptedContent
+        .mockReturnValue(applicationContent);
+
+      const receipt = await digitalIdentityService.fetchShareReceipt('test_receipt_id');
+
+      expect(ContentFactory.buildUserContentFromEncryptedContent).toHaveBeenCalledTimes(1);
+      expect(ContentFactory.buildUserContentFromEncryptedContent)
+        .toHaveBeenCalledWith(mockReceiptOtherPartyContent, mockReceiptKey);
+
+      expect(ContentFactory.buildApplicationContentFromEncryptedContent).toHaveBeenCalledTimes(1);
+      expect(ContentFactory.buildApplicationContentFromEncryptedContent)
+        .toHaveBeenCalledWith(mockReceiptContent, mockReceiptKey);
+
+      expect(receipt.getReceiptId()).toEqual('test_receipt_id');
+      expect(receipt.getSessionId()).toEqual('test_receipt_session_id');
+      expect(receipt.getUserContent()).toEqual(userContent);
+      expect(receipt.getApplicationContent()).toEqual(applicationContent);
     });
   });
 

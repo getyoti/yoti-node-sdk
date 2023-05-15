@@ -7,7 +7,7 @@ const {
   buildUserContentFromEncryptedContent,
 } = require('../../../src/digital_identity_service/receipts/content.factory');
 
-const DecryptionUutils = require('../../../src/digital_identity_service/receipts/decryption.utils');
+const DecryptionUtils = require('../../../src/digital_identity_service/receipts/decryption.utils');
 const { AttributeList } = require('../../../src/proto/types');
 const { AttributeListConverter } = require('../../../src/yoti_common/converters/attribute.list.converter');
 const ExtraDataConverter = require('../../../src/yoti_common/converters/extra.data.converter');
@@ -21,7 +21,7 @@ describe('Content factory', () => {
   });
   describe('#buildUserContentFromEncryptedContent', () => {
     it('should return the sessionId value after calling the common decryption methods', () => {
-      DecryptionUutils.decryptReceiptContent.mockImplementation((content) => `decrypted-${content}`);
+      DecryptionUtils.decryptReceiptContent.mockImplementation((content) => `decrypted-${content}`);
 
       const decodeAttributeListSpy = jest.spyOn(AttributeList, 'decode');
       decodeAttributeListSpy.mockReturnValueOnce({ attributes: 'decoded-attributes' });
@@ -43,10 +43,10 @@ describe('Content factory', () => {
       expect(UserContent)
         .toHaveBeenCalledWith(mockConvertedAttributesList, mockConvertedExtraDataList);
 
-      expect(DecryptionUutils.decryptReceiptContent).toHaveBeenCalledTimes(2);
-      expect(DecryptionUutils.decryptReceiptContent)
+      expect(DecryptionUtils.decryptReceiptContent).toHaveBeenCalledTimes(2);
+      expect(DecryptionUtils.decryptReceiptContent)
         .toHaveBeenCalledWith(mockContent.profile, mockReceiptKey);
-      expect(DecryptionUutils.decryptReceiptContent)
+      expect(DecryptionUtils.decryptReceiptContent)
         .toHaveBeenCalledWith(mockContent.extraData, mockReceiptKey);
 
       expect(decodeAttributeListSpy).toHaveBeenCalledTimes(1);
@@ -57,7 +57,7 @@ describe('Content factory', () => {
   });
   describe('#buildApplicationContentFromEncryptedContent', () => {
     it('should return the sessionId value after calling the common decryption methods', () => {
-      DecryptionUutils.decryptReceiptContent.mockImplementation((content) => `decrypted-${content}`);
+      DecryptionUtils.decryptReceiptContent.mockImplementation((content) => `decrypted-${content}`);
 
       const decodeAttributeListSpy = jest.spyOn(AttributeList, 'decode');
       decodeAttributeListSpy.mockReturnValueOnce({ attributes: 'decoded-attributes' });
@@ -79,10 +79,10 @@ describe('Content factory', () => {
       expect(ApplicationContent)
         .toHaveBeenCalledWith(mockConvertedAttributesList, mockConvertedExtraDataList);
 
-      expect(DecryptionUutils.decryptReceiptContent).toHaveBeenCalledTimes(2);
-      expect(DecryptionUutils.decryptReceiptContent)
+      expect(DecryptionUtils.decryptReceiptContent).toHaveBeenCalledTimes(2);
+      expect(DecryptionUtils.decryptReceiptContent)
         .toHaveBeenCalledWith(mockContent.profile, mockReceiptKey);
-      expect(DecryptionUutils.decryptReceiptContent)
+      expect(DecryptionUtils.decryptReceiptContent)
         .toHaveBeenCalledWith(mockContent.extraData, mockReceiptKey);
 
       expect(decodeAttributeListSpy).toHaveBeenCalledTimes(1);
