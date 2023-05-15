@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
 
+const shareController = require('./controllers/share.controller');
 const shareSessionController = require('./controllers/share.session.controller');
 
 const app = express();
@@ -18,7 +19,8 @@ app.use('/static', express.static('static'));
 
 const router = express.Router();
 
-router.use('/', shareSessionController);
+router.use('/', shareController);
+router.use('/share', shareSessionController);
 
 app.use('/', router);
 

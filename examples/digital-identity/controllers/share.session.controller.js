@@ -2,7 +2,6 @@ const { Router } = require('express');
 const {
   DigitalIdentityBuilders: {
     PolicyBuilder,
-    LocationConstraintExtensionBuilder,
     ShareSessionConfigurationBuilder,
   },
   DigitalIdentityClient,
@@ -20,12 +19,6 @@ const router = Router();
 const jsonToFormattedString = (json) => JSON.stringify(json, undefined, 2);
 
 router.get('/createSession', (req, res) => {
-  const locationExtension = new LocationConstraintExtensionBuilder()
-    .withLatitude(51.5074)
-    .withLongitude(-0.1278)
-    .withRadius(6000)
-    .build();
-
   const policy = new PolicyBuilder()
     .withFullName()
     .withEmail()
@@ -47,7 +40,6 @@ router.get('/createSession', (req, res) => {
   const shareSessionConfig = new ShareSessionConfigurationBuilder()
     .withRedirectUri('/profile')
     .withPolicy(policy)
-    .withExtension(locationExtension)
     .withSubject(subject)
     .build();
 
