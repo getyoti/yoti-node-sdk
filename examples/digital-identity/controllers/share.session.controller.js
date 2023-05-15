@@ -71,7 +71,7 @@ router.get('/createSession', (req, res) => {
 router.get('/fetchSession/:sessionId', (req, res) => {
   const { sessionId } = req.params;
 
-  digitalIdentityClient.fetchShareSession(sessionId).then((shareSessionFetchResult) => {
+  digitalIdentityClient.getShareSession(sessionId).then((shareSessionFetchResult) => {
     res.end(jsonToFormattedString(shareSessionFetchResult));
   });
 });
@@ -79,7 +79,7 @@ router.get('/fetchSession/:sessionId', (req, res) => {
 router.post('/fetchReceipt', (req, res) => {
   const { receiptId } = req.body;
 
-  digitalIdentityClient.fetchShareReceipt(receiptId).then((receipt) => {
+  digitalIdentityClient.getShareReceipt(receiptId).then((receipt) => {
     res.end(jsonToFormattedString(receipt));
   });
 });

@@ -9,12 +9,12 @@ const { Payload } = require('../request/payload');
 const ReceiptResponse = require('./receipts/receipt.response');
 const ReceiptItemKeyResponse = require('./receipts/receipt.item.key.response');
 const { unwrapReceiptKey } = require('./receipts/decryption.utils');
-const Receipt = require('./receipts/receipt');
 
-const ShareSessionCreateResult = require('./share.session.create.result');
-const ShareSessionFetchResult = require('./share.session.fetch.result');
-const ShareQrCodeCreateResult = require('./share.qr.code.create.result');
-const ShareQrCodeFetchResult = require('./share.qr.code.fetch.result');
+const CreateShareSessionResult = require('./create.share.session.result');
+const GetShareSessionResult = require('./get.share.session.result');
+const CreateShareQrCodeResult = require('./create.share.qr.code.result');
+const GetShareQrCodeResult = require('./get.share.qr.code.result');
+const GetShareReceiptResult = require('./get.share.receipt.result');
 
 const WantedAnchorBuilder = require('./policy/wanted.anchor.builder');
 const ConstraintsBuilder = require('./policy/constraints.builder');
@@ -53,7 +53,7 @@ class DigitalIdentityService {
   /**
    *
    * @param shareSessionConfig
-   * @returns {Promise<ShareSessionCreateResult>}
+   * @returns {Promise<CreateShareSessionResult>}
    */
   async createShareSession(shareSessionConfig) {
     Validation.instanceOf(shareSessionConfig, ShareSessionConfiguration, 'shareSessionConfig');
@@ -83,7 +83,7 @@ class DigitalIdentityService {
     try {
       const parsedResponse = response.getParsedResponse();
 
-      return new ShareSessionCreateResult(parsedResponse);
+      return new CreateShareSessionResult(parsedResponse);
     } catch (err) {
       console.log(`Error getting response data: ${err}`);
 
@@ -94,9 +94,9 @@ class DigitalIdentityService {
   /**
    *
    * @param sessionId
-   * @returns {Promise<ShareSessionFetchResult>}
+   * @returns {Promise<GetShareSessionResult>}
    */
-  async fetchShareSession(sessionId) {
+  async getShareSession(sessionId) {
     Validation.isString(sessionId, 'sessionId');
 
     const requestBuilder = new RequestBuilder()
@@ -122,7 +122,7 @@ class DigitalIdentityService {
     try {
       const parsedResponse = response.getParsedResponse();
 
-      return new ShareSessionFetchResult(parsedResponse);
+      return new GetShareSessionResult(parsedResponse);
     } catch (err) {
       console.log(`Error getting response data: ${err}`);
 
@@ -133,7 +133,7 @@ class DigitalIdentityService {
   /**
    *
    * @param sessionId
-   * @returns {Promise<ShareQrCodeCreateResult>}
+   * @returns {Promise<CreateShareQrCodeResult>}
    */
   async createShareQrCode(sessionId) {
     Validation.isString(sessionId, 'sessionId');
@@ -163,7 +163,7 @@ class DigitalIdentityService {
     try {
       const parsedResponse = response.getParsedResponse();
 
-      return new ShareQrCodeCreateResult(parsedResponse);
+      return new CreateShareQrCodeResult(parsedResponse);
     } catch (err) {
       console.log(`Error getting response data: ${err}`);
 
@@ -174,9 +174,9 @@ class DigitalIdentityService {
   /**
    *
    * @param qrCodeId
-   * @returns {Promise<ShareQrCodeFetchResult>}
+   * @returns {Promise<GetShareQrCodeResult>}
    */
-  async fetchShareQrCode(qrCodeId) {
+  async getShareQrCode(qrCodeId) {
     Validation.isString(qrCodeId, 'qrCodeId');
 
     const requestBuilder = new RequestBuilder()
@@ -201,7 +201,7 @@ class DigitalIdentityService {
     try {
       const parsedResponse = response.getParsedResponse();
 
-      return new ShareQrCodeFetchResult(parsedResponse);
+      return new GetShareQrCodeResult(parsedResponse);
     } catch (err) {
       console.log(`Error getting response data: ${err}`);
 
@@ -210,7 +210,9 @@ class DigitalIdentityService {
   }
 
   /**
+   *
    * @param {string} receiptId
+   * @returns {Promise<ReceiptResponse>}
    */
   async fetchReceipt(receiptId) {
     const receiptIdUrl = Buffer.from(receiptId, 'base64').toString('base64url');
@@ -235,7 +237,9 @@ class DigitalIdentityService {
   }
 
   /**
+   *
    * @param {string} receiptItemKeyId
+   * @returns {Promise<ReceiptItemKeyResponse>}
    */
   async fetchReceiptItemKey(receiptItemKeyId) {
     const request = new RequestBuilder()
@@ -258,13 +262,15 @@ class DigitalIdentityService {
   }
 
   /**
+   *
    * @param {string} receiptId
+   * @returns {Promise<GetShareReceiptResult>}
    */
-  async fetchShareReceipt(receiptId) {
+  async getShareReceipt(receiptId) {
     const receiptResponse = await this.fetchReceipt(receiptId);
 
     const itemKeyId = receiptResponse.getWrappedItemKeyId();
-    if (!itemKeyId) return new Receipt(receiptResponse);
+    if (!itemKeyId) return new GetShareReceiptResult(receiptResponse);
 
     const encryptedItemKeyResponse = await this.fetchReceiptItemKey(itemKeyId);
 
@@ -284,7 +290,7 @@ class DigitalIdentityService {
       receiptContentKey
     );
 
-    return new Receipt(receiptResponse, userContent, applicationContent);
+    return new GetShareReceiptResult(receiptResponse, userContent, applicationContent);
   }
 }
 

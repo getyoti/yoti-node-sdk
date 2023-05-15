@@ -8,10 +8,10 @@ const config = require('../../config');
 const yoti = require('../../index');
 const DecryptionUtils = require('../../src/digital_identity_service/receipts/decryption.utils');
 const ContentFactory = require('../../src/digital_identity_service/receipts/content.factory');
-const ShareSessionCreateResult = require('../../src/digital_identity_service/share.session.create.result');
-const ShareSessionFetchResult = require('../../src/digital_identity_service/share.session.fetch.result');
-const ShareQrCodeCreateResult = require('../../src/digital_identity_service/share.qr.code.create.result');
-const ShareQrCodeFetchResult = require('../../src/digital_identity_service/share.qr.code.fetch.result');
+const CreateShareSessionResult = require('../../src/digital_identity_service/create.share.session.result');
+const GetShareSessionResult = require('../../src/digital_identity_service/get.share.session.result');
+const CreateShareQrCodeResult = require('../../src/digital_identity_service/create.share.qr.code.result');
+const GetShareQrCodeResult = require('../../src/digital_identity_service/get.share.qr.code.result');
 const ApplicationContent = require('../../src/digital_identity_service/receipts/application.content');
 const UserContent = require('../../src/digital_identity_service/receipts/user.content');
 
@@ -59,7 +59,7 @@ describe.each([
     }
   });
 
-  describe('#fetchShareReceipt', () => {
+  describe('#getShareReceipt', () => {
     afterEach(() => {
       ContentFactory.buildUserContentFromEncryptedContent.mockReset();
       ContentFactory.buildApplicationContentFromEncryptedContent.mockReset();
@@ -103,7 +103,7 @@ describe.each([
       ContentFactory.buildApplicationContentFromEncryptedContent
         .mockReturnValue(applicationContent);
 
-      const receipt = await yotiClient.fetchShareReceipt('test_receipt_id');
+      const receipt = await yotiClient.getShareReceipt('test_receipt_id');
 
       expect(ContentFactory.buildUserContentFromEncryptedContent).toHaveBeenCalledTimes(1);
       expect(ContentFactory.buildUserContentFromEncryptedContent)
@@ -144,17 +144,17 @@ describe.each([
       done();
     });
 
-    it('it should get a ShareSessionCreateResult', (done) => {
+    it('it should get a CreateShareSessionResult', (done) => {
       yotiClient.createShareSession(shareSessionConfig)
         .then((result) => {
-          expect(result).toBeInstanceOf(ShareSessionCreateResult);
+          expect(result).toBeInstanceOf(CreateShareSessionResult);
           done();
         })
         .catch(done);
     });
   });
 
-  describe('#fetchShareSession', () => {
+  describe('#getShareSession', () => {
     const SESSION_ID = '123';
     const mockedResponse = {
       id: SESSION_ID,
@@ -181,10 +181,10 @@ describe.each([
       done();
     });
 
-    it('it should get a ShareSessionFetchResult', (done) => {
-      yotiClient.fetchShareSession(SESSION_ID)
+    it('it should get a GetShareSessionResult', (done) => {
+      yotiClient.getShareSession(SESSION_ID)
         .then((result) => {
-          expect(result).toBeInstanceOf(ShareSessionFetchResult);
+          expect(result).toBeInstanceOf(GetShareSessionResult);
           done();
         })
         .catch(done);
@@ -211,17 +211,17 @@ describe.each([
       done();
     });
 
-    it('should return a ShareQrCodeCreateResult', (done) => {
+    it('should return a CreateShareQrCodeResult', (done) => {
       yotiClient.createShareQrCode(sessionId)
         .then((result) => {
-          expect(result).toBeInstanceOf(ShareQrCodeCreateResult);
+          expect(result).toBeInstanceOf(CreateShareQrCodeResult);
           done();
         })
         .catch(done);
     });
   });
 
-  describe('#fetchShareQrCode', () => {
+  describe('#getShareQrCode', () => {
     const qrCodeId = 'qr-code-id';
 
     beforeEach((done) => {
@@ -246,10 +246,10 @@ describe.each([
       done();
     });
 
-    it('should return a ShareQrCodeFetchResult', (done) => {
-      yotiClient.fetchShareQrCode(qrCodeId)
+    it('should return a GetShareQrCodeResult', (done) => {
+      yotiClient.getShareQrCode(qrCodeId)
         .then((result) => {
-          expect(result).toBeInstanceOf(ShareQrCodeFetchResult);
+          expect(result).toBeInstanceOf(GetShareQrCodeResult);
           done();
         })
         .catch(done);

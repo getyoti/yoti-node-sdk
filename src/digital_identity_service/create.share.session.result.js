@@ -5,9 +5,9 @@ const Validation = require('../yoti_common/validation');
 /**
  * Defines the Share session creation result.
  *
- * @class ShareSessionCreateResult
+ * @class CreateShareSessionResult
  */
-module.exports = class ShareSessionCreateResult {
+module.exports = class CreateShareSessionResult {
   /**
    * @param {Object} response
    */

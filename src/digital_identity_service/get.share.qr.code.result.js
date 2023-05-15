@@ -5,9 +5,9 @@ const Validation = require('../yoti_common/validation');
 /**
  * The fetch share QR code result
  *
- * @class ShareQrCodeFetchResult
+ * @class GetShareQrCodeResult
  */
-module.exports = class ShareQrCodeFetchResult {
+module.exports = class GetShareQrCodeResult {
   /**
    * @param {Object} response
    */

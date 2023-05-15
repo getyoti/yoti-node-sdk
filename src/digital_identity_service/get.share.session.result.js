@@ -5,9 +5,9 @@ const Validation = require('../yoti_common/validation');
 /**
  * The share session fetch result
  *
- * @class ShareSessionFetchResult
+ * @class GetShareSessionResult
  */
-module.exports = class ShareSessionFetchResult {
+module.exports = class GetShareSessionResult {
   /**
    * @param {Object} response
    */

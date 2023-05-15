@@ -1,10 +1,10 @@
-const ShareQrCodeFetchResult = require('../../src/digital_identity_service/share.qr.code.fetch.result');
+const GetShareQrCodeResult = require('../../src/digital_identity_service/get.share.qr.code.result');
 
-describe('ShareSessionQrCodeResult', () => {
-  let shareQrCodeFetchResult;
+describe('GetShareQrCodeResult', () => {
+  let getShareQrCodeFetchResult;
 
   beforeEach(() => {
-    shareQrCodeFetchResult = new ShareQrCodeFetchResult({
+    getShareQrCodeFetchResult = new GetShareQrCodeResult({
       id: 'qr-code-id',
       expiry: '2023-02-16T11:30:20.432Z',
       session: {
@@ -18,25 +18,25 @@ describe('ShareSessionQrCodeResult', () => {
 
   describe('#getId', () => {
     it('should return ID', () => {
-      expect(shareQrCodeFetchResult.getId()).toBe('qr-code-id');
+      expect(getShareQrCodeFetchResult.getId()).toBe('qr-code-id');
     });
   });
 
   describe('#getExpiry', () => {
     it('should return expiry', () => {
-      expect(shareQrCodeFetchResult.getExpiry()).toStrictEqual(new Date('2023-02-16T11:30:20.432Z'));
+      expect(getShareQrCodeFetchResult.getExpiry()).toStrictEqual(new Date('2023-02-16T11:30:20.432Z'));
     });
   });
 
   describe('#getSessionId', () => {
     it('should return session ID', () => {
-      expect(shareQrCodeFetchResult.getSessionId()).toBe('session-id');
+      expect(getShareQrCodeFetchResult.getSessionId()).toBe('session-id');
     });
   });
 
   describe('#getRedirectUri', () => {
     it('should return redirect URI', () => {
-      expect(shareQrCodeFetchResult.getRedirectUri()).toBe('https://test.com');
+      expect(getShareQrCodeFetchResult.getRedirectUri()).toBe('https://test.com');
     });
   });
 });

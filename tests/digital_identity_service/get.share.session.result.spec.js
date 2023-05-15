@@ -1,10 +1,10 @@
-const ShareSessionFetchResult = require('../../src/digital_identity_service/share.session.fetch.result');
+const GetShareSessionResult = require('../../src/digital_identity_service/get.share.session.result');
 
-describe('ShareSessionFetchResult', () => {
-  let shareSessionFetchResult;
+describe('GetShareSessionResult', () => {
+  let getShareSessionResult;
 
   beforeEach(() => {
-    shareSessionFetchResult = new ShareSessionFetchResult({
+    getShareSessionResult = new GetShareSessionResult({
       id: '123',
       status: 'some-status',
       created: '2023-02-01',
@@ -21,43 +21,43 @@ describe('ShareSessionFetchResult', () => {
 
   describe('#getId', () => {
     it('should return id', () => {
-      expect(shareSessionFetchResult.getId()).toBe('123');
+      expect(getShareSessionResult.getId()).toBe('123');
     });
   });
 
   describe('#getStatus', () => {
     it('should return status', () => {
-      expect(shareSessionFetchResult.getStatus()).toBe('some-status');
+      expect(getShareSessionResult.getStatus()).toBe('some-status');
     });
   });
 
   describe('#getExpiry', () => {
     it('should return expiry', () => {
-      expect(shareSessionFetchResult.getExpiry().toString()).toBe(new Date('2023-02-03').toString());
+      expect(getShareSessionResult.getExpiry().toString()).toBe(new Date('2023-02-03').toString());
     });
   });
 
   describe('#getUpdated', () => {
     it('should return updated', () => {
-      expect(shareSessionFetchResult.getUpdated().toString()).toBe(new Date('2023-02-01').toString());
+      expect(getShareSessionResult.getUpdated().toString()).toBe(new Date('2023-02-01').toString());
     });
   });
 
   describe('#getCreated', () => {
     it('should return created', () => {
-      expect(shareSessionFetchResult.getCreated().toString()).toBe(new Date('2023-02-01').toString());
+      expect(getShareSessionResult.getCreated().toString()).toBe(new Date('2023-02-01').toString());
     });
   });
 
   describe('#getScannedQrCodeId', () => {
     it('should return qrCode id', () => {
-      expect(shareSessionFetchResult.getScannedQrCodeId()).toEqual('1');
+      expect(getShareSessionResult.getScannedQrCodeId()).toEqual('1');
     });
   });
 
   describe('#getReceiptId', () => {
     it('should return receipt id', () => {
-      expect(shareSessionFetchResult.getReceiptId()).toEqual('2');
+      expect(getShareSessionResult.getReceiptId()).toEqual('2');
     });
   });
 });
