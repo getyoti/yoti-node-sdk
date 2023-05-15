@@ -2,6 +2,11 @@
 
 const Validation = require('../../yoti_common/validation');
 
+/**
+ * The receipt response
+ *
+ * @class ReceiptResponse
+ */
 class ReceiptResponse {
   constructor(response) {
     Validation.isString(response.id, 'Receipt ID');

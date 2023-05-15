@@ -2,6 +2,11 @@
 
 const Validation = require('../../yoti_common/validation');
 
+/**
+ * The receipt item key response
+ *
+ * @class ReceiptItemKeyResponse
+ */
 class ReceiptItemKeyResponse {
   constructor(response) {
     Validation.isString(response.id, 'Receipt wrapped item key ID');
