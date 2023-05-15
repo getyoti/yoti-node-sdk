@@ -9,7 +9,7 @@ const Validation = require('../yoti_common/validation');
  *
  * @class GetShareReceiptResult
  */
-class GetShareReceiptResult {
+module.exports = class GetShareReceiptResult {
   /**
    * @param {ReceiptResponse} receiptResponse
    *   Parsed ReceiptResponse.
@@ -135,6 +135,4 @@ class GetShareReceiptResult {
   getError() {
     return this.error;
   }
-}
-
-module.exports = GetShareReceiptResult;
+};

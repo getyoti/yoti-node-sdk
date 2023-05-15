@@ -11,9 +11,9 @@ const ReceiptItemKeyResponse = require('./receipts/receipt.item.key.response');
 const { unwrapReceiptKey } = require('./receipts/decryption.utils');
 
 const CreateShareSessionResult = require('./create.share.session.result');
-const CreateShareSessionQrCodeResult = require('./create.share.qr.code.result');
 const GetShareSessionResult = require('./get.share.session.result');
-const GetShareQrCodeFetchResult = require('./get.share.qr.code.result');
+const CreateShareQrCodeResult = require('./create.share.qr.code.result');
+const GetShareQrCodeResult = require('./get.share.qr.code.result');
 const GetShareReceiptResult = require('./get.share.receipt.result');
 
 const WantedAnchorBuilder = require('./policy/wanted.anchor.builder');
@@ -133,7 +133,7 @@ class DigitalIdentityService {
   /**
    *
    * @param sessionId
-   * @returns {Promise<CreateShareSessionQrCodeResult>}
+   * @returns {Promise<CreateShareQrCodeResult>}
    */
   async createShareQrCode(sessionId) {
     Validation.isString(sessionId, 'sessionId');
@@ -163,7 +163,7 @@ class DigitalIdentityService {
     try {
       const parsedResponse = response.getParsedResponse();
 
-      return new CreateShareSessionQrCodeResult(parsedResponse);
+      return new CreateShareQrCodeResult(parsedResponse);
     } catch (err) {
       console.log(`Error getting response data: ${err}`);
 
@@ -174,7 +174,7 @@ class DigitalIdentityService {
   /**
    *
    * @param qrCodeId
-   * @returns {Promise<GetShareQrCodeFetchResult>}
+   * @returns {Promise<GetShareQrCodeResult>}
    */
   async getShareQrCode(qrCodeId) {
     Validation.isString(qrCodeId, 'qrCodeId');
@@ -201,7 +201,7 @@ class DigitalIdentityService {
     try {
       const parsedResponse = response.getParsedResponse();
 
-      return new GetShareQrCodeFetchResult(parsedResponse);
+      return new GetShareQrCodeResult(parsedResponse);
     } catch (err) {
       console.log(`Error getting response data: ${err}`);
 
