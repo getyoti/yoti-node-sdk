@@ -20,17 +20,8 @@ class DigitalIdentityClient {
 
   /**
    *
-   * @param {string} receiptId
-   * @returns {Promise<Receipt>}
-   */
-  async fetchShareReceipt(receiptId) {
-    return this.digitalIdentityService.fetchShareReceipt(receiptId);
-  }
-
-  /**
-   *
    * @param shareSessionConfig
-   * @returns {Promise<ShareSessionCreateResult>}
+   * @returns {Promise<CreateShareSessionResult>}
    */
   async createShareSession(shareSessionConfig) {
     return this.digitalIdentityService.createShareSession(shareSessionConfig);
@@ -39,16 +30,16 @@ class DigitalIdentityClient {
   /**
    *
    * @param sessionId
-   * @returns {Promise<ShareSessionFetchResult>}
+   * @returns {Promise<GetShareSessionResult>}
    */
-  async fetchShareSession(sessionId) {
-    return this.digitalIdentityService.fetchShareSession(sessionId);
+  async getShareSession(sessionId) {
+    return this.digitalIdentityService.getShareSession(sessionId);
   }
 
   /**
    *
    * @param sessionId
-   * @returns {Promise<ShareQrCodeCreateResult>}
+   * @returns {Promise<CreateShareQrCodeResult>}
    */
   async createShareQrCode(sessionId) {
     return this.digitalIdentityService.createShareQrCode(sessionId);
@@ -57,10 +48,19 @@ class DigitalIdentityClient {
   /**
    *
    * @param qrCodeId
-   * @returns {Promise<ShareQrCodeFetchResult>}
+   * @returns {Promise<GetShareQrCodeResult>}
    */
-  async fetchShareQrCode(qrCodeId) {
-    return this.digitalIdentityService.fetchShareQrCode(qrCodeId);
+  async getShareQrCode(qrCodeId) {
+    return this.digitalIdentityService.getShareQrCode(qrCodeId);
+  }
+
+  /**
+   *
+   * @param {string} receiptId
+   * @returns {Promise<GetShareReceiptResult>}
+   */
+  async getShareReceipt(receiptId) {
+    return this.digitalIdentityService.getShareReceipt(receiptId);
   }
 }
 

@@ -1,15 +1,15 @@
 'use strict';
 
-const UserContent = require('./user.content');
-const ApplicationContent = require('./application.content');
-const Validation = require('../../yoti_common/validation');
+const UserContent = require('./receipts/user.content');
+const ApplicationContent = require('./receipts/application.content');
+const Validation = require('../yoti_common/validation');
 
 /**
  * Receipt of a Digital Identity Share.
  *
- * @class Receipt
+ * @class GetShareReceiptResult
  */
-class Receipt {
+class GetShareReceiptResult {
   /**
    * @param {ReceiptResponse} receiptResponse
    *   Parsed ReceiptResponse.
@@ -137,4 +137,4 @@ class Receipt {
   }
 }
 
-module.exports = Receipt;
+module.exports = GetShareReceiptResult;

@@ -1,10 +1,10 @@
-const ShareSessionCreateResult = require('../../src/digital_identity_service/share.session.create.result');
+const CreateShareSessionResult = require('../../src/digital_identity_service/create.share.session.result');
 
-describe('ShareSessionCreateResult', () => {
-  let shareSessionCreateResult;
+describe('CreateShareSessionResult', () => {
+  let createShareSessionResult;
 
   beforeEach(() => {
-    shareSessionCreateResult = new ShareSessionCreateResult({
+    createShareSessionResult = new CreateShareSessionResult({
       id: 'some-id',
       status: 'some-status',
       expiry: '2000-03-12',
@@ -13,19 +13,19 @@ describe('ShareSessionCreateResult', () => {
 
   describe('#getId', () => {
     it('should return ID', () => {
-      expect(shareSessionCreateResult.getId()).toBe('some-id');
+      expect(createShareSessionResult.getId()).toBe('some-id');
     });
   });
 
   describe('#getStatus', () => {
     it('should return status', () => {
-      expect(shareSessionCreateResult.getStatus()).toBe('some-status');
+      expect(createShareSessionResult.getStatus()).toBe('some-status');
     });
   });
 
   describe('#getExpiry', () => {
     it('should return state', () => {
-      expect(shareSessionCreateResult.getExpiry().toString()).toBe(new Date('2000-03-12').toString());
+      expect(createShareSessionResult.getExpiry().toString()).toBe(new Date('2000-03-12').toString());
     });
   });
 });

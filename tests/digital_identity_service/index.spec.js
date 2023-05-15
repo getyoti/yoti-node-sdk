@@ -162,7 +162,7 @@ describe('DigitalIdentityService', () => {
     });
   });
 
-  describe('#fetchShareReceipt', () => {
+  describe('#getShareReceipt', () => {
     it('it should get a Receipt', async () => {
       const mockReceiptContent = {
         profile: 'some-content-profile',
@@ -201,7 +201,7 @@ describe('DigitalIdentityService', () => {
       ContentFactory.buildApplicationContentFromEncryptedContent
         .mockReturnValue(applicationContent);
 
-      const receipt = await digitalIdentityService.fetchShareReceipt('test_receipt_id');
+      const receipt = await digitalIdentityService.getShareReceipt('test_receipt_id');
 
       expect(ContentFactory.buildUserContentFromEncryptedContent).toHaveBeenCalledTimes(1);
       expect(ContentFactory.buildUserContentFromEncryptedContent)
@@ -340,7 +340,7 @@ describe('DigitalIdentityService', () => {
     });
   });
 
-  describe('#fetchShareSession', () => {
+  describe('#getShareSession', () => {
     const SESSION_ID = '123';
 
     const setupResponse = (responseBody, responseStatusCode = 200) => {
@@ -368,7 +368,7 @@ describe('DigitalIdentityService', () => {
       });
 
       it('should get the correct response', (done) => {
-        digitalIdentityService.fetchShareSession(SESSION_ID)
+        digitalIdentityService.getShareSession(SESSION_ID)
           .then((result) => {
             expect(result.getId()).toBe('123');
             expect(result.getStatus()).toBe('');
@@ -386,7 +386,7 @@ describe('DigitalIdentityService', () => {
     describe('when a sessionId is not provided', () => {
       it('should throw error', async () => {
         try {
-          await digitalIdentityService.fetchShareSession([]);
+          await digitalIdentityService.getShareSession([]);
         } catch (error) {
           expect(error).toEqual(new TypeError('sessionId must be a string'));
         }
@@ -424,7 +424,7 @@ describe('DigitalIdentityService', () => {
         it('promise should reject', (done) => {
           setupResponse(invalidResponse.json, invalidResponse.status);
 
-          digitalIdentityService.fetchShareSession(SESSION_ID)
+          digitalIdentityService.getShareSession(SESSION_ID)
             .catch((err) => {
               expect(err.message).toBe(invalidResponse.error);
               done();
@@ -455,7 +455,7 @@ describe('DigitalIdentityService', () => {
         it('promise should reject', (done) => {
           setupResponse(invalidResponse.json, invalidResponse.status);
 
-          digitalIdentityService.fetchShareSession(SESSION_ID)
+          digitalIdentityService.getShareSession(SESSION_ID)
             .catch((err) => {
               expect(err.message).toBe(invalidResponse.error);
               expect(err.status).toBe(invalidResponse.status);
@@ -570,7 +570,7 @@ describe('DigitalIdentityService', () => {
     });
   });
 
-  describe('#fetchShareQrCode', () => {
+  describe('#getShareQrCode', () => {
     const qrCodeId = 'qr-code-id';
 
     const setupResponse = (responseBody, responseStatusCode = 200) => {
@@ -595,7 +595,7 @@ describe('DigitalIdentityService', () => {
       });
 
       it('should get the correct response', (done) => {
-        digitalIdentityService.fetchShareQrCode(qrCodeId)
+        digitalIdentityService.getShareQrCode(qrCodeId)
           .then((result) => {
             expect(result.getId()).toBe('qr-code-id');
             expect(result.getExpiry()).toStrictEqual(new Date('2023-02-16T11:30:20.432Z'));
@@ -610,7 +610,7 @@ describe('DigitalIdentityService', () => {
     describe('when a QR code id is not provided', () => {
       it('should throw error', async () => {
         try {
-          await digitalIdentityService.fetchShareQrCode();
+          await digitalIdentityService.getShareQrCode();
         } catch (error) {
           expect(error).toEqual(new TypeError('qrCodeId must be a string'));
         }
@@ -630,7 +630,7 @@ describe('DigitalIdentityService', () => {
         });
 
         it('promise should reject', (done) => {
-          digitalIdentityService.fetchShareQrCode(qrCodeId)
+          digitalIdentityService.getShareQrCode(qrCodeId)
             .catch((err) => {
               expect(err.message).toBe(invalidResponse.error);
               done();
@@ -661,7 +661,7 @@ describe('DigitalIdentityService', () => {
         it('promise should reject', (done) => {
           setupResponse(invalidResponse.json, invalidResponse.status);
 
-          digitalIdentityService.fetchShareQrCode(qrCodeId)
+          digitalIdentityService.getShareQrCode(qrCodeId)
             .catch((err) => {
               expect(err.message).toBe(invalidResponse.error);
               expect(err.status).toBe(invalidResponse.status);
