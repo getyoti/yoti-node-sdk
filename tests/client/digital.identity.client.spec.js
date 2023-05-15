@@ -98,7 +98,7 @@ describe.each([
       ContentFactory.buildApplicationContentFromEncryptedContent
         .mockReturnValue(applicationContent);
 
-      const receipt = await yotiClient.fetchReceipt('test_receipt_id');
+      const receipt = await yotiClient.fetchShareReceipt('test_receipt_id');
 
       expect(ContentFactory.buildUserContentFromEncryptedContent).toHaveBeenCalledTimes(1);
       expect(ContentFactory.buildUserContentFromEncryptedContent)

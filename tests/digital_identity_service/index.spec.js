@@ -25,7 +25,7 @@ describe('DigitalIdentityService', () => {
     digitalIdentityService = new DigitalIdentityService(APP_ID, privateKeyFile, { apiUrl });
   });
 
-  describe('#fetchEncryptedReceipt', () => {
+  describe('#fetchReceipt', () => {
     describe('when a valid response is returned', () => {
       it('should get the correct response', async () => {
         const receiptId = 'test_receipt_id';
@@ -43,7 +43,7 @@ describe('DigitalIdentityService', () => {
           { apiUrl: config.yoti.digitalIdentityApi }
         );
 
-        const receipt = await client.fetchEncryptedReceipt(receiptId);
+        const receipt = await client.fetchReceipt(receiptId);
 
         expect(receipt.getId()).toEqual('test_receipt_id');
         expect(receipt.getSessionId()).toEqual('test_receipt_session_id');
@@ -92,7 +92,7 @@ describe('DigitalIdentityService', () => {
           );
 
           try {
-            await client.fetchEncryptedReceipt(receiptId);
+            await client.fetchReceipt(receiptId);
           } catch (err) {
             expect(err).toBeInstanceOf(DigitalIdentityServiceError);
             expect(err.message).toBe(invalidResponse.error);

@@ -212,7 +212,7 @@ class DigitalIdentityService {
   /**
    * @param {string} receiptId
    */
-  async fetchEncryptedReceipt(receiptId) {
+  async fetchReceipt(receiptId) {
     const receiptIdUrl = Buffer.from(receiptId, 'base64').toString('base64url');
 
     const request = new RequestBuilder()
@@ -260,8 +260,8 @@ class DigitalIdentityService {
   /**
    * @param {string} receiptId
    */
-  async fetchAndDecryptReceipt(receiptId) {
-    const receiptResponse = await this.fetchEncryptedReceipt(receiptId);
+  async fetchShareReceipt(receiptId) {
+    const receiptResponse = await this.fetchReceipt(receiptId);
 
     const itemKeyId = receiptResponse.getWrappedItemKeyId();
     if (!itemKeyId) return new Receipt(receiptResponse);
