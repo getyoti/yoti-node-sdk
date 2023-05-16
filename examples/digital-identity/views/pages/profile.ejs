@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html class="yoti-html">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <title>Yoti client example</title>
+        <link rel="stylesheet" type="text/css" href="/static/profile.css"/>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
+    </head>
+    <body class="yoti-body">
+        <main class="yoti-profile-layout">
+            <section class="yoti-profile-user-section">
+                <div class="yoti-profile-picture-powered-section">
+                    <span class="yoti-profile-picture-powered">Powered by</span>
+                    <img class="yoti-logo-image" src="/static/assets/logo.png" srcset="/static/assets/logo@2x.png 2x"
+                         alt="Yoti"/>
+                </div>
+            </section>
+
+            <section class="yoti-attributes-section">
+
+                <div class="yoti-attribute-list-header">
+                    <div class="yoti-attribute-list-header-attribute">Attribute</div>
+                    <div class="yoti-attribute-list-header-value">Value</div>
+                    <div>Anchors</div>
+                </div>
+
+                <div class="yoti-attribute-list-subheader">
+                    <div class="yoti-attribute-list-subhead-layout">
+                        <div>S / V</div>
+                        <div>Value</div>
+                        <div>Sub type</div>
+                    </div>
+                </div>
+
+                <div class="yoti-attribute-list">
+
+                    <% attributes.forEach(function({ displayName, name, label, icon, value, sources, verifiers }) { %>
+                        <% if (!value) {
+                            return;
+                        } %>
+                        <div class="yoti-attribute-list-item">
+                            <div class="yoti-attribute-name">
+                                <div class="yoti-attribute-name-cell">
+                                    <i class="<%= icon %>"></i>
+                                    <span class="yoti-attribute-name-cell-text"><%= label %></span>
+                                </div>
+                            </div>
+
+                            <div class="yoti-attribute-value">
+                                <div class="yoti-attribute-value-text">
+                                    <% switch (displayName) {
+
+                                    case 'selfie': %>
+                                    <div class="yoti-profile-picture-area">
+                                        <img src="<%= value %>" class="yoti-profile-picture-image" alt="selfie"/>
+                                        <i class="yoti-profile-picture-verified-icon"></i>
+                                    </div>
+                                    <% break;
+
+                                    case 'document_images': %>
+                                    <% value.forEach((image, index) => { %>
+                                        <img src="<%= image %>" alt="document_image_<%= index %>"/>
+                                    <% }) %>
+                                    <% break;
+
+                                    case 'document_details': %>
+                                    <table>
+                                        <tr>
+                                            <td>Type</td>
+                                            <td><%= value.type %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Issuing Country</td>
+                                            <td><%= value.issuingCountry %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Issuing Authority</td>
+                                            <td><%= value.issuingAuthority %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Document Number</td>
+                                            <td><%= value.documentNumber %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Expiration Date</td>
+                                            <td><%= value.expirationDate %></td>
+                                        </tr>
+                                    </table>
+                                    <% break;
+
+                                    case 'structured_postal_address': %>
+                                    <table>
+                                        <% value.forEach(([ propName, propValue ]) => { %>
+                                            <tr>
+                                                <td><%= propName %></td>
+                                                <td><%= propValue %></td>
+                                            </tr>
+                                        <% }) %>
+                                    </table>
+                                    <% break;
+
+                                    case 'age_over:':
+                                    case 'age_under:': %>
+                                    <table>
+                                        <tr>
+                                            <td>Check Type</td>
+                                            <td><%= value.checkType %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Age</td>
+                                            <td><%= value.age %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Result</td>
+                                            <td><%= value.result %></td>
+                                        </tr>
+                                    </table>
+                                    <% break;
+
+                                    default: %>
+                                    <%= value %>
+                                    <% break;
+
+                                    } %>
+                                </div>
+                            </div>
+
+                            <div class="yoti-attribute-anchors-layout">
+                                <div class="yoti-attribute-anchors-head -s-v">S / V</div>
+                                <div class="yoti-attribute-anchors-head -value">Value</div>
+                                <div class="yoti-attribute-anchors-head -subtype">Sub type</div>
+
+                                <% if (sources) { %>
+                                    <% for(let i = 0; i < sources.length; i += 1) { %>
+                                        <% let { value, subType } = sources[ i ] %>
+                                        <div class="yoti-attribute-anchors -s-v">Source</div>
+                                        <div class="yoti-attribute-anchors -value"><%= value %></div>
+                                        <div class="yoti-attribute-anchors -subtype"><%= subType %></div>
+                                    <% } %>
+                                <% } %>
+
+                                <% if (verifiers) { %>
+                                    <% for(let i = 0; i < verifiers.length; i += 1) { %>
+                                        <% let { value, subType } = verifiers[ i ] %>
+                                        <div class="yoti-attribute-anchors -s-v">Verifier</div>
+                                        <div class="yoti-attribute-anchors -value"><%= value %></div>
+                                        <div class="yoti-attribute-anchors -subtype"><%= subType %></div>
+                                    <% } %>
+                                <% } %>
+
+                            </div>
+                        </div>
+                    <% }); %>
+
+                </div>
+            </section>
+        </main>
+    </body>
+</html>

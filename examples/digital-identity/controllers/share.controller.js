@@ -4,19 +4,20 @@ const {
     PolicyBuilder,
     ShareSessionConfigurationBuilder,
   },
-  DigitalIdentityClient,
 } = require('yoti');
 
 const config = require('../config');
-
-const digitalIdentityClient = new DigitalIdentityClient(
-  config.CLIENT_SDK_ID,
-  config.PEM_KEY,
-);
+const sdkDigitalIdentityClient = require('./sdk.digital.identity.client');
 
 const router = Router();
 
-router.get('/createSession', (req, res) => {
+router.get('/', (req, res) => {
+  res.render('pages/share', {
+    yotiClientSdkId: config.CLIENT_SDK_ID,
+  });
+});
+
+router.get('/get-new-session-id', async (req, res) => {
   const policy = new PolicyBuilder()
     .withFullName()
     .withEmail()
@@ -41,11 +42,29 @@ router.get('/createSession', (req, res) => {
     .withSubject(subject)
     .build();
 
-  res.render('pages/share', {
-    yotiClientSdkId: config.CLIENT_SDK_ID,
-    client: digitalIdentityClient,
-    shareSessionConfig,
-  });
+  const createShareSessionResult = await sdkDigitalIdentityClient
+    .createShareSession(shareSessionConfig);
+  return res.send(createShareSessionResult.getId());
+});
+
+router.get('/get-receipt', async (req, res) => {
+  const { query } = req;
+  const { id } = query;
+  const receipt = await sdkDigitalIdentityClient.getShareReceipt(id);
+
+  const profile = receipt.getProfile();
+
+  const receiptData = {
+    rememberMeId: receipt.getRememberMeId(),
+    fullName: profile.getFullName().value,
+    emailAddress: profile.getEmailAddress().value,
+    phoneNumber: profile.getPhoneNumber().value,
+    postalAddress: profile.getPostalAddress().value,
+    nationality: profile.getNationality().value,
+    gender: profile.getGender().value,
+  };
+
+  return res.send(receiptData);
 });
 
 module.exports = router;

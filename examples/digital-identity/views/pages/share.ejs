@@ -24,44 +24,104 @@
       <div class="yoti-sdk-integration-section">
         <div id="yoti-share-button"></div>
       </div>
+
+      <div id="yoti-share-completion" class="yoti-sdk-integration-section hidden">
+        <h5>Share is completed!</h5>
+        <p>The <em>completionHandler</em> received the receipt ID corresponding to the share session completion.</p>
+        <p>
+          In this example, we are fetching a summary of the receipt data and display them below.
+          <br/>To do so, we are calling the server endpoint <code>GET /get-new-session-id</code> and pass the receipt ID as query params.
+        </p>
+        <code>
+          <pre id="yoti-share-receipt-data"></pre>
+        </code>
+
+        <p>
+          Also, in order to view more details, there is a <em>profile</em> page...
+          <br/>That page expect either a "sessionId" or a "receiptId" as query params.
+        </p>
+        <ul>
+          <li><a id="yoti-profile-link-with-session-id" href="/">Go to profile using the session ID</a></li>
+          <li><a id="yoti-profile-link-with-receipt-id" href="/">Go to profile using the receipt ID</a></li>
+        </ul>
+
+      </div>
     </section>
   </main>
-  <script src="https://www.public.stg1.dmz.yoti.com/share/client/v2"></script>
+  <script src="https://www.yoti.com/share/client/v2"></script>
   <script>
+      const PROFILE_URL = '/profile'
+      const GET_NEW_SESSION_ID_URL = '/share/get-new-session-id'
+      const GET_RECEIPT_URL = '/share/get-receipt'
+
+      const completionContainerDom = document.getElementById('yoti-share-completion')
+      const profileLinkBySessionIdDom = document.getElementById('yoti-profile-link-with-session-id')
+      const profileLinkByReceiptIdDom = document.getElementById('yoti-profile-link-with-receipt-id')
+      const receiptDataContainerDom = document.getElementById('yoti-share-receipt-data')
+
+      let currentSessionId
+
       const sessionIdResolver = async () => {
-          const session = await fetch('/get-new-session')
-          if
+        completionContainerDom.classList.add('hidden')
+
+        const sessionId = await (await fetch(GET_NEW_SESSION_ID_URL)).text()
+        console.info('sessionIdResolver found id', sessionId);
+        currentSessionId = sessionId
+        return sessionId
       };
 
-      const completionHandler = (receivedReceiptId) => {
-          console.log('Session completed - received receiptId:', receivedReceiptId);
+      const completionHandler = async (receivedReceiptId='asa') => {
+        completionContainerDom.classList.remove('hidden')
+
+        console.log('Session completed - received receiptId:', receivedReceiptId);
+        const urlSearchParamsReceiptId = new URLSearchParams([ [ 'receiptId', receivedReceiptId ] ])
+        const urlSearchParamsSessionId = new URLSearchParams([ [ 'sessionId', currentSessionId ] ])
+
+        const receiptData = await (await fetch(`${GET_RECEIPT_URL}?${urlSearchParamsReceiptId}`)).json()
+        profileLinkBySessionIdDom.href = `${PROFILE_URL}?${urlSearchParamsSessionId}`
+        profileLinkByReceiptIdDom.href = `${PROFILE_URL}?${urlSearchParamsReceiptId}`
+        receiptDataContainerDom.innerText = JSON.stringify(receiptData, null, 2)
       };
 
       const errorListener = (errorCode) => {
           console.warn('Session errored - received errorCode:', errorCode);
       };
 
-      const start = async () => {
+      const loadYoti = async () => {
           const { Yoti } = window
           if (Yoti) {
-              console.log('I am here')
-              await Yoti.ready()
-              console.log('I am here as well')
-              await Yoti.createWebShare({
-                  name: 'share',
-                  domId: 'yoti-share-button',
-                  sdkId: "<%= yotiClientSdkId %>",
-                  hooks: {
-                      sessionIdResolver,
-                      completionHandler,
-                      errorListener,
-                  },
-              })
+            console.info('Waiting for Yoti...')
+            await Yoti.ready()
+            console.info('Yoti is now ready')
+          } else {
+            console.error('Yoti client was not found!')
           }
       }
-      start().catch((e) => {
-          console.warn(`could not create webShare:`, e)
-      })
+
+      const createYotiWebShare = async () => {
+          const { Yoti } = window
+          if (Yoti) {
+            await Yoti.createWebShare({
+              name: 'share',
+              domId: 'yoti-share-button',
+              sdkId: "<%= yotiClientSdkId %>",
+              hooks: {
+                sessionIdResolver,
+                completionHandler,
+                errorListener,
+              },
+            })
+          } else {
+            console.error('Yoti client was not found!')
+          }
+      }
+
+      const start = async () => {
+        await loadYoti()
+        await createYotiWebShare()
+      }
+
+      start().catch((e) => console.error(`Could not create Yoti WebShare, see`, e))
   </script>
 </body>
 

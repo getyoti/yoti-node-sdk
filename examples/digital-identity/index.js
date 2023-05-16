@@ -6,8 +6,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
 
+const defaultController = require('./controllers/index.controller');
 const shareController = require('./controllers/share.controller');
-const shareSessionController = require('./controllers/share.session.controller');
+const profileController = require('./controllers/profile.controller');
 
 const app = express();
 const port = process.env.PORT || 9443;
@@ -19,10 +20,11 @@ app.use('/static', express.static('static'));
 
 const router = express.Router();
 
-router.use('/', shareController);
-router.use('/share', shareSessionController);
+router.use('/share', shareController);
+router.use('/profile', profileController);
+router.use('/', defaultController);
 
-app.use('/', router);
+app.use(router);
 
 // START THE SERVER
 // =============================================================================
