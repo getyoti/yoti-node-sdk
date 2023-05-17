@@ -70,13 +70,14 @@
         return sessionId
       };
 
-      const completionHandler = async (receivedReceiptId='asa') => {
+      const completionHandler = async (receivedReceiptId) => {
         completionContainerDom.classList.remove('hidden')
 
         console.log('Session completed - received receiptId:', receivedReceiptId);
         const urlSearchParamsReceiptId = new URLSearchParams([ [ 'receiptId', receivedReceiptId ] ])
         const urlSearchParamsSessionId = new URLSearchParams([ [ 'sessionId', currentSessionId ] ])
 
+        receiptDataContainerDom.innerText = 'Loading receipt data....'
         const receiptData = await (await fetch(`${GET_RECEIPT_URL}?${urlSearchParamsReceiptId}`)).json()
         profileLinkBySessionIdDom.href = `${PROFILE_URL}?${urlSearchParamsSessionId}`
         profileLinkByReceiptIdDom.href = `${PROFILE_URL}?${urlSearchParamsReceiptId}`

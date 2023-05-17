@@ -49,8 +49,13 @@ router.get('/get-new-session-id', async (req, res) => {
 
 router.get('/get-receipt', async (req, res) => {
   const { query } = req;
-  const { id } = query;
-  const receipt = await sdkDigitalIdentityClient.getShareReceipt(id);
+  const { receiptId } = query;
+
+  if (!receiptId) {
+    res.status(400).send('Missing "receiptId" in the query params!');
+  }
+
+  const receipt = await sdkDigitalIdentityClient.getShareReceipt(receiptId);
 
   const profile = receipt.getProfile();
 
