@@ -43,11 +43,18 @@
     }
 }
 
-.yoti-sdk-integration-section {
-    margin: 30px 0;
+.yoti-share-buttons-section {
+    display: flex;
+    gap: 1em
 }
 
-#yoti-share-button {
+.yoti-share-button-container {
+    background: rgba(211, 211, 211, 0.5);
+    padding: 1em;
+}
+
+
+#yoti-share-button2 {
     width: fit-content;
     height: 45px;
 }

@@ -163,6 +163,50 @@ function toDisplayableAttribute(attribute) {
   return null;
 }
 
+function renderProfile(profile, res) {
+  const attributes = extractAttributesFromProfile(profile);
+  const displayableAttributes = attributes.map(toDisplayableAttribute)
+    .filter((attribute) => !!attribute);
+
+  res.render('pages/profile', {
+    profile,
+    attributes: displayableAttributes,
+  });
+}
+
+function renderProfileWithIdentity(profile, res) {
+  const identityProfile = profile.getIdentityProfileReport().getValue();
+  let identityAssertion = null;
+  let verificationReport = null;
+  let authenticationReport = null;
+  let documentImagesAttributes = [];
+
+  const {
+    identity_assertion: assertion,
+    verification_report: verification,
+    authentication_report: authentication,
+  } = identityProfile;
+
+  identityAssertion = assertion;
+  verificationReport = verification;
+  authenticationReport = authentication;
+
+  const { evidence } = verificationReport;
+  const { documents } = evidence;
+  documentImagesAttributes = documents
+  // eslint-disable-next-line camelcase
+    .map(({ document_images_attribute_id }) => (document_images_attribute_id
+      ? (profile && profile.getAttributeById(document_images_attribute_id)) : null))
+    .filter((documentImagesAttribute) => documentImagesAttribute);
+
+  res.render('pages/profile-with-identity', {
+    identityAssertion,
+    verificationReport,
+    authenticationReport,
+    documentImagesAttributes,
+  });
+}
+
 module.exports = async (req, res) => {
   try {
     const { sessionId, receiptId: receiptIdFromQuery } = req.query;
@@ -181,15 +225,23 @@ module.exports = async (req, res) => {
     }
 
     const receipt = await sdkDigitalIdentityClient.getShareReceipt(receiptId);
-    const profile = receipt.getProfile();
-    const attributes = extractAttributesFromProfile(profile);
-    const displayableAttributes = attributes.map(toDisplayableAttribute)
-      .filter((attribute) => !!attribute);
+    const receiptError = receipt.getError();
+    if (receiptError) {
+      throw new Error(`The receipt was fetched correctly, yet it indicates that an error occurred during the share: ${receiptError}.`);
+    }
 
-    res.render('pages/profile', {
-      profile,
-      attributes: displayableAttributes,
-    });
+    const profile = receipt.getProfile();
+    if (!profile) {
+      throw new Error('The receipt was fetched correctly, yet it does not contain any user profile!');
+    }
+
+    const hasIdentityProfile = Boolean(profile.getIdentityProfileReport());
+
+    if (hasIdentityProfile) {
+      renderProfileWithIdentity(profile, res);
+    } else {
+      renderProfile(profile, res);
+    }
   } catch (err) {
     console.error(err);
     res.render('pages/error', {

@@ -18,19 +18,33 @@ router.get('/', (req, res) => {
 });
 
 router.get('/get-new-session-id', async (req, res) => {
-  const policy = new PolicyBuilder()
-    .withFullName()
-    .withEmail()
-    .withPhoneNumber()
-    .withSelfie()
-    .withStructuredPostalAddress()
-    .withAgeOver(18)
-    .withNationality()
-    .withGender()
-    .withDocumentDetails()
-    .withDocumentImages()
-    .withWantedRememberMe()
-    .build();
+  const { query } = req;
+  const { policyType } = query;
+
+  const policyBuilder = new PolicyBuilder();
+
+  if (policyType === 'RTW') {
+    policyBuilder.withIdentityProfileRequirements({
+      trust_framework: 'UK_TFIDA',
+      scheme: {
+        type: 'RTW',
+      },
+    });
+  } else {
+    policyBuilder.withFullName()
+      .withEmail()
+      .withPhoneNumber()
+      .withSelfie()
+      .withStructuredPostalAddress()
+      .withAgeOver(18)
+      .withNationality()
+      .withGender()
+      .withDocumentDetails()
+      .withDocumentImages()
+      .withWantedRememberMe();
+  }
+
+  const policy = policyBuilder.build();
 
   const subject = {
     subject_id: 'some_subject_id_string',
@@ -52,24 +66,63 @@ router.get('/get-receipt', async (req, res) => {
   const { receiptId } = query;
 
   if (!receiptId) {
-    res.status(400).send('Missing "receiptId" in the query params!');
+    return res.status(400).send('Missing "receiptId" in the query params!');
   }
 
-  const receipt = await sdkDigitalIdentityClient.getShareReceipt(receiptId);
+  try {
+    const receipt = await sdkDigitalIdentityClient.getShareReceipt(receiptId);
 
-  const profile = receipt.getProfile();
+    const receiptError = receipt.getError();
+    const timestamp = receipt.getTimestamp();
+    const sessionId = receipt.getSessionId();
+    const profile = receipt.getProfile();
+    const hasIdentityProfile = Boolean(profile.getIdentityProfileReport());
 
-  const receiptData = {
-    rememberMeId: receipt.getRememberMeId(),
-    fullName: profile.getFullName().value,
-    emailAddress: profile.getEmailAddress().value,
-    phoneNumber: profile.getPhoneNumber().value,
-    postalAddress: profile.getPostalAddress().value,
-    nationality: profile.getNationality().value,
-    gender: profile.getGender().value,
-  };
+    let receiptData = {
+      sessionId,
+      timestamp,
+    };
 
-  return res.send(receiptData);
+    if (receiptError) {
+      receiptData = {
+        ...receiptData,
+        error: receiptError,
+      };
+    } else if (hasIdentityProfile) {
+      const { verification_report: verificationReport } = profile.getIdentityProfileReport().value;
+      const {
+        trust_framework: trustFramework,
+        schemes_compliance: schemesCompliance,
+      } = verificationReport;
+
+      receiptData = {
+        ...receiptData,
+        hasIdentityProfile: true,
+        trustFramework,
+        schemesCount: schemesCompliance.length,
+      };
+    } else {
+      receiptData = {
+        ...receiptData,
+        rememberMeId: receipt.getRememberMeId(),
+        fullName: profile.getFullName().value,
+        emailAddress: profile.getEmailAddress().value,
+        phoneNumber: profile.getPhoneNumber().value,
+        postalAddress: profile.getPostalAddress().value,
+        nationality: profile.getNationality().value,
+        gender: profile.getGender().value,
+      };
+    }
+
+    return res.send(receiptData);
+  } catch (e) {
+    console.error('Error occurred when trying to fetch the receipt, see:\n', e);
+    return res.status(500).send({
+      message: e.message,
+      ...(e.code && { code: e.code }),
+      ...(e.reason && { reason: e.reason }),
+    });
+  }
 });
 
 module.exports = router;
