@@ -410,3 +410,9 @@
         padding: 75px 110px;
     }
 }
+
+.yoti-report-section {
+    display: flex;
+    flex-direction: column;
+    margin-left: 50px;
+}
