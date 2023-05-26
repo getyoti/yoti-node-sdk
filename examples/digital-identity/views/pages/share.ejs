@@ -43,7 +43,7 @@
         <p>The <em>completionHandler</em> received the receipt ID corresponding to the share session completion.</p>
         <p>
           In this example, we are fetching a summary of the receipt data and display them below.
-          <br/>To do so, we are calling the server endpoint <code>GET /get-new-session-id</code> and pass the receipt ID as query params.
+          <br/>To do so, we are calling the server endpoint <code>GET /share/get-receipt</code> and pass the receipt ID as query params.
         </p>
         <h6>Receipt data (only an extract of the full receipt data):</h6>
         <code>
@@ -64,8 +64,7 @@
       </div>
     </section>
   </main>
-<!--  <script src="https://www.yoti.com/share/client/v2"></script>-->
-  <script src="https://www.public.stg1.dmz.yoti.com/share/client/v2"></script>
+  <script src="https://www.yoti.com/share/client/v2"></script>
   <script>
       const PROFILE_URL = '/profile'
       const GET_NEW_SESSION_ID_URL = '/share/get-new-session-id'
@@ -118,7 +117,8 @@
       };
 
       const errorListener = (errorCode) => {
-          console.warn('Session errored - received errorCode:', errorCode);
+        // Subject to change for a more generic events reporter
+        console.warn('Session errored - received errorCode:', errorCode);
       };
 
       const loadYoti = async () => {
