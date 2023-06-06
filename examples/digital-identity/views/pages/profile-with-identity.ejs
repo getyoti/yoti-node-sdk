@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <title>Yoti client example</title>
         <link rel="stylesheet" type="text/css" href="/static/index.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/profile.css"/>
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
     </head>
 
@@ -21,33 +22,31 @@
                 </div>
             </section>
 
-            <h1 class="yoti-main-title">Identity profile report</h1>
-            <section>
-                <div class="yoti-report-section">
-                    <div>
-                        <h4>Identity assertion:</h4>
-                        <pre><%= JSON.stringify(identityAssertion, null, 2) %></pre>
-                    </div>
-                    <div>
-                        <h4>Verification report:</h4>
-                        <pre><%= JSON.stringify(verificationReport, null, 2) %></pre>
-                    </div>
-                    <div>
-                        <h4>Authentication report:</h4>
-                        <pre><%= JSON.stringify(authenticationReport, null, 2) %></pre>
-                    </div>
-                    <div>
-                        <h4>Documents images attributes:</h4>
-                        <% documentImagesAttributes.forEach((docImgAttr) => { %>
-                            <span>Document image ID: </span>
-                            <span><%= docImgAttr.getId() %></span>
-                            <br>
-                            <br>
-                            <% docImgAttr.getValue().forEach((image) => { %>
-                                <img src="<%= image.getBase64Content() %>" alt="Document image"/>
-                            <% }) %>
+            <section class="yoti-report-section">
+                <h1 class="yoti-main-title">Identity profile report</h1>
+                <div>
+                    <h4>Identity assertion:</h4>
+                    <pre><%= JSON.stringify(identityAssertion, null, 2) %></pre>
+                </div>
+                <div>
+                    <h4>Verification report:</h4>
+                    <pre><%= JSON.stringify(verificationReport, null, 2) %></pre>
+                </div>
+                <div>
+                    <h4>Authentication report:</h4>
+                    <pre><%= JSON.stringify(authenticationReport, null, 2) %></pre>
+                </div>
+                <div>
+                    <h4>Documents images attributes:</h4>
+                    <% documentImagesAttributes.forEach((docImgAttr) => { %>
+                        <span>Document image ID: </span>
+                        <span><%= docImgAttr.getId() %></span>
+                        <br>
+                        <br>
+                        <% docImgAttr.getValue().forEach((image) => { %>
+                            <img src="<%= image.getBase64Content() %>" alt="Document image"/>
                         <% }) %>
-                    </div>
+                    <% }) %>
                 </div>
             </section>
         </main>
