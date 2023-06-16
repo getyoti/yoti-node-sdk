@@ -1,6 +1,6 @@
 'use strict';
 
-const { YotiClient, IDVClient } = require('./src/client');
+const { YotiClient, IDVClient, DigitalIdentityClient } = require('./src/client');
 const { AmlAddress, AmlProfile } = require('./src/aml_type');
 const { RequestBuilder } = require('./src/request/request.builder');
 const { Payload } = require('./src/request/payload');
@@ -19,6 +19,10 @@ const {
   ConstraintsBuilder,
   SourceConstraintBuilder,
 } = require('./src/dynamic_sharing_service');
+
+const {
+  DigitalIdentityBuilders,
+} = require('./src/digital_identity_service');
 
 const {
   SessionSpecificationBuilder,
@@ -51,9 +55,11 @@ const {
 module.exports = {
   Client: YotiClient,
   IDVClient,
+  DigitalIdentityClient,
   IDVConstants,
   AmlAddress,
   AmlProfile,
+  DigitalIdentityBuilders,
   DynamicScenarioBuilder,
   DynamicPolicyBuilder,
   WantedAttributeBuilder,

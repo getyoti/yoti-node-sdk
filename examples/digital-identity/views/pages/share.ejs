@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html class="yoti-html">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Yoti client example</title>
+  <link rel="stylesheet" type="text/css" href="/static/index.css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
+</head>
+
+<body class="yoti-body">
+  <main>
+    <section class="yoti-top-section">
+      <div class="yoti-logo-section">
+        <img
+          class="yoti-logo-image"
+          src="/static/assets/logo.png"
+          srcset="/static/assets/logo@2x.png 2x"
+          alt="Yoti"/>
+      </div>
+
+      <h1 class="yoti-top-header">Share Example</h1>
+
+      <div class="yoti-share-buttons-section">
+        <div class="yoti-share-button-container">
+          <p>
+            Start the flow to share basic Yoti attributes
+          </p>
+          <div id="yoti-share-button-basic-attributes"></div>
+        </div>
+        <div class="yoti-share-button-container">
+          <p>
+            Start the flow to assert Right To Work
+          </p>
+          <div id="yoti-share-button-right-to-work"></div>
+        </div>
+
+      </div>
+
+      <div id="yoti-share-completion" class="yoti-sdk-integration-section hidden">
+        <h5>Share is completed!</h5>
+        <hr/>
+        <p>The <em>completionHandler</em> received the receipt ID corresponding to the share session completion.</p>
+        <p>
+          In this example, we are fetching a summary of the receipt data and display them below.
+          <br/>To do so, we are calling the server endpoint <code>GET /share/get-receipt</code> and pass the receipt ID as query params.
+        </p>
+        <h6>Receipt data (only an extract of the full receipt data):</h6>
+        <code>
+          <pre id="yoti-share-receipt-data"></pre>
+        </code>
+
+        <div id="yoti-profile-links" class="hidden">
+          <hr/>
+          <p>
+            In order to view more details, there is a <em>profile</em> page...
+            <br/>That page expect either a "sessionId" or a "receiptId" as query params.
+          </p>
+          <ul>
+            <li><a id="yoti-profile-link-with-session-id" href="/">Go to profile using the session ID</a></li>
+            <li><a id="yoti-profile-link-with-receipt-id" href="/">Go to profile using the receipt ID</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="https://www.yoti.com/share/client/v2"></script>
+  <script>
+      const PROFILE_URL = '/profile'
+      const GET_NEW_SESSION_ID_URL = '/share/get-new-session-id'
+      const GET_RECEIPT_URL = '/share/get-receipt'
+
+      const completionContainerDom = document.getElementById('yoti-share-completion')
+      const profileLinksDom = document.getElementById('yoti-profile-links')
+      const profileLinkBySessionIdDom = document.getElementById('yoti-profile-link-with-session-id')
+      const profileLinkByReceiptIdDom = document.getElementById('yoti-profile-link-with-receipt-id')
+      const receiptDataContainerDom = document.getElementById('yoti-share-receipt-data')
+
+      let currentSessionId
+
+      const sessionIdResolver = async (policyType) => {
+        completionContainerDom.classList.add('hidden')
+        profileLinksDom.classList.add('hidden')
+
+        const urlSearchParamsPolicyType = policyType ? new URLSearchParams([ [ 'policyType', policyType ] ]) : new URLSearchParams()
+
+        const sessionId = await (await fetch(GET_NEW_SESSION_ID_URL+'?'+urlSearchParamsPolicyType)).text()
+        console.info('sessionIdResolver found id', sessionId);
+        currentSessionId = sessionId
+        return sessionId
+      };
+
+      const completionHandler = async (receivedReceiptId) => {
+        completionContainerDom.classList.remove('hidden')
+
+        console.log('Session completed - received receiptId:', receivedReceiptId);
+        const urlSearchParamsReceiptId = receivedReceiptId ? new URLSearchParams([ [ 'receiptId', receivedReceiptId ] ]) : new URLSearchParams()
+        const urlSearchParamsSessionId = currentSessionId ? new URLSearchParams([ [ 'sessionId', currentSessionId ] ]) : new URLSearchParams()
+
+        receiptDataContainerDom.innerText = 'Loading receipt data....'
+        try {
+          const response = await fetch(`${GET_RECEIPT_URL}?${urlSearchParamsReceiptId}`)
+          const contentTypeIsJSON = response.headers.get('Content-Type').includes('json')
+          let receiptData
+          if (response.ok) {
+            receiptData = await response.json()
+            profileLinksDom.classList.remove('hidden')
+            profileLinkBySessionIdDom.href = `${PROFILE_URL}?${urlSearchParamsSessionId}`
+            profileLinkByReceiptIdDom.href = `${PROFILE_URL}?${urlSearchParamsReceiptId}`
+          } else {
+            receiptData = contentTypeIsJSON ? await response.json(): `Error: ${await response.text()}`
+          }
+          receiptDataContainerDom.innerText = contentTypeIsJSON ? JSON.stringify(receiptData, null, 2) : receiptData
+        } catch (e) {
+          receiptDataContainerDom.innerText = `An error occurred when loading the receipt data: ${e.message}`
+        }
+      };
+
+      const errorListener = (errorCode) => {
+        // Subject to change for a more generic events reporter
+        console.warn('Session errored - received errorCode:', errorCode);
+      };
+
+      const loadYoti = async () => {
+          const { Yoti } = window
+          if (Yoti) {
+            console.info('Waiting for Yoti...')
+            await Yoti.ready()
+            console.info('Yoti is now ready')
+          } else {
+            console.error('Yoti client was not found!')
+          }
+      }
+
+      const createYotiWebShare = async () => {
+          const { Yoti } = window
+          if (Yoti) {
+            await Yoti.createWebShare({
+              name: 'share example basic attributes',
+              domId: 'yoti-share-button-basic-attributes',
+              sdkId: "<%= yotiClientSdkId %>",
+              hooks: {
+                sessionIdResolver,
+                completionHandler,
+                errorListener,
+              },
+            })
+
+            await Yoti.createWebShare({
+              name: 'share example RTW',
+              domId: 'yoti-share-button-right-to-work',
+              sdkId: "<%= yotiClientSdkId %>",
+              hooks: {
+                sessionIdResolver: ()=>sessionIdResolver('RTW'),
+                completionHandler,
+                errorListener,
+              },
+            })
+          } else {
+            console.error('Yoti client was not found!')
+          }
+      }
+
+      const start = async () => {
+        await loadYoti()
+        await createYotiWebShare()
+      }
+
+      start().catch((e) => console.error(`Could not create Yoti WebShare, see`, e))
+  </script>
+</body>
+
+</html>
