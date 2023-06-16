@@ -37,6 +37,25 @@ module.exports = class Validation {
    *
    * @throws {TypeError}
    */
+  static isStringDate(value, name, optional = false) {
+    if ((typeof value) === 'undefined' && optional) {
+      return;
+    }
+
+    const date = new Date(value);
+
+    if (date.toString() === 'Invalid Date') {
+      throw TypeError(`${name} must be a date like string`);
+    }
+  }
+
+  /**
+   * @param {*} value
+   * @param {string} name
+   * @param {bool} optional the value can be undefined
+   *
+   * @throws {TypeError}
+   */
   static isBoolean(value, name, optional = false) {
     if ((typeof value) === 'undefined' && optional) {
       return;

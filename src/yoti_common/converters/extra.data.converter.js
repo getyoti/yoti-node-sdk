@@ -2,7 +2,6 @@
 
 const { messages } = require('../../proto');
 const DataEntryConverter = require('./data.entry.converter');
-const ExtraData = require('../../profile_service/extra.data');
 
 class ExtraDataConverter {
   static convertExtraData(extraDataBytes) {
@@ -11,15 +10,13 @@ class ExtraDataConverter {
       extraDataProto = messages.decodeExtraData(extraDataBytes);
     } catch (err) {
       console.log(`Failed to parse extra data: ${err}`);
-      return new ExtraData();
+      return undefined;
     }
 
     const dataEntries = extraDataProto.list;
-    const parsed = dataEntries.map((entry) => DataEntryConverter
+    return dataEntries.map((entry) => DataEntryConverter
       .convertValue(entry.type, entry.value))
       .filter((i) => i !== undefined);
-
-    return new ExtraData(parsed);
   }
 }
 

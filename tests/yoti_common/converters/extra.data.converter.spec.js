@@ -2,7 +2,6 @@
 
 const fs = require('fs');
 const ExtraDataConverter = require('../../../src/yoti_common/converters/extra.data.converter');
-const ExtraData = require('../../../src/profile_service/extra.data');
 const { YotiDate } = require('../../../src/data_type/date');
 
 const sampleExtraData = fs.readFileSync('./tests/sample-data/fixtures/extra_data/valid_extra_data.txt', 'utf8');
@@ -13,9 +12,10 @@ describe('ExtraDataConverter', () => {
       const extraData = ExtraDataConverter.convertExtraData(sampleExtraData);
 
       expect(extraData).not.toBe(undefined);
-      expect(extraData).toBeInstanceOf(ExtraData);
+      expect(Array.isArray(extraData)).toBe(true);
+      expect(extraData).toHaveLength(1);
 
-      const attributeIssuanceDetails = extraData.getAttributeIssuanceDetails();
+      const attributeIssuanceDetails = extraData[0];
 
       expect(attributeIssuanceDetails).not.toBe(undefined);
       expect(attributeIssuanceDetails.getToken()).toEqual('c29tZUlzc3VhbmNlVG9rZW4=');
@@ -28,11 +28,10 @@ describe('ExtraDataConverter', () => {
         .getMicrosecondTimestamp()).toBe('2019-10-15T22:04:05.123000Z');
     });
 
-    it('should return an instance of ExtraData even when failing to parse', () => {
+    it('should return undefined when failing to parse', () => {
       const extraData = ExtraDataConverter.convertExtraData(Buffer.from('someRandomData'));
 
-      expect(extraData).toBeInstanceOf(ExtraData);
-      expect(extraData.getAttributeIssuanceDetails()).toBe(undefined);
+      expect(extraData).toBe(undefined);
     });
   });
 });

@@ -3,7 +3,6 @@
 const { Profile } = require('./profile');
 const { ApplicationProfile } = require('./application.profile');
 const ExtraData = require('./extra.data');
-const Validation = require('../yoti_common/validation');
 
 /**
  * Details of an activity between a user and the application.
@@ -18,7 +17,7 @@ class ActivityDetails {
    *   Decrypted user profile data.
    * @param {{attributes: Object[]}} applicationProfile
    *   Decrypted application profile data.
-   * @param {ExtraData} extraData
+   * @param {[]} extraData
    *   Decrypted and converted extra data.
    */
   constructor(parsedResponse, userProfile, applicationProfile, extraData) {
@@ -29,11 +28,7 @@ class ActivityDetails {
     const { attributes: applicationProfileAttributes } = applicationProfile || {};
     this.userProfile = new Profile(userProfileAttributes);
     this.applicationProfile = new ApplicationProfile(applicationProfileAttributes);
-
-    if (extraData !== undefined) {
-      Validation.instanceOf(extraData, ExtraData, 'extraData');
-    }
-    this.extraData = extraData;
+    this.extraData = new ExtraData(extraData);
   }
 
   /**

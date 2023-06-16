@@ -4,7 +4,6 @@ const crypto = require('crypto');
 const forge = require('node-forge');
 
 const { messages } = require('../proto');
-const ExtraData = require('../profile_service/extra.data');
 const { AttributeListConverter } = require('./converters/attribute.list.converter');
 const ExtraDataConverter = require('./converters/extra.data.converter');
 
@@ -147,7 +146,7 @@ module.exports.decryptApplicationProfile = (receipt, pem) => decryptProfileConte
  * @param {Object} receipt
  * @param {string} pem
  *
- * @returns {ExtraData}
+ * @returns {[]}
  */
 module.exports.parseExtraData = (receipt, pem) => {
   const extraDataNotEmpty = receipt.extra_data_content
@@ -162,6 +161,92 @@ module.exports.parseExtraData = (receipt, pem) => {
 
     return ExtraDataConverter.convertExtraData(decryptedExtraData);
   }
+  return [];
+};
 
-  return new ExtraData(undefined);
+/**
+ * @param {Buffer} cipherText
+ * @param {Buffer} tag
+ * @param {Buffer} iv
+ * @param {Buffer} secret
+ *
+ * @returns {Buffer}
+ */
+module.exports.decryptAESGCM = (cipherText, tag, iv, secret) => {
+  const decipher = forge.cipher.createDecipher('AES-GCM', secret.toString('binary'));
+
+  const data = forge.util.createBuffer();
+  data.putBytes(cipherText.toString('binary'));
+
+  decipher.start({
+    iv: iv.toString('binary'),
+    tag: tag.toString('binary'),
+  });
+  decipher.update(data);
+  const pass = decipher.finish();
+
+  if (pass) {
+    return Buffer.from(decipher.output.getBytes(), 'binary');
+  }
+
+  throw new Error('Could not decipher');
+};
+
+/**
+ * @param {Buffer} cipherText
+ * @param {Buffer} iv
+ * @param {Buffer} secret
+ *
+ * @returns {Buffer}
+ */
+module.exports.decryptAESCBC = (cipherText, iv, secret) => {
+  const data = forge.util
+    .createBuffer()
+    .putBytes(cipherText.toString('binary'));
+
+  const decipher = forge.cipher.createDecipher(
+    'AES-CBC',
+    secret.toString('binary')
+  );
+
+  decipher.start({ iv: iv.toString('binary') });
+  decipher.update(data);
+  decipher.finish();
+
+  return Buffer.from(decipher.output.getBytes(), 'binary');
+};
+
+/**
+ * @param {Buffer} cipherText
+ * @param {Buffer} pem
+ *
+ * @returns {Buffer}
+ */
+module.exports.decryptAsymmetric = (cipherText, pem) => {
+  const privateKey = forge.pki.privateKeyFromPem(pem);
+
+  const cipherTextBinary = Buffer
+    .from(cipherText)
+    .toString('binary');
+
+  return Buffer.from(
+    privateKey.decrypt(cipherTextBinary).toString('binary'),
+    'binary'
+  );
+};
+
+/**
+ * @param {Buffer} secret
+ * @param {number} [tagSize]
+ *
+ * @returns {{ cipherText: Buffer, tag: Buffer }}
+ */
+module.exports.decomposeAESGCMCipherText = (secret, tagSize = 16) => {
+  const cipherText = secret.subarray(0, secret.length - tagSize);
+  const tag = secret.subarray(secret.length - tagSize);
+
+  return {
+    cipherText,
+    tag,
+  };
 };
