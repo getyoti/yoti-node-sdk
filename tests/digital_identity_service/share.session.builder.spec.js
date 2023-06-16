@@ -61,7 +61,7 @@ describe('ShareSessionConfigurationBuilder', () => {
           },
         ],
         wanted_auth_types: [],
-        wanted_remember_me: false,
+        wanted_remember_me: true,
         wanted_remember_me_optional: false,
       },
       extensions: [

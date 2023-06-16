@@ -299,7 +299,7 @@ module.exports = class PolicyBuilder {
   /**
    * @param {boolean} wantedRememberMe
    */
-  withWantedRememberMe(wantedRememberMe) {
+  withWantedRememberMe(wantedRememberMe = true) {
     this.wantedRememberMe = wantedRememberMe;
     return this;
   }
