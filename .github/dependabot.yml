@@ -3,7 +3,7 @@ updates:
 - package-ecosystem: npm
   directory: "/"
   schedule:
-    interval: monthly
+    interval: daily
   open-pull-requests-limit: 3
   target-branch: development
   reviewers:
