@@ -21,9 +21,7 @@ jobs:
 
       - run: npm install --no-audit
 
-      - run: npm install -D audit-ci
-
-      - run: npx audit-ci --moderate
+      - run: npm run audit
 
       - run: npm run test
 

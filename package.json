@@ -14,6 +14,7 @@
   "scripts": {
     "lint": "npx eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
     "test": "jest",
+    "audit": "audit-ci --config ./audit-ci.jsonc",
     "pre-commit": "npm run test"
   },
   "jest": {
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@types/jest": "29.0.1",
+    "audit-ci": "^6.6.1",
     "eslint": "8.43.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.27.5",
