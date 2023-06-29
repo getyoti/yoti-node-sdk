@@ -79,4 +79,38 @@ describe('RequestedTextExtractionBuilder', () => {
 
     expect(JSON.stringify(task)).toBe(expectedJson);
   });
+
+  it('should build RequestedTextExtractionTask with create expanded document fields set to true', () => {
+    const expectedJson = JSON.stringify({
+      type: 'ID_DOCUMENT_TEXT_DATA_EXTRACTION',
+      config: {
+        manual_check: 'NEVER',
+        create_expanded_document_fields: true,
+      },
+    });
+
+    const task = new RequestedTextExtractionTaskBuilder()
+      .withManualCheckNever()
+      .withCreateExpandedDocumentFields(true)
+      .build();
+
+    expect(JSON.stringify(task)).toBe(expectedJson);
+  });
+
+  it('should build RequestedTextExtractionTask with create expanded document fields set to false', () => {
+    const expectedJson = JSON.stringify({
+      type: 'ID_DOCUMENT_TEXT_DATA_EXTRACTION',
+      config: {
+        manual_check: 'NEVER',
+        create_expanded_document_fields: false,
+      },
+    });
+
+    const task = new RequestedTextExtractionTaskBuilder()
+      .withManualCheckNever()
+      .withCreateExpandedDocumentFields(false)
+      .build();
+
+    expect(JSON.stringify(task)).toBe(expectedJson);
+  });
 });
