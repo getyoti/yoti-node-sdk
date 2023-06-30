@@ -14,6 +14,7 @@ describe('SdkConfigBuilder', () => {
       .withLocale('some-url')
       .withPresetIssuingCountry('some-country')
       .withPrivacyPolicyUrl('some-privacy-policy-url')
+      .withBiometricConsentFlow('some-flow')
       .withAllowHandoff(true)
       .build();
 
@@ -27,6 +28,7 @@ describe('SdkConfigBuilder', () => {
       success_url: 'some-success-url',
       error_url: 'some-error-url',
       privacy_policy_url: 'some-privacy-policy-url',
+      biometric_consent_flow: 'some-flow',
       allow_handoff: true,
     });
 
@@ -52,6 +54,30 @@ describe('SdkConfigBuilder', () => {
 
     const expectedJson = JSON.stringify({
       allowed_capture_methods: 'CAMERA',
+    });
+
+    expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
+  });
+
+  it('should build SdkConfig with early biometric consent flow', () => {
+    const sdkConfig = new SdkConfigBuilder()
+      .withEarlyBiometricConsentFlow()
+      .build();
+
+    const expectedJson = JSON.stringify({
+      biometric_consent_flow: 'EARLY',
+    });
+
+    expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
+  });
+
+  it('should build SdkConfig with just in time biometric consent flow', () => {
+    const sdkConfig = new SdkConfigBuilder()
+      .withJustInTimeBiometricConsentFlow()
+      .build();
+
+    const expectedJson = JSON.stringify({
+      biometric_consent_flow: 'JUST_IN_TIME',
     });
 
     expect(JSON.stringify(sdkConfig)).toBe(expectedJson);

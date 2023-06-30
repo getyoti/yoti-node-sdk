@@ -37,6 +37,7 @@ class SdkConfig {
     successUrl,
     errorUrl,
     privacyPolicyUrl,
+    biometricConsentFlow,
     allowHandoff,
     attemptsConfiguration
   ) {
@@ -67,6 +68,9 @@ class SdkConfig {
     Validation.isString(privacyPolicyUrl, 'privacyPolicyUrl', true);
     this.privacyPolicyUrl = privacyPolicyUrl;
 
+    Validation.isString(biometricConsentFlow, 'biometricConsentFlow', true);
+    this.biometricConsentFlow = biometricConsentFlow;
+
     Validation.isBoolean(allowHandoff, 'allowHandoff', true);
     this.allowHandoff = allowHandoff;
 
@@ -90,6 +94,7 @@ class SdkConfig {
       success_url: this.successUrl,
       error_url: this.errorUrl,
       privacy_policy_url: this.privacyPolicyUrl,
+      biometric_consent_flow: this.biometricConsentFlow,
       allow_handoff: this.allowHandoff,
       attempts_configuration: this.attemptsConfiguration,
     };

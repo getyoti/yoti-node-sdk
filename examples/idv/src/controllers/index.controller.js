@@ -135,6 +135,7 @@ async function createSession() {
         .withErrorUrl(`${config.YOTI_APP_BASE_URL}/error`)
         .withPrivacyPolicyUrl(`${config.YOTI_APP_BASE_URL}/privacy-policy`)
         .withAllowHandoff(true)
+        .withEarlyBiometricConsentFlow() // or withJustInTimeBiometricConsentFlow()
         .withIdDocumentTextExtractionGenericRetries(5)
         .withIdDocumentTextExtractionReclassificationRetries(5)
         .build()
