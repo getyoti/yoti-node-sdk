@@ -152,6 +152,37 @@ class SdkConfigBuilder {
   }
 
   /**
+   * Sets the biometric consent flow to "EARLY"
+   *
+   * @returns {this}
+   */
+  withEarlyBiometricConsentFlow() {
+    return this.withBiometricConsentFlow(IDVConstants.EARLY);
+  }
+
+  /**
+   * Sets the biometric consent flow to "JUST_IN_TIME"
+   *
+   * @returns {this}
+   */
+  withJustInTimeBiometricConsentFlow() {
+    return this.withBiometricConsentFlow(IDVConstants.JUST_IN_TIME);
+  }
+
+  /**
+   * Sets the biometric consent flow
+   *
+   * @param {string} biometricConsentFlow the biometric consent flow
+   *
+   * @returns {this}
+   */
+  withBiometricConsentFlow(biometricConsentFlow) {
+    Validation.isString(biometricConsentFlow, 'biometricConsentFlow');
+    this.biometricConsentFlow = biometricConsentFlow;
+    return this;
+  }
+
+  /**
    * Sets whether mobile handoff is allowed, so the user can start a session on their desktop
    * and then switch to mobile to finish
    *
@@ -236,6 +267,7 @@ class SdkConfigBuilder {
       this.successUrl,
       this.errorUrl,
       this.privacyPolicyUrl,
+      this.biometricConsentFlow,
       this.allowHandoff,
       this.attemptsConfiguration
     );

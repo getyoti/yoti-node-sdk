@@ -49,4 +49,6 @@ module.exports = Object.freeze({
   FUZZY: 'FUZZY',
   GENERIC: 'GENERIC',
   RECLASSIFICATION: 'RECLASSIFICATION',
+  EARLY: 'EARLY',
+  JUST_IN_TIME: 'JUST_IN_TIME',
 });
