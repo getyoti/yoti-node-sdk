@@ -4,6 +4,7 @@ const DocumentFieldsResponse = require('../../../../src/idv_service/session/retr
 const TaskResponse = require('../../../../src/idv_service/session/retrieve/task.response');
 const TextExtractionTaskResponse = require('../../../../src/idv_service/session/retrieve/text.extraction.task.response');
 const DocumentIdPhotoResponse = require('../../../../src/idv_service/session/retrieve/document.id.photo.response');
+const ExpandedDocumentFieldsResponse = require('../../../../src/idv_service/session/retrieve/expanded.document.fields.response');
 
 describe('IdDocumentResourceResponse', () => {
   let documentResourceResponse;
@@ -16,6 +17,7 @@ describe('IdDocumentResourceResponse', () => {
         someDetail: 'some-value',
       }],
       document_id_photo: {},
+      expanded_document_fields: {},
       document_fields: {},
       tasks: [
         {
@@ -52,6 +54,13 @@ describe('IdDocumentResourceResponse', () => {
     it('should return document fields', () => {
       const fields = documentResourceResponse.getDocumentFields();
       expect(fields).toBeInstanceOf(DocumentFieldsResponse);
+    });
+  });
+
+  describe('#getExpandedDocumentFields', () => {
+    it('should return document ID photo', () => {
+      const expandedDocumentFields = documentResourceResponse.getExpandedDocumentFields();
+      expect(expandedDocumentFields).toBeInstanceOf(ExpandedDocumentFieldsResponse);
     });
   });
 
