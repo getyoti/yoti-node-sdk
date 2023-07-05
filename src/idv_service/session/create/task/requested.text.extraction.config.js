@@ -14,12 +14,15 @@ class RequestedTextExtractionConfig {
    * @param {string} chipData
    *   Describes the chip data requirement for each Task
    */
-  constructor(manualCheck, chipData) {
+  constructor(manualCheck, chipData, createExpandedDocumentFields) {
     Validation.isString(manualCheck, 'manualCheck');
     this.manualCheck = manualCheck;
 
     Validation.isString(chipData, 'chipData', true);
     this.chipData = chipData;
+
+    Validation.isBoolean(createExpandedDocumentFields, 'createExpandedDocumentFields', true);
+    this.createExpandedDocumentFields = createExpandedDocumentFields;
   }
 
   /**
@@ -29,6 +32,7 @@ class RequestedTextExtractionConfig {
     return {
       manual_check: this.manualCheck,
       chip_data: this.chipData,
+      create_expanded_document_fields: this.createExpandedDocumentFields,
     };
   }
 }

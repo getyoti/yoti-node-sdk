@@ -58,6 +58,15 @@ class RequestedTextExtractionTaskBuilder {
   }
 
   /**
+   * @param {boolean} createExpandedDocumentFields boolean
+   * @returns {this}
+   */
+  withCreateExpandedDocumentFields(createExpandedDocumentFields) {
+    this.createExpandedDocumentFields = createExpandedDocumentFields;
+    return this;
+  }
+
+  /**
    * Builds a {@link RequestedTextExtractionTask} using the values supplied to the builder
    *
    * @returns {RequestedTextExtractionTask}
@@ -65,7 +74,11 @@ class RequestedTextExtractionTaskBuilder {
   build() {
     Validation.notNullOrEmpty(this.manualCheck, 'manualCheck');
 
-    const config = new RequestedTextExtractionConfig(this.manualCheck, this.chipData);
+    const config = new RequestedTextExtractionConfig(
+      this.manualCheck,
+      this.chipData,
+      this.createExpandedDocumentFields
+    );
     return new RequestedTextExtractionTask(config);
   }
 }
