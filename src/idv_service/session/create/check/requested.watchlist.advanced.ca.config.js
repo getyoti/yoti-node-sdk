@@ -28,7 +28,7 @@ class RequestedWatchlistAdvancedCaConfig {
     Validation.isBoolean(removeDeceased, 'removeDeceased');
     this.removeDeceased = removeDeceased;
 
-    Validation.isBoolean(removeDeceased, 'shareUrl');
+    Validation.isBoolean(shareUrl, 'shareUrl');
     this.shareUrl = shareUrl;
 
     if (sources) {

@@ -116,6 +116,7 @@ async function createSession() {
       new RequestedTextExtractionTaskBuilder()
         .withManualCheckAlways()
         .withChipDataDesired()
+        .withCreateExpandedDocumentFields(true) // default is false
         .build()
     )
     .withRequestedTask(
