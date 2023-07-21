@@ -173,6 +173,7 @@ module.exports = async (req, res) => {
     req.session.IDV_SESSION_TOKEN = session.getClientSessionToken();
 
     res.render('pages/index', {
+      sessionId: req.session.IDV_SESSION_ID,
       iframeUrl: `${config.YOTI_IDV_IFRAME_URL}?sessionID=${req.session.IDV_SESSION_ID}&sessionToken=${req.session.IDV_SESSION_TOKEN}`,
     });
   } catch (error) {

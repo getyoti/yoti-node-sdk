@@ -1,3 +1,7 @@
 <%- include('layout/header'); -%>
+<div style="font-size: 18px; margin-left: 300px">
+    <span>Session ID:</span> <span><%= sessionId %></span>
+</div>
+<a style="font-size: 18px; margin-left: 300px" href="/config?sessionID=<%= sessionId %>" target="_blank">View session configuration</a>
 <iframe style="border:none;" width="100%" height="750" allow="camera" src="<%= iframeUrl %>" allowfullscreen></iframe>
 <%- include('layout/footer'); -%>

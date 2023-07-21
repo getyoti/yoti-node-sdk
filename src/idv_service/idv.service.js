@@ -10,6 +10,7 @@ const config = require('../../config');
 const Media = require('../data_type/media');
 const IDVError = require('./idv.error');
 const SupportedDocumentsResponse = require('./support/supported.documents.response');
+const SessionConfigurationResponse = require('./session/retrieve/configuration/session.configuration.response');
 
 const DEFAULT_API_URL = config.yoti.idvApi;
 
@@ -54,7 +55,7 @@ class IDVService {
    *
    * @param {SessionSpecification} sessionSpecification
    *
-   * @returns {Promise} Resolves CreateSessionResult
+   * @returns {Promise<CreateSessionResult>}
    */
   createSession(sessionSpecification) {
     Validation.instanceOf(sessionSpecification, SessionSpecification, 'sessionSpecification');
@@ -87,7 +88,7 @@ class IDVService {
    *
    * @param {string} sessionId
    *
-   * @returns {Promise} Resolves GetSessionResult
+   * @returns {Promise<GetSessionResult>}
    */
   getSession(sessionId) {
     Validation.isString(sessionId, 'sessionId');
@@ -144,7 +145,7 @@ class IDVService {
    * @param {string} sessionId
    * @param {string} mediaId
    *
-   * @returns {Promise} resolving Media
+   * @returns {Promise<Media>}
    */
   getMediaContent(sessionId, mediaId) {
     Validation.isString(sessionId, 'sessionId');
@@ -211,7 +212,7 @@ class IDVService {
   /**
    * Gets a list of supported documents.
    *
-   * @returns {Promise}
+   * @returns {Promise<SupportedDocumentsResponse>}
    */
   getSupportedDocuments() {
     const request = new RequestBuilder()
@@ -224,6 +225,27 @@ class IDVService {
     return new Promise((resolve, reject) => {
       request.execute()
         .then((response) => resolve(new SupportedDocumentsResponse(response.getParsedResponse())))
+        .catch((err) => reject(new IDVError(err)));
+    });
+  }
+
+  /**
+   * @param {string} sessionId
+   *
+   * @returns {Promise<SessionConfigurationResponse>}
+   */
+  getSessionConfiguration(sessionId) {
+    const request = new RequestBuilder()
+      .withPemString(this.pem)
+      .withBaseUrl(this.apiUrl)
+      .withEndpoint(`/sessions/${sessionId}/configuration`)
+      .withQueryParam('sdkId', this.sdkId)
+      .withGet()
+      .build();
+
+    return new Promise((resolve, reject) => {
+      request.execute()
+        .then((response) => resolve(new SessionConfigurationResponse(response.getParsedResponse())))
         .catch((err) => reject(new IDVError(err)));
     });
   }
