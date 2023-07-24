@@ -8,6 +8,8 @@ const IDVConstants = require('../../../../idv.constants');
 class OrthogonalRestrictionsFilterBuilder {
   /**
    * @param {string[]} countryCodes
+   *
+   * @returns {this}
    */
   withWhitelistedCountries(countryCodes) {
     this.countryRestriction = new CountryRestriction(
@@ -19,6 +21,8 @@ class OrthogonalRestrictionsFilterBuilder {
 
   /**
    * @param {string[]} countryCodes
+   *
+   * @returns {this}
    */
   withBlacklistedCountries(countryCodes) {
     this.countryRestriction = new CountryRestriction(
@@ -30,6 +34,8 @@ class OrthogonalRestrictionsFilterBuilder {
 
   /**
    * @param {string[]} documentTypes
+   *
+   * @returns {this}
    */
   withWhitelistedDocumentTypes(documentTypes) {
     this.typeRestriction = new TypeRestriction(
@@ -41,6 +47,8 @@ class OrthogonalRestrictionsFilterBuilder {
 
   /**
    * @param {string[]} documentTypes
+   *
+   * @returns {this}
    */
   withBlacklistedDocumentTypes(documentTypes) {
     this.typeRestriction = new TypeRestriction(
@@ -61,13 +69,24 @@ class OrthogonalRestrictionsFilterBuilder {
   }
 
   /**
+   * @param {Boolean} allowNonLatinDocuments
+   *
+   * @returns {this}
+   */
+  withAllowNonLatinDocuments(allowNonLatinDocuments) {
+    this.allowNonLatinDocuments = allowNonLatinDocuments;
+    return this;
+  }
+
+  /**
    * @returns {OrthogonalRestrictionsFilter}
    */
   build() {
     return new OrthogonalRestrictionsFilter(
       this.countryRestriction,
       this.typeRestriction,
-      this.allowExpiredDocuments
+      this.allowExpiredDocuments,
+      this.allowNonLatinDocuments
     );
   }
 }
