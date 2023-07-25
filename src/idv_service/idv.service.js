@@ -216,15 +216,22 @@ class IDVService {
   /**
    * Gets a list of supported documents.
    *
+   * @param {boolean} includeNonLatin
+   *
    * @returns {Promise<SupportedDocumentsResponse>}
    */
-  getSupportedDocuments() {
-    const request = new RequestBuilder()
+  getSupportedDocuments(includeNonLatin) {
+    let request = new RequestBuilder()
       .withPemString(this.pem)
       .withBaseUrl(this.apiUrl)
       .withEndpoint('/supported-documents')
-      .withGet()
-      .build();
+      .withGet();
+
+    if (includeNonLatin) {
+      request.withQueryParam('includeNonLatin', true);
+    }
+
+    request = request.build();
 
     return new Promise((resolve, reject) => {
       request.execute()

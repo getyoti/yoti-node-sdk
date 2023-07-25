@@ -419,6 +419,21 @@ describe('IDVService', () => {
           .catch(done);
       });
     });
+    describe('when includeNonLatin is passed', () => {
+      it('should return SupportedDocumentResponse', (done) => {
+        nock(config.yoti.idvApi)
+          .get(SUPPORTED_DOCUMENTS_URI)
+          .reply(200, '{}');
+
+        idvService
+          .getSupportedDocuments(true)
+          .then((result) => {
+            expect(result).toBeInstanceOf(SupportedDocumentResponse);
+            done();
+          })
+          .catch(done);
+      });
+    });
     describe('when response code is invalid', () => {
       it('should reject', (done) => {
         nock(config.yoti.idvApi)

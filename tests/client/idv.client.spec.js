@@ -206,6 +206,22 @@ describe.each([
           .catch(done);
       });
     });
+
+    describe('when includeNonLatin is passed', () => {
+      beforeEach(() => {
+        setupResponse(JSON.stringify({}));
+      });
+
+      it('should return SupportedDocumentResponse', (done) => {
+        idvClient
+          .getSupportedDocuments(true)
+          .then((result) => {
+            expect(result).toBeInstanceOf(SupportedDocumentResponse);
+            done();
+          })
+          .catch(done);
+      });
+    });
   });
 
   describe('#getSessionConfiguration', () => {
