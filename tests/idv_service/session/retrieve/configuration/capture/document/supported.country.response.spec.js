@@ -10,9 +10,11 @@ describe('SupportedCountryResponse', () => {
       supported_documents: [
         {
           type: 'DRIVING_LICENCE',
+          is_strictly_latin: true,
         },
         {
           type: 'PASSPORT',
+          is_strictly_latin: true,
         },
       ],
     });
