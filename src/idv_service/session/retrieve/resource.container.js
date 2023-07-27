@@ -114,8 +114,8 @@ class ResourceContainer {
    * @returns {FaceCaptureResourceResponse[]}
    *   The list of face resources
    */
-  getFaceCapture() {
-    return this.livenessCapture;
+  getFaceCaptureResources() {
+    return this.faceCapture;
   }
 }
 
