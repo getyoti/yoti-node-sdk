@@ -11,6 +11,7 @@ const RequestedThirdPartyIdentityCheckBuilder = require('./session/create/check/
 const RequestedWatchlistScreeningCheckBuilder = require('./session/create/check/requested.watchlist.screening.check.builder');
 const RequestedWatchlistAdvancedCaCheckBuilder = require('./session/create/check/requested.watchlist.advanced.ca.check.builder');
 const RequestedFaceMatchCheckBuilder = require('./session/create/check/requested.face.match.check.builder');
+const RequestedFaceComparisonCheckBuilder = require('./session/create/check/requested.face.comparison.check.builder');
 const RequestedLivenessCheckBuilder = require('./session/create/check/requested.liveness.check.builder');
 const RequestedTextExtractionTaskBuilder = require('./session/create/task/requested.text.extraction.task.builder');
 const RequestedSupplementaryDocTextExtractionTaskBuilder = require('./session/create/task/requested.supplementary.doc.text.extraction.task.builder');
@@ -39,6 +40,7 @@ module.exports = {
   RequestedWatchlistScreeningCheckBuilder,
   RequestedWatchlistAdvancedCaCheckBuilder,
   RequestedFaceMatchCheckBuilder,
+  RequestedFaceComparisonCheckBuilder,
   RequestedLivenessCheckBuilder,
   RequestedTextExtractionTaskBuilder,
   RequestedSupplementaryDocTextExtractionTaskBuilder,
