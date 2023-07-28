@@ -4,20 +4,14 @@ const Validation = require('../../../yoti_common/validation');
 
 class CreateFaceCaptureResourceResponse {
   /**
-   * @param {object} sessionData
+   * @param {{id: string, frames: number}} resourceData
    */
-  constructor(sessionData) {
-    Validation.isPlainObject(sessionData, 'session_data');
-
-    if (sessionData.id) {
-      Validation.isString(sessionData.id, 'id');
-      this.id = sessionData.id;
-    }
-
-    if (sessionData.frames) {
-      Validation.isInteger(sessionData.frames, 'frames');
-      this.frames = sessionData.frames;
-    }
+  constructor(resourceData) {
+    Validation.isPlainObject(resourceData, 'resourceData');
+    Validation.isString(resourceData.id, 'resourceData.id');
+    Validation.isNumber(resourceData.frames, 'resourceData.frames');
+    this.id = resourceData.id;
+    this.frames = resourceData.frames;
   }
 
   /**

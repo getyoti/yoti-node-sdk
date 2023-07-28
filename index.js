@@ -51,6 +51,8 @@ const {
   RequestedFuzzyMatchingStrategyBuilder,
   RequestedSearchProfileSourcesBuilder,
   RequestedTypeListSourcesBuilder,
+  CreateFaceCaptureResourcePayloadBuilder,
+  UploadFaceCaptureImagePayloadBuilder,
 } = require('./src/idv_service');
 
 module.exports = {
@@ -100,4 +102,6 @@ module.exports = {
   RequestedFuzzyMatchingStrategyBuilder,
   RequestedSearchProfileSourcesBuilder,
   RequestedTypeListSourcesBuilder,
+  CreateFaceCaptureResourcePayloadBuilder,
+  UploadFaceCaptureImagePayloadBuilder,
 };

@@ -73,7 +73,7 @@ class CaptureResponse {
   /**
    * Returns a list of all the document resource
    * requirements (including ID and supplementary documents)
-   * @return {array<number, RequiredDocumentResourceResponse>}
+   * @return {RequiredDocumentResourceResponse[]}
    */
   getDocumentResourceRequirements() {
     return filterByClass(this.requiredResources, RequiredDocumentResourceResponse);
@@ -82,7 +82,7 @@ class CaptureResponse {
   /**
    * Returns a list of all the ID document resource requirements
    *
-   * @return {array<number, RequiredIdDocumentResourceResponse>}
+   * @return {RequiredIdDocumentResourceResponse[]}
    */
   getIdDocumentResourceRequirements() {
     return filterByClass(this.requiredResources, RequiredIdDocumentResourceResponse);
@@ -91,7 +91,7 @@ class CaptureResponse {
   /**
    * Returns a list of all the supplementary document resource requirements
    *
-   * @return {array<number, RequiredSupplementaryDocumentResourceResponse>}
+   * @return {RequiredSupplementaryDocumentResourceResponse[]}
    */
   getSupplementaryResourceRequirements() {
     return filterByClass(this.requiredResources, RequiredSupplementaryDocumentResourceResponse);
@@ -100,7 +100,7 @@ class CaptureResponse {
   /**
    * Returns a list of all the liveness resource requirements
    *
-   * @return {array<number, RequiredLivenessResourceResponse>}
+   * @return {RequiredLivenessResourceResponse[]}
    */
   getLivenessResourceRequirements() {
     return filterByClass(this.requiredResources, RequiredLivenessResourceResponse);
@@ -109,7 +109,7 @@ class CaptureResponse {
   /**
    * Returns a list of all the zoom liveness resource requirements
    *
-   * @return {array<number, RequiredZoomLivenessResourceResponse>}
+   * @return {RequiredZoomLivenessResourceResponse[]}
    */
   getZoomLivenessResourceRequirements() {
     return filterByClass(this.requiredResources, RequiredZoomLivenessResourceResponse);
@@ -118,7 +118,7 @@ class CaptureResponse {
   /**
    * Returns a list of all the Face Capture resource requirements
    *
-   * @return {array<number, RequiredFaceCaptureResourceResponse>}
+   * @return {RequiredFaceCaptureResourceResponse[]}
    */
   getFaceCaptureResourceRequirements() {
     return filterByClass(this.requiredResources, RequiredFaceCaptureResourceResponse);

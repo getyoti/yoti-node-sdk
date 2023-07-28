@@ -3,6 +3,9 @@
 const Validation = require('../../../../yoti_common/validation');
 const UploadFaceCaptureImagePayload = require('./upload.face.capture.image.payload');
 
+const JPG_CONTENT_TYPE = 'image/jpg';
+const PNG_CONTENT_TYPE = 'image/png';
+
 /**
  *
  * @class UploadFaceCaptureImagePayloadBuilder
@@ -14,7 +17,7 @@ class UploadFaceCaptureImagePayloadBuilder {
      * @return this
      */
   forJpegImage() {
-    this.imageContentType = 'image/jpg';
+    this.imageContentType = JPG_CONTENT_TYPE;
     return this;
   }
 
@@ -24,18 +27,18 @@ class UploadFaceCaptureImagePayloadBuilder {
    * @return this
    */
   forPngImage() {
-    this.imageContentType = 'image/png';
+    this.imageContentType = PNG_CONTENT_TYPE;
     return this;
   }
 
   /**
    * Sets the contents of the image to be uploaded
    *
-   * @param array<int, int> imageContents
+   * @param {Buffer} imageContents
    * @return this
    */
   withImageContents(imageContents) {
-    Validation.isArray(imageContents, 'image_contents');
+    Validation.instanceOf(imageContents, Buffer, 'image_contents');
     this.imageContents = imageContents;
     return this;
   }

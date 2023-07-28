@@ -113,6 +113,13 @@ class RequestBuilder {
   }
 
   /**
+   * @returns {RequestBuilder}
+   */
+  withPut() {
+    return this.withMethod('PUT');
+  }
+
+  /**
    * @param {string} payload
    *
    * @returns {RequestBuilder}

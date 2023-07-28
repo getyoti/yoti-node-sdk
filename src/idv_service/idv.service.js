@@ -246,8 +246,9 @@ class IDVService {
       .withPemString(this.pem)
       .withBaseUrl(this.apiUrl)
       .withEndpoint(`sessions/${sessionId}/resources/face-capture`)
-      .withPayload(new Payload(createFaceCaptureResourcePayload))
+      .withQueryParam('sdkId', this.sdkId)
       .withPost()
+      .withPayload(new Payload(createFaceCaptureResourcePayload))
       .build();
 
     return new Promise((resolve, reject) => {

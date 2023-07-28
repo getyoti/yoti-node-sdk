@@ -15,11 +15,10 @@ class CreateFaceCaptureResourcePayload {
     this.requirementId = requirementId;
   }
 
-  /**
-   * @returns {string} requirement id
-   */
-  getRequirementId() {
-    return this.requirementId;
+  toJSON() {
+    return {
+      requirement_id: this.requirementId,
+    };
   }
 }
 

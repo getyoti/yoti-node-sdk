@@ -11,7 +11,7 @@ class CreateFaceCaptureResourcePayloadBuilder {
   /**
    * Sets the id of the requirement that the resource will be used to satisfy.
    *
-   * @param string requirementId
+   * @param {string} requirementId
    * @return CreateFaceCaptureResourcePayloadBuilder
    */
   withRequirementId(requirementId) {

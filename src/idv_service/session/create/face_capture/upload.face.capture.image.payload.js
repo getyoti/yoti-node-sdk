@@ -8,14 +8,14 @@ const Validation = require('../../../../yoti_common/validation');
  */
 class UploadFaceCaptureImagePayload {
   /**
-   * @param string $imageContentType
-   * @param array<int, int> $imageContents
+   * @param {string} imageContentType
+   * @param {Buffer} imageContents
    */
   constructor(imageContentType, imageContents) {
     Validation.isString(imageContentType, 'image_content_type');
     this.imageContentType = imageContentType;
 
-    Validation.isArrayOfType(imageContents, Buffer, 'image_contents');
+    Validation.instanceOf(imageContents, Buffer, 'image_contents');
     this.imageContents = imageContents;
   }
 
@@ -27,7 +27,7 @@ class UploadFaceCaptureImagePayload {
   }
 
   /**
-   * @return array<int, int>
+   * @return Buffer
    */
   getImageContents() {
     return this.imageContents;

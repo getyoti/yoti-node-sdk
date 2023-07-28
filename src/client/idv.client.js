@@ -97,10 +97,10 @@ class IDVClient {
    * @param {string} sessionId
    * @param {CreateFaceCaptureResourcePayload} createFaceCaptureResourcePayload
    *
-   * @returns {Promise} Resolves CreateFaceCaptureResourceResponse
+   * @returns {Promise<CreateFaceCaptureResourceResponse>}
    */
   createFaceCaptureResource(sessionId, createFaceCaptureResourcePayload) {
-    this.idvService.createFaceCaptureResource(sessionId, createFaceCaptureResourcePayload);
+    return this.idvService.createFaceCaptureResource(sessionId, createFaceCaptureResourcePayload);
   }
 
   /**
@@ -108,10 +108,11 @@ class IDVClient {
    * @param {string} resourceId
    * @param {UploadFaceCaptureImagePayload} uploadFaceCaptureImagePayload
    *
-   * @returns {Promise} Resolves CreateFaceCaptureResourceResponse
+   * @returns {Promise<CreateFaceCaptureResourceResponse>}
    */
   uploadFaceCaptureImage(sessionId, resourceId, uploadFaceCaptureImagePayload) {
-    this.idvService.uploadFaceCaptureImage(sessionId, resourceId, uploadFaceCaptureImagePayload);
+    // eslint-disable-next-line max-len
+    return this.idvService.uploadFaceCaptureImage(sessionId, resourceId, uploadFaceCaptureImagePayload);
   }
 
   /**
