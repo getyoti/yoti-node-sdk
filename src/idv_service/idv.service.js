@@ -282,12 +282,7 @@ class IDVService {
       .withEndpoint(`/sessions/${sessionId}/resources/face-capture/${resourceId}/image`)
       .withQueryParam('sdkId', this.sdkId)
       .withPut()
-      .withMultipartBinaryBody(
-        'binary-content',
-        uploadFaceCaptureImagePayload.getImageContents(),
-        uploadFaceCaptureImagePayload.getImageContentType(),
-        'face-capture-image'
-      )
+      .withPayload(new Payload(uploadFaceCaptureImagePayload))
       .build();
 
     return new Promise((resolve, reject) => {
