@@ -79,9 +79,12 @@ async function addFaceCaptureResourceToSession(sessionId) {
 
     const faceCaptureResource = await idvClient.createFaceCaptureResource(sessionId, createFaceCaptureResourcePayload);
 
+    // eslint-disable-next-line max-len
+    const base64PngImage = 'iVBORw0KGgoAAAANSUhEUgAAAsAAAAGMAQMAAADuk4YmAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAADlJREFUeF7twDEBAAAAwiD7p7bGDlgYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAGJrAABgPqdWQAAAABJRU5ErkJggg=='
+
     const uploadFaceCaptureImagePayload = new UploadFaceCaptureImagePayloadBuilder()
       .forPngImage()
-      .withImageContents(Buffer.from('lalala', 'utf-8'))
+      .withImageContents(Buffer.from(base64PngImage, 'base64'))
       .build();
 
     const createFaceCaptureResourceResponse = await idvClient.uploadFaceCaptureImage(sessionId, faceCaptureResource.getId(), uploadFaceCaptureImagePayload);

@@ -15,8 +15,16 @@ const yotiCommon = require('../yoti_common');
 module.exports.execute = (yotiRequest, buffer = false) => new Promise((resolve, reject) => {
   const request = superagent(yotiRequest.getMethod(), yotiRequest.getUrl());
 
-  if (yotiCommon.requestCanSendPayload(yotiRequest.getMethod())) {
-    request.send(yotiRequest.getPayload().getPayloadJSON());
+  const requestCanSendPayload = yotiCommon.requestCanSendPayload(yotiRequest.getMethod());
+
+  const contentType = yotiRequest.getHeaders()['Content-Type'];
+
+  if (requestCanSendPayload) {
+    if (contentType === 'application/json') {
+      request.send(yotiRequest.getPayload().getPayloadJSON());
+    } else if (contentType.includes('multipart/form-data')) {
+      request.send(yotiRequest.getPayload().getRawData().getBuffer());
+    }
   }
 
   if (buffer === true) {

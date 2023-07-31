@@ -280,6 +280,7 @@ class IDVService {
       .withPemString(this.pem)
       .withBaseUrl(this.apiUrl)
       .withEndpoint(`/sessions/${sessionId}/resources/face-capture/${resourceId}/image`)
+      .withQueryParam('sdkId', this.sdkId)
       .withPut()
       .withMultipartBinaryBody(
         'binary-content',
