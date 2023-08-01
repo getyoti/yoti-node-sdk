@@ -155,7 +155,11 @@ class RequestBuilder {
     };
 
     if (this.payload) {
-      defaultHeaders['Content-Type'] = this.payload.getContentType();
+      if (this.payload.getContentType() === ContentType.FORM_DATA) {
+        defaultHeaders['Content-Type'] = `${ContentType.FORM_DATA}; boundary=${this.payload.getRawData().getBoundary()}`;
+      } else {
+        defaultHeaders['Content-Type'] = this.payload.getContentType();
+      }
     }
 
     return defaultHeaders;

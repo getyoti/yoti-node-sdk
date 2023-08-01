@@ -32,6 +32,28 @@ class UploadFaceCaptureImagePayload {
   getImageContents() {
     return this.imageContents;
   }
+
+  /**
+   * @typedef {import('form-data').AppendOptions} AppendOptions
+   *
+   * @return {Array<{
+   *  name: string,
+   *  value: any,
+   *  options: AppendOptions
+   * }>}
+   */
+  getFormDataFields() {
+    return [
+      {
+        name: 'binary-content',
+        value: this.getImageContents(),
+        options: {
+          filename: 'face-capture-image',
+          contentType: this.getImageContentType(),
+        },
+      },
+    ];
+  }
 }
 
 module.exports = UploadFaceCaptureImagePayload;

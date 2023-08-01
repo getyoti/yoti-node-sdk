@@ -1,21 +1,21 @@
 'use strict';
 
 const FormData = require('form-data');
-const UploadFaceCaptureImagePayload = require('../idv_service/session/create/face_capture/upload.face.capture.image.payload');
 const { ContentType } = require('./constants');
 
 module.exports.Payload = class Payload {
-  constructor(data) {
-    if (data instanceof UploadFaceCaptureImagePayload) {
+  constructor(data, type = ContentType.JSON) {
+    if (type === ContentType.FORM_DATA) {
       const formData = new FormData();
 
-      formData.append('binary-content', data.getImageContents(), {
-        filename: 'face-capture-image',
-        contentType: data.getImageContentType(),
+      const fields = data.getFormDataFields();
+
+      fields.forEach(({ name, value, options }) => {
+        formData.append(name, value, options);
       });
 
+      this.contentType = ContentType.FORM_DATA;
       this.data = formData;
-      this.contentType = `${ContentType.FORM_DATA}; boundary=${formData.getBoundary()}`;
     } else {
       this.contentType = ContentType.JSON;
       this.data = data;
@@ -32,11 +32,15 @@ module.exports.Payload = class Payload {
   }
 
   /**
-   * Get payload as a JSON string.
+   * Get payload as a Buffer or as a string.
    *
-   * @returns {string}
+   * @returns {Buffer | string}
    */
-  getPayloadJSON() {
+  getPayloadData() {
+    if (this.contentType === ContentType.FORM_DATA) {
+      return this.data.getBuffer();
+    }
+
     let data = this.data;
     if (typeof data === 'string') {
       data = Buffer.from(data, 'utf8');
@@ -45,24 +49,15 @@ module.exports.Payload = class Payload {
   }
 
   /**
-   * Get payload as a Buffer.
-   *
-   * @returns {Buffer}
-   */
-  getPayloadDataFormBuffer() {
-    return this.data.getBuffer();
-  }
-
-  /**
    * Get payload as a Base64 string.
    *
    * @returns {string}
    */
   getBase64Payload() {
-    if (this.contentType.includes(ContentType.FORM_DATA)) {
+    if (this.contentType === ContentType.FORM_DATA) {
       return this.data.getBuffer().toString('base64');
     }
-    return Buffer.from(this.getPayloadJSON()).toString('base64');
+    return Buffer.from(this.getPayloadData()).toString('base64');
   }
 
   /**

@@ -3,7 +3,6 @@
 const superagent = require('superagent');
 const { YotiResponse } = require('./response');
 const yotiCommon = require('../yoti_common');
-const { ContentType } = require('./constants');
 
 /**
  * Default HTTP request handler.
@@ -18,14 +17,9 @@ module.exports.execute = (yotiRequest, buffer = false) => new Promise((resolve, 
 
   const requestCanSendPayload = yotiCommon.requestCanSendPayload(yotiRequest.getMethod());
 
-  const contentType = yotiRequest.getHeaders()['Content-Type'];
-
   if (requestCanSendPayload) {
-    if (contentType === ContentType.JSON) {
-      request.send(yotiRequest.getPayload().getPayloadJSON());
-    } else if (contentType.includes(ContentType.FORM_DATA)) {
-      request.send(yotiRequest.getPayload().getPayloadDataFormBuffer());
-    }
+    const payload = yotiRequest.getPayload().getPayloadData();
+    request.send(payload);
   }
 
   if (buffer === true) {
