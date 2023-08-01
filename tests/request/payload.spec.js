@@ -10,7 +10,7 @@ describe('amlPayload', () => {
 
   describe('#getPayloadJSON', () => {
     it('should return the payload JSON string', () => {
-      const payloadJSON = amlPayload.getPayloadJSON();
+      const payloadJSON = amlPayload.getPayloadData();
       expect(payloadJSON).toBe(expectedPayloadJSON);
     });
   });

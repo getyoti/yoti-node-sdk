@@ -25,7 +25,7 @@ describe('amlService', () => {
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadJSON())
+          .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadData())
           .reply(200, amlCheckResult);
         done();
       });
@@ -63,7 +63,7 @@ describe('amlService', () => {
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadJSON())
+          .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadData())
           .reply(400, amlCheckError);
 
         done();
@@ -82,7 +82,7 @@ describe('amlService', () => {
     describe('with an invalid JSON response', () => {
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadJSON())
+          .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadData())
           .reply(200, '');
 
         done();
