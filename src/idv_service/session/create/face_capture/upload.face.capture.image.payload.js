@@ -34,12 +34,10 @@ class UploadFaceCaptureImagePayload {
   }
 
   /**
-   * @typedef {import('form-data').AppendOptions} AppendOptions
-   *
    * @return {Array<{
    *  name: string,
-   *  value: any,
-   *  options: AppendOptions
+   *  value: Buffer,
+   *  options: {filename: string, contentType: string}
    * }>}
    */
   getFormDataFields() {

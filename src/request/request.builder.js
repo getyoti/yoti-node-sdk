@@ -90,7 +90,7 @@ class RequestBuilder {
   }
 
   /**
-   * @param string $method
+   * @param {string} method
    *
    * @returns {RequestBuilder}
    */
@@ -121,7 +121,7 @@ class RequestBuilder {
   }
 
   /**
-   * @param {string} payload
+   * @param {import('./payload').Payload} payload
    *
    * @returns {RequestBuilder}
    */
@@ -131,8 +131,8 @@ class RequestBuilder {
   }
 
   /**
-   * @param string name
-   * @param string value
+   * @param {string} name
+   * @param {string} value
    *
    * @returns {RequestBuilder}
    */

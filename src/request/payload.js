@@ -5,11 +5,15 @@ const { ContentType } = require('./constants');
 
 module.exports.Payload = class Payload {
   constructor(data, type = ContentType.JSON) {
+    const supportedContentTypes = [ContentType.JSON, ContentType.FORM_DATA];
+    if (!supportedContentTypes.includes(type)) {
+      throw new Error(`Payload content type must be specified and one of [${supportedContentTypes.join(',')}]`);
+    }
+
     if (type === ContentType.FORM_DATA) {
       const formData = new FormData();
 
       const fields = data.getFormDataFields();
-
       fields.forEach(({ name, value, options }) => {
         formData.append(name, value, options);
       });
@@ -37,15 +41,15 @@ module.exports.Payload = class Payload {
    * @returns {Buffer | string}
    */
   getPayloadData() {
-    if (this.contentType === ContentType.FORM_DATA) {
-      return this.data.getBuffer();
+    switch (this.contentType) {
+      case ContentType.FORM_DATA:
+        return this.data.getBuffer();
+      case ContentType.JSON:
+        return JSON.stringify(this.data);
+      default:
+        console.warn('Unexpected content type!');
+        return '';
     }
-
-    let data = this.data;
-    if (typeof data === 'string') {
-      data = Buffer.from(data, 'utf8');
-    }
-    return JSON.stringify(data);
   }
 
   /**
@@ -54,10 +58,9 @@ module.exports.Payload = class Payload {
    * @returns {string}
    */
   getBase64Payload() {
-    if (this.contentType === ContentType.FORM_DATA) {
-      return this.data.getBuffer().toString('base64');
-    }
-    return Buffer.from(this.getPayloadData()).toString('base64');
+    let payloadData = this.getPayloadData();
+    if (!(payloadData instanceof Buffer)) payloadData = Buffer.from(payloadData);
+    return payloadData.toString('base64');
   }
 
   /**
