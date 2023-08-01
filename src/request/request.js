@@ -46,7 +46,7 @@ class YotiRequest {
   }
 
   /**
-   * @returns {Payload|null}
+   * @returns {import('./payload').Payload|null}
    */
   getPayload() {
     return this.payload;

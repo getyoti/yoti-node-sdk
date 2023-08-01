@@ -32,6 +32,26 @@ class UploadFaceCaptureImagePayload {
   getImageContents() {
     return this.imageContents;
   }
+
+  /**
+   * @return {Array<{
+   *  name: string,
+   *  value: Buffer,
+   *  options: {filename: string, contentType: string}
+   * }>}
+   */
+  getFormDataFields() {
+    return [
+      {
+        name: 'binary-content',
+        value: this.getImageContents(),
+        options: {
+          filename: 'face-capture-image',
+          contentType: this.getImageContentType(),
+        },
+      },
+    ];
+  }
 }
 
 module.exports = UploadFaceCaptureImagePayload;

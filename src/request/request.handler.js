@@ -16,15 +16,11 @@ module.exports.execute = (yotiRequest, buffer = false) => new Promise((resolve, 
   const request = superagent(yotiRequest.getMethod(), yotiRequest.getUrl());
 
   const requestCanSendPayload = yotiCommon.requestCanSendPayload(yotiRequest.getMethod());
+  const payload = yotiRequest.getPayload();
 
-  const contentType = yotiRequest.getHeaders()['Content-Type'];
-
-  if (requestCanSendPayload) {
-    if (contentType === 'application/json') {
-      request.send(yotiRequest.getPayload().getPayloadJSON());
-    } else if (contentType.includes('multipart/form-data')) {
-      request.send(yotiRequest.getPayload().getRawData().getBuffer());
-    }
+  if (requestCanSendPayload && payload) {
+    const payloadData = payload.getPayloadData();
+    request.send(payloadData);
   }
 
   if (buffer === true) {

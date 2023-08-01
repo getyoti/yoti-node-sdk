@@ -2,13 +2,12 @@
 
 const fs = require('fs');
 const { v4: uuid } = require('uuid');
-const FormData = require('form-data');
 
 const yotiCommon = require('../yoti_common');
 const { YotiRequest } = require('./request');
 const Validation = require('../yoti_common/validation');
 const yotiPackage = require('../../package.json');
-const { Payload } = require('./payload');
+const { ContentType } = require('./constants');
 
 const SDK_IDENTIFIER = 'Node';
 
@@ -91,7 +90,7 @@ class RequestBuilder {
   }
 
   /**
-   * @param string $method
+   * @param {string} method
    *
    * @returns {RequestBuilder}
    */
@@ -122,7 +121,7 @@ class RequestBuilder {
   }
 
   /**
-   * @param {string} payload
+   * @param {import('./payload').Payload} payload
    *
    * @returns {RequestBuilder}
    */
@@ -132,26 +131,13 @@ class RequestBuilder {
   }
 
   /**
-   * @param string name
-   * @param string value
+   * @param {string} name
+   * @param {string} value
    *
    * @returns {RequestBuilder}
    */
   withQueryParam(name, value) {
     this.queryParams[name] = value;
-    return this;
-  }
-
-  withMultipartBinaryBody(name, payload, contentType, fileName) {
-    if (!this.multipartDataForm) {
-      this.multipartDataForm = new FormData();
-    }
-
-    this.multipartDataForm.append(name, payload, {
-      filename: fileName,
-      contentType,
-    });
-
     return this;
   }
 
@@ -165,15 +151,15 @@ class RequestBuilder {
       'X-Yoti-Auth-Digest': messageSignature,
       'X-Yoti-SDK': SDK_IDENTIFIER,
       'X-Yoti-SDK-Version': `${SDK_IDENTIFIER}-${yotiPackage.version}`,
-      Accept: 'application/json',
+      Accept: ContentType.JSON,
     };
 
     if (this.payload) {
-      defaultHeaders['Content-Type'] = 'application/json';
-    }
-
-    if (this.multipartDataForm) {
-      defaultHeaders['Content-Type'] = `multipart/form-data; boundary=${this.multipartDataForm.getBoundary()}`;
+      if (this.payload.getContentType() === ContentType.FORM_DATA) {
+        defaultHeaders['Content-Type'] = `${ContentType.FORM_DATA}; boundary=${this.payload.getRawData().getBoundary()}`;
+      } else {
+        defaultHeaders['Content-Type'] = this.payload.getContentType();
+      }
     }
 
     return defaultHeaders;
@@ -206,11 +192,6 @@ class RequestBuilder {
     let payloadBase64 = '';
     if (this.payload && yotiCommon.requestCanSendPayload(this.method)) {
       payloadBase64 = `&${this.payload.getBase64Payload()}`;
-    }
-
-    if (this.multipartDataForm && yotiCommon.requestCanSendPayload(this.method)) {
-      this.payload = new Payload(this.multipartDataForm);
-      payloadBase64 = `&${this.multipartDataForm.getBuffer().toString('base64')}`;
     }
 
     // Get message signature.

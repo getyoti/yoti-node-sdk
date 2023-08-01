@@ -5,6 +5,7 @@ const CreateSessionResult = require('./session/create/create.session.result');
 const GetSessionResult = require('./session/retrieve/get.session.result');
 const { RequestBuilder } = require('../request/request.builder');
 const { Payload } = require('../request/payload');
+const { ContentType } = require('../request/constants');
 const Validation = require('../yoti_common/validation');
 const config = require('../../config');
 const Media = require('../data_type/media');
@@ -282,12 +283,7 @@ class IDVService {
       .withEndpoint(`/sessions/${sessionId}/resources/face-capture/${resourceId}/image`)
       .withQueryParam('sdkId', this.sdkId)
       .withPut()
-      .withMultipartBinaryBody(
-        'binary-content',
-        uploadFaceCaptureImagePayload.getImageContents(),
-        uploadFaceCaptureImagePayload.getImageContentType(),
-        'face-capture-image'
-      )
+      .withPayload(new Payload(uploadFaceCaptureImagePayload, ContentType.FORM_DATA))
       .build();
 
     return new Promise((resolve, reject) => {
