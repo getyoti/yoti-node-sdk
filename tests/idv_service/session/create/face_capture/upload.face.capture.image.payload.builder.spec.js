@@ -20,8 +20,20 @@ describe('CreateFaceCaptureResourcePayload', () => {
       .withImageContents(IMAGE_CONTENTS)
       .build();
 
+    const expectedFormDataFields = [
+      {
+        name: 'binary-content',
+        value: payload.getImageContents(),
+        options: {
+          filename: 'face-capture-image',
+          contentType: payload.getImageContentType(),
+        },
+      },
+    ];
+
     expect(payload).toBeInstanceOf(UploadFaceCaptureImagePayload);
     expect(payload.getImageContentType()).toBe('image/png');
     expect(payload.getImageContents()).toBe(IMAGE_CONTENTS);
+    expect(payload.getFormDataFields()).toEqual(expectedFormDataFields);
   });
 });

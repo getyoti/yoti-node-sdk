@@ -1,24 +1,86 @@
-const { AmlAddress, AmlProfile } = require('../../src/aml_type');
+const FormData = require('form-data');
 const { Payload } = require('../..');
+const { ContentType } = require('../../src/request/constants');
 
-describe('amlPayload', () => {
-  const amlAddress = new AmlAddress('GBR');
-  const amlProfile = new AmlProfile('Edward Richard George', 'Heath', amlAddress);
-  const amlPayload = new Payload(amlProfile.getData());
-  const expectedPayloadJSON = '{"given_names":"Edward Richard George","family_name":"Heath","address":{"country":"GBR"}}';
-  const expectedBase64Payload = 'eyJnaXZlbl9uYW1lcyI6IkVkd2FyZCBSaWNoYXJkIEdlb3JnZSIsImZhbWlseV9uYW1lIjoiSGVhdGgiLCJhZGRyZXNzIjp7ImNvdW50cnkiOiJHQlIifX0=';
+describe('Payload', () => {
+  const expectedBase64JsonPayload = 'eyJhIjoiMSJ9';
 
-  describe('#getPayloadJSON', () => {
-    it('should return the payload JSON string', () => {
-      const payloadJSON = amlPayload.getPayloadData();
-      expect(payloadJSON).toBe(expectedPayloadJSON);
+  describe('when content type not supported', () => {
+    it('should throw an error', () => {
+      expect(() => new Payload({}, 'random')).toThrow('Payload content type must be specified and one of [application/json,multipart/form-data]');
     });
   });
 
-  describe('#getBase64Payload', () => {
-    it('should return the base64Payload string', () => {
-      const base64Payload = amlPayload.getBase64Payload();
-      expect(base64Payload).toBe(expectedBase64Payload);
+  describe('when content type is json', () => {
+    const json = { a: '1' };
+    const payload = new Payload(json);
+
+    describe('#getContentType', () => {
+      it('should return the payload content type', () => {
+        const payloadJSON = payload.getContentType();
+        expect(payloadJSON).toBe('application/json');
+      });
+    });
+
+    describe('#getPayloadData', () => {
+      it('should return the payload data as a string', () => {
+        const payloadData = payload.getPayloadData();
+        expect(Buffer.from(payloadData).toString('base64')).toBe(expectedBase64JsonPayload);
+      });
+    });
+
+    describe('#getBase64Payload', () => {
+      it('should return the payload data as base64 string', () => {
+        const base64Payload = payload.getBase64Payload();
+        expect(base64Payload).toBe(expectedBase64JsonPayload);
+      });
+    });
+  });
+
+  describe('when content type is data form', () => {
+    const dataFormFields = {
+      getFormDataFields: () => [{
+        name: 'one',
+        value: 'two',
+      }],
+    };
+
+    const payload = new Payload(dataFormFields, ContentType.FORM_DATA);
+
+    describe('#getContentType', () => {
+      it('should return the payload content type', () => {
+        const payloadJSON = payload.getContentType();
+        expect(payloadJSON).toBe('multipart/form-data');
+      });
+    });
+
+    describe('#getPayloadData', () => {
+      it('should return the payload data as a buffer', () => {
+        const payloadData = payload.getPayloadData();
+
+        const formData = new FormData();
+        formData.setBoundary(payload.getRawData().getBoundary());
+        const { name, value } = dataFormFields.getFormDataFields()[0];
+        formData.append(name, value);
+
+        const expectedBase64 = formData.getBuffer().toString('base64');
+        expect(payloadData.toString('base64')).toBe(expectedBase64);
+      });
+    });
+
+    describe('#getBase64Payload', () => {
+      it('should return the payload data as base64 string', () => {
+        const base64Payload = payload.getBase64Payload();
+
+        const formData = new FormData();
+        formData.setBoundary(payload.getRawData().getBoundary());
+        const { name, value } = dataFormFields.getFormDataFields()[0];
+        formData.append(name, value);
+
+        const expectedBase64 = formData.getBuffer().toString('base64');
+
+        expect(base64Payload).toBe(expectedBase64);
+      });
     });
   });
 });

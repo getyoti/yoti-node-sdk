@@ -289,7 +289,7 @@ class IDVService {
     return new Promise((resolve, reject) => {
       request.execute()
         .then(resolve)
-        .catch(reject);
+        .catch((err) => reject(new IDVError(err)));
     });
   }
 

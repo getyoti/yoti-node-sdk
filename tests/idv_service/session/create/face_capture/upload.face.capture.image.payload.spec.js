@@ -2,7 +2,7 @@ const UploadFaceCaptureImagePayload = require('../../../../../src/idv_service/se
 
 const IMAGE_CONTENTS = Buffer.from('this would be an image', 'utf-8');
 
-describe('CreateFaceCaptureResourcePayload', () => {
+describe('UploadFaceCaptureImagePayload', () => {
   it('should throw an TypeError when the imageContentType parameter is not defined', () => {
     expect(() => {
       // eslint-disable-next-line no-unused-vars
@@ -34,7 +34,19 @@ describe('CreateFaceCaptureResourcePayload', () => {
   it('should return the content type and content of the image', () => {
     const payload = new UploadFaceCaptureImagePayload('image/png', IMAGE_CONTENTS);
 
+    const expectedFormDataFields = [
+      {
+        name: 'binary-content',
+        value: payload.getImageContents(),
+        options: {
+          filename: 'face-capture-image',
+          contentType: payload.getImageContentType(),
+        },
+      },
+    ];
+
     expect(payload.getImageContentType()).toBe('image/png');
     expect(payload.getImageContents()).toBe(IMAGE_CONTENTS);
+    expect(payload.getFormDataFields()).toEqual(expectedFormDataFields);
   });
 });
