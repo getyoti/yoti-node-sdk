@@ -25,7 +25,7 @@ describe('Payload', () => {
     describe('#getPayloadData', () => {
       it('should return the payload data as a string', () => {
         const payloadData = payload.getPayloadData();
-        expect(Buffer.from(payloadData).toString('base64')).toBe(expectedBase64JsonPayload);
+        expect(payloadData).toEqual(JSON.stringify(json));
       });
     });
 

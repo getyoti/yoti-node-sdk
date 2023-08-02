@@ -234,10 +234,11 @@ class IDVService {
   }
 
   /**
+   * Creates a face capture resource
    * @param {string} sessionId
    * @param {CreateFaceCaptureResourcePayload} createFaceCaptureResourcePayload
    *
-   * @returns {Promise} Resolves CreateFaceCaptureResourceResponse
+   * @returns {Promise<CreateFaceCaptureResourceResponse>}
    */
   createFaceCaptureResource(sessionId, createFaceCaptureResourcePayload) {
     Validation.isString(sessionId, 'sessionId');
@@ -266,11 +267,11 @@ class IDVService {
   }
 
   /**
+   * Uploads a face capture image
    * @param {string} sessionId
    * @param {string} resourceId
    * @param {UploadFaceCaptureImagePayload} uploadFaceCaptureImagePayload
    *
-   * @returns {Promise} Resolves CreateFaceCaptureResourceResponse
    */
   uploadFaceCaptureImage(sessionId, resourceId, uploadFaceCaptureImagePayload) {
     Validation.isString(sessionId, 'sessionId');
