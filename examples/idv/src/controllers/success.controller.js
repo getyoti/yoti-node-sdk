@@ -13,6 +13,11 @@ module.exports = async (req, res) => {
 
   try {
     const sessionResult = await idvClient.getSession(sessionId);
+
+    const faceComparisonChecks = sessionResult.getFaceComparisonChecks();
+    const [firstCheck] = faceComparisonChecks;
+    console.log('>>>>', firstCheck, '<<<< firstCheck');
+
     res.render('pages/success', { sessionResult });
   } catch (error) {
     res.render('pages/error', { error });

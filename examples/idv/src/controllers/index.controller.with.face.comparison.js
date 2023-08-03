@@ -31,9 +31,9 @@ async function createSession() {
   //     .forStaticLiveness()
   //     .build()
   // )
-    .withRequestedCheck(new RequestedFaceMatchCheckBuilder()
-      .withManualCheckNever()
-      .build())
+  //   .withRequestedCheck(new RequestedFaceMatchCheckBuilder()
+  //     .withManualCheckNever()
+  //     .build())
 
     .withRequestedCheck(new RequestedFaceComparisonCheckBuilder()
       .withManualCheckNever()
