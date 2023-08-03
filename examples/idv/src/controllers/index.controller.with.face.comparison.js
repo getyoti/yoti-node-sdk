@@ -65,13 +65,10 @@ async function addFaceCaptureResourceToSession(sessionId) {
 
   const sessionConfiguration = await idvClient.getSessionConfiguration(sessionId);
 
-  console.log('>>>>', sessionConfiguration, '<<<< sessionConfiguration');
-
   const faceCaptureResourceRequirements = sessionConfiguration.getCapture().getFaceCaptureResourceRequirements();
 
   if (faceCaptureResourceRequirements.length) {
     const [firstRequirement] = faceCaptureResourceRequirements;
-    console.log('>>>>', firstRequirement.getId(), '<<<< firstRequirement.getId()');
 
     const createFaceCaptureResourcePayload = new CreateFaceCaptureResourcePayloadBuilder()
       .withRequirementId(firstRequirement.getId())
@@ -87,8 +84,7 @@ async function addFaceCaptureResourceToSession(sessionId) {
       .withImageContents(Buffer.from(base64PngImage, 'base64'))
       .build();
 
-    const createFaceCaptureResourceResponse = await idvClient.uploadFaceCaptureImage(sessionId, faceCaptureResource.getId(), uploadFaceCaptureImagePayload);
-    console.log('>>>>', createFaceCaptureResourceResponse, '<<<< createFaceCaptureResourceResponse');
+    await idvClient.uploadFaceCaptureImage(sessionId, faceCaptureResource.getId(), uploadFaceCaptureImagePayload);
   }
 }
 
@@ -104,7 +100,6 @@ module.exports = async (req, res) => {
     try {
       await addFaceCaptureResourceToSession(sessionId);
     } catch (e) {
-      console.log('Failed creating face capture resource >>>>', e);
     }
 
     res.render('pages/index', {
