@@ -148,8 +148,11 @@ describe('ResourceContainer', () => {
     it('should return array of FaceCaptureResourceResponse', () => {
       const livenessCapture = resourceContainer.getFaceCaptureResources();
       livenessCapture.forEach((item) => {
+        const faceCaptureImageResponse = new FaceCaptureImageResponse(IMAGE);
+
         expect(item).toBeInstanceOf(FaceCaptureResourceResponse);
-        expect(item.getImage()).toStrictEqual(new FaceCaptureImageResponse(IMAGE));
+        expect(item.getImage()).toBeInstanceOf(FaceCaptureImageResponse);
+        expect(item.getImage()).toEqual(faceCaptureImageResponse);
       });
     });
   });

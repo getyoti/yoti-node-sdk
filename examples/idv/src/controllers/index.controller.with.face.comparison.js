@@ -97,10 +97,7 @@ module.exports = async (req, res) => {
     req.session.IDV_SESSION_ID = sessionId;
     req.session.IDV_SESSION_TOKEN = sessionToken;
 
-    try {
-      await addFaceCaptureResourceToSession(sessionId);
-    } catch (e) {
-    }
+    await addFaceCaptureResourceToSession(sessionId);
 
     res.render('pages/index', {
       sessionId,

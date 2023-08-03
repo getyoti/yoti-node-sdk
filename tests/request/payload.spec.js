@@ -3,8 +3,6 @@ const { Payload } = require('../..');
 const { ContentType } = require('../../src/request/constants');
 
 describe('Payload', () => {
-  const expectedBase64JsonPayload = 'eyJhIjoiMSJ9';
-
   describe('when content type not supported', () => {
     it('should throw an error', () => {
       expect(() => new Payload({}, 'random')).toThrow('Payload content type must be specified and one of [application/json,multipart/form-data]');
@@ -13,6 +11,7 @@ describe('Payload', () => {
 
   describe('when content type is json', () => {
     const json = { a: '1' };
+    const expectedBase64JsonPayload = 'eyJhIjoiMSJ9';
     const payload = new Payload(json);
 
     describe('#getContentType', () => {
@@ -38,14 +37,22 @@ describe('Payload', () => {
   });
 
   describe('when content type is data form', () => {
-    const dataFormFields = {
+    const payloadDataForDataForm = {
       getFormDataFields: () => [{
         name: 'one',
         value: 'two',
       }],
     };
 
-    const payload = new Payload(dataFormFields, ContentType.FORM_DATA);
+    const FORM_DATA_BOUNDARY = '----boundary';
+    const expectedBase64DataFormPayload = 'LS0tLS0tYm91bmRhcnkNCkNvbnRlbnQtRGlzcG9zaXRpb246IGZvcm0tZGF0YTsgbmFtZT0ib25lIg0KDQp0d28NCi0tLS0tLWJvdW5kYXJ5LS0NCg==';
+
+    jest.spyOn(FormData.prototype, 'getBoundary').mockReturnValue(FORM_DATA_BOUNDARY);
+    const payload = new Payload(payloadDataForDataForm, ContentType.FORM_DATA);
+
+    afterAll(() => {
+      jest.restoreAllMocks();
+    });
 
     describe('#getContentType', () => {
       it('should return the payload content type', () => {
@@ -58,13 +65,7 @@ describe('Payload', () => {
       it('should return the payload data as a buffer', () => {
         const payloadData = payload.getPayloadData();
 
-        const formData = new FormData();
-        formData.setBoundary(payload.getRawData().getBoundary());
-        const { name, value } = dataFormFields.getFormDataFields()[0];
-        formData.append(name, value);
-
-        const expectedBase64 = formData.getBuffer().toString('base64');
-        expect(payloadData.toString('base64')).toBe(expectedBase64);
+        expect(payloadData.toString('base64')).toBe(expectedBase64DataFormPayload);
       });
     });
 
@@ -72,14 +73,7 @@ describe('Payload', () => {
       it('should return the payload data as base64 string', () => {
         const base64Payload = payload.getBase64Payload();
 
-        const formData = new FormData();
-        formData.setBoundary(payload.getRawData().getBoundary());
-        const { name, value } = dataFormFields.getFormDataFields()[0];
-        formData.append(name, value);
-
-        const expectedBase64 = formData.getBuffer().toString('base64');
-
-        expect(base64Payload).toBe(expectedBase64);
+        expect(base64Payload).toBe(expectedBase64DataFormPayload);
       });
     });
   });
