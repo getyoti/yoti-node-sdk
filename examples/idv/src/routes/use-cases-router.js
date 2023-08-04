@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const controllers = require('../controllers');
+const { Cases, CasesMap } = require('../useCases');
 
 const router = express.Router();
 
@@ -13,11 +14,25 @@ const {
   watchlistCheckController,
 } = controllers.useCasesControllers;
 
-router.get('/document-authenticity-and-identity-check', authenticityAndIdentityCheckController);
-router.get('/document-comparison-check', documentComparisonCheckController);
-router.get('/face-comparison-check', faceComparisonCheckController);
-router.get('/face-match-check', faceMatchCheckController);
-router.get('/watchlist-check', watchlistCheckController);
+const caseIdToControllerMapping = {
+  [Cases.DOCUMENT_AUTHENTICITY_AND_IDENTITY]: authenticityAndIdentityCheckController,
+  [Cases.DOCUMENT_COMPARISON]: documentComparisonCheckController,
+  [Cases.FACE_COMPARISON]: faceComparisonCheckController,
+  [Cases.FACE_MATCH]: faceMatchCheckController,
+  [Cases.WATCHLIST]: watchlistCheckController,
+};
+
+const casesEntries = [...CasesMap.entries()];
+
+casesEntries.forEach(([caseId, caseDescription]) => {
+  const { name, path } = caseDescription;
+  const controller = caseIdToControllerMapping[caseId];
+  if (controller) {
+    router.get(path, controller);
+  } else {
+    console.warn(`No supported case "${caseId}": ${name}.`);
+  }
+});
 
 router.use((req, res) => res.send('Unknown use case!'));
 
