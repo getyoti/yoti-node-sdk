@@ -1,14 +1,13 @@
 const {
   IDVClient,
   SessionSpecificationBuilder,
-  RequestedLivenessCheckBuilder,
-  RequestedFaceMatchCheckBuilder,
   SdkConfigBuilder,
+  RequestedLivenessCheckBuilder,
   RequestedFaceComparisonCheckBuilder,
   CreateFaceCaptureResourcePayloadBuilder,
   UploadFaceCaptureImagePayloadBuilder,
 } = require('yoti');
-const config = require('../../config');
+const config = require('../../../config');
 
 /**
  * Create an IDV session.
@@ -20,7 +19,6 @@ async function createSession() {
     .withClientSessionTokenTtl(600)
     .withResourcesTtl(90000)
     .withUserTrackingId('some-user-tracking-id')
-
   // For zoom liveness check [only one type of liveness check to be enabled at a time]
     .withRequestedCheck(new RequestedLivenessCheckBuilder()
       .forZoomLiveness()
@@ -31,30 +29,15 @@ async function createSession() {
   //     .forStaticLiveness()
   //     .build()
   // )
-  //   .withRequestedCheck(new RequestedFaceMatchCheckBuilder()
-  //     .withManualCheckNever()
-  //     .build())
-
     .withRequestedCheck(new RequestedFaceComparisonCheckBuilder()
       .withManualCheckNever()
       .build())
-
     .withSdkConfig(new SdkConfigBuilder()
-      .withAllowsCameraAndUpload()
-      .withPrimaryColour('#2d9fff')
-      .withSecondaryColour('#FFFFFF')
-      .withFontColour('#FFFFFF')
-      .withLocale('en-GB')
-      .withPresetIssuingCountry('GBR')
       .withSuccessUrl(`${config.YOTI_APP_BASE_URL}/success`)
       .withErrorUrl(`${config.YOTI_APP_BASE_URL}/error`)
       .withPrivacyPolicyUrl(`${config.YOTI_APP_BASE_URL}/privacy-policy`)
-      .withAllowHandoff(true)
-      .withEarlyBiometricConsentFlow() // or withJustInTimeBiometricConsentFlow()
-      .withIdDocumentTextExtractionGenericRetries(5)
-      .withIdDocumentTextExtractionReclassificationRetries(5)
+      .withJustInTimeBiometricConsentFlow() // or withEarlyBiometricConsentFlow()
       .build())
-
     .build();
 
   return idvClient.createSession(sessionSpec);
@@ -99,7 +82,7 @@ module.exports = async (req, res) => {
 
     await addFaceCaptureResourceToSession(sessionId);
 
-    res.render('pages/index', {
+    res.render('pages/session', {
       sessionId,
       iframeUrl: `${config.YOTI_IDV_IFRAME_URL}?sessionID=${sessionId}&sessionToken=${req.session.IDV_SESSION_TOKEN}`,
     });
