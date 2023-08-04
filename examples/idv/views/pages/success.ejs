@@ -108,7 +108,7 @@
                             <button class="btn btn-link" type="button" data-toggle="collapse"
                                 data-target="#collapse-face-match-checks" aria-expanded="true"
                                 aria-controls="collapse-face-match-checks">
-                                FaceMatch Checks
+                                Face Match Checks
                             </button>
                         </h3>
 
@@ -122,6 +122,29 @@
                         </div>
                     </div>
                 </div>
+                <% } %>
+
+                <% if (sessionResult.getFaceComparisonChecks().length > 0) { %>
+                    <div class="card">
+                        <div class="card-header" id="face-comparison-checks">
+                            <h3 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                        data-target="#collapse-face-comparison-checks" aria-expanded="true"
+                                        aria-controls="collapse-face-comparison-checks">
+                                    Face Comparison Checks
+                                </button>
+                            </h3>
+
+                        </div>
+
+                        <div id="collapse-face-comparison-checks" class="collapse" aria-labelledby="face-comparison-checks">
+                            <div class="card-body">
+                                <% sessionResult.getFaceComparisonChecks().forEach(function(check){ %>
+                                    <%- include('partials/check', { check }); %>
+                                <% }); %>
+                            </div>
+                        </div>
+                    </div>
                 <% } %>
 
                 <% if (sessionResult.getLivenessChecks().length > 0) { %>
