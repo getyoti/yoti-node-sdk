@@ -61,10 +61,14 @@ async function addFaceCaptureResourceToSession(sessionId) {
 
     // eslint-disable-next-line max-len
     const base64PngImage = 'iVBORw0KGgoAAAANSUhEUgAAAsAAAAGMAQMAAADuk4YmAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAADlJREFUeF7twDEBAAAAwiD7p7bGDlgYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAGJrAABgPqdWQAAAABJRU5ErkJggg==';
+    const imageBuffer = Buffer.from(base64PngImage, 'base64');
+
+    // Note: below describes how to directly get the image buffer, while the example uses a white pixel in base64 format, then converted into a buffer
+    // const imageBuffer = fs.readFileSync(`path-to-image.png`)
 
     const uploadFaceCaptureImagePayload = new UploadFaceCaptureImagePayloadBuilder()
       .forPngImage()
-      .withImageContents(Buffer.from(base64PngImage, 'base64'))
+      .withImageContents(imageBuffer)
       .build();
 
     await idvClient.uploadFaceCaptureImage(sessionId, faceCaptureResource.getId(), uploadFaceCaptureImagePayload);
