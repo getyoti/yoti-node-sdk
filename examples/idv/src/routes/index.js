@@ -8,7 +8,6 @@ const useCasesRouter = require('./use-cases-router');
 const router = express.Router();
 
 router.use('/use-cases', useCasesRouter);
-
 router.get('/', controllers.indexController);
 router.get('/success', controllers.successController);
 router.get('/config', controllers.configController);
