@@ -5,11 +5,15 @@ const CreateSessionResult = require('./session/create/create.session.result');
 const GetSessionResult = require('./session/retrieve/get.session.result');
 const { RequestBuilder } = require('../request/request.builder');
 const { Payload } = require('../request/payload');
+const { ContentType } = require('../request/constants');
 const Validation = require('../yoti_common/validation');
 const config = require('../../config');
 const Media = require('../data_type/media');
 const IDVError = require('./idv.error');
 const SupportedDocumentsResponse = require('./support/supported.documents.response');
+const CreateFaceCaptureResourceResponse = require('./session/retrieve/create.face.capture.resource.response');
+const CreateFaceCaptureResourcePayload = require('./session/create/face_capture/create.face.capture.resource.payload');
+const UploadFaceCaptureImagePayload = require('./session/create/face_capture/upload.face.capture.image.payload');
 const SessionConfigurationResponse = require('./session/retrieve/configuration/session.configuration.response');
 
 const DEFAULT_API_URL = config.yoti.idvApi;
@@ -225,6 +229,67 @@ class IDVService {
     return new Promise((resolve, reject) => {
       request.execute()
         .then((response) => resolve(new SupportedDocumentsResponse(response.getParsedResponse())))
+        .catch((err) => reject(new IDVError(err)));
+    });
+  }
+
+  /**
+   * Creates a face capture resource
+   * @param {string} sessionId
+   * @param {CreateFaceCaptureResourcePayload} createFaceCaptureResourcePayload
+   *
+   * @returns {Promise<CreateFaceCaptureResourceResponse>}
+   */
+  createFaceCaptureResource(sessionId, createFaceCaptureResourcePayload) {
+    Validation.isString(sessionId, 'sessionId');
+    Validation.instanceOf(createFaceCaptureResourcePayload, CreateFaceCaptureResourcePayload, 'createFaceCaptureResourcePayload');
+
+    const request = new RequestBuilder()
+      .withPemString(this.pem)
+      .withBaseUrl(this.apiUrl)
+      .withEndpoint(`sessions/${sessionId}/resources/face-capture`)
+      .withQueryParam('sdkId', this.sdkId)
+      .withPost()
+      .withPayload(new Payload(createFaceCaptureResourcePayload))
+      .build();
+
+    return new Promise((resolve, reject) => {
+      request.execute()
+        .then((response) => {
+          try {
+            return resolve(new CreateFaceCaptureResourceResponse(response.getParsedResponse()));
+          } catch (err) {
+            return reject(new IDVError(err));
+          }
+        })
+        .catch((err) => reject(new IDVError(err)));
+    });
+  }
+
+  /**
+   * Uploads a face capture image
+   * @param {string} sessionId
+   * @param {string} resourceId
+   * @param {UploadFaceCaptureImagePayload} uploadFaceCaptureImagePayload
+   *
+   */
+  uploadFaceCaptureImage(sessionId, resourceId, uploadFaceCaptureImagePayload) {
+    Validation.isString(sessionId, 'sessionId');
+    Validation.isString(resourceId, 'resourceId');
+    Validation.instanceOf(uploadFaceCaptureImagePayload, UploadFaceCaptureImagePayload, 'uploadFaceCaptureImagePayload');
+
+    const request = new RequestBuilder()
+      .withPemString(this.pem)
+      .withBaseUrl(this.apiUrl)
+      .withEndpoint(`/sessions/${sessionId}/resources/face-capture/${resourceId}/image`)
+      .withQueryParam('sdkId', this.sdkId)
+      .withPut()
+      .withPayload(new Payload(uploadFaceCaptureImagePayload, ContentType.FORM_DATA))
+      .build();
+
+    return new Promise((resolve, reject) => {
+      request.execute()
+        .then(resolve)
         .catch((err) => reject(new IDVError(err)));
     });
   }

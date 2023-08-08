@@ -4,6 +4,7 @@ const IdDocumentResourceResponse = require('./id.document.resource.response');
 const ZoomLivenessResourceResponse = require('./zoom.liveness.resource.response');
 const StaticLivenessResourceResponse = require('./static.liveness.resource.response');
 const LivenessResourceResponse = require('./liveness.resource.response');
+const FaceCaptureResourceResponse = require('./face.capture.resource.response');
 const IDVConstants = require('../../idv.constants');
 const Validation = require('../../../yoti_common/validation');
 const SupplementaryDocumentResourceResponse = require('./supplementary.document.resource.response');
@@ -44,6 +45,16 @@ class ResourceContainer {
         });
     } else {
       this.livenessCapture = [];
+    }
+
+    if (resources.face_capture) {
+      Validation.isArray(resources.face_capture, 'face_capture');
+
+      this.faceCapture = resources.face_capture.map(
+        (resource) => new FaceCaptureResourceResponse(resource)
+      );
+    } else {
+      this.faceCapture = [];
     }
   }
 
@@ -95,6 +106,16 @@ class ResourceContainer {
     return this
       .getLivenessCapture()
       .filter((resource) => resource instanceof StaticLivenessResourceResponse);
+  }
+
+  /**
+   * Returns face resources uploaded by the user
+   *
+   * @returns {FaceCaptureResourceResponse[]}
+   *   The list of face resources
+   */
+  getFaceCaptureResources() {
+    return this.faceCapture;
   }
 }
 

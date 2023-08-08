@@ -27,6 +27,8 @@ const RequestedExactMatchingStrategyBuilder = require('./session/create/check/re
 const RequestedFuzzyMatchingStrategyBuilder = require('./session/create/check/requested.fuzzy.matching.strategy.builder');
 const RequestedTypeListSourcesBuilder = require('./session/create/check/requested.type.list.sources.builder');
 const RequestedSearchProfileSourcesBuilder = require('./session/create/check/requested.search.profile.sources.builder');
+const CreateFaceCaptureResourcePayloadBuilder = require('./session/create/face_capture/create.face.capture.resource.payload.builder');
+const UploadFaceCaptureImagePayloadBuilder = require('./session/create/face_capture/upload.face.capture.image.payload.builder');
 
 module.exports = {
   IDVService,
@@ -56,4 +58,6 @@ module.exports = {
   RequestedFuzzyMatchingStrategyBuilder,
   RequestedSearchProfileSourcesBuilder,
   RequestedTypeListSourcesBuilder,
+  CreateFaceCaptureResourcePayloadBuilder,
+  UploadFaceCaptureImagePayloadBuilder,
 };

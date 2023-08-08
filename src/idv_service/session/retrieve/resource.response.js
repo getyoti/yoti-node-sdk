@@ -36,6 +36,13 @@ class ResourceResponse {
   }
 
   /**
+   * @return AllowedSourceResponse
+   */
+  getSource() {
+    return this.source;
+  }
+
+  /**
    * @returns {string}
    */
   getId() {

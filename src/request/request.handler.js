@@ -15,8 +15,12 @@ const yotiCommon = require('../yoti_common');
 module.exports.execute = (yotiRequest, buffer = false) => new Promise((resolve, reject) => {
   const request = superagent(yotiRequest.getMethod(), yotiRequest.getUrl());
 
-  if (yotiCommon.requestCanSendPayload(yotiRequest.getMethod())) {
-    request.send(yotiRequest.getPayload().getPayloadJSON());
+  const requestCanSendPayload = yotiCommon.requestCanSendPayload(yotiRequest.getMethod());
+  const payload = yotiRequest.getPayload();
+
+  if (requestCanSendPayload && payload) {
+    const payloadData = payload.getPayloadData();
+    request.send(payloadData);
   }
 
   if (buffer === true) {

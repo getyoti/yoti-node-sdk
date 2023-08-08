@@ -7,6 +7,7 @@ const config = require('../../config');
 const {
   SessionSpecificationBuilder,
   IDVService,
+  CreateFaceCaptureResourcePayloadBuilder,
 } = require('../../src/idv_service');
 
 const CreateSessionResult = require('../../src/idv_service/session/create/create.session.result');
@@ -15,15 +16,20 @@ const Media = require('../../src/data_type/media');
 const SupportedDocumentResponse = require('../../src/idv_service/support/supported.documents.response');
 const SessionConfigurationResponse = require('../../src/idv_service/session/retrieve/configuration/session.configuration.response');
 const CaptureResponse = require('../../src/idv_service/session/retrieve/configuration/capture/capture.response');
+const CreateFaceCaptureResourceResponse = require('../../src/idv_service/session/retrieve/create.face.capture.resource.response');
+const { UploadFaceCaptureImagePayloadBuilder } = require('../..');
 
 const PEM_STRING = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 const SESSION_ID = 'some-session-id';
+const RESOURCE_ID = 'some-resource-id';
 const MEDIA_ID = 'some-media-id';
 const APP_ID = uuid();
 
 const SESSION_CREATE_URI = new RegExp(`^/idverify/v1/sessions\\?sdkId=${APP_ID}`);
 const SESSION_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}\\?sdkId=${APP_ID}`);
 const SESSION_CONFIG_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/configuration`);
+const FACE_CAPTURE_CREATE_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture`);
+const UPLOAD_FACE_CAPTURE_IMAGE_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture/${RESOURCE_ID}/image`);
 const MEDIA_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/media/${MEDIA_ID}/content\\?sdkId=${APP_ID}`);
 const SUPPORTED_DOCUMENTS_URI = new RegExp('^/idverify/v1/supported-documents');
 const SOME_CODE = 'SOME_CODE';
@@ -513,6 +519,168 @@ describe('IDVService', () => {
           .getSessionConfiguration(SESSION_ID)
           .catch((err) => {
             expect(err.message).toBe(SOME_ERROR_MESSAGE);
+            done();
+          })
+          .catch(done);
+      });
+    });
+  });
+
+  describe('#createFaceCaptureResource', () => {
+    let createFaceCaptureResourcePayload;
+
+    beforeEach(() => {
+      createFaceCaptureResourcePayload = new CreateFaceCaptureResourcePayloadBuilder().withRequirementId('abc').build();
+    });
+
+    describe('when a valid response is returned', () => {
+      it('should return a session response', (done) => {
+        nock(config.yoti.idvApi)
+          .post(
+            FACE_CAPTURE_CREATE_URI,
+            JSON.stringify(createFaceCaptureResourcePayload)
+          )
+          .reply(
+            200,
+            JSON.stringify({
+              id: '123',
+              frames: 2,
+            })
+          );
+
+        idvService
+          .createFaceCaptureResource(SESSION_ID, createFaceCaptureResourcePayload)
+          .then((result) => {
+            expect(result).toBeInstanceOf(CreateFaceCaptureResourceResponse);
+            expect(result.getId()).toBe('123');
+            expect(result.getFrames()).toBe(2);
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when an invalid response code is returned', () => {
+      it('should log error and reject', (done) => {
+        nock(config.yoti.idvApi)
+          .post(
+            FACE_CAPTURE_CREATE_URI,
+            JSON.stringify(createFaceCaptureResourcePayload)
+          )
+          .reply(400);
+
+        idvService
+          .createFaceCaptureResource(SESSION_ID, createFaceCaptureResourcePayload)
+          .catch((err) => {
+            expect(err.message).toBe('Bad Request');
+            expect(consoleLog)
+              .toHaveBeenCalledWith('Error getting data from Yoti API: Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when an invalid response code is returned with body', () => {
+      it('should log error and reject with response body', (done) => {
+        nock(config.yoti.idvApi)
+          .post(
+            FACE_CAPTURE_CREATE_URI,
+            JSON.stringify(createFaceCaptureResourcePayload)
+          )
+          .reply(400, SOME_ERROR_RESPONSE, JSON_RESPONSE_HEADERS);
+
+        idvService
+          .createFaceCaptureResource(SESSION_ID, createFaceCaptureResourcePayload)
+          .catch((err) => {
+            expect(err.message).toBe(SOME_ERROR_MESSAGE);
+            expect(consoleLog)
+              .toHaveBeenCalledWith('Error getting data from Yoti API: Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when an invalid response body is returned', () => {
+      it('should reject', (done) => {
+        nock(config.yoti.idvApi)
+          .post(
+            FACE_CAPTURE_CREATE_URI,
+            JSON.stringify(createFaceCaptureResourcePayload)
+          )
+          .reply(
+            200,
+            { id: { some: 'invalid ttl' } }
+          );
+
+        idvService
+          .createFaceCaptureResource(SESSION_ID, createFaceCaptureResourcePayload)
+          .catch((err) => {
+            expect(err.message).toBe('resourceData.id must be a string');
+            done();
+          })
+          .catch(done);
+      });
+    });
+  });
+
+  describe('#uploadFaceCaptureImage', () => {
+    let uploadFaceCaptureImagePayload;
+
+    beforeEach(() => {
+      uploadFaceCaptureImagePayload = new UploadFaceCaptureImagePayloadBuilder().forPngImage().withImageContents(Buffer.from('abc')).build();
+    });
+
+    describe('when a valid response is returned', () => {
+      it('should return a session response', (done) => {
+        nock(config.yoti.idvApi)
+          .put(
+            UPLOAD_FACE_CAPTURE_IMAGE_URI
+          )
+          .reply(
+            200
+          );
+
+        idvService
+          .uploadFaceCaptureImage(SESSION_ID, RESOURCE_ID, uploadFaceCaptureImagePayload)
+          .then((result) => {
+            expect(result).toBeDefined();
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when an invalid response code is returned', () => {
+      it('should log error and reject', (done) => {
+        nock(config.yoti.idvApi)
+          .put(
+            UPLOAD_FACE_CAPTURE_IMAGE_URI
+          )
+          .reply(400);
+
+        idvService
+          .uploadFaceCaptureImage(SESSION_ID, RESOURCE_ID, uploadFaceCaptureImagePayload)
+          .catch((err) => {
+            expect(err.message).toBe('Bad Request');
+            expect(consoleLog)
+              .toHaveBeenCalledWith('Error getting data from Yoti API: Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when an invalid response code is returned with body', () => {
+      it('should log error and reject with response body', (done) => {
+        nock(config.yoti.idvApi)
+          .put(
+            UPLOAD_FACE_CAPTURE_IMAGE_URI
+          )
+          .reply(400, SOME_ERROR_RESPONSE, JSON_RESPONSE_HEADERS);
+
+        idvService
+          .uploadFaceCaptureImage(SESSION_ID, RESOURCE_ID, uploadFaceCaptureImagePayload)
+          .catch((err) => {
+            expect(err.message).toBe(SOME_ERROR_MESSAGE);
+            expect(consoleLog)
+              .toHaveBeenCalledWith('Error getting data from Yoti API: Bad Request');
             done();
           })
           .catch(done);

@@ -13,6 +13,7 @@ const ThirdPartyIdentityCheckResponse = require('./third.party.identity.check.re
 const WatchlistScreeningCheckResponse = require('./watchlist.screening.check.response');
 const WatchlistAdvancedCaCheckResponse = require('./watchlist.advanced.ca.check.response');
 const ThirdPartyIdentityFraud1CheckResponse = require('./third.party.identity.fraud.1.check.response');
+const FaceComparisonCheckResponse = require('./face.comparison.check.response');
 const IdentityProfileResponse = require('./identity.profile.response');
 const IDVConstants = require('../../idv.constants');
 const { YotiDate } = require('../../../data_type/date');
@@ -60,6 +61,8 @@ class GetSessionResult {
               return new LivenessCheckResponse(check);
             case IDVConstants.THIRD_PARTY_IDENTITY_FRAUD_1:
               return new ThirdPartyIdentityFraud1CheckResponse(check);
+            case IDVConstants.FACE_COMPARISON:
+              return new FaceComparisonCheckResponse(check);
             default:
               return new CheckResponse(check);
           }
@@ -198,6 +201,11 @@ class GetSessionResult {
   getThirdPartyIdentityFraud1Checks() {
     return this.getChecks()
       .filter((check) => check instanceof ThirdPartyIdentityFraud1CheckResponse);
+  }
+
+  getFaceComparisonChecks() {
+    return this.getChecks()
+      .filter((check) => check instanceof FaceComparisonCheckResponse);
   }
 
   /**

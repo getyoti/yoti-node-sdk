@@ -11,6 +11,7 @@ const ThirdPartyIdentityCheckResponse = require('../../../../src/idv_service/ses
 const WatchlistScreeningCheckResponse = require('../../../../src/idv_service/session/retrieve/watchlist.screening.check.response');
 const WatchlistAdvancedCaCheckResponse = require('../../../../src/idv_service/session/retrieve/watchlist.advanced.ca.check.response');
 const ThirdPartyIdentityFraud1CheckResponse = require('../../../../src/idv_service/session/retrieve/third.party.identity.fraud.1.check.response');
+const FaceComparisonCheckResponse = require('../../../../src/idv_service/session/retrieve/face.comparison.check.response');
 const IdentityProfileResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.response');
 const { YotiDate } = require('../../../..');
 
@@ -25,6 +26,7 @@ const WATCHLIST_SCREENING = 'WATCHLIST_SCREENING';
 const WATCHLIST_ADVANCED_CA = 'WATCHLIST_ADVANCED_CA';
 const SOME_UNKNOWN_CHECK = 'SOME_UNKNOWN_CHECK';
 const THIRD_PARTY_IDENTITY_FRAUD_1 = 'THIRD_PARTY_IDENTITY_FRAUD_1';
+const FACE_COMPARISON = 'FACE_COMPARISON';
 const SOME_DATE_STRING = '2019-12-02T12:00:00.123Z';
 
 describe('GetSessionResult', () => {
@@ -71,6 +73,9 @@ describe('GetSessionResult', () => {
         },
         {
           type: THIRD_PARTY_IDENTITY_FRAUD_1,
+        },
+        {
+          type: FACE_COMPARISON,
         },
       ],
       biometric_consent: SOME_DATE_STRING,
@@ -137,7 +142,7 @@ describe('GetSessionResult', () => {
     describe('when checks are available', () => {
       it('should return array of checks', () => {
         const checks = session.getChecks();
-        expect(checks.length).toBe(10);
+        expect(checks.length).toBe(11);
         expect(checks[0]).toBeInstanceOf(AuthenticityCheckResponse);
         expect(checks[1]).toBeInstanceOf(LivenessCheckResponse);
         expect(checks[2]).toBeInstanceOf(FaceMatchCheckResponse);
@@ -148,6 +153,7 @@ describe('GetSessionResult', () => {
         expect(checks[7]).toBeInstanceOf(WatchlistScreeningCheckResponse);
         expect(checks[8]).toBeInstanceOf(WatchlistAdvancedCaCheckResponse);
         expect(checks[9]).toBeInstanceOf(ThirdPartyIdentityFraud1CheckResponse);
+        expect(checks[10]).toBeInstanceOf(FaceComparisonCheckResponse);
         checks.forEach((check) => expect(check).toBeInstanceOf(CheckResponse));
       });
     });
@@ -257,6 +263,15 @@ describe('GetSessionResult', () => {
       expect(checks.length).toBe(1);
       expect(checks[0]).toBeInstanceOf(ThirdPartyIdentityFraud1CheckResponse);
       expect(checks[0].getType()).toBe(THIRD_PARTY_IDENTITY_FRAUD_1);
+    });
+  });
+
+  describe('#getFaceComparisonChecks', () => {
+    it('should return array of FaceComparisonCheckResponse', () => {
+      const checks = session.getFaceComparisonChecks();
+      expect(checks.length).toBe(1);
+      expect(checks[0]).toBeInstanceOf(FaceComparisonCheckResponse);
+      expect(checks[0].getType()).toBe(FACE_COMPARISON);
     });
   });
 

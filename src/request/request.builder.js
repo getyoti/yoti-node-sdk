@@ -7,6 +7,7 @@ const yotiCommon = require('../yoti_common');
 const { YotiRequest } = require('./request');
 const Validation = require('../yoti_common/validation');
 const yotiPackage = require('../../package.json');
+const { ContentType } = require('./constants');
 
 const SDK_IDENTIFIER = 'Node';
 
@@ -89,7 +90,7 @@ class RequestBuilder {
   }
 
   /**
-   * @param string $method
+   * @param {string} method
    *
    * @returns {RequestBuilder}
    */
@@ -113,7 +114,14 @@ class RequestBuilder {
   }
 
   /**
-   * @param {string} payload
+   * @returns {RequestBuilder}
+   */
+  withPut() {
+    return this.withMethod('PUT');
+  }
+
+  /**
+   * @param {import('./payload').Payload} payload
    *
    * @returns {RequestBuilder}
    */
@@ -123,8 +131,8 @@ class RequestBuilder {
   }
 
   /**
-   * @param string name
-   * @param string value
+   * @param {string} name
+   * @param {string} value
    *
    * @returns {RequestBuilder}
    */
@@ -143,11 +151,15 @@ class RequestBuilder {
       'X-Yoti-Auth-Digest': messageSignature,
       'X-Yoti-SDK': SDK_IDENTIFIER,
       'X-Yoti-SDK-Version': `${SDK_IDENTIFIER}-${yotiPackage.version}`,
-      Accept: 'application/json',
+      Accept: ContentType.JSON,
     };
 
     if (this.payload) {
-      defaultHeaders['Content-Type'] = 'application/json';
+      if (this.payload.getContentType() === ContentType.FORM_DATA) {
+        defaultHeaders['Content-Type'] = `${ContentType.FORM_DATA}; boundary=${this.payload.getRawData().getBoundary()}`;
+      } else {
+        defaultHeaders['Content-Type'] = this.payload.getContentType();
+      }
     }
 
     return defaultHeaders;

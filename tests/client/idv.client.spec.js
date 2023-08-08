@@ -7,6 +7,8 @@ const config = require('../../config');
 const {
   IDVClient,
   SessionSpecificationBuilder,
+  CreateFaceCaptureResourcePayloadBuilder,
+  UploadFaceCaptureImagePayloadBuilder,
 } = require('../..');
 
 const CreateSessionResult = require('../../src/idv_service/session/create/create.session.result');
@@ -15,12 +17,14 @@ const Media = require('../../src/data_type/media');
 const SupportedDocumentResponse = require('../../src/idv_service/support/supported.documents.response');
 const SessionConfigurationResponse = require('../../src/idv_service/session/retrieve/configuration/session.configuration.response');
 const CaptureResponse = require('../../src/idv_service/session/retrieve/configuration/capture/capture.response');
+const CreateFaceCaptureResourceResponse = require('../../src/idv_service/session/retrieve/create.face.capture.resource.response');
 
 const GENERIC_API_PATH = '/idverify/v1';
 
 const PEM_STRING = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 const APP_ID = uuid();
 const SESSION_ID = 'some-session-id';
+const RESOURCE_ID = 'some-resource-id';
 const MEDIA_ID = 'some-media-id';
 
 describe.each([
@@ -46,6 +50,8 @@ describe.each([
   const sessionMediaUriRegExp = new RegExp(`${apiUrlPath}/sessions/${SESSION_ID}/media/${MEDIA_ID}/content\\?sdkId=${APP_ID}`);
   const supportedDocumentsUriRegExp = new RegExp(`${apiUrlPath}/supported-documents`);
   const sessionConfigUriRegExp = new RegExp(`/sessions/${SESSION_ID}/configuration`);
+  const faceCaptureCreateUri = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture`);
+  const uploadFaceCaptureImageUri = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture/${RESOURCE_ID}/image`);
 
   let idvClient;
 
@@ -229,6 +235,54 @@ describe.each([
           expect(result.getClientSessionTokenTtl()).toBe(123);
           expect(result.getRequestedChecks()).toEqual([]);
           expect(result.getCapture()).toBeInstanceOf(CaptureResponse);
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe('#createFaceCaptureResource', () => {
+    const createFaceCaptureResourcePayload = new CreateFaceCaptureResourcePayloadBuilder().withRequirementId('abc').build();
+
+    const setupResponse = (responseBody, responseStatusCode = 200) => {
+      nock(apiUrlDomain)
+        .post(faceCaptureCreateUri, JSON.stringify(createFaceCaptureResourcePayload))
+        .reply(responseStatusCode, responseBody);
+    };
+
+    beforeEach(() => {
+      setupResponse(JSON.stringify({ id: 'abc', frames: 5 }));
+    });
+
+    it('should return a create face capture resource response', (done) => {
+      idvClient
+        .createFaceCaptureResource(SESSION_ID, createFaceCaptureResourcePayload)
+        .then((result) => {
+          expect(result).toBeInstanceOf(CreateFaceCaptureResourceResponse);
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe('#uploadFaceCaptureImage', () => {
+    const uploadFaceCaptureImagePayload = new UploadFaceCaptureImagePayloadBuilder().forPngImage().withImageContents(Buffer.from('abc')).build();
+
+    const setupResponse = (responseBody, responseStatusCode = 200) => {
+      nock(apiUrlDomain)
+        .put(uploadFaceCaptureImageUri)
+        .reply(responseStatusCode, responseBody);
+    };
+
+    beforeEach(() => {
+      setupResponse();
+    });
+
+    it('should succeed uploading the image', (done) => {
+      idvClient
+        .uploadFaceCaptureImage(SESSION_ID, RESOURCE_ID, uploadFaceCaptureImagePayload)
+        .then((result) => {
+          expect(result).toBeDefined();
           done();
         })
         .catch(done);

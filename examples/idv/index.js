@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const controllers = require('./src/controllers');
+const routes = require('./src/routes');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -21,16 +21,7 @@ app.use(session({
   saveUninitialized: true,
 }));
 
-const router = express.Router();
-
-router.get('/', controllers.indexController);
-router.get('/success', controllers.successController);
-router.get('/config', controllers.configController);
-router.get('/media', controllers.mediaController);
-router.get('/error', controllers.errorController);
-router.get('/privacy-policy', async (req, res) => res.render('pages/privacy-policy'));
-
-app.use('/', router);
+app.use('/', routes);
 
 https.createServer({
   key: fs.readFileSync(path.join(__dirname, '../keys', 'server-key.pem')),
