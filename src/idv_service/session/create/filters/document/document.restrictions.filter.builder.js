@@ -38,10 +38,25 @@ class DocumentRestrictionsFilterBuilder {
   }
 
   /**
+   * @param {Boolean} allowExpiredDocuments
+   *
+   * @returns {this}
+   */
+  withAllowExpiredDocuments(allowExpiredDocuments) {
+    Validation.isBoolean(allowExpiredDocuments, 'allowExpiredDocuments');
+    this.allowExpiredDocuments = allowExpiredDocuments;
+    return this;
+  }
+
+  /**
    * @returns {DocumentRestrictionsFilter}
    */
   build() {
-    return new DocumentRestrictionsFilter(this.inclusion, this.documents);
+    return new DocumentRestrictionsFilter(
+      this.inclusion,
+      this.documents,
+      this.allowExpiredDocuments
+    );
   }
 }
 

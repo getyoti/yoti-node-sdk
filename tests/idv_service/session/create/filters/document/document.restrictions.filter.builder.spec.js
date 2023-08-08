@@ -100,4 +100,19 @@ describe('DocumentRestrictionsFilterBuilder', () => {
         ],
       }));
   });
+
+  it('should build DocumentRestrictionsFilter with expired documents not allowed', () => {
+    const documentRestrictionsFilter = new DocumentRestrictionsFilterBuilder()
+      .forWhitelist()
+      .withAllowExpiredDocuments(false)
+      .build();
+
+    expect(JSON.stringify(documentRestrictionsFilter))
+      .toBe(JSON.stringify({
+        type: 'DOCUMENT_RESTRICTIONS',
+        inclusion: 'WHITELIST',
+        documents: [],
+        allow_expired_documents: false,
+      }));
+  });
 });

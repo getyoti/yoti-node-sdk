@@ -4,11 +4,13 @@ const {
   SdkConfigBuilder,
   RequiredIdDocumentBuilder,
   OrthogonalRestrictionsFilterBuilder,
+  DocumentRestrictionsFilterBuilder,
   RequiredSupplementaryDocumentBuilder,
   ProofOfAddressObjectiveBuilder,
   RequestedIdDocumentComparisonCheckBuilder,
   RequestedTextExtractionTaskBuilder,
   RequestedSupplementaryDocTextExtractionTaskBuilder,
+  DocumentRestrictionBuilder,
 } = require('yoti');
 const config = require('../../../config');
 
@@ -46,12 +48,23 @@ async function createSession() {
         .withFilter(
           (new OrthogonalRestrictionsFilterBuilder())
             .withWhitelistedDocumentTypes(['PASSPORT'])
+            .withAllowExpiredDocuments(false)
             .build()
         )
         .build()
     )
     .withRequiredDocument(
-      (new RequiredIdDocumentBuilder()).build()
+      (new RequiredIdDocumentBuilder())
+        .withFilter(
+          (new DocumentRestrictionsFilterBuilder())
+            .withDocumentRestriction((new DocumentRestrictionBuilder())
+              .withDocumentTypes(['DRIVING_LICENCE'])
+              .build())
+            .forWhitelist()
+            .withAllowExpiredDocuments(false)
+            .build()
+        )
+        .build()
     )
     .withRequiredDocument(
       (new RequiredSupplementaryDocumentBuilder())

@@ -114,4 +114,24 @@ describe('OrthogonalRestrictionsFilterBuilder', () => {
         },
       }));
   });
+
+  it('should build OrthogonalRestrictionsFilter with expired document not allowed', () => {
+    const orthogonalRestrictionsFilter = new OrthogonalRestrictionsFilterBuilder()
+      .withBlacklistedDocumentTypes([SOME_DOCUMENT_TYPE, SOME_OTHER_DOCUMENT_TYPE])
+      .withAllowExpiredDocuments(false)
+      .build();
+
+    expect(JSON.stringify(orthogonalRestrictionsFilter))
+      .toBe(JSON.stringify({
+        type: 'ORTHOGONAL_RESTRICTIONS',
+        type_restriction: {
+          inclusion: 'BLACKLIST',
+          document_types: [
+            SOME_DOCUMENT_TYPE,
+            SOME_OTHER_DOCUMENT_TYPE,
+          ],
+        },
+        allow_expired_documents: false,
+      }));
+  });
 });
