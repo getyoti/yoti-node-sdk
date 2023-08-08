@@ -191,7 +191,7 @@ describe.each([
 
     beforeEach((done) => {
       nock(apiUrlDomain)
-        .post(new RegExp(`${apiUrlPath}/aml-check?.*appId=${APP_ID}&nonce=.*?&timestamp=.*?`), amlPayload.getPayloadJSON())
+        .post(new RegExp(`${apiUrlPath}/aml-check?.*appId=${APP_ID}&nonce=.*?&timestamp=.*?`), amlPayload.getPayloadData())
         .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
         .matchHeader(CONTENT_TYPE_HEADER_NAME, CONTENT_TYPE_JSON)
         .reply(200, amlCheckResult);

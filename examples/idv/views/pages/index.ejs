@@ -1,7 +1,11 @@
 <%- include('layout/header'); -%>
 <div style="font-size: 18px; margin-left: 300px">
-    <span>Session ID:</span> <span><%= sessionId %></span>
+    <h2>Click to view examples for:</h2>
+    <div>
+        <% useCasesList.forEach(function(useCase) { %>
+            <a href="<%= useCase.href %>" target="_blank"><%= useCase.name %></a>
+            <br>
+        <% }); %>
+    </div>
 </div>
-<a style="font-size: 18px; margin-left: 300px" href="/config?sessionID=<%= sessionId %>" target="_blank">View session configuration</a>
-<iframe style="border:none;" width="100%" height="750" allow="camera" src="<%= iframeUrl %>" allowfullscreen></iframe>
 <%- include('layout/footer'); -%>

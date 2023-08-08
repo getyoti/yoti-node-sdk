@@ -4,10 +4,15 @@ const ZoomLivenessResourceResponse = require('../../../../src/idv_service/sessio
 const LivenessResourceResponse = require('../../../../src/idv_service/session/retrieve/liveness.resource.response');
 const SupplementaryDocumentResourceResponse = require('../../../../src/idv_service/session/retrieve/supplementary.document.resource.response');
 const StaticLivenessResourceResponse = require('../../../../src/idv_service/session/retrieve/static.liveness.resource.response');
+const FaceCaptureResourceResponse = require('../../../../src/idv_service/session/retrieve/face.capture.resource.response');
+const FaceCaptureImageResponse = require('../../../../src/idv_service/session/retrieve/face.capture.image.response');
 
 const ZOOM = 'ZOOM';
 const STATIC = 'STATIC';
 const SOME_UNKNOWN_LIVENESS_TYPE = 'SOME_UNKNOWN_LIVENESS_TYPE';
+const IMAGE = {
+  media: {},
+};
 
 describe('ResourceContainer', () => {
   let resourceContainer;
@@ -31,6 +36,11 @@ describe('ResourceContainer', () => {
         },
         {
           liveness_type: SOME_UNKNOWN_LIVENESS_TYPE,
+        },
+      ],
+      face_capture: [
+        {
+          image: IMAGE,
         },
       ],
     });
@@ -130,6 +140,19 @@ describe('ResourceContainer', () => {
       livenessCapture.forEach((item) => {
         expect(item).toBeInstanceOf(StaticLivenessResourceResponse);
         expect(item.getLivenessType()).toBe(STATIC);
+      });
+    });
+  });
+
+  describe('#getFaceCapture', () => {
+    it('should return array of FaceCaptureResourceResponse', () => {
+      const livenessCapture = resourceContainer.getFaceCaptureResources();
+      livenessCapture.forEach((item) => {
+        const faceCaptureImageResponse = new FaceCaptureImageResponse(IMAGE);
+
+        expect(item).toBeInstanceOf(FaceCaptureResourceResponse);
+        expect(item.getImage()).toBeInstanceOf(FaceCaptureImageResponse);
+        expect(item.getImage()).toEqual(faceCaptureImageResponse);
       });
     });
   });
