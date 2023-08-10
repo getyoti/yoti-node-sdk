@@ -4,16 +4,18 @@ const {
   SdkConfigBuilder,
   RequiredIdDocumentBuilder,
   OrthogonalRestrictionsFilterBuilder,
-  RequiredSupplementaryDocumentBuilder,
-  ProofOfAddressObjectiveBuilder,
-  RequestedIdDocumentComparisonCheckBuilder,
   RequestedTextExtractionTaskBuilder,
-  RequestedSupplementaryDocTextExtractionTaskBuilder,
 } = require('yoti');
 const config = require('../../../config');
 
 /**
  * Create an IDV session.
+ *
+ * Show how to allow expired documents with any of the 2 filters:
+ * - OrthogonalRestrictionsFilterBuilder
+ * - DocumentRestrictionsFilterBuilder
+ *
+ * Note: comment out one of the filter example below
  */
 async function createSession() {
   const idvClient = new IDVClient(
@@ -25,41 +27,36 @@ async function createSession() {
     .withClientSessionTokenTtl(600)
     .withResourcesTtl(90000)
     .withUserTrackingId('some-user-tracking-id')
-    .withRequestedCheck(
-      new RequestedIdDocumentComparisonCheckBuilder()
-        .build()
-    )
     .withRequestedTask(
       new RequestedTextExtractionTaskBuilder()
         .withManualCheckAlways()
-        .withChipDataDesired()
-        .withCreateExpandedDocumentFields(true) // default is false
         .build()
     )
-    .withRequestedTask(
-      new RequestedSupplementaryDocTextExtractionTaskBuilder()
-        .withManualCheckAlways()
-        .build()
-    )
+    // With OrthogonalRestrictionsFilterBuilder
     .withRequiredDocument(
       (new RequiredIdDocumentBuilder())
         .withFilter(
           (new OrthogonalRestrictionsFilterBuilder())
             .withWhitelistedDocumentTypes(['PASSPORT'])
+            .withAllowExpiredDocuments(true)
             .build()
         )
         .build()
     )
-    .withRequiredDocument(
-      (new RequiredIdDocumentBuilder()).build()
-    )
-    .withRequiredDocument(
-      (new RequiredSupplementaryDocumentBuilder())
-        .withObjective(
-          (new ProofOfAddressObjectiveBuilder()).build()
-        )
-        .build()
-    )
+    // With DocumentRestrictionsFilterBuilder
+    // .withRequiredDocument(
+    //   (new RequiredIdDocumentBuilder())
+    //     .withFilter(
+    //       (new DocumentRestrictionsFilterBuilder())
+    //         .withDocumentRestriction((new DocumentRestrictionBuilder())
+    //           .withDocumentTypes(['PASSPORT'])
+    //           .build())
+    //         .forWhitelist()
+    //         .withAllowExpiredDocuments(true)
+    //         .build()
+    //     )
+    //     .build()
+    // )
     .withSdkConfig(
       new SdkConfigBuilder()
         .withAllowsCameraAndUpload()
