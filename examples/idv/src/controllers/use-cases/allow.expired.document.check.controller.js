@@ -5,6 +5,8 @@ const {
   RequiredIdDocumentBuilder,
   OrthogonalRestrictionsFilterBuilder,
   RequestedTextExtractionTaskBuilder,
+  DocumentRestrictionsFilterBuilder,
+  DocumentRestrictionBuilder,
 } = require('yoti');
 const config = require('../../../config');
 
@@ -15,7 +17,7 @@ const config = require('../../../config');
  * - OrthogonalRestrictionsFilterBuilder
  * - DocumentRestrictionsFilterBuilder
  *
- * Note: comment out one of the filter example below
+ * Note: comment out one of the required document filter example below
  */
 async function createSession() {
   const idvClient = new IDVClient(
@@ -44,19 +46,19 @@ async function createSession() {
         .build()
     )
     // With DocumentRestrictionsFilterBuilder
-    // .withRequiredDocument(
-    //   (new RequiredIdDocumentBuilder())
-    //     .withFilter(
-    //       (new DocumentRestrictionsFilterBuilder())
-    //         .withDocumentRestriction((new DocumentRestrictionBuilder())
-    //           .withDocumentTypes(['PASSPORT'])
-    //           .build())
-    //         .forWhitelist()
-    //         .withAllowExpiredDocuments(true)
-    //         .build()
-    //     )
-    //     .build()
-    // )
+    .withRequiredDocument(
+      (new RequiredIdDocumentBuilder())
+        .withFilter(
+          (new DocumentRestrictionsFilterBuilder())
+            .withDocumentRestriction((new DocumentRestrictionBuilder())
+              .withDocumentTypes(['PASSPORT'])
+              .build())
+            .forWhitelist()
+            .withAllowExpiredDocuments(true)
+            .build()
+        )
+        .build()
+    )
     .withSdkConfig(
       new SdkConfigBuilder()
         .withAllowsCameraAndUpload()
