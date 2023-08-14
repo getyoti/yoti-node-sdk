@@ -1,6 +1,7 @@
 const Cases = {
   DOCUMENT_AUTHENTICITY_AND_IDENTITY: 'documentAuthenticityAndIdentity',
   DOCUMENT_COMPARISON: 'documentComparison',
+  AllOW_EXPIRED_DOCUMENT: 'allowExpiredDocument',
   FACE_COMPARISON: 'faceComparison',
   FACE_MATCH: 'faceMatch',
   WATCHLIST: 'watchlist',
@@ -14,6 +15,10 @@ const CasesMap = new Map([
   [Cases.DOCUMENT_COMPARISON, {
     name: 'Document comparison check',
     path: '/document-comparison-check',
+  }],
+  [Cases.AllOW_EXPIRED_DOCUMENT, {
+    name: 'Allow expired document',
+    path: '/allow-expired-document',
   }],
   [Cases.FACE_COMPARISON, {
     name: 'Face comparison check',

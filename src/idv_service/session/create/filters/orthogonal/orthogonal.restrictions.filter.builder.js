@@ -51,10 +51,24 @@ class OrthogonalRestrictionsFilterBuilder {
   }
 
   /**
+   * @param {Boolean} allowExpiredDocuments
+   *
+   * @returns {this}
+   */
+  withAllowExpiredDocuments(allowExpiredDocuments) {
+    this.allowExpiredDocuments = allowExpiredDocuments;
+    return this;
+  }
+
+  /**
    * @returns {OrthogonalRestrictionsFilter}
    */
   build() {
-    return new OrthogonalRestrictionsFilter(this.countryRestriction, this.typeRestriction);
+    return new OrthogonalRestrictionsFilter(
+      this.countryRestriction,
+      this.typeRestriction,
+      this.allowExpiredDocuments
+    );
   }
 }
 

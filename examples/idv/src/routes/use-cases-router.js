@@ -9,6 +9,7 @@ const router = express.Router();
 const {
   authenticityAndIdentityCheckController,
   documentComparisonCheckController,
+  allowExpiredDocumentCheckController,
   faceComparisonCheckController,
   faceMatchCheckController,
   watchlistCheckController,
@@ -17,6 +18,7 @@ const {
 const caseIdToControllerMapping = {
   [Cases.DOCUMENT_AUTHENTICITY_AND_IDENTITY]: authenticityAndIdentityCheckController,
   [Cases.DOCUMENT_COMPARISON]: documentComparisonCheckController,
+  [Cases.AllOW_EXPIRED_DOCUMENT]: allowExpiredDocumentCheckController,
   [Cases.FACE_COMPARISON]: faceComparisonCheckController,
   [Cases.FACE_MATCH]: faceMatchCheckController,
   [Cases.WATCHLIST]: watchlistCheckController,
