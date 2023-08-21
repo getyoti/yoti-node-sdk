@@ -115,18 +115,6 @@ describe('OrthogonalRestrictionsFilterBuilder', () => {
       }));
   });
 
-  it('should build OrthogonalRestrictionsFilter with allow non latin documents', () => {
-    const orthogonalRestrictionsFilter = new OrthogonalRestrictionsFilterBuilder()
-      .withAllowNonLatinDocuments()
-      .build();
-
-    expect(JSON.stringify(orthogonalRestrictionsFilter))
-      .toBe(JSON.stringify({
-        type: 'ORTHOGONAL_RESTRICTIONS',
-        allow_non_latin_documents: true,
-      }));
-  });
-
   it('should build OrthogonalRestrictionsFilter with expired document not allowed', () => {
     const orthogonalRestrictionsFilter = new OrthogonalRestrictionsFilterBuilder()
       .withBlacklistedDocumentTypes([SOME_DOCUMENT_TYPE, SOME_OTHER_DOCUMENT_TYPE])
@@ -144,6 +132,18 @@ describe('OrthogonalRestrictionsFilterBuilder', () => {
           ],
         },
         allow_expired_documents: false,
+      }));
+  });
+
+  it('should build OrthogonalRestrictionsFilter with allow non latin documents', () => {
+    const orthogonalRestrictionsFilter = new OrthogonalRestrictionsFilterBuilder()
+      .withAllowNonLatinDocuments(true)
+      .build();
+
+    expect(JSON.stringify(orthogonalRestrictionsFilter))
+      .toBe(JSON.stringify({
+        type: 'ORTHOGONAL_RESTRICTIONS',
+        allow_non_latin_documents: true,
       }));
   });
 });
