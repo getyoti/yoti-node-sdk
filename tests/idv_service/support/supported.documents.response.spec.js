@@ -60,6 +60,13 @@ describe('SupportedDocumentsResponse', () => {
       .toHaveLength(0);
   });
 
+  it('returns empty list when supported countries is not returned', () => {
+    const supportedDocumentsResponse = new SupportedDocumentsResponse({});
+    const supportedCountries = supportedDocumentsResponse.getSupportedCountries();
+
+    expect(supportedCountries).toHaveLength(0);
+  });
+
   it('parses response into list of supported countries with is_strictly_latin', () => {
     const supportedDocumentsResponse = new SupportedDocumentsResponse({
       supported_countries: [
@@ -93,12 +100,5 @@ describe('SupportedDocumentsResponse', () => {
     expect(supportedCountries[0].getSupportedDocuments()[0].getIsStrictlyLatin()).toBe(true);
     expect(supportedCountries[1].getSupportedDocuments()[0].getIsStrictlyLatin()).toBe(true);
     expect(supportedCountries[1].getSupportedDocuments()[1].getIsStrictlyLatin()).toBe(false);
-  });
-
-  it('returns empty list when supported countries is not returned', () => {
-    const supportedDocumentsResponse = new SupportedDocumentsResponse({});
-    const supportedCountries = supportedDocumentsResponse.getSupportedCountries();
-
-    expect(supportedCountries).toHaveLength(0);
   });
 });

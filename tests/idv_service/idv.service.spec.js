@@ -423,6 +423,7 @@ describe('IDVService', () => {
       it('should return SupportedDocumentResponse', (done) => {
         nock(config.yoti.idvApi)
           .get(SUPPORTED_DOCUMENTS_URI)
+          .query((queryParams) => queryParams.includeNonLatin === 'true')
           .reply(200, '{}');
 
         idvService
