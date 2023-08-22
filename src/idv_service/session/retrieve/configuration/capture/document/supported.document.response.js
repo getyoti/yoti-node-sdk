@@ -9,7 +9,7 @@ class SupportedDocumentResponse {
   constructor(supportedDocument) {
     Validation.isString(supportedDocument.type, 'type');
     this.type = supportedDocument.type;
-    Validation.isBoolean(supportedDocument.is_strictly_latin);
+    Validation.isBoolean(supportedDocument.is_strictly_latin, 'is_strictly_latin');
     this.is_strictly_latin = supportedDocument.is_strictly_latin;
   }
 
@@ -22,6 +22,11 @@ class SupportedDocumentResponse {
     return this.type;
   }
 
+  /**
+   * Returns whether the document is strictly latin.
+   *
+   * @return {boolean}
+   */
   getIsStrictlyLatin() {
     return this.is_strictly_latin;
   }
