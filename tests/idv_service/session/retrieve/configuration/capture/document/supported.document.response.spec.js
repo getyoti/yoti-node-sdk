@@ -6,19 +6,12 @@ describe('SupportedDocumentResponse', () => {
   beforeEach(() => {
     supportedDocumentResponse = new SupportedDocumentResponse({
       type: 'DRIVING_LICENCE',
-      is_strictly_latin: true,
     });
   });
 
   describe('#getType', () => {
     it('should return code', () => {
       expect(supportedDocumentResponse.getType()).toBe('DRIVING_LICENCE');
-    });
-  });
-
-  describe('#getIsStrictlyLatin', () => {
-    it('should return boolean', () => {
-      expect(supportedDocumentResponse.getIsStrictlyLatin()).toBe(true);
     });
   });
 });
