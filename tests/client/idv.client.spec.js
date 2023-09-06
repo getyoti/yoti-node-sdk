@@ -11,6 +11,7 @@ const {
   UploadFaceCaptureImagePayloadBuilder,
 } = require('../..');
 
+const { IDVService } = require('../../src/idv_service');
 const CreateSessionResult = require('../../src/idv_service/session/create/create.session.result');
 const GetSessionResult = require('../../src/idv_service/session/retrieve/get.session.result');
 const Media = require('../../src/data_type/media');
@@ -191,11 +192,18 @@ describe.each([
         .reply(responseStatusCode, responseBody);
     };
 
-    describe('when a valid response is returned', () => {
-      beforeEach(() => {
-        setupResponse(JSON.stringify({}));
-      });
+    let spyOnIDVServiceRelatedMethod;
 
+    beforeEach(() => {
+      setupResponse(JSON.stringify({}));
+      spyOnIDVServiceRelatedMethod = jest.spyOn(IDVService.prototype, 'getSupportedDocuments');
+    });
+
+    afterEach(() => {
+      spyOnIDVServiceRelatedMethod.mockRestore();
+    });
+
+    describe('when a valid response is returned', () => {
       it('should return SupportedDocumentResponse', (done) => {
         idvClient
           .getSupportedDocuments()
@@ -204,6 +212,22 @@ describe.each([
             done();
           })
           .catch(done);
+        expect(spyOnIDVServiceRelatedMethod).toHaveBeenCalledTimes(1);
+        expect(spyOnIDVServiceRelatedMethod).not.toHaveBeenCalledWith(true);
+      });
+    });
+
+    describe('when includeNonLatin is passed', () => {
+      it('should return SupportedDocumentResponse', (done) => {
+        idvClient
+          .getSupportedDocuments(true)
+          .then((result) => {
+            expect(result).toBeInstanceOf(SupportedDocumentResponse);
+            done();
+          })
+          .catch(done);
+        expect(spyOnIDVServiceRelatedMethod).toHaveBeenCalledTimes(1);
+        expect(spyOnIDVServiceRelatedMethod).toHaveBeenCalledWith(true);
       });
     });
   });

@@ -11,8 +11,9 @@ class OrthogonalRestrictionsFilter extends DocumentFilter {
    * @param {CountryRestriction} countryRestriction
    * @param {TypeRestriction} typeRestriction
    * @param {Boolean} allowExpiredDocuments
+   * @param {Boolean} allowNonLatinDocuments
    */
-  constructor(countryRestriction, typeRestriction, allowExpiredDocuments) {
+  constructor(countryRestriction, typeRestriction, allowExpiredDocuments, allowNonLatinDocuments) {
     super(IDVConstants.ORTHOGONAL_RESTRICTIONS);
 
     if (countryRestriction) {
@@ -27,6 +28,9 @@ class OrthogonalRestrictionsFilter extends DocumentFilter {
 
     Validation.isBoolean(allowExpiredDocuments, 'allowExpiredDocuments', true);
     this.allowExpiredDocuments = allowExpiredDocuments;
+
+    Validation.isBoolean(allowNonLatinDocuments, 'allowNonLatinDocuments', true);
+    this.allowNonLatinDocuments = allowNonLatinDocuments;
   }
 
   toJSON() {
@@ -35,6 +39,7 @@ class OrthogonalRestrictionsFilter extends DocumentFilter {
     json.country_restriction = this.countryRestriction;
     json.type_restriction = this.typeRestriction;
     json.allow_expired_documents = this.allowExpiredDocuments;
+    json.allow_non_latin_documents = this.allowNonLatinDocuments;
 
     return json;
   }

@@ -87,10 +87,12 @@ class IDVClient {
   /**
    * Gets a list of supported documents.
    *
+   * @param {boolean} includeNonLatin
+   *
    * @returns {Promise<SupportedDocumentsResponse>}
    */
-  getSupportedDocuments() {
-    return this.idvService.getSupportedDocuments();
+  getSupportedDocuments(includeNonLatin) {
+    return this.idvService.getSupportedDocuments(includeNonLatin);
   }
 
   /**

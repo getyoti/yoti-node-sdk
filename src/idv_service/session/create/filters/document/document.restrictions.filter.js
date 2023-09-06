@@ -10,8 +10,9 @@ class DocumentRestrictionsFilter extends DocumentFilter {
    * @param {string} inclusion
    * @param {DocumentRestriction[]} documents
    * @param {Boolean} allowExpiredDocuments
+   * @param {Boolean} allowNonLatinDocuments
    */
-  constructor(inclusion, documents, allowExpiredDocuments) {
+  constructor(inclusion, documents, allowExpiredDocuments, allowNonLatinDocuments) {
     super(IDVConstants.DOCUMENT_RESTRICTIONS);
 
     Validation.isString(inclusion, 'inclusion');
@@ -22,6 +23,9 @@ class DocumentRestrictionsFilter extends DocumentFilter {
 
     Validation.isBoolean(allowExpiredDocuments, 'allowExpiredDocuments', true);
     this.allowExpiredDocuments = allowExpiredDocuments;
+
+    Validation.isBoolean(allowNonLatinDocuments, 'allowNonLatinDocuments', true);
+    this.allowNonLatinDocuments = allowNonLatinDocuments;
   }
 
   toJSON() {
@@ -30,6 +34,7 @@ class DocumentRestrictionsFilter extends DocumentFilter {
     json.inclusion = this.inclusion;
     json.documents = this.documents;
     json.allow_expired_documents = this.allowExpiredDocuments;
+    json.allow_non_latin_documents = this.allowNonLatinDocuments;
 
     return json;
   }

@@ -10,6 +10,7 @@ const {
   authenticityAndIdentityCheckController,
   documentComparisonCheckController,
   allowExpiredDocumentCheckController,
+  allowNonLatinDocumentCheckController,
   faceComparisonCheckController,
   faceMatchCheckController,
   watchlistCheckController,
@@ -18,6 +19,7 @@ const {
 const caseIdToControllerMapping = {
   [Cases.DOCUMENT_AUTHENTICITY_AND_IDENTITY]: authenticityAndIdentityCheckController,
   [Cases.DOCUMENT_COMPARISON]: documentComparisonCheckController,
+  [Cases.AllOW_NON_LATIN_DOCUMENT]: allowNonLatinDocumentCheckController,
   [Cases.AllOW_EXPIRED_DOCUMENT]: allowExpiredDocumentCheckController,
   [Cases.FACE_COMPARISON]: faceComparisonCheckController,
   [Cases.FACE_MATCH]: faceMatchCheckController,

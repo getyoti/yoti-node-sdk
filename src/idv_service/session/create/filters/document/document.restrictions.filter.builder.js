@@ -49,13 +49,24 @@ class DocumentRestrictionsFilterBuilder {
   }
 
   /**
+   * @param {Boolean} allowNonLatinDocuments
+   *
+   * @returns {this}
+   */
+  withAllowNonLatinDocuments(allowNonLatinDocuments) {
+    this.allowNonLatinDocuments = allowNonLatinDocuments;
+    return this;
+  }
+
+  /**
    * @returns {DocumentRestrictionsFilter}
    */
   build() {
     return new DocumentRestrictionsFilter(
       this.inclusion,
       this.documents,
-      this.allowExpiredDocuments
+      this.allowExpiredDocuments,
+      this.allowNonLatinDocuments
     );
   }
 }
