@@ -1,6 +1,7 @@
 const Cases = {
   DOCUMENT_AUTHENTICITY_AND_IDENTITY: 'documentAuthenticityAndIdentity',
   DOCUMENT_COMPARISON: 'documentComparison',
+  AllOW_NON_LATIN_DOCUMENT: 'allowNonLatinDocument',
   AllOW_EXPIRED_DOCUMENT: 'allowExpiredDocument',
   FACE_COMPARISON: 'faceComparison',
   FACE_MATCH: 'faceMatch',
@@ -15,6 +16,10 @@ const CasesMap = new Map([
   [Cases.DOCUMENT_COMPARISON, {
     name: 'Document comparison check',
     path: '/document-comparison-check',
+  }],
+  [Cases.AllOW_NON_LATIN_DOCUMENT, {
+    name: 'Allow non Latin document',
+    path: '/allow-non-latin-document',
   }],
   [Cases.AllOW_EXPIRED_DOCUMENT, {
     name: 'Allow expired document',
