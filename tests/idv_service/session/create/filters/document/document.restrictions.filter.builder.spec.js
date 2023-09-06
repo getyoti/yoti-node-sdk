@@ -104,7 +104,7 @@ describe('DocumentRestrictionsFilterBuilder', () => {
   it('should build DocumentRestrictionsFilter with expired documents not allowed', () => {
     const documentRestrictionsFilter = new DocumentRestrictionsFilterBuilder()
       .forWhitelist()
-      .withAllowExpiredDocuments(false)
+      .withAllowExpiredDocuments(true)
       .build();
 
     expect(JSON.stringify(documentRestrictionsFilter))
@@ -112,7 +112,22 @@ describe('DocumentRestrictionsFilterBuilder', () => {
         type: 'DOCUMENT_RESTRICTIONS',
         inclusion: 'WHITELIST',
         documents: [],
-        allow_expired_documents: false,
+        allow_expired_documents: true,
+      }));
+  });
+
+  it('should build DocumentRestrictionsFilter with non latin documents allowed', () => {
+    const documentRestrictionsFilter = new DocumentRestrictionsFilterBuilder()
+      .forWhitelist()
+      .withAllowNonLatinDocuments(true)
+      .build();
+
+    expect(JSON.stringify(documentRestrictionsFilter))
+      .toBe(JSON.stringify({
+        type: 'DOCUMENT_RESTRICTIONS',
+        inclusion: 'WHITELIST',
+        documents: [],
+        allow_non_latin_documents: true,
       }));
   });
 });

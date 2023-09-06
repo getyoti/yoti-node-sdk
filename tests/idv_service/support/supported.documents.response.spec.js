@@ -66,4 +66,39 @@ describe('SupportedDocumentsResponse', () => {
 
     expect(supportedCountries).toHaveLength(0);
   });
+
+  it('parses response into list of supported countries with is_strictly_latin', () => {
+    const supportedDocumentsResponse = new SupportedDocumentsResponse({
+      supported_countries: [
+        {
+          code: SOME_COUNTRY_CODE,
+          supported_documents: [
+            {
+              type: SOME_DOCUMENT_TYPE,
+              is_strictly_latin: true,
+            },
+          ],
+        },
+        {
+          code: SOME_OTHER_COUNTRY_CODE,
+          supported_documents: [
+            {
+              type: SOME_DOCUMENT_TYPE,
+              is_strictly_latin: true,
+            },
+            {
+              type: SOME_OTHER_DOCUMENT_TYPE,
+              is_strictly_latin: false,
+            },
+          ],
+        },
+      ],
+    });
+
+    const supportedCountries = supportedDocumentsResponse.getSupportedCountries();
+
+    expect(supportedCountries[0].getSupportedDocuments()[0].getIsStrictlyLatin()).toBe(true);
+    expect(supportedCountries[1].getSupportedDocuments()[0].getIsStrictlyLatin()).toBe(true);
+    expect(supportedCountries[1].getSupportedDocuments()[1].getIsStrictlyLatin()).toBe(false);
+  });
 });

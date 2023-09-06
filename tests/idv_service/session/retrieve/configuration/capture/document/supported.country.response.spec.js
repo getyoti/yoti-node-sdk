@@ -27,9 +27,14 @@ describe('SupportedCountryResponse', () => {
   describe('#getSupportedDocuments', () => {
     it('should return requested tasks', () => {
       expect(supportedCountryResponse.getSupportedDocuments()).toHaveLength(2);
-      expect(
-        supportedCountryResponse.getSupportedDocuments()[0]
-      ).toBeInstanceOf(SupportedDocumentResponse);
+
+      const [firstResponse, secondResponse] = supportedCountryResponse.getSupportedDocuments();
+
+      expect(firstResponse).toBeInstanceOf(SupportedDocumentResponse);
+      expect(firstResponse.getType()).toBe('DRIVING_LICENCE');
+
+      expect(secondResponse).toBeInstanceOf(SupportedDocumentResponse);
+      expect(secondResponse.getType()).toBe('PASSPORT');
     });
   });
 });

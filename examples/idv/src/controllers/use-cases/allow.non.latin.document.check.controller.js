@@ -39,8 +39,8 @@ async function createSession() {
       (new RequiredIdDocumentBuilder())
         .withFilter(
           (new OrthogonalRestrictionsFilterBuilder())
-            .withWhitelistedDocumentTypes(['PASSPORT'])
-            .withAllowExpiredDocuments(true)
+            .withWhitelistedDocumentTypes(['DRIVING_LICENCE'])
+            .withAllowNonLatinDocuments(true)
             .build()
         )
         .build()
@@ -51,10 +51,10 @@ async function createSession() {
     //     .withFilter(
     //       (new DocumentRestrictionsFilterBuilder())
     //         .withDocumentRestriction((new DocumentRestrictionBuilder())
-    //           .withDocumentTypes(['PASSPORT'])
+    //           .withDocumentTypes(['DRIVING_LICENCE'])
     //           .build())
     //         .forWhitelist()
-    //         .withAllowExpiredDocuments(true)
+    //         .withAllowNonLatinDocuments(true)
     //         .build()
     //     )
     //     .build()
@@ -72,6 +72,34 @@ async function createSession() {
 
   return idvClient.createSession(sessionSpec);
 }
+
+// async function getListOfAllowedNonLatinDocuments() {
+//   const idvClient = new IDVClient(config.YOTI_CLIENT_SDK_ID, config.YOTI_PEM);
+//   const supportedDocumentsResponse = await idvClient.getSupportedDocuments(true);
+//
+//   console.log('\nThe list of allowed non Latin documents: \n');
+//   supportedDocumentsResponse.getSupportedCountries().forEach((supportedCountry) => {
+//     supportedCountry.getSupportedDocuments()
+//       .filter((supportedDoc) => !supportedDoc.getIsStrictlyLatin())
+//       .forEach((supportedDoc) => {
+//         console.log(`${supportedDoc.getType()} of ${supportedCountry.getCode()}`);
+//       });
+//   });
+// }
+//
+// async function getListOfStrictlyLatinDocuments() {
+//   const idvClient = new IDVClient(config.YOTI_CLIENT_SDK_ID, config.YOTI_PEM);
+//   const supportedDocumentsResponse = await idvClient.getSupportedDocuments(true);
+//
+//   console.log('\nThe list of strictly Latin documents: \n');
+//   supportedDocumentsResponse.getSupportedCountries().forEach((supportedCountry) => {
+//     supportedCountry.getSupportedDocuments()
+//       .filter((supportedDoc) => supportedDoc.getIsStrictlyLatin())
+//       .forEach((supportedDoc) => {
+//         console.log(`${supportedDoc.getType()} of ${supportedCountry.getCode()}`);
+//       });
+//   });
+// }
 
 module.exports = async (req, res) => {
   try {
