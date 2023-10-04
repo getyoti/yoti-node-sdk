@@ -45,7 +45,9 @@
 
 .yoti-share-buttons-section {
     display: flex;
-    gap: 1em
+    gap: 1em;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .yoti-share-button-container {

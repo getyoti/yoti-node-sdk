@@ -14,12 +14,14 @@ module.exports = class Policy {
    * @param {integer[]} wantedAuthTypes - auth types represents the authentication type to be used.
    * @param {boolean} wantedRememberMe
    * @param {object} identityProfileRequirements
+   * @param {object} advancedIdentityProfileRequirements
    */
   constructor(
     wantedAttributes,
     wantedAuthTypes,
     wantedRememberMe = false,
-    identityProfileRequirements = null
+    identityProfileRequirements = null,
+    advancedIdentityProfileRequirements = null
   ) {
     Validation.isArrayOfType(wantedAttributes, WantedAttribute, 'wantedAttribute');
     this.wantedAttributes = wantedAttributes;
@@ -37,6 +39,11 @@ module.exports = class Policy {
     if (identityProfileRequirements) {
       Validation.isPlainObject(identityProfileRequirements, 'identityProfileRequirements');
       this.identityProfileRequirements = identityProfileRequirements;
+    }
+
+    if (advancedIdentityProfileRequirements) {
+      Validation.isPlainObject(advancedIdentityProfileRequirements, 'advancedIdentityProfileRequirements');
+      this.advancedIdentityProfileRequirements = advancedIdentityProfileRequirements;
     }
   }
 
@@ -69,6 +76,13 @@ module.exports = class Policy {
   }
 
   /**
+   * @return {Object}
+   */
+  getAdvancedIdentityProfileRequirements() {
+    return this.advancedIdentityProfileRequirements;
+  }
+
+  /**
    * @returns {Object} data for JSON.stringify()
    */
   toJSON() {
@@ -79,6 +93,12 @@ module.exports = class Policy {
       wanted_remember_me_optional: false,
     };
     const identityProfileRequirements = this.getIdentityProfileRequirements();
+    const advancedIdentityProfileRequirements = this.getAdvancedIdentityProfileRequirements();
+    if (advancedIdentityProfileRequirements) {
+      return Object.assign(base, {
+        advanced_identity_profile_requirements: advancedIdentityProfileRequirements,
+      });
+    }
     if (identityProfileRequirements) {
       return Object.assign(base, { identity_profile_requirements: identityProfileRequirements });
     }

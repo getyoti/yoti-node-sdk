@@ -313,6 +313,14 @@ module.exports = class PolicyBuilder {
   }
 
   /**
+   * @param {object} advancedIdentityProfileRequirements
+   */
+  withAdvancedIdentityProfileRequirements(advancedIdentityProfileRequirements) {
+    this.advancedIdentityProfileRequirements = advancedIdentityProfileRequirements;
+    return this;
+  }
+
+  /**
    * @returns {Policy}
    */
   build() {
@@ -320,7 +328,8 @@ module.exports = class PolicyBuilder {
       Object.keys(this.wantedAttributes).map((k) => this.wantedAttributes[k]),
       this.wantedAuthTypes.filter((value, index, self) => self.indexOf(value) === index),
       this.wantedRememberMe,
-      this.identityProfileRequirements
+      this.identityProfileRequirements,
+      this.advancedIdentityProfileRequirements
     );
   }
 };
