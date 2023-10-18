@@ -2,41 +2,38 @@ const {
   IDVClient,
   SessionSpecificationBuilder,
   SdkConfigBuilder,
-} = require('yoti');
-const config = require('../../config');
+} = require("yoti");
+const config = require("../../config");
 
 /**
  * Create an IDV session.
  */
 async function createSession() {
-  const idvClient = new IDVClient(
-    config.YOTI_CLIENT_SDK_ID,
-    config.YOTI_PEM
-  );
+  const idvClient = new IDVClient(config.YOTI_CLIENT_SDK_ID, config.YOTI_PEM);
 
   const subject = {
-    subject_id: 'subject_id_string',
+    subject_id: "subject_id_string",
   };
 
   const identityProfileRequirements = {
-    trust_framework: 'UK_TFIDA',
+    trust_framework: "UK_TFIDA",
     scheme: {
-      type: 'DBS',
-      objective: 'BASIC',
+      type: "DBS",
+      objective: "BASIC",
     },
   };
 
   const sessionSpec = new SessionSpecificationBuilder()
     .withClientSessionTokenTtl(600)
-    .withResourcesTtl(90000)
-    .withUserTrackingId('some-user-tracking-id')
+    .withResourcesTtl(86400)
+    .withUserTrackingId("some-user-tracking-id")
     .withSubject(subject)
     .withIdentityProfileRequirements(identityProfileRequirements)
     .withSdkConfig(
       new SdkConfigBuilder()
-        .withPrimaryColour('#2d9fff')
-        .withLocale('en-GB')
-        .withPresetIssuingCountry('GBR')
+        .withPrimaryColour("#2d9fff")
+        .withLocale("en-GB")
+        .withPresetIssuingCountry("GBR")
         .withSuccessUrl(`${config.YOTI_APP_BASE_URL}/success`)
         .withErrorUrl(`${config.YOTI_APP_BASE_URL}/error`)
         .withAllowHandoff(true)
@@ -54,10 +51,10 @@ module.exports = async (req, res) => {
     req.session.IDV_SESSION_ID = session.getSessionId();
     req.session.IDV_SESSION_TOKEN = session.getClientSessionToken();
 
-    res.render('pages/index', {
+    res.render("pages/index", {
       iframeUrl: `${config.YOTI_IDV_IFRAME_URL}?sessionID=${req.session.IDV_SESSION_ID}&sessionToken=${req.session.IDV_SESSION_TOKEN}`,
     });
   } catch (error) {
-    res.render('pages/error', { error });
+    res.render("pages/error", { error });
   }
 };

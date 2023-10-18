@@ -17,18 +17,14 @@ async function createSession() {
 
   const sessionSpec = new SessionSpecificationBuilder()
     .withClientSessionTokenTtl(600)
-    .withResourcesTtl(90000)
+    .withResourcesTtl(86400)
     .withUserTrackingId('some-user-tracking-id')
-  // For zoom liveness check [only one type of liveness check to be enabled at a time]
-    .withRequestedCheck(new RequestedLivenessCheckBuilder()
-      .forZoomLiveness()
-      .build())
-  // For static liveness check
-  // .withRequestedCheck(
-  //   new RequestedLivenessCheckBuilder()
-  //     .forStaticLiveness()
-  //     .build()
-  // )
+
+    .withRequestedCheck(
+      new RequestedLivenessCheckBuilder()
+        .forStaticLiveness()
+        .build()
+    )
     .withRequestedCheck(new RequestedFaceComparisonCheckBuilder()
       .withManualCheckNever()
       .build())
