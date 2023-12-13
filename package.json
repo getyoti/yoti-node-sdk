@@ -15,6 +15,7 @@
     "lint": "npx eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
     "test": "jest",
     "audit": "audit-ci --config ./audit-ci.jsonc",
+    "postinstall": "tsc index.js --declaration --allowJs --emitDeclarationOnly --skipLibCheck",
     "pre-commit": "npm run test"
   },
   "jest": {
@@ -46,6 +47,7 @@
     "eslint-plugin-node": "11.1.0",
     "husky": "8.0.3",
     "jest": "29.5.0",
-    "nock": "13.2.9"
+    "nock": "13.2.9",
+    "typescript": "^5.3.3"
   }
 }
