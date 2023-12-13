@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable max-len */
+
 const config = require('../../config');
 const { IDVService } = require('../idv_service');
 
@@ -27,7 +29,11 @@ class IDVClient {
   /**
    * Creates a IDV session using the supplied session specification
    *
+   * @typedef {import('../idv_service/session/create/session.specification.js')} SessionSpecification
+   *
    * @param {SessionSpecification} sessionSpecification
+   *
+   * @typedef {import('../idv_service/session/create/create.session.result')} CreateSessionResult
    *
    * @returns {Promise<CreateSessionResult>}
    */
@@ -39,6 +45,8 @@ class IDVClient {
    * Retrieves the state of a previously created Yoti IDV session
    *
    * @param {string} sessionId
+   *
+   * @typedef {import('../idv_service/session/retrieve/get.session.result.js')} GetSessionResult
    *
    * @returns {Promise<GetSessionResult>}
    */
@@ -52,7 +60,7 @@ class IDVClient {
    *
    * @param {string} sessionId
    *
-   * @returns {Promise}
+   * @returns {Promise<void>}
    */
   deleteSession(sessionId) {
     return this.idvService.deleteSession(sessionId);
@@ -64,6 +72,8 @@ class IDVClient {
    *
    * @param {string} sessionId
    * @param {string} mediaId
+   *
+   * @typedef {import('../data_type/media.js')} Media
    *
    * @returns {Promise<Media>}
    */
@@ -78,7 +88,7 @@ class IDVClient {
    * @param {string} sessionId
    * @param {string} mediaId
    *
-   * @returns {Promise}
+   * @returns {Promise<void>}
    */
   deleteMediaContent(sessionId, mediaId) {
     return this.idvService.deleteMediaContent(sessionId, mediaId);
@@ -89,6 +99,8 @@ class IDVClient {
    *
    * @param {boolean} includeNonLatin
    *
+   * @typedef {import('../idv_service/support/supported.documents.response.js')} SupportedDocumentsResponse
+   *
    * @returns {Promise<SupportedDocumentsResponse>}
    */
   getSupportedDocuments(includeNonLatin) {
@@ -98,7 +110,12 @@ class IDVClient {
   /**
    * Creates a face capture resource
    * @param {string} sessionId
+   *
+   * @typedef {import('../idv_service/session/create/face_capture/create.face.capture.resource.payload.js')} CreateFaceCaptureResourcePayload
+   *
    * @param {CreateFaceCaptureResourcePayload} createFaceCaptureResourcePayload
+   *
+   * @typedef {import('../idv_service/session/retrieve/create.face.capture.resource.response.js')} CreateFaceCaptureResourceResponse
    *
    * @returns {Promise<CreateFaceCaptureResourceResponse>}
    */
@@ -113,9 +130,12 @@ class IDVClient {
    * Uploads a face capture image
    * @param {string} sessionId
    * @param {string} resourceId
+   *
+   * @typedef {import('../idv_service/session/create/face_capture/upload.face.capture.image.payload.js')} UploadFaceCaptureImagePayload
+   *
    * @param {UploadFaceCaptureImagePayload} uploadFaceCaptureImagePayload
    *
-   * @returns {Promise<CreateFaceCaptureResourceResponse>}
+   * @returns {Promise<void>}
    */
   uploadFaceCaptureImage(sessionId, resourceId, uploadFaceCaptureImagePayload) {
     return this.idvService.uploadFaceCaptureImage(
@@ -129,6 +149,8 @@ class IDVClient {
    * Fetches the configuration for the given sessionID.
    *
    * @param {string} sessionId
+   *
+   * @typedef {import('../idv_service/session/retrieve/configuration/session.configuration.response.js')} SessionConfigurationResponse
    *
    * @returns {Promise<SessionConfigurationResponse>}
    */

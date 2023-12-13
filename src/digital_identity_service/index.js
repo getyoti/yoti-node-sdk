@@ -51,8 +51,8 @@ class DigitalIdentityService {
   }
 
   /**
+   * @param {ShareSessionConfiguration} shareSessionConfig
    *
-   * @param shareSessionConfig
    * @returns {Promise<CreateShareSessionResult>}
    */
   async createShareSession(shareSessionConfig) {
@@ -92,8 +92,8 @@ class DigitalIdentityService {
   }
 
   /**
+   * @param {string} sessionId
    *
-   * @param sessionId
    * @returns {Promise<GetShareSessionResult>}
    */
   async getShareSession(sessionId) {
@@ -132,7 +132,7 @@ class DigitalIdentityService {
 
   /**
    *
-   * @param sessionId
+   * @param {string} sessionId
    * @returns {Promise<CreateShareQrCodeResult>}
    */
   async createShareQrCode(sessionId) {
@@ -173,7 +173,7 @@ class DigitalIdentityService {
 
   /**
    *
-   * @param qrCodeId
+   * @param {string} qrCodeId
    * @returns {Promise<GetShareQrCodeResult>}
    */
   async getShareQrCode(qrCodeId) {
