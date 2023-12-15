@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable max-len */
+
 const config = require('../../config');
 const { IDVService } = require('../idv_service');
 
@@ -29,7 +31,9 @@ class IDVClient {
    *
    * @param {SessionSpecification} sessionSpecification
    *
-   * @returns {Promise<CreateSessionResult>}
+   * @typedef {Promise<import('../idv_service/session/create/create.session.result')>} CreateSessionResult
+   *
+   * @returns {CreateSessionResult}
    */
   createSession(sessionSpecification) {
     return this.idvService.createSession(sessionSpecification);
