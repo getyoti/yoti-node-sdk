@@ -55,10 +55,7 @@ const {
   UploadFaceCaptureImagePayloadBuilder,
 } = require('./src/idv_service');
 
-const TestClient = require('./src/test.client');
-
 module.exports = {
-  TestClient,
   Client: YotiClient,
   IDVClient,
   DigitalIdentityClient,
