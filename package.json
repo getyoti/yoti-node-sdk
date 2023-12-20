@@ -15,8 +15,9 @@
     "lint": "npx eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
     "test": "jest",
     "audit": "audit-ci --config ./audit-ci.jsonc",
-    "postinstall": "tsc index.js --declaration --allowJs --emitDeclarationOnly --skipLibCheck",
-    "pre-commit": "npm run test"
+    "generate:types": "tsc index.js --declaration --allowJs --emitDeclarationOnly --skipLibCheck --outDir types",
+    "pre-commit": "rm -rf types && npm run generate:types && git add types",
+    "pre-commit2": "npm run test"
   },
   "jest": {
     "verbose": true,
