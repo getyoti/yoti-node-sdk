@@ -1,3 +1,7 @@
+import { IDVService } from "./src/idv_service";
+import YotiCommon = require("./src/yoti_common");
+import { YotiRequest } from "./src/request/request";
+import IDVError = require("./src/idv_service/idv.error");
 import { YotiClient } from "./src/client";
 import { IDVClient } from "./src/client";
 import { DigitalIdentityClient } from "./src/client";
@@ -46,4 +50,10 @@ import { RequestedSearchProfileSourcesBuilder } from "./src/idv_service";
 import { RequestedTypeListSourcesBuilder } from "./src/idv_service";
 import { CreateFaceCaptureResourcePayloadBuilder } from "./src/idv_service";
 import { UploadFaceCaptureImagePayloadBuilder } from "./src/idv_service";
+export declare namespace internals {
+    export { IDVService };
+    export { YotiCommon };
+    export { YotiRequest };
+    export { IDVError };
+}
 export { YotiClient as Client, IDVClient, DigitalIdentityClient, IDVConstants, AmlAddress, AmlProfile, DigitalIdentityBuilders, DynamicScenarioBuilder, DynamicPolicyBuilder, WantedAttributeBuilder, ExtensionBuilder, LocationConstraintExtensionBuilder, ThirdPartyAttributeExtensionBuilder, TransactionalFlowExtensionBuilder, WantedAnchorBuilder, ConstraintsBuilder, SourceConstraintBuilder, RequestBuilder, Payload, YotiDate, constants, SessionSpecificationBuilder, NotificationConfigBuilder, SdkConfigBuilder, RequestedDocumentAuthenticityCheckBuilder, RequestedIdDocumentComparisonCheckBuilder, RequestedThirdPartyIdentityCheckBuilder, RequestedWatchlistScreeningCheckBuilder, RequestedWatchlistAdvancedCaCheckBuilder, RequestedFaceMatchCheckBuilder, RequestedFaceComparisonCheckBuilder, RequestedLivenessCheckBuilder, RequestedTextExtractionTaskBuilder, RequestedSupplementaryDocTextExtractionTaskBuilder, RequiredIdDocumentBuilder, RequiredSupplementaryDocumentBuilder, DocumentRestrictionsFilterBuilder, DocumentRestrictionBuilder, OrthogonalRestrictionsFilterBuilder, ProofOfAddressObjectiveBuilder, RequestedCustomAccountWatchlistAdvancedCaConfigBuilder, RequestedYotiAccountWatchlistAdvancedCaConfigBuilder, RequestedExactMatchingStrategyBuilder, RequestedFuzzyMatchingStrategyBuilder, RequestedSearchProfileSourcesBuilder, RequestedTypeListSourcesBuilder, CreateFaceCaptureResourcePayloadBuilder, UploadFaceCaptureImagePayloadBuilder };
