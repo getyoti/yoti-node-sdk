@@ -13,42 +13,54 @@ declare class DigitalIdentityClient {
         sdkId: any;
         pem: any;
         apiUrl: string;
-        createShareSession(shareSessionConfig: any): Promise<import("../digital_identity_service/create.share.session.result")>;
-        getShareSession(sessionId: any): Promise<import("../digital_identity_service/get.share.session.result")>;
-        createShareQrCode(sessionId: any): Promise<import("../digital_identity_service/create.share.qr.code.result")>;
-        getShareQrCode(qrCodeId: any): Promise<import("../digital_identity_service/get.share.qr.code.result")>;
+        createShareSession(shareSessionConfig: import("../digital_identity_service/share.session.configuration.js")): Promise<import("../digital_identity_service/create.share.session.result.js")>;
+        getShareSession(sessionId: string): Promise<import("../digital_identity_service/get.share.session.result.js")>;
+        createShareQrCode(sessionId: string): Promise<import("../digital_identity_service/create.share.qr.code.result.js")>;
+        getShareQrCode(qrCodeId: string): Promise<import("../digital_identity_service/get.share.qr.code.result.js")>;
         fetchReceipt(receiptId: string): Promise<import("../digital_identity_service/receipts/receipt.response")>;
         fetchReceiptItemKey(receiptItemKeyId: string): Promise<import("../digital_identity_service/receipts/receipt.item.key.response")>;
-        getShareReceipt(receiptId: string): Promise<import("../digital_identity_service/get.share.receipt.result")>;
+        getShareReceipt(receiptId: string): Promise<import("../digital_identity_service/get.share.receipt.result.js")>;
     };
     /**
+     * @typedef {import('../digital_identity_service/share.session.configuration.js')} ShareSessionConfig
      *
-     * @param shareSessionConfig
+     * @param {ShareSessionConfig} shareSessionConfig
+     *
+     * @typedef {import('../digital_identity_service/create.share.session.result.js')} CreateShareSessionResult
+     *
      * @returns {Promise<CreateShareSessionResult>}
      */
-    createShareSession(shareSessionConfig: any): Promise<CreateShareSessionResult>;
+    createShareSession(shareSessionConfig: import("../digital_identity_service/share.session.configuration.js")): Promise<import("../digital_identity_service/create.share.session.result.js")>;
     /**
+     * @param {string} sessionId
      *
-     * @param sessionId
+     * @typedef {import('../digital_identity_service/get.share.session.result.js')} GetShareSessionResult
+     *
      * @returns {Promise<GetShareSessionResult>}
      */
-    getShareSession(sessionId: any): Promise<GetShareSessionResult>;
+    getShareSession(sessionId: string): Promise<import("../digital_identity_service/get.share.session.result.js")>;
     /**
+     * @param {string} sessionId
      *
-     * @param sessionId
+     * @typedef {import('../digital_identity_service/create.share.qr.code.result.js')} CreateShareQrCodeResult
+     *
      * @returns {Promise<CreateShareQrCodeResult>}
      */
-    createShareQrCode(sessionId: any): Promise<CreateShareQrCodeResult>;
+    createShareQrCode(sessionId: string): Promise<import("../digital_identity_service/create.share.qr.code.result.js")>;
     /**
+     * @param {string} qrCodeId
      *
-     * @param qrCodeId
+     * @typedef {import('../digital_identity_service/get.share.qr.code.result.js')} GetShareQrCodeResult
+     *
      * @returns {Promise<GetShareQrCodeResult>}
      */
-    getShareQrCode(qrCodeId: any): Promise<GetShareQrCodeResult>;
+    getShareQrCode(qrCodeId: string): Promise<import("../digital_identity_service/get.share.qr.code.result.js")>;
     /**
-     *
      * @param {string} receiptId
+     *
+     * @typedef {import('../digital_identity_service/get.share.receipt.result.js')} GetShareReceiptResult
+     *
      * @returns {Promise<GetShareReceiptResult>}
      */
-    getShareReceipt(receiptId: string): Promise<GetShareReceiptResult>;
+    getShareReceipt(receiptId: string): Promise<import("../digital_identity_service/get.share.receipt.result.js")>;
 }

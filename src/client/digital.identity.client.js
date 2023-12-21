@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable max-len */
+
 const config = require('../../config');
 const { DigitalIdentityService } = require('../digital_identity_service');
 
@@ -19,8 +21,12 @@ class DigitalIdentityClient {
   }
 
   /**
+   * @typedef {import('../digital_identity_service/share.session.configuration.js')} ShareSessionConfig
    *
-   * @param shareSessionConfig
+   * @param {ShareSessionConfig} shareSessionConfig
+   *
+   * @typedef {import('../digital_identity_service/create.share.session.result.js')} CreateShareSessionResult
+   *
    * @returns {Promise<CreateShareSessionResult>}
    */
   async createShareSession(shareSessionConfig) {
@@ -28,8 +34,10 @@ class DigitalIdentityClient {
   }
 
   /**
+   * @param {string} sessionId
    *
-   * @param sessionId
+   * @typedef {import('../digital_identity_service/get.share.session.result.js')} GetShareSessionResult
+   *
    * @returns {Promise<GetShareSessionResult>}
    */
   async getShareSession(sessionId) {
@@ -37,8 +45,10 @@ class DigitalIdentityClient {
   }
 
   /**
+   * @param {string} sessionId
    *
-   * @param sessionId
+   * @typedef {import('../digital_identity_service/create.share.qr.code.result.js')} CreateShareQrCodeResult
+   *
    * @returns {Promise<CreateShareQrCodeResult>}
    */
   async createShareQrCode(sessionId) {
@@ -46,8 +56,10 @@ class DigitalIdentityClient {
   }
 
   /**
+   * @param {string} qrCodeId
    *
-   * @param qrCodeId
+   * @typedef {import('../digital_identity_service/get.share.qr.code.result.js')} GetShareQrCodeResult
+   *
    * @returns {Promise<GetShareQrCodeResult>}
    */
   async getShareQrCode(qrCodeId) {
@@ -55,8 +67,10 @@ class DigitalIdentityClient {
   }
 
   /**
-   *
    * @param {string} receiptId
+   *
+   * @typedef {import('../digital_identity_service/get.share.receipt.result.js')} GetShareReceiptResult
+   *
    * @returns {Promise<GetShareReceiptResult>}
    */
   async getShareReceipt(receiptId) {

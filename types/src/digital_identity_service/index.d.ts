@@ -11,29 +11,29 @@ export class DigitalIdentityService {
     pem: any;
     apiUrl: string;
     /**
+     * @param {ShareSessionConfiguration} shareSessionConfig
      *
-     * @param shareSessionConfig
      * @returns {Promise<CreateShareSessionResult>}
      */
-    createShareSession(shareSessionConfig: any): Promise<CreateShareSessionResult>;
+    createShareSession(shareSessionConfig: ShareSessionConfiguration): Promise<CreateShareSessionResult>;
     /**
+     * @param {string} sessionId
      *
-     * @param sessionId
      * @returns {Promise<GetShareSessionResult>}
      */
-    getShareSession(sessionId: any): Promise<GetShareSessionResult>;
+    getShareSession(sessionId: string): Promise<GetShareSessionResult>;
     /**
      *
-     * @param sessionId
+     * @param {string} sessionId
      * @returns {Promise<CreateShareQrCodeResult>}
      */
-    createShareQrCode(sessionId: any): Promise<CreateShareQrCodeResult>;
+    createShareQrCode(sessionId: string): Promise<CreateShareQrCodeResult>;
     /**
      *
-     * @param qrCodeId
+     * @param {string} qrCodeId
      * @returns {Promise<GetShareQrCodeResult>}
      */
-    getShareQrCode(qrCodeId: any): Promise<GetShareQrCodeResult>;
+    getShareQrCode(qrCodeId: string): Promise<GetShareQrCodeResult>;
     /**
      *
      * @param {string} receiptId
@@ -64,6 +64,7 @@ import WantedAttributeBuilder = require("./policy/wanted.attribute.builder");
 import PolicyBuilder = require("./policy/policy.builder");
 import ShareSessionConfigurationBuilder = require("./share.session.configuration.builder");
 import ShareSessionNotificationBuilder = require("./share.session.notification.builder");
+import ShareSessionConfiguration = require("./share.session.configuration");
 import CreateShareSessionResult = require("./create.share.session.result");
 import GetShareSessionResult = require("./get.share.session.result");
 import CreateShareQrCodeResult = require("./create.share.qr.code.result");
