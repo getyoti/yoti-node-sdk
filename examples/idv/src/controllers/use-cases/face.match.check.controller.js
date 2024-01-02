@@ -19,20 +19,14 @@ async function createSession() {
 
   const sessionSpec = new SessionSpecificationBuilder()
     .withClientSessionTokenTtl(600)
-    .withResourcesTtl(90000)
+    .withResourcesTtl(86400)
     .withUserTrackingId('some-user-tracking-id')
-    // For zoom liveness check [only one type of liveness check to be enabled at a time]
+
     .withRequestedCheck(
       new RequestedLivenessCheckBuilder()
-        .forZoomLiveness()
+        .forStaticLiveness()
         .build()
     )
-    // For static liveness check
-    // .withRequestedCheck(
-    //   new RequestedLivenessCheckBuilder()
-    //     .forStaticLiveness()
-    //     .build()
-    // )
     .withRequestedCheck(
       new RequestedFaceMatchCheckBuilder()
         .withManualCheckNever()
@@ -50,8 +44,8 @@ async function createSession() {
         .withErrorUrl(`${config.YOTI_APP_BASE_URL}/error`)
         .withPrivacyPolicyUrl(`${config.YOTI_APP_BASE_URL}/privacy-policy`)
         .withEarlyBiometricConsentFlow() // or withJustInTimeBiometricConsentFlow()
-        .withIdDocumentTextExtractionGenericRetries(5)
-        .withIdDocumentTextExtractionReclassificationRetries(5)
+        .withIdDocumentTextExtractionGenericRetries(3)
+        .withIdDocumentTextExtractionReclassificationRetries(3)
         .build()
     )
     .build();

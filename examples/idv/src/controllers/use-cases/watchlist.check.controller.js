@@ -60,7 +60,7 @@ async function createSession() {
 
   const sessionSpec = new SessionSpecificationBuilder()
     .withClientSessionTokenTtl(600)
-    .withResourcesTtl(90000)
+    .withResourcesTtl(86400)
     .withUserTrackingId('some-user-tracking-id')
     .withRequestedCheck(
       new RequestedWatchlistScreeningCheckBuilder()
@@ -75,7 +75,7 @@ async function createSession() {
     )
     .withRequestedTask(
       new RequestedTextExtractionTaskBuilder()
-        .withManualCheckAlways()
+        .withManualCheckFallback()
         .withChipDataDesired()
         .withCreateExpandedDocumentFields(true) // default is false
         .build()
@@ -89,8 +89,8 @@ async function createSession() {
         .withPresetIssuingCountry('GBR')
         .withSuccessUrl(`${config.YOTI_APP_BASE_URL}/success`)
         .withErrorUrl(`${config.YOTI_APP_BASE_URL}/error`)
-        .withIdDocumentTextExtractionGenericRetries(5)
-        .withIdDocumentTextExtractionReclassificationRetries(5)
+        .withIdDocumentTextExtractionGenericRetries(3)
+        .withIdDocumentTextExtractionReclassificationRetries(3)
         .build()
     )
     .build();
