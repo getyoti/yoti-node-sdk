@@ -9,10 +9,7 @@ const config = require('../../config');
  * Create an IDV session.
  */
 async function createSession() {
-  const idvClient = new IDVClient(
-    config.YOTI_CLIENT_SDK_ID,
-    config.YOTI_PEM
-  );
+  const idvClient = new IDVClient(config.YOTI_CLIENT_SDK_ID, config.YOTI_PEM);
 
   const subject = {
     subject_id: 'subject_id_string',
@@ -28,7 +25,7 @@ async function createSession() {
 
   const sessionSpec = new SessionSpecificationBuilder()
     .withClientSessionTokenTtl(600)
-    .withResourcesTtl(90000)
+    .withResourcesTtl(86400)
     .withUserTrackingId('some-user-tracking-id')
     .withSubject(subject)
     .withIdentityProfileRequirements(identityProfileRequirements)

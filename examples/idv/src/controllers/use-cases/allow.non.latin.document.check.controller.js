@@ -27,11 +27,11 @@ async function createSession() {
 
   const sessionSpec = new SessionSpecificationBuilder()
     .withClientSessionTokenTtl(600)
-    .withResourcesTtl(90000)
+    .withResourcesTtl(86400)
     .withUserTrackingId('some-user-tracking-id')
     .withRequestedTask(
       new RequestedTextExtractionTaskBuilder()
-        .withManualCheckAlways()
+        .withManualCheckFallback()
         .build()
     )
     // With OrthogonalRestrictionsFilterBuilder
