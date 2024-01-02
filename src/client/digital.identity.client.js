@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-disable max-len */
-
 const config = require('../../config');
 const { DigitalIdentityService } = require('../digital_identity_service');
 

@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-disable max-len */
-
 const config = require('../../config');
 const { IDVService } = require('../idv_service');
 
