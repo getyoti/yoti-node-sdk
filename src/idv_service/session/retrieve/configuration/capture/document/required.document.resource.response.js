@@ -9,6 +9,10 @@ const Validation = require('../../../../../../yoti_common/validation');
 const IDVConstants = require('../../../../../idv.constants');
 
 /**
+ * @typedef {import('../task/requested.task.response')} RequestedTaskResponse
+ */
+
+/**
  * @param {object} requestedTask
  * @return {RequestedTaskResponse}
  */

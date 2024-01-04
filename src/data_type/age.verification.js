@@ -41,7 +41,7 @@ class AgeVerification {
   /**
    * The age that was that checked, as specified on Yoti Hub.
    *
-   * @returns {integer}
+   * @returns {number}
    */
   getAge() {
     return this.age;
@@ -54,17 +54,6 @@ class AgeVerification {
    */
   getResult() {
     return this.result;
-  }
-
-  /**
-   * The wrapped profile attribute.
-   *
-   * Use this if you need access to the underlying List of Anchors.
-   *
-   * @returns {Attribute}
-   */
-  getAttribute() {
-    return this.attribute;
   }
 }
 

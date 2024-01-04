@@ -22,6 +22,8 @@ class SdkConfig {
    *   The error URL
    * @param {string} privacyPolicyUrl
    *   The privacy policy URL
+   * @param {boolean} biometricConsentFlow
+   *   Enables the biometric consent in flow
    * @param {boolean} allowHandoff
    *   Allow user to handoff to mobile during session
    * @param {object} attemptsConfiguration

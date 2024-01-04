@@ -1,5 +1,8 @@
 export = RequestedWatchlistAdvancedCaConfigBuilder;
 /**
+ * @typedef {import('./requested.watchlist.advanced.ca.config')} RequestedWatchlistAdvancedCaConfig
+ */
+/**
  * The base Builder to assist the creation of {@link RequestedWatchlistAdvancedCaConfig}.
  *
  * @class RequestedWatchlistAdvancedCaConfigBuilder
@@ -42,5 +45,9 @@ declare class RequestedWatchlistAdvancedCaConfigBuilder {
     withMatchingStrategy(matchingStrategy: RequestedCaMatchingStrategy): this;
     matchingStrategy: RequestedCaMatchingStrategy;
 }
+declare namespace RequestedWatchlistAdvancedCaConfigBuilder {
+    export { RequestedWatchlistAdvancedCaConfig };
+}
 import RequestedCaSources = require("./requested.ca.sources");
 import RequestedCaMatchingStrategy = require("./requested.ca.matching.strategy");
+type RequestedWatchlistAdvancedCaConfig = import('./requested.watchlist.advanced.ca.config');

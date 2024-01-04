@@ -1,5 +1,8 @@
 export = UserProfile;
 /**
+ * @typedef {import('./../../data_type/document.details')} DocumentDetails
+ */
+/**
  * Profile of a human user with convenience methods to access well-known attributes.
  *
  * @class Profile
@@ -40,28 +43,28 @@ declare class UserProfile extends BaseProfile {
     /**
      * Searches for an AgeVerification corresponding to an 'Age Over' check for the given age
      *
-     * @param {int} age
+     * @param {number} age
      *
      * @returns {AgeVerification|null}
      */
-    findAgeOverVerification(age: int): AgeVerification | null;
+    findAgeOverVerification(age: number): AgeVerification | null;
     /**
      * Searches for an AgeVerification corresponding to an 'Age Under' check for the given age.
      *
-     * @param {int} age
+     * @param {number} age
      *
      * @returns {AgeVerification|null}
      */
-    findAgeUnderVerification(age: int): AgeVerification | null;
+    findAgeUnderVerification(age: number): AgeVerification | null;
     /**
      * Searches for an AgeVerification corresponding to provided type and age.
      *
      * @param {string} type
-     * @param {int} age
+     * @param {number} age
      *
      * @returns {AgeVerification|null}
      */
-    findAgeVerification(type: string, age: int): AgeVerification | null;
+    findAgeVerification(type: string, age: number): AgeVerification | null;
     /**
      * Corresponds to the gender in the passport; will be one of the strings
      * "MALE", "FEMALE", "TRANSGENDER" or "OTHER".
@@ -72,9 +75,9 @@ declare class UserProfile extends BaseProfile {
     /**
      * Corresponds to the nationality in the passport.
      *
-     * @returns {Attribute|main}
+     * @returns {Attribute|null}
      */
-    getNationality(): Attribute | main;
+    getNationality(): Attribute | null;
     /**
      * The user's phone number, as verified at registration time. This will be a number with + for
      * international prefix and no spaces, e.g. "+447777123456".
@@ -85,9 +88,9 @@ declare class UserProfile extends BaseProfile {
     /**
      * Photograph of user, encoded as a JPEG image.
      *
-     * @returns {Attribute|main}
+     * @returns {Attribute|null}
      */
-    getSelfie(): Attribute | main;
+    getSelfie(): Attribute | null;
     /**
      * The user's verified email address.
      *
@@ -125,6 +128,10 @@ declare class UserProfile extends BaseProfile {
      */
     getIdentityProfileReport(): null | Attribute;
 }
+declare namespace UserProfile {
+    export { DocumentDetails };
+}
 import BaseProfile = require("./base.profile");
 import { Attribute } from "../../data_type/attribute";
 import { AgeVerification } from "../../data_type/age.verification";
+type DocumentDetails = typeof import("./../../data_type/document.details");

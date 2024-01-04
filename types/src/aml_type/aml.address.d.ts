@@ -23,7 +23,6 @@ export class AmlAddress {
      */
     getData(): {};
     /**
-     * @param countryCode
      *
      * @deprecated Replaced by Validation.notNullOrEmpty()
      */

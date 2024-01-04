@@ -11,13 +11,13 @@ declare class SessionSpecificationBuilder {
     /**
      * Sets the client session token TTL (time-to-live)
      *
-     * @param {int} clientSessionTokenTtl
+     * @param {number} clientSessionTokenTtl
      *   The client session token TTL
      *
      * @returns {this}
      */
-    withClientSessionTokenTtl(clientSessionTokenTtl: int): this;
-    clientSessionTokenTtl: int;
+    withClientSessionTokenTtl(clientSessionTokenTtl: number): this;
+    clientSessionTokenTtl: number;
     /**
      * Sets the session deadline (alternative to session token TTL)
      *
@@ -31,13 +31,13 @@ declare class SessionSpecificationBuilder {
     /**
      * Sets the resources TTL (time-to-live)
      *
-     * @param {int} resourcesTtl
+     * @param {number} resourcesTtl
      *   The resources TTL
      *
      * @returns {this}
      */
-    withResourcesTtl(resourcesTtl: int): this;
-    resourcesTtl: int;
+    withResourcesTtl(resourcesTtl: number): this;
+    resourcesTtl: number;
     /**
      * Sets the user tracking ID
      *
@@ -68,11 +68,11 @@ declare class SessionSpecificationBuilder {
     /**
      * Adds a {@link RequestedTask} to the list
      *
-     * @param {RequestedTask} requestedTasks
+     * @param {RequestedTask} requestedTask
      *
-     * @return
+     * @returns {this}
      */
-    withRequestedTask(requestedTask: any): this;
+    withRequestedTask(requestedTask: RequestedTask): this;
     /**
      * Sets the {@link SdkConfig}
      *
@@ -93,24 +93,26 @@ declare class SessionSpecificationBuilder {
     /**
      * Sets whether or not to block the collection of biometric consent
      *
-     * @param {bool} blockBiometricConsent
+     * @param {boolean} blockBiometricConsent
      *
      * @return {this}
      */
-    withBlockBiometricConsent(blockBiometricConsent: bool): this;
-    blockBiometricConsent: bool;
+    withBlockBiometricConsent(blockBiometricConsent: boolean): this;
+    blockBiometricConsent: boolean;
     withSubject(subject: any): this;
     subject: any;
     withIdentityProfileRequirements(identityProfileRequirements: any): this;
     identityProfileRequirements: any;
     /**
-     * Builds the {@link SessionSpec} based on the values supplied to the builder
+     * Builds the {@link SessionSpecification} based on the values supplied to the builder
      *
-     * @returns {SessionSpec}
+     * @returns {SessionSpecification}
      */
-    build(): SessionSpec;
+    build(): SessionSpecification;
 }
 import NotificationConfig = require("./notification.config");
 import RequestedCheck = require("./check/requested.check");
+import RequestedTask = require("./task/requested.task");
 import SdkConfig = require("./sdk.config");
 import RequiredDocument = require("./filters/required.document");
+import SessionSpecification = require("./session.specification");

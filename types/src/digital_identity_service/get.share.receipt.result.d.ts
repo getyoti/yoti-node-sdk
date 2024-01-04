@@ -1,18 +1,18 @@
 export = GetShareReceiptResult;
 declare class GetShareReceiptResult {
     /**
-     * @param {ReceiptResponse} receiptResponse
+     * @param {import ('./receipts/receipt.response')} receiptResponse
      *   Parsed ReceiptResponse.
      * @param {UserContent} userContent
      *   The user content, including profile and extra data
      * @param {ApplicationContent} applicationContent
      *  The application content, including profile and extra data
      */
-    constructor(receiptResponse: ReceiptResponse, userContent?: UserContent, applicationContent?: ApplicationContent);
+    constructor(receiptResponse: import('./receipts/receipt.response'), userContent?: UserContent, applicationContent?: ApplicationContent);
     sessionId: any;
     rememberMeId: any;
     parentRememberMeId: any;
-    timestamp: any;
+    timestamp: Date;
     error: any;
     id: any;
     userContent: UserContent;

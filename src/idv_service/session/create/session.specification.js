@@ -14,9 +14,9 @@ const RequiredDocument = require('./filters/required.document');
  */
 class SessionSpecification {
   /**
-   * @param {int} clientSessionTokenTtl
+   * @param {number} clientSessionTokenTtl
    *   Client-session-token time-to-live to apply to the created session
-   * @param {int} resourcesTtl
+   * @param {number} resourcesTtl
    *   Time-to-live used for all Resources created in the course of the session
    * @param {string} userTrackingId
    *   User tracking id, for the Relying Business to track returning users
@@ -30,7 +30,7 @@ class SessionSpecification {
    *   The SDK configuration set on the session specification
    * @param {RequiredDocument[]} requiredDocuments
    *   List of RequiredDocument defining the documents required from the client
-   * @param {bool} blockBiometricConsent
+   * @param {boolean} blockBiometricConsent
    *   Sets whether or not to block the collection of biometric consent
    * @param {Date} sessionDeadline
    *   The deadline that the session needs to be completed by

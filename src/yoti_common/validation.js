@@ -17,7 +17,7 @@ module.exports = class Validation {
   /**
    * @param {*} value
    * @param {string} name
-   * @param {bool} optional the value can be undefined
+   * @param {boolean} optional the value can be undefined
    *
    * @throws {TypeError}
    */
@@ -33,7 +33,7 @@ module.exports = class Validation {
   /**
    * @param {*} value
    * @param {string} name
-   * @param {bool} optional the value can be undefined
+   * @param {boolean} optional the value can be undefined
    *
    * @throws {TypeError}
    */
@@ -52,7 +52,7 @@ module.exports = class Validation {
   /**
    * @param {*} value
    * @param {string} name
-   * @param {bool} optional the value can be undefined
+   * @param {boolean} optional the value can be undefined
    *
    * @throws {TypeError}
    */
@@ -95,7 +95,7 @@ module.exports = class Validation {
   /**
    * @param {*} value
    * @param {string} name
-   * @param {bool} optional the value can be undefined
+   * @param {boolean} optional the value can be undefined
    *
    * @throws {TypeError}
    */

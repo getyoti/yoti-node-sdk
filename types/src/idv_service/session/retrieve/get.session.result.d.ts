@@ -15,9 +15,9 @@ declare class GetSessionResult {
      */
     getSessionId(): string;
     /**
-     * @returns {int}
+     * @returns {number}
      */
-    getClientSessionTokenTtl(): int;
+    getClientSessionTokenTtl(): number;
     /**
      * @returns {string}
      */

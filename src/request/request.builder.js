@@ -121,7 +121,7 @@ class RequestBuilder {
   }
 
   /**
-   * @param {import('./payload').Payload} payload
+   * @param {import('./payload')} payload
    *
    * @returns {RequestBuilder}
    */
@@ -144,7 +144,7 @@ class RequestBuilder {
   /**
    * Default request headers.
    *
-   * @param {*} messageSignature
+   * @param {string} messageSignature
    */
   getDefaultHeaders(messageSignature) {
     const defaultHeaders = {

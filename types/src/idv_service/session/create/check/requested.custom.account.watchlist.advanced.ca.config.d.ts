@@ -1,5 +1,10 @@
 export = RequestedCustomAccountWatchlistAdvancedCaConfig;
 /**
+ * @typedef {import('./requested.watchlist.advanced.ca.check')} RequestedWatchlistAdvancedCaCheck
+ * @typedef {import('./requested.ca.sources')} RequestedCaSources
+ * @typedef {import('./requested.ca.matching.strategy')} RequestedCaMatchingStrategy
+ */
+/**
  * The configuration applied when creating a {@link RequestedWatchlistAdvancedCaCheck}
  * with custom account
  *
@@ -23,4 +28,10 @@ declare class RequestedCustomAccountWatchlistAdvancedCaConfig extends RequestedW
     tags: any;
     clientRef: string;
 }
+declare namespace RequestedCustomAccountWatchlistAdvancedCaConfig {
+    export { RequestedWatchlistAdvancedCaCheck, RequestedCaSources, RequestedCaMatchingStrategy };
+}
 import RequestedWatchlistAdvancedCaConfig = require("./requested.watchlist.advanced.ca.config");
+type RequestedWatchlistAdvancedCaCheck = import('./requested.watchlist.advanced.ca.check');
+type RequestedCaSources = import('./requested.ca.sources');
+type RequestedCaMatchingStrategy = import('./requested.ca.matching.strategy');

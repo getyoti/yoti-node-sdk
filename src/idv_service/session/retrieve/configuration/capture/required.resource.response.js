@@ -8,6 +8,10 @@ const UnknownAllowedSourceResponse = require('./source/unknown.allowed.source.re
 const IDVConstants = require('../../../../idv.constants');
 
 /**
+ * @typedef {import('./source/allowed.source.response')} AllowedSourceResponse
+ */
+
+/**
  * @param {array<string, string>} source
  * @return {AllowedSourceResponse}
  */

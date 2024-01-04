@@ -11,27 +11,27 @@ declare class Validation {
     /**
      * @param {*} value
      * @param {string} name
-     * @param {bool} optional the value can be undefined
+     * @param {boolean} optional the value can be undefined
      *
      * @throws {TypeError}
      */
-    static isString(value: any, name: string, optional?: bool): void;
+    static isString(value: any, name: string, optional?: boolean): void;
     /**
      * @param {*} value
      * @param {string} name
-     * @param {bool} optional the value can be undefined
+     * @param {boolean} optional the value can be undefined
      *
      * @throws {TypeError}
      */
-    static isStringDate(value: any, name: string, optional?: bool): void;
+    static isStringDate(value: any, name: string, optional?: boolean): void;
     /**
      * @param {*} value
      * @param {string} name
-     * @param {bool} optional the value can be undefined
+     * @param {boolean} optional the value can be undefined
      *
      * @throws {TypeError}
      */
-    static isBoolean(value: any, name: string, optional?: bool): void;
+    static isBoolean(value: any, name: string, optional?: boolean): void;
     /**
      * @param {Object} value
      * @param {string} name
@@ -49,11 +49,11 @@ declare class Validation {
     /**
      * @param {*} value
      * @param {string} name
-     * @param {bool} optional the value can be undefined
+     * @param {boolean} optional the value can be undefined
      *
      * @throws {TypeError}
      */
-    static isInteger(value: any, name: string, optional?: bool): void;
+    static isInteger(value: any, name: string, optional?: boolean): void;
     /**
      * @param {*} value
      * @param {string} name

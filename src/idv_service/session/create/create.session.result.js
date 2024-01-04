@@ -27,7 +27,7 @@ class CreateSessionResult {
    * Returns the time-to-live (TTL) for the client session
    * token for the created session
    *
-   * @returns {int} the client session token TTL
+   * @returns {number} the client session token TTL
    */
   getClientSessionTokenTtl() {
     return this.clientSessionTokenTtl;

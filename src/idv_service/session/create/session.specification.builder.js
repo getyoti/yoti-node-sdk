@@ -23,7 +23,7 @@ class SessionSpecificationBuilder {
   /**
    * Sets the client session token TTL (time-to-live)
    *
-   * @param {int} clientSessionTokenTtl
+   * @param {number} clientSessionTokenTtl
    *   The client session token TTL
    *
    * @returns {this}
@@ -51,7 +51,7 @@ class SessionSpecificationBuilder {
   /**
    * Sets the resources TTL (time-to-live)
    *
-   * @param {int} resourcesTtl
+   * @param {number} resourcesTtl
    *   The resources TTL
    *
    * @returns {this}
@@ -105,9 +105,9 @@ class SessionSpecificationBuilder {
   /**
    * Adds a {@link RequestedTask} to the list
    *
-   * @param {RequestedTask} requestedTasks
+   * @param {RequestedTask} requestedTask
    *
-   * @return
+   * @returns {this}
    */
   withRequestedTask(requestedTask) {
     Validation.instanceOf(requestedTask, RequestedTask, 'requestedTask');
@@ -144,7 +144,7 @@ class SessionSpecificationBuilder {
   /**
    * Sets whether or not to block the collection of biometric consent
    *
-   * @param {bool} blockBiometricConsent
+   * @param {boolean} blockBiometricConsent
    *
    * @return {this}
    */
@@ -167,9 +167,9 @@ class SessionSpecificationBuilder {
   }
 
   /**
-   * Builds the {@link SessionSpec} based on the values supplied to the builder
+   * Builds the {@link SessionSpecification} based on the values supplied to the builder
    *
-   * @returns {SessionSpec}
+   * @returns {SessionSpecification}
    */
   build() {
     return new SessionSpecification(

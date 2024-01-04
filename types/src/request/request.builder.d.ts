@@ -60,12 +60,12 @@ export class RequestBuilder {
      */
     withPut(): RequestBuilder;
     /**
-     * @param {import('./payload').Payload} payload
+     * @param {import('./payload')} payload
      *
      * @returns {RequestBuilder}
      */
-    withPayload(payload: import('./payload').Payload): RequestBuilder;
-    payload: module.exports.Payload;
+    withPayload(payload: typeof import("./payload")): RequestBuilder;
+    payload: typeof import("./payload");
     /**
      * @param {string} name
      * @param {string} value
@@ -76,10 +76,10 @@ export class RequestBuilder {
     /**
      * Default request headers.
      *
-     * @param {*} messageSignature
+     * @param {string} messageSignature
      */
-    getDefaultHeaders(messageSignature: any): {
-        'X-Yoti-Auth-Digest': any;
+    getDefaultHeaders(messageSignature: string): {
+        'X-Yoti-Auth-Digest': string;
         'X-Yoti-SDK': string;
         'X-Yoti-SDK-Version': string;
         Accept: string;

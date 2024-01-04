@@ -35,3 +35,7 @@ declare class RequiredResourceResponse {
      */
     isRelyingBusinessAllowed(): boolean;
 }
+declare namespace RequiredResourceResponse {
+    export { AllowedSourceResponse };
+}
+type AllowedSourceResponse = import('./source/allowed.source.response');

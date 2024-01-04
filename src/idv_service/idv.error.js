@@ -49,7 +49,7 @@ class IDVError extends Error {
   }
 
   /**
-   * @returns {int}
+   * @returns {number}
    */
   getResponseStatusCode() {
     if (this.response && this.response.statusCode) {

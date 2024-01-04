@@ -115,7 +115,7 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {int} age
+   * @param {number} age
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
@@ -129,7 +129,7 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {int} age
+   * @param {number} age
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
@@ -283,7 +283,7 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {integer} wantedAuthType
+   * @param {number} wantedAuthType
    * @param {boolean} enabled
    */
   withWantedAuthType(wantedAuthType, enabled = true) {

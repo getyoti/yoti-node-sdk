@@ -6,7 +6,7 @@
 class YotiResponse {
   /**
    * @param {*} parsedResponse
-   * @param {int} statusCode
+   * @param {number} statusCode
    * @param {Object|null} receipt
    * @param {Buffer|string|null} body
    * @param {Array|null} headers
@@ -41,7 +41,7 @@ class YotiResponse {
   }
 
   /**
-   * @returns {int} Response status code.
+   * @returns {number} Response status code.
    */
   getStatusCode() {
     return this.statusCode;

@@ -1,3 +1,7 @@
+export type YotiAnchor = import("./anchor").YotiAnchor;
+/**
+ * @typedef {import("./anchor").YotiAnchor} YotiAnchor
+ */
 /**
  * A class to represent a Yoti attribute.
  *

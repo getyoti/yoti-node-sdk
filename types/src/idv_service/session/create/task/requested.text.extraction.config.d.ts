@@ -10,11 +10,13 @@ declare class RequestedTextExtractionConfig {
      *   Describes the manual fallback behaviour applied to each Task
      * @param {string} chipData
      *   Describes the chip data requirement for each Task
+     * @param {boolean} createExpandedDocumentFields
+     *   Enables additional information
      */
-    constructor(manualCheck: string, chipData: string, createExpandedDocumentFields: any);
+    constructor(manualCheck: string, chipData: string, createExpandedDocumentFields: boolean);
     manualCheck: string;
     chipData: string;
-    createExpandedDocumentFields: any;
+    createExpandedDocumentFields: boolean;
     /**
      * @returns {Object} data for JSON.stringify()
      */

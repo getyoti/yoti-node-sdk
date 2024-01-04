@@ -29,12 +29,12 @@ declare class RequestedLivenessCheckBuilder {
     /**
      * Sets the maximum number of retries allowed by the user
      *
-     * @param {int} maxRetries
+     * @param {number} maxRetries
      *   The maximum number of retries
      *
      * @returns {this}
      */
-    withMaxRetries(maxRetries: int): this;
+    withMaxRetries(maxRetries: number): this;
     /**
      * Builds a {@link RequestedLivenessCheck} using the values supplied to the builder
      *

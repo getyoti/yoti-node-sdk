@@ -9,7 +9,7 @@ const Validation = require('../../../../yoti_common/validation');
  */
 class RequestedLivenessConfig {
   /**
-   * @param {int} maxRetries
+   * @param {number} maxRetries
    *   The maximum number of retries allowed by the user
    *   for a given liveness check
    * @param {string} livenessType

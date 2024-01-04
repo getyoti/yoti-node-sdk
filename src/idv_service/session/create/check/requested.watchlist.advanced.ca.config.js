@@ -7,6 +7,10 @@ const RequestedTypeListSources = require('./requested.type.list.sources');
 const RequestedExactMatchingStrategy = require('./requested.exact.matching.strategy');
 
 /**
+ * @typedef {import('./requested.watchlist.advanced.ca.check')} RequestedWatchlistAdvancedCaCheck
+ */
+
+/**
  * The base configuration applied when creating a {@link RequestedWatchlistAdvancedCaCheck}
  *
  * @class RequestedWatchlistAdvancedCaConfig

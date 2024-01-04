@@ -6,9 +6,9 @@ export = SessionSpecification;
  */
 declare class SessionSpecification {
     /**
-     * @param {int} clientSessionTokenTtl
+     * @param {number} clientSessionTokenTtl
      *   Client-session-token time-to-live to apply to the created session
-     * @param {int} resourcesTtl
+     * @param {number} resourcesTtl
      *   Time-to-live used for all Resources created in the course of the session
      * @param {string} userTrackingId
      *   User tracking id, for the Relying Business to track returning users
@@ -22,7 +22,7 @@ declare class SessionSpecification {
      *   The SDK configuration set on the session specification
      * @param {RequiredDocument[]} requiredDocuments
      *   List of RequiredDocument defining the documents required from the client
-     * @param {bool} blockBiometricConsent
+     * @param {boolean} blockBiometricConsent
      *   Sets whether or not to block the collection of biometric consent
      * @param {Date} sessionDeadline
      *   The deadline that the session needs to be completed by
@@ -30,10 +30,10 @@ declare class SessionSpecification {
      * @param {object} subject
      *   Information about the subject of the session
      */
-    constructor(clientSessionTokenTtl: int, resourcesTtl: int, userTrackingId: string, notifications: NotificationConfig, requestedChecks: RequestedCheck[], requestedTasks: RequestedTask[], sdkConfig: SdkConfig, requiredDocuments: RequiredDocument[], blockBiometricConsent: bool, sessionDeadline: Date, identityProfileRequirements: object, subject: object);
-    clientSessionTokenTtl: int;
+    constructor(clientSessionTokenTtl: number, resourcesTtl: number, userTrackingId: string, notifications: NotificationConfig, requestedChecks: RequestedCheck[], requestedTasks: RequestedTask[], sdkConfig: SdkConfig, requiredDocuments: RequiredDocument[], blockBiometricConsent: boolean, sessionDeadline: Date, identityProfileRequirements: object, subject: object);
+    clientSessionTokenTtl: number;
     sessionDeadline: Date;
-    resourcesTtl: int;
+    resourcesTtl: number;
     userTrackingId: string;
     notifications: NotificationConfig;
     sdkConfig: SdkConfig;
@@ -42,7 +42,7 @@ declare class SessionSpecification {
     requestedChecks: RequestedCheck[];
     requestedTasks: RequestedTask[];
     requiredDocuments: RequiredDocument[];
-    blockBiometricConsent: bool;
+    blockBiometricConsent: boolean;
     /**
      * @returns {Object} data for JSON.stringify()
      */

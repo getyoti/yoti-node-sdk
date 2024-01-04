@@ -33,17 +33,17 @@ declare class DynamicPolicyBuilder {
      */
     withDateOfBirth(constraints?: Constraints, acceptSelfAsserted?: boolean): this;
     /**
-     * @param {int} age
+     * @param {number} age
      * @param {Constraints} constraints
      * @param {boolean} acceptSelfAsserted
      */
-    withAgeOver(age: int, constraints?: Constraints, acceptSelfAsserted?: boolean): this;
+    withAgeOver(age: number, constraints?: Constraints, acceptSelfAsserted?: boolean): this;
     /**
-     * @param {int} age
+     * @param {number} age
      * @param {Constraints} constraints
      * @param {boolean} acceptSelfAsserted
      */
-    withAgeUnder(age: int, constraints?: Constraints, acceptSelfAsserted?: boolean): this;
+    withAgeUnder(age: number, constraints?: Constraints, acceptSelfAsserted?: boolean): this;
     /**
      * @param {string} derivation
      * @param {Constraints} constraints
@@ -104,10 +104,10 @@ declare class DynamicPolicyBuilder {
      */
     withPinAuthentication(enabled?: boolean): this;
     /**
-     * @param {integer} wantedAuthType
+     * @param {number} wantedAuthType
      * @param {boolean} enabled
      */
-    withWantedAuthType(wantedAuthType: integer, enabled?: boolean): this;
+    withWantedAuthType(wantedAuthType: number, enabled?: boolean): this;
     /**
      * @param {boolean} wantedRememberMe
      */

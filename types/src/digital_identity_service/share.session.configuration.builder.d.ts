@@ -10,7 +10,7 @@ declare class ShareSessionBuilder {
      * @param {Policy} policy
      */
     withPolicy(policy: Policy): this;
-    policy: Policy;
+    policy: import("./policy/policy");
     /**
      * @param {string} redirectUri
      */
@@ -24,9 +24,16 @@ declare class ShareSessionBuilder {
      * @param {ShareSessionNotification} notification
      */
     withNotification(notification: ShareSessionNotification): this;
-    notification: ShareSessionNotification;
+    notification: import("./share.session.notification");
     /**
-     * @returns {ShareSession}
+     * @returns {ShareSessionConfiguration}
      */
-    build(): ShareSession;
+    build(): ShareSessionConfiguration;
 }
+declare namespace ShareSessionBuilder {
+    export { Policy, ShareSessionNotification, Extension };
+}
+import ShareSessionConfiguration = require("./share.session.configuration");
+type Policy = import('./policy/policy');
+type ShareSessionNotification = import('./share.session.notification');
+type Extension = import('./extension/extension');

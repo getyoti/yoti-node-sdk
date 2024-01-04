@@ -11,7 +11,7 @@ const Validation = require('../yoti_common/validation');
  */
 module.exports = class GetShareReceiptResult {
   /**
-   * @param {ReceiptResponse} receiptResponse
+   * @param {import ('./receipts/receipt.response')} receiptResponse
    *   Parsed ReceiptResponse.
    * @param {UserContent} userContent
    *   The user content, including profile and extra data

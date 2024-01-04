@@ -39,28 +39,28 @@ export class Profile extends BaseProfile {
     /**
      * Searches for an AgeVerification corresponding to an 'Age Over' check for the given age
      *
-     * @param {int} age
+     * @param {number} age
      *
      * @returns {AgeVerification|null}
      */
-    findAgeOverVerification(age: int): AgeVerification | null;
+    findAgeOverVerification(age: number): AgeVerification | null;
     /**
      * Searches for an AgeVerification corresponding to an 'Age Under' check for the given age.
      *
-     * @param {int} age
+     * @param {number} age
      *
      * @returns {AgeVerification|null}
      */
-    findAgeUnderVerification(age: int): AgeVerification | null;
+    findAgeUnderVerification(age: number): AgeVerification | null;
     /**
      * Searches for an AgeVerification corresponding to provided type and age.
      *
      * @param {string} type
-     * @param {int} age
+     * @param {number} age
      *
      * @returns {AgeVerification|null}
      */
-    findAgeVerification(type: string, age: int): AgeVerification | null;
+    findAgeVerification(type: string, age: number): AgeVerification | null;
     /**
      * Corresponds to the gender in the passport; will be one of the strings
      * "MALE", "FEMALE", "TRANSGENDER" or "OTHER".
@@ -71,9 +71,9 @@ export class Profile extends BaseProfile {
     /**
      * Corresponds to the nationality in the passport.
      *
-     * @returns {Attribute|main}
+     * @returns {Attribute|null}
      */
-    getNationality(): Attribute | main;
+    getNationality(): Attribute | null;
     /**
      * The user's phone number, as verified at registration time. This will be a number with + for
      * international prefix and no spaces, e.g. "+447777123456".
@@ -84,9 +84,9 @@ export class Profile extends BaseProfile {
     /**
      * Photograph of user, encoded as a JPEG image.
      *
-     * @returns {Attribute|main}
+     * @returns {Attribute}
      */
-    getSelfie(): Attribute | main;
+    getSelfie(): Attribute;
     /**
      * The user's verified email address.
      *
@@ -108,9 +108,9 @@ export class Profile extends BaseProfile {
     /**
      * Document details.
      *
-     * @returns {null|DocumentDetails}
+     * @returns {null|import('./../data_type/document.details')}
      */
-    getDocumentDetails(): null | DocumentDetails;
+    getDocumentDetails(): null | typeof import("./../data_type/document.details");
     /**
      * Document images.
      *

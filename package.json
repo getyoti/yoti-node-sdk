@@ -18,7 +18,7 @@
     "audit": "audit-ci --config ./audit-ci.jsonc",
     "types:generate": "tsc index.js --declaration --allowJs --emitDeclarationOnly --skipLibCheck --outDir types",
     "types:refresh": "rm -rf types && npm run types:generate && git add types",
-    "pre-commit": "npm run test && types:refresh"
+    "pre-commit": "npm run test && npm run types:refresh"
   },
   "jest": {
     "verbose": true,

@@ -19,12 +19,14 @@ declare class SdkConfig {
      *   The error URL
      * @param {string} privacyPolicyUrl
      *   The privacy policy URL
+     * @param {boolean} biometricConsentFlow
+     *   Enables the biometric consent in flow
      * @param {boolean} allowHandoff
      *   Allow user to handoff to mobile during session
      * @param {object} attemptsConfiguration
      *   The attempts configuration
      */
-    constructor(allowedCaptureMethods: string, primaryColour: string, secondaryColour: string, fontColour: string, locale: string, presetIssuingCountry: string, successUrl: string, errorUrl: string, privacyPolicyUrl: string, biometricConsentFlow: any, allowHandoff: boolean, attemptsConfiguration: object);
+    constructor(allowedCaptureMethods: string, primaryColour: string, secondaryColour: string, fontColour: string, locale: string, presetIssuingCountry: string, successUrl: string, errorUrl: string, privacyPolicyUrl: string, biometricConsentFlow: boolean, allowHandoff: boolean, attemptsConfiguration: object);
     allowedCaptureMethods: string;
     primaryColour: string;
     secondaryColour: string;
@@ -34,7 +36,7 @@ declare class SdkConfig {
     successUrl: string;
     errorUrl: string;
     privacyPolicyUrl: string;
-    biometricConsentFlow: any;
+    biometricConsentFlow: boolean;
     allowHandoff: boolean;
     attemptsConfiguration: any;
     /**

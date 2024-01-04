@@ -48,7 +48,7 @@ class RequestedLivenessCheckBuilder {
   /**
    * Sets the maximum number of retries allowed by the user
    *
-   * @param {int} maxRetries
+   * @param {number} maxRetries
    *   The maximum number of retries
    *
    * @returns {this}

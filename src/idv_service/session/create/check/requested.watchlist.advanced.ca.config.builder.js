@@ -5,6 +5,10 @@ const RequestedCaSources = require('./requested.ca.sources');
 const RequestedCaMatchingStrategy = require('./requested.ca.matching.strategy');
 
 /**
+ * @typedef {import('./requested.watchlist.advanced.ca.config')} RequestedWatchlistAdvancedCaConfig
+ */
+
+/**
  * The base Builder to assist the creation of {@link RequestedWatchlistAdvancedCaConfig}.
  *
  * @class RequestedWatchlistAdvancedCaConfigBuilder

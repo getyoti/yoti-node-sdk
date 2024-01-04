@@ -1,6 +1,10 @@
 'use strict';
 
 /**
+ * @typedef {import("./anchor").YotiAnchor} YotiAnchor
+ */
+
+/**
  * A class to represent a Yoti attribute.
  *
  * A Yoti attribute consists of the attribute name, an associated

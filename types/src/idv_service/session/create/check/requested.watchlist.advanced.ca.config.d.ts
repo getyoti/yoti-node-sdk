@@ -1,5 +1,8 @@
 export = RequestedWatchlistAdvancedCaConfig;
 /**
+ * @typedef {import('./requested.watchlist.advanced.ca.check')} RequestedWatchlistAdvancedCaCheck
+ */
+/**
  * The base configuration applied when creating a {@link RequestedWatchlistAdvancedCaCheck}
  *
  * @class RequestedWatchlistAdvancedCaConfig
@@ -22,5 +25,9 @@ declare class RequestedWatchlistAdvancedCaConfig {
      */
     toJSON(): any;
 }
+declare namespace RequestedWatchlistAdvancedCaConfig {
+    export { RequestedWatchlistAdvancedCaCheck };
+}
 import RequestedCaSources = require("./requested.ca.sources");
 import RequestedCaMatchingStrategy = require("./requested.ca.matching.strategy");
+type RequestedWatchlistAdvancedCaCheck = import('./requested.watchlist.advanced.ca.check');

@@ -8,9 +8,9 @@ declare class IDVError extends Error {
     constructor(error: any);
     response: any;
     /**
-     * @returns {int}
+     * @returns {number}
      */
-    getResponseStatusCode(): int;
+    getResponseStatusCode(): number;
     /**
      * @returns {*} The parsed response body.
      */

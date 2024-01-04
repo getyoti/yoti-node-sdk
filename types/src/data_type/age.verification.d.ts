@@ -21,21 +21,13 @@ export class AgeVerification {
     /**
      * The age that was that checked, as specified on Yoti Hub.
      *
-     * @returns {integer}
+     * @returns {number}
      */
-    getAge(): integer;
+    getAge(): number;
     /**
      * Whether the profile passed the age check.
      *
      * @returns {boolean}
      */
     getResult(): boolean;
-    /**
-     * The wrapped profile attribute.
-     *
-     * Use this if you need access to the underlying List of Anchors.
-     *
-     * @returns {Attribute}
-     */
-    getAttribute(): Attribute;
 }

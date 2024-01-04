@@ -4,14 +4,14 @@
 export class YotiResponse {
     /**
      * @param {*} parsedResponse
-     * @param {int} statusCode
+     * @param {number} statusCode
      * @param {Object|null} receipt
      * @param {Buffer|string|null} body
      * @param {Array|null} headers
      */
-    constructor(parsedResponse: any, statusCode: int, receipt?: any | null, body?: Buffer | string | null, headers?: any[] | null);
+    constructor(parsedResponse: any, statusCode: number, receipt?: any | null, body?: Buffer | string | null, headers?: any[] | null);
     parsedResponse: any;
-    statusCode: int;
+    statusCode: number;
     receipt: any;
     body: string | Buffer;
     headers: any[];
@@ -28,9 +28,9 @@ export class YotiResponse {
      */
     getBody(): Buffer | string | null;
     /**
-     * @returns {int} Response status code.
+     * @returns {number} Response status code.
      */
-    getStatusCode(): int;
+    getStatusCode(): number;
     /**
      * @returns {Object.<string, string>} Response headers
      */

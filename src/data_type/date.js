@@ -152,7 +152,7 @@ class YotiDate extends Date {
   /**
    * Returns Unix timestamp with microseconds.
    *
-   * @returns {int}
+   * @returns {number}
    */
   getMicrosecondUnixTimestamp() {
     return this.microsecondUnixTimestamp;

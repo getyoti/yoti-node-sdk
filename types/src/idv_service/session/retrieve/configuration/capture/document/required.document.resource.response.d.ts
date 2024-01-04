@@ -9,4 +9,8 @@ declare class RequiredDocumentResourceResponse extends RequiredResourceResponse 
      */
     getRequestedTasks(): RequestedTaskResponse[];
 }
+declare namespace RequiredDocumentResourceResponse {
+    export { RequestedTaskResponse };
+}
 import RequiredResourceResponse = require("../required.resource.response");
+type RequestedTaskResponse = import('../task/requested.task.response');

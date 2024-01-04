@@ -7,6 +7,10 @@ const { Attribute } = require('../../data_type/attribute');
 const Validation = require('../../yoti_common/validation');
 
 /**
+ * @typedef {import('./../../data_type/document.details')} DocumentDetails
+ */
+
+/**
  * Profile of a human user with convenience methods to access well-known attributes.
  *
  * @class Profile
@@ -72,7 +76,7 @@ class UserProfile extends BaseProfile {
   /**
    * Searches for an AgeVerification corresponding to an 'Age Over' check for the given age
    *
-   * @param {int} age
+   * @param {number} age
    *
    * @returns {AgeVerification|null}
    */
@@ -83,7 +87,7 @@ class UserProfile extends BaseProfile {
   /**
    * Searches for an AgeVerification corresponding to an 'Age Under' check for the given age.
    *
-   * @param {int} age
+   * @param {number} age
    *
    * @returns {AgeVerification|null}
    */
@@ -95,7 +99,7 @@ class UserProfile extends BaseProfile {
    * Searches for an AgeVerification corresponding to provided type and age.
    *
    * @param {string} type
-   * @param {int} age
+   * @param {number} age
    *
    * @returns {AgeVerification|null}
    */
@@ -118,7 +122,7 @@ class UserProfile extends BaseProfile {
   /**
    * Corresponds to the nationality in the passport.
    *
-   * @returns {Attribute|main}
+   * @returns {Attribute|null}
    */
   getNationality() {
     return this.getAttribute(constants.ATTR_NATIONALITY);
@@ -137,7 +141,7 @@ class UserProfile extends BaseProfile {
   /**
    * Photograph of user, encoded as a JPEG image.
    *
-   * @returns {Attribute|main}
+   * @returns {Attribute|null}
    */
   getSelfie() {
     return this.getAttribute(constants.ATTR_SELFIE);

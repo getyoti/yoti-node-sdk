@@ -5,6 +5,12 @@ const { WITH_CUSTOM_ACCOUNT } = require('../../../idv.constants');
 const RequestedWatchlistAdvancedCaConfig = require('./requested.watchlist.advanced.ca.config');
 
 /**
+ * @typedef {import('./requested.watchlist.advanced.ca.check')} RequestedWatchlistAdvancedCaCheck
+ * @typedef {import('./requested.ca.sources')} RequestedCaSources
+ * @typedef {import('./requested.ca.matching.strategy')} RequestedCaMatchingStrategy
+ */
+
+/**
  * The configuration applied when creating a {@link RequestedWatchlistAdvancedCaCheck}
  * with custom account
  *

@@ -2,11 +2,11 @@ export = DynamicPolicy;
 declare class DynamicPolicy {
     /**
      * @param {WantedAttribute[]} wantedAttributes - array of attributes to be requested.
-     * @param {integer[]} wantedAuthTypes - auth types represents the authentication type to be used.
+     * @param {number[]} wantedAuthTypes - auth types represents the authentication type to be used.
      * @param {boolean} wantedRememberMe
      * @param {object} identityProfileRequirements
      */
-    constructor(wantedAttributes: WantedAttribute[], wantedAuthTypes: integer[], wantedRememberMe?: boolean, identityProfileRequirements?: object);
+    constructor(wantedAttributes: WantedAttribute[], wantedAuthTypes: number[], wantedRememberMe?: boolean, identityProfileRequirements?: object);
     wantedAttributes: WantedAttribute[];
     wantedAuthTypes: any[];
     wantedRememberMe: boolean;
@@ -16,9 +16,9 @@ declare class DynamicPolicy {
      */
     getWantedAttributes(): WantedAttribute[];
     /**
-     * @returns {integer[]} auth types represents the authentication type to be used.
+     * @returns {number[]} auth types represents the authentication type to be used.
      */
-    getWantedAuthTypes(): integer[];
+    getWantedAuthTypes(): number[];
     /**
      * @returns {boolean}
      */

@@ -94,7 +94,7 @@ class GetSessionResult {
   }
 
   /**
-   * @returns {int}
+   * @returns {number}
    */
   getClientSessionTokenTtl() {
     return this.clientSessionTokenTtl;
