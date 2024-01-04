@@ -121,7 +121,7 @@ class RequestBuilder {
   }
 
   /**
-   * @param {import('./payload')} payload
+   * @param {import('./payload').Payload} payload
    *
    * @returns {RequestBuilder}
    */

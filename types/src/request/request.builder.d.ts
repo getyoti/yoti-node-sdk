@@ -60,12 +60,12 @@ export class RequestBuilder {
      */
     withPut(): RequestBuilder;
     /**
-     * @param {import('./payload')} payload
+     * @param {import('./payload').Payload} payload
      *
      * @returns {RequestBuilder}
      */
-    withPayload(payload: typeof import("./payload")): RequestBuilder;
-    payload: typeof import("./payload");
+    withPayload(payload: import('./payload').Payload): RequestBuilder;
+    payload: module.exports.Payload;
     /**
      * @param {string} name
      * @param {string} value

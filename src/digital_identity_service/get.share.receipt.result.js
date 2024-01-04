@@ -94,7 +94,7 @@ module.exports = class GetShareReceiptResult {
    * The user profile with shared attributes and anchor information, returned
    * by Yoti if the request was successful.
    *
-   * @returns {UserProfile}
+   * @returns {import('./receipts/user.profile')}
    */
   getProfile() {
     return this.userContent && this.userContent.getProfile();

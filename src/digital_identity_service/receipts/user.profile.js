@@ -7,7 +7,7 @@ const { Attribute } = require('../../data_type/attribute');
 const Validation = require('../../yoti_common/validation');
 
 /**
- * @typedef {import('./../../data_type/document.details')} DocumentDetails
+ * @typedef {import('./../../data_type/document.details').DocumentDetails} DocumentDetails
  */
 
 /**

@@ -59,9 +59,9 @@ declare class GetShareReceiptResult {
      * The user profile with shared attributes and anchor information, returned
      * by Yoti if the request was successful.
      *
-     * @returns {UserProfile}
+     * @returns {import('./receipts/user.profile')}
      */
-    getProfile(): UserProfile;
+    getProfile(): import('./receipts/user.profile');
     /**
      * Extra data associated with the user content
      *

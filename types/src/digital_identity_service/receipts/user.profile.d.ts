@@ -1,6 +1,6 @@
 export = UserProfile;
 /**
- * @typedef {import('./../../data_type/document.details')} DocumentDetails
+ * @typedef {import('./../../data_type/document.details').DocumentDetails} DocumentDetails
  */
 /**
  * Profile of a human user with convenience methods to access well-known attributes.
@@ -134,4 +134,4 @@ declare namespace UserProfile {
 import BaseProfile = require("./base.profile");
 import { Attribute } from "../../data_type/attribute";
 import { AgeVerification } from "../../data_type/age.verification";
-type DocumentDetails = typeof import("./../../data_type/document.details");
+type DocumentDetails = import('./../../data_type/document.details').DocumentDetails;
