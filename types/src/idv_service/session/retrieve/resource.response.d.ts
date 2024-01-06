@@ -1,16 +1,14 @@
 export = ResourceResponse;
 declare class ResourceResponse {
     constructor(resource: any);
-    id: any;
-    tasks: any;
+    /** @private */
+    private id;
+    /** @private */
+    private tasks;
     /**
      * @returns {TaskResponse[]}
      */
     getTasks(): TaskResponse[];
-    /**
-     * @return AllowedSourceResponse
-     */
-    getSource(): any;
     /**
      * @returns {string}
      */

@@ -15,6 +15,7 @@ class DigitalIdentityClient {
       apiUrl: apiUrl || config.yoti.digitalIdentityApi,
     };
 
+    /** @private */
     this.digitalIdentityService = new DigitalIdentityService(sdkId, pem, options);
   }
 

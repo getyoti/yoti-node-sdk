@@ -1,10 +1,14 @@
 export = IdentityProfileResponse;
 declare class IdentityProfileResponse {
     constructor(identityProfile: any);
-    subjectId: any;
-    result: any;
-    failureReason: IdentityProfileFailureReasonResponse;
-    identityProfileReport: IdentityProfileReportResponse;
+    /** @private */
+    private subjectId;
+    /** @private */
+    private result;
+    /** @private */
+    private failureReason;
+    /** @private */
+    private identityProfileReport;
     /**
      * @returns {string}
      */
@@ -22,5 +26,4 @@ declare class IdentityProfileResponse {
      */
     getIdentityProfileReport(): IdentityProfileReportResponse;
 }
-import IdentityProfileFailureReasonResponse = require("./identity.profile.failure.reason.response");
 import IdentityProfileReportResponse = require("./identity.profile.report.response");

@@ -20,10 +20,14 @@ declare class NotificationConfig {
      *   The authorization type to used in call-back messages, accepts BASIC, BEARER
      */
     constructor(authToken: string, endpoint: string, topics: string[], authType: string);
-    authToken: string;
-    endpoint: string;
-    topics: string[];
-    authType: string;
+    /** @private */
+    private authToken;
+    /** @private */
+    private endpoint;
+    /** @private */
+    private topics;
+    /** @private */
+    private authType;
     /**
      * @returns {Object} data for JSON.stringify()
      */

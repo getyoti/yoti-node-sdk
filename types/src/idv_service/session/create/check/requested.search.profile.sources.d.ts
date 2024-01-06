@@ -9,7 +9,8 @@ declare class RequestedSearchProfileSources extends RequestedCaSources {
      *
      */
     constructor(searchProfile: string);
-    searchProfile: string;
+    /** @private */
+    private searchProfile;
     /**
      * @returns {Object} data for JSON.stringify()
      */

@@ -1,8 +1,10 @@
 export = SupportedDocument;
 declare class SupportedDocument {
     constructor(document: any);
-    type: any;
-    isStrictlyLatin: any;
+    /** @private */
+    private type;
+    /** @private */
+    private isStrictlyLatin;
     /**
      *
      * @return {string|undefined}

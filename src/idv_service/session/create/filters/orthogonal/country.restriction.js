@@ -10,9 +10,11 @@ class CountryRestriction {
   constructor(inclusion, countryCodes) {
     Validation.notNullOrEmpty(inclusion, 'inclusion');
     Validation.isString(inclusion, 'inclusion');
+    /** @private */
     this.inclusion = inclusion;
 
     Validation.isArrayOfStrings(countryCodes, 'countryCodes');
+    /** @private */
     this.countryCodes = countryCodes;
   }
 

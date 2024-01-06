@@ -10,7 +10,8 @@ declare class RequestedSupplementaryDocTextExtractionConfig {
      *   Describes the manual fallback behaviour applied to each Task
      */
     constructor(manualCheck: string);
-    manualCheck: string;
+    /** @private */
+    private manualCheck;
     /**
      * @returns {Object} data for JSON.stringify()
      */

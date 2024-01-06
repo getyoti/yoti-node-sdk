@@ -10,7 +10,9 @@ class CreateFaceCaptureResourceResponse {
     Validation.isPlainObject(resourceData, 'resourceData');
     Validation.isString(resourceData.id, 'resourceData.id');
     Validation.isNumber(resourceData.frames, 'resourceData.frames');
+    /** @private */
     this.id = resourceData.id;
+    /** @private */
     this.frames = resourceData.frames;
   }
 

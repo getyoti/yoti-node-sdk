@@ -1,9 +1,12 @@
 export = PageResponse;
 declare class PageResponse {
     constructor(page: any);
-    captureMethod: any;
-    media: MediaResponse;
-    frames: any;
+    /** @private */
+    private captureMethod;
+    /** @private */
+    private media;
+    /** @private */
+    private frames;
     /**
      * @returns {string}
      */

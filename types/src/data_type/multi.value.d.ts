@@ -6,10 +6,14 @@ declare class MultiValue {
      * @param {array} items
      */
     constructor(items: any[]);
-    originalItems: any[];
-    items: any[];
-    allowedInstances: any[];
-    allowedTypes: any[];
+    /** @private */
+    private originalItems;
+    /** @private */
+    private items;
+    /** @private */
+    private allowedInstances;
+    /** @private */
+    private allowedTypes;
     /**
      * Allow values by their instance type.
      *

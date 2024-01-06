@@ -1,9 +1,12 @@
 export = BreakdownResponse;
 declare class BreakdownResponse {
     constructor(breakdown: any);
-    subCheck: any;
-    result: any;
-    details: any;
+    /** @private */
+    private subCheck;
+    /** @private */
+    private result;
+    /** @private */
+    private details;
     /**
      * @returns {string}
      */

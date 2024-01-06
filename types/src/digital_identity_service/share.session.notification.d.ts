@@ -7,10 +7,14 @@ declare class ShareSessionNotification {
      * @param {boolean} verifyTls
      */
     constructor(url: string, method: string, headers: any, verifyTls: boolean);
-    url: string;
-    method: string;
-    headers: any;
-    verifyTls: true;
+    /** @private */
+    private url;
+    /** @private */
+    private method;
+    /** @private */
+    private headers;
+    /** @private */
+    private verifyTls;
     /**
      * @returns {string} The notification url.
      */

@@ -17,9 +17,11 @@ class RequestedLivenessConfig {
    */
   constructor(maxRetries, livenessType) {
     Validation.isInteger(maxRetries, 'maxRetries');
+    /** @private */
     this.maxRetries = maxRetries;
 
     Validation.isString(livenessType, 'livenessType');
+    /** @private */
     this.livenessType = livenessType;
   }
 

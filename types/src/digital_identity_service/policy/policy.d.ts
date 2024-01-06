@@ -7,10 +7,14 @@ declare class Policy {
      * @param {object} identityProfileRequirements
      */
     constructor(wantedAttributes: WantedAttribute[], wantedAuthTypes: number[], wantedRememberMe?: boolean, identityProfileRequirements?: object);
-    wantedAttributes: WantedAttribute[];
-    wantedAuthTypes: any[];
-    wantedRememberMe: boolean;
-    identityProfileRequirements: any;
+    /** @private */
+    private wantedAttributes;
+    /** @private */
+    private wantedAuthTypes;
+    /** @private */
+    private wantedRememberMe;
+    /** @private */
+    private identityProfileRequirements;
     /**
      * @returns {WantedAttribute[]} array of attributes to be requested.
      */

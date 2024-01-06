@@ -1,8 +1,11 @@
 export = RequiredIdDocumentResourceResponse;
 declare class RequiredIdDocumentResourceResponse extends RequiredDocumentResourceResponse {
-    supportedCountries: any;
-    allowedCaptureMethods: any;
-    attemptsRemaining: any;
+    /** @private */
+    private supportedCountries;
+    /** @private */
+    private allowedCaptureMethods;
+    /** @private */
+    private attemptsRemaining;
     /**
      * Returns a list of supported country codes, that can be used
      * to satisfy the requirement.  Each supported country will contain

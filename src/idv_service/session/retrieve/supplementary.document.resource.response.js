@@ -12,23 +12,29 @@ class SupplementaryDocumentResourceResponse extends ResourceResponse {
     super(resource);
 
     Validation.isString(resource.document_type, 'document_type', true);
+    /** @private */
     this.documentType = resource.document_type;
 
     Validation.isString(resource.issuing_country, 'issuing_country', true);
+    /** @private */
     this.issuingCountry = resource.issuing_country;
 
     if (resource.pages) {
       Validation.isArray(resource.pages, 'pages');
+      /** @private */
       this.pages = resource.pages.map((page) => new PageResponse(page));
     } else {
+      /** @private */
       this.pages = [];
     }
 
     if (resource.document_fields) {
+      /** @private */
       this.documentFields = new DocumentFieldsResponse(resource.document_fields);
     }
 
     if (resource.file) {
+      /** @private */
       this.file = new FileResponse(resource.file);
     }
   }

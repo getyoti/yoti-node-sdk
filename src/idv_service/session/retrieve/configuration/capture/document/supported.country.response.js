@@ -9,10 +9,12 @@ class SupportedCountryResponse {
    */
   constructor(supportedCountry) {
     Validation.isString(supportedCountry.code, 'code');
+    /** @private */
     this.code = supportedCountry.code;
 
     if (supportedCountry.supported_documents) {
       Validation.isArray(supportedCountry.supported_documents, 'supported_documents');
+      /** @private */
       this.supportedDocuments = supportedCountry.supported_documents.map(
         (supportedDocument) => new SupportedDocumentResponse(supportedDocument)
       );

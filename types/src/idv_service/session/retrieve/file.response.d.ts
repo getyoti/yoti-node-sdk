@@ -1,7 +1,8 @@
 export = FileResponse;
 declare class FileResponse {
     constructor(file: any);
-    media: MediaResponse;
+    /** @private */
+    private media;
     /**
      * @returns {MediaResponse}
      */

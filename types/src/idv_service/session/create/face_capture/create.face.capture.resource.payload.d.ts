@@ -8,7 +8,8 @@ declare class CreateFaceCaptureResourcePayload {
      * @param {string} requirementId
      */
     constructor(requirementId: string);
-    requirementId: string;
+    /** @private */
+    private requirementId;
     toJSON(): {
         requirement_id: string;
     };

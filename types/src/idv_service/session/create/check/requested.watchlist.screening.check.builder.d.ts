@@ -5,7 +5,8 @@ export = RequestedWatchlistScreeningCheckBuilder;
  * @class RequestedWatchlistScreeningCheckBuilder
  */
 declare class RequestedWatchlistScreeningCheckBuilder {
-    categories: any[];
+    /** @private */
+    private categories;
     /**
      * Adds ADVERSE_MEDIA to the list of categories used for watchlist screening
      *

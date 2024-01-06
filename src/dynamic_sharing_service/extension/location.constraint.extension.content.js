@@ -9,6 +9,7 @@ const DeviceLocation = require('./device.location');
  */
 module.exports = class LocationConstraintContent {
   constructor(latitude, longitude, radius, maxUncertainty) {
+    /** @private */
     this.expectedDeviceLocation = new DeviceLocation(latitude, longitude, radius, maxUncertainty);
   }
 

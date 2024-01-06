@@ -1,6 +1,7 @@
 export = ThirdPartyAttributeExtensionBuilder;
 declare class ThirdPartyAttributeExtensionBuilder {
-    definitions: any[];
+    /** @private */
+    private definitions;
     withExpiryDate(expiryDate: any): this;
     expiryDate: any;
     withDefinition(definition: any): this;

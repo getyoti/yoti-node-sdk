@@ -23,9 +23,12 @@ export class DynamicShareService {
     constructor(sdkId: string, pem: string | Buffer, { apiUrl }?: {
         apiUrl: string;
     });
-    sdkId: string;
-    pem: string | Buffer;
-    apiUrl: string;
+    /** @private */
+    private sdkId;
+    /** @private */
+    private pem;
+    /** @private */
+    private apiUrl;
     createShareUrl(dynamicScenario: any): Promise<any>;
 }
 import DynamicScenarioBuilder = require("./dynamic.scenario.builder");

@@ -4,8 +4,10 @@ declare class BaseProfile {
      * @param {Array} attributes
      */
     constructor(attributes?: any[]);
-    attributes: Attribute[];
-    attributesMap: {};
+    /** @private */
+    private attributes;
+    /** @private */
+    private attributesMap;
     /**
      * Return Attribute object.
      *

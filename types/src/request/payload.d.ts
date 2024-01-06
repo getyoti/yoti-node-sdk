@@ -1,7 +1,9 @@
 export class Payload {
     constructor(data: any, type?: string);
-    contentType: string;
-    data: any;
+    /** @private */
+    private contentType;
+    /** @private */
+    private data;
     /**
      * Get content type.
      *

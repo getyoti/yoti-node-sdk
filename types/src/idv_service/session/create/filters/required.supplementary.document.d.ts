@@ -6,9 +6,12 @@ declare class RequiredSupplementaryDocument extends RequiredDocument {
      * @param {string[]} countryCodes
      */
     constructor(objective: Objective, documentTypes: string[], countryCodes: string[]);
-    objective: Objective;
-    documentTypes: string[];
-    countryCodes: string[];
+    /** @private */
+    private objective;
+    /** @private */
+    private documentTypes;
+    /** @private */
+    private countryCodes;
     toJSON(): {
         type: string;
     } & {

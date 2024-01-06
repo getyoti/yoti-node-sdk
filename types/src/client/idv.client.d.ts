@@ -16,7 +16,8 @@ declare class IDVClient {
     constructor(sdkId: string, pem: string | Buffer, { apiUrl }?: {
         apiUrl: string;
     });
-    idvService: IDVService;
+    /** @private */
+    private idvService;
     /**
      * Creates a IDV session using the supplied session specification
      *
@@ -116,4 +117,3 @@ declare class IDVClient {
      */
     getSessionConfiguration(sessionId: string): Promise<import("../idv_service/session/retrieve/configuration/session.configuration.response.js")>;
 }
-import { IDVService } from "../idv_service";

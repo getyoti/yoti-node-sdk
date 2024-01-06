@@ -1,7 +1,9 @@
 export = SourceConstraintBuilder;
 declare class SourceConstraintBuilder {
-    anchors: any[];
-    softPreference: boolean;
+    /** @private */
+    private anchors;
+    /** @private */
+    private softPreference;
     /**
      * @param {WantedAnchor} anchor
      */

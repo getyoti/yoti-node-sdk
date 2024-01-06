@@ -7,8 +7,10 @@ declare class CreateFaceCaptureResourceResponse {
         id: string;
         frames: number;
     });
-    id: string;
-    frames: number;
+    /** @private */
+    private id;
+    /** @private */
+    private frames;
     /**
      * Returns the ID of the newly created Face Capture resource
      *

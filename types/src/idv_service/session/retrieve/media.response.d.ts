@@ -1,10 +1,14 @@
 export = MediaResponse;
 declare class MediaResponse {
     constructor(media: any);
-    id: any;
-    type: any;
-    created: YotiDate;
-    lastUpdated: YotiDate;
+    /** @private */
+    private id;
+    /** @private */
+    private type;
+    /** @private */
+    private created;
+    /** @private */
+    private lastUpdated;
     /**
      * @returns {string}
      */

@@ -1,7 +1,8 @@
 export = CaMatchingStrategyResponse;
 declare class CaMatchingStrategyResponse {
     constructor(matchingStrategy: any);
-    type: any;
+    /** @private */
+    private type;
     /**
      *
      * @return {string}

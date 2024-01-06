@@ -1,15 +1,24 @@
 export = GetSessionResult;
 declare class GetSessionResult {
     constructor(response: any);
-    clientSessionTokenTtl: any;
-    sessionId: any;
-    userTrackingId: any;
-    state: any;
-    clientSessionToken: any;
-    checks: any;
-    resources: ResourceContainer;
-    biometricConsent: YotiDate;
-    identityProfile: IdentityProfileResponse;
+    /** @private */
+    private clientSessionTokenTtl;
+    /** @private */
+    private sessionId;
+    /** @private */
+    private userTrackingId;
+    /** @private */
+    private state;
+    /** @private */
+    private clientSessionToken;
+    /** @private */
+    private checks;
+    /** @private */
+    private resources;
+    /** @private */
+    private biometricConsent;
+    /** @private */
+    private identityProfile;
     /**
      * @returns {string}
      */
@@ -94,9 +103,6 @@ declare class GetSessionResult {
      */
     getIdentityProfile(): IdentityProfileResponse;
 }
-import ResourceContainer = require("./resource.container");
-import { YotiDate } from "../../../data_type/date";
-import IdentityProfileResponse = require("./identity.profile.response");
 import CheckResponse = require("./check.response");
 import AuthenticityCheckResponse = require("./authenticity.check.response");
 import FaceMatchCheckResponse = require("./face.match.check.response");
@@ -108,3 +114,6 @@ import ThirdPartyIdentityCheckResponse = require("./third.party.identity.check.r
 import WatchlistScreeningCheckResponse = require("./watchlist.screening.check.response");
 import WatchlistAdvancedCaCheckResponse = require("./watchlist.advanced.ca.check.response");
 import ThirdPartyIdentityFraud1CheckResponse = require("./third.party.identity.fraud.1.check.response");
+import ResourceContainer = require("./resource.container");
+import { YotiDate } from "../../../data_type/date";
+import IdentityProfileResponse = require("./identity.profile.response");

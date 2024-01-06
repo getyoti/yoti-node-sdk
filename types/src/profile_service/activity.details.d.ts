@@ -19,11 +19,16 @@ export class ActivityDetails {
     }, applicationProfile: {
         attributes: any[];
     }, extraData: []);
-    parsedResponse: any;
-    receipt: any;
-    userProfile: Profile;
-    applicationProfile: ApplicationProfile;
-    extraData: ExtraData;
+    /** @private */
+    private parsedResponse;
+    /** @private */
+    private receipt;
+    /** @private */
+    private userProfile;
+    /** @private */
+    private applicationProfile;
+    /** @private */
+    private extraData;
     /**
      * Return the Remember Me ID, which is a unique, stable identifier for
      * a user in the context of an application.

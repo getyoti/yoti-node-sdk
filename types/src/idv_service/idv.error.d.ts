@@ -6,13 +6,14 @@ export = IDVError;
  */
 declare class IDVError extends Error {
     constructor(error: any);
-    response: any;
+    /** @private */
+    private response;
     /**
-     * @returns {number}
+     * @returns {number|null}
      */
-    getResponseStatusCode(): number;
+    getResponseStatusCode(): number | null;
     /**
-     * @returns {*} The parsed response body.
+     * @returns {string|object} The parsed response body.
      */
-    getResponseBody(): any;
+    getResponseBody(): string | object;
 }

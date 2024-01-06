@@ -1,6 +1,7 @@
 export = ConstraintsBuilder;
 declare class ConstraintsBuilder {
-    constraints: any[];
+    /** @private */
+    private constraints;
     /**
      * @param {SourceConstraint} sourceConstraint
      */

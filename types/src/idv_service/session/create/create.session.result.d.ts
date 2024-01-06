@@ -10,9 +10,12 @@ declare class CreateSessionResult {
      *   The parsed JSON response.
      */
     constructor(response: any);
-    clientSessionTokenTtl: any;
-    clientSessionToken: any;
-    sessionId: any;
+    /** @private */
+    private clientSessionTokenTtl;
+    /** @private */
+    private clientSessionToken;
+    /** @private */
+    private sessionId;
     /**
      * Returns the time-to-live (TTL) for the client session
      * token for the created session

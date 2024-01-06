@@ -1,7 +1,8 @@
 export = LocationConstraintContent;
 declare class LocationConstraintContent {
     constructor(latitude: any, longitude: any, radius: any, maxUncertainty: any);
-    expectedDeviceLocation: DeviceLocation;
+    /** @private */
+    private expectedDeviceLocation;
     /**
      * @returns {DeviceLocation}
      */

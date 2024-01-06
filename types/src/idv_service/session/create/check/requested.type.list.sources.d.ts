@@ -9,7 +9,8 @@ declare class RequestedTypeListSources extends RequestedCaSources {
      *
      */
     constructor(types?: string[]);
-    types: string[];
+    /** @private */
+    private types;
     /**
      * @returns {Object} data for JSON.stringify()
      */

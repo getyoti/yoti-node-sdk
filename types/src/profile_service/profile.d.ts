@@ -4,7 +4,8 @@
  * @class Profile
  */
 export class Profile extends BaseProfile {
-    ageVerifications: {};
+    /** @private */
+    private ageVerifications;
     /**
      * The full name attribute.
      *

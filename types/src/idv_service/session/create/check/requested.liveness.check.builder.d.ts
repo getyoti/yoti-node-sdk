@@ -3,7 +3,8 @@ export = RequestedLivenessCheckBuilder;
  * Builder to assist the creation of {@link RequestedLivenessCheck}.
  */
 declare class RequestedLivenessCheckBuilder {
-    maxRetries: number;
+    /** @private */
+    private maxRetries;
     /**
      * Sets the type to be of a ZOOM liveness check
      *

@@ -6,7 +6,7 @@ export = DigitalIdentityServiceError;
  */
 declare class DigitalIdentityServiceError extends Error {
     constructor(error: any);
-    status: any;
-    code: any;
-    reason: any;
+    status: number;
+    code: string | number;
+    reason: string;
 }

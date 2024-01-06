@@ -9,7 +9,8 @@ class FaceCaptureResourceResponse extends ResourceResponse {
     super(resource);
 
     if (resource.image) {
-      Validation.isPlainObject(resource.image);
+      Validation.isPlainObject(resource.image, 'media');
+      /** @private */
       this.image = new FaceCaptureImageResponse(resource.image);
     }
   }

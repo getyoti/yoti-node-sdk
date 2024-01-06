@@ -2,7 +2,7 @@
 
 /**
  * @param {Response} response
- * @returns {string}
+ * @returns {{status: number, reason: string, code:string|number}}
  */
 function extractDetailsFromResponse(response) {
   const { status, text = '', body = {} } = response;

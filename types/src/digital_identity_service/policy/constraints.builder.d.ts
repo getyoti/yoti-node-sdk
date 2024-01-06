@@ -1,8 +1,10 @@
 export = ConstraintsBuilder;
 declare class ConstraintsBuilder {
-    constraints: any[];
+    /** @private */
+    private constraints;
     /**
      * @param {SourceConstraint} sourceConstraint
+     * @returns this
      */
     withSourceConstraint(sourceConstraint: SourceConstraint): this;
     /**

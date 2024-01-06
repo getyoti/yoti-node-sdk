@@ -1,10 +1,14 @@
 export = ResourceContainer;
 declare class ResourceContainer {
     constructor(resources: any);
-    idDocuments: any;
-    supplementaryDocuments: any;
-    livenessCapture: any;
-    faceCapture: any;
+    /** @private */
+    private idDocuments;
+    /** @private */
+    private supplementaryDocuments;
+    /** @private */
+    private livenessCapture;
+    /** @private */
+    private faceCapture;
     /**
      * Returns ID documents that were uploaded by the user
      *

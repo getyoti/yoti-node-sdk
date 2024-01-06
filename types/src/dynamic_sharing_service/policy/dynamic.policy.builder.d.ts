@@ -1,7 +1,9 @@
 export = DynamicPolicyBuilder;
 declare class DynamicPolicyBuilder {
-    wantedAttributes: {};
-    wantedAuthTypes: any[];
+    /** @private */
+    private wantedAttributes;
+    /** @private */
+    private wantedAuthTypes;
     /**
      * @param {WantedAttribute} wantedAttribute
      */
@@ -9,9 +11,9 @@ declare class DynamicPolicyBuilder {
     /**
      * @param {string} name
      * @param {Constraints} constraints
-     * @param {boolean} acceptSelfAsserted
+     * @param {boolean|null} acceptSelfAsserted
      */
-    withWantedAttributeByName(name: string, constraints?: Constraints, acceptSelfAsserted?: boolean): this;
+    withWantedAttributeByName(name: string, constraints?: Constraints, acceptSelfAsserted?: boolean | null): this;
     /**
      * @param {Constraints} constraints
      * @param {boolean} acceptSelfAsserted

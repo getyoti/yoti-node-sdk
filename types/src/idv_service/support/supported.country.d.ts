@@ -1,8 +1,10 @@
 export = SupportedCountry;
 declare class SupportedCountry {
     constructor(country: any);
-    code: any;
-    supportedDocuments: any;
+    /** @private */
+    private code;
+    /** @private */
+    private supportedDocuments;
     getCode(): any;
     getSupportedDocuments(): any;
 }

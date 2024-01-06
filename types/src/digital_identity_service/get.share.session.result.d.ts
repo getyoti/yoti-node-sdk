@@ -4,13 +4,20 @@ declare class GetShareSessionResult {
      * @param {Object} response
      */
     constructor(response: any);
-    id: any;
-    status: any;
-    created: Date;
-    updated: Date;
-    expiry: Date;
-    scannedQrCodeId: any;
-    receiptId: any;
+    /** @private */
+    private id;
+    /** @private */
+    private status;
+    /** @private */
+    private created;
+    /** @private */
+    private updated;
+    /** @private */
+    private expiry;
+    /** @private */
+    private scannedQrCodeId;
+    /** @private */
+    private receiptId;
     /**
      * The share id
      *

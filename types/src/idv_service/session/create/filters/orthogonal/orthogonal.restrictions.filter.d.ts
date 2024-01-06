@@ -7,10 +7,14 @@ declare class OrthogonalRestrictionsFilter extends DocumentFilter {
      * @param {Boolean} allowNonLatinDocuments
      */
     constructor(countryRestriction: CountryRestriction, typeRestriction: TypeRestriction, allowExpiredDocuments: boolean, allowNonLatinDocuments: boolean);
-    countryRestriction: CountryRestriction;
-    typeRestriction: TypeRestriction;
-    allowExpiredDocuments: boolean;
-    allowNonLatinDocuments: boolean;
+    /** @private */
+    private countryRestriction;
+    /** @private */
+    private typeRestriction;
+    /** @private */
+    private allowExpiredDocuments;
+    /** @private */
+    private allowNonLatinDocuments;
 }
 import DocumentFilter = require("../document.filter");
 import CountryRestriction = require("./country.restriction");

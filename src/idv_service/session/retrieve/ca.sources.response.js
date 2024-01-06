@@ -17,6 +17,7 @@ class CaSourcesResponse {
 
     Validation.isString(sources.type, 'type');
     Validation.oneOf(sources.type, Object.keys(types), 'type');
+    /** @private */
     this.type = sources.type;
   }
 

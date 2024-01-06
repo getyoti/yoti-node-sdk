@@ -5,7 +5,8 @@ declare class UserContent extends BaseContent {
      * @param {[]} extraData
      */
     constructor(attributes?: [], extraData?: []);
-    profile: UserProfile;
+    /** @private */
+    private profile;
     /**
      * Get the user profile
      * @returns {UserProfile}

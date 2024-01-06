@@ -6,15 +6,19 @@ const CaptureResponse = require('./capture/capture.response');
 class SessionConfigurationResponse {
   constructor(payload) {
     Validation.isNumber(payload.client_session_token_ttl, 'client_session_token_ttl');
+    /** @private */
     this.clientSessionTokenTtl = payload.client_session_token_ttl;
 
     Validation.isString(payload.session_id, 'session_id');
+    /** @private */
     this.sessionId = payload.session_id;
 
     Validation.isArray(payload.requested_checks, 'requested_checks');
+    /** @private */
     this.requestedChecks = payload.requested_checks;
 
     Validation.isPlainObject(payload.capture, 'capture');
+    /** @private */
     this.capture = new CaptureResponse(payload.capture);
   }
 

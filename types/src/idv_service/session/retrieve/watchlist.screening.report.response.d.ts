@@ -1,6 +1,7 @@
 export = WatchlistScreeningReportResponse;
 declare class WatchlistScreeningReportResponse extends WatchlistReportResponse {
-    watchListSummary: WatchlistScreeningSummaryResponse;
+    /** @private */
+    private watchListSummary;
     /**
      *
      * @return {WatchlistScreeningSummaryResponse}

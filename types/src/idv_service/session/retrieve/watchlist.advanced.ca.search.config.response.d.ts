@@ -1,11 +1,16 @@
 export = WatchlistAdvancedCaSearchConfigResponse;
 declare class WatchlistAdvancedCaSearchConfigResponse extends WatchlistSearchConfigResponse {
     constructor(searchConfig: any);
-    type: any;
-    removeDeceased: any;
-    shareUrl: any;
-    sources: any;
-    matchingStrategy: any;
+    /** @private */
+    private type;
+    /** @private */
+    private removeDeceased;
+    /** @private */
+    private shareUrl;
+    /** @private */
+    private sources;
+    /** @private */
+    private matchingStrategy;
     /**
      * @returns {string}
      */

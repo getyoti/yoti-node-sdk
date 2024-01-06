@@ -11,14 +11,17 @@ class AttributeIssuanceDetails {
    */
   constructor(token, expiryDate, issuingAttributes = []) {
     Validation.isString(token, 'token');
+    /** @private */
     this.token = token;
 
     if (expiryDate !== undefined) {
       Validation.instanceOf(expiryDate, Date, 'expiryDate');
     }
+    /** @private */
     this.expiryDate = expiryDate;
 
     Validation.isArrayOfType(issuingAttributes, AttributeDefinition, 'issuingAttributes');
+    /** @private */
     this.issuingAttributes = issuingAttributes;
   }
 

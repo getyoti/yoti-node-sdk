@@ -7,9 +7,12 @@
 export class AgeVerification {
     static isAttributeNameMatchingAgeVerification(name: any): any;
     constructor(name: any, value: any);
-    checkType: any;
-    age: number;
-    result: boolean;
+    /** @private */
+    private checkType;
+    /** @private */
+    private age;
+    /** @private */
+    private result;
     /**
      * The type of age check performed, as specified on Yoti Hub.
      *

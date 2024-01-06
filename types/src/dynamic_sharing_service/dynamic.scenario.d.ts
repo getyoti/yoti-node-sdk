@@ -12,10 +12,14 @@ declare class DynamicScenario {
      *   The subject describing data.
      */
     constructor(callbackEndpoint: string, dynamicPolicy: DynamicPolicy, extensions: Extension[], subject: any);
-    callbackEndpoint: string;
-    dynamicPolicy: DynamicPolicy;
-    extensions: Extension[];
-    subject: any;
+    /** @private */
+    private callbackEndpoint;
+    /** @private */
+    private dynamicPolicy;
+    /** @private */
+    private extensions;
+    /** @private */
+    private subject;
     /**
      * @returns {string} The device's callback endpoint.
      */

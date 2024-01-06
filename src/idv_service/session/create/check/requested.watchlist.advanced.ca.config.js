@@ -30,22 +30,28 @@ class RequestedWatchlistAdvancedCaConfig {
     }
 
     Validation.isBoolean(removeDeceased, 'removeDeceased');
+    /** @private */
     this.removeDeceased = removeDeceased;
 
     Validation.isBoolean(shareUrl, 'shareUrl');
+    /** @private */
     this.shareUrl = shareUrl;
 
     if (sources) {
       Validation.instanceOf(sources, RequestedCaSources, 'sources');
+      /** @private */
       this.sources = sources;
     } else {
+      /** @private */
       this.sources = new RequestedTypeListSources();
     }
 
     if (matchingStrategy) {
       Validation.instanceOf(matchingStrategy, RequestedCaMatchingStrategy, 'matchingStrategy');
+      /** @private */
       this.matchingStrategy = matchingStrategy;
     } else {
+      /** @private */
       this.matchingStrategy = new RequestedExactMatchingStrategy();
     }
   }

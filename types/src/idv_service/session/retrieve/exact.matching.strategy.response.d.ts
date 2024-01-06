@@ -1,6 +1,7 @@
 export = ExactMatchingStrategyResponse;
 declare class ExactMatchingStrategyResponse extends CaMatchingStrategyResponse {
-    exactMatch: any;
+    /** @private */
+    private exactMatch;
     /**
      *
      * @return {number}

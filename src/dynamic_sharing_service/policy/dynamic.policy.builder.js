@@ -18,7 +18,9 @@ const PIN_AUTH_TYPE = 2;
  */
 module.exports = class DynamicPolicyBuilder {
   constructor() {
+    /** @private */
     this.wantedAttributes = {};
+    /** @private */
     this.wantedAuthTypes = [];
   }
 
@@ -49,7 +51,7 @@ module.exports = class DynamicPolicyBuilder {
   /**
    * @param {string} name
    * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {boolean|null} acceptSelfAsserted
    */
   withWantedAttributeByName(name, constraints = null, acceptSelfAsserted = null) {
     const wantedAttributeBuilder = new WantedAttributeBuilder()

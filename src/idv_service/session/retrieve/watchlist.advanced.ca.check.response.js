@@ -8,6 +8,7 @@ class WatchlistAdvancedCaCheckResponse extends WatchlistCheckResponse {
     super(check);
 
     if (check.report) {
+      /** @private */
       this.report = new WatchlistAdvancedCaReportResponse(check.report);
     }
   }

@@ -11,6 +11,7 @@ class BaseContent {
     if (currentClass === BaseContent) {
       throw new Error('BaseContent can not be instantiated');
     }
+    /** @private */
     this.extraData = new ExtraData(extraData);
   }
 

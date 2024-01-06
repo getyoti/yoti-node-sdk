@@ -14,9 +14,11 @@ module.exports = class Extension {
    */
   constructor(type, content) {
     Validation.isString(type, 'type');
+    /** @private */
     this.type = type;
 
     Validation.notNull(content, 'content');
+    /** @private */
     this.content = content;
   }
 

@@ -1,6 +1,7 @@
 export = TypeListSourcesResponse;
 declare class TypeListSourcesResponse extends CaSourcesResponse {
-    types: any;
+    /** @private */
+    private types;
     /**
      *
      * @return {string[]}

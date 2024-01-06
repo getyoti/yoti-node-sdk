@@ -11,6 +11,7 @@ class RequiredLivenessResourceResponse extends RequiredResourceResponse {
     super(requiredResource);
 
     Validation.isString(requiredResource.liveness_type, 'liveness_type');
+    /** @private */
     this.livenessType = requiredResource.liveness_type;
   }
 

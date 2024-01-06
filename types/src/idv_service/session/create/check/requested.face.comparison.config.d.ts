@@ -10,7 +10,8 @@ declare class RequestedFaceComparisonConfig {
      *   The value for a manual check for a given face match.
      */
     constructor(manualCheck: string);
-    manualCheck: string;
+    /** @private */
+    private manualCheck;
     /**
      * @returns {Object} data for JSON.stringify()
      */

@@ -18,12 +18,15 @@ const PIN_AUTH_TYPE = 2;
  */
 module.exports = class PolicyBuilder {
   constructor() {
+    /** @private */
     this.wantedAttributes = {};
+    /** @private */
     this.wantedAuthTypes = [];
   }
 
   /**
    * @param {WantedAttribute} wantedAttribute
+   * @returns this
    */
   withWantedAttribute(wantedAttribute) {
     Validation.instanceOf(wantedAttribute, WantedAttribute, 'wantedAttribute');
@@ -48,10 +51,11 @@ module.exports = class PolicyBuilder {
 
   /**
    * @param {string} name
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withWantedAttributeByName(name, constraints = null, acceptSelfAsserted = null) {
+  withWantedAttributeByName(name, constraints = null, acceptSelfAsserted = undefined) {
     const wantedAttributeBuilder = new WantedAttributeBuilder()
       .withName(name);
 
@@ -59,7 +63,7 @@ module.exports = class PolicyBuilder {
       wantedAttributeBuilder.withConstraints(constraints);
     }
 
-    if (acceptSelfAsserted !== null) {
+    if (acceptSelfAsserted !== undefined) {
       wantedAttributeBuilder.withAcceptSelfAsserted(acceptSelfAsserted);
     }
 
@@ -67,10 +71,11 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withFamilyName(constraints = null, acceptSelfAsserted = null) {
+  withFamilyName(constraints = null, acceptSelfAsserted = undefined) {
     return this.withWantedAttributeByName(
       constants.ATTR_FAMILY_NAME,
       constraints,
@@ -79,10 +84,11 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withGivenNames(constraints = null, acceptSelfAsserted = null) {
+  withGivenNames(constraints = null, acceptSelfAsserted = undefined) {
     return this.withWantedAttributeByName(
       constants.ATTR_GIVEN_NAMES,
       constraints,
@@ -91,10 +97,11 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withFullName(constraints = null, acceptSelfAsserted = null) {
+  withFullName(constraints = null, acceptSelfAsserted = undefined) {
     return this.withWantedAttributeByName(
       constants.ATTR_FULL_NAME,
       constraints,
@@ -103,10 +110,11 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withDateOfBirth(constraints = null, acceptSelfAsserted = null) {
+  withDateOfBirth(constraints = null, acceptSelfAsserted = undefined) {
     return this.withWantedAttributeByName(
       constants.ATTR_DATE_OF_BIRTH,
       constraints,
@@ -116,10 +124,11 @@ module.exports = class PolicyBuilder {
 
   /**
    * @param {number} age
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withAgeOver(age, constraints = null, acceptSelfAsserted = null) {
+  withAgeOver(age, constraints = null, acceptSelfAsserted = undefined) {
     Validation.isInteger(age, 'age');
     return this.withAgeDerivedAttribute(
       constants.ATTR_AGE_OVER + age,
@@ -130,10 +139,11 @@ module.exports = class PolicyBuilder {
 
   /**
    * @param {number} age
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withAgeUnder(age, constraints = null, acceptSelfAsserted = null) {
+  withAgeUnder(age, constraints = null, acceptSelfAsserted = undefined) {
     Validation.isInteger(age, 'age');
     return this.withAgeDerivedAttribute(
       constants.ATTR_AGE_UNDER + age,
@@ -144,27 +154,32 @@ module.exports = class PolicyBuilder {
 
   /**
    * @param {string} derivation
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withAgeDerivedAttribute(derivation, constraints = null, acceptSelfAsserted = null) {
+  withAgeDerivedAttribute(derivation, constraints = null, acceptSelfAsserted = undefined) {
     const wantedAttributeBuilder = new WantedAttributeBuilder()
       .withName(constants.ATTR_DATE_OF_BIRTH)
-      .withDerivation(derivation)
-      .withAcceptSelfAsserted(acceptSelfAsserted);
+      .withDerivation(derivation);
 
     if (constraints !== null) {
       wantedAttributeBuilder.withConstraints(constraints);
+    }
+
+    if (acceptSelfAsserted !== undefined) {
+      wantedAttributeBuilder.withAcceptSelfAsserted(acceptSelfAsserted);
     }
 
     return this.withWantedAttribute(wantedAttributeBuilder.build());
   }
 
   /**
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withGender(constraints = null, acceptSelfAsserted = null) {
+  withGender(constraints = null, acceptSelfAsserted = undefined) {
     return this.withWantedAttributeByName(
       constants.ATTR_GENDER,
       constraints,
@@ -173,10 +188,11 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withPostalAddress(constraints = null, acceptSelfAsserted = null) {
+  withPostalAddress(constraints = null, acceptSelfAsserted = undefined) {
     return this.withWantedAttributeByName(
       constants.ATTR_POSTAL_ADDRESS,
       constraints,
@@ -185,10 +201,11 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withStructuredPostalAddress(constraints = null, acceptSelfAsserted = null) {
+  withStructuredPostalAddress(constraints = null, acceptSelfAsserted = undefined) {
     return this.withWantedAttributeByName(
       constants.ATTR_STRUCTURED_POSTAL_ADDRESS,
       constraints,
@@ -197,10 +214,11 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withNationality(constraints = null, acceptSelfAsserted = null) {
+  withNationality(constraints = null, acceptSelfAsserted = undefined) {
     return this.withWantedAttributeByName(
       constants.ATTR_NATIONALITY,
       constraints,
@@ -209,10 +227,11 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withPhoneNumber(constraints = null, acceptSelfAsserted = null) {
+  withPhoneNumber(constraints = null, acceptSelfAsserted = undefined) {
     return this.withWantedAttributeByName(
       constants.ATTR_PHONE_NUMBER,
       constraints,
@@ -221,10 +240,11 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withSelfie(constraints = null, acceptSelfAsserted = null) {
+  withSelfie(constraints = null, acceptSelfAsserted = undefined) {
     return this.withWantedAttributeByName(
       constants.ATTR_SELFIE,
       constraints,
@@ -233,10 +253,11 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withDocumentDetails(constraints = null, acceptSelfAsserted = null) {
+  withDocumentDetails(constraints = null, acceptSelfAsserted = undefined) {
     return this.withWantedAttributeByName(
       constants.ATTR_DOCUMENT_DETAILS,
       constraints,
@@ -245,10 +266,11 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withDocumentImages(constraints = null, acceptSelfAsserted = null) {
+  withDocumentImages(constraints = null, acceptSelfAsserted = undefined) {
     return this.withWantedAttributeByName(
       constants.ATTR_DOCUMENT_IMAGES,
       constraints,
@@ -257,10 +279,11 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {Constraints} [constraints]
+   * @param {boolean} [acceptSelfAsserted]
+   * @returns this
    */
-  withEmail(constraints = null, acceptSelfAsserted = null) {
+  withEmail(constraints = null, acceptSelfAsserted = undefined) {
     return this.withWantedAttributeByName(
       constants.ATTR_EMAIL_ADDRESS,
       constraints,
@@ -269,14 +292,16 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {boolean} enabled
+   * @param {boolean} [enabled=true]
+   * @returns this
    */
   withSelfieAuthentication(enabled = true) {
     return this.withWantedAuthType(SELFIE_AUTH_TYPE, enabled);
   }
 
   /**
-   * @param {boolean} enabled
+   * @param {boolean} [enabled=true]
+   * @returns this
    */
   withPinAuthentication(enabled = true) {
     return this.withWantedAuthType(PIN_AUTH_TYPE, enabled);
@@ -284,7 +309,8 @@ module.exports = class PolicyBuilder {
 
   /**
    * @param {number} wantedAuthType
-   * @param {boolean} enabled
+   * @param {boolean} [enabled=true]
+   * @returns this
    */
   withWantedAuthType(wantedAuthType, enabled = true) {
     if (enabled) {
@@ -297,7 +323,8 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {boolean} wantedRememberMe
+   * @param {boolean} [wantedRememberMe=true]
+   * @returns this
    */
   withWantedRememberMe(wantedRememberMe = true) {
     this.wantedRememberMe = wantedRememberMe;
@@ -306,6 +333,7 @@ module.exports = class PolicyBuilder {
 
   /**
    * @param {object} identityProfileRequirements
+   * @returns this
    */
   withIdentityProfileRequirements(identityProfileRequirements) {
     this.identityProfileRequirements = identityProfileRequirements;

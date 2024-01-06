@@ -15,6 +15,7 @@ const ShareSessionConfiguration = require('./share.session.configuration');
  */
 module.exports = class ShareSessionBuilder {
   constructor() {
+    /** @private */
     this.extensions = [];
   }
 

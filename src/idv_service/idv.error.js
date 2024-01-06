@@ -44,12 +44,14 @@ class IDVError extends Error {
   constructor(error) {
     super(errorMessage(error));
 
+    /** @private */
     this.name = this.constructor.name;
+    /** @private */
     this.response = error.response || null;
   }
 
   /**
-   * @returns {number}
+   * @returns {number|null}
    */
   getResponseStatusCode() {
     if (this.response && this.response.statusCode) {
@@ -59,7 +61,7 @@ class IDVError extends Error {
   }
 
   /**
-   * @returns {*} The parsed response body.
+   * @returns {string|object} The parsed response body.
    */
   getResponseBody() {
     if (this.response && this.response.body) {

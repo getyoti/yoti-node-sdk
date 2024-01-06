@@ -1,10 +1,15 @@
 export = SupplementaryDocumentResourceResponse;
 declare class SupplementaryDocumentResourceResponse extends ResourceResponse {
-    documentType: any;
-    issuingCountry: any;
-    pages: any;
-    documentFields: DocumentFieldsResponse;
-    file: FileResponse;
+    /** @private */
+    private documentType;
+    /** @private */
+    private issuingCountry;
+    /** @private */
+    private pages;
+    /** @private */
+    private documentFields;
+    /** @private */
+    private file;
     /**
      * @returns {SupplementaryDocumentTextExtractionTaskResponse[]}
      */
@@ -31,7 +36,7 @@ declare class SupplementaryDocumentResourceResponse extends ResourceResponse {
     getDocumentFile(): FileResponse;
 }
 import ResourceResponse = require("./resource.response");
-import DocumentFieldsResponse = require("./document.fields.response");
-import FileResponse = require("./file.response");
 import SupplementaryDocumentTextExtractionTaskResponse = require("./supplementary.document.text.extraction.task.response");
 import PageResponse = require("./page.response");
+import DocumentFieldsResponse = require("./document.fields.response");
+import FileResponse = require("./file.response");

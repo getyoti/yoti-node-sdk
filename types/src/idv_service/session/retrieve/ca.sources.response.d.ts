@@ -1,7 +1,8 @@
 export = CaSourcesResponse;
 declare class CaSourcesResponse {
     constructor(sources: any);
-    type: any;
+    /** @private */
+    private type;
     /**
      *
      * @return {string}

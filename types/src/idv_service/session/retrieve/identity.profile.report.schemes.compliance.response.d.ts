@@ -1,9 +1,12 @@
 export = IdentityProfileReportSchemesComplianceResponse;
 declare class IdentityProfileReportSchemesComplianceResponse {
     constructor(schemesCompliance: any);
-    scheme: any;
-    requirementsMet: any;
-    requirementsNotMetInfo: any;
+    /** @private */
+    private scheme;
+    /** @private */
+    private requirementsMet;
+    /** @private */
+    private requirementsNotMetInfo;
     /**
      * @returns {object}
      */

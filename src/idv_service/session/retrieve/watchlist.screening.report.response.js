@@ -8,6 +8,7 @@ class WatchlistScreeningReportResponse extends WatchlistReportResponse {
     super(report);
 
     if (report.watchlist_summary) {
+      /** @private */
       this.watchListSummary = new WatchlistScreeningSummaryResponse(report.watchlist_summary);
     }
   }

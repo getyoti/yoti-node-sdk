@@ -4,7 +4,8 @@ declare class ExtraData {
      * @param {Object[]} dataEntries
      */
     constructor(dataEntries?: any[]);
-    attributeIssuanceDetails: any;
+    /** @private */
+    private attributeIssuanceDetails;
     /**
      * @returns {AttributeIssuanceDetails}
      */

@@ -1,10 +1,14 @@
 export = SessionConfigurationResponse;
 declare class SessionConfigurationResponse {
     constructor(payload: any);
-    clientSessionTokenTtl: any;
-    sessionId: any;
-    requestedChecks: any;
-    capture: CaptureResponse;
+    /** @private */
+    private clientSessionTokenTtl;
+    /** @private */
+    private sessionId;
+    /** @private */
+    private requestedChecks;
+    /** @private */
+    private capture;
     /**
      * Returns the amount of time remaining in seconds until the session
      * expires.

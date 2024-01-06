@@ -6,7 +6,8 @@ const MediaResponse = require('./media.response');
 class FaceCaptureImageResponse {
   constructor(image) {
     if (image.media) {
-      Validation.isPlainObject(image.media);
+      Validation.isPlainObject(image.media, 'media');
+      /** @private */
       this.media = new MediaResponse(image.media);
     }
   }

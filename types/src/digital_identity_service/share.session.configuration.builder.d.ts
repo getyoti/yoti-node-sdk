@@ -1,6 +1,7 @@
 export = ShareSessionBuilder;
 declare class ShareSessionBuilder {
-    extensions: any[];
+    /** @private */
+    private extensions;
     /**
      * @param {Object} subject
      */

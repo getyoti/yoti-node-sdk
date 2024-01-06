@@ -1,7 +1,8 @@
 export = DocumentFieldsResponse;
 declare class DocumentFieldsResponse {
     constructor(documentFields: any);
-    media: MediaResponse;
+    /** @private */
+    private media;
     /**
      * @returns {MediaResponse}
      */

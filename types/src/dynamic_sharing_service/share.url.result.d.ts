@@ -4,8 +4,10 @@ declare class ShareUrlResult {
      * @param {Object} response
      */
     constructor(response: any);
-    shareUrl: any;
-    refId: any;
+    /** @private */
+    private shareUrl;
+    /** @private */
+    private refId;
     /**
      * The URL that the 3rd party should use for the share.
      *

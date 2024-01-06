@@ -9,8 +9,10 @@ declare class UploadFaceCaptureImagePayload {
      * @param {Buffer} imageContents
      */
     constructor(imageContentType: string, imageContents: Buffer);
-    imageContentType: string;
-    imageContents: Buffer;
+    /** @private */
+    private imageContentType;
+    /** @private */
+    private imageContents;
     /**
      * @return string
      */

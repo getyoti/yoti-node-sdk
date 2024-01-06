@@ -1,13 +1,20 @@
 export = TaskResponse;
 declare class TaskResponse {
     constructor(task: any);
-    type: any;
-    id: any;
-    state: any;
-    created: YotiDate;
-    lastUpdated: YotiDate;
-    generatedChecks: any;
-    generatedMedia: any;
+    /** @private */
+    private type;
+    /** @private */
+    private id;
+    /** @private */
+    private state;
+    /** @private */
+    private created;
+    /** @private */
+    private lastUpdated;
+    /** @private */
+    private generatedChecks;
+    /** @private */
+    private generatedMedia;
     /**
      * @returns {string}
      */

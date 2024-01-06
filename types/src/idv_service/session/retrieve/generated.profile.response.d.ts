@@ -1,7 +1,8 @@
 export = GeneratedProfileResponse;
 declare class GeneratedProfileResponse {
     constructor(generatedProfile: any);
-    media: MediaResponse;
+    /** @private */
+    private media;
     /**
      * @returns {MediaResponse}
      */

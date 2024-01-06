@@ -1,6 +1,7 @@
 export = AllowedSourceResponse;
 declare class AllowedSourceResponse {
     constructor(type: any);
-    type: any;
+    /** @private */
+    private type;
     getType(): any;
 }

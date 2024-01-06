@@ -12,8 +12,10 @@ declare class RequestedTask {
      *   Configuration to apply to the Task
      */
     constructor(type: string, config: any);
-    type: string;
-    config: any;
+    /** @private */
+    private type;
+    /** @private */
+    private config;
     /**
      * @returns {Object} data for JSON.stringify()
      */

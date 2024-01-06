@@ -13,8 +13,10 @@ declare class RequestedLivenessConfig {
      *   The type of the liveness check
      */
     constructor(maxRetries: number, livenessType: string);
-    maxRetries: number;
-    livenessType: string;
+    /** @private */
+    private maxRetries;
+    /** @private */
+    private livenessType;
     /**
      * @returns {Object} data for JSON.stringify()
      */

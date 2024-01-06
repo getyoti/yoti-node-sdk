@@ -1,7 +1,8 @@
 export = ExpandedDocumentFieldsResponse;
 declare class ExpandedDocumentFieldsResponse {
     constructor(expandedDocumentFields: any);
-    media: MediaResponse;
+    /** @private */
+    private media;
     /**
      * @returns {MediaResponse}
      */

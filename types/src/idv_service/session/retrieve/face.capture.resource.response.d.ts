@@ -1,6 +1,7 @@
 export = FaceCaptureResourceResponse;
 declare class FaceCaptureResourceResponse extends ResourceResponse {
-    image: FaceCaptureImageResponse;
+    /** @private */
+    private image;
     /**
      * @return FaceCaptureImageResponse
      */

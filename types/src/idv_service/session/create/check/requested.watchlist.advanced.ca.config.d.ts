@@ -16,10 +16,14 @@ declare class RequestedWatchlistAdvancedCaConfig {
      * @param matchingStrategy {RequestedCaMatchingStrategy}
      */
     constructor(removeDeceased: boolean, shareUrl: boolean, sources: RequestedCaSources, matchingStrategy: RequestedCaMatchingStrategy);
-    removeDeceased: boolean;
-    shareUrl: boolean;
-    sources: RequestedCaSources;
-    matchingStrategy: RequestedCaMatchingStrategy;
+    /** @private */
+    private removeDeceased;
+    /** @private */
+    private shareUrl;
+    /** @private */
+    private sources;
+    /** @private */
+    private matchingStrategy;
     /**
      * @returns {Object} data for JSON.stringify()
      */

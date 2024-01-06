@@ -9,7 +9,8 @@ declare class RequestedDocumentAuthenticityConfig {
      * @param {string} manualCheck
      */
     constructor(manualCheck: string);
-    manualCheck: string;
+    /** @private */
+    private manualCheck;
     /**
      * @returns {Object} data for JSON.stringify()
      */

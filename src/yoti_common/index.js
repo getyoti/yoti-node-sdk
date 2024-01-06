@@ -83,14 +83,8 @@ function decryptProfileContent(profileContent, wrappedReceiptKey, pem) {
  *
  * @returns {boolean}
  */
-module.exports.requestCanSendPayload = (httpMethod) => {
-  // Check if the request method can send payload data
-  if (methodsThatIncludePayload.indexOf(httpMethod) === -1) {
-    return false;
-  }
-
-  return true;
-};
+// eslint-disable-next-line max-len
+module.exports.requestCanSendPayload = (httpMethod) => methodsThatIncludePayload.indexOf(httpMethod) !== -1;
 
 /**
  * @param {string} message
@@ -114,8 +108,7 @@ module.exports.getAuthKeyFromPem = (pem) => {
   const publicKey = forge.pki.setRsaPublicKey(privateKey.n, privateKey.e);
   const subjectPublicKeyInfo = forge.pki.publicKeyToAsn1(publicKey);
   const p12Der = forge.asn1.toDer(subjectPublicKeyInfo).getBytes();
-  const p12b64 = forge.util.encode64(p12Der);
-  return p12b64;
+  return forge.util.encode64(p12Der);
 };
 
 /**

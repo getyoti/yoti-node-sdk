@@ -1,8 +1,10 @@
 export = ReportResponse;
 declare class ReportResponse {
     constructor(report: any);
-    recommendation: RecommendationResponse;
-    breakdown: any;
+    /** @private */
+    private recommendation;
+    /** @private */
+    private breakdown;
     /**
      * @returns {RecommendationResponse}
      */

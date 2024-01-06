@@ -1,6 +1,7 @@
 export = RequiredDocumentResourceResponse;
 declare class RequiredDocumentResourceResponse extends RequiredResourceResponse {
-    requestedTasks: any;
+    /** @private */
+    private requestedTasks;
     /**
      * Returns any tasks that need to be completed as part of the document
      * requirement.

@@ -4,7 +4,8 @@ declare class SupportedDocumentResponse {
      * @param {object} supportedDocument
      */
     constructor(supportedDocument: object);
-    type: any;
+    /** @private */
+    private type;
     /**
      * Returns the type of document that is supported.
      *

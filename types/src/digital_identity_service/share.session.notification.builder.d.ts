@@ -1,6 +1,7 @@
 export = ShareSessionNotificationBuilder;
 declare class ShareSessionNotificationBuilder {
-    headers: {};
+    /** @private */
+    private headers;
     /**
      * @param {string} url
      */

@@ -1,6 +1,7 @@
 export = ProfileCheckResponse;
 declare class ProfileCheckResponse extends CheckResponse {
-    generatedProfile: GeneratedProfileResponse;
+    /** @private */
+    private generatedProfile;
     /**
      * @returns {GeneratedProfileResponse}
      */

@@ -9,6 +9,7 @@ const DynamicScenario = require('./dynamic.scenario');
  */
 module.exports = class DynamicScenarioBuilder {
   constructor() {
+    /** @private */
     this.extensions = [];
   }
 

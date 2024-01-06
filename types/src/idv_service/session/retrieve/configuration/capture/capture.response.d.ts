@@ -4,8 +4,10 @@ declare class CaptureResponse {
      * @param {object} capture
      */
     constructor(capture: object);
-    biometricConsent: any;
-    requiredResources: any;
+    /** @private */
+    private biometricConsent;
+    /** @private */
+    private requiredResources;
     /**
      * Returns a String enum of the state of biometric consent
      *

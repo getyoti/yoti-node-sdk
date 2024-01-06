@@ -23,17 +23,25 @@ module.exports = class GetShareReceiptResult {
     userContent = new UserContent(),
     applicationContent = new ApplicationContent()
   ) {
-    this.sessionId = receiptResponse.sessionId;
-    this.rememberMeId = receiptResponse.rememberMeId;
-    this.parentRememberMeId = receiptResponse.parentRememberMeId;
-    this.timestamp = receiptResponse.timestamp;
-    this.error = receiptResponse.error;
-    this.id = receiptResponse.id;
+    /** @private */
+    this.sessionId = receiptResponse.getSessionId();
+    /** @private */
+    this.rememberMeId = receiptResponse.getRememberMeId();
+    /** @private */
+    this.parentRememberMeId = receiptResponse.getParentRememberMeId();
+    /** @private */
+    this.timestamp = receiptResponse.getTimestamp();
+    /** @private */
+    this.error = receiptResponse.getError();
+    /** @private */
+    this.id = receiptResponse.getId();
 
     if (userContent) Validation.instanceOf(userContent, UserContent, 'userContent');
     if (applicationContent) Validation.instanceOf(applicationContent, ApplicationContent, 'applicationContent');
 
+    /** @private */
     this.userContent = userContent;
+    /** @private */
     this.applicationContent = applicationContent;
   }
 

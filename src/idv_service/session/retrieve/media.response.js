@@ -6,18 +6,22 @@ const { YotiDate } = require('../../../data_type/date');
 class MediaResponse {
   constructor(media) {
     Validation.isString(media.id, 'id', true);
+    /** @private */
     this.id = media.id;
 
     Validation.isString(media.type, 'type', true);
+    /** @private */
     this.type = media.type;
 
     if (media.created) {
       Validation.isString(media.created, 'created');
+      /** @private */
       this.created = YotiDate.fromDateString(media.created);
     }
 
     if (media.last_updated) {
       Validation.isString(media.last_updated, 'last_updated');
+      /** @private */
       this.lastUpdated = YotiDate.fromDateString(media.last_updated);
     }
   }

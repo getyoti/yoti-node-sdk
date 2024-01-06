@@ -5,5 +5,6 @@ export = RequestedCaMatchingStrategy;
  */
 declare class RequestedCaMatchingStrategy {
     constructor(type: any);
-    type: any;
+    /** @protected */
+    protected type: any;
 }

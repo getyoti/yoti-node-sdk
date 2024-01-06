@@ -41,9 +41,11 @@ class RequestedCustomAccountWatchlistAdvancedCaConfig extends RequestedWatchlist
     super(removeDeceased, shareUrl, sources, matchingStrategy);
     Validation.isString(apiKey, 'apiKey');
     Validation.notNullOrEmpty(apiKey, 'apiKey');
+    /** @private */
     this.apiKey = apiKey;
 
     Validation.isBoolean(monitoring, 'monitoring');
+    /** @private */
     this.monitoring = monitoring;
 
     if (tags) {
@@ -52,11 +54,13 @@ class RequestedCustomAccountWatchlistAdvancedCaConfig extends RequestedWatchlist
       Object.keys(tags).forEach((key) => {
         Validation.notNull(tags[key], `tags.${key}`);
       });
+      /** @private */
       this.tags = tags;
     }
 
     Validation.isString(clientRef, 'clientRef');
     Validation.notNullOrEmpty(clientRef, 'clientRef');
+    /** @private */
     this.clientRef = clientRef;
   }
 

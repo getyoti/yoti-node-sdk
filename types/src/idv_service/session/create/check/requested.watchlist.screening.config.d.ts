@@ -10,7 +10,8 @@ declare class RequestedWatchlistScreeningConfig {
      *   The list of categories corresponding to each watchlist screening conducted
      */
     constructor(categories: string[]);
-    categories: string[];
+    /** @private */
+    private categories;
     /**
      * @returns {Object} data for JSON.stringify()
      */

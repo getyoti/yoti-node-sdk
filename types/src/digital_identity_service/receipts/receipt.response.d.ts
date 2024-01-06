@@ -6,16 +6,26 @@ export = ReceiptResponse;
  */
 declare class ReceiptResponse {
     constructor(response: any);
-    id: any;
-    sessionId: any;
-    timestamp: Date;
-    error: any;
-    rememberMeId: any;
-    parentRememberMeId: any;
-    content: any;
-    otherPartyContent: any;
-    wrappedItemKeyId: any;
-    wrappedKey: any;
+    /** @private */
+    private id;
+    /** @private */
+    private sessionId;
+    /** @private */
+    private timestamp;
+    /** @private */
+    private error;
+    /** @private */
+    private rememberMeId;
+    /** @private */
+    private parentRememberMeId;
+    /** @private */
+    private content;
+    /** @private */
+    private otherPartyContent;
+    /** @private */
+    private wrappedItemKeyId;
+    /** @private */
+    private wrappedKey;
     /**
      * The receipt ID
      *

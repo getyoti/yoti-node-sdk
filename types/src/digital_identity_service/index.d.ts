@@ -7,9 +7,12 @@ export class DigitalIdentityService {
     constructor(sdkId: any, pem: any, { apiUrl }?: {
         apiUrl?: string;
     });
-    sdkId: any;
-    pem: any;
-    apiUrl: string;
+    /** @private */
+    private sdkId;
+    /** @private */
+    private pem;
+    /** @private */
+    private apiUrl;
     /**
      * @param {ShareSessionConfiguration} shareSessionConfig
      *

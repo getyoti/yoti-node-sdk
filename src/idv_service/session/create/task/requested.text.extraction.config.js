@@ -18,12 +18,15 @@ class RequestedTextExtractionConfig {
    */
   constructor(manualCheck, chipData, createExpandedDocumentFields) {
     Validation.isString(manualCheck, 'manualCheck');
+    /** @private */
     this.manualCheck = manualCheck;
 
     Validation.isString(chipData, 'chipData', true);
+    /** @private */
     this.chipData = chipData;
 
     Validation.isBoolean(createExpandedDocumentFields, 'createExpandedDocumentFields', true);
+    /** @private */
     this.createExpandedDocumentFields = createExpandedDocumentFields;
   }
 

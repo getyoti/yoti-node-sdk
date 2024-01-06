@@ -22,20 +22,25 @@ module.exports = class Policy {
     identityProfileRequirements = null
   ) {
     Validation.isArrayOfType(wantedAttributes, WantedAttribute, 'wantedAttribute');
+    /** @private */
     this.wantedAttributes = wantedAttributes;
 
     if (wantedAuthTypes) {
       Validation.isArrayOfIntegers(wantedAuthTypes, 'wantedAuthTypes');
+      /** @private */
       this.wantedAuthTypes = wantedAuthTypes;
     } else {
+      /** @private */
       this.wantedAuthTypes = [];
     }
 
     Validation.isBoolean(wantedRememberMe, 'wantedRememberMe');
+    /** @private */
     this.wantedRememberMe = wantedRememberMe;
 
     if (identityProfileRequirements) {
       Validation.isPlainObject(identityProfileRequirements, 'identityProfileRequirements');
+      /** @private */
       this.identityProfileRequirements = identityProfileRequirements;
     }
   }

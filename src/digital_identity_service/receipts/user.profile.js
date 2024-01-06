@@ -19,6 +19,7 @@ class UserProfile extends BaseProfile {
   constructor(attributes = []) {
     super(attributes);
 
+    /** @private */
     this.ageVerifications = this.attributes
       .filter((attribute) => attribute.getValue() instanceof AgeVerification)
       .reduce((acc, attribute) => ({
@@ -104,8 +105,8 @@ class UserProfile extends BaseProfile {
    * @returns {AgeVerification|null}
    */
   findAgeVerification(type, age) {
-    Validation.isString(type);
-    Validation.isInteger(age);
+    Validation.isString(type, 'type');
+    Validation.isInteger(age, 'age');
     return this.ageVerifications[type + age] || null;
   }
 

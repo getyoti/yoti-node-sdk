@@ -8,6 +8,7 @@ class WatchlistScreeningCheckResponse extends WatchlistCheckResponse {
     super(check);
 
     if (check.report) {
+      /** @private */
       this.report = new WatchlistScreeningReportResponse(check.report);
     }
   }

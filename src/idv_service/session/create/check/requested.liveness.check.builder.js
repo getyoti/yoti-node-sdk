@@ -10,6 +10,7 @@ const Validation = require('../../../../yoti_common/validation');
  */
 class RequestedLivenessCheckBuilder {
   constructor() {
+    /** @private */
     this.maxRetries = 1;
   }
 

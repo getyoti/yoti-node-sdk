@@ -17,9 +17,11 @@ module.exports = class SourceConstraint {
    */
   constructor(anchors, softPreference = false) {
     Validation.isArrayOfType(anchors, WantedAnchor, 'anchors');
+    /** @private */
     this.anchors = anchors;
 
     Validation.isBoolean(softPreference, 'softPreference');
+    /** @private */
     this.softPreference = softPreference;
   }
 

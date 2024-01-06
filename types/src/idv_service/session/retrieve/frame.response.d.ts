@@ -1,7 +1,8 @@
 export = FrameResponse;
 declare class FrameResponse {
     constructor(frame: any);
-    media: MediaResponse;
+    /** @private */
+    private media;
     /**
      * @returns {MediaResponse}
      */

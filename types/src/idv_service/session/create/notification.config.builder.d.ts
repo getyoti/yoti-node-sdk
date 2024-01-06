@@ -5,7 +5,8 @@ export = NotificationConfigBuilder;
  * @class NotificationConfigBuilder
  */
 declare class NotificationConfigBuilder {
-    topics: any[];
+    /** @private */
+    private topics;
     /**
      * Sets the authorization token to be included in call-back messages
      *

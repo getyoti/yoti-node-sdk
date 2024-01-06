@@ -8,11 +8,16 @@ declare class ShareSession {
      * @param {ShareSessionNotification} notification
      */
     constructor(policy: Policy, extensions: Extension[], subject: any, redirectUri: string, notification: ShareSessionNotification);
-    policy: Policy;
-    extensions: Extension[];
-    redirectUri: string;
-    subject: any;
-    notification: ShareSessionNotification;
+    /** @private */
+    private policy;
+    /** @private */
+    private extensions;
+    /** @private */
+    private redirectUri;
+    /** @private */
+    private subject;
+    /** @private */
+    private notification;
     /**
      * @returns {string} The redirect uri.
      */

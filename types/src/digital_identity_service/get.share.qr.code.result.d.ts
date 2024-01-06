@@ -4,10 +4,14 @@ declare class GetShareQrCodeResult {
      * @param {Object} response
      */
     constructor(response: any);
-    id: any;
-    expiry: Date;
-    sessionId: any;
-    redirectUri: any;
+    /** @private */
+    private id;
+    /** @private */
+    private expiry;
+    /** @private */
+    private sessionId;
+    /** @private */
+    private redirectUri;
     /**
      * The QR code ID
      *

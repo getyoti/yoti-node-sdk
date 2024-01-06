@@ -5,6 +5,7 @@ const MediaResponse = require('./media.response');
 class FileResponse {
   constructor(file) {
     if (file.media) {
+      /** @private */
       this.media = new MediaResponse(file.media);
     }
   }

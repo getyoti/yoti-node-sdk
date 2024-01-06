@@ -13,24 +13,29 @@ class ResourceContainer {
   constructor(resources) {
     if (resources.id_documents) {
       Validation.isArray(resources.id_documents, 'id_documents');
+      /** @private */
       this.idDocuments = resources
         .id_documents
         .map((resource) => new IdDocumentResourceResponse(resource));
     } else {
+      /** @private */
       this.idDocuments = [];
     }
 
     if (resources.supplementary_documents) {
       Validation.isArray(resources.supplementary_documents, 'supplementary_documents');
+      /** @private */
       this.supplementaryDocuments = resources
         .supplementary_documents
         .map((resource) => new SupplementaryDocumentResourceResponse(resource));
     } else {
+      /** @private */
       this.supplementaryDocuments = [];
     }
 
     if (resources.liveness_capture) {
       Validation.isArray(resources.liveness_capture, 'liveness_capture');
+      /** @private */
       this.livenessCapture = resources
         .liveness_capture
         .map((resource) => {
@@ -44,16 +49,19 @@ class ResourceContainer {
           }
         });
     } else {
+      /** @private */
       this.livenessCapture = [];
     }
 
     if (resources.face_capture) {
       Validation.isArray(resources.face_capture, 'face_capture');
 
+      /** @private */
       this.faceCapture = resources.face_capture.map(
         (resource) => new FaceCaptureResourceResponse(resource)
       );
     } else {
+      /** @private */
       this.faceCapture = [];
     }
   }

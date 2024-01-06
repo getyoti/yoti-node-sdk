@@ -9,18 +9,8 @@ declare class DigitalIdentityClient {
     constructor(sdkId: string, pem: string | Buffer, { apiUrl }?: {
         apiUrl: string;
     });
-    digitalIdentityService: {
-        sdkId: any;
-        pem: any;
-        apiUrl: string;
-        createShareSession(shareSessionConfig: import("../digital_identity_service/share.session.configuration.js")): Promise<import("../digital_identity_service/create.share.session.result.js")>;
-        getShareSession(sessionId: string): Promise<import("../digital_identity_service/get.share.session.result.js")>;
-        createShareQrCode(sessionId: string): Promise<import("../digital_identity_service/create.share.qr.code.result.js")>;
-        getShareQrCode(qrCodeId: string): Promise<import("../digital_identity_service/get.share.qr.code.result.js")>;
-        fetchReceipt(receiptId: string): Promise<import("../digital_identity_service/receipts/receipt.response")>;
-        fetchReceiptItemKey(receiptItemKeyId: string): Promise<import("../digital_identity_service/receipts/receipt.item.key.response")>;
-        getShareReceipt(receiptId: string): Promise<import("../digital_identity_service/get.share.receipt.result.js")>;
-    };
+    /** @private */
+    private digitalIdentityService;
     /**
      * @typedef {import('../digital_identity_service/share.session.configuration.js')} ShareSessionConfig
      *

@@ -17,17 +17,21 @@ class YotiRequest {
     if (SUPPORTED_METHODS.indexOf(method) === -1) {
       throw new Error(`HTTP method ${method} is not supported`);
     }
+    /** @private */
     this.method = method;
 
     if (payload !== null) {
       Validation.instanceOf(payload, Payload, 'payload');
     }
+    /** @private */
     this.payload = payload;
 
     Validation.isString(url, 'url');
+    /** @private */
     this.url = url;
 
     Validation.hasOnlyStringValues(headers, 'headers');
+    /** @private */
     this.headers = headers;
   }
 

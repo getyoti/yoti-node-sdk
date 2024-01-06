@@ -1,7 +1,8 @@
 export = FaceMapResponse;
 declare class FaceMapResponse {
     constructor(facemap: any);
-    media: MediaResponse;
+    /** @private */
+    private media;
     /**
      * @returns {MediaResponse}
      */

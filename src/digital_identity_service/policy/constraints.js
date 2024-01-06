@@ -14,6 +14,7 @@ module.exports = class Constraints {
    */
   constructor(constraints) {
     Validation.isArrayOfTypes(constraints, [SourceConstraint], 'constraints');
+    /** @private */
     this.constraints = constraints;
   }
 

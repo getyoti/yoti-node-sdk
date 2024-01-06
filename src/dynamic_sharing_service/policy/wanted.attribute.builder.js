@@ -33,7 +33,7 @@ module.exports = class WantedAttributeBuilder {
   }
 
   /**
-   * @param {Array} acceptSelfAsserted
+   * @param {boolean} acceptSelfAsserted
    */
   withAcceptSelfAsserted(acceptSelfAsserted = true) {
     this.acceptSelfAsserted = acceptSelfAsserted;

@@ -1,6 +1,7 @@
 export = RequiredLivenessResourceResponse;
 declare class RequiredLivenessResourceResponse extends RequiredResourceResponse {
-    livenessType: any;
+    /** @private */
+    private livenessType;
     /**
        * @return {string | null}
        */

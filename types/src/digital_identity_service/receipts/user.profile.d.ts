@@ -8,7 +8,8 @@ export = UserProfile;
  * @class Profile
  */
 declare class UserProfile extends BaseProfile {
-    ageVerifications: {};
+    /** @private */
+    private ageVerifications;
     /**
      * The full name attribute.
      *

@@ -9,14 +9,22 @@ declare class GetShareReceiptResult {
      *  The application content, including profile and extra data
      */
     constructor(receiptResponse: import('./receipts/receipt.response'), userContent?: UserContent, applicationContent?: ApplicationContent);
-    sessionId: any;
-    rememberMeId: any;
-    parentRememberMeId: any;
-    timestamp: Date;
-    error: any;
-    id: any;
-    userContent: UserContent;
-    applicationContent: ApplicationContent;
+    /** @private */
+    private sessionId;
+    /** @private */
+    private rememberMeId;
+    /** @private */
+    private parentRememberMeId;
+    /** @private */
+    private timestamp;
+    /** @private */
+    private error;
+    /** @private */
+    private id;
+    /** @private */
+    private userContent;
+    /** @private */
+    private applicationContent;
     /**
      * Returns the ID of the Session that the receipt belongs to.
      *

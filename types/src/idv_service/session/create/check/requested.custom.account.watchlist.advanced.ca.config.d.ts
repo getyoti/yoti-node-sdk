@@ -23,10 +23,14 @@ declare class RequestedCustomAccountWatchlistAdvancedCaConfig extends RequestedW
      * @param clientRef {string}
      */
     constructor(removeDeceased: boolean, shareUrl: boolean, sources: RequestedCaSources, matchingStrategy: RequestedCaMatchingStrategy, apiKey: string, monitoring: boolean, tags: object, clientRef: string);
-    apiKey: string;
-    monitoring: boolean;
-    tags: any;
-    clientRef: string;
+    /** @private */
+    private apiKey;
+    /** @private */
+    private monitoring;
+    /** @private */
+    private tags;
+    /** @private */
+    private clientRef;
 }
 declare namespace RequestedCustomAccountWatchlistAdvancedCaConfig {
     export { RequestedWatchlistAdvancedCaCheck, RequestedCaSources, RequestedCaMatchingStrategy };

@@ -12,6 +12,7 @@ class Objective {
     }
 
     Validation.isString(type, 'type');
+    /** @private */
     this.type = type;
   }
 

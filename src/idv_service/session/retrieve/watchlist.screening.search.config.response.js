@@ -9,8 +9,10 @@ class WatchlistScreeningSearchConfigResponse extends WatchlistSearchConfigRespon
 
     if (searchConfig.categories) {
       Validation.isArrayOfStrings(searchConfig.categories, 'categories');
+      /** @private */
       this.categories = searchConfig.categories;
     } else {
+      /** @private */
       this.categories = [];
     }
   }

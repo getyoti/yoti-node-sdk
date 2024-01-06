@@ -12,6 +12,7 @@ class CreateFaceCaptureResourcePayload {
    */
   constructor(requirementId) {
     Validation.isString(requirementId, 'requirement_id');
+    /** @private */
     this.requirementId = requirementId;
   }
 

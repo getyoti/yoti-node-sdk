@@ -2,15 +2,19 @@ export = WantedAttribute;
 declare class WantedAttribute {
     /**
      * @param {string} name
-     * @param {string} derivation
-     * @param {boolean} acceptSelfAsserted
-     * @param {Constraints} constraints
+     * @param {string|null} derivation
+     * @param {boolean|null} acceptSelfAsserted
+     * @param {Constraints|null} constraints
      */
-    constructor(name: string, derivation?: string, acceptSelfAsserted?: boolean, constraints?: Constraints);
-    name: string;
-    derivation: string;
-    acceptSelfAsserted: boolean;
-    constraints: Constraints;
+    constructor(name: string, derivation?: string | null, acceptSelfAsserted?: boolean | null, constraints?: Constraints | null);
+    /** @private */
+    private name;
+    /** @private */
+    private derivation;
+    /** @private */
+    private acceptSelfAsserted;
+    /** @private */
+    private constraints;
     /**
      * Name identifying the WantedAttribute
      *

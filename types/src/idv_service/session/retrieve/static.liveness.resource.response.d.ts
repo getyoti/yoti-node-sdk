@@ -1,6 +1,7 @@
 export = StaticLivenessResourceResponse;
 declare class StaticLivenessResourceResponse extends LivenessResourceResponse {
-    image: MediaResponse;
+    /** @private */
+    private image;
     /**
      * @returns {MediaResponse}
      */

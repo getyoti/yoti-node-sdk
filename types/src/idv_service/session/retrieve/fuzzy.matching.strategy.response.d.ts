@@ -1,6 +1,7 @@
 export = FuzzyMatchingStrategyResponse;
 declare class FuzzyMatchingStrategyResponse extends CaMatchingStrategyResponse {
-    fuzziness: any;
+    /** @private */
+    private fuzziness;
     /**
      *
      * @return {number}

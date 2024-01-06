@@ -5,7 +5,8 @@ declare class ApplicationContent extends BaseContent {
      * @param {[]} extraData
      */
     constructor(attributes?: [], extraData?: []);
-    profile: ApplicationProfile;
+    /** @private */
+    private profile;
     /**
      * Get the user profile
      * @returns {ApplicationProfile}

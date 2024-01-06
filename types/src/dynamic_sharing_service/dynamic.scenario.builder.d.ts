@@ -1,6 +1,7 @@
 export = DynamicScenarioBuilder;
 declare class DynamicScenarioBuilder {
-    extensions: any[];
+    /** @private */
+    private extensions;
     /**
      * @param {string} callbackEndpoint
      */

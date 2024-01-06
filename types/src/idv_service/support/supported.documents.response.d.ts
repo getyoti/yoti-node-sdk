@@ -1,6 +1,7 @@
 export = SupportedDocumentsResponse;
 declare class SupportedDocumentsResponse {
     constructor(response: any);
-    supportedCountries: any;
+    /** @private */
+    private supportedCountries;
     getSupportedCountries(): any;
 }

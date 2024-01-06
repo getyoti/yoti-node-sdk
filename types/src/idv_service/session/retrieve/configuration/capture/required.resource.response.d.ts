@@ -4,10 +4,14 @@ declare class RequiredResourceResponse {
      * @param {object} requiredResource
      */
     constructor(requiredResource: object);
-    type: any;
-    id: any;
-    state: any;
-    allowedSources: any;
+    /** @private */
+    private type;
+    /** @private */
+    private id;
+    /** @private */
+    private state;
+    /** @private */
+    private allowedSources;
     /**
      * @return {string}
      */

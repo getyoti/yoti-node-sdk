@@ -1,8 +1,11 @@
 export = RequiredSupplementaryDocumentResourceResponse;
 declare class RequiredSupplementaryDocumentResourceResponse extends RequiredDocumentResourceResponse {
-    documentTypes: any;
-    countryCodes: any;
-    objective: ObjectiveResponse;
+    /** @private */
+    private documentTypes;
+    /** @private */
+    private countryCodes;
+    /** @private */
+    private objective;
     /**
      * Returns a list of document types that can be used to satisfy the requirement
      *

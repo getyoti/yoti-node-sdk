@@ -24,8 +24,11 @@ class ProfileService {
     Validation.isString(sdkId, 'sdkId');
     Validation.notNullOrEmpty(pem, 'pem');
 
+    /** @private */
     this.sdkId = sdkId;
+    /** @private */
     this.pem = pem;
+    /** @private */
     this.apiUrl = apiUrl;
   }
 

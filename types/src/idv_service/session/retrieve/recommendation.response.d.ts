@@ -1,9 +1,12 @@
 export = RecommendationResponse;
 declare class RecommendationResponse {
     constructor(recommendation: any);
-    value: any;
-    reason: any;
-    recoverySuggestion: any;
+    /** @private */
+    private value;
+    /** @private */
+    private reason;
+    /** @private */
+    private recoverySuggestion;
     /**
      * @returns {string}
      */

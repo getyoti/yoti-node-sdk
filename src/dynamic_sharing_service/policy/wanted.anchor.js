@@ -14,9 +14,11 @@ module.exports = class WantedAnchor {
    */
   constructor(value, subType = '') {
     Validation.isString(value, 'value');
+    /** @private */
     this.value = value;
 
     Validation.isString(subType, 'subType');
+    /** @private */
     this.subType = subType;
   }
 

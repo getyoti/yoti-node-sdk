@@ -21,9 +21,12 @@ class AgeVerification {
     Validation.matchesPattern(name, /^[^:]+:(?!.*:)[0-9]+$/, 'attribute.name');
 
     const split = name.split(':');
+    /** @private */
     this.checkType = split[0];
 
+    /** @private */
     this.age = parseInt(split[1], 10);
+    /** @private */
     this.result = value === 'true';
   }
 

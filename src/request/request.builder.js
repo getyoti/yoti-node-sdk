@@ -14,7 +14,7 @@ const SDK_IDENTIFIER = 'Node';
 /**
  * Build a query string.
  *
- * @param {Object.<string, string>} queryParams
+ * @param {Object.<string, string|number|boolean>} queryParams
  *
  * @returns {string}
  */
@@ -32,7 +32,9 @@ class RequestBuilder {
    * Set initial properties.
    */
   constructor() {
+    /** @private */
     this.headers = {};
+    /** @private */
     this.queryParams = {};
   }
 
@@ -132,7 +134,7 @@ class RequestBuilder {
 
   /**
    * @param {string} name
-   * @param {string} value
+   * @param {string|boolean|number} value
    *
    * @returns {RequestBuilder}
    */

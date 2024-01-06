@@ -1,7 +1,8 @@
 export = WatchlistScreeningSearchConfigResponse;
 declare class WatchlistScreeningSearchConfigResponse extends WatchlistSearchConfigResponse {
     constructor(searchConfig: any);
-    categories: any;
+    /** @private */
+    private categories;
     /**
      * @returns {string[]}
      */

@@ -4,8 +4,10 @@ declare class SupportedCountryResponse {
      * @param {object} supportedCountry
      */
     constructor(supportedCountry: object);
-    code: any;
-    supportedDocuments: any;
+    /** @private */
+    private code;
+    /** @private */
+    private supportedDocuments;
     /**
      * Returns the ISO Country Code of the supported country
      *

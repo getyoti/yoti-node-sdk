@@ -21,6 +21,7 @@ class IDVClient {
     const options = {
       apiUrl: apiUrl || config.yoti.idvApi,
     };
+    /** @private */
     this.idvService = new IDVService(sdkId, pem, options);
   }
 

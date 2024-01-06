@@ -9,13 +9,18 @@ class YotiResponse {
    * @param {number} statusCode
    * @param {Object|null} receipt
    * @param {Buffer|string|null} body
-   * @param {Array|null} headers
+   * @param {Object.<string, string>|null} headers
    */
   constructor(parsedResponse, statusCode, receipt = null, body = null, headers = null) {
+    /** @private */
     this.parsedResponse = parsedResponse;
+    /** @private */
     this.statusCode = statusCode;
+    /** @private */
     this.receipt = receipt;
+    /** @private */
     this.body = body;
+    /** @private */
     this.headers = headers;
   }
 

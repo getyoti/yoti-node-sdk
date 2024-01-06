@@ -4,8 +4,10 @@
  * @class RequestBuilder
  */
 export class RequestBuilder {
-    headers: {};
-    queryParams: {};
+    /** @private */
+    private headers;
+    /** @private */
+    private queryParams;
     /**
      * @param {string} baseUrl Base URL without trailing slashes.
      *
@@ -65,14 +67,14 @@ export class RequestBuilder {
      * @returns {RequestBuilder}
      */
     withPayload(payload: import('./payload').Payload): RequestBuilder;
-    payload: module.exports.Payload;
+    payload: import("./payload").Payload;
     /**
      * @param {string} name
-     * @param {string} value
+     * @param {string|boolean|number} value
      *
      * @returns {RequestBuilder}
      */
-    withQueryParam(name: string, value: string): RequestBuilder;
+    withQueryParam(name: string, value: string | boolean | number): RequestBuilder;
     /**
      * Default request headers.
      *

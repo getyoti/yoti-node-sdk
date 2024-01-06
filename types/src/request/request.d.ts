@@ -5,10 +5,14 @@
  */
 export class YotiRequest {
     constructor(method: any, url: any, headers: any, payload?: any);
-    method: any;
-    payload: any;
-    url: any;
-    headers: any;
+    /** @private */
+    private method;
+    /** @private */
+    private payload;
+    /** @private */
+    private url;
+    /** @private */
+    private headers;
     /**
      * @returns {string}
      */

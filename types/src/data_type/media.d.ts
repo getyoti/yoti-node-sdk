@@ -5,8 +5,10 @@ declare class Media {
      * @param {string} mimeType
      */
     constructor(content: Buffer, mimeType: string);
-    content: Buffer;
-    mimeType: string;
+    /** @private */
+    private content;
+    /** @private */
+    private mimeType;
     /**
      * Get the raw image content.
      *

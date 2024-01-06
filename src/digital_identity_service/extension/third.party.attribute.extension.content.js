@@ -7,7 +7,9 @@
  */
 class ThirdPartyAttributeExtensionContent {
   constructor(expiryDate, definitions) {
+    /** @private */
     this.expiryDate = expiryDate;
+    /** @private */
     this.definitions = definitions;
   }
 

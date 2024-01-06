@@ -1,7 +1,8 @@
 export = FaceCaptureImageResponse;
 declare class FaceCaptureImageResponse {
     constructor(image: any);
-    media: MediaResponse;
+    /** @private */
+    private media;
     /**
      * @return MediaResponse
      */

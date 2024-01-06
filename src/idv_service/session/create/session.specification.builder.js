@@ -15,8 +15,11 @@ const Validation = require('../../../yoti_common/validation');
  */
 class SessionSpecificationBuilder {
   constructor() {
+    /** @private */
     this.requestedChecks = [];
+    /** @private */
     this.requestedTasks = [];
+    /** @private */
     this.requiredDocuments = [];
   }
 

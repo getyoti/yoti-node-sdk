@@ -1,6 +1,7 @@
 export = DocumentRestrictionsFilterBuilder;
 declare class DocumentRestrictionsFilterBuilder {
-    documents: any[];
+    /** @private */
+    private documents;
     /**
      * @returns {this}
      */

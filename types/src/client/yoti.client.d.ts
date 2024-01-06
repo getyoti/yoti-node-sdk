@@ -12,11 +12,16 @@ declare class YotiClient {
     constructor(sdkId: string, pem: string, { apiUrl }?: {
         apiUrl: string;
     });
-    sdkId: string;
-    pem: string;
-    amlService: AmlService;
-    profileService: ProfileService;
-    dynamicShareService: DynamicShareService;
+    /** @private */
+    private sdkId;
+    /** @private */
+    private pem;
+    /** @private */
+    private amlService;
+    /** @private */
+    private profileService;
+    /** @private */
+    private dynamicShareService;
     /**
      * Get the activity details for a token. Amongst others contains the user profile with
      * the user's attributes you have selected in your application configuration.
@@ -44,12 +49,12 @@ declare class YotiClient {
      * Given a dynamic scenario, get a custom QR code denoted by the dynamic policy
      * provided in the request.
      *
+     * @typedef {import('./../dynamic_sharing_service/dynamic.scenario')} DynamicScenario
+     * @typedef {import('./../dynamic_sharing_service/share.url.result')} ShareUrlResult
+     *
      * @param {DynamicScenario} dynamicScenario - defines the wanted attribute list
      *
-     * @returns {Promise} containing a ShareUrlResult
+     * @returns {Promise<ShareUrlResult>}
      */
-    createShareUrl(dynamicScenario: DynamicScenario): Promise<any>;
+    createShareUrl(dynamicScenario: import("./../dynamic_sharing_service/dynamic.scenario")): Promise<import("./../dynamic_sharing_service/share.url.result")>;
 }
-import { AmlService } from "../aml_service";
-import { ProfileService } from "../profile_service";
-import { DynamicShareService } from "../dynamic_sharing_service";

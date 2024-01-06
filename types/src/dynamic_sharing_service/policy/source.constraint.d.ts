@@ -5,8 +5,10 @@ declare class SourceConstraint {
      * @param {boolean} softPreference
      */
     constructor(anchors: WantedAnchor[], softPreference?: boolean);
-    anchors: WantedAnchor[];
-    softPreference: boolean;
+    /** @private */
+    private anchors;
+    /** @private */
+    private softPreference;
     /**
      * @returns {Object} data for JSON.stringify()
      */

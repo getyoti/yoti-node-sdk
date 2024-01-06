@@ -14,9 +14,12 @@ declare class RequestedTextExtractionConfig {
      *   Enables additional information
      */
     constructor(manualCheck: string, chipData: string, createExpandedDocumentFields: boolean);
-    manualCheck: string;
-    chipData: string;
-    createExpandedDocumentFields: boolean;
+    /** @private */
+    private manualCheck;
+    /** @private */
+    private chipData;
+    /** @private */
+    private createExpandedDocumentFields;
     /**
      * @returns {Object} data for JSON.stringify()
      */

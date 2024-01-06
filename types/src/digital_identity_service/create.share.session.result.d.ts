@@ -4,9 +4,12 @@ declare class CreateShareSessionResult {
      * @param {Object} response
      */
     constructor(response: any);
-    id: any;
-    status: any;
-    expiry: Date;
+    /** @private */
+    private id;
+    /** @private */
+    private status;
+    /** @private */
+    private expiry;
     /**
      * The share id
      *

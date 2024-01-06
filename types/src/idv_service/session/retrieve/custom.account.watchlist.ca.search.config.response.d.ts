@@ -1,9 +1,13 @@
 export = CustomAccountWatchlistCaSearchConfigResponse;
 declare class CustomAccountWatchlistCaSearchConfigResponse extends WatchlistAdvancedCaSearchConfigResponse {
-    apiKey: any;
-    monitoring: any;
-    tags: any;
-    clientRef: any;
+    /** @private */
+    private apiKey;
+    /** @private */
+    private monitoring;
+    /** @private */
+    private tags;
+    /** @private */
+    private clientRef;
     /**
      *
      * @return {string}

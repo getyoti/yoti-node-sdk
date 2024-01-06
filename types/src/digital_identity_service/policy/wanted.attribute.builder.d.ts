@@ -2,24 +2,28 @@ export = WantedAttributeBuilder;
 declare class WantedAttributeBuilder {
     /**
      * @param {string} name
+     * @returns this
      */
     withName(name: string): this;
     name: string;
     /**
      * @param {string} derivation
+     * @returns this
      */
     withDerivation(derivation: string): this;
     derivation: string;
     /**
      * @param {Constraints} constraints
+     * @returns this
      */
     withConstraints(constraints: Constraints): this;
     constraints: Constraints;
     /**
-     * @param {Array} acceptSelfAsserted
+     * @param {boolean} [acceptSelfAsserted=true]
+     * @returns this
      */
-    withAcceptSelfAsserted(acceptSelfAsserted?: any[]): this;
-    acceptSelfAsserted: any[];
+    withAcceptSelfAsserted(acceptSelfAsserted?: boolean): this;
+    acceptSelfAsserted: boolean;
     /**
      * @returns {WantedAttribute}
      */

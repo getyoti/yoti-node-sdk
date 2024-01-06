@@ -4,7 +4,8 @@ declare class ObjectiveResponse {
      * @param {object} objective
      */
     constructor(objective: object);
-    type: any;
+    /** @private */
+    private type;
     /**
      * Returns the objective type as a String
      *

@@ -1,6 +1,7 @@
 export = WatchlistAdvancedCaSummaryResponse;
 declare class WatchlistAdvancedCaSummaryResponse extends WatchlistSummaryResponse {
-    searchConfig: any;
+    /** @private */
+    private searchConfig;
     /**
      * @returns {WatchlistAdvancedCaSearchConfigResponse}
      */

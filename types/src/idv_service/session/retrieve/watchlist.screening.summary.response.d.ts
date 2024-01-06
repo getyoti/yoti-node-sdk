@@ -1,6 +1,7 @@
 export = WatchlistScreeningSummaryResponse;
 declare class WatchlistScreeningSummaryResponse extends WatchlistSummaryResponse {
-    searchConfig: WatchlistScreeningSearchConfigResponse;
+    /** @private */
+    private searchConfig;
     /**
      * @returns {WatchlistScreeningSearchConfigResponse}
      */

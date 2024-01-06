@@ -20,9 +20,11 @@ class RequestedCheck {
     }
 
     Validation.isString(type, 'type');
+    /** @private */
     this.type = type;
 
     Validation.notNullOrEmpty(config, 'config');
+    /** @private */
     this.config = config;
   }
 

@@ -5,8 +5,10 @@ declare class Extension {
      * @param {*} content
      */
     constructor(type: string, content: any);
-    type: string;
-    content: any;
+    /** @private */
+    private type;
+    /** @private */
+    private content;
     /**
      * @returns {string} type
      */

@@ -5,7 +5,8 @@ export = RequestedFuzzyMatchingStrategy;
  */
 declare class RequestedFuzzyMatchingStrategy extends RequestedCaMatchingStrategy {
     constructor(fuzziness?: number);
-    fuzziness: number;
+    /** @private */
+    private fuzziness;
     /**
      * @returns {Object} data for JSON.stringify()
      */

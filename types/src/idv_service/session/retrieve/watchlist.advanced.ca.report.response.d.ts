@@ -1,6 +1,7 @@
 export = WatchlistAdvancedCaReportResponse;
 declare class WatchlistAdvancedCaReportResponse extends WatchlistReportResponse {
-    watchListSummary: WatchlistAdvancedCaSummaryResponse;
+    /** @private */
+    private watchListSummary;
     /**
      *
      * @return {WatchlistAdvancedCaSummaryResponse}

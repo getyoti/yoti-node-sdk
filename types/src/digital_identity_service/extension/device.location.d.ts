@@ -12,10 +12,14 @@ declare class DeviceLocation {
      * @param {Number} maxUncertainty
      */
     constructor(latitude: number, longitude: number, radius?: number, maxUncertainty?: number);
-    latitude: number;
-    longitude: number;
-    radius: number;
-    maxUncertainty: number;
+    /** @private */
+    private latitude;
+    /** @private */
+    private longitude;
+    /** @private */
+    private radius;
+    /** @private */
+    private maxUncertainty;
     /**
      * @returns {Number} Latitude of the user's expected location
      */

@@ -6,9 +6,12 @@ export = ReceiptItemKeyResponse;
  */
 declare class ReceiptItemKeyResponse {
     constructor(response: any);
-    id: any;
-    iv: any;
-    value: any;
+    /** @private */
+    private id;
+    /** @private */
+    private iv;
+    /** @private */
+    private value;
     /**
      * The Receipt Item Key ID
      *

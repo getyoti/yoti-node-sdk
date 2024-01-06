@@ -53,51 +53,63 @@ class SessionSpecification {
     subject
   ) {
     Validation.isInteger(clientSessionTokenTtl, 'clientSessionTokenTtl', true);
+    /** @private */
     this.clientSessionTokenTtl = clientSessionTokenTtl;
 
     if (sessionDeadline) {
       Validation.instanceOf(sessionDeadline, Date, 'sessionDeadline');
+      /** @private */
       this.sessionDeadline = sessionDeadline;
     }
 
     Validation.isInteger(resourcesTtl, 'resourcesTtl', true);
+    /** @private */
     this.resourcesTtl = resourcesTtl;
 
     Validation.isString(userTrackingId, 'userTrackingId', true);
+    /** @private */
     this.userTrackingId = userTrackingId;
 
     if (notifications) {
       Validation.instanceOf(notifications, NotificationConfig, 'notifications');
+      /** @private */
       this.notifications = notifications;
     }
 
     if (sdkConfig) {
       Validation.instanceOf(sdkConfig, SdkConfig, 'sdkConfig');
+      /** @private */
       this.sdkConfig = sdkConfig;
     }
 
     if (identityProfileRequirements) {
       Validation.isPlainObject(identityProfileRequirements, 'identityProfileRequirements');
+      /** @private */
       this.identityProfileRequirements = identityProfileRequirements;
     }
 
     if (subject) {
       Validation.isPlainObject(subject, 'subject');
+      /** @private */
       this.subject = subject;
     }
 
     Validation.isArrayOfType(requestedChecks, RequestedCheck, 'requestedChecks');
+    /** @private */
     this.requestedChecks = requestedChecks;
 
     Validation.isArrayOfType(requestedTasks, RequestedTask, 'requestedTasks');
+    /** @private */
     this.requestedTasks = requestedTasks;
 
     if (requiredDocuments) {
       Validation.isArrayOfType(requiredDocuments, RequiredDocument, 'requiredDocuments');
+      /** @private */
       this.requiredDocuments = requiredDocuments;
     }
 
     Validation.isBoolean(blockBiometricConsent, 'blockBiometricConsent', true);
+    /** @private */
     this.blockBiometricConsent = blockBiometricConsent;
   }
 

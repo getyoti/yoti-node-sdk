@@ -16,10 +16,10 @@ declare class WantedAttributeBuilder {
     withConstraints(constraints: Constraints): this;
     constraints: Constraints;
     /**
-     * @param {Array} acceptSelfAsserted
+     * @param {boolean} acceptSelfAsserted
      */
-    withAcceptSelfAsserted(acceptSelfAsserted?: any[]): this;
-    acceptSelfAsserted: any[];
+    withAcceptSelfAsserted(acceptSelfAsserted?: boolean): this;
+    acceptSelfAsserted: boolean;
     /**
      * @returns {WantedAttribute}
      */

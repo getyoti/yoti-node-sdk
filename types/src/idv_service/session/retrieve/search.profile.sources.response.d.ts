@@ -1,6 +1,7 @@
 export = SearchProfileSourcesResponse;
 declare class SearchProfileSourcesResponse extends CaSourcesResponse {
-    searchProfile: any;
+    /** @private */
+    private searchProfile;
     /**
      *
      * @return {string}

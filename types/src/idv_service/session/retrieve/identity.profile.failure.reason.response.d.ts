@@ -1,6 +1,7 @@
 export = IdentityProfileFailureReasonResponse;
 declare class IdentityProfileFailureReasonResponse {
     constructor(failureReason: any);
-    reasonCode: any;
+    /** @private */
+    private reasonCode;
     getReasonCode(): any;
 }

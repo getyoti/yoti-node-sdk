@@ -10,11 +10,13 @@ class DocumentRestriction {
   constructor(countryCodes, documentTypes) {
     if (countryCodes) {
       Validation.isArrayOfStrings(countryCodes, 'countryCodes');
+      /** @private */
       this.countryCodes = countryCodes;
     }
 
     if (documentTypes) {
       Validation.isArrayOfStrings(documentTypes, 'documentTypes');
+      /** @private */
       this.documentTypes = documentTypes;
     }
   }

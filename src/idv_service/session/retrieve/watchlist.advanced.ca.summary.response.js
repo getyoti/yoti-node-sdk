@@ -20,6 +20,7 @@ class WatchlistAdvancedCaSummaryResponse extends WatchlistSummaryResponse {
       // eslint-disable-next-line max-len
       const WatchlistAdvancedCaSearchConfigResponseClass = WatchlistAdvancedCaSearchConfigResponseClassesByType[summary.search_config.type];
       if (WatchlistAdvancedCaSearchConfigResponseClass) {
+        /** @private */
         this.searchConfig = new WatchlistAdvancedCaSearchConfigResponseClass(summary.search_config);
       }
     }

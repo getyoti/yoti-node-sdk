@@ -77,9 +77,11 @@ class YotiDate extends Date {
    * @param {number} timestamp
    */
   constructor(timestamp) {
-    Validation.isNumber(timestamp);
+    Validation.isNumber(timestamp, 'timestamp');
     super(Math.floor(timestamp / 1000));
+    /** @private */
     this.microseconds = extractMicrosecondsFromTimestamp(timestamp);
+    /** @private */
     this.microsecondUnixTimestamp = timestamp;
   }
 

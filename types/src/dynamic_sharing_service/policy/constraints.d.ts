@@ -4,7 +4,8 @@ declare class Constraints {
      * Set default properties.
      */
     constructor(constraints: any);
-    constraints: any;
+    /** @private */
+    private constraints;
     /**
      * @returns {Array} for JSON.stringify()
      */

@@ -10,8 +10,10 @@ export class YotiSignedTimeStamp {
      * @param {YotiDate} timestamp
      */
     constructor(version: number, timestamp: YotiDate);
-    version: number;
-    timestamp: YotiDate;
+    /** @private */
+    private version;
+    /** @private */
+    private timestamp;
     /**
      * Version indicates how the digests within this object are calculated.
      *

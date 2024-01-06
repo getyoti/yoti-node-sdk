@@ -12,8 +12,10 @@ declare class RequestedCheck {
      *   The configuration to apply to the Check
      */
     constructor(type: string, config: any);
-    type: string;
-    config: any;
+    /** @private */
+    private type;
+    /** @private */
+    private config;
     /**
      * @returns {Object} data for JSON.stringify()
      */

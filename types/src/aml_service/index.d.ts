@@ -14,8 +14,11 @@ export class AmlService {
     constructor(sdkId: string, pem: string | Buffer, { apiUrl }?: {
         apiUrl: string;
     });
-    sdkId: string;
-    pem: string | Buffer;
-    apiUrl: string;
+    /** @private */
+    private sdkId;
+    /** @private */
+    private pem;
+    /** @private */
+    private apiUrl;
     performAmlCheck(amlProfile: any): Promise<any>;
 }

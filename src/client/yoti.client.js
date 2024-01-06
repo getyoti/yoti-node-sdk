@@ -36,15 +36,20 @@ class YotiClient {
    * @param {string} options.apiUrl
    */
   constructor(sdkId, pem, { apiUrl } = {}) {
+    /** @private */
     this.sdkId = sdkId;
+    /** @private */
     this.pem = pem;
 
     const options = {
       apiUrl: apiUrl || config.yoti.connectApi,
     };
 
+    /** @private */
     this.amlService = new AmlService(sdkId, pem, options);
+    /** @private */
     this.profileService = new ProfileService(sdkId, pem, options);
+    /** @private */
     this.dynamicShareService = new DynamicShareService(sdkId, pem, options);
 
     /** @deprecated replaced by this.sdkId */
@@ -90,9 +95,12 @@ class YotiClient {
    * Given a dynamic scenario, get a custom QR code denoted by the dynamic policy
    * provided in the request.
    *
+   * @typedef {import('./../dynamic_sharing_service/dynamic.scenario')} DynamicScenario
+   * @typedef {import('./../dynamic_sharing_service/share.url.result')} ShareUrlResult
+   *
    * @param {DynamicScenario} dynamicScenario - defines the wanted attribute list
    *
-   * @returns {Promise} containing a ShareUrlResult
+   * @returns {Promise<ShareUrlResult>}
    */
   createShareUrl(dynamicScenario) {
     return this.dynamicShareService.createShareUrl(dynamicScenario);

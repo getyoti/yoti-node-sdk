@@ -1,15 +1,19 @@
 'use strict';
 
-module.exports = class MultiValue {
+class MultiValue {
   /**
    * MultiValue constructor.
    *
    * @param {array} items
    */
   constructor(items) {
+    /** @private */
     this.originalItems = items;
+    /** @private */
     this.items = items;
+    /** @private */
     this.allowedInstances = [];
+    /** @private */
     this.allowedTypes = [];
   }
 
@@ -99,4 +103,6 @@ module.exports = class MultiValue {
     this.applyFilters();
     return Object.freeze(this.items);
   }
-};
+}
+
+module.exports = MultiValue;

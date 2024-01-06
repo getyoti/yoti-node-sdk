@@ -1,8 +1,10 @@
 export = GeneratedMedia;
 declare class GeneratedMedia {
     constructor(media: any);
-    id: any;
-    type: any;
+    /** @private */
+    private id;
+    /** @private */
+    private type;
     /**
      * @returns {string}
      */

@@ -217,8 +217,7 @@ class AnchorProcessor {
       const anchorExtension = extensionsData[oidIndex];
       const anchorEncodedValue = anchorExtension.value;
       // Convert Anchor value from ASN.1 format to an object
-      const extensionObj = forge.asn1.fromDer(anchorEncodedValue.toString('binary'));
-      return extensionObj;
+      return forge.asn1.fromDer(anchorEncodedValue.toString('binary'));
     }
     return null;
   }

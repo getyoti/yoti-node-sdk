@@ -25,10 +25,15 @@ class YotiAnchor {
    * @param {Object[]} originServerCerts
    */
   constructor(type, value, subType, signedTimeStamp, originServerCerts) {
+    /** @private */
     this.type = type;
+    /** @private */
     this.value = value;
+    /** @private */
     this.subType = subType;
+    /** @private */
     this.signedTimeStamp = signedTimeStamp;
+    /** @private */
     this.originServerCerts = originServerCerts;
   }
 

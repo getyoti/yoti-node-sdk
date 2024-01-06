@@ -1,8 +1,10 @@
 export = GeneratedCheckResponse;
 declare class GeneratedCheckResponse {
     constructor(check: any);
-    id: any;
-    type: any;
+    /** @private */
+    private id;
+    /** @private */
+    private type;
     /**
      * @returns {string}
      */

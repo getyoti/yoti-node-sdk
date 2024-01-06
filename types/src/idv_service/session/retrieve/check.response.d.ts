@@ -1,14 +1,22 @@
 export = CheckResponse;
 declare class CheckResponse {
     constructor(check: any);
-    type: any;
-    id: any;
-    state: any;
-    resourcesUsed: any;
-    generatedMedia: any;
-    report: ReportResponse;
-    created: YotiDate;
-    lastUpdated: YotiDate;
+    /** @private */
+    private type;
+    /** @private */
+    private id;
+    /** @private */
+    private state;
+    /** @private */
+    private resourcesUsed;
+    /** @private */
+    private generatedMedia;
+    /** @private */
+    private report;
+    /** @private */
+    private created;
+    /** @private */
+    private lastUpdated;
     /**
      * @returns {string}
      */
@@ -42,6 +50,6 @@ declare class CheckResponse {
      */
     getLastUpdated(): YotiDate;
 }
+import GeneratedMedia = require("./generated.media");
 import ReportResponse = require("./report.response");
 import { YotiDate } from "../../../data_type/date";
-import GeneratedMedia = require("./generated.media");

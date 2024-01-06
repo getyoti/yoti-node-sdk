@@ -4,7 +4,8 @@ declare class BaseContent {
      * @param {[]} extraData
      */
     constructor(extraData?: []);
-    extraData: ExtraData;
+    /** @private */
+    private extraData;
     /**
      * Get the user extra data
      * @returns {ExtraData}

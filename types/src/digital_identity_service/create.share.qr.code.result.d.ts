@@ -4,8 +4,10 @@ declare class CreateShareQrCodeResult {
      * @param {Object} response
      */
     constructor(response: any);
-    id: any;
-    uri: any;
+    /** @private */
+    private id;
+    /** @private */
+    private uri;
     /**
      * The QR code ID
      *

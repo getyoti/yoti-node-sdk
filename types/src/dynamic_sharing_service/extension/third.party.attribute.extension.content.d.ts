@@ -1,8 +1,10 @@
 export = ThirdPartyAttributeExtensionContent;
 declare class ThirdPartyAttributeExtensionContent {
     constructor(expiryDate: any, definitions: any);
-    expiryDate: any;
-    definitions: any;
+    /** @private */
+    private expiryDate;
+    /** @private */
+    private definitions;
     getExpiryDate(): any;
     getDefinitions(): any;
     toJSON(): {

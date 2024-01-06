@@ -1,7 +1,8 @@
 export = RawResultsResponse;
 declare class RawResultsResponse {
     constructor(rawResults: any);
-    media: MediaResponse;
+    /** @private */
+    private media;
     /**
      * @returns {MediaResponse}
      */

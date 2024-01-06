@@ -10,9 +10,11 @@ class TypeRestriction {
   constructor(inclusion, documentTypes) {
     Validation.notNullOrEmpty(inclusion, 'inclusion');
     Validation.isString(inclusion, 'inclusion');
+    /** @private */
     this.inclusion = inclusion;
 
     Validation.isArrayOfStrings(documentTypes, 'documentTypes');
+    /** @private */
     this.documentTypes = documentTypes;
   }
 

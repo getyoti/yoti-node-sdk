@@ -14,8 +14,11 @@ export class ProfileService {
     constructor(sdkId: string, pem: string | Buffer, { apiUrl }?: {
         apiUrl: string;
     });
-    sdkId: string;
-    pem: string | Buffer;
-    apiUrl: string;
+    /** @private */
+    private sdkId;
+    /** @private */
+    private pem;
+    /** @private */
+    private apiUrl;
     getReceipt(token: any): Promise<any>;
 }

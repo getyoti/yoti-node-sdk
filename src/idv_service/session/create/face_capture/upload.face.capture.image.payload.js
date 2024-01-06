@@ -13,9 +13,11 @@ class UploadFaceCaptureImagePayload {
    */
   constructor(imageContentType, imageContents) {
     Validation.isString(imageContentType, 'image_content_type');
+    /** @private */
     this.imageContentType = imageContentType;
 
     Validation.instanceOf(imageContents, Buffer, 'image_contents');
+    /** @private */
     this.imageContents = imageContents;
   }
 

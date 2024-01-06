@@ -12,8 +12,10 @@ export class YotiDate extends Date {
      * @param {number} timestamp
      */
     constructor(timestamp: number);
-    microseconds: number;
-    microsecondUnixTimestamp: number;
+    /** @private */
+    private microseconds;
+    /** @private */
+    private microsecondUnixTimestamp;
     /**
      * Returns a number, between 0 and 999999, representing the microseconds.
      *

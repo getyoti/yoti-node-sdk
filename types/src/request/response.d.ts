@@ -7,14 +7,21 @@ export class YotiResponse {
      * @param {number} statusCode
      * @param {Object|null} receipt
      * @param {Buffer|string|null} body
-     * @param {Array|null} headers
+     * @param {Object.<string, string>|null} headers
      */
-    constructor(parsedResponse: any, statusCode: number, receipt?: any | null, body?: Buffer | string | null, headers?: any[] | null);
-    parsedResponse: any;
-    statusCode: number;
-    receipt: any;
-    body: string | Buffer;
-    headers: any[];
+    constructor(parsedResponse: any, statusCode: number, receipt?: any | null, body?: Buffer | string | null, headers?: {
+        [x: string]: string;
+    } | null);
+    /** @private */
+    private parsedResponse;
+    /** @private */
+    private statusCode;
+    /** @private */
+    private receipt;
+    /** @private */
+    private body;
+    /** @private */
+    private headers;
     /**
      * @returns {Object|null} Receipt if available.
      */

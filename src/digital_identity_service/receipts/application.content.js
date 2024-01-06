@@ -10,6 +10,7 @@ class ApplicationContent extends BaseContent {
    */
   constructor(attributes = [], extraData = []) {
     super(extraData);
+    /** @private */
     this.profile = new ApplicationProfile(attributes);
   }
 

@@ -1,7 +1,9 @@
 export = ZoomLivenessResourceResponse;
 declare class ZoomLivenessResourceResponse extends LivenessResourceResponse {
-    faceMap: FaceMapResponse;
-    frames: any;
+    /** @private */
+    private faceMap;
+    /** @private */
+    private frames;
     /**
      * @returns {FaceMapResponse}
      */

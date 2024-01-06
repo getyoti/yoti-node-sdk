@@ -13,12 +13,18 @@ export type YotiAnchor = import("./anchor").YotiAnchor;
  */
 export class Attribute {
     constructor(attrObj: any);
-    value: any;
-    name: any;
-    sources: any;
-    verifiers: any;
-    id: any;
-    anchors: any[];
+    /** @private */
+    private value;
+    /** @private */
+    private name;
+    /** @private */
+    private sources;
+    /** @private */
+    private verifiers;
+    /** @private */
+    private id;
+    /** @private */
+    private anchors;
     /**
      * Retrieves the id of an attribute. It can be undefined.
      *

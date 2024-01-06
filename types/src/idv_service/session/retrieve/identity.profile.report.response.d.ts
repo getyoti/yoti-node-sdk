@@ -1,9 +1,12 @@
 export = IdentityProfileReportResponse;
 declare class IdentityProfileReportResponse {
     constructor(report: any);
-    trustFramework: any;
-    schemesCompliance: any;
-    media: MediaResponse;
+    /** @private */
+    private trustFramework;
+    /** @private */
+    private schemesCompliance;
+    /** @private */
+    private media;
     /**
      * @returns {string}
      */
@@ -17,5 +20,5 @@ declare class IdentityProfileReportResponse {
      */
     getMedia(): MediaResponse;
 }
-import MediaResponse = require("./media.response");
 import IdentityProfileReportSchemesComplianceResponse = require("./identity.profile.report.schemes.compliance.response");
+import MediaResponse = require("./media.response");

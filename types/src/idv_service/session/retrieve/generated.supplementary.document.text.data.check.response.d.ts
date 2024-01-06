@@ -1,4 +1,4 @@
 export = GeneratedSupplementaryDocumentTextDataCheckResponse;
-declare class GeneratedSupplementaryDocumentTextDataCheckResponse extends GeneratedCheckResponse {
+declare class GeneratedSupplementaryDocumentTextDataCheckResponse extends GeneratedTextDataCheckResponse {
 }
-import GeneratedCheckResponse = require("./generated.check.response");
+import GeneratedTextDataCheckResponse = require("./generated.text.data.check.response");

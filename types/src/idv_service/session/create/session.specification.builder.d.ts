@@ -5,9 +5,12 @@ export = SessionSpecificationBuilder;
  * @class SessionSpecificationBuilder
  */
 declare class SessionSpecificationBuilder {
-    requestedChecks: any[];
-    requestedTasks: any[];
-    requiredDocuments: any[];
+    /** @private */
+    private requestedChecks;
+    /** @private */
+    private requestedTasks;
+    /** @private */
+    private requiredDocuments;
     /**
      * Sets the client session token TTL (time-to-live)
      *

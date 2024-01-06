@@ -1,8 +1,10 @@
 export = DetailsResponse;
 declare class DetailsResponse {
     constructor(details: any);
-    name: any;
-    value: any;
+    /** @private */
+    private name;
+    /** @private */
+    private value;
     /**
      * @returns {string}
      */

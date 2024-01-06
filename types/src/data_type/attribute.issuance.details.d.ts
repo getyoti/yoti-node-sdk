@@ -6,9 +6,12 @@ declare class AttributeIssuanceDetails {
      * @param {string[]} issuingAttributes
      */
     constructor(token: string, expiryDate: Date | undefined, issuingAttributes?: string[]);
-    token: string;
-    expiryDate: Date;
-    issuingAttributes: string[];
+    /** @private */
+    private token;
+    /** @private */
+    private expiryDate;
+    /** @private */
+    private issuingAttributes;
     getToken(): string;
     getExpiryDate(): Date;
     getIssuingAttributes(): string[];

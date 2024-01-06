@@ -21,22 +21,28 @@ const { YotiDate } = require('../../../data_type/date');
 class GetSessionResult {
   constructor(response) {
     Validation.isInteger(response.client_session_token_ttl, 'client_session_token_ttl', true);
+    /** @private */
     this.clientSessionTokenTtl = response.client_session_token_ttl;
 
     Validation.isString(response.session_id, 'session_id', true);
+    /** @private */
     this.sessionId = response.session_id;
 
     Validation.isString(response.user_tracking_id, 'user_tracking_id', true);
+    /** @private */
     this.userTrackingId = response.user_tracking_id;
 
     Validation.isString(response.state, 'state', true);
+    /** @private */
     this.state = response.state;
 
     Validation.isString(response.client_session_token, 'client_session_token', true);
+    /** @private */
     this.clientSessionToken = response.client_session_token;
 
     if (response.checks) {
       Validation.isArray(response.checks, 'checks');
+      /** @private */
       this.checks = response
         .checks
         .map((check) => {
@@ -68,20 +74,24 @@ class GetSessionResult {
           }
         });
     } else {
+      /** @private */
       this.checks = [];
     }
 
     if (response.resources) {
-      Validation.instanceOf(response.resources, Object);
+      Validation.instanceOf(response.resources, Object, 'resources');
+      /** @private */
       this.resources = new ResourceContainer(response.resources);
     }
 
     if (response.biometric_consent) {
+      /** @private */
       this.biometricConsent = YotiDate.fromDateString(response.biometric_consent);
     }
 
     if (response.identity_profile) {
       Validation.isPlainObject(response.identity_profile, 'identity_profile');
+      /** @private */
       this.identityProfile = new IdentityProfileResponse(response.identity_profile);
     }
   }

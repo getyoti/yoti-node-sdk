@@ -22,11 +22,16 @@ export class YotiAnchor {
      * @param {Object[]} originServerCerts
      */
     constructor(type: string, value: string, subType: string, signedTimeStamp: YotiSignedTimeStamp, originServerCerts: any[]);
-    type: string;
-    value: string;
-    subType: string;
-    signedTimeStamp: import("./../data_type/signed.timestamp").YotiSignedTimeStamp;
-    originServerCerts: any[];
+    /** @private */
+    private type;
+    /** @private */
+    private value;
+    /** @private */
+    private subType;
+    /** @private */
+    private signedTimeStamp;
+    /** @private */
+    private originServerCerts;
     /**
      * Gets the type of the given anchor
      *

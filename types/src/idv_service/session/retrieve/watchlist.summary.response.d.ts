@@ -1,9 +1,12 @@
 export = WatchlistSummaryResponse;
 declare class WatchlistSummaryResponse {
     constructor(summary: any);
-    totalHits: any;
-    associatedCountryCodes: any;
-    rawResults: RawResultsResponse;
+    /** @private */
+    private totalHits;
+    /** @private */
+    private associatedCountryCodes;
+    /** @private */
+    private rawResults;
     /**
      * @returns {number}
      */
