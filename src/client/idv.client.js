@@ -14,8 +14,7 @@ class IDVClient {
   /**
    * @param {string} sdkId
    * @param {string|Buffer} pem
-   * @param {Object} options
-   * @param {string} options.apiUrl
+   * @param {{apiUrl?: string}} options
    */
   constructor(sdkId, pem, { apiUrl } = {}) {
     const options = {

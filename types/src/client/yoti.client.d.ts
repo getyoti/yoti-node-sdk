@@ -6,11 +6,10 @@ declare class YotiClient {
     /**
      * @param {string} sdkId
      * @param {string} pem
-     * @param {Object} options
-     * @param {string} options.apiUrl
+     * @param {{apiUrl?: string}} options
      */
     constructor(sdkId: string, pem: string, { apiUrl }?: {
-        apiUrl: string;
+        apiUrl?: string;
     });
     /** @private */
     private sdkId;
