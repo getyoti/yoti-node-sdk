@@ -16,7 +16,7 @@
     "lint": "npx eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
     "test": "jest",
     "audit": "audit-ci --config ./audit-ci.jsonc",
-    "types:generate": "tsc index.js --declaration --allowJs --checkJs --emitDeclarationOnly --skipLibCheck --outDir types",
+    "types:generate": "tsc index.js --declaration --allowJs --checkJs --resolveJsonModule --emitDeclarationOnly --skipLibCheck --outDir types",
     "types:refresh": "rm -rf types && npm run types:generate && git add types",
     "pre-commit": "npm run test && npm run types:refresh"
   },

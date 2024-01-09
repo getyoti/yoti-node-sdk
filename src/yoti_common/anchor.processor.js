@@ -231,7 +231,7 @@ class AnchorProcessor {
    */
   static processSignedTimeStamp(signedTimestampBuffer) {
     let version = 0;
-    let timestamp = 0;
+    let timestamp = new YotiDate(0);
 
     if (signedTimestampBuffer) {
       // eslint-disable-next-line max-len

@@ -12,6 +12,10 @@ const SELFIE_AUTH_TYPE = 1;
 const PIN_AUTH_TYPE = 2;
 
 /**
+ * @typedef {import('./constraints')} Constraints
+ */
+
+/**
  * Builder for Policy.
  *
  * @class PolicyBuilder

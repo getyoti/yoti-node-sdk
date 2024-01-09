@@ -148,5 +148,9 @@ declare class PolicyBuilder {
      */
     build(): Policy;
 }
+declare namespace PolicyBuilder {
+    export { Constraints };
+}
 import WantedAttribute = require("./wanted.attribute");
 import Policy = require("./policy");
+type Constraints = import('./constraints');

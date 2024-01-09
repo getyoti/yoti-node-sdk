@@ -8,7 +8,7 @@ const SourceConstraint = require('./source.constraint');
  *
  * @class Constraints
  */
-module.exports = class Constraints {
+class Constraints {
   /**
    * Set default properties.
    */
@@ -24,4 +24,6 @@ module.exports = class Constraints {
   toJSON() {
     return this.constraints;
   }
-};
+}
+
+module.exports = Constraints;

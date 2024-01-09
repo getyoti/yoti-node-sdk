@@ -125,5 +125,9 @@ declare class DynamicPolicyBuilder {
      */
     build(): DynamicPolicy;
 }
+declare namespace DynamicPolicyBuilder {
+    export { Constraints };
+}
 import WantedAttribute = require("./wanted.attribute");
 import DynamicPolicy = require("./dynamic.policy");
+type Constraints = import('./constraints');

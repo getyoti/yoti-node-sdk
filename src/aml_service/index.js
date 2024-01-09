@@ -68,7 +68,7 @@ class AmlService {
 
     const requestBuilder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withEndpoint('/aml-check')
       .withQueryParam('appId', this.sdkId)
       .withMethod('POST')
