@@ -20,9 +20,9 @@ declare class WatchlistAdvancedCaSearchConfigResponse extends WatchlistSearchCon
      */
     isRemoveDeceased(): boolean;
     /**
-     * @returns {shareUrl}
+     * @returns {boolean}
      */
-    isShareUrl(): shareUrl;
+    isShareUrl(): boolean;
     /**
      * @returns {CaSourcesResponse}
      */

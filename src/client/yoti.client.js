@@ -71,7 +71,7 @@ class YotiClient {
   getActivityDetails(encryptedConnectToken) {
     let decryptedToken;
     try {
-      decryptedToken = decryptToken(encryptedConnectToken, this.pem);
+      decryptedToken = decryptToken(encryptedConnectToken, this.pem.toString());
     } catch (err) {
       return Promise.reject(err);
     }

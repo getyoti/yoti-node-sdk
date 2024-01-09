@@ -13,6 +13,7 @@ module.exports = {
    * @returns {Message<{cipherText: string, iv: string}>}
    */
   decodeEncryptedData(binaryData) {
+    /** @type {Message<{cipherText: string, iv: string}>} */
     const decodedData = EncryptedData.decode(binaryData);
     decodedData.cipherText = decodedData.cipherText.toString('base64');
     decodedData.iv = decodedData.iv.toString('base64');

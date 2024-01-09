@@ -40,7 +40,7 @@ class ProfileService {
       .withQueryParam('appId', this.sdkId)
       .withMethod('GET');
 
-    requestBuilder.withHeader('X-Yoti-Auth-Key', yotiCommon.getAuthKeyFromPem(this.pem));
+    requestBuilder.withHeader('X-Yoti-Auth-Key', yotiCommon.getAuthKeyFromPem(this.pem.toString()));
 
     const request = requestBuilder.build();
 
@@ -50,9 +50,12 @@ class ProfileService {
           try {
             const receipt = response.getReceipt();
             const parsedResponse = response.getParsedResponse();
-            const userProfile = yotiCommon.decryptUserProfile(receipt, this.pem);
-            const applicationProfile = yotiCommon.decryptApplicationProfile(receipt, this.pem);
-            const extraData = yotiCommon.parseExtraData(receipt, this.pem);
+            const userProfile = yotiCommon.decryptUserProfile(receipt, this.pem.toString());
+            const applicationProfile = yotiCommon.decryptApplicationProfile(
+              receipt,
+              this.pem.toString()
+            );
+            const extraData = yotiCommon.parseExtraData(receipt, this.pem.toString());
             return resolve(new ActivityDetails(
               parsedResponse,
               userProfile,
