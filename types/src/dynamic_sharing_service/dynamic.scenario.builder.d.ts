@@ -8,14 +8,17 @@ declare class DynamicScenarioBuilder {
     withCallbackEndpoint(callbackEndpoint: string): this;
     callbackEndpoint: string;
     /**
+     * @typedef {import('./policy/dynamic.policy.js')} DynamicPolicy
      * @param {DynamicPolicy} dynamicPolicy
      */
-    withPolicy(dynamicPolicy: DynamicPolicy): this;
-    dynamicPolicy: DynamicPolicy;
+    withPolicy(dynamicPolicy: import("./policy/dynamic.policy.js")): this;
+    dynamicPolicy: import("./policy/dynamic.policy.js");
     /**
+     * @typedef {import('./extension/extension.js')} Extension
+     *
      * @param {Extension} extension
      */
-    withExtension(extension: Extension): this;
+    withExtension(extension: import("./extension/extension.js")): this;
     /**
      * @param {Object} subject
      */

@@ -13,11 +13,12 @@ declare class WantedAttributeBuilder {
     withDerivation(derivation: string): this;
     derivation: string;
     /**
+     * @typedef {import('./constraints')} Constraints
      * @param {Constraints} constraints
      * @returns this
      */
-    withConstraints(constraints: Constraints): this;
-    constraints: Constraints;
+    withConstraints(constraints: import("./constraints")): this;
+    constraints: import("./constraints");
     /**
      * @param {boolean} [acceptSelfAsserted=true]
      * @returns this

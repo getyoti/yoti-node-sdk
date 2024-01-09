@@ -25,6 +25,7 @@ module.exports = class SourceConstraintBuilder {
   }
 
   /**
+   * @typedef {import('./wanted.anchor')} WantedAnchor
    * @param {WantedAnchor} anchor
    * @returns this
    */

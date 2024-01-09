@@ -62,9 +62,13 @@ declare class CaptureResponse {
      */
     getFaceCaptureResourceRequirements(): RequiredFaceCaptureResourceResponse[];
 }
+declare namespace CaptureResponse {
+    export { RequiredResourceResponse };
+}
 import RequiredDocumentResourceResponse = require("./document/required.document.resource.response");
 import RequiredIdDocumentResourceResponse = require("./document/required.id.document.resource.response");
 import RequiredSupplementaryDocumentResourceResponse = require("./document/required.supplementary.document.resource.response");
 import RequiredLivenessResourceResponse = require("./liveness/required.liveness.resource.response");
 import RequiredZoomLivenessResourceResponse = require("./liveness/required.zoom.liveness.resource.response");
 import RequiredFaceCaptureResourceResponse = require("./face_capture/required.face.capture.resource.response");
+type RequiredResourceResponse = import('./required.resource.response');

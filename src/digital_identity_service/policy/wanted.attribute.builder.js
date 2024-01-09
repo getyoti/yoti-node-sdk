@@ -27,6 +27,7 @@ module.exports = class WantedAttributeBuilder {
   }
 
   /**
+   * @typedef {import('./constraints')} Constraints
    * @param {Constraints} constraints
    * @returns this
    */

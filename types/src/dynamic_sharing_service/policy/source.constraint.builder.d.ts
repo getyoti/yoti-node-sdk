@@ -5,9 +5,11 @@ declare class SourceConstraintBuilder {
     /** @private */
     private softPreference;
     /**
+     * @typedef {import('./wanted.anchor')} WantedAnchor
+     *
      * @param {WantedAnchor} anchor
      */
-    withAnchor(anchor: WantedAnchor): this;
+    withAnchor(anchor: import("./wanted.anchor")): this;
     /**
      * @param {boolean} softPreference
      */

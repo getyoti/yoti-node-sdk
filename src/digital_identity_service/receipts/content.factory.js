@@ -34,7 +34,7 @@ function decryptAndExtractContentData(
 
 /**
  *
- * @param content {profile, extraData} encrypted profile content
+ * @param {{profile, extraData}} content  encrypted profile content
  * @param receiptContentKey
  * @returns {ApplicationContent}
  */
@@ -48,7 +48,7 @@ function buildApplicationContentFromEncryptedContent(content = {}, receiptConten
 
 /**
  *
- * @param content {profile, extraData} encrypted profile content
+ * @param {{profile, extraData}} content encrypted profile content
  * @param receiptContentKey
  * @returns {UserContent}
  */

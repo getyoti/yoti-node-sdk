@@ -22,6 +22,7 @@ module.exports = class DynamicScenarioBuilder {
   }
 
   /**
+   * @typedef {import('./policy/dynamic.policy.js')} DynamicPolicy
    * @param {DynamicPolicy} dynamicPolicy
    */
   withPolicy(dynamicPolicy) {
@@ -30,6 +31,8 @@ module.exports = class DynamicScenarioBuilder {
   }
 
   /**
+   * @typedef {import('./extension/extension.js')} Extension
+   *
    * @param {Extension} extension
    */
   withExtension(extension) {

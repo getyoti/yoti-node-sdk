@@ -29,8 +29,7 @@ class DynamicShareService {
   /**
    * @param {string} sdkId
    * @param {string|Buffer} pem
-   * @param {Object} options
-   * @param {string} options.apiUrl
+   * @param {{apiUrl?: string}} options
    */
   constructor(sdkId, pem, { apiUrl = DEFAULT_API_URL } = {}) {
     Validation.isString(sdkId, 'sdkId');
@@ -51,7 +50,7 @@ class DynamicShareService {
 
     const requestBuilder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withEndpoint(`/qrcodes/apps/${this.sdkId}`)
       .withQueryParam('appId', this.sdkId)
       .withMethod('POST');

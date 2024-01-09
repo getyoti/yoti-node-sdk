@@ -6,6 +6,7 @@ const yotiCommon = require('../yoti_common');
 
 /**
  * Default HTTP request handler.
+ * @typedef {import('./request').YotiRequest} YotiRequest
  *
  * @param {YotiRequest} yotiRequest
  * @param {boolean} buffer Return the response as a Buffer.

@@ -7,6 +7,8 @@ const BaseProfile = require('./base.profile');
  * Profile of a human user with convenience methods to access well-known attributes.
  *
  * @class Profile
+ *
+ * @typedef {import('../../data_type/attribute')} Attribute
  */
 class ApplicationProfile extends BaseProfile {
   getName() {

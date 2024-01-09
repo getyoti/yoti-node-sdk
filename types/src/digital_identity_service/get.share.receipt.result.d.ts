@@ -73,9 +73,10 @@ declare class GetShareReceiptResult {
     /**
      * Extra data associated with the user content
      *
+     * @typedef {import('./receipts/extra.data')} ExtraData
      * @returns {ExtraData}
      */
-    getExtraData(): ExtraData;
+    getExtraData(): import("./receipts/extra.data");
     /**
      * The user content (profile + extraData)
      *

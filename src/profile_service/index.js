@@ -35,7 +35,7 @@ class ProfileService {
   getReceipt(token) {
     const requestBuilder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withEndpoint(`/profile/${token}`)
       .withQueryParam('appId', this.sdkId)
       .withMethod('GET');

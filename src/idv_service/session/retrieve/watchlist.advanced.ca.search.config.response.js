@@ -78,7 +78,7 @@ class WatchlistAdvancedCaSearchConfigResponse extends WatchlistSearchConfigRespo
   }
 
   /**
-   * @returns {shareUrl}
+   * @returns {boolean}
    */
   isShareUrl() {
     return this.shareUrl;

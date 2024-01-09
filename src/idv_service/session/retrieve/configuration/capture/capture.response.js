@@ -12,6 +12,9 @@ const IDVConstants = require('../../../../idv.constants');
 
 /**
  * @param {object} requiredResource
+ *
+ * @typedef {import('./required.resource.response')} RequiredResourceResponse
+ *
  * @return {RequiredResourceResponse}
  */
 function createRequiredResourcesArray(requiredResource) {
