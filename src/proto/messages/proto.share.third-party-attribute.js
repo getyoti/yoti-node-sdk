@@ -11,9 +11,9 @@ module.exports = {
   /**
    * @typedef {{expiryDate:string,definitions:{name:string}[]}} IssuingAttributes
    *
-   * @returns {Message<{issuanceToken:Buffer, issuingAttributes: IssuingAttributes[]}>}
+   * @returns {{issuanceToken:Buffer, issuingAttributes: IssuingAttributes[]}}
    */
   decodeThirdPartyAttribute(binaryData) {
-    return ThirdPartyAttribute.decode(Buffer.from(binaryData, 'base64'));
+    return /** @type {any} */ (ThirdPartyAttribute.decode(Buffer.from(binaryData, 'base64')));
   },
 };

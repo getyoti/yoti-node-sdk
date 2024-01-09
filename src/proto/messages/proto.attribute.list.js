@@ -17,10 +17,10 @@ module.exports = {
    *
    * @param {Buffer} binaryData
    *
-   * @returns {Message<{attributes: Attribute[]}>}
+   * @returns {{attributes: Attribute[]}}
    */
   decodeAttributeList(binaryData) {
-    return AttributeList.decode(binaryData);
+    return /** @type {any} */ (AttributeList.decode(binaryData));
   },
 
   encodeAttributeList(attributesData) {

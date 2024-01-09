@@ -19,12 +19,12 @@ export class AnchorProcessor {
      *
      * @param {Array} certificatesList
      * @param {YotiSignedTimeStamp} signedTimestamp
-     * @param {Certificate[]} originServerCerts
+     * @param {Buffer[]} originServerCerts
      * @param {string} subType
      *
      * @returns {YotiAnchor}
      */
-    static getAnchorFromCerts(certificatesList: any[], signedTimestamp: YotiSignedTimeStamp, originServerCerts: Certificate[], subType: string): YotiAnchor;
+    static getAnchorFromCerts(certificatesList: any[], signedTimestamp: YotiSignedTimeStamp, originServerCerts: Buffer[], subType: string): YotiAnchor;
     /**
      * Return YotiAnchors list from a protobuf anchor.
      *
@@ -44,12 +44,12 @@ export class AnchorProcessor {
      *
      * @param {Buffer} certArrayBuffer
      * @param {YotiSignedTimeStamp} signedTimestamp
-     * @param {Certificate[]} originServerCerts
+     * @param {Buffer[]} originServerCerts
      * @param {string} subType
      *
      * @returns {Object.<string, YotiAnchor[]>}
      */
-    static getAnchorsByCertificate(certArrayBuffer: Buffer, subType: string, signedTimestamp: YotiSignedTimeStamp, originServerCerts: Certificate[]): {
+    static getAnchorsByCertificate(certArrayBuffer: Buffer, subType: string, signedTimestamp: YotiSignedTimeStamp, originServerCerts: Buffer[]): {
         [x: string]: YotiAnchor[];
     };
     /**
@@ -60,12 +60,12 @@ export class AnchorProcessor {
      * @param {Array} extensionsData
      * @param {string} subType
      * @param {YotiSignedTimeStamp} signedTimestamp
-     * @param {Certificate[]} originServerCerts
+     * @param {Buffer[]} originServerCerts
      * @param {string} oid
      *
      * @returns {YotiAnchor|null}
      */
-    static getAnchorByOid(extensionsData: any[], subType: string, signedTimestamp: YotiSignedTimeStamp, originServerCerts: Certificate[], oid: string): YotiAnchor | null;
+    static getAnchorByOid(extensionsData: any[], subType: string, signedTimestamp: YotiSignedTimeStamp, originServerCerts: Buffer[], oid: string): YotiAnchor | null;
     /**
      * Return Anchor value.
      *
@@ -111,17 +111,16 @@ export class AnchorProcessor {
      *
      * @param {Buffer[]} certificatesList
      *
-     * @returns {Certificate[]}
+     * @returns {Buffer[]}
      */
-    static convertCertsListToX509(certificatesList: Buffer[]): Certificate[];
+    static convertCertsListToX509(certificatesList: Buffer[]): Buffer[];
     /**
      * Convert certificate from byte arrays to X509 certificate.
      *
      * @param {Buffer} certArrayBuffer
      *
-     * @returns {Certificate}
      */
-    static convertCertToX509(certArrayBuffer: Buffer): Certificate;
+    static convertCertToX509(certArrayBuffer: Buffer): any;
     /**
      * Returns the elem index or -1 if it doesn't find any.
      *

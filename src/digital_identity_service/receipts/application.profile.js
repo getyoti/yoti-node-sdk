@@ -8,7 +8,7 @@ const BaseProfile = require('./base.profile');
  *
  * @class Profile
  *
- * @typedef {import('../../data_type/attribute')} Attribute
+ * @typedef {import('../../data_type/attribute').Attribute} Attribute
  */
 class ApplicationProfile extends BaseProfile {
   getName() {

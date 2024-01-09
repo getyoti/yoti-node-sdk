@@ -10,14 +10,14 @@ module.exports = {
 
   /**
    * @param {Uint8Array} binaryData
-   * @returns {Message<{cipherText: string, iv: string}>}
+   * @returns {{cipherText: string, iv: string}}
    */
   decodeEncryptedData(binaryData) {
-    /** @type {Message<{cipherText: string, iv: string}>} */
-    const decodedData = EncryptedData.decode(binaryData);
-    decodedData.cipherText = decodedData.cipherText.toString('base64');
-    decodedData.iv = decodedData.iv.toString('base64');
-    return decodedData;
+    const decodedData = /** @type {any} */ (EncryptedData.decode(binaryData));
+    return {
+      cipherText: decodedData.cipherText.toString('base64'),
+      iv: decodedData.iv.toString('base64'),
+    };
   },
 
   encodeEncryptedData(notificationData) {

@@ -97,7 +97,7 @@ class MultiValue {
   }
 
   /**
-   * @returns {Array} List of filtered items.
+   * @returns {readonly any[]} List of filtered items.
    */
   getItems() {
     this.applyFilters();

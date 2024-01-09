@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @param {Error} error
+ * @param {any} error
  */
 function errorMessage(error) {
   if (
@@ -44,7 +44,6 @@ class IDVError extends Error {
   constructor(error) {
     super(errorMessage(error));
 
-    /** @private */
     this.name = this.constructor.name;
     /** @private */
     this.response = error.response || null;

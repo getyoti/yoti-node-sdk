@@ -4,7 +4,7 @@ export = ApplicationProfile;
  *
  * @class Profile
  *
- * @typedef {import('../../data_type/attribute')} Attribute
+ * @typedef {import('../../data_type/attribute').Attribute} Attribute
  */
 declare class ApplicationProfile extends BaseProfile {
     getName(): import("../../data_type/attribute").Attribute;
@@ -35,4 +35,4 @@ import BaseProfile = require("./base.profile");
 /**
  * Profile of a human user with convenience methods to access well-known attributes.
  */
-type Attribute = typeof import("../../data_type/attribute");
+type Attribute = import('../../data_type/attribute').Attribute;

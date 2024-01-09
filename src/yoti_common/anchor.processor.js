@@ -56,7 +56,7 @@ class AnchorProcessor {
    *
    * @param {Array} certificatesList
    * @param {YotiSignedTimeStamp} signedTimestamp
-   * @param {Certificate[]} originServerCerts
+   * @param {Buffer[]} originServerCerts
    * @param {string} subType
    *
    * @returns {YotiAnchor}
@@ -97,7 +97,7 @@ class AnchorProcessor {
    * @returns {Object.<string, YotiAnchor[]>}
    */
   static processSingleAnchor(anchorObj) {
-    let anchorsList = this.getResultFormat();
+    let anchorsList = /** @type {any} */ (this.getResultFormat());
 
     if (!(anchorObj instanceof Object)) {
       return anchorsList;
@@ -109,12 +109,12 @@ class AnchorProcessor {
     const subType = anchorObj.subType;
 
     for (let j = 0; j < certificatesList.length; j += 1) {
-      const certAnchors = this.getAnchorsByCertificate(
+      const certAnchors = /** @type {any} */ (this.getAnchorsByCertificate(
         certificatesList[j],
         subType,
         yotiSignedTimestamp,
         serverX509Certs
-      );
+      ));
       anchorsList = this.mergeAnchorsLists(anchorsList, certAnchors);
     }
 
@@ -128,7 +128,7 @@ class AnchorProcessor {
    *
    * @param {Buffer} certArrayBuffer
    * @param {YotiSignedTimeStamp} signedTimestamp
-   * @param {Certificate[]} originServerCerts
+   * @param {Buffer[]} originServerCerts
    * @param {string} subType
    *
    * @returns {Object.<string, YotiAnchor[]>}
@@ -160,7 +160,7 @@ class AnchorProcessor {
    * @param {Array} extensionsData
    * @param {string} subType
    * @param {YotiSignedTimeStamp} signedTimestamp
-   * @param {Certificate[]} originServerCerts
+   * @param {Buffer[]} originServerCerts
    * @param {string} oid
    *
    * @returns {YotiAnchor|null}
@@ -234,8 +234,10 @@ class AnchorProcessor {
     let timestamp = new YotiDate(0);
 
     if (signedTimestampBuffer) {
-      // eslint-disable-next-line max-len
-      const signedTimestamp = messages.decodeSignedTimeStamp(signedTimestampBuffer);
+      /** @type {{version: number, timestamp: Buffer}} */
+      const signedTimestamp = /** @type {any} */ (messages.decodeSignedTimeStamp(
+        signedTimestampBuffer
+      ));
       version = signedTimestamp.version;
       timestamp = new YotiDate(Number(signedTimestamp.timestamp.toString()));
     }
@@ -257,7 +259,7 @@ class AnchorProcessor {
         targetList[anchorType].push(yotiAnchorObj);
       });
     });
-    return targetList;
+    return /** @type {any} */ (targetList);
   }
 
   /**
@@ -265,7 +267,7 @@ class AnchorProcessor {
    *
    * @param {Buffer[]} certificatesList
    *
-   * @returns {Certificate[]}
+   * @returns {Buffer[]}
    */
   static convertCertsListToX509(certificatesList) {
     const X509Certificates = [];
@@ -283,7 +285,6 @@ class AnchorProcessor {
    *
    * @param {Buffer} certArrayBuffer
    *
-   * @returns {Certificate}
    */
   static convertCertToX509(certArrayBuffer) {
     const anchorAsn1Obj = forge.asn1.fromDer(certArrayBuffer.toString('binary'));

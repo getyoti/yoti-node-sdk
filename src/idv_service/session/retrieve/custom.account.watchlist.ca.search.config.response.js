@@ -48,7 +48,7 @@ class CustomAccountWatchlistCaSearchConfigResponse extends WatchlistAdvancedCaSe
 
   /**
    *
-   * @return {string:string}
+   * @return {{[x: string]: string}}
    */
   getTags() {
     return this.tags;

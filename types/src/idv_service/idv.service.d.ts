@@ -8,11 +8,10 @@ declare class IDVService {
     /**
      * @param {string} sdkId
      * @param {string|Buffer} pem
-     * @param {Object} options
-     * @param {string} options.apiUrl
+     * @param {{apiUrl?: string}} options
      */
     constructor(sdkId: string, pem: string | Buffer, { apiUrl }?: {
-        apiUrl: string;
+        apiUrl?: string;
     });
     /** @private */
     private sdkId;

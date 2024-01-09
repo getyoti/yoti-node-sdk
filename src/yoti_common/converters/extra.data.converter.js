@@ -7,7 +7,7 @@ class ExtraDataConverter {
   static convertExtraData(extraDataBytes) {
     let extraDataProto;
     try {
-      extraDataProto = messages.decodeExtraData(extraDataBytes);
+      extraDataProto = /** @type {any} */ (messages.decodeExtraData(extraDataBytes));
     } catch (err) {
       console.log(`Failed to parse extra data: ${err}`);
       return undefined;

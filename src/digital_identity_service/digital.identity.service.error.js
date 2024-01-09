@@ -6,7 +6,7 @@
  */
 function extractDetailsFromResponse(response) {
   const { status, text = '', body = {} } = response;
-  const { message, error } = body;
+  const { message, error } = /** @type {{ message: string, error: string }} */ (body);
   const reason = message || text;
 
   return {

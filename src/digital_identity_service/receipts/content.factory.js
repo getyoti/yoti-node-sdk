@@ -18,7 +18,9 @@ function decryptAndExtractContentData(
   let extractedExtraData;
 
   if (decryptedProfile) {
-    const { attributes: decodedProfileAttributes } = AttributeList.decode(decryptedProfile);
+    const { attributes: decodedProfileAttributes } = /** @type {any} */ (
+      AttributeList.decode(decryptedProfile)
+    );
     attributes = AttributeListConverter.convertAttributeList(decodedProfileAttributes);
   }
 

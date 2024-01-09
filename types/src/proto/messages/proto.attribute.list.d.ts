@@ -5,8 +5,10 @@ export type Message = import('protobufjs').Message;
  *
  * @param {Buffer} binaryData
  *
- * @returns {Message<{attributes: Attribute[]}>}
+ * @returns {{attributes: Attribute[]}}
  */
-declare function decodeAttributeList(binaryData: Buffer): any;
+declare function decodeAttributeList(binaryData: Buffer): {
+    attributes: protobuf.Type[];
+};
 declare function encodeAttributeList(attributesData: any): Uint8Array;
 export {};
