@@ -1,5 +1,9 @@
 export = RequestedTaskResponse;
 declare class RequestedTaskResponse {
+    /** @protected {string|null} */
+    protected type: any;
+    /** @protected {string|null} */
+    protected state: any;
     /**
      * Returns the type of the {@link RequestedTaskResponse}
      *

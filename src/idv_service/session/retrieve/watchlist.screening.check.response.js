@@ -3,19 +3,22 @@
 const WatchlistCheckResponse = require('./watchlist.check.response');
 const WatchlistScreeningReportResponse = require('./watchlist.screening.report.response');
 
+/**
+ * @typedef {import('./report.response')} ReportResponse
+ */
+
 class WatchlistScreeningCheckResponse extends WatchlistCheckResponse {
   constructor(check) {
     super(check);
 
     if (check.report) {
-      /** @private */
       this.report = new WatchlistScreeningReportResponse(check.report);
     }
   }
 
   /**
    *
-   * @return {WatchlistScreeningReportResponse}
+   * @return {ReportResponse|WatchlistScreeningReportResponse}
    */
   getReport() {
     return this.report;

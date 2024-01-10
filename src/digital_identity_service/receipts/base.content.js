@@ -4,7 +4,7 @@ const ExtraData = require('./extra.data');
 
 class BaseContent {
   /**
-   * @param {[]} extraData
+   * @param {{ [k: string]: any }[]} extraData
    */
   constructor(extraData = []) {
     const currentClass = new.target;

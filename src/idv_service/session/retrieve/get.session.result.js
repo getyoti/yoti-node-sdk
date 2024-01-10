@@ -188,34 +188,40 @@ class GetSessionResult {
    * @returns {ThirdPartyIdentityCheckResponse[]}
    */
   getThirdPartyIdentityChecks() {
-    return this.getChecks().filter((check) => check instanceof ThirdPartyIdentityCheckResponse);
+    return /** @type ThirdPartyIdentityCheckResponse[] */ (this.getChecks()
+      .filter((check) => check instanceof ThirdPartyIdentityCheckResponse));
   }
 
   /**
    * @returns {WatchlistScreeningCheckResponse[]}
    */
   getWatchlistScreeningChecks() {
-    return this.getChecks().filter((check) => check instanceof WatchlistScreeningCheckResponse);
+    return /** @type WatchlistScreeningCheckResponse[] */ (this.getChecks()
+      .filter((check) => check instanceof WatchlistScreeningCheckResponse));
   }
 
   /**
    * @returns {WatchlistAdvancedCaCheckResponse[]}
    */
   getWatchlistAdvancedCaChecks() {
-    return this.getChecks().filter((check) => check instanceof WatchlistAdvancedCaCheckResponse);
+    return /** @type WatchlistAdvancedCaCheckResponse[] */ (this.getChecks()
+      .filter((check) => check instanceof WatchlistAdvancedCaCheckResponse));
   }
 
   /**
    * @returns {ThirdPartyIdentityFraud1CheckResponse[]}
    */
   getThirdPartyIdentityFraud1Checks() {
-    return this.getChecks()
-      .filter((check) => check instanceof ThirdPartyIdentityFraud1CheckResponse);
+    return /** @type ThirdPartyIdentityFraud1CheckResponse[] */ (this.getChecks()
+      .filter((check) => check instanceof ThirdPartyIdentityFraud1CheckResponse));
   }
 
+  /**
+   * @returns {FaceComparisonCheckResponse[]}
+   */
   getFaceComparisonChecks() {
-    return this.getChecks()
-      .filter((check) => check instanceof FaceComparisonCheckResponse);
+    return /** @type FaceComparisonCheckResponse[] */ (this.getChecks()
+      .filter((check) => check instanceof FaceComparisonCheckResponse));
   }
 
   /**

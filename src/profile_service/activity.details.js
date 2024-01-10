@@ -17,7 +17,7 @@ class ActivityDetails {
    *   Decrypted user profile data.
    * @param {{attributes: Object[]}} applicationProfile
    *   Decrypted application profile data.
-   * @param {[]} extraData
+   * @param {*[]} extraData
    *   Decrypted and converted extra data.
    */
   constructor(parsedResponse, userProfile, applicationProfile, extraData) {

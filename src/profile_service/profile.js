@@ -189,7 +189,7 @@ class Profile extends BaseProfile {
   /**
    * Document details.
    *
-   * @returns {null|import('./../data_type/document.details')}
+   * @returns {null|Attribute}
    */
   getDocumentDetails() {
     return this.getAttribute(constants.ATTR_DOCUMENT_DETAILS);

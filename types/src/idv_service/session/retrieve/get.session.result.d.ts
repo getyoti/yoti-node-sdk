@@ -85,7 +85,10 @@ declare class GetSessionResult {
      * @returns {ThirdPartyIdentityFraud1CheckResponse[]}
      */
     getThirdPartyIdentityFraud1Checks(): ThirdPartyIdentityFraud1CheckResponse[];
-    getFaceComparisonChecks(): CheckResponse[];
+    /**
+     * @returns {FaceComparisonCheckResponse[]}
+     */
+    getFaceComparisonChecks(): FaceComparisonCheckResponse[];
     /**
      * @returns {ResourceContainer}
      */
@@ -114,6 +117,7 @@ import ThirdPartyIdentityCheckResponse = require("./third.party.identity.check.r
 import WatchlistScreeningCheckResponse = require("./watchlist.screening.check.response");
 import WatchlistAdvancedCaCheckResponse = require("./watchlist.advanced.ca.check.response");
 import ThirdPartyIdentityFraud1CheckResponse = require("./third.party.identity.fraud.1.check.response");
+import FaceComparisonCheckResponse = require("./face.comparison.check.response");
 import ResourceContainer = require("./resource.container");
 import { YotiDate } from "../../../data_type/date";
 import IdentityProfileResponse = require("./identity.profile.response");

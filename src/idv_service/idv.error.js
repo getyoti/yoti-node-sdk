@@ -1,7 +1,21 @@
 'use strict';
 
 /**
- * @param {any} error
+ * @typedef {Object} ResponseBody
+ * @property {string} [message]
+ * @property {string} [code]
+ * @property {Array} [errors]
+ *
+ * @typedef {Object} Response
+ * @property {ResponseBody} [body]
+ *
+ * @typedef {Object} APIError
+ * @property {Response} [response]
+ * @property {string} [message]
+ */
+
+/**
+ * @param {APIError} error
  */
 function errorMessage(error) {
   if (

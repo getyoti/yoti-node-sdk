@@ -51,7 +51,7 @@ declare class MultiValue {
      */
     isAllowedType(value: any): boolean;
     /**
-     * @returns {readonly any[]} List of filtered items.
+     * @returns {Readonly<Array>} List of filtered items.
      */
-    getItems(): readonly any[];
+    getItems(): Readonly<any[]>;
 }

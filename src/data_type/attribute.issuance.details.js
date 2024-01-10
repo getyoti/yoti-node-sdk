@@ -6,8 +6,8 @@ const AttributeDefinition = require('./attribute.definition');
 class AttributeIssuanceDetails {
   /**
    * @param {string} token
-   * @param {Date|undefined} expiryDate
-   * @param {string[]} issuingAttributes
+   * @param {Date} [expiryDate]
+   * @param {AttributeDefinition[]} [issuingAttributes]
    */
   constructor(token, expiryDate, issuingAttributes = []) {
     Validation.isString(token, 'token');

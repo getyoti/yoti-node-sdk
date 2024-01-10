@@ -19,10 +19,13 @@ const IDVConstants = require('../../../../../idv.constants');
 function createTaskFromArray(requestedTask) {
   switch (requestedTask.type) {
     case IDVConstants.ID_DOCUMENT_TEXT_DATA_EXTRACTION:
+      /** @returns RequestedTaskResponse */
       return new RequestedIdDocTaskResponse(requestedTask);
     case IDVConstants.SUPPLEMENTARY_DOCUMENT_TEXT_DATA_EXTRACTION:
+      /** @returns RequestedTaskResponse */
       return new RequestedSupplementaryDocTaskResponse(requestedTask);
     default:
+      /** @returns RequestedTaskResponse */
       return new UnknownRequestedTaskResponse();
   }
 }

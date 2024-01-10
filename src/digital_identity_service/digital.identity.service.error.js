@@ -1,6 +1,15 @@
 'use strict';
 
 /**
+ * @typedef {Object} ResponseBody
+ * @property {string} [message]
+ * @property {string} [error]
+ *
+ * @typedef {Object} Response
+ * @property {number} status
+ * @property {string} text
+ * @property {ResponseBody} [body]
+ *
  * @param {Response} response
  * @returns {{status: number, reason: string, code:string|number}}
  */

@@ -17,3 +17,18 @@ declare class IDVError extends Error {
      */
     getResponseBody(): string | object;
 }
+declare namespace IDVError {
+    export { ResponseBody, Response, APIError };
+}
+type ResponseBody = {
+    message?: string;
+    code?: string;
+    errors?: any[];
+};
+type Response = {
+    body?: ResponseBody;
+};
+type APIError = {
+    response?: Response;
+    message?: string;
+};

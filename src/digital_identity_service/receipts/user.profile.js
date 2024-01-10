@@ -7,10 +7,6 @@ const { Attribute } = require('../../data_type/attribute');
 const Validation = require('../../yoti_common/validation');
 
 /**
- * @typedef {import('./../../data_type/document.details').DocumentDetails} DocumentDetails
- */
-
-/**
  * Profile of a human user with convenience methods to access well-known attributes.
  *
  * @class Profile
@@ -174,7 +170,7 @@ class UserProfile extends BaseProfile {
       return new Attribute({
         ...structuredPostalAddress,
         name: constants.ATTR_POSTAL_ADDRESS,
-        value: structuredPostalAddress.value.formatted_address,
+        value: structuredPostalAddress.getValue().formatted_address,
       });
     }
 
@@ -184,7 +180,7 @@ class UserProfile extends BaseProfile {
   /**
    * The user's structured postal address as a Json.
    *
-   * @returns {null|*}
+   * @returns {null|Attribute}
    */
   getStructuredPostalAddress() {
     return this.getAttribute(constants.ATTR_STRUCTURED_POSTAL_ADDRESS);
@@ -193,7 +189,7 @@ class UserProfile extends BaseProfile {
   /**
    * Document details.
    *
-   * @returns {null|DocumentDetails}
+   * @returns {null|Attribute}
    */
   getDocumentDetails() {
     return this.getAttribute(constants.ATTR_DOCUMENT_DETAILS);

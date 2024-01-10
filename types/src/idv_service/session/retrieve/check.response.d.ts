@@ -11,8 +11,8 @@ declare class CheckResponse {
     private resourcesUsed;
     /** @private */
     private generatedMedia;
-    /** @private */
-    private report;
+    /** @protected */
+    protected report: ReportResponse;
     /** @private */
     private created;
     /** @private */
@@ -50,6 +50,6 @@ declare class CheckResponse {
      */
     getLastUpdated(): YotiDate;
 }
-import GeneratedMedia = require("./generated.media");
 import ReportResponse = require("./report.response");
+import GeneratedMedia = require("./generated.media");
 import { YotiDate } from "../../../data_type/date";

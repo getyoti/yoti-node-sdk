@@ -22,6 +22,7 @@ class ThirdPartyAttributeConverter {
     }
 
     const issuingAttributes = thirdPartyProto.issuingAttributes;
+
     let expiryDate;
     let attributes;
 

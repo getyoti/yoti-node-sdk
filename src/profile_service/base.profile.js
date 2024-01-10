@@ -7,7 +7,7 @@ class BaseProfile {
    * @param {Array} attributes
    */
   constructor(attributes = []) {
-    /** @private */
+    /** @protected */
     this.attributes = attributes
       .filter((attribute) => !!attribute)
       .map((attribute) => new Attribute(attribute));

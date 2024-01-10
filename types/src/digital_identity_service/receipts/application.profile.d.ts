@@ -1,10 +1,12 @@
 export = ApplicationProfile;
 /**
+ * @typedef {import('../../data_type/attribute').Attribute} Attribute
+ */
+/**
  * Profile of a human user with convenience methods to access well-known attributes.
  *
  * @class Profile
  *
- * @typedef {import('../../data_type/attribute').Attribute} Attribute
  */
 declare class ApplicationProfile extends BaseProfile {
     getName(): import("../../data_type/attribute").Attribute;
@@ -32,7 +34,4 @@ declare namespace ApplicationProfile {
     export { Attribute };
 }
 import BaseProfile = require("./base.profile");
-/**
- * Profile of a human user with convenience methods to access well-known attributes.
- */
 type Attribute = import('../../data_type/attribute').Attribute;

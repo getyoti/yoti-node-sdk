@@ -10,11 +10,9 @@ class RequestedSupplementaryDocTaskResponse extends RequestedTaskResponse {
     super();
 
     Validation.isString(requestedTask.type, 'type');
-    /** @private */
     this.type = requestedTask.type;
 
     Validation.isString(requestedTask.state, 'state');
-    /** @private */
     this.state = requestedTask.state;
   }
 }

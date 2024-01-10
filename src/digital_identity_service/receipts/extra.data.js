@@ -4,7 +4,7 @@ const AttributeIssuanceDetails = require('../../data_type/attribute.issuance.det
 
 /**
  *
- * @param {[]} dataEntries
+ * @param {Object[]} dataEntries
  * @returns {AttributeIssuanceDetails}
  */
 function getAttributeIssuanceDetails(dataEntries) {

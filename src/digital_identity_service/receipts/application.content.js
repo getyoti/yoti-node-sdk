@@ -5,8 +5,8 @@ const ApplicationProfile = require('./application.profile');
 
 class ApplicationContent extends BaseContent {
   /**
-   * @param {[]} attributes
-   * @param {[]} extraData
+   * @param {{ [k: string]: any }[]} attributes
+   * @param {{ [k: string]: any }[]} extraData
    */
   constructor(attributes = [], extraData = []) {
     super(extraData);

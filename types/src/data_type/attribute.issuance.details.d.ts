@@ -2,10 +2,10 @@ export = AttributeIssuanceDetails;
 declare class AttributeIssuanceDetails {
     /**
      * @param {string} token
-     * @param {Date|undefined} expiryDate
-     * @param {string[]} issuingAttributes
+     * @param {Date} [expiryDate]
+     * @param {AttributeDefinition[]} [issuingAttributes]
      */
-    constructor(token: string, expiryDate: Date | undefined, issuingAttributes?: string[]);
+    constructor(token: string, expiryDate?: Date, issuingAttributes?: AttributeDefinition[]);
     /** @private */
     private token;
     /** @private */
@@ -14,5 +14,6 @@ declare class AttributeIssuanceDetails {
     private issuingAttributes;
     getToken(): string;
     getExpiryDate(): Date;
-    getIssuingAttributes(): string[];
+    getIssuingAttributes(): AttributeDefinition[];
 }
+import AttributeDefinition = require("./attribute.definition");

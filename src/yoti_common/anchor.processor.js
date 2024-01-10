@@ -8,6 +8,18 @@ const { YotiSignedTimeStamp } = require('../data_type/signed.timestamp');
 const { YotiDate } = require('../data_type/date');
 
 /**
+ * @typedef {object} Certificate - defined in forge, see X.509v3 RSA certificate (mocked here)
+ * @property {number} version
+ * @property {string} serialNumber
+ * @property {*[]} extensions
+ */
+
+/**
+ * @typedef {{sources: [], verifiers: [], unknown: []}} AnchorsGroup
+ *
+ */
+
+/**
  * Mapping of anchor types.
  */
 const ANCHOR_TYPES = Object.freeze({
@@ -56,7 +68,7 @@ class AnchorProcessor {
    *
    * @param {Array} certificatesList
    * @param {YotiSignedTimeStamp} signedTimestamp
-   * @param {Buffer[]} originServerCerts
+   * @param {Certificate[]} originServerCerts
    * @param {string} subType
    *
    * @returns {YotiAnchor}
@@ -97,7 +109,7 @@ class AnchorProcessor {
    * @returns {Object.<string, YotiAnchor[]>}
    */
   static processSingleAnchor(anchorObj) {
-    let anchorsList = /** @type {any} */ (this.getResultFormat());
+    let anchorsList = this.getResultFormat();
 
     if (!(anchorObj instanceof Object)) {
       return anchorsList;
@@ -109,13 +121,16 @@ class AnchorProcessor {
     const subType = anchorObj.subType;
 
     for (let j = 0; j < certificatesList.length; j += 1) {
-      const certAnchors = /** @type {any} */ (this.getAnchorsByCertificate(
+      const certAnchors = this.getAnchorsByCertificate(
         certificatesList[j],
         subType,
         yotiSignedTimestamp,
         serverX509Certs
-      ));
-      anchorsList = this.mergeAnchorsLists(anchorsList, certAnchors);
+      );
+      anchorsList = this.mergeAnchorsLists(
+        /** @type AnchorsGroup */(anchorsList),
+        /** @type AnchorsGroup */(certAnchors)
+      );
     }
 
     return anchorsList;
@@ -128,7 +143,7 @@ class AnchorProcessor {
    *
    * @param {Buffer} certArrayBuffer
    * @param {YotiSignedTimeStamp} signedTimestamp
-   * @param {Buffer[]} originServerCerts
+   * @param {Certificate[]} originServerCerts
    * @param {string} subType
    *
    * @returns {Object.<string, YotiAnchor[]>}
@@ -160,7 +175,7 @@ class AnchorProcessor {
    * @param {Array} extensionsData
    * @param {string} subType
    * @param {YotiSignedTimeStamp} signedTimestamp
-   * @param {Buffer[]} originServerCerts
+   * @param {Certificate[]} originServerCerts
    * @param {string} oid
    *
    * @returns {YotiAnchor|null}
@@ -234,10 +249,8 @@ class AnchorProcessor {
     let timestamp = new YotiDate(0);
 
     if (signedTimestampBuffer) {
-      /** @type {{version: number, timestamp: Buffer}} */
-      const signedTimestamp = /** @type {any} */ (messages.decodeSignedTimeStamp(
-        signedTimestampBuffer
-      ));
+      // eslint-disable-next-line max-len
+      const signedTimestamp = messages.decodeSignedTimeStamp(signedTimestampBuffer);
       version = signedTimestamp.version;
       timestamp = new YotiDate(Number(signedTimestamp.timestamp.toString()));
     }
@@ -249,9 +262,9 @@ class AnchorProcessor {
    *
    * @deprecated no longer in use.
    *
-   * @param {Array} targetList
-   * @param {Array} sourceList
-   * @returns {Object.<string, YotiAnchor[]>}
+   * @param {AnchorsGroup} targetList
+   * @param {AnchorsGroup} sourceList
+   * @returns {AnchorsGroup}
    */
   static mergeAnchorsLists(targetList, sourceList) {
     this.getAnchorTypes().forEach((anchorType) => {
@@ -259,7 +272,7 @@ class AnchorProcessor {
         targetList[anchorType].push(yotiAnchorObj);
       });
     });
-    return /** @type {any} */ (targetList);
+    return targetList;
   }
 
   /**
@@ -267,7 +280,7 @@ class AnchorProcessor {
    *
    * @param {Buffer[]} certificatesList
    *
-   * @returns {Buffer[]}
+   * @returns {Certificate[]}
    */
   static convertCertsListToX509(certificatesList) {
     const X509Certificates = [];
@@ -285,6 +298,7 @@ class AnchorProcessor {
    *
    * @param {Buffer} certArrayBuffer
    *
+   * @returns {Certificate}
    */
   static convertCertToX509(certArrayBuffer) {
     const anchorAsn1Obj = forge.asn1.fromDer(certArrayBuffer.toString('binary'));

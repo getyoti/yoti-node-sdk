@@ -2,18 +2,22 @@
 
 const { ThirdPartyAttribute } = require('../types');
 
-/**
- * @typedef {import('protobufjs').Message} Message
- */
-
 module.exports = {
 
   /**
-   * @typedef {{expiryDate:string,definitions:{name:string}[]}} IssuingAttributes
+   * @typedef {Object} Definition
+   * @property {string} name
    *
-   * @returns {{issuanceToken:Buffer, issuingAttributes: IssuingAttributes[]}}
+   * @typedef {Object} IssuingAttributes
+   * @property {string} expiryDate
+   * @property {Definition[]} definitions
+   *
+   * @returns {{issuanceToken: Buffer, issuingAttributes:IssuingAttributes }}
    */
   decodeThirdPartyAttribute(binaryData) {
-    return /** @type {any} */ (ThirdPartyAttribute.decode(Buffer.from(binaryData, 'base64')));
+    // eslint-disable-next-line max-len
+    const { issuanceToken, issuingAttributes } = /** @type {{issuanceToken: Buffer, issuingAttributes:IssuingAttributes }} */(
+      /** @type {*} */(ThirdPartyAttribute.decode(Buffer.from(binaryData, 'base64'))));
+    return { issuanceToken, issuingAttributes };
   },
 };

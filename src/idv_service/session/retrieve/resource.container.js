@@ -101,9 +101,9 @@ class ResourceContainer {
    *   The list of Zoom liveness resources
    */
   getZoomLivenessResources() {
-    return this
+    return /** @type ZoomLivenessResourceResponse[] */ (this
       .getLivenessCapture()
-      .filter((resource) => resource instanceof ZoomLivenessResourceResponse);
+      .filter((resource) => resource instanceof ZoomLivenessResourceResponse));
   }
 
   /**
@@ -111,9 +111,9 @@ class ResourceContainer {
    *   The list of Static liveness resources
    */
   getStaticLivenessResources() {
-    return this
+    return /** @type StaticLivenessResourceResponse[] */ (this
       .getLivenessCapture()
-      .filter((resource) => resource instanceof StaticLivenessResourceResponse);
+      .filter((resource) => resource instanceof StaticLivenessResourceResponse));
   }
 
   /**

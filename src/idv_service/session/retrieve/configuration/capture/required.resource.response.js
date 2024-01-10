@@ -12,7 +12,7 @@ const IDVConstants = require('../../../../idv.constants');
  */
 
 /**
- * @param {Array<string, string>} source
+ * @param {{type: string}} source
  * @return {AllowedSourceResponse}
  */
 function createAllowedSourceFromArray(source) {

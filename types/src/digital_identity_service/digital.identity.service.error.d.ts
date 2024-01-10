@@ -10,3 +10,15 @@ declare class DigitalIdentityServiceError extends Error {
     code: string | number;
     reason: string;
 }
+declare namespace DigitalIdentityServiceError {
+    export { ResponseBody, Response };
+}
+type ResponseBody = {
+    message?: string;
+    error?: string;
+};
+type Response = {
+    status: number;
+    text: string;
+    body?: ResponseBody;
+};

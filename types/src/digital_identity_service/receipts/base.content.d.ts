@@ -1,9 +1,11 @@
 export = BaseContent;
 declare class BaseContent {
     /**
-     * @param {[]} extraData
+     * @param {{ [k: string]: any }[]} extraData
      */
-    constructor(extraData?: []);
+    constructor(extraData?: {
+        [k: string]: any;
+    }[]);
     /** @private */
     private extraData;
     /**

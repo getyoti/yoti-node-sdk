@@ -1,10 +1,14 @@
 export = UserContent;
 declare class UserContent extends BaseContent {
     /**
-     * @param {[]} attributes
-     * @param {[]} extraData
+     * @param {{ [k: string]: any }[]} attributes
+     * @param {{ [k: string]: any }[]} extraData
      */
-    constructor(attributes?: [], extraData?: []);
+    constructor(attributes?: {
+        [k: string]: any;
+    }[], extraData?: {
+        [k: string]: any;
+    }[]);
     /** @private */
     private profile;
     /**

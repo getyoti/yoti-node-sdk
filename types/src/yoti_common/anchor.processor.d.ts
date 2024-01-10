@@ -1,4 +1,17 @@
 /**
+ * - defined in forge, see X.509v3 RSA certificate (mocked here)
+ */
+export type Certificate = {
+    version: number;
+    serialNumber: string;
+    extensions: any[];
+};
+export type AnchorsGroup = {
+    sources: [];
+    verifiers: [];
+    unknown: [];
+};
+/**
  * Creates anchor list from certificates.
  *
  * @class AnchorProcessor
@@ -99,13 +112,11 @@ export class AnchorProcessor {
      *
      * @deprecated no longer in use.
      *
-     * @param {Array} targetList
-     * @param {Array} sourceList
-     * @returns {Object.<string, YotiAnchor[]>}
+     * @param {AnchorsGroup} targetList
+     * @param {AnchorsGroup} sourceList
+     * @returns {AnchorsGroup}
      */
-    static mergeAnchorsLists(targetList: any[], sourceList: any[]): {
-        [x: string]: YotiAnchor[];
-    };
+    static mergeAnchorsLists(targetList: AnchorsGroup, sourceList: AnchorsGroup): AnchorsGroup;
     /**
      * Convert certificate list to a list of X509 certificates.
      *

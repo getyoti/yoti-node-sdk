@@ -20,10 +20,10 @@ declare class CustomAccountWatchlistCaSearchConfigResponse extends WatchlistAdva
     isMonitoring(): boolean;
     /**
      *
-     * @return {{[x: string]: string}}
+     * @return {{[k: string]: string}}
      */
     getTags(): {
-        [x: string]: string;
+        [k: string]: string;
     };
     /**
      *

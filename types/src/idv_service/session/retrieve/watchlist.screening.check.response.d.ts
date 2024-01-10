@@ -1,10 +1,17 @@
 export = WatchlistScreeningCheckResponse;
+/**
+ * @typedef {import('./report.response')} ReportResponse
+ */
 declare class WatchlistScreeningCheckResponse extends WatchlistCheckResponse {
     /**
      *
-     * @return {WatchlistScreeningReportResponse}
+     * @return {ReportResponse|WatchlistScreeningReportResponse}
      */
-    getReport(): WatchlistScreeningReportResponse;
+    getReport(): ReportResponse | WatchlistScreeningReportResponse;
+}
+declare namespace WatchlistScreeningCheckResponse {
+    export { ReportResponse };
 }
 import WatchlistCheckResponse = require("./watchlist.check.response");
 import WatchlistScreeningReportResponse = require("./watchlist.screening.report.response");
+type ReportResponse = import('./report.response');

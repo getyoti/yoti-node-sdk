@@ -1,4 +1,11 @@
 class RequestedTaskResponse {
+  constructor() {
+    /** @protected {string|null} */
+    this.type = null;
+    /** @protected {string|null} */
+    this.state = null;
+  }
+
   /**
    * Returns the type of the {@link RequestedTaskResponse}
    *

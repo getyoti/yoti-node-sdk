@@ -38,7 +38,7 @@ class CheckResponse {
     }
 
     if (check.report) {
-      /** @private */
+      /** @protected */
       this.report = new ReportResponse(check.report);
     }
 

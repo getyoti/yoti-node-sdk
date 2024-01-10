@@ -2,10 +2,6 @@
 
 const { EncryptedData } = require('../types');
 
-/**
- * @typedef {import('protobufjs').Message} Message
- */
-
 module.exports = {
 
   /**
@@ -13,7 +9,8 @@ module.exports = {
    * @returns {{cipherText: string, iv: string}}
    */
   decodeEncryptedData(binaryData) {
-    const decodedData = /** @type {any} */ (EncryptedData.decode(binaryData));
+    const decodedData = /** @type {{cipherText: Buffer, iv: Buffer}} */(
+    /** @type {*} */(EncryptedData.decode(binaryData)));
     return {
       cipherText: decodedData.cipherText.toString('base64'),
       iv: decodedData.iv.toString('base64'),

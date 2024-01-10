@@ -4,6 +4,10 @@ const constants = require('../yoti_common/constants');
 const { BaseProfile } = require('./base.profile');
 
 /**
+ * @typedef {import('../data_type/attribute').Attribute} Attribute
+ */
+
+/**
  * Profile of an application with convenience methods to access well-known attributes.
  *
  * @class ApplicationProfile

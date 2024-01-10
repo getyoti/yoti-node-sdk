@@ -11,14 +11,14 @@ export class ActivityDetails {
      *   Decrypted user profile data.
      * @param {{attributes: Object[]}} applicationProfile
      *   Decrypted application profile data.
-     * @param {[]} extraData
+     * @param {*[]} extraData
      *   Decrypted and converted extra data.
      */
     constructor(parsedResponse: object, userProfile: {
         attributes: any[];
     }, applicationProfile: {
         attributes: any[];
-    }, extraData: []);
+    }, extraData: any[]);
     /** @private */
     private parsedResponse;
     /** @private */

@@ -109,9 +109,9 @@ export class Profile extends BaseProfile {
     /**
      * Document details.
      *
-     * @returns {null|import('./../data_type/document.details')}
+     * @returns {null|Attribute}
      */
-    getDocumentDetails(): null | typeof import("./../data_type/document.details");
+    getDocumentDetails(): null | Attribute;
     /**
      * Document images.
      *

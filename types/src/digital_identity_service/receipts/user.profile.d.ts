@@ -1,8 +1,5 @@
 export = UserProfile;
 /**
- * @typedef {import('./../../data_type/document.details').DocumentDetails} DocumentDetails
- */
-/**
  * Profile of a human user with convenience methods to access well-known attributes.
  *
  * @class Profile
@@ -107,15 +104,15 @@ declare class UserProfile extends BaseProfile {
     /**
      * The user's structured postal address as a Json.
      *
-     * @returns {null|*}
+     * @returns {null|Attribute}
      */
-    getStructuredPostalAddress(): null | any;
+    getStructuredPostalAddress(): null | Attribute;
     /**
      * Document details.
      *
-     * @returns {null|DocumentDetails}
+     * @returns {null|Attribute}
      */
-    getDocumentDetails(): null | DocumentDetails;
+    getDocumentDetails(): null | Attribute;
     /**
      * Document images.
      *
@@ -129,10 +126,6 @@ declare class UserProfile extends BaseProfile {
      */
     getIdentityProfileReport(): null | Attribute;
 }
-declare namespace UserProfile {
-    export { DocumentDetails };
-}
 import BaseProfile = require("./base.profile");
 import { Attribute } from "../../data_type/attribute";
 import { AgeVerification } from "../../data_type/age.verification";
-type DocumentDetails = import('./../../data_type/document.details').DocumentDetails;

@@ -7,6 +7,10 @@ const { messages } = require('../proto');
 const { AttributeListConverter } = require('./converters/attribute.list.converter');
 const ExtraDataConverter = require('./converters/extra.data.converter');
 
+/**
+ * @typedef {import('./../data_type/attribute.issuance.details')} AttributeIssuanceDetails
+ */
+
 // Request methods that can include payload data.
 const methodsThatIncludePayload = ['POST', 'PUT', 'PATCH'];
 
@@ -139,7 +143,7 @@ module.exports.decryptApplicationProfile = (receipt, pem) => decryptProfileConte
  * @param {Object} receipt
  * @param {string} pem
  *
- * @returns {[]}
+ * @returns {(AttributeIssuanceDetails | undefined)[]}
  */
 module.exports.parseExtraData = (receipt, pem) => {
   const extraDataNotEmpty = receipt.extra_data_content
