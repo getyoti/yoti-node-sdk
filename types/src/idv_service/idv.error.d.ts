@@ -13,9 +13,9 @@ declare class IDVError extends Error {
      */
     getResponseStatusCode(): number | null;
     /**
-     * @returns {string|object} The parsed response body.
+     * @returns {string|object|null} The parsed response body.
      */
-    getResponseBody(): string | object;
+    getResponseBody(): string | object | null;
 }
 declare namespace IDVError {
     export { ResponseBody, Response, APIError };

@@ -13,12 +13,12 @@ declare class IDVService {
     constructor(sdkId: string, pem: string | Buffer, { apiUrl }?: {
         apiUrl?: string;
     });
-    /** @private */
-    private sdkId;
-    /** @private */
-    private pem;
-    /** @private */
-    private apiUrl;
+    /** @protected */
+    protected sdkId: string;
+    /** @protected */
+    protected pem: string | Buffer;
+    /** @protected */
+    protected apiUrl: string;
     /**
      * Uses the supplied session specification to create a session
      *

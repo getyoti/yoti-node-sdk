@@ -16,6 +16,8 @@
 
 /**
  * @param {APIError} error
+ *
+ * @returns {string|undefined}
  */
 function errorMessage(error) {
   if (
@@ -74,7 +76,7 @@ class IDVError extends Error {
   }
 
   /**
-   * @returns {string|object} The parsed response body.
+   * @returns {string|object|null} The parsed response body.
    */
   getResponseBody() {
     if (this.response && this.response.body) {

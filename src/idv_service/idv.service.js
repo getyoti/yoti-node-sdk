@@ -48,11 +48,11 @@ class IDVService {
     Validation.isString(sdkId, 'sdkId');
     Validation.notNullOrEmpty(pem, 'pem');
 
-    /** @private */
+    /** @protected */
     this.sdkId = sdkId;
-    /** @private */
+    /** @protected */
     this.pem = pem;
-    /** @private */
+    /** @protected */
     this.apiUrl = apiUrl;
   }
 
