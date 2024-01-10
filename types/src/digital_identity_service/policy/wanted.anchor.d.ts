@@ -10,7 +10,10 @@ declare class WantedAnchor {
     /** @private */
     private subType;
     /**
-     * @returns {Object} data for JSON.stringify()
+     * Returns serialized data for JSON.stringify()
      */
-    toJSON(): any;
+    toJSON(): {
+        name: string;
+        sub_type: string;
+    };
 }

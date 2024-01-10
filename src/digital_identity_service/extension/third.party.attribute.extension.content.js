@@ -21,6 +21,9 @@ class ThirdPartyAttributeExtensionContent {
     return this.definitions;
   }
 
+  /**
+   * Returns serialized data for JSON.stringify()
+   */
   toJSON() {
     return {
       expiry_date: this.expiryDate.toISOString(),

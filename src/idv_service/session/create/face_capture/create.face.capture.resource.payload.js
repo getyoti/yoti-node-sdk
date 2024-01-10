@@ -16,6 +16,9 @@ class CreateFaceCaptureResourcePayload {
     this.requirementId = requirementId;
   }
 
+  /**
+   * Returns serialized data for JSON.stringify()
+   */
   toJSON() {
     return {
       requirement_id: this.requirementId,

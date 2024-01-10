@@ -8,8 +8,10 @@ declare class LocationConstraintContent {
      */
     getExpectedDeviceLocation(): DeviceLocation;
     /**
-     * @returns {Object} data for JSON.stringify()
+     * Returns serialized data for JSON.stringify()
      */
-    toJSON(): any;
+    toJSON(): {
+        expected_device_location: DeviceLocation;
+    };
 }
 import DeviceLocation = require("./device.location");

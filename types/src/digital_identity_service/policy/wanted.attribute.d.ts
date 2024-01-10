@@ -45,8 +45,11 @@ declare class WantedAttribute {
      */
     getAcceptSelfAsserted(): boolean;
     /**
-     * @returns {Object} data for JSON.stringify()
+     * Returns serialized data for JSON.stringify()
      */
-    toJSON(): any;
+    toJSON(): {
+        name: string;
+        optional: boolean;
+    };
 }
 import Constraints = require("./constraints");

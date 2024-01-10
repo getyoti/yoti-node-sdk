@@ -82,7 +82,7 @@ module.exports = class WantedAttribute {
   }
 
   /**
-   * @returns {Object} data for JSON.stringify()
+   * Returns serialized data for JSON.stringify()
    */
   toJSON() {
     const json = {

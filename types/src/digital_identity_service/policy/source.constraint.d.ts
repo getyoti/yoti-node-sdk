@@ -10,8 +10,14 @@ declare class SourceConstraint {
     /** @private */
     private softPreference;
     /**
-     * @returns {Object} data for JSON.stringify()
+     * Returns serialized data for JSON.stringify()
      */
-    toJSON(): any;
+    toJSON(): {
+        type: string;
+        preferred_sources: {
+            anchors: WantedAnchor[];
+            soft_preference: boolean;
+        };
+    };
 }
 import WantedAnchor = require("./wanted.anchor");

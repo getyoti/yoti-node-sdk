@@ -31,6 +31,9 @@ declare class ShareSessionNotification {
      * @returns {boolean} The notification verifyTls option.
      */
     getVerifyTls(): boolean;
+    /**
+     * Returns serialized data for JSON.stringify()
+     */
     toJSON(): {
         url: string;
         method: string;

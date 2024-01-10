@@ -7,7 +7,7 @@ declare class Constraints {
     /** @private */
     private constraints;
     /**
-     * @returns {Array} for JSON.stringify()
+     * Returns serialized data for JSON.stringify()
      */
-    toJSON(): any[];
+    toJSON(): any;
 }

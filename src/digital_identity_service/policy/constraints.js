@@ -19,7 +19,7 @@ module.exports = class Constraints {
   }
 
   /**
-   * @returns {Array} for JSON.stringify()
+   * Returns serialized data for JSON.stringify()
    */
   toJSON() {
     return this.constraints;

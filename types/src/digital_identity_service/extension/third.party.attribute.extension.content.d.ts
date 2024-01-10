@@ -12,6 +12,9 @@ declare class ThirdPartyAttributeExtensionContent {
     private definitions;
     getExpiryDate(): any;
     getDefinitions(): any;
+    /**
+     * Returns serialized data for JSON.stringify()
+     */
     toJSON(): {
         expiry_date: any;
         definitions: any;

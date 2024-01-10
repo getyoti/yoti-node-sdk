@@ -29,7 +29,12 @@ declare class NotificationConfig {
     /** @private */
     private authType;
     /**
-     * @returns {Object} data for JSON.stringify()
+     * Returns serialized data for JSON.stringify()
      */
-    toJSON(): any;
+    toJSON(): {
+        auth_token: string;
+        auth_type: string;
+        endpoint: string;
+        topics: string[];
+    };
 }

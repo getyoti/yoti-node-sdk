@@ -18,7 +18,10 @@ declare class Extension {
      */
     getContent(): any;
     /**
-     * @returns {Object} data for JSON.stringify()
+     * Returns serialized data for JSON.stringify()
      */
-    toJSON(): any;
+    toJSON(): {
+        type: string;
+        content: any;
+    };
 }

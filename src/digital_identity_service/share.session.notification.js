@@ -66,6 +66,9 @@ module.exports = class ShareSessionNotification {
     return this.verifyTls;
   }
 
+  /**
+   * Returns serialized data for JSON.stringify()
+   */
   toJSON() {
     return {
       url: this.url,

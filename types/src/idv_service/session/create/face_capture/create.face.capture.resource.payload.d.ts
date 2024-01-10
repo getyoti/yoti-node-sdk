@@ -10,6 +10,9 @@ declare class CreateFaceCaptureResourcePayload {
     constructor(requirementId: string);
     /** @private */
     private requirementId;
+    /**
+     * Returns serialized data for JSON.stringify()
+     */
     toJSON(): {
         requirement_id: string;
     };

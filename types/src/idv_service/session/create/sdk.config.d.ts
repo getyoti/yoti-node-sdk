@@ -52,7 +52,20 @@ declare class SdkConfig {
     /** @private */
     private attemptsConfiguration;
     /**
-     * @returns {Object} data for JSON.stringify()
+     * Returns serialized data for JSON.stringify()
      */
-    toJSON(): any;
+    toJSON(): {
+        allowed_capture_methods: string;
+        primary_colour: string;
+        secondary_colour: string;
+        font_colour: string;
+        locale: string;
+        preset_issuing_country: string;
+        success_url: string;
+        error_url: string;
+        privacy_policy_url: string;
+        biometric_consent_flow: string;
+        allow_handoff: boolean;
+        attempts_configuration: any;
+    };
 }

@@ -39,9 +39,15 @@ declare class ShareSession {
      */
     getNotification(): any;
     /**
-     * @returns {Object} data for JSON.stringify()
+     * Returns serialized data for JSON.stringify()
      */
-    toJSON(): any;
+    toJSON(): {
+        notification: any;
+        policy: Policy;
+        extensions: Extension[];
+        subject: any;
+        redirectUri: string;
+    };
 }
 import Policy = require("./policy/policy");
 import Extension = require("./extension/extension");
