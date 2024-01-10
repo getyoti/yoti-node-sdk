@@ -12,7 +12,6 @@ const { BaseProfile } = require('./base.profile');
  *
  * @class ApplicationProfile
  *
- * @typedef {import('../data_type/attribute').Attribute} Attribute
  */
 class ApplicationProfile extends BaseProfile {
   /**

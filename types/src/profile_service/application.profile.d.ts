@@ -4,14 +4,9 @@ export type Attribute = import('../data_type/attribute').Attribute;
  */
 /**
  * Profile of an application with convenience methods to access well-known attributes.
- */
-export type Attribute = import('../data_type/attribute').Attribute;
-/**
- * Profile of an application with convenience methods to access well-known attributes.
  *
  * @class ApplicationProfile
  *
- * @typedef {import('../data_type/attribute').Attribute} Attribute
  */
 export class ApplicationProfile extends BaseProfile {
     /**
