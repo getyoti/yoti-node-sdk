@@ -56,9 +56,22 @@ declare class SessionSpecification {
     /** @private */
     private blockBiometricConsent;
     /**
-     * @returns {Object} data for JSON.stringify()
+     * Returns serialized data for JSON.stringify()
      */
-    toJSON(): any;
+    toJSON(): {
+        client_session_token_ttl: number;
+        session_deadline: string;
+        resources_ttl: number;
+        user_tracking_id: string;
+        notifications: NotificationConfig;
+        requested_checks: RequestedCheck[];
+        requested_tasks: RequestedTask[];
+        sdk_config: SdkConfig;
+        required_documents: RequiredDocument[];
+        block_biometric_consent: boolean;
+        identity_profile_requirements: any;
+        subject: any;
+    };
 }
 import NotificationConfig = require("./notification.config");
 import RequestedCheck = require("./check/requested.check");
