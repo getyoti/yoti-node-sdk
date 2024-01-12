@@ -1,6 +1,10 @@
 'use strict';
 
 /**
+ * @typedef {import("./anchor").YotiAnchor} YotiAnchor
+ */
+
+/**
  * A class to represent a Yoti attribute.
  *
  * A Yoti attribute consists of the attribute name, an associated
@@ -11,15 +15,22 @@
  */
 class Attribute {
   constructor(attrObj) {
+    /** @private */
     this.value = attrObj.value;
+    /** @private */
     this.name = attrObj.name;
+    /** @private */
     this.sources = attrObj.sources;
+    /** @private */
     this.verifiers = attrObj.verifiers;
+    /** @private */
     this.id = attrObj.id;
 
+    /** @private */
     this.anchors = [];
     if (attrObj.anchors) {
       Object.keys(attrObj.anchors).forEach((key) => {
+        /** @private */
         this.anchors = this.anchors.concat(attrObj.anchors[key]);
       });
     }

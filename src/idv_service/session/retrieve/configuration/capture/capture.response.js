@@ -12,6 +12,9 @@ const IDVConstants = require('../../../../idv.constants');
 
 /**
  * @param {object} requiredResource
+ *
+ * @typedef {import('./required.resource.response')} RequiredResourceResponse
+ *
  * @return {RequiredResourceResponse}
  */
 function createRequiredResourcesArray(requiredResource) {
@@ -37,10 +40,12 @@ class CaptureResponse {
    */
   constructor(capture) {
     Validation.isString(capture.biometric_consent, 'biometric_consent');
+    /** @private */
     this.biometricConsent = capture.biometric_consent;
 
     if (capture.required_resources) {
       Validation.isArray(capture.required_resources, 'required_resources');
+      /** @private */
       this.requiredResources = capture.required_resources.map(
         (requiredResource) => createRequiredResourcesArray(requiredResource)
       );

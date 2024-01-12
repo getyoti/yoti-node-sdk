@@ -7,13 +7,17 @@ const MediaResponse = require('./media.response');
 class IdentityProfileReportResponse {
   constructor(report) {
     Validation.isString(report.trust_framework, 'trust_framework');
+    /** @private */
     this.trustFramework = report.trust_framework;
 
     Validation.isArray(report.schemes_compliance, 'schemes_compliance');
-    // eslint-disable-next-line max-len
-    this.schemesCompliance = report.schemes_compliance.map((schemeCompliance) => new IdentityProfileReportSchemesComplianceResponse(schemeCompliance));
+    /** @private */
+    this.schemesCompliance = report.schemes_compliance
+      // eslint-disable-next-line max-len
+      .map((schemeCompliance) => new IdentityProfileReportSchemesComplianceResponse(schemeCompliance));
 
     Validation.isPlainObject(report.media, 'media');
+    /** @private */
     this.media = new MediaResponse(report.media);
   }
 

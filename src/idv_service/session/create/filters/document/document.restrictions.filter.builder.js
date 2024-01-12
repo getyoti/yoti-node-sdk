@@ -7,6 +7,7 @@ const IDVConstants = require('../../../../idv.constants');
 
 class DocumentRestrictionsFilterBuilder {
   constructor() {
+    /** @private */
     this.documents = [];
   }
 

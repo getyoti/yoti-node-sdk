@@ -5,6 +5,7 @@ const MediaResponse = require('./media.response');
 class FaceMapResponse {
   constructor(facemap) {
     if (facemap.media) {
+      /** @private */
       this.media = new MediaResponse(facemap.media);
     }
   }

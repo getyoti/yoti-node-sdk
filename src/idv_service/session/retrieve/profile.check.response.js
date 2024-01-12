@@ -6,6 +6,7 @@ class ProfileCheckResponse extends CheckResponse {
     super(check);
 
     if (check.generated_profile) {
+      /** @private */
       this.generatedProfile = new GeneratedProfileResponse(check.generated_profile);
     }
   }

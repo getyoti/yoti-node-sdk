@@ -5,6 +5,7 @@ const Validation = require('../../../yoti_common/validation');
 class IdentityProfileFailureReasonResponse {
   constructor(failureReason) {
     Validation.isString(failureReason.reason_code, 'reason code');
+    /** @private */
     this.reasonCode = failureReason.reason_code;
   }
 

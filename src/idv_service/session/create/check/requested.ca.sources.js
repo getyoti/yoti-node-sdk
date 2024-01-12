@@ -13,6 +13,7 @@ class RequestedCaSources {
 
     Validation.notNullOrEmpty(type, 'type');
     Validation.isString(type, 'type');
+    /** @protected */
     this.type = type;
   }
 }

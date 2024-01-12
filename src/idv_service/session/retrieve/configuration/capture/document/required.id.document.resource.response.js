@@ -13,15 +13,18 @@ class RequiredIdDocumentResourceResponse extends RequiredDocumentResourceRespons
 
     if (requiredResource.supported_countries) {
       Validation.isArray(requiredResource.supported_countries, 'supported_countries');
+      /** @private */
       this.supportedCountries = requiredResource.supported_countries.map(
         (supportedCountry) => new SupportedCountryResponse(supportedCountry)
       );
     }
 
     Validation.isString(requiredResource.allowed_capture_methods, 'allowed_capture_methods');
+    /** @private */
     this.allowedCaptureMethods = requiredResource.allowed_capture_methods;
 
     Validation.isPlainObject(requiredResource.attempts_remaining, 'attempts_remaining');
+    /** @private */
     this.attemptsRemaining = requiredResource.attempts_remaining;
   }
 

@@ -8,6 +8,7 @@ class FuzzyMatchingStrategyResponse extends CaMatchingStrategyResponse {
     super(matchingStrategy);
 
     Validation.isNumber(matchingStrategy.fuzziness, 'fuzziness');
+    /** @private */
     this.fuzziness = matchingStrategy.fuzziness;
   }
 

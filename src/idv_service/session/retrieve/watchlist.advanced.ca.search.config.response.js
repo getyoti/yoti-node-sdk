@@ -34,17 +34,21 @@ class WatchlistAdvancedCaSearchConfigResponse extends WatchlistSearchConfigRespo
     super();
     Validation.isString(searchConfig.type, 'type');
     Validation.oneOf(searchConfig.type, Object.keys(types), 'type');
+    /** @private */
     this.type = searchConfig.type;
 
     Validation.isBoolean(searchConfig.remove_deceased, 'remove_deceased');
+    /** @private */
     this.removeDeceased = searchConfig.remove_deceased;
 
     Validation.isBoolean(searchConfig.share_url, 'share_url');
+    /** @private */
     this.shareUrl = searchConfig.share_url;
 
     if (searchConfig.sources) {
       const CaSourcesResponseClass = CaSourcesResponseClassesByType[searchConfig.sources.type];
       if (CaSourcesResponseClass) {
+        /** @private */
         this.sources = new CaSourcesResponseClass(searchConfig.sources);
       }
     }
@@ -53,6 +57,7 @@ class WatchlistAdvancedCaSearchConfigResponse extends WatchlistSearchConfigRespo
       // eslint-disable-next-line max-len
       const CaMatchingStrategyResponseClass = CaMatchingStrategyResponseClassesByType[searchConfig.matching_strategy.type];
       if (CaMatchingStrategyResponseClass) {
+        /** @private */
         this.matchingStrategy = new CaMatchingStrategyResponseClass(searchConfig.matching_strategy);
       }
     }
@@ -73,7 +78,7 @@ class WatchlistAdvancedCaSearchConfigResponse extends WatchlistSearchConfigRespo
   }
 
   /**
-   * @returns {shareUrl}
+   * @returns {boolean}
    */
   isShareUrl() {
     return this.shareUrl;

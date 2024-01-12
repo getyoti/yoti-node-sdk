@@ -19,7 +19,7 @@ module.exports = class TransactionalFlowExtensionBuilder {
    */
   withContent(content) {
     Validation.notNull(content, 'content');
-    Validation.instanceOf(content, Object);
+    Validation.instanceOf(content, Object, 'content');
     this.content = content;
     return this;
   }

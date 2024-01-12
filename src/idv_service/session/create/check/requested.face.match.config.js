@@ -14,6 +14,7 @@ class RequestedFaceMatchConfig {
    */
   constructor(manualCheck) {
     Validation.isString(manualCheck, 'manualCheck');
+    /** @private */
     this.manualCheck = manualCheck;
   }
 

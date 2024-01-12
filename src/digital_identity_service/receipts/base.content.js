@@ -4,13 +4,14 @@ const ExtraData = require('./extra.data');
 
 class BaseContent {
   /**
-   * @param {[]} extraData
+   * @param {{ [k: string]: any }[]} extraData
    */
   constructor(extraData = []) {
     const currentClass = new.target;
     if (currentClass === BaseContent) {
       throw new Error('BaseContent can not be instantiated');
     }
+    /** @private */
     this.extraData = new ExtraData(extraData);
   }
 

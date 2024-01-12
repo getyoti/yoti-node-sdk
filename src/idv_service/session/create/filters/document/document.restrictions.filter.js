@@ -16,15 +16,19 @@ class DocumentRestrictionsFilter extends DocumentFilter {
     super(IDVConstants.DOCUMENT_RESTRICTIONS);
 
     Validation.isString(inclusion, 'inclusion');
+    /** @private */
     this.inclusion = inclusion;
 
     Validation.isArrayOfType(documents, DocumentRestriction, 'documents');
+    /** @private */
     this.documents = documents;
 
     Validation.isBoolean(allowExpiredDocuments, 'allowExpiredDocuments', true);
+    /** @private */
     this.allowExpiredDocuments = allowExpiredDocuments;
 
     Validation.isBoolean(allowNonLatinDocuments, 'allowNonLatinDocuments', true);
+    /** @private */
     this.allowNonLatinDocuments = allowNonLatinDocuments;
   }
 

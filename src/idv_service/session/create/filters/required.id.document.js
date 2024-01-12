@@ -14,6 +14,7 @@ class RequiredIdDocument extends RequiredDocument {
 
     if (filter) {
       Validation.instanceOf(filter, DocumentFilter, 'filter');
+      /** @private */
       this.filter = filter;
     }
   }

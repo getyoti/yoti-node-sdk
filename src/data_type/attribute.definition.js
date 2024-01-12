@@ -6,6 +6,7 @@ class AttributeDefinition {
   constructor(name) {
     Validation.isString(name, 'name');
 
+    /** @private */
     this.name = name;
   }
 

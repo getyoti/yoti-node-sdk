@@ -20,21 +20,26 @@ module.exports = class ShareSession {
    */
   constructor(policy, extensions, subject, redirectUri, notification) {
     Validation.instanceOf(policy, Policy, 'policy');
+    /** @private */
     this.policy = policy;
 
     Validation.isArrayOfType(extensions, Extension, 'extensions');
+    /** @private */
     this.extensions = extensions;
 
     Validation.isString(redirectUri, 'redirectUri');
+    /** @private */
     this.redirectUri = redirectUri;
 
     if (subject) {
       Validation.isPlainObject(subject, 'subject');
+      /** @private */
       this.subject = subject;
     }
 
     if (notification) {
       Validation.instanceOf(notification, ShareSessionNotification, 'notification');
+      /** @private */
       this.notification = notification;
     }
   }
@@ -75,7 +80,7 @@ module.exports = class ShareSession {
   }
 
   /**
-   * @returns {Object} data for JSON.stringify()
+   * Returns serialized data for JSON.stringify()
    */
   toJSON() {
     return {

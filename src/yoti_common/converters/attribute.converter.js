@@ -74,7 +74,7 @@ module.exports.AttributeConverter = class AttributeConverter {
   }
 
   static convertMultiValue(value) {
-    const protoMultiValue = messages.decodeMultiValue(value);
+    const protoMultiValue = /** @type {any} */ (messages.decodeMultiValue(value));
     const items = [];
     protoMultiValue.values.forEach((item) => {
       items.push(AttributeConverter.convertValueBasedOnContentType(

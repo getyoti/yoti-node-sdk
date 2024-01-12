@@ -10,45 +10,55 @@ const Validation = require('../../yoti_common/validation');
 class ReceiptResponse {
   constructor(response) {
     Validation.isString(response.id, 'Receipt ID');
+    /** @private */
     this.id = response.id;
 
     Validation.isString(response.sessionId, 'Session ID');
+    /** @private */
     this.sessionId = response.sessionId;
 
     Validation.isStringDate(response.timestamp, 'timestamp');
+    /** @private */
     this.timestamp = new Date(response.timestamp);
 
     if (response.error) {
+      /** @private */
       this.error = response.error;
     }
 
     if (response.rememberMeId) {
       Validation.isString(response.rememberMeId, 'Remember Me Id');
+      /** @private */
       this.rememberMeId = response.rememberMeId;
     }
 
     if (response.parentRememberMeId) {
       Validation.isString(response.parentRememberMeId, 'Parent Remember Me Id');
+      /** @private */
       this.parentRememberMeId = response.parentRememberMeId;
     }
 
     if (response.content) {
       Validation.isPlainObject(response.content, 'Content');
+      /** @private */
       this.content = response.content;
     }
 
     if (response.otherPartyContent) {
       Validation.isPlainObject(response.otherPartyContent, 'Other Party Content');
+      /** @private */
       this.otherPartyContent = response.otherPartyContent;
     }
 
     if (response.wrappedItemKeyId) {
       Validation.isString(response.wrappedItemKeyId, 'Wrapped Item Key Id');
+      /** @private */
       this.wrappedItemKeyId = response.wrappedItemKeyId;
     }
 
     if (response.wrappedKey) {
       Validation.isString(response.wrappedKey, 'Wrapped Key');
+      /** @private */
       this.wrappedKey = response.wrappedKey;
     }
   }

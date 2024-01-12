@@ -9,6 +9,7 @@ const THIRD_PARTY_ATTRIBUTE_EXTENSION_TYPE = 'THIRD_PARTY_ATTRIBUTE';
 
 class ThirdPartyAttributeExtensionBuilder {
   constructor() {
+    /** @private */
     this.definitions = [];
   }
 

@@ -1,14 +1,22 @@
 'use strict';
 
 const { decryptReceiptContent } = require('./decryption.utils');
-const { AttributeList } = require('../../proto/types');
+const { decodeAttributeList } = require('../../proto/messages');
 const { AttributeListConverter } = require('../../yoti_common/converters/attribute.list.converter');
 const ApplicationContent = require('./application.content');
 const UserContent = require('./user.content');
 const ExtraDataConverter = require('../../yoti_common/converters/extra.data.converter');
 
+/**
+ *
+ * @param {Object} contentData
+ * @param {string} contentData.profile
+ * @param {string} contentData.extraData
+ * @param {Buffer} receiptContentKey
+ * @returns {{extraData: (*), attributes: { [k: string]: any }[]}}
+ */
 function decryptAndExtractContentData(
-  { profile, extraData } = {},
+  { profile, extraData } = { profile: '', extraData: '' },
   receiptContentKey
 ) {
   const decryptedProfile = decryptReceiptContent(profile, receiptContentKey);
@@ -18,7 +26,7 @@ function decryptAndExtractContentData(
   let extractedExtraData;
 
   if (decryptedProfile) {
-    const { attributes: decodedProfileAttributes } = AttributeList.decode(decryptedProfile);
+    const { attributes: decodedProfileAttributes } = decodeAttributeList(decryptedProfile);
     attributes = AttributeListConverter.convertAttributeList(decodedProfileAttributes);
   }
 
@@ -34,11 +42,11 @@ function decryptAndExtractContentData(
 
 /**
  *
- * @param content {profile, extraData} encrypted profile content
+ * @param {{profile, extraData}} content  encrypted profile content
  * @param receiptContentKey
  * @returns {ApplicationContent}
  */
-function buildApplicationContentFromEncryptedContent(content = {}, receiptContentKey) {
+function buildApplicationContentFromEncryptedContent(content = { profile: '', extraData: '' }, receiptContentKey) {
   const { attributes, extraData } = decryptAndExtractContentData(
     content,
     receiptContentKey
@@ -48,11 +56,11 @@ function buildApplicationContentFromEncryptedContent(content = {}, receiptConten
 
 /**
  *
- * @param content {profile, extraData} encrypted profile content
+ * @param {{profile, extraData}} content encrypted profile content
  * @param receiptContentKey
  * @returns {UserContent}
  */
-function buildUserContentFromEncryptedContent(content = {}, receiptContentKey) {
+function buildUserContentFromEncryptedContent(content = { profile: '', extraData: '' }, receiptContentKey) {
   const { attributes, extraData } = decryptAndExtractContentData(
     content,
     receiptContentKey

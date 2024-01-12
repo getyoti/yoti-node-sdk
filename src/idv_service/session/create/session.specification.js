@@ -14,9 +14,9 @@ const RequiredDocument = require('./filters/required.document');
  */
 class SessionSpecification {
   /**
-   * @param {int} clientSessionTokenTtl
+   * @param {number} clientSessionTokenTtl
    *   Client-session-token time-to-live to apply to the created session
-   * @param {int} resourcesTtl
+   * @param {number} resourcesTtl
    *   Time-to-live used for all Resources created in the course of the session
    * @param {string} userTrackingId
    *   User tracking id, for the Relying Business to track returning users
@@ -30,7 +30,7 @@ class SessionSpecification {
    *   The SDK configuration set on the session specification
    * @param {RequiredDocument[]} requiredDocuments
    *   List of RequiredDocument defining the documents required from the client
-   * @param {bool} blockBiometricConsent
+   * @param {boolean} blockBiometricConsent
    *   Sets whether or not to block the collection of biometric consent
    * @param {Date} sessionDeadline
    *   The deadline that the session needs to be completed by
@@ -53,56 +53,68 @@ class SessionSpecification {
     subject
   ) {
     Validation.isInteger(clientSessionTokenTtl, 'clientSessionTokenTtl', true);
+    /** @private */
     this.clientSessionTokenTtl = clientSessionTokenTtl;
 
     if (sessionDeadline) {
       Validation.instanceOf(sessionDeadline, Date, 'sessionDeadline');
+      /** @private */
       this.sessionDeadline = sessionDeadline;
     }
 
     Validation.isInteger(resourcesTtl, 'resourcesTtl', true);
+    /** @private */
     this.resourcesTtl = resourcesTtl;
 
     Validation.isString(userTrackingId, 'userTrackingId', true);
+    /** @private */
     this.userTrackingId = userTrackingId;
 
     if (notifications) {
       Validation.instanceOf(notifications, NotificationConfig, 'notifications');
+      /** @private */
       this.notifications = notifications;
     }
 
     if (sdkConfig) {
       Validation.instanceOf(sdkConfig, SdkConfig, 'sdkConfig');
+      /** @private */
       this.sdkConfig = sdkConfig;
     }
 
     if (identityProfileRequirements) {
       Validation.isPlainObject(identityProfileRequirements, 'identityProfileRequirements');
+      /** @private */
       this.identityProfileRequirements = identityProfileRequirements;
     }
 
     if (subject) {
       Validation.isPlainObject(subject, 'subject');
+      /** @private */
       this.subject = subject;
     }
 
     Validation.isArrayOfType(requestedChecks, RequestedCheck, 'requestedChecks');
+    /** @private */
     this.requestedChecks = requestedChecks;
 
     Validation.isArrayOfType(requestedTasks, RequestedTask, 'requestedTasks');
+    /** @private */
     this.requestedTasks = requestedTasks;
 
     if (requiredDocuments) {
       Validation.isArrayOfType(requiredDocuments, RequiredDocument, 'requiredDocuments');
+      /** @private */
       this.requiredDocuments = requiredDocuments;
     }
 
     Validation.isBoolean(blockBiometricConsent, 'blockBiometricConsent', true);
+    /** @private */
     this.blockBiometricConsent = blockBiometricConsent;
   }
 
   /**
-   * @returns {Object} data for JSON.stringify()
+   * Returns serialized data for JSON.stringify()
    */
   toJSON() {
     return {

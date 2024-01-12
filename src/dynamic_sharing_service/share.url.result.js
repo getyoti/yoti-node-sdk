@@ -14,9 +14,11 @@ module.exports = class ShareUrlResult {
    */
   constructor(response) {
     Validation.isString(response.qrcode, 'QR Code URL');
+    /** @private */
     this.shareUrl = response.qrcode;
 
     Validation.isString(response.ref_id, 'Ref ID');
+    /** @private */
     this.refId = response.ref_id;
   }
 

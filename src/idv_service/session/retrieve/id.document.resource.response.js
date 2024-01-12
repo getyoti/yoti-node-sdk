@@ -13,27 +13,34 @@ class IdDocumentResourceResponse extends ResourceResponse {
     super(resource);
 
     Validation.isString(resource.document_type, 'document_type', true);
+    /** @private */
     this.documentType = resource.document_type;
 
     Validation.isString(resource.issuing_country, 'issuing_country', true);
+    /** @private */
     this.issuingCountry = resource.issuing_country;
 
     if (resource.pages) {
       Validation.isArray(resource.pages, 'pages');
+      /** @private */
       this.pages = resource.pages.map((page) => new PageResponse(page));
     } else {
+      /** @private */
       this.pages = [];
     }
 
     if (resource.document_fields) {
+      /** @private */
       this.documentFields = new DocumentFieldsResponse(resource.document_fields);
     }
 
     if (resource.document_id_photo) {
+      /** @private */
       this.documentIdPhoto = new DocumentIdPhotoResponse(resource.document_id_photo);
     }
 
     if (resource.expanded_document_fields) {
+      /** @private */
       this.expandedDocumentFields = new ExpandedDocumentFieldsResponse(
         resource.expanded_document_fields
       );

@@ -19,6 +19,7 @@ class ExtraData {
    * @param {Object[]} dataEntries
    */
   constructor(dataEntries = []) {
+    /** @private */
     this.attributeIssuanceDetails = getAttributeIssuanceDetails(dataEntries);
   }
 

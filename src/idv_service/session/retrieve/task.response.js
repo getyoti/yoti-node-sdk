@@ -11,26 +11,32 @@ const { YotiDate } = require('../../../data_type/date');
 class TaskResponse {
   constructor(task) {
     Validation.isString(task.type, 'type', true);
+    /** @private */
     this.type = task.type;
 
     Validation.isString(task.id, 'id', true);
+    /** @private */
     this.id = task.id;
 
     Validation.isString(task.state, 'state', true);
+    /** @private */
     this.state = task.state;
 
     if (task.created) {
       Validation.isString(task.created, 'created');
+      /** @private */
       this.created = YotiDate.fromDateString(task.created);
     }
 
     if (task.last_updated) {
       Validation.isString(task.last_updated, 'last_updated');
+      /** @private */
       this.lastUpdated = YotiDate.fromDateString(task.last_updated);
     }
 
     if (task.generated_checks) {
       Validation.isArray(task.generated_checks, 'generated_checks');
+      /** @private */
       this.generatedChecks = task.generated_checks
         .map((check) => {
           switch (check.type) {
@@ -43,13 +49,16 @@ class TaskResponse {
           }
         });
     } else {
+      /** @private */
       this.generatedChecks = [];
     }
 
     if (task.generated_media) {
       Validation.isArray(task.generated_media, 'generated_media');
+      /** @private */
       this.generatedMedia = task.generated_media.map((media) => new GeneratedMedia(media));
     } else {
+      /** @private */
       this.generatedMedia = [];
     }
   }

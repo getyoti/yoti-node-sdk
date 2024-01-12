@@ -10,13 +10,16 @@ class ZoomLivenessResourceResponse extends LivenessResourceResponse {
     super(resource);
 
     if (resource.facemap) {
+      /** @private */
       this.faceMap = new FaceMapResponse(resource.facemap);
     }
 
     if (resource.frames) {
       Validation.isArray(resource.frames, 'frames');
+      /** @private */
       this.frames = resource.frames.map((frame) => new FrameResponse(frame));
     } else {
+      /** @private */
       this.frames = [];
     }
   }

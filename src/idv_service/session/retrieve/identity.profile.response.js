@@ -7,18 +7,22 @@ const IdentityProfileFailureReasonResponse = require('./identity.profile.failure
 class IdentityProfileResponse {
   constructor(identityProfile) {
     Validation.isString(identityProfile.subject_id, 'subject_id', true);
+    /** @private */
     this.subjectId = identityProfile.subject_id;
 
     Validation.isString(identityProfile.result, 'result');
+    /** @private */
     this.result = identityProfile.result;
 
     if (identityProfile.failure_reason) {
       Validation.isPlainObject(identityProfile.failure_reason, 'failure_reason');
+      /** @private */
       this.failureReason = new IdentityProfileFailureReasonResponse(identityProfile.failure_reason);
     }
 
     if (identityProfile.identity_profile_report) {
       Validation.isPlainObject(identityProfile.identity_profile_report, 'identity_profile_report');
+      /** @private */
       this.identityProfileReport = new IdentityProfileReportResponse(
         identityProfile.identity_profile_report
       );

@@ -22,7 +22,7 @@ describe('ThirdPartyAttributeExtensionBuilder', () => {
     const builder = new ThirdPartyAttributeExtensionBuilder()
       .withExpiryDate(new Date());
 
-    expect(() => builder.withDefinitions(undefined)).toThrow(new TypeError('undefined must be instance of Object'));
+    expect(() => builder.withDefinitions(undefined)).toThrow(new TypeError('value must be instance of Object'));
   });
 
   it('should fail for array of non-string definitions', () => {

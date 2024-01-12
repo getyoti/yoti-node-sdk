@@ -3,7 +3,13 @@
 const { ExtraData } = require('../types');
 
 module.exports = {
+  /**
+   * @param {*} binaryData
+   * @returns {{list: Array}}
+   */
   decodeExtraData(binaryData) {
-    return ExtraData.decode(Buffer.from(binaryData, 'base64'));
+    const { list } = /** @type {{list: Array}} */ (
+      /** @type {*} */ (ExtraData.decode(Buffer.from(binaryData, 'base64'))));
+    return { list };
   },
 };

@@ -16,15 +16,19 @@ class DeviceLocation {
    */
   constructor(latitude, longitude, radius = 150, maxUncertainty = 150) {
     Validation.withinRange(latitude, -90, 90, 'latitude');
+    /** @private */
     this.latitude = latitude;
 
     Validation.withinRange(longitude, -180, 180, 'longitude');
+    /** @private */
     this.longitude = longitude;
 
     Validation.notLessThan(radius, 0, 'radius');
+    /** @private */
     this.radius = radius;
 
     Validation.notLessThan(maxUncertainty, 0, 'maxUncertainty');
+    /** @private */
     this.maxUncertainty = maxUncertainty;
   }
 

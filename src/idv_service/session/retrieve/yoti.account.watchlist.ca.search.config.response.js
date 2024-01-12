@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 
 const WatchlistAdvancedCaSearchConfigResponse = require('./watchlist.advanced.ca.search.config.response');
 

@@ -14,6 +14,7 @@ class NotificationConfigBuilder {
    * Setup default builder properties
    */
   constructor() {
+    /** @private */
     this.topics = [];
   }
 

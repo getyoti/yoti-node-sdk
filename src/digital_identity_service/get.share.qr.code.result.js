@@ -13,16 +13,20 @@ module.exports = class GetShareQrCodeResult {
    */
   constructor(response) {
     Validation.isString(response.id, 'QR code ID');
+    /** @private */
     this.id = response.id;
 
     Validation.isStringDate(response.expiry, 'Expiry');
+    /** @private */
     this.expiry = new Date(response.expiry);
 
     Validation.isPlainObject(response.session, 'Session');
     Validation.isString(response.session.id, 'Session ID');
+    /** @private */
     this.sessionId = response.session.id;
 
     Validation.isString(response.redirectUri, 'Redirect URI');
+    /** @private */
     this.redirectUri = response.redirectUri;
   }
 

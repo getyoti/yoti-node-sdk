@@ -17,6 +17,7 @@ class RequestedSearchProfileSources extends RequestedCaSources {
     super(PROFILE);
     Validation.notNullOrEmpty(searchProfile, 'searchProfile');
     Validation.isString(searchProfile, 'searchProfile');
+    /** @private */
     this.searchProfile = searchProfile;
   }
 

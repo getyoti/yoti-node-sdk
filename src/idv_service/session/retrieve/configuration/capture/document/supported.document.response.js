@@ -8,6 +8,7 @@ class SupportedDocumentResponse {
    */
   constructor(supportedDocument) {
     Validation.isString(supportedDocument.type, 'type');
+    /** @private */
     this.type = supportedDocument.type;
   }
 

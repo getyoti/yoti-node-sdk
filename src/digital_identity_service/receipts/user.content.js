@@ -5,11 +5,12 @@ const UserProfile = require('./user.profile');
 
 class UserContent extends BaseContent {
   /**
-   * @param {[]} attributes
-   * @param {[]} extraData
+   * @param {{ [k: string]: any }[]} attributes
+   * @param {{ [k: string]: any }[]} extraData
    */
   constructor(attributes = [], extraData = []) {
     super(extraData);
+    /** @private */
     this.profile = new UserProfile(attributes);
   }
 

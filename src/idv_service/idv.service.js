@@ -42,15 +42,17 @@ class IDVService {
   /**
    * @param {string} sdkId
    * @param {string|Buffer} pem
-   * @param {Object} options
-   * @param {string} options.apiUrl
+   * @param {{apiUrl?: string}} options
    */
   constructor(sdkId, pem, { apiUrl = DEFAULT_API_URL } = {}) {
     Validation.isString(sdkId, 'sdkId');
     Validation.notNullOrEmpty(pem, 'pem');
 
+    /** @protected */
     this.sdkId = sdkId;
+    /** @protected */
     this.pem = pem;
+    /** @protected */
     this.apiUrl = apiUrl;
   }
 
@@ -65,7 +67,7 @@ class IDVService {
     Validation.instanceOf(sessionSpecification, SessionSpecification, 'sessionSpecification');
 
     const request = new RequestBuilder()
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withBaseUrl(this.apiUrl)
       .withEndpoint('/sessions')
       .withQueryParam('sdkId', this.sdkId)
@@ -98,7 +100,7 @@ class IDVService {
     Validation.isString(sessionId, 'sessionId');
 
     const request = new RequestBuilder()
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withBaseUrl(this.apiUrl)
       .withEndpoint(sessionPath(sessionId))
       .withQueryParam('sdkId', this.sdkId)
@@ -129,7 +131,7 @@ class IDVService {
     Validation.isString(sessionId, 'sessionId');
 
     const request = new RequestBuilder()
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withBaseUrl(this.apiUrl)
       .withEndpoint(sessionPath(sessionId))
       .withQueryParam('sdkId', this.sdkId)
@@ -156,7 +158,7 @@ class IDVService {
     Validation.isString(mediaId, 'mediaId');
 
     const request = new RequestBuilder()
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withBaseUrl(this.apiUrl)
       .withEndpoint(mediaContentPath(sessionId, mediaId))
       .withQueryParam('sdkId', this.sdkId)
@@ -199,7 +201,7 @@ class IDVService {
     Validation.isString(mediaId, 'mediaId');
 
     const request = new RequestBuilder()
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withBaseUrl(this.apiUrl)
       .withEndpoint(mediaContentPath(sessionId, mediaId))
       .withQueryParam('sdkId', this.sdkId)
@@ -222,7 +224,7 @@ class IDVService {
    */
   getSupportedDocuments(includeNonLatin) {
     const requestBuilder = new RequestBuilder()
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withBaseUrl(this.apiUrl)
       .withEndpoint('/supported-documents')
       .withGet();
@@ -252,7 +254,7 @@ class IDVService {
     Validation.instanceOf(createFaceCaptureResourcePayload, CreateFaceCaptureResourcePayload, 'createFaceCaptureResourcePayload');
 
     const request = new RequestBuilder()
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withBaseUrl(this.apiUrl)
       .withEndpoint(`sessions/${sessionId}/resources/face-capture`)
       .withQueryParam('sdkId', this.sdkId)
@@ -286,7 +288,7 @@ class IDVService {
     Validation.instanceOf(uploadFaceCaptureImagePayload, UploadFaceCaptureImagePayload, 'uploadFaceCaptureImagePayload');
 
     const request = new RequestBuilder()
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withBaseUrl(this.apiUrl)
       .withEndpoint(`/sessions/${sessionId}/resources/face-capture/${resourceId}/image`)
       .withQueryParam('sdkId', this.sdkId)
@@ -308,7 +310,7 @@ class IDVService {
    */
   getSessionConfiguration(sessionId) {
     const request = new RequestBuilder()
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withBaseUrl(this.apiUrl)
       .withEndpoint(`/sessions/${sessionId}/configuration`)
       .withQueryParam('sdkId', this.sdkId)

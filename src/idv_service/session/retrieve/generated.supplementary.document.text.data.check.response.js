@@ -1,8 +1,8 @@
 'use strict';
 
-const GeneratedCheckResponse = require('./generated.check.response');
+const GeneratedTextDataCheckResponse = require('./generated.text.data.check.response');
 
-class GeneratedSupplementaryDocumentTextDataCheckResponse extends GeneratedCheckResponse {
+class GeneratedSupplementaryDocumentTextDataCheckResponse extends GeneratedTextDataCheckResponse {
 }
 
 module.exports = GeneratedSupplementaryDocumentTextDataCheckResponse;

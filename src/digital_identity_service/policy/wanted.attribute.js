@@ -11,28 +11,32 @@ const Constraints = require('./constraints');
 module.exports = class WantedAttribute {
   /**
    * @param {string} name
-   * @param {string} derivation
-   * @param {boolean} acceptSelfAsserted
-   * @param {Constraints} constraints
+   * @param {string|null} derivation
+   * @param {boolean|null} acceptSelfAsserted
+   * @param {Constraints|null} constraints
    */
   constructor(name, derivation = null, acceptSelfAsserted = null, constraints = null) {
     Validation.isString(name, 'name');
     Validation.notNullOrEmpty(name, 'name');
+    /** @private */
     this.name = name;
 
     if (derivation !== null) {
       Validation.isString(derivation, 'derivation');
     }
+    /** @private */
     this.derivation = derivation;
 
     if (acceptSelfAsserted !== null) {
       Validation.isBoolean(acceptSelfAsserted, 'acceptSelfAsserted');
     }
+    /** @private */
     this.acceptSelfAsserted = acceptSelfAsserted;
 
     if (constraints !== null) {
       Validation.instanceOf(constraints, Constraints, 'constraints');
     }
+    /** @private */
     this.constraints = constraints;
   }
 
@@ -78,7 +82,7 @@ module.exports = class WantedAttribute {
   }
 
   /**
-   * @returns {Object} data for JSON.stringify()
+   * Returns serialized data for JSON.stringify()
    */
   toJSON() {
     const json = {

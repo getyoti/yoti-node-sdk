@@ -20,8 +20,10 @@ class RequestedTask {
     }
 
     Validation.isString(type, 'type');
+    /** @private */
     this.type = type;
 
+    /** @private */
     this.config = config;
   }
 

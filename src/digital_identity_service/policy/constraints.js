@@ -14,11 +14,12 @@ module.exports = class Constraints {
    */
   constructor(constraints) {
     Validation.isArrayOfTypes(constraints, [SourceConstraint], 'constraints');
+    /** @private */
     this.constraints = constraints;
   }
 
   /**
-   * @returns {Array} for JSON.stringify()
+   * Returns serialized data for JSON.stringify()
    */
   toJSON() {
     return this.constraints;

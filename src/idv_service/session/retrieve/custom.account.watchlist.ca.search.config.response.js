@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 
 const WatchlistAdvancedCaSearchConfigResponse = require('./watchlist.advanced.ca.search.config.response');
 const Validation = require('../../../yoti_common/validation');
@@ -8,9 +8,11 @@ class CustomAccountWatchlistCaSearchConfigResponse extends WatchlistAdvancedCaSe
     super(searchConfig);
 
     Validation.isString(searchConfig.api_key, 'api_key');
+    /** @private */
     this.apiKey = searchConfig.api_key;
 
     Validation.isBoolean(searchConfig.monitoring, 'monitoring');
+    /** @private */
     this.monitoring = searchConfig.monitoring;
 
     if (searchConfig.tags) {
@@ -19,10 +21,12 @@ class CustomAccountWatchlistCaSearchConfigResponse extends WatchlistAdvancedCaSe
       const values = keys.map((key) => searchConfig.tags[key]);
       Validation.isArrayOfStrings(keys, 'tags.keys');
       Validation.isArrayOfStrings(values, 'tags.values');
+      /** @private */
       this.tags = searchConfig.tags;
     }
 
     Validation.isString(searchConfig.client_ref, 'client_ref');
+    /** @private */
     this.clientRef = searchConfig.client_ref;
   }
 
@@ -44,7 +48,7 @@ class CustomAccountWatchlistCaSearchConfigResponse extends WatchlistAdvancedCaSe
 
   /**
    *
-   * @return {string:string}
+   * @return {{[k: string]: string}}
    */
   getTags() {
     return this.tags;

@@ -18,11 +18,15 @@ module.exports = class SourceConstraintBuilder {
    * Set default properties.
    */
   constructor() {
+    /** @private */
     this.anchors = [];
+    /** @private */
     this.softPreference = false;
   }
 
   /**
+   * @typedef {import('./wanted.anchor')} WantedAnchor
+   *
    * @param {WantedAnchor} anchor
    */
   withAnchor(anchor) {

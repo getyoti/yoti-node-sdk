@@ -13,15 +13,20 @@ class RequestedTextExtractionConfig {
    *   Describes the manual fallback behaviour applied to each Task
    * @param {string} chipData
    *   Describes the chip data requirement for each Task
+   * @param {boolean} createExpandedDocumentFields
+   *   Enables additional information
    */
   constructor(manualCheck, chipData, createExpandedDocumentFields) {
     Validation.isString(manualCheck, 'manualCheck');
+    /** @private */
     this.manualCheck = manualCheck;
 
     Validation.isString(chipData, 'chipData', true);
+    /** @private */
     this.chipData = chipData;
 
     Validation.isBoolean(createExpandedDocumentFields, 'createExpandedDocumentFields', true);
+    /** @private */
     this.createExpandedDocumentFields = createExpandedDocumentFields;
   }
 

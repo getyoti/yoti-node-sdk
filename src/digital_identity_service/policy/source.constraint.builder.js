@@ -18,12 +18,16 @@ module.exports = class SourceConstraintBuilder {
    * Set default properties.
    */
   constructor() {
+    /** @private */
     this.anchors = [];
+    /** @private */
     this.softPreference = false;
   }
 
   /**
+   * @typedef {import('./wanted.anchor')} WantedAnchor
    * @param {WantedAnchor} anchor
+   * @returns this
    */
   withAnchor(anchor) {
     this.anchors.push(anchor);
@@ -32,6 +36,7 @@ module.exports = class SourceConstraintBuilder {
 
   /**
    * @param {boolean} softPreference
+   * @returns this
    */
   withSoftPreference(softPreference = true) {
     this.softPreference = softPreference;
@@ -41,6 +46,7 @@ module.exports = class SourceConstraintBuilder {
   /**
    * @param {string} value
    * @param {string} subType
+   * @returns this
    */
   withAnchorByValue(value, subType = '') {
     const anchor = new WantedAnchorBuilder()
@@ -53,6 +59,7 @@ module.exports = class SourceConstraintBuilder {
 
   /**
    * @param {string} subType
+   * @returns this
    */
   withPassport(subType = '') {
     return this.withAnchorByValue(ANCHOR_VALUE_PASSPORT, subType);
@@ -60,6 +67,7 @@ module.exports = class SourceConstraintBuilder {
 
   /**
    * @param {string} subType
+   * @returns this
    */
   withDrivingLicence(subType = '') {
     return this.withAnchorByValue(ANCHOR_VALUE_DRIVING_LICENSE, subType);
@@ -67,6 +75,7 @@ module.exports = class SourceConstraintBuilder {
 
   /**
    * @param {string} subType
+   * @returns this
    */
   withNationalId(subType = '') {
     return this.withAnchorByValue(ANCHOR_VALUE_NATIONAL_ID, subType);
@@ -74,6 +83,7 @@ module.exports = class SourceConstraintBuilder {
 
   /**
    * @param {string} subType
+   * @returns this
    */
   withPasscard(subType = '') {
     return this.withAnchorByValue(ANCHOR_VALUE_PASSCARD, subType);

@@ -5,6 +5,12 @@ const { WITH_CUSTOM_ACCOUNT } = require('../../../idv.constants');
 const RequestedWatchlistAdvancedCaConfig = require('./requested.watchlist.advanced.ca.config');
 
 /**
+ * @typedef {import('./requested.watchlist.advanced.ca.check')} RequestedWatchlistAdvancedCaCheck
+ * @typedef {import('./requested.ca.sources')} RequestedCaSources
+ * @typedef {import('./requested.ca.matching.strategy')} RequestedCaMatchingStrategy
+ */
+
+/**
  * The configuration applied when creating a {@link RequestedWatchlistAdvancedCaCheck}
  * with custom account
  *
@@ -35,9 +41,11 @@ class RequestedCustomAccountWatchlistAdvancedCaConfig extends RequestedWatchlist
     super(removeDeceased, shareUrl, sources, matchingStrategy);
     Validation.isString(apiKey, 'apiKey');
     Validation.notNullOrEmpty(apiKey, 'apiKey');
+    /** @private */
     this.apiKey = apiKey;
 
     Validation.isBoolean(monitoring, 'monitoring');
+    /** @private */
     this.monitoring = monitoring;
 
     if (tags) {
@@ -46,11 +54,13 @@ class RequestedCustomAccountWatchlistAdvancedCaConfig extends RequestedWatchlist
       Object.keys(tags).forEach((key) => {
         Validation.notNull(tags[key], `tags.${key}`);
       });
+      /** @private */
       this.tags = tags;
     }
 
     Validation.isString(clientRef, 'clientRef');
     Validation.notNullOrEmpty(clientRef, 'clientRef');
+    /** @private */
     this.clientRef = clientRef;
   }
 

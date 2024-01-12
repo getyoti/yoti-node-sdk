@@ -13,6 +13,7 @@ class RequestedDocumentAuthenticityConfig {
    */
   constructor(manualCheck) {
     Validation.isString(manualCheck, 'manualCheck', true);
+    /** @private */
     this.manualCheck = manualCheck;
   }
 

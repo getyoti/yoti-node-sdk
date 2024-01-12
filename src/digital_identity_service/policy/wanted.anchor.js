@@ -14,14 +14,16 @@ module.exports = class WantedAnchor {
    */
   constructor(value, subType = '') {
     Validation.isString(value, 'value');
+    /** @private */
     this.value = value;
 
     Validation.isString(subType, 'subType');
+    /** @private */
     this.subType = subType;
   }
 
   /**
-   * @returns {Object} data for JSON.stringify()
+   * Returns serialized data for JSON.stringify()
    */
   toJSON() {
     return {

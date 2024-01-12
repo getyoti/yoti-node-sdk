@@ -13,6 +13,7 @@ const Validation = require('../../../../yoti_common/validation');
 /* eslint class-methods-use-this: ["error", { "exceptMethods": ["build"] }] */
 class RequestedWatchlistScreeningCheckBuilder {
   constructor() {
+    /** @private */
     this.categories = [];
   }
 

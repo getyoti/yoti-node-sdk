@@ -25,6 +25,8 @@ module.exports = class WantedAttributeBuilder {
   }
 
   /**
+   * @typedef {import('./constraints')} Constraints
+   *
    * @param {Constraints} constraints
    */
   withConstraints(constraints) {
@@ -33,7 +35,7 @@ module.exports = class WantedAttributeBuilder {
   }
 
   /**
-   * @param {Array} acceptSelfAsserted
+   * @param {boolean} acceptSelfAsserted
    */
   withAcceptSelfAsserted(acceptSelfAsserted = true) {
     this.acceptSelfAsserted = acceptSelfAsserted;

@@ -1,12 +1,21 @@
 'use strict';
 
 /**
+ * @typedef {Object} ResponseBody
+ * @property {string} [message]
+ * @property {string} [error]
+ *
+ * @typedef {Object} Response
+ * @property {number} status
+ * @property {string} text
+ * @property {ResponseBody} [body]
+ *
  * @param {Response} response
- * @returns {string}
+ * @returns {{status: number, reason: string, code:string|number}}
  */
 function extractDetailsFromResponse(response) {
   const { status, text = '', body = {} } = response;
-  const { message, error } = body;
+  const { message, error } = /** @type {{ message: string, error: string }} */ (body);
   const reason = message || text;
 
   return {
