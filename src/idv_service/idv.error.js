@@ -1,7 +1,23 @@
 'use strict';
 
 /**
- * @param {Error} error
+ * @typedef {Object} ResponseBody
+ * @property {string} [message]
+ * @property {string} [code]
+ * @property {Array} [errors]
+ *
+ * @typedef {Object} Response
+ * @property {ResponseBody} [body]
+ *
+ * @typedef {Object} APIError
+ * @property {Response} [response]
+ * @property {string} [message]
+ */
+
+/**
+ * @param {APIError} error
+ *
+ * @returns {string|undefined}
  */
 function errorMessage(error) {
   if (
@@ -45,11 +61,12 @@ class IDVError extends Error {
     super(errorMessage(error));
 
     this.name = this.constructor.name;
+    /** @private */
     this.response = error.response || null;
   }
 
   /**
-   * @returns {int}
+   * @returns {number|null}
    */
   getResponseStatusCode() {
     if (this.response && this.response.statusCode) {
@@ -59,7 +76,7 @@ class IDVError extends Error {
   }
 
   /**
-   * @returns {*} The parsed response body.
+   * @returns {string|object|null} The parsed response body.
    */
   getResponseBody() {
     if (this.response && this.response.body) {

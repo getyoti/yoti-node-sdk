@@ -13,6 +13,7 @@ class RequestedFuzzyMatchingStrategy extends RequestedCaMatchingStrategy {
     super(FUZZY);
     Validation.isNumber(fuzziness, 'fuzziness');
     Validation.withinRange(fuzziness, 0, 1, 'fuzziness');
+    /** @private */
     this.fuzziness = fuzziness;
   }
 

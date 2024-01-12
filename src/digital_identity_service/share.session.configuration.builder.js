@@ -3,12 +3,19 @@
 const ShareSessionConfiguration = require('./share.session.configuration');
 
 /**
+ * @typedef {import('./policy/policy')} Policy
+ * @typedef {import('./share.session.notification')} ShareSessionNotification
+ * @typedef {import('./extension/extension')} Extension
+ */
+
+/**
  * Builder for Share sessions.
  *
  * @class ShareSessionBuilder
  */
 module.exports = class ShareSessionBuilder {
   constructor() {
+    /** @private */
     this.extensions = [];
   }
 
@@ -53,7 +60,7 @@ module.exports = class ShareSessionBuilder {
   }
 
   /**
-   * @returns {ShareSession}
+   * @returns {ShareSessionConfiguration}
    */
   build() {
     return new ShareSessionConfiguration(

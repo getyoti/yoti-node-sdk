@@ -10,6 +10,7 @@ const WantedAnchor = require('./wanted.anchor');
 module.exports = class WantedAnchorBuilder {
   /**
    * @param {string} value
+   * @returns this
    */
   withValue(value) {
     this.value = value;
@@ -18,6 +19,7 @@ module.exports = class WantedAnchorBuilder {
 
   /**
    * @param {string} subType
+   * @returns this
    */
   withSubType(subType) {
     this.subType = subType;

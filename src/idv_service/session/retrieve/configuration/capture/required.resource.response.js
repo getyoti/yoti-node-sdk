@@ -8,7 +8,11 @@ const UnknownAllowedSourceResponse = require('./source/unknown.allowed.source.re
 const IDVConstants = require('../../../../idv.constants');
 
 /**
- * @param {array<string, string>} source
+ * @typedef {import('./source/allowed.source.response')} AllowedSourceResponse
+ */
+
+/**
+ * @param {{type: string}} source
  * @return {AllowedSourceResponse}
  */
 function createAllowedSourceFromArray(source) {
@@ -30,16 +34,20 @@ class RequiredResourceResponse {
    */
   constructor(requiredResource) {
     Validation.isString(requiredResource.type, 'type');
+    /** @private */
     this.type = requiredResource.type;
 
     Validation.isString(requiredResource.id, 'id');
+    /** @private */
     this.id = requiredResource.id;
 
     Validation.isString(requiredResource.state, 'state');
+    /** @private */
     this.state = requiredResource.state;
 
     if (requiredResource.allowed_sources) {
       Validation.isArray(requiredResource.allowed_sources, 'allowed_sources');
+      /** @private */
       this.allowedSources = requiredResource.allowed_sources.map(
         (allowedSource) => createAllowedSourceFromArray(allowedSource)
       );

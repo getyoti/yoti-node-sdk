@@ -9,9 +9,11 @@ const SupplementaryTextExtractionTaskResponse = require('./supplementary.documen
 class ResourceResponse {
   constructor(resource) {
     Validation.isString(resource.id, 'id', true);
+    /** @private */
     this.id = resource.id;
 
     if (resource.tasks) {
+      /** @private */
       this.tasks = resource.tasks
         .map((task) => {
           switch (task.type) {
@@ -24,6 +26,7 @@ class ResourceResponse {
           }
         });
     } else {
+      /** @private */
       this.tasks = [];
     }
   }
@@ -33,13 +36,6 @@ class ResourceResponse {
    */
   getTasks() {
     return this.tasks;
-  }
-
-  /**
-   * @return AllowedSourceResponse
-   */
-  getSource() {
-    return this.source;
   }
 
   /**

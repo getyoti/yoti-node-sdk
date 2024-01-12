@@ -9,16 +9,23 @@ const Validation = require('../../../../../../yoti_common/validation');
 const IDVConstants = require('../../../../../idv.constants');
 
 /**
+ * @typedef {import('../task/requested.task.response')} RequestedTaskResponse
+ */
+
+/**
  * @param {object} requestedTask
  * @return {RequestedTaskResponse}
  */
 function createTaskFromArray(requestedTask) {
   switch (requestedTask.type) {
     case IDVConstants.ID_DOCUMENT_TEXT_DATA_EXTRACTION:
+      /** @returns RequestedTaskResponse */
       return new RequestedIdDocTaskResponse(requestedTask);
     case IDVConstants.SUPPLEMENTARY_DOCUMENT_TEXT_DATA_EXTRACTION:
+      /** @returns RequestedTaskResponse */
       return new RequestedSupplementaryDocTaskResponse(requestedTask);
     default:
+      /** @returns RequestedTaskResponse */
       return new UnknownRequestedTaskResponse();
   }
 }
@@ -32,6 +39,7 @@ class RequiredDocumentResourceResponse extends RequiredResourceResponse {
 
     if (requiredResource.requested_tasks) {
       Validation.isArray(requiredResource.requested_tasks, 'requested_tasks');
+      /** @private */
       this.requestedTasks = requiredResource.requested_tasks.map(
         (requestedTask) => createTaskFromArray(requestedTask)
       );

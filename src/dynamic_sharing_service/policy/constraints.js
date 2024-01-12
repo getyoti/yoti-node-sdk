@@ -8,12 +8,13 @@ const SourceConstraint = require('./source.constraint');
  *
  * @class Constraints
  */
-module.exports = class Constraints {
+class Constraints {
   /**
    * Set default properties.
    */
   constructor(constraints) {
     Validation.isArrayOfTypes(constraints, [SourceConstraint], 'constraints');
+    /** @private */
     this.constraints = constraints;
   }
 
@@ -23,4 +24,6 @@ module.exports = class Constraints {
   toJSON() {
     return this.constraints;
   }
-};
+}
+
+module.exports = Constraints;

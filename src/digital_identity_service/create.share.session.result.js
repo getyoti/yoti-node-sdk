@@ -13,12 +13,15 @@ module.exports = class CreateShareSessionResult {
    */
   constructor(response) {
     Validation.isString(response.id, 'Session ID');
+    /** @private */
     this.id = response.id;
 
     Validation.isString(response.status, 'Status');
+    /** @private */
     this.status = response.status;
 
     Validation.isStringDate(response.expiry, 'Expiry');
+    /** @private */
     this.expiry = new Date(response.expiry);
   }
 

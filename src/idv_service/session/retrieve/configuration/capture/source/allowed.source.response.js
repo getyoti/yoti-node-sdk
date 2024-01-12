@@ -8,6 +8,7 @@ class AllowedSourceResponse {
     }
 
     Validation.isString(type, 'type');
+    /** @private */
     this.type = type;
   }
 

@@ -4,9 +4,14 @@ const constants = require('../../yoti_common/constants');
 const BaseProfile = require('./base.profile');
 
 /**
+ * @typedef {import('../../data_type/attribute').Attribute} Attribute
+ */
+
+/**
  * Profile of a human user with convenience methods to access well-known attributes.
  *
  * @class Profile
+ *
  */
 class ApplicationProfile extends BaseProfile {
   getName() {

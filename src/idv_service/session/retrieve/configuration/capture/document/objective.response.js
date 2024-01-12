@@ -8,6 +8,7 @@ class ObjectiveResponse {
    */
   constructor(objective) {
     Validation.isString(objective.type, 'type');
+    /** @private */
     this.type = objective.type;
   }
 

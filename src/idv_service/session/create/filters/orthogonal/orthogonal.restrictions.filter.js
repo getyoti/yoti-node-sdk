@@ -18,18 +18,22 @@ class OrthogonalRestrictionsFilter extends DocumentFilter {
 
     if (countryRestriction) {
       Validation.instanceOf(countryRestriction, CountryRestriction, 'countryRestriction');
+      /** @private */
       this.countryRestriction = countryRestriction;
     }
 
     if (typeRestriction) {
       Validation.instanceOf(typeRestriction, TypeRestriction, 'typeRestriction');
+      /** @private */
       this.typeRestriction = typeRestriction;
     }
 
     Validation.isBoolean(allowExpiredDocuments, 'allowExpiredDocuments', true);
+    /** @private */
     this.allowExpiredDocuments = allowExpiredDocuments;
 
     Validation.isBoolean(allowNonLatinDocuments, 'allowNonLatinDocuments', true);
+    /** @private */
     this.allowNonLatinDocuments = allowNonLatinDocuments;
   }
 

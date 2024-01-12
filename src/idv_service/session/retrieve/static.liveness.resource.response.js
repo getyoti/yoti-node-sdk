@@ -15,6 +15,7 @@ class StaticLivenessResourceResponse extends LivenessResourceResponse {
 
       Validation.isPlainObject(media, 'media');
 
+      /** @private */
       this.image = new MediaResponse(media);
     }
   }

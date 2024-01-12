@@ -12,6 +12,7 @@ class DocumentFilter {
     }
 
     Validation.isString(type, 'type');
+    /** @private */
     this.type = type;
   }
 

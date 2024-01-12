@@ -1,6 +1,10 @@
 'use strict';
 
 /**
+ * @typedef {import("./../data_type/signed.timestamp").YotiSignedTimeStamp} YotiSignedTimeStamp
+ */
+
+/**
  * A class to represent a Yoti anchor. Anchors are metadata associated
  * to the attribute, which describe how an attribute has been provided
  * to Yoti (SOURCE Anchor) and how it has been verified (VERIFIER Anchor).
@@ -11,6 +15,7 @@
  *
  * @class YotiAnchor
  */
+
 class YotiAnchor {
   /**
    * @param {string} type
@@ -20,10 +25,15 @@ class YotiAnchor {
    * @param {Object[]} originServerCerts
    */
   constructor(type, value, subType, signedTimeStamp, originServerCerts) {
+    /** @private */
     this.type = type;
+    /** @private */
     this.value = value;
+    /** @private */
     this.subType = subType;
+    /** @private */
     this.signedTimeStamp = signedTimeStamp;
+    /** @private */
     this.originServerCerts = originServerCerts;
   }
 
@@ -71,7 +81,7 @@ class YotiAnchor {
    * Certificate chain generated when this Anchor was created (attribute value was
    * sourced or verified). Securely encodes the Anchor type and value.
    *
-   * @param {Object[]} originServerCerts
+   * @returns {Object[]}
    */
   getOriginServerCerts() { return this.originServerCerts; }
 }

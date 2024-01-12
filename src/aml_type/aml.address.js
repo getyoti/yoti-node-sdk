@@ -52,7 +52,6 @@ module.exports.AmlAddress = class AmlAddress {
   }
 
   /**
-   * @param countryCode
    *
    * @deprecated Replaced by Validation.notNullOrEmpty()
    */

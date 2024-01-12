@@ -8,6 +8,18 @@ const { YotiSignedTimeStamp } = require('../data_type/signed.timestamp');
 const { YotiDate } = require('../data_type/date');
 
 /**
+ * @typedef {object} Certificate - defined in forge, see X.509v3 RSA certificate (mocked here)
+ * @property {number} version
+ * @property {string} serialNumber
+ * @property {*[]} extensions
+ */
+
+/**
+ * @typedef {{sources: [], verifiers: [], unknown: []}} AnchorsGroup
+ *
+ */
+
+/**
  * Mapping of anchor types.
  */
 const ANCHOR_TYPES = Object.freeze({
@@ -115,7 +127,10 @@ class AnchorProcessor {
         yotiSignedTimestamp,
         serverX509Certs
       );
-      anchorsList = this.mergeAnchorsLists(anchorsList, certAnchors);
+      anchorsList = this.mergeAnchorsLists(
+        /** @type AnchorsGroup */(anchorsList),
+        /** @type AnchorsGroup */(certAnchors)
+      );
     }
 
     return anchorsList;
@@ -217,8 +232,7 @@ class AnchorProcessor {
       const anchorExtension = extensionsData[oidIndex];
       const anchorEncodedValue = anchorExtension.value;
       // Convert Anchor value from ASN.1 format to an object
-      const extensionObj = forge.asn1.fromDer(anchorEncodedValue.toString('binary'));
-      return extensionObj;
+      return forge.asn1.fromDer(anchorEncodedValue.toString('binary'));
     }
     return null;
   }
@@ -232,7 +246,7 @@ class AnchorProcessor {
    */
   static processSignedTimeStamp(signedTimestampBuffer) {
     let version = 0;
-    let timestamp = 0;
+    let timestamp = new YotiDate(0);
 
     if (signedTimestampBuffer) {
       // eslint-disable-next-line max-len
@@ -248,9 +262,9 @@ class AnchorProcessor {
    *
    * @deprecated no longer in use.
    *
-   * @param {Array} targetList
-   * @param {Array} sourceList
-   * @returns {Object.<string, YotiAnchor[]>}
+   * @param {AnchorsGroup} targetList
+   * @param {AnchorsGroup} sourceList
+   * @returns {AnchorsGroup}
    */
   static mergeAnchorsLists(targetList, sourceList) {
     this.getAnchorTypes().forEach((anchorType) => {

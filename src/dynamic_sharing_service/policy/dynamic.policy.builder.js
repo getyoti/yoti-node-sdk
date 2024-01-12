@@ -12,13 +12,19 @@ const SELFIE_AUTH_TYPE = 1;
 const PIN_AUTH_TYPE = 2;
 
 /**
+ * @typedef {import('./constraints')} Constraints
+ */
+
+/**
  * Builder for DynamicPolicy.
  *
  * @class DynamicPolicyBuilder
  */
 module.exports = class DynamicPolicyBuilder {
   constructor() {
+    /** @private */
     this.wantedAttributes = {};
+    /** @private */
     this.wantedAuthTypes = [];
   }
 
@@ -49,7 +55,7 @@ module.exports = class DynamicPolicyBuilder {
   /**
    * @param {string} name
    * @param {Constraints} constraints
-   * @param {boolean} acceptSelfAsserted
+   * @param {boolean|null} acceptSelfAsserted
    */
   withWantedAttributeByName(name, constraints = null, acceptSelfAsserted = null) {
     const wantedAttributeBuilder = new WantedAttributeBuilder()
@@ -115,7 +121,7 @@ module.exports = class DynamicPolicyBuilder {
   }
 
   /**
-   * @param {int} age
+   * @param {number} age
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
@@ -129,7 +135,7 @@ module.exports = class DynamicPolicyBuilder {
   }
 
   /**
-   * @param {int} age
+   * @param {number} age
    * @param {Constraints} constraints
    * @param {boolean} acceptSelfAsserted
    */
@@ -283,7 +289,7 @@ module.exports = class DynamicPolicyBuilder {
   }
 
   /**
-   * @param {integer} wantedAuthType
+   * @param {number} wantedAuthType
    * @param {boolean} enabled
    */
   withWantedAuthType(wantedAuthType, enabled = true) {

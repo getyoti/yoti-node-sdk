@@ -16,6 +16,7 @@ class RequestedTypeListSources extends RequestedCaSources {
   constructor(types = []) {
     super(TYPE_LIST);
     Validation.isArrayOfStrings(types, 'types');
+    /** @private */
     this.types = types;
   }
 

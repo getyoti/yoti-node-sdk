@@ -9,12 +9,14 @@ class Media {
    */
   constructor(content, mimeType) {
     if (Buffer.isBuffer(content)) {
+      /** @private */
       this.content = content;
     } else {
       throw new TypeError('content must be of type Buffer');
     }
 
     Validation.isString(mimeType, 'mimeType');
+    /** @private */
     this.mimeType = mimeType;
   }
 

@@ -11,7 +11,7 @@ const Validation = require('../../yoti_common/validation');
 module.exports = class DynamicPolicy {
   /**
    * @param {WantedAttribute[]} wantedAttributes - array of attributes to be requested.
-   * @param {integer[]} wantedAuthTypes - auth types represents the authentication type to be used.
+   * @param {number[]} wantedAuthTypes - auth types represents the authentication type to be used.
    * @param {boolean} wantedRememberMe
    * @param {object} identityProfileRequirements
    */
@@ -22,20 +22,25 @@ module.exports = class DynamicPolicy {
     identityProfileRequirements = null
   ) {
     Validation.isArrayOfType(wantedAttributes, WantedAttribute, 'wantedAttribute');
+    /** @private */
     this.wantedAttributes = wantedAttributes;
 
     if (wantedAuthTypes) {
       Validation.isArrayOfIntegers(wantedAuthTypes, 'wantedAuthTypes');
+      /** @private */
       this.wantedAuthTypes = wantedAuthTypes;
     } else {
+      /** @private */
       this.wantedAuthTypes = [];
     }
 
     Validation.isBoolean(wantedRememberMe, 'wantedRememberMe');
+    /** @private */
     this.wantedRememberMe = wantedRememberMe;
 
     if (identityProfileRequirements) {
       Validation.isPlainObject(identityProfileRequirements, 'identityProfileRequirements');
+      /** @private */
       this.identityProfileRequirements = identityProfileRequirements;
     }
   }
@@ -48,7 +53,7 @@ module.exports = class DynamicPolicy {
   }
 
   /**
-   * @returns {integer[]} auth types represents the authentication type to be used.
+   * @returns {number[]} auth types represents the authentication type to be used.
    */
   getWantedAuthTypes() {
     return this.wantedAuthTypes;

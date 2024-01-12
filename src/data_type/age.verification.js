@@ -21,9 +21,12 @@ class AgeVerification {
     Validation.matchesPattern(name, /^[^:]+:(?!.*:)[0-9]+$/, 'attribute.name');
 
     const split = name.split(':');
+    /** @private */
     this.checkType = split[0];
 
+    /** @private */
     this.age = parseInt(split[1], 10);
+    /** @private */
     this.result = value === 'true';
   }
 
@@ -41,7 +44,7 @@ class AgeVerification {
   /**
    * The age that was that checked, as specified on Yoti Hub.
    *
-   * @returns {integer}
+   * @returns {number}
    */
   getAge() {
     return this.age;
@@ -54,17 +57,6 @@ class AgeVerification {
    */
   getResult() {
     return this.result;
-  }
-
-  /**
-   * The wrapped profile attribute.
-   *
-   * Use this if you need access to the underlying List of Anchors.
-   *
-   * @returns {Attribute}
-   */
-  getAttribute() {
-    return this.attribute;
   }
 }
 

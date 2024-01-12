@@ -53,9 +53,20 @@ const {
   RequestedTypeListSourcesBuilder,
   CreateFaceCaptureResourcePayloadBuilder,
   UploadFaceCaptureImagePayloadBuilder,
+  IDVService,
 } = require('./src/idv_service');
 
+const YotiCommon = require('./src/yoti_common');
+const { YotiRequest } = require('./src/request/request');
+const IDVError = require('./src/idv_service/idv.error');
+
 module.exports = {
+  internals: {
+    IDVService,
+    YotiCommon,
+    YotiRequest,
+    IDVError,
+  },
   Client: YotiClient,
   IDVClient,
   DigitalIdentityClient,

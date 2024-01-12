@@ -8,6 +8,7 @@ class SearchProfileSourcesResponse extends CaSourcesResponse {
     super(sources);
 
     Validation.isString(sources.type, 'search_profile');
+    /** @private */
     this.searchProfile = sources.search_profile;
   }
 

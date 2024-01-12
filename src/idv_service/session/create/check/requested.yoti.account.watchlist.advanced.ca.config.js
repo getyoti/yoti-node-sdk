@@ -4,6 +4,10 @@ const { WITH_YOTI_ACCOUNT } = require('../../../idv.constants');
 const RequestedWatchlistAdvancedCaConfig = require('./requested.watchlist.advanced.ca.config');
 
 /**
+ * @typedef {import('./requested.watchlist.advanced.ca.check')} RequestedWatchlistAdvancedCaCheck
+ */
+
+/**
  * The configuration applied when creating a {@link RequestedWatchlistAdvancedCaCheck}
  * with Yoti account
  *

@@ -4,7 +4,7 @@ const AttributeIssuanceDetails = require('../../data_type/attribute.issuance.det
 
 /**
  *
- * @param {[]} dataEntries
+ * @param {Object[]} dataEntries
  * @returns {AttributeIssuanceDetails}
  */
 function getAttributeIssuanceDetails(dataEntries) {
@@ -16,6 +16,7 @@ class ExtraData {
    * @param {Object[]} dataEntries
    */
   constructor(dataEntries = []) {
+    /** @private */
     this.attributeIssuanceDetails = getAttributeIssuanceDetails(dataEntries);
   }
 

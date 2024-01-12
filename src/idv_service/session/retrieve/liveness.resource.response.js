@@ -8,6 +8,7 @@ class LivenessResourceResponse extends ResourceResponse {
     super(resource);
 
     Validation.isString(resource.liveness_type, 'liveness_type', true);
+    /** @private */
     this.livenessType = resource.liveness_type;
   }
 

@@ -27,25 +27,29 @@ class NotificationConfig {
    */
   constructor(authToken, endpoint, topics, authType) {
     Validation.isString(authToken, 'authToken', true);
+    /** @private */
     this.authToken = authToken;
 
     Validation.isString(endpoint, 'endpoint', true);
+    /** @private */
     this.endpoint = endpoint;
 
     if (topics) {
       Validation.isArrayOfStrings(topics, 'topics');
+      /** @private */
       this.topics = topics.filter((elem, pos) => topics.indexOf(elem) === pos);
     }
 
     Validation.isString(authType, 'authType', true);
     if (authType) {
       Validation.oneOf(authType, acceptedAuthTypes, 'authType');
+      /** @private */
       this.authType = authType;
     }
   }
 
   /**
-   * @returns {Object} data for JSON.stringify()
+   * Returns serialized data for JSON.stringify()
    */
   toJSON() {
     return {

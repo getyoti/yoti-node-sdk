@@ -11,11 +11,14 @@
   "engines": {
     "node": ">=14"
   },
+  "types": "./types/index.d.ts",
   "scripts": {
     "lint": "npx eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
     "test": "jest",
     "audit": "audit-ci --config ./audit-ci.jsonc",
-    "pre-commit": "npm run test"
+    "types:generate": "tsc index.js --declaration --allowJs --checkJs --resolveJsonModule --emitDeclarationOnly --skipLibCheck --outDir types",
+    "types:refresh": "rm -rf types && npm run types:generate && git add types",
+    "pre-commit": "npm run test && npm run types:refresh"
   },
   "jest": {
     "verbose": true,
@@ -46,6 +49,7 @@
     "eslint-plugin-node": "11.1.0",
     "husky": "8.0.3",
     "jest": "29.5.0",
-    "nock": "13.2.9"
+    "nock": "13.2.9",
+    "typescript": "5.3.3"
   }
 }

@@ -14,6 +14,7 @@ class RequestedWatchlistScreeningConfig {
   constructor(categories) {
     if (categories) {
       Validation.isArrayOfStrings(categories, 'categories');
+      /** @private */
       this.categories = categories.filter((elem, pos) => categories.indexOf(elem) === pos);
     }
   }

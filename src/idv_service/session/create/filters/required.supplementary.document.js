@@ -15,15 +15,18 @@ class RequiredSupplementaryDocument extends RequiredDocument {
     super(IDVConstants.SUPPLEMENTARY_DOCUMENT);
 
     Validation.instanceOf(objective, Objective, 'objective');
+    /** @private */
     this.objective = objective;
 
     if (documentTypes) {
       Validation.isArrayOfStrings(documentTypes, 'documentTypes');
+      /** @private */
       this.documentTypes = documentTypes;
     }
 
     if (countryCodes) {
       Validation.isArrayOfStrings(countryCodes, 'countryCodes');
+      /** @private */
       this.countryCodes = countryCodes;
     }
   }

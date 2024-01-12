@@ -8,6 +8,7 @@ class TypeListSourcesResponse extends CaSourcesResponse {
     super(sources);
 
     Validation.isArrayOfStrings(sources.types, 'types');
+    /** @private */
     this.types = sources.types;
   }
 

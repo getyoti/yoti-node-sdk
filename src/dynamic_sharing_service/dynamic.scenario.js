@@ -24,16 +24,20 @@ module.exports = class DynamicScenario {
    */
   constructor(callbackEndpoint, dynamicPolicy, extensions, subject) {
     Validation.isString(callbackEndpoint, 'callbackEndpoint');
+    /** @private */
     this.callbackEndpoint = callbackEndpoint;
 
     Validation.instanceOf(dynamicPolicy, DynamicPolicy, 'dynamicPolicy');
+    /** @private */
     this.dynamicPolicy = dynamicPolicy;
 
     Validation.isArrayOfType(extensions, Extension, 'extensions');
+    /** @private */
     this.extensions = extensions;
 
     if (subject) {
       Validation.isPlainObject(subject, 'subject');
+      /** @private */
       this.subject = subject;
     }
   }

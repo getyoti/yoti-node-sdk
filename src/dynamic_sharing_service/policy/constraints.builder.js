@@ -14,6 +14,7 @@ module.exports = class ConstraintsBuilder {
    * Set default properties.
    */
   constructor() {
+    /** @private */
     this.constraints = [];
   }
 

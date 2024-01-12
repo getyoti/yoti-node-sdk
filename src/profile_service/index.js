@@ -17,27 +17,29 @@ class ProfileService {
   /**
    * @param {string} sdkId
    * @param {string|Buffer} pem
-   * @param {Object} options
-   * @param {string} options.apiUrl
+   * @param {{apiUrl?: string}} options
    */
   constructor(sdkId, pem, { apiUrl = DEFAULT_API_URL } = {}) {
     Validation.isString(sdkId, 'sdkId');
     Validation.notNullOrEmpty(pem, 'pem');
 
+    /** @private */
     this.sdkId = sdkId;
+    /** @private */
     this.pem = pem;
+    /** @private */
     this.apiUrl = apiUrl;
   }
 
   getReceipt(token) {
     const requestBuilder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withEndpoint(`/profile/${token}`)
       .withQueryParam('appId', this.sdkId)
       .withMethod('GET');
 
-    requestBuilder.withHeader('X-Yoti-Auth-Key', yotiCommon.getAuthKeyFromPem(this.pem));
+    requestBuilder.withHeader('X-Yoti-Auth-Key', yotiCommon.getAuthKeyFromPem(this.pem.toString()));
 
     const request = requestBuilder.build();
 
@@ -47,9 +49,10 @@ class ProfileService {
           try {
             const receipt = response.getReceipt();
             const parsedResponse = response.getParsedResponse();
-            const userProfile = yotiCommon.decryptUserProfile(receipt, this.pem);
-            const applicationProfile = yotiCommon.decryptApplicationProfile(receipt, this.pem);
-            const extraData = yotiCommon.parseExtraData(receipt, this.pem);
+            const userProfile = yotiCommon.decryptUserProfile(receipt, this.pem.toString());
+            // eslint-disable-next-line max-len
+            const applicationProfile = yotiCommon.decryptApplicationProfile(receipt, this.pem.toString());
+            const extraData = yotiCommon.parseExtraData(receipt, this.pem.toString());
             return resolve(new ActivityDetails(
               parsedResponse,
               userProfile,

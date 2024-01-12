@@ -13,10 +13,12 @@ module.exports = class CreateShareQrCodeResult {
    */
   constructor(response) {
     Validation.isString(response.id, 'QR code ID');
+    /** @private */
     this.id = response.id;
 
     if (response.uri) {
       Validation.isString(response.uri, 'URI');
+      /** @private */
       this.uri = response.uri;
     }
   }

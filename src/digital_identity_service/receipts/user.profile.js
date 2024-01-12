@@ -15,6 +15,7 @@ class UserProfile extends BaseProfile {
   constructor(attributes = []) {
     super(attributes);
 
+    /** @private */
     this.ageVerifications = this.attributes
       .filter((attribute) => attribute.getValue() instanceof AgeVerification)
       .reduce((acc, attribute) => ({
@@ -72,7 +73,7 @@ class UserProfile extends BaseProfile {
   /**
    * Searches for an AgeVerification corresponding to an 'Age Over' check for the given age
    *
-   * @param {int} age
+   * @param {number} age
    *
    * @returns {AgeVerification|null}
    */
@@ -83,7 +84,7 @@ class UserProfile extends BaseProfile {
   /**
    * Searches for an AgeVerification corresponding to an 'Age Under' check for the given age.
    *
-   * @param {int} age
+   * @param {number} age
    *
    * @returns {AgeVerification|null}
    */
@@ -95,13 +96,13 @@ class UserProfile extends BaseProfile {
    * Searches for an AgeVerification corresponding to provided type and age.
    *
    * @param {string} type
-   * @param {int} age
+   * @param {number} age
    *
    * @returns {AgeVerification|null}
    */
   findAgeVerification(type, age) {
-    Validation.isString(type);
-    Validation.isInteger(age);
+    Validation.isString(type, 'type');
+    Validation.isInteger(age, 'age');
     return this.ageVerifications[type + age] || null;
   }
 
@@ -118,7 +119,7 @@ class UserProfile extends BaseProfile {
   /**
    * Corresponds to the nationality in the passport.
    *
-   * @returns {Attribute|main}
+   * @returns {Attribute|null}
    */
   getNationality() {
     return this.getAttribute(constants.ATTR_NATIONALITY);
@@ -137,7 +138,7 @@ class UserProfile extends BaseProfile {
   /**
    * Photograph of user, encoded as a JPEG image.
    *
-   * @returns {Attribute|main}
+   * @returns {Attribute|null}
    */
   getSelfie() {
     return this.getAttribute(constants.ATTR_SELFIE);
@@ -169,7 +170,7 @@ class UserProfile extends BaseProfile {
       return new Attribute({
         ...structuredPostalAddress,
         name: constants.ATTR_POSTAL_ADDRESS,
-        value: structuredPostalAddress.value.formatted_address,
+        value: structuredPostalAddress.getValue().formatted_address,
       });
     }
 
@@ -179,7 +180,7 @@ class UserProfile extends BaseProfile {
   /**
    * The user's structured postal address as a Json.
    *
-   * @returns {null|*}
+   * @returns {null|Attribute}
    */
   getStructuredPostalAddress() {
     return this.getAttribute(constants.ATTR_STRUCTURED_POSTAL_ADDRESS);
@@ -188,7 +189,7 @@ class UserProfile extends BaseProfile {
   /**
    * Document details.
    *
-   * @returns {null|DocumentDetails}
+   * @returns {null|Attribute}
    */
   getDocumentDetails() {
     return this.getAttribute(constants.ATTR_DOCUMENT_DETAILS);

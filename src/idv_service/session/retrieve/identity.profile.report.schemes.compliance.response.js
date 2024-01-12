@@ -5,13 +5,16 @@ const Validation = require('../../../yoti_common/validation');
 class IdentityProfileReportSchemesComplianceResponse {
   constructor(schemesCompliance) {
     Validation.isPlainObject(schemesCompliance.scheme, 'scheme');
+    /** @private */
     this.scheme = schemesCompliance.scheme;
 
     Validation.isBoolean(schemesCompliance.requirements_met, 'requirements_met');
+    /** @private */
     this.requirementsMet = schemesCompliance.requirements_met;
 
     if (schemesCompliance.requirements_not_met_info) {
       Validation.isString(schemesCompliance.requirements_not_met_info, 'requirements_not_met_info');
+      /** @private */
       this.requirementsNotMetInfo = schemesCompliance.requirements_not_met_info;
     }
   }

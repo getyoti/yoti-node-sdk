@@ -14,11 +14,13 @@ class YotiSignedTimeStamp {
    * @param {YotiDate} timestamp
    */
   constructor(version, timestamp) {
+    /** @private */
     this.version = version;
 
     if (!(timestamp instanceof YotiDate)) {
       throw new TypeError('timestamp must be instance of YotiDate');
     }
+    /** @private */
     this.timestamp = timestamp;
   }
 

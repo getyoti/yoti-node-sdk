@@ -5,6 +5,7 @@ const MediaResponse = require('./media.response');
 class GeneratedProfileResponse {
   constructor(generatedProfile) {
     if (generatedProfile.media) {
+      /** @private */
       this.media = new MediaResponse(generatedProfile.media);
     }
   }

@@ -13,31 +13,38 @@ module.exports = class GetShareSessionResult {
    */
   constructor(response) {
     Validation.isString(response.id, 'Session ID');
+    /** @private */
     this.id = response.id;
 
     Validation.isString(response.status, 'Status');
+    /** @private */
     this.status = response.status;
 
     Validation.isStringDate(response.created, 'Created');
+    /** @private */
     this.created = new Date(response.created);
 
     Validation.isStringDate(response.updated, 'Updated');
+    /** @private */
     this.updated = new Date(response.updated);
 
     if (response.expiry) {
       Validation.isStringDate(response.expiry, 'Expiry');
+      /** @private */
       this.expiry = new Date(response.expiry);
     }
 
     if (response.qrCode) {
       Validation.isString(response.qrCode.id, 'QrCode ID');
 
+      /** @private */
       this.scannedQrCodeId = response.qrCode.id;
     }
 
     if (response.receipt) {
       Validation.isString(response.receipt.id, 'Receipt ID');
 
+      /** @private */
       this.receiptId = response.receipt.id;
     }
   }

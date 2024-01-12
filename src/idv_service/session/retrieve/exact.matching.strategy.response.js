@@ -8,6 +8,7 @@ class ExactMatchingStrategyResponse extends CaMatchingStrategyResponse {
     super(matchingStrategy);
 
     Validation.isBoolean(matchingStrategy.exact_match, 'exact_match');
+    /** @private */
     this.exactMatch = matchingStrategy.exact_match;
   }
 

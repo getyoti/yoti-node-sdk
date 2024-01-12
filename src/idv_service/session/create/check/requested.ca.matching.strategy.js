@@ -13,6 +13,7 @@ class RequestedCaMatchingStrategy {
 
     Validation.notNullOrEmpty(type, 'type');
     Validation.isString(type, 'type');
+    /** @protected */
     this.type = type;
   }
 }

@@ -14,12 +14,15 @@ class CreateSessionResult {
    */
   constructor(response) {
     Validation.isInteger(response.client_session_token_ttl, 'client_session_token_ttl', true);
+    /** @private */
     this.clientSessionTokenTtl = response.client_session_token_ttl;
 
     Validation.isString(response.client_session_token, 'client_session_token', true);
+    /** @private */
     this.clientSessionToken = response.client_session_token;
 
     Validation.isString(response.session_id, 'session_id', true);
+    /** @private */
     this.sessionId = response.session_id;
   }
 
@@ -27,7 +30,7 @@ class CreateSessionResult {
    * Returns the time-to-live (TTL) for the client session
    * token for the created session
    *
-   * @returns {int} the client session token TTL
+   * @returns {number} the client session token TTL
    */
   getClientSessionTokenTtl() {
     return this.clientSessionTokenTtl;

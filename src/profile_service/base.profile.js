@@ -7,10 +7,12 @@ class BaseProfile {
    * @param {Array} attributes
    */
   constructor(attributes = []) {
+    /** @protected */
     this.attributes = attributes
       .filter((attribute) => !!attribute)
       .map((attribute) => new Attribute(attribute));
 
+    /** @private */
     this.attributesMap = this.attributes.reduce((acc, current) => {
       const name = current.getName();
       acc[name] = acc[name] || [];

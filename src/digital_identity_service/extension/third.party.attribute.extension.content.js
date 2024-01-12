@@ -7,7 +7,9 @@
  */
 class ThirdPartyAttributeExtensionContent {
   constructor(expiryDate, definitions) {
+    /** @private */
     this.expiryDate = expiryDate;
+    /** @private */
     this.definitions = definitions;
   }
 
@@ -19,6 +21,9 @@ class ThirdPartyAttributeExtensionContent {
     return this.definitions;
   }
 
+  /**
+   * Returns serialized data for JSON.stringify()
+   */
   toJSON() {
     return {
       expiry_date: this.expiryDate.toISOString(),

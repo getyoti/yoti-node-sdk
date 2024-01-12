@@ -3,7 +3,7 @@
 const FormData = require('form-data');
 const { ContentType } = require('./constants');
 
-module.exports.Payload = class Payload {
+class Payload {
   constructor(data, type = ContentType.JSON) {
     const supportedContentTypes = [ContentType.JSON, ContentType.FORM_DATA];
     if (!supportedContentTypes.includes(type)) {
@@ -18,10 +18,14 @@ module.exports.Payload = class Payload {
         formData.append(name, value, options);
       });
 
+      /** @private */
       this.contentType = ContentType.FORM_DATA;
+      /** @private */
       this.data = formData;
     } else {
+      /** @private */
       this.contentType = ContentType.JSON;
+      /** @private */
       this.data = data;
     }
   }
@@ -71,4 +75,8 @@ module.exports.Payload = class Payload {
   getRawData() {
     return this.data;
   }
+}
+
+module.exports = {
+  Payload,
 };

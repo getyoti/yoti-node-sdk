@@ -45,14 +45,17 @@ class DigitalIdentityService {
     Validation.isString(sdkId, 'sdkId');
     Validation.notNullOrEmpty(pem, 'pem');
 
+    /** @private */
     this.sdkId = sdkId;
+    /** @private */
     this.pem = pem;
+    /** @private */
     this.apiUrl = apiUrl;
   }
 
   /**
+   * @param {ShareSessionConfiguration} shareSessionConfig
    *
-   * @param shareSessionConfig
    * @returns {Promise<CreateShareSessionResult>}
    */
   async createShareSession(shareSessionConfig) {
@@ -63,7 +66,7 @@ class DigitalIdentityService {
     const requestBuilder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withHeader('X-Yoti-Auth-Id', this.sdkId)
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withEndpoint('/v2/sessions')
       .withQueryParam('appId', this.sdkId)
       .withMethod('POST')
@@ -92,8 +95,8 @@ class DigitalIdentityService {
   }
 
   /**
+   * @param {string} sessionId
    *
-   * @param sessionId
    * @returns {Promise<GetShareSessionResult>}
    */
   async getShareSession(sessionId) {
@@ -102,7 +105,7 @@ class DigitalIdentityService {
     const requestBuilder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withHeader('X-Yoti-Auth-Id', this.sdkId)
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withEndpoint(`/v2/sessions/${sessionId}`)
       .withQueryParam('appId', this.sdkId)
       .withMethod('GET');
@@ -132,7 +135,7 @@ class DigitalIdentityService {
 
   /**
    *
-   * @param sessionId
+   * @param {string} sessionId
    * @returns {Promise<CreateShareQrCodeResult>}
    */
   async createShareQrCode(sessionId) {
@@ -143,7 +146,7 @@ class DigitalIdentityService {
     const requestBuilder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withHeader('X-Yoti-Auth-Id', this.sdkId)
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withEndpoint(`/v2/sessions/${sessionId}/qr-codes`)
       .withQueryParam('appId', this.sdkId)
       .withMethod('POST')
@@ -173,7 +176,7 @@ class DigitalIdentityService {
 
   /**
    *
-   * @param qrCodeId
+   * @param {string} qrCodeId
    * @returns {Promise<GetShareQrCodeResult>}
    */
   async getShareQrCode(qrCodeId) {
@@ -182,7 +185,7 @@ class DigitalIdentityService {
     const requestBuilder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withHeader('X-Yoti-Auth-Id', this.sdkId)
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withEndpoint(`/v2/qr-codes/${qrCodeId}`)
       .withQueryParam('appId', this.sdkId)
       .withMethod('GET');
@@ -220,7 +223,7 @@ class DigitalIdentityService {
     const request = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withHeader('X-Yoti-Auth-Id', this.sdkId)
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withEndpoint(`/v2/receipts/${receiptIdUrl}`)
       .withQueryParam('appId', this.sdkId)
       .withMethod('GET')
@@ -245,7 +248,7 @@ class DigitalIdentityService {
     const request = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withHeader('X-Yoti-Auth-Id', this.sdkId)
-      .withPemString(this.pem)
+      .withPemString(this.pem.toString())
       .withEndpoint(`/v2/wrapped-item-keys/${receiptItemKeyId}`)
       .withQueryParam('appId', this.sdkId)
       .withMethod('GET')

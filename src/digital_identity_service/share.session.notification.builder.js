@@ -9,6 +9,7 @@ const ShareSessionNotification = require('./share.session.notification');
  */
 module.exports = class ShareSessionNotificationBuilder {
   constructor() {
+    /** @private */
     this.headers = {};
   }
 

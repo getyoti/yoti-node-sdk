@@ -17,6 +17,7 @@ class CaMatchingStrategyResponse {
 
     Validation.isString(matchingStrategy.type, 'type');
     Validation.oneOf(matchingStrategy.type, Object.keys(types), 'type');
+    /** @private */
     this.type = matchingStrategy.type;
   }
 

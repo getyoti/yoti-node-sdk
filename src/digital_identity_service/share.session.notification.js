@@ -16,20 +16,24 @@ module.exports = class ShareSessionNotification {
    */
   constructor(url, method, headers, verifyTls) {
     Validation.isString(url, 'Notification Url');
+    /** @private */
     this.url = url;
 
     if (method) {
       Validation.isString(method, 'Notification Method');
+      /** @private */
       this.method = method;
     }
 
     if (headers) {
       Validation.isPlainObject(headers, 'Notification Headers');
+      /** @private */
       this.headers = headers;
     }
 
     if (verifyTls) {
       Validation.isBoolean(verifyTls, 'Notification Verify TLS');
+      /** @private */
       this.verifyTls = verifyTls;
     }
   }
@@ -62,6 +66,9 @@ module.exports = class ShareSessionNotification {
     return this.verifyTls;
   }
 
+  /**
+   * Returns serialized data for JSON.stringify()
+   */
   toJSON() {
     return {
       url: this.url,

@@ -10,6 +10,7 @@ const WantedAttribute = require('./wanted.attribute');
 module.exports = class WantedAttributeBuilder {
   /**
    * @param {string} name
+   * @returns this
    */
   withName(name) {
     this.name = name;
@@ -18,6 +19,7 @@ module.exports = class WantedAttributeBuilder {
 
   /**
    * @param {string} derivation
+   * @returns this
    */
   withDerivation(derivation) {
     this.derivation = derivation;
@@ -25,7 +27,9 @@ module.exports = class WantedAttributeBuilder {
   }
 
   /**
+   * @typedef {import('./constraints')} Constraints
    * @param {Constraints} constraints
+   * @returns this
    */
   withConstraints(constraints) {
     this.constraints = constraints;
@@ -33,7 +37,8 @@ module.exports = class WantedAttributeBuilder {
   }
 
   /**
-   * @param {Array} acceptSelfAsserted
+   * @param {boolean} [acceptSelfAsserted=true]
+   * @returns this
    */
   withAcceptSelfAsserted(acceptSelfAsserted = true) {
     this.acceptSelfAsserted = acceptSelfAsserted;

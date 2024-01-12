@@ -8,6 +8,7 @@ class WatchlistScreeningSummaryResponse extends WatchlistSummaryResponse {
     super(summary);
 
     if (summary.search_config) {
+      /** @private */
       this.searchConfig = new WatchlistScreeningSearchConfigResponse(summary.search_config);
     }
   }

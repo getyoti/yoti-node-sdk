@@ -7,20 +7,24 @@ class DigitalIdentityClient {
   /**
    * @param {string} sdkId
    * @param {string|Buffer} pem
-   * @param {Object} options
-   * @param {string} options.apiUrl
+   * @param {{apiUrl?: string}} options
    */
   constructor(sdkId, pem, { apiUrl } = {}) {
     const options = {
       apiUrl: apiUrl || config.yoti.digitalIdentityApi,
     };
 
+    /** @private */
     this.digitalIdentityService = new DigitalIdentityService(sdkId, pem, options);
   }
 
   /**
+   * @typedef {import('../digital_identity_service/share.session.configuration.js')} ShareSessionConfig
    *
-   * @param shareSessionConfig
+   * @param {ShareSessionConfig} shareSessionConfig
+   *
+   * @typedef {import('../digital_identity_service/create.share.session.result.js')} CreateShareSessionResult
+   *
    * @returns {Promise<CreateShareSessionResult>}
    */
   async createShareSession(shareSessionConfig) {
@@ -28,8 +32,10 @@ class DigitalIdentityClient {
   }
 
   /**
+   * @param {string} sessionId
    *
-   * @param sessionId
+   * @typedef {import('../digital_identity_service/get.share.session.result.js')} GetShareSessionResult
+   *
    * @returns {Promise<GetShareSessionResult>}
    */
   async getShareSession(sessionId) {
@@ -37,8 +43,10 @@ class DigitalIdentityClient {
   }
 
   /**
+   * @param {string} sessionId
    *
-   * @param sessionId
+   * @typedef {import('../digital_identity_service/create.share.qr.code.result.js')} CreateShareQrCodeResult
+   *
    * @returns {Promise<CreateShareQrCodeResult>}
    */
   async createShareQrCode(sessionId) {
@@ -46,8 +54,10 @@ class DigitalIdentityClient {
   }
 
   /**
+   * @param {string} qrCodeId
    *
-   * @param qrCodeId
+   * @typedef {import('../digital_identity_service/get.share.qr.code.result.js')} GetShareQrCodeResult
+   *
    * @returns {Promise<GetShareQrCodeResult>}
    */
   async getShareQrCode(qrCodeId) {
@@ -55,8 +65,10 @@ class DigitalIdentityClient {
   }
 
   /**
-   *
    * @param {string} receiptId
+   *
+   * @typedef {import('../digital_identity_service/get.share.receipt.result.js')} GetShareReceiptResult
+   *
    * @returns {Promise<GetShareReceiptResult>}
    */
   async getShareReceipt(receiptId) {
