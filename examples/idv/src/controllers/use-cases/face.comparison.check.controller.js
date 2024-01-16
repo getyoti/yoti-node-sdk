@@ -16,8 +16,8 @@ async function createSession() {
   const idvClient = new IDVClient(config.YOTI_CLIENT_SDK_ID, config.YOTI_PEM);
 
   const sessionSpec = new SessionSpecificationBuilder()
-    .withClientSessionTokenTtl(600)
-    .withResourcesTtl(86400)
+    .withClientSessionTokenTtl(600) // 10 minutes
+    .withResourcesTtl(90000) // session TTL(10 minutes) + 24 hours(minimum required)
     .withUserTrackingId('some-user-tracking-id')
 
     .withRequestedCheck(
