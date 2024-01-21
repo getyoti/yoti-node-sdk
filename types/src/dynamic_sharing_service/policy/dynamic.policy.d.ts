@@ -5,8 +5,9 @@ declare class DynamicPolicy {
      * @param {number[]} wantedAuthTypes - auth types represents the authentication type to be used.
      * @param {boolean} wantedRememberMe
      * @param {object} identityProfileRequirements
+     * @param {object} advancedIdentityProfileRequirements
      */
-    constructor(wantedAttributes: WantedAttribute[], wantedAuthTypes: number[], wantedRememberMe?: boolean, identityProfileRequirements?: object);
+    constructor(wantedAttributes: WantedAttribute[], wantedAuthTypes: number[], wantedRememberMe?: boolean, identityProfileRequirements?: object, advancedIdentityProfileRequirements?: object);
     /** @private */
     private wantedAttributes;
     /** @private */
@@ -15,6 +16,7 @@ declare class DynamicPolicy {
     private wantedRememberMe;
     /** @private */
     private identityProfileRequirements;
+    advancedIdentityProfileRequirements: any;
     /**
      * @returns {WantedAttribute[]} array of attributes to be requested.
      */
@@ -31,6 +33,10 @@ declare class DynamicPolicy {
      * @return {Object}
      */
     getIdentityProfileRequirements(): any;
+    /**
+     * @return {Object}
+     */
+    getAdvancedIdentityProfileRequirements(): any;
     /**
      * @returns {Object} data for JSON.stringify()
      */
