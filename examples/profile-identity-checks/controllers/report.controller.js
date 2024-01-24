@@ -72,7 +72,7 @@ module.exports = async (req, res) => {
               ? (profile && profile.getAttributeById(document_images_attribute_id)) : null))
             .filter((documentImagesAttribute) => documentImagesAttribute);
         });
-        documentImagesAttributes = [].concat(...documentImagesAttributesArray);
+        documentImagesAttributes = documentImagesAttributesArray.flat();
 
         // Selfie image (if any)
         const selfieAttributeArray = verificationReports.map((report) => {
