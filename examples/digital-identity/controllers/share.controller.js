@@ -9,6 +9,62 @@ const {
 const config = require('../config');
 const sdkDigitalIdentityClient = require('./sdk.digital.identity.client');
 
+const identityProfileRequirementsDescriptors = {
+  RTW: {
+    trust_framework: 'UK_TFIDA',
+    scheme: {
+      type: 'RTW',
+    },
+  },
+  RTR: {
+    trust_framework: 'UK_TFIDA',
+    scheme: {
+      type: 'RTR',
+    },
+  },
+  DBS_BASIC: {
+    trust_framework: 'UK_TFIDA',
+    scheme: {
+      type: 'DBS',
+      objective: 'BASIC',
+    },
+  },
+  MTF_BASE: {
+    profiles: [
+      {
+        trust_framework: 'UK_TFIDA',
+        schemes: [
+          {
+            type: 'DBS',
+            objective: 'STANDARD',
+            label: 'dbs-standard',
+          },
+          {
+            type: 'RTW',
+            objective: '',
+            label: 'rtw',
+          },
+        ],
+      },
+      {
+        trust_framework: 'YOTI_GLOBAL',
+        schemes: [
+          {
+            type: 'IDENTITY',
+            objective: 'AL_L1',
+            label: 'identity-AL-L1',
+          },
+          {
+            type: 'IDENTITY',
+            objective: 'AL_M1',
+            label: 'identity-AL-M1',
+          },
+        ],
+      },
+    ],
+  },
+};
+
 const router = Router();
 
 router.get('/', (req, res) => {
@@ -22,14 +78,13 @@ router.get('/get-new-session-id', async (req, res) => {
   const { policyType } = query;
 
   const policyBuilder = new PolicyBuilder();
-
-  if (policyType === 'RTW') {
-    policyBuilder.withIdentityProfileRequirements({
-      trust_framework: 'UK_TFIDA',
-      scheme: {
-        type: 'RTW',
-      },
-    });
+  if (policyType === 'MTF_BASE') {
+    const identityProfileRequirementsDescriptor = identityProfileRequirementsDescriptors.MTF_BASE;
+    policyBuilder
+      .withAdvancedIdentityProfileRequirements(identityProfileRequirementsDescriptor);
+  } else if (Object.keys(identityProfileRequirementsDescriptors).includes(policyType)) {
+    policyBuilder
+      .withIdentityProfileRequirements(identityProfileRequirementsDescriptors[policyType]);
   } else {
     policyBuilder.withFullName()
       .withEmail()
