@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const {
   constants: {
     ATTR_SELFIE,
@@ -177,30 +176,17 @@ function renderProfile(profile, res) {
 
 function renderProfileWithIdentity(profile, res) {
   const identityProfile = profile.getIdentityProfileReport().getValue();
-  let identityAssertion = null;
-  let verificationReport = null;
-  let verificationReports = null;
-  let authenticationReport = null;
-  let authenticationReports = null;
-  let identityAssertionProof = null;
   let documentImagesAttributes = [];
   let selfieAttribute = null;
 
   const {
-    identity_assertion,
-    verification_report,
-    verification_reports,
-    authentication_report,
-    authentication_reports,
-    proof,
+    identity_assertion: identityAssertion,
+    verification_report: verificationReport,
+    verification_reports: verificationReports,
+    authentication_report: authenticationReport,
+    authentication_reports: authenticationReports,
+    proof: identityAssertionProof,
   } = identityProfile;
-
-  identityAssertion = identity_assertion;
-  verificationReport = verification_report;
-  verificationReports = verification_reports;
-  authenticationReport = authentication_report;
-  authenticationReports = authentication_reports;
-  identityAssertionProof = proof;
 
   if (verificationReport) {
     const { evidence } = verificationReport;
@@ -208,14 +194,16 @@ function renderProfileWithIdentity(profile, res) {
 
     // Document images (if any)
     documentImagesAttributes = documents
-      .map(({ document_images_attribute_id }) => (document_images_attribute_id
-        ? (profile && profile.getAttributeById(document_images_attribute_id)) : null))
+    // eslint-disable-next-line max-len
+      .map(({ document_images_attribute_id: documentImagesAttributeId }) => (documentImagesAttributeId
+        ? (profile && profile.getAttributeById(documentImagesAttributeId))
+        : null))
       .filter((documentImagesAttribute) => documentImagesAttribute);
 
     // Selfie image (if any)
-    const { selfie_attribute_id } = face;
-    selfieAttribute = selfie_attribute_id
-      ? (profile && profile.getAttributeById(selfie_attribute_id))
+    const { selfie_attribute_id: selfieAttributeId } = face;
+    selfieAttribute = selfieAttributeId
+      ? (profile && profile.getAttributeById(selfieAttributeId))
       : null;
   } else if (verificationReports.length > 0) {
     // Document images (if any)
@@ -224,8 +212,9 @@ function renderProfileWithIdentity(profile, res) {
       const { documents } = evidence;
 
       return documents
-        .map(({ document_images_attribute_id }) => (document_images_attribute_id
-          ? (profile && profile.getAttributeById(document_images_attribute_id)) : null))
+      // eslint-disable-next-line max-len
+        .map(({ document_images_attribute_id: documentImagesAttributeId }) => (documentImagesAttributeId
+          ? (profile && profile.getAttributeById(documentImagesAttributeId)) : null))
         .filter((documentImagesAttribute) => documentImagesAttribute);
     });
     documentImagesAttributes = documentImagesAttributesArray.flat();
@@ -234,10 +223,10 @@ function renderProfileWithIdentity(profile, res) {
     const selfieAttributeArray = verificationReports.map((report) => {
       const { evidence } = report;
       const { face } = evidence;
-      const { selfie_attribute_id } = face;
+      const { selfie_attribute_id: selfieAttributeId } = face;
 
-      return selfie_attribute_id
-        ? (profile && profile.getAttributeById(selfie_attribute_id))
+      return selfieAttributeId
+        ? (profile && profile.getAttributeById(selfieAttributeId))
         : null;
     });
     // eslint-disable-next-line prefer-destructuring
