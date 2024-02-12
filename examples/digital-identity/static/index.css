@@ -45,18 +45,21 @@
 
 .yoti-share-buttons-section {
     display: flex;
-    gap: 1em
+    gap: 1em;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: center;
 }
 
 .yoti-share-button-container {
     background: rgba(211, 211, 211, 0.5);
     padding: 1em;
-}
-
-
-#yoti-share-button2 {
-    width: fit-content;
-    height: 45px;
+    flex-basis: 335px;
+    max-width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
 }
 
 #yoti-share-completion {

@@ -453,4 +453,78 @@ describe('PolicyBuilder', () => {
       });
     });
   });
+
+  describe('when using with advanced identity profile requirements', () => {
+    const advancedIdentityProfileRequirementsDescriptor = {
+      profiles: [
+        {
+          trust_framework: 'UK_TFIDA',
+          schemes: [
+            {
+              label: 'LB912',
+              type: 'RTW',
+            },
+            {
+              label: 'LB777',
+              type: 'DBS',
+              objective: 'BASIC',
+            },
+          ],
+        },
+        {
+          trust_framework: 'YOTI_GLOBAL',
+          schemes: [
+            {
+              label: 'LB321',
+              type: 'IDENTITY',
+              objective: 'AL_L1',
+            },
+          ],
+        },
+      ],
+    };
+
+    it('should build with identity profile requirements only', () => {
+      const policy = new PolicyBuilder()
+        .withAdvancedIdentityProfileRequirements(advancedIdentityProfileRequirementsDescriptor)
+        .build();
+
+      expect(policy.getAdvancedIdentityProfileRequirements())
+        .toEqual(advancedIdentityProfileRequirementsDescriptor);
+
+      expectPolicyJson(policy, {
+        wanted: [],
+        wanted_auth_types: [],
+        wanted_remember_me: false,
+        wanted_remember_me_optional: false,
+        advanced_identity_profile_requirements: advancedIdentityProfileRequirementsDescriptor,
+      });
+    });
+
+    it('should build with identity profile requirements alongside other wanted attributes', () => {
+      const policy = new PolicyBuilder()
+        .withGender()
+        .withNationality()
+        .withAdvancedIdentityProfileRequirements(advancedIdentityProfileRequirementsDescriptor)
+        .build();
+
+      const expectedWantedAttributeData = [
+        { name: 'gender', optional: false },
+        { name: 'nationality', optional: false },
+      ];
+
+      expectPolicyAttributes(policy, expectedWantedAttributeData);
+
+      expect(policy.getAdvancedIdentityProfileRequirements())
+        .toEqual(advancedIdentityProfileRequirementsDescriptor);
+
+      expectPolicyJson(policy, {
+        wanted: expectedWantedAttributeData,
+        wanted_auth_types: [],
+        wanted_remember_me: false,
+        wanted_remember_me_optional: false,
+        advanced_identity_profile_requirements: advancedIdentityProfileRequirementsDescriptor,
+      });
+    });
+  });
 });

@@ -138,11 +138,67 @@ declare class PolicyBuilder {
     withWantedRememberMe(wantedRememberMe?: boolean): this;
     wantedRememberMe: boolean;
     /**
-     * @param {object} identityProfileRequirements
-     * @returns this
+     * @typedef {Object} SimpleScheme
+     * @property {string} type
+     * @property {string} [objective]
+     *
+     * @param {Object} identityProfileRequirements
+     * @param {string} identityProfileRequirements.trust_framework
+     * @param {SimpleScheme} identityProfileRequirements.scheme
      */
-    withIdentityProfileRequirements(identityProfileRequirements: object): this;
-    identityProfileRequirements: any;
+    withIdentityProfileRequirements(identityProfileRequirements: {
+        trust_framework: string;
+        scheme: {
+            type: string;
+            objective?: string;
+        };
+    }): this;
+    identityProfileRequirements: {
+        trust_framework: string;
+        scheme: {
+            type: string;
+            objective?: string;
+        };
+    };
+    /**
+     * @typedef {Object} AdvancedScheme
+     * @property {string} type
+     * @property {string} objective
+     * @property {string} label
+     *
+     * @typedef {Object} AdvancedProfileRequirements
+     * @property {string} trust_framework - Expected: 'UK_TFIDA' | 'YOTI_GLOBAL'
+     * @property {Array<AdvancedScheme>} schemes
+     *
+     * @param {Object} advancedIdentityProfileRequirements
+     * @param {Array<AdvancedProfileRequirements>} advancedIdentityProfileRequirements.profiles
+     */
+    withAdvancedIdentityProfileRequirements(advancedIdentityProfileRequirements: {
+        profiles: {
+            /**
+             * - Expected: 'UK_TFIDA' | 'YOTI_GLOBAL'
+             */
+            trust_framework: string;
+            schemes: {
+                type: string;
+                objective: string;
+                label: string;
+            }[];
+        }[];
+    }): this;
+    advancedIdentityProfileRequirements: {
+        profiles: {
+            /**
+             * - Expected: 'UK_TFIDA' | 'YOTI_GLOBAL'
+             */
+            trust_framework: string;
+            schemes: {
+                type: string;
+                objective: string;
+                label: string;
+            }[];
+        }[];
+    };
     /**
      * @returns {Policy}
      */

@@ -15,38 +15,79 @@
                 <div class="yoti-logo-section">
                     <a href="/">
                         <img class="yoti-logo-image"
-                                src="/static/assets/logo.png"
-                                srcset="/static/assets/logo@2x.png 2x"
-                                alt="Yoti"/>
+                             src="/static/assets/logo.png"
+                             srcset="/static/assets/logo@2x.png 2x"
+                             alt="Yoti"/>
                     </a>
                 </div>
             </section>
 
-            <section class="yoti-report-section">
-                <h1 class="yoti-main-title">Identity profile report</h1>
-                <div>
-                    <h4>Identity assertion:</h4>
-                    <pre><%= JSON.stringify(identityAssertion, null, 2) %></pre>
-                </div>
-                <div>
-                    <h4>Verification report:</h4>
-                    <pre><%= JSON.stringify(verificationReport, null, 2) %></pre>
-                </div>
-                <div>
-                    <h4>Authentication report:</h4>
-                    <pre><%= JSON.stringify(authenticationReport, null, 2) %></pre>
-                </div>
-                <div>
-                    <h4>Documents images attributes:</h4>
-                    <% documentImagesAttributes.forEach((docImgAttr) => { %>
-                        <span>Document image ID: </span>
-                        <span><%= docImgAttr.getId() %></span>
-                        <br>
-                        <br>
-                        <% docImgAttr.getValue().forEach((image) => { %>
-                            <img src="<%= image.getBase64Content() %>" alt="Document image"/>
-                        <% }) %>
-                    <% }) %>
+            <section>
+                <div class="yoti-report-section">
+                    <% if (identityAssertion ) { %>
+                        <div>
+                            <h4>Identity assertion:</h4>
+                            <pre><%= JSON.stringify(identityAssertion, null, 2) %></pre>
+                        </div>
+                    <% } %>
+                    <% if (verificationReport ) { %>
+                        <div>
+                            <h4>Verification report:</h4>
+                            <pre><%= JSON.stringify(verificationReport, null, 2) %></pre>
+                        </div>
+                    <% } %>
+                    <% if (authenticationReport ) { %>
+                        <div>
+                            <h4>Authentication report:</h4>
+                            <pre><%= JSON.stringify(authenticationReport, null, 2) %></pre>
+                        </div>
+                    <% } %>
+                    <% if (verificationReports && verificationReports.length !== 0 ) { %>
+                        <div>
+                            <h4>Verification reports:</h4>
+                            <pre><%= JSON.stringify(verificationReports, null, 2) %></pre>
+                        </div>
+                    <% } %>
+                    <% if (authenticationReports && authenticationReports.length !== 0 ) { %>
+                        <div>
+                            <h4>Authentication reports:</h4>
+                            <pre><%= JSON.stringify(authenticationReports, null, 2) %></pre>
+                        </div>
+                    <% } %>
+                    <% if (identityAssertionProof ) { %>
+                        <div>
+                            <h4>Proof:</h4>
+                            <pre><%= JSON.stringify(identityAssertionProof, null, 2) %></pre>
+                        </div>
+                    <% } %>
+                    <% if (documentImagesAttributes && documentImagesAttributes.length !== 0 ) { %>
+                        <div>
+                            <h4>Documents images attributes:</h4>
+                            <% documentImagesAttributes.forEach((docImgAttr) => { %>
+                                <span>Document image ID: </span>
+                                <span><%= docImgAttr.getId() %></span>
+                                <br>
+                                <br>
+                                <% docImgAttr.getValue().forEach((image) => { %>
+                                    <img src="<%= image.getBase64Content() %>" alt="Document image"/>
+                                <% }) %>
+                                <br>
+                                <br>
+                            <% }) %>
+                        </div>
+                    <% } %>
+                    <% if (selfieAttribute ) { %>
+                        <div>
+                            <h4>Selfie:</h4>
+                            <span>Selfie ID: </span>
+                            <span><%= selfieAttribute.getId() %></span>
+                            <br>
+                            <br>
+                            <img src="<%= selfieAttribute.getValue().getBase64Content() %>" alt="Selfie"/>
+                            <br>
+                            <br>
+                        </div>
+                    <% } %>
                 </div>
             </section>
         </main>
