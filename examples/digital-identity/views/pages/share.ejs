@@ -31,8 +31,16 @@
         <div class="yoti-share-button-container">
           <p>
             Start the flow to assert Right To Work
+            <br/><small>(using just UK Identity Trust Framework)</small>
           </p>
-          <div id="yoti-share-button-right-to-work"></div>
+          <div id="yoti-share-button-simple-rtw"></div>
+        </div>
+        <div class="yoti-share-button-container">
+          <p>
+            Start the flow to assert Right To Work and DBS
+            <br/><small>(with Yoti Identity Trust Framework as fallback)</small>
+          </p>
+          <div id="yoti-share-button-advanced-rtw"></div>
         </div>
 
       </div>
@@ -140,18 +148,29 @@
               domId: 'yoti-share-button-basic-attributes',
               sdkId: "<%= yotiClientSdkId %>",
               hooks: {
-                sessionIdResolver,
+                sessionIdResolver: ()=>sessionIdResolver('attributes-case'),
                 completionHandler,
                 errorListener,
               },
             })
 
             await Yoti.createWebShare({
-              name: 'share example RTW',
-              domId: 'yoti-share-button-right-to-work',
+              name: 'share example simple RTW',
+              domId: 'yoti-share-button-simple-rtw',
               sdkId: "<%= yotiClientSdkId %>",
               hooks: {
-                sessionIdResolver: ()=>sessionIdResolver('RTW'),
+                sessionIdResolver: ()=>sessionIdResolver('simple-identity-case'),
+                completionHandler,
+                errorListener,
+              },
+            })
+
+            await Yoti.createWebShare({
+              name: 'share example advanced RTW (with extra DBS and Yoti Identity fallback)',
+              domId: 'yoti-share-button-advanced-rtw',
+              sdkId: "<%= yotiClientSdkId %>",
+              hooks: {
+                sessionIdResolver: ()=>sessionIdResolver('advanced-identity-case'),
                 completionHandler,
                 errorListener,
               },

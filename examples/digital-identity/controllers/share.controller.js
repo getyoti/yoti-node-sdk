@@ -9,6 +9,51 @@ const {
 const config = require('../config');
 const sdkDigitalIdentityClient = require('./sdk.digital.identity.client');
 
+const SIMPLE_CASE_IDENTIFIER = 'simple-identity-case';
+const ADVANCED_CASE_IDENTIFIER = 'advanced-identity-case';
+
+const simpleIdentityRequirement = {
+  trust_framework: 'UK_TFIDA',
+  scheme: {
+    type: 'RTW',
+  },
+};
+
+const advancedIdentityRequirement = {
+  profiles: [
+    {
+      trust_framework: 'UK_TFIDA',
+      schemes: [
+        {
+          type: 'DBS',
+          objective: 'STANDARD',
+          label: 'dbs-standard',
+        },
+        {
+          type: 'RTW',
+          objective: '',
+          label: 'rtw',
+        },
+      ],
+    },
+    {
+      trust_framework: 'YOTI_GLOBAL',
+      schemes: [
+        {
+          type: 'IDENTITY',
+          objective: 'AL_L1',
+          label: 'identity-AL-L1',
+        },
+        {
+          type: 'IDENTITY',
+          objective: 'AL_M1',
+          label: 'identity-AL-M1',
+        },
+      ],
+    },
+  ],
+};
+
 const router = Router();
 
 router.get('/', (req, res) => {
@@ -23,25 +68,30 @@ router.get('/get-new-session-id', async (req, res) => {
 
   const policyBuilder = new PolicyBuilder();
 
-  if (policyType === 'RTW') {
-    policyBuilder.withIdentityProfileRequirements({
-      trust_framework: 'UK_TFIDA',
-      scheme: {
-        type: 'RTW',
-      },
-    });
-  } else {
-    policyBuilder.withFullName()
-      .withEmail()
-      .withPhoneNumber()
-      .withSelfie()
-      .withStructuredPostalAddress()
-      .withAgeOver(18)
-      .withNationality()
-      .withGender()
-      .withDocumentDetails()
-      .withDocumentImages()
-      .withWantedRememberMe();
+  switch (policyType) {
+    case SIMPLE_CASE_IDENTIFIER:
+      policyBuilder
+        .withIdentityProfileRequirements(simpleIdentityRequirement);
+      break;
+
+    case ADVANCED_CASE_IDENTIFIER:
+      policyBuilder
+        .withAdvancedIdentityProfileRequirements(advancedIdentityRequirement);
+      break;
+
+    default:
+      policyBuilder.withFullName()
+        .withEmail()
+        .withPhoneNumber()
+        .withSelfie()
+        .withStructuredPostalAddress()
+        .withAgeOver(18)
+        .withNationality()
+        .withGender()
+        .withDocumentDetails()
+        .withDocumentImages()
+        .withWantedRememberMe();
+      break;
   }
 
   const policy = policyBuilder.build();
@@ -89,18 +139,48 @@ router.get('/get-receipt', async (req, res) => {
         error: receiptError,
       };
     } else if (hasIdentityProfile) {
-      const { verification_report: verificationReport } = profile.getIdentityProfileReport().value;
+      const identityProfileReport = profile.getIdentityProfileReport().getValue();
       const {
-        trust_framework: trustFramework,
-        schemes_compliance: schemesCompliance,
-      } = verificationReport;
+        verification_report: verificationReport,
+        verification_reports: verificationReports,
+      } = identityProfileReport;
 
-      receiptData = {
-        ...receiptData,
-        hasIdentityProfile: true,
-        trustFramework,
-        schemesCount: schemesCompliance.length,
-      };
+      const isAdvancedIdentityProfile = verificationReports && verificationReports.length;
+
+      if (isAdvancedIdentityProfile) {
+        let schemesCount = 0;
+        const trustFrameworks = [];
+
+        verificationReports.forEach((report) => {
+          const {
+            schemes_compliance: schemesCompliance,
+            trust_framework: trustFramework,
+          } = report;
+          trustFrameworks.push(trustFramework);
+          schemesCount += schemesCompliance.length;
+        });
+
+        receiptData = {
+          ...receiptData,
+          hasIdentityProfile: true,
+          isAdvanced: true,
+          trustFrameworks,
+          schemesCount,
+        };
+      } else {
+        const {
+          trust_framework: trustFramework,
+          schemes_compliance: schemesCompliance,
+        } = verificationReport;
+
+        receiptData = {
+          ...receiptData,
+          hasIdentityProfile: true,
+          isAdvanced: false,
+          trustFramework,
+          schemesCount: schemesCompliance.length,
+        };
+      }
     } else {
       receiptData = {
         ...receiptData,

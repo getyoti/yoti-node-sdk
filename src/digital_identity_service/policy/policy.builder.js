@@ -336,11 +336,34 @@ module.exports = class PolicyBuilder {
   }
 
   /**
-   * @param {object} identityProfileRequirements
-   * @returns this
+   * @typedef {Object} SimpleScheme
+   * @property {string} type
+   * @property {string} [objective]
+   *
+   * @param {Object} identityProfileRequirements
+   * @param {string} identityProfileRequirements.trust_framework
+   * @param {SimpleScheme} identityProfileRequirements.scheme
    */
   withIdentityProfileRequirements(identityProfileRequirements) {
     this.identityProfileRequirements = identityProfileRequirements;
+    return this;
+  }
+
+  /**
+   * @typedef {Object} AdvancedScheme
+   * @property {string} type
+   * @property {string} objective
+   * @property {string} label
+   *
+   * @typedef {Object} AdvancedProfileRequirements
+   * @property {string} trust_framework - Expected: 'UK_TFIDA' | 'YOTI_GLOBAL'
+   * @property {Array<AdvancedScheme>} schemes
+   *
+   * @param {Object} advancedIdentityProfileRequirements
+   * @param {Array<AdvancedProfileRequirements>} advancedIdentityProfileRequirements.profiles
+   */
+  withAdvancedIdentityProfileRequirements(advancedIdentityProfileRequirements) {
+    this.advancedIdentityProfileRequirements = advancedIdentityProfileRequirements;
     return this;
   }
 
@@ -352,7 +375,8 @@ module.exports = class PolicyBuilder {
       Object.keys(this.wantedAttributes).map((k) => this.wantedAttributes[k]),
       this.wantedAuthTypes.filter((value, index, self) => self.indexOf(value) === index),
       this.wantedRememberMe,
-      this.identityProfileRequirements
+      this.identityProfileRequirements,
+      this.advancedIdentityProfileRequirements
     );
   }
 };
