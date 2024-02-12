@@ -176,34 +176,72 @@ function renderProfile(profile, res) {
 
 function renderProfileWithIdentity(profile, res) {
   const identityProfile = profile.getIdentityProfileReport().getValue();
-  let identityAssertion = null;
-  let verificationReport = null;
-  let authenticationReport = null;
   let documentImagesAttributes = [];
+  let selfieAttribute = null;
 
   const {
-    identity_assertion: assertion,
-    verification_report: verification,
-    authentication_report: authentication,
+    identity_assertion: identityAssertion,
+    verification_report: verificationReport,
+    verification_reports: verificationReports,
+    authentication_report: authenticationReport,
+    authentication_reports: authenticationReports,
+    proof: identityAssertionProof,
   } = identityProfile;
 
-  identityAssertion = assertion;
-  verificationReport = verification;
-  authenticationReport = authentication;
+  if (verificationReport) {
+    const { evidence } = verificationReport;
+    const { face, documents } = evidence;
 
-  const { evidence } = verificationReport;
-  const { documents } = evidence;
-  documentImagesAttributes = documents
-  // eslint-disable-next-line camelcase
-    .map(({ document_images_attribute_id }) => (document_images_attribute_id
-      ? (profile && profile.getAttributeById(document_images_attribute_id)) : null))
-    .filter((documentImagesAttribute) => documentImagesAttribute);
+    // Document images (if any)
+    documentImagesAttributes = documents
+    // eslint-disable-next-line max-len
+      .map(({ document_images_attribute_id: documentImagesAttributeId }) => (documentImagesAttributeId
+        ? (profile && profile.getAttributeById(documentImagesAttributeId))
+        : null))
+      .filter((documentImagesAttribute) => documentImagesAttribute);
+
+    // Selfie image (if any)
+    const { selfie_attribute_id: selfieAttributeId } = face;
+    selfieAttribute = selfieAttributeId
+      ? (profile && profile.getAttributeById(selfieAttributeId))
+      : null;
+  } else if (verificationReports.length > 0) {
+    // Document images (if any)
+    const documentImagesAttributesArray = verificationReports.map((report) => {
+      const { evidence } = report;
+      const { documents } = evidence;
+
+      return documents
+      // eslint-disable-next-line max-len
+        .map(({ document_images_attribute_id: documentImagesAttributeId }) => (documentImagesAttributeId
+          ? (profile && profile.getAttributeById(documentImagesAttributeId)) : null))
+        .filter((documentImagesAttribute) => documentImagesAttribute);
+    });
+    documentImagesAttributes = documentImagesAttributesArray.flat();
+
+    // Selfie image (if any)
+    const selfieAttributeArray = verificationReports.map((report) => {
+      const { evidence } = report;
+      const { face } = evidence;
+      const { selfie_attribute_id: selfieAttributeId } = face;
+
+      return selfieAttributeId
+        ? (profile && profile.getAttributeById(selfieAttributeId))
+        : null;
+    });
+    // eslint-disable-next-line prefer-destructuring
+    selfieAttribute = selfieAttributeArray.filter((selfie) => selfie)[0];
+  }
 
   res.render('pages/profile-with-identity', {
     identityAssertion,
     verificationReport,
+    verificationReports,
     authenticationReport,
+    authenticationReports,
+    identityAssertionProof,
     documentImagesAttributes,
+    selfieAttribute,
   });
 }
 

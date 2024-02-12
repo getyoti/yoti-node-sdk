@@ -23,20 +23,60 @@ const identityProfileRequirementsDescriptors = {
       objective: 'BASIC',
     },
   },
+  MTF_BASE: {
+    profiles: [
+      {
+        trust_framework: 'UK_TFIDA',
+        schemes: [
+          {
+            type: 'DBS',
+            objective: 'STANDARD',
+            label: 'dbs-standard',
+          },
+          {
+            type: 'RTW',
+            objective: '',
+            label: 'rtw',
+          },
+        ],
+      },
+      {
+        trust_framework: 'YOTI_GLOBAL',
+        schemes: [
+          {
+            type: 'IDENTITY',
+            objective: 'AL_L1',
+            label: 'identity-AL-L1',
+          },
+          {
+            type: 'IDENTITY',
+            objective: 'AL_M1',
+            label: 'identity-AL-M1',
+          },
+        ],
+      },
+    ],
+  },
 };
 
 module.exports = async (req, res) => {
   const { scheme } = req.query;
+  const dynamicPolicyBuilder = new Yoti.DynamicPolicyBuilder();
 
-  const identityProfileRequirementsDescriptor = identityProfileRequirementsDescriptors[scheme];
+  if (scheme === 'MTF_BASE') {
+    const identityProfileRequirementsDescriptor = identityProfileRequirementsDescriptors.MTF_BASE;
+    dynamicPolicyBuilder
+      .withAdvancedIdentityProfileRequirements(identityProfileRequirementsDescriptor);
+  } else {
+    dynamicPolicyBuilder
+      .withIdentityProfileRequirements(identityProfileRequirementsDescriptors[scheme]);
+  }
+
+  const dynamicPolicy = dynamicPolicyBuilder.build();
 
   const subject = {
     subject_id: 'subject_id_string',
   };
-
-  const dynamicPolicy = new Yoti.DynamicPolicyBuilder()
-    .withIdentityProfileRequirements(identityProfileRequirementsDescriptor)
-    .build();
 
   const dynamicScenario = new Yoti.DynamicScenarioBuilder()
     .withCallbackEndpoint('/identity-profile-report')
