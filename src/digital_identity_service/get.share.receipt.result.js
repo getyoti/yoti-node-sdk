@@ -34,6 +34,8 @@ module.exports = class GetShareReceiptResult {
     /** @private */
     this.error = receiptResponse.getError();
     /** @private */
+    this.errorReason = receiptResponse.getErrorReason();
+    /** @private */
     this.id = receiptResponse.getId();
 
     if (userContent) Validation.instanceOf(userContent, UserContent, 'userContent');
@@ -143,5 +145,16 @@ module.exports = class GetShareReceiptResult {
    */
   getError() {
     return this.error;
+  }
+
+  /**
+   * @typedef {import('./receipts/receipt.response').RequirementsNotMetDetail} RequirementsNotMetDetail
+   *
+   * Error reason of receipt
+   *
+   * @returns {{requirementsNotMetDetails: RequirementsNotMetDetail[]}}
+   */
+  getErrorReason() {
+    return this.errorReason;
   }
 };

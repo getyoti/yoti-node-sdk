@@ -71,6 +71,7 @@ export class ActivityDetails {
     getErrorDetails(): {
         errorCode: any;
         description: any;
+        errorReason: any;
     };
     /**
      * Receipt ID identifying a completed activity.

@@ -3,6 +3,15 @@
 const Validation = require('../../yoti_common/validation');
 
 /**
+ * @typedef {Object} RequirementsNotMetDetail
+ * @property {string} [failureType]
+ * @property {string} [documentType]
+ * @property {string} [documentCountryIsoCode]
+ * @property {string} [auditId]
+ * @property {string} [details]
+ */
+
+/**
  * The receipt response
  *
  * @class ReceiptResponse
@@ -24,6 +33,31 @@ class ReceiptResponse {
     if (response.error) {
       /** @private */
       this.error = response.error;
+    }
+
+    if (response.errorReason) {
+      /** @private */
+      this.errorReason = response.errorReason;
+
+      // eslint-disable-next-line operator-linebreak
+      this.errorReason.requirementsNotMetDetails =
+        response.errorReason.requirements_not_met_details.map((detail) => {
+          const {
+            failure_type: failureType,
+            document_type: documentType,
+            document_country_iso_code: documentCountryIsoCode,
+            audit_id: auditId,
+            details,
+          } = detail;
+
+          return {
+            failureType,
+            documentType,
+            documentCountryIsoCode,
+            auditId,
+            details,
+          };
+        });
     }
 
     if (response.rememberMeId) {
@@ -151,6 +185,15 @@ class ReceiptResponse {
    */
   getError() {
     return this.error;
+  }
+
+  /**
+   * The error reason of the receipt
+   *
+   * @returns {{requirementsNotMetDetails: RequirementsNotMetDetail[]}}
+   */
+  getErrorReason() {
+    return this.errorReason;
   }
 }
 

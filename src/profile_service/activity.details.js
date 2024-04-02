@@ -98,6 +98,7 @@ class ActivityDetails {
       errorDetails = {
         errorCode: responseErrorDetails.error_code,
         description: responseErrorDetails.description,
+        errorReason: responseErrorDetails.error_reason,
       };
     }
     return errorDetails;

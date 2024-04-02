@@ -1,5 +1,13 @@
 export = ReceiptResponse;
 /**
+ * @typedef {Object} RequirementsNotMetDetail
+ * @property {string} [failureType]
+ * @property {string} [documentType]
+ * @property {string} [documentCountryIsoCode]
+ * @property {string} [auditId]
+ * @property {string} [details]
+ */
+/**
  * The receipt response
  *
  * @class ReceiptResponse
@@ -14,6 +22,8 @@ declare class ReceiptResponse {
     private timestamp;
     /** @private */
     private error;
+    /** @private */
+    private errorReason;
     /** @private */
     private rememberMeId;
     /** @private */
@@ -86,4 +96,22 @@ declare class ReceiptResponse {
      * @returns {string} The error of the receipt
      */
     getError(): string;
+    /**
+     * The error reason of the receipt
+     *
+     * @returns {{requirementsNotMetDetails: RequirementsNotMetDetail[]}}
+     */
+    getErrorReason(): {
+        requirementsNotMetDetails: RequirementsNotMetDetail[];
+    };
 }
+declare namespace ReceiptResponse {
+    export { RequirementsNotMetDetail };
+}
+type RequirementsNotMetDetail = {
+    failureType?: string;
+    documentType?: string;
+    documentCountryIsoCode?: string;
+    auditId?: string;
+    details?: string;
+};
