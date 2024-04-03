@@ -16,6 +16,24 @@ describe('GetShareReceiptResult', () => {
       parentRememberMeId: 'test_parent_remember_me_id',
       timestamp: '2003-11-04T12:51:07Z',
       error: 'MANDATORY_DOCUMENT_NOT_PROVIDED',
+      errorReason: {
+        requirements_not_met_details: [
+          {
+            failure_type: 'ID_DOCUMENT_EXTRACTION',
+            document_type: 'PASSPORT',
+            document_country_iso_code: 'GBR',
+            audit_id: 'audit-123',
+            details: 'something not right',
+          },
+          {
+            failure_type: 'ID_DOCUMENT_AUTHENTICITY',
+            document_type: 'PASSPORT',
+            document_country_iso_code: 'GBR',
+            audit_id: 'audit-456',
+            details: 'something still not right',
+          },
+        ],
+      },
     });
     getShareReceiptResult = new GetShareReceiptResult(receiptResponse);
   });
@@ -78,6 +96,27 @@ describe('GetShareReceiptResult', () => {
     it('should return error value', () => {
       const error = 'MANDATORY_DOCUMENT_NOT_PROVIDED';
       expect(getShareReceiptResult.getError()).toEqual(error);
+    });
+  });
+  describe('#getErrorReason', () => {
+    it('should return error value', () => {
+      const errorReason = getShareReceiptResult.getErrorReason();
+      expect(errorReason.requirementsNotMetDetails).toHaveLength(2);
+      const [firstDetail, secondDetail] = errorReason.requirementsNotMetDetails;
+      expect(firstDetail).toEqual(expect.objectContaining({
+        failureType: 'ID_DOCUMENT_EXTRACTION',
+        documentType: 'PASSPORT',
+        documentCountryIsoCode: 'GBR',
+        auditId: 'audit-123',
+        details: 'something not right',
+      }));
+      expect(secondDetail).toEqual(expect.objectContaining({
+        failureType: 'ID_DOCUMENT_AUTHENTICITY',
+        documentType: 'PASSPORT',
+        documentCountryIsoCode: 'GBR',
+        auditId: 'audit-456',
+        details: 'something still not right',
+      }));
     });
   });
   describe('#getTimestamp', () => {
