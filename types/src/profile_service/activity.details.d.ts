@@ -1,3 +1,10 @@
+export type RequirementsNotMetDetail = {
+    failureType?: string;
+    documentType?: string;
+    documentCountryIsoCode?: string;
+    auditId?: string;
+    details?: string;
+};
 /**
  * Details of an activity between a user and the application.
  *
@@ -68,10 +75,23 @@ export class ActivityDetails {
      * @returns {string}
      */
     getOutcome(): string;
+    /**
+     * @typedef {Object} ErrorReason
+     * @property {RequirementsNotMetDetail[]} [requirementsNotMetDetails]
+     *
+     * @typedef {Object} ErrorDetails
+     * @property {string} errorCode
+     * @property {string} description
+     * @property {ErrorReason} [errorReason]
+     *
+     * @returns {ErrorDetails|undefined}
+     */
     getErrorDetails(): {
-        errorCode: any;
-        description: any;
-        errorReason: any;
+        errorCode: string;
+        description: string;
+        errorReason?: {
+            requirementsNotMetDetails?: RequirementsNotMetDetail[];
+        };
     };
     /**
      * Receipt ID identifying a completed activity.

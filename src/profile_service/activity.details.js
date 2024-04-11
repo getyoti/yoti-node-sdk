@@ -5,6 +5,36 @@ const { ApplicationProfile } = require('./application.profile');
 const ExtraData = require('./extra.data');
 
 /**
+ * @typedef {Object} RequirementsNotMetDetail
+ * @property {string} [failureType]
+ * @property {string} [documentType]
+ * @property {string} [documentCountryIsoCode]
+ * @property {string} [auditId]
+ * @property {string} [details]
+ */
+
+/**
+ * @returns {RequirementsNotMetDetail}
+ */
+function transformRequirementsNotMetDetail(rawDetail) {
+  const {
+    failure_type: failureType,
+    document_type: documentType,
+    document_country_iso_code: documentCountryIsoCode,
+    audit_id: auditId,
+    details,
+  } = rawDetail;
+
+  return {
+    failureType,
+    documentType,
+    documentCountryIsoCode,
+    auditId,
+    details,
+  };
+}
+
+/**
  * Details of an activity between a user and the application.
  *
  * @class ActivityDetails
@@ -90,15 +120,39 @@ class ActivityDetails {
     return this.receipt.sharing_outcome;
   }
 
+  /**
+   * @typedef {Object} ErrorReason
+   * @property {RequirementsNotMetDetail[]} [requirementsNotMetDetails]
+   *
+   * @typedef {Object} ErrorDetails
+   * @property {string} errorCode
+   * @property {string} description
+   * @property {ErrorReason} [errorReason]
+   *
+   * @returns {ErrorDetails|undefined}
+   */
   getErrorDetails() {
     // eslint-disable-next-line camelcase
-    const responseErrorDetails = this.parsedResponse.error_details;
+    const { error_details: responseErrorDetails } = this.parsedResponse;
+
     let errorDetails;
     if (responseErrorDetails) {
+      const {
+        error_code: errorCode,
+        description = '',
+        error_reason: errorReason,
+      } = responseErrorDetails;
+
+      if (errorReason && errorReason.requirements_not_met_details) {
+        errorReason.requirementsNotMetDetails = errorReason.requirements_not_met_details
+          .map(transformRequirementsNotMetDetail);
+        delete errorReason.requirements_not_met_details;
+      }
+
       errorDetails = {
-        errorCode: responseErrorDetails.error_code,
-        description: responseErrorDetails.description,
-        errorReason: responseErrorDetails.error_reason,
+        errorCode,
+        description,
+        ...(errorReason && { errorReason }),
       };
     }
     return errorDetails;
