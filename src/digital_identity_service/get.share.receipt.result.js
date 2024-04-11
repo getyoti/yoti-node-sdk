@@ -147,13 +147,6 @@ module.exports = class GetShareReceiptResult {
     return this.error;
   }
 
-  /**
-   * @typedef {import('./receipts/receipt.response').RequirementsNotMetDetail} RequirementsNotMetDetail
-   *
-   * Error reason of receipt
-   *
-   * @returns {{requirementsNotMetDetails: RequirementsNotMetDetail[]}}
-   */
   getErrorReason() {
     return this.errorReason;
   }

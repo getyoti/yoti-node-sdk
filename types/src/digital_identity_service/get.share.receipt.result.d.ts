@@ -97,15 +97,11 @@ declare class GetShareReceiptResult {
      * @returns {string}
      */
     getError(): string;
-    /**
-     * @typedef {import('./receipts/receipt.response').RequirementsNotMetDetail} RequirementsNotMetDetail
-     *
-     * Error reason of receipt
-     *
-     * @returns {{requirementsNotMetDetails: RequirementsNotMetDetail[]}}
-     */
     getErrorReason(): {
-        requirementsNotMetDetails: import("./receipts/receipt.response").RequirementsNotMetDetail[];
+        /**
+         * The error reason of the receipt
+         */
+        requirementsNotMetDetails?: import("./receipts/receipt.response").RequirementsNotMetDetail[];
     };
 }
 import UserContent = require("./receipts/user.content");

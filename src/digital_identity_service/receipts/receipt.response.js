@@ -12,6 +12,27 @@ const Validation = require('../../yoti_common/validation');
  */
 
 /**
+ * @returns {RequirementsNotMetDetail}
+ */
+function parseRequirementsNotMetDetail(rawDetail) {
+  const {
+    failure_type: failureType,
+    document_type: documentType,
+    document_country_iso_code: documentCountryIsoCode,
+    audit_id: auditId,
+    details,
+  } = rawDetail;
+
+  return {
+    failureType,
+    documentType,
+    documentCountryIsoCode,
+    auditId,
+    details,
+  };
+}
+
+/**
  * The receipt response
  *
  * @class ReceiptResponse
@@ -39,25 +60,12 @@ class ReceiptResponse {
       /** @private */
       this.errorReason = response.errorReason;
 
-      // eslint-disable-next-line operator-linebreak
-      this.errorReason.requirementsNotMetDetails =
-        response.errorReason.requirements_not_met_details.map((detail) => {
-          const {
-            failure_type: failureType,
-            document_type: documentType,
-            document_country_iso_code: documentCountryIsoCode,
-            audit_id: auditId,
-            details,
-          } = detail;
-
-          return {
-            failureType,
-            documentType,
-            documentCountryIsoCode,
-            auditId,
-            details,
-          };
-        });
+      const { requirements_not_met_details: rawRequirementsNotMetDetails } = response.errorReason;
+      if (Array.isArray(rawRequirementsNotMetDetails)) {
+        // eslint-disable-next-line max-len
+        this.errorReason.requirementsNotMetDetails = rawRequirementsNotMetDetails.map(parseRequirementsNotMetDetail);
+        delete this.errorReason.requirements_not_met_details;
+      }
     }
 
     if (response.rememberMeId) {
@@ -188,9 +196,12 @@ class ReceiptResponse {
   }
 
   /**
+   * @typedef {Object} ErrorReason
+   * @property {RequirementsNotMetDetail[]} [requirementsNotMetDetails]
+   *
    * The error reason of the receipt
    *
-   * @returns {{requirementsNotMetDetails: RequirementsNotMetDetail[]}}
+   * @returns {ErrorReason|undefined}
    */
   getErrorReason() {
     return this.errorReason;
