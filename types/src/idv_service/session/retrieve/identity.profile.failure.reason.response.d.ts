@@ -13,7 +13,10 @@ declare class IdentityProfileFailureReasonResponse {
     private reasonCode;
     /** @private  */
     private requirementsNotMetDetails;
-    getReasonCode(): any;
+    /**
+     * @returns {string}
+     */
+    getReasonCode(): string;
     /**
      * @returns {RequirementsNotMetDetail[]}
      */

@@ -46,6 +46,9 @@ class IdentityProfileFailureReasonResponse {
     /** @private */
   }
 
+  /**
+   * @returns {string}
+   */
   getReasonCode() {
     return this.reasonCode;
   }

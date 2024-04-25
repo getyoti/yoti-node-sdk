@@ -44,7 +44,7 @@ class IdentityProfileResponse {
   }
 
   /**
-   * @returns {object}
+   * @returns {IdentityProfileFailureReasonResponse}
    */
   getFailureReason() {
     return this.failureReason;
