@@ -15,6 +15,8 @@ declare class ReceiptResponse {
     /** @private */
     private error;
     /** @private */
+    private errorReason;
+    /** @private */
     private rememberMeId;
     /** @private */
     private parentRememberMeId;
@@ -86,4 +88,28 @@ declare class ReceiptResponse {
      * @returns {string} The error of the receipt
      */
     getError(): string;
+    /**
+     * @typedef {Object} ErrorReason
+     * @property {RequirementsNotMetDetail[]} [requirementsNotMetDetails]
+     *
+     * The error reason of the receipt
+     *
+     * @returns {ErrorReason|undefined}
+     */
+    getErrorReason(): {
+        /**
+         * The error reason of the receipt
+         */
+        requirementsNotMetDetails?: RequirementsNotMetDetail[];
+    };
 }
+declare namespace ReceiptResponse {
+    export { RequirementsNotMetDetail };
+}
+type RequirementsNotMetDetail = {
+    failureType?: string;
+    documentType?: string;
+    documentCountryIsoCode?: string;
+    auditId?: string;
+    details?: string;
+};

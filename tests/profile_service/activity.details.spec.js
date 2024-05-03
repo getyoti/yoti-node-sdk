@@ -123,6 +123,57 @@ describe('ActivityDetails', () => {
         description: 'Something terrible happened...users had no documents!',
       });
     });
+    it('should return error_details value with "errorReason" when available', () => {
+      const activityDetails = new ActivityDetails({
+        error_details: {
+          error_code: 'ERROR_CODE_FOR_SHARE',
+          description: 'Something terrible happened...users had no documents!',
+          error_reason: {
+            requirements_not_met_details: [
+              {
+                failure_type: 'ID_DOCUMENT_EXTRACTION',
+                document_type: 'PASSPORT',
+                document_country_iso_code: 'GBR',
+                audit_id: 'audit-123',
+                details: 'something not right',
+              },
+              {
+                failure_type: 'ID_DOCUMENT_AUTHENTICITY',
+                document_type: 'PASSPORT',
+                document_country_iso_code: 'GBR',
+                audit_id: 'audit-456',
+                details: 'something still not right',
+              },
+            ],
+          },
+        },
+        receipt: {
+          sharing_outcome: 'NOT_SUCCESS',
+        },
+      });
+      expect(activityDetails.getErrorDetails()).toEqual({
+        errorCode: 'ERROR_CODE_FOR_SHARE',
+        description: 'Something terrible happened...users had no documents!',
+        errorReason: expect.objectContaining({
+          requirementsNotMetDetails: expect.arrayContaining([
+            expect.objectContaining({
+              failureType: 'ID_DOCUMENT_EXTRACTION',
+              documentType: 'PASSPORT',
+              documentCountryIsoCode: 'GBR',
+              auditId: 'audit-123',
+              details: 'something not right',
+            }),
+            expect.objectContaining({
+              failureType: 'ID_DOCUMENT_AUTHENTICITY',
+              documentType: 'PASSPORT',
+              documentCountryIsoCode: 'GBR',
+              auditId: 'audit-456',
+              details: 'something still not right',
+            }),
+          ]),
+        }),
+      });
+    });
   });
   describe('#getTimestamp', () => {
     it('should return timestamp value', () => {
