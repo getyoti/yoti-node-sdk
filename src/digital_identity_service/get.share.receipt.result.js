@@ -34,6 +34,8 @@ module.exports = class GetShareReceiptResult {
     /** @private */
     this.error = receiptResponse.getError();
     /** @private */
+    this.errorReason = receiptResponse.getErrorReason();
+    /** @private */
     this.id = receiptResponse.getId();
 
     if (userContent) Validation.instanceOf(userContent, UserContent, 'userContent');
@@ -143,5 +145,9 @@ module.exports = class GetShareReceiptResult {
    */
   getError() {
     return this.error;
+  }
+
+  getErrorReason() {
+    return this.errorReason;
   }
 };

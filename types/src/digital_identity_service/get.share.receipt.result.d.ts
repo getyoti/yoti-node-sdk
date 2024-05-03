@@ -20,6 +20,8 @@ declare class GetShareReceiptResult {
     /** @private */
     private error;
     /** @private */
+    private errorReason;
+    /** @private */
     private id;
     /** @private */
     private userContent;
@@ -95,6 +97,12 @@ declare class GetShareReceiptResult {
      * @returns {string}
      */
     getError(): string;
+    getErrorReason(): {
+        /**
+         * The error reason of the receipt
+         */
+        requirementsNotMetDetails?: import("./receipts/receipt.response").RequirementsNotMetDetail[];
+    };
 }
 import UserContent = require("./receipts/user.content");
 import ApplicationContent = require("./receipts/application.content");
