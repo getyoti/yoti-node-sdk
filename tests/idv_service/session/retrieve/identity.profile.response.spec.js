@@ -10,7 +10,23 @@ describe('IdentityProfileResponse', () => {
       subject_id: 'someStringHere',
       result: 'DONE',
       failure_reason: {
-        reason_code: 'MANDATORY_DOCUMENT_COULD_NOT_BE_PROVIDED',
+        reason_code: 'MANDATORY_DOCUMENT_NOT_PROVIDED',
+        requirements_not_met_details: [
+          {
+            failure_type: 'ID_DOCUMENT_EXTRACTION',
+            document_type: 'PASSPORT',
+            document_country_iso_code: 'GBR',
+            audit_id: 'audit-123',
+            details: 'something not right',
+          },
+          {
+            failure_type: 'ID_DOCUMENT_AUTHENTICITY',
+            document_type: 'PASSPORT',
+            document_country_iso_code: 'GBR',
+            audit_id: 'audit-456',
+            details: 'something still not right',
+          },
+        ],
       },
       identity_profile_report: {
         trust_framework: 'UK_TFIDA',
@@ -52,7 +68,23 @@ describe('IdentityProfileResponse', () => {
       expect(failureReason)
         .toBeInstanceOf(IdentityProfileFailureReasonResponse);
 
-      expect(failureReason.getReasonCode()).toBe('MANDATORY_DOCUMENT_COULD_NOT_BE_PROVIDED');
+      expect(failureReason.getReasonCode()).toBe('MANDATORY_DOCUMENT_NOT_PROVIDED');
+      expect(failureReason.getRequirementsNotMetDetails()).toHaveLength(2);
+      const [firstDetail, secondDetail] = failureReason.getRequirementsNotMetDetails();
+      expect(firstDetail).toEqual(expect.objectContaining({
+        failureType: 'ID_DOCUMENT_EXTRACTION',
+        documentType: 'PASSPORT',
+        documentCountryIsoCode: 'GBR',
+        auditId: 'audit-123',
+        details: 'something not right',
+      }));
+      expect(secondDetail).toEqual(expect.objectContaining({
+        failureType: 'ID_DOCUMENT_AUTHENTICITY',
+        documentType: 'PASSPORT',
+        documentCountryIsoCode: 'GBR',
+        auditId: 'audit-456',
+        details: 'something still not right',
+      }));
     });
   });
 
