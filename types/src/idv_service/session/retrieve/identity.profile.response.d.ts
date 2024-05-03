@@ -18,12 +18,13 @@ declare class IdentityProfileResponse {
      */
     getResult(): string;
     /**
-     * @returns {object}
+     * @returns {IdentityProfileFailureReasonResponse}
      */
-    getFailureReason(): object;
+    getFailureReason(): IdentityProfileFailureReasonResponse;
     /**
      * @returns {IdentityProfileReportResponse}
      */
     getIdentityProfileReport(): IdentityProfileReportResponse;
 }
+import IdentityProfileFailureReasonResponse = require("./identity.profile.failure.reason.response");
 import IdentityProfileReportResponse = require("./identity.profile.report.response");
