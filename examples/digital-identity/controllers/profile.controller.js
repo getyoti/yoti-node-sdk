@@ -263,9 +263,13 @@ module.exports = async (req, res) => {
     }
 
     const receipt = await sdkDigitalIdentityClient.getShareReceipt(receiptId);
+
     const receiptError = receipt.getError();
+    const receiptErrorReason = receipt.getErrorReason();
     if (receiptError) {
-      throw new Error(`The receipt was fetched correctly, yet it indicates that an error occurred during the share: ${receiptError}.`);
+      throw new Error(receiptErrorReason
+        ? `${receiptError}\nError reason: ${JSON.stringify(receiptErrorReason, null, 2)}`
+        : `${receiptError}`);
     }
 
     const profile = receipt.getProfile();
