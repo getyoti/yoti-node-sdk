@@ -12,6 +12,26 @@
             <%= identityProfile.getResult(); %>
         </td>
     </tr>
+    <% if (identityProfile.getFailureReason()) { %>
+    <tr>
+        <td>Error details:</td>
+        <td>
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+                    <td style="width: auto">Error code</td>
+                    <td><%= identityProfile.getFailureReason().getReasonCode(); %></td>
+                </tr>
+                <tr>
+                    <td style="width: auto">Additional details</td>
+                    <td><pre><%= JSON.stringify(identityProfile.getFailureReason().getRequirementsNotMetDetails(), null, 2); %></pre></td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <% } %>
+    <% if (identityProfile.getIdentityProfileReport()) { %>>
     <tr>
         <td>Identity Profile Report</td>
         <td>
@@ -43,5 +63,6 @@
             </table>
         </td>
     </tr>
+    <% } %>
     </tbody>
 </table>
