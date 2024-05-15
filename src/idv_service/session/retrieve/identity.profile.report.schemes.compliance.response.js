@@ -10,15 +10,15 @@ class IdentityProfileReportSchemesComplianceResponse {
     this.scheme = schemesCompliance.scheme;
 
     Validation.isBoolean(schemesCompliance.requirements_met, 'requirements_met');
-    /** @private boolean */
+    /** @private @type {boolean} */
     this.requirementsMet = schemesCompliance.requirements_met;
 
     if (schemesCompliance.requirements_not_met_info) {
       Validation.isString(schemesCompliance.requirements_not_met_info, 'requirements_not_met_info');
-      /** @private string|undefined */
+      /** @private @type {string|undefined} */
       this.requirementsNotMetInfo = schemesCompliance.requirements_not_met_info;
 
-      /** @private {IdentityProfileRequirementsNotMetDetailResponse[]}|undefined */
+      /** @private @type {IdentityProfileRequirementsNotMetDetailResponse[]|undefined} */
       this.requirementsNotMetDetails = [];
 
       if (schemesCompliance.requirements_not_met_details) {

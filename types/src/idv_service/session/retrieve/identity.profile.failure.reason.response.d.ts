@@ -1,10 +1,11 @@
 export = IdentityProfileFailureReasonResponse;
 declare class IdentityProfileFailureReasonResponse {
     constructor(failureReason: any);
-    /** @private string */
+    /** @private @type {string} */
     private reasonCode;
-    /** @private {IdentityProfileRequirementsNotMetDetailResponse[]} */
+    /** @private @type {IdentityProfileRequirementsNotMetDetailResponse[]} */
     private requirementsNotMetDetails;
-    getReasonCode(): any;
-    getRequirementsNotMetDetails(): any;
+    getReasonCode(): string;
+    getRequirementsNotMetDetails(): IdentityProfileRequirementsNotMetDetailResponse[];
 }
+import IdentityProfileRequirementsNotMetDetailResponse = require("./identity.profile.requirements.not.met.detail.response");

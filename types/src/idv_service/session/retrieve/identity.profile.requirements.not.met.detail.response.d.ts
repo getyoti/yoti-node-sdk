@@ -1,19 +1,19 @@
 export = IdentityProfileRequirementsNotMetDetailResponse;
 declare class IdentityProfileRequirementsNotMetDetailResponse {
     constructor(requirementsNotMetDetail: any);
-    /** @private string */
+    /** @private @type {string} */
     private failureType;
-    /** @private string */
+    /** @private @type {string} */
     private documentType;
-    /** @private string */
+    /** @private @type {string} */
     private documentCountryIsoCode;
-    /** @private string|undefined */
+    /** @private @type {string|undefined} */
     private auditId;
-    /** @private */
+    /** @private @type {string} */
     private details;
-    getFailureType(): any;
-    getDocumentType(): any;
-    getDocumentCountryIsoCode(): any;
-    getAuditId(): any;
-    getDetails(): any;
+    getFailureType(): string;
+    getDocumentType(): string;
+    getDocumentCountryIsoCode(): string;
+    getAuditId(): string;
+    getDetails(): string;
 }

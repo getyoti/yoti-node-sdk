@@ -5,24 +5,23 @@ const Validation = require('../../../yoti_common/validation');
 class IdentityProfileRequirementsNotMetDetailResponse {
   constructor(requirementsNotMetDetail) {
     Validation.isString(requirementsNotMetDetail.failure_type, 'failure_type');
-    /** @private string */
+    /** @private @type {string} */
     this.failureType = requirementsNotMetDetail.failure_type;
 
     Validation.isString(requirementsNotMetDetail.document_type, 'document_type');
-    /** @private string */
+    /** @private @type {string} */
     this.documentType = requirementsNotMetDetail.document_type;
 
     Validation.isString(requirementsNotMetDetail.document_country_iso_code, 'document_country_iso_code');
-    /** @private string */
+    /** @private @type {string} */
     this.documentCountryIsoCode = requirementsNotMetDetail.document_country_iso_code;
 
     Validation.isString(requirementsNotMetDetail.audit_id, 'audit_id', true);
-    /** @private string|undefined */
+    /** @private @type {string|undefined} */
     this.auditId = requirementsNotMetDetail.audit_id;
 
-    /** @private string */
     Validation.isString(requirementsNotMetDetail.details, 'details');
-    /** @private */
+    /** @private @type {string} */
     this.details = requirementsNotMetDetail.details;
   }
 

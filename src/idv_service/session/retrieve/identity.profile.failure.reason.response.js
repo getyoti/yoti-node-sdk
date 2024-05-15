@@ -6,10 +6,10 @@ const IdentityProfileRequirementsNotMetDetailResponse = require('./identity.prof
 class IdentityProfileFailureReasonResponse {
   constructor(failureReason) {
     Validation.isString(failureReason.reason_code, 'reason code');
-    /** @private string */
+    /** @private @type {string} */
     this.reasonCode = failureReason.reason_code;
 
-    /** @private {IdentityProfileRequirementsNotMetDetailResponse[]} */
+    /** @private @type {IdentityProfileRequirementsNotMetDetailResponse[]} */
     this.requirementsNotMetDetails = [];
 
     // eslint-disable-next-line camelcase
