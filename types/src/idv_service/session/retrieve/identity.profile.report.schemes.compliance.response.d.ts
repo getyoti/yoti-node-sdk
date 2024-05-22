@@ -3,20 +3,18 @@ declare class IdentityProfileReportSchemesComplianceResponse {
     constructor(schemesCompliance: any);
     /** @private */
     private scheme;
-    /** @private */
+    /** @private @type {boolean} */
     private requirementsMet;
-    /** @private */
+    /** @private @type {string|undefined} */
     private requirementsNotMetInfo;
+    /** @private @type {IdentityProfileRequirementsNotMetDetailResponse[]|undefined} */
+    private requirementsNotMetDetails;
     /**
      * @returns {object}
      */
     getScheme(): object;
-    /**
-     * @returns {boolean}
-     */
     isRequirementsMet(): boolean;
-    /**
-     * @returns {string}
-     */
     getRequirementsNotMetInfo(): string;
+    getRequirementsNotMetDetails(): IdentityProfileRequirementsNotMetDetailResponse[];
 }
+import IdentityProfileRequirementsNotMetDetailResponse = require("./identity.profile.requirements.not.met.detail.response");
