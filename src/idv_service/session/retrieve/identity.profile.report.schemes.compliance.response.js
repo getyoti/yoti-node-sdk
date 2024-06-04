@@ -9,12 +9,12 @@ class IdentityProfileReportSchemesComplianceResponse {
     this.scheme = schemesCompliance.scheme;
 
     Validation.isBoolean(schemesCompliance.requirements_met, 'requirements_met');
-    /** @private */
+    /** @private @type {boolean} */
     this.requirementsMet = schemesCompliance.requirements_met;
 
     if (schemesCompliance.requirements_not_met_info) {
       Validation.isString(schemesCompliance.requirements_not_met_info, 'requirements_not_met_info');
-      /** @private */
+      /** @private @type {string|undefined} */
       this.requirementsNotMetInfo = schemesCompliance.requirements_not_met_info;
     }
   }
@@ -26,16 +26,10 @@ class IdentityProfileReportSchemesComplianceResponse {
     return this.scheme;
   }
 
-  /**
-   * @returns {boolean}
-   */
   isRequirementsMet() {
     return this.requirementsMet;
   }
 
-  /**
-   * @returns {string}
-   */
   getRequirementsNotMetInfo() {
     return this.requirementsNotMetInfo;
   }

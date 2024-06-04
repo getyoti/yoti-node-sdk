@@ -3,20 +3,14 @@ declare class IdentityProfileReportSchemesComplianceResponse {
     constructor(schemesCompliance: any);
     /** @private */
     private scheme;
-    /** @private */
+    /** @private @type {boolean} */
     private requirementsMet;
-    /** @private */
+    /** @private @type {string|undefined} */
     private requirementsNotMetInfo;
     /**
      * @returns {object}
      */
     getScheme(): object;
-    /**
-     * @returns {boolean}
-     */
     isRequirementsMet(): boolean;
-    /**
-     * @returns {string}
-     */
     getRequirementsNotMetInfo(): string;
 }

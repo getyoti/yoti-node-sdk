@@ -68,7 +68,6 @@ class DigitalIdentityService {
       .withHeader('X-Yoti-Auth-Id', this.sdkId)
       .withPemString(this.pem.toString())
       .withEndpoint('/v2/sessions')
-      .withQueryParam('appId', this.sdkId)
       .withMethod('POST')
       .withPayload(payload);
 
@@ -107,7 +106,6 @@ class DigitalIdentityService {
       .withHeader('X-Yoti-Auth-Id', this.sdkId)
       .withPemString(this.pem.toString())
       .withEndpoint(`/v2/sessions/${sessionId}`)
-      .withQueryParam('appId', this.sdkId)
       .withMethod('GET');
 
     const request = requestBuilder.build();
@@ -148,7 +146,6 @@ class DigitalIdentityService {
       .withHeader('X-Yoti-Auth-Id', this.sdkId)
       .withPemString(this.pem.toString())
       .withEndpoint(`/v2/sessions/${sessionId}/qr-codes`)
-      .withQueryParam('appId', this.sdkId)
       .withMethod('POST')
       .withPayload(payload);
 
@@ -187,7 +184,6 @@ class DigitalIdentityService {
       .withHeader('X-Yoti-Auth-Id', this.sdkId)
       .withPemString(this.pem.toString())
       .withEndpoint(`/v2/qr-codes/${qrCodeId}`)
-      .withQueryParam('appId', this.sdkId)
       .withMethod('GET');
 
     const request = requestBuilder.build();
@@ -225,7 +221,6 @@ class DigitalIdentityService {
       .withHeader('X-Yoti-Auth-Id', this.sdkId)
       .withPemString(this.pem.toString())
       .withEndpoint(`/v2/receipts/${receiptIdUrl}`)
-      .withQueryParam('appId', this.sdkId)
       .withMethod('GET')
       .build();
 
@@ -250,7 +245,6 @@ class DigitalIdentityService {
       .withHeader('X-Yoti-Auth-Id', this.sdkId)
       .withPemString(this.pem.toString())
       .withEndpoint(`/v2/wrapped-item-keys/${receiptItemKeyId}`)
-      .withQueryParam('appId', this.sdkId)
       .withMethod('GET')
       .build();
 
