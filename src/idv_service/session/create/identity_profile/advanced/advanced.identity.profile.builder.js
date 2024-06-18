@@ -16,6 +16,7 @@ class AdvancedIdentityProfileBuilder {
    */
   withTrustFramework(trustFramework) {
     Validation.isString(trustFramework, 'trustFramework');
+    /** @private {string} */
     this.trustFramework = trustFramework;
     return this;
   }

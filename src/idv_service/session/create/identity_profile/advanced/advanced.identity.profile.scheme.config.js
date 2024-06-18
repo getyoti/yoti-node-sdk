@@ -8,8 +8,10 @@ class AdvancedIdentityProfileSchemeConfig {
    * @param {DocumentFilter} filter
    */
   constructor(filter) {
-    Validation.instanceOf(filter, DocumentFilter, 'filter');
-    this.filter = filter;
+    if (filter) {
+      Validation.instanceOf(filter, DocumentFilter, 'filter');
+      this.filter = filter;
+    }
   }
 
   toJSON() {
