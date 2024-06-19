@@ -3,7 +3,7 @@
 const Validation = require('../../../../../yoti_common/validation');
 const AdvancedIdentityProfileSchemeComplianceResponse = require('./advanced.identity.profile.report.scheme.compliance.response');
 
-class AdvancedIdentityProfileTrustFrameworkComplianceResponse {
+class AdvancedIdentityProfileTrustFrameworkResponse {
   constructor(trustFrameworkCompliance) {
     Validation.isString(trustFrameworkCompliance.trust_framework, 'trust_framework');
     /** @private {string} */
@@ -25,4 +25,4 @@ class AdvancedIdentityProfileTrustFrameworkComplianceResponse {
   }
 }
 
-module.exports = AdvancedIdentityProfileTrustFrameworkComplianceResponse;
+module.exports = AdvancedIdentityProfileTrustFrameworkResponse;

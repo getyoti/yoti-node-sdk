@@ -15,7 +15,7 @@ class AdvancedIdentityProfileScheme {
     this.type = type;
     Validation.isString(objective, 'objective', true);
     if (label) this.objective = objective;
-    Validation.isString(label, 'label', true);
+    Validation.isString(label, 'label');
     if (label) this.label = label;
     if (config) {
       Validation.instanceOf(config, AdvancedIdentityProfileSchemeConfig, 'config');

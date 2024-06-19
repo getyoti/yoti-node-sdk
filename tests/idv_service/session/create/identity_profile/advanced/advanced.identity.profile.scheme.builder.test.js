@@ -24,12 +24,14 @@ describe('AdvancedIdentityProfileSchemeBuilder', () => {
   it('should build AdvancedIdentityProfileScheme (without config, nor objective, nor label)', () => {
     const advancedIdentityProfileScheme = new AdvancedIdentityProfileSchemeBuilder()
       .withType('RTW')
+      .withLabel('some-rtw')
       .build();
 
     expect(advancedIdentityProfileScheme).toBeInstanceOf(AdvancedIdentityProfileScheme);
 
     const expectedJson = JSON.stringify({
       type: 'RTW',
+      label: 'some-rtw',
     });
 
     expect(JSON.stringify(advancedIdentityProfileScheme)).toBe(expectedJson);

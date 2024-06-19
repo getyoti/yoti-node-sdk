@@ -8,7 +8,7 @@ class AdvancedIdentityProfileSchemeResponse {
     /** @private {string} */
     this.type = scheme.type;
 
-    Validation.isString(scheme.objective, 'objective');
+    Validation.isString(scheme.objective, 'objective', true);
     /** @private {string} */
     this.objective = scheme.objective;
 
@@ -21,7 +21,7 @@ class AdvancedIdentityProfileSchemeResponse {
     return this.type;
   }
 
-  isObjective() {
+  getObjective() {
     return this.objective;
   }
 

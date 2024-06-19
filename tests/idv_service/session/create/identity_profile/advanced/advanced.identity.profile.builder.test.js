@@ -4,11 +4,11 @@ const AdvancedIdentityProfileSchemeBuilder = require('../../../../../../src/idv_
 const AdvancedIdentityProfileSchemeConfigBuilder = require('../../../../../../src/idv_service/session/create/identity_profile/advanced/advanced.identity.profile.scheme.config.builder');
 const OrthogonalRestrictionsFilterBuilder = require('../../../../../../src/idv_service/session/create/filters/orthogonal/orthogonal.restrictions.filter.builder');
 
-function getScheme(type = 'DBS', objective = 'STANDARD', label = 'dbs-standard', filterDocumentType = null) {
+function getScheme(type, objective, label, filterDocumentType = null) {
   const builder = new AdvancedIdentityProfileSchemeBuilder()
-    .withType(type);
+    .withType(type)
+    .withLabel(label);
   if (objective) builder.withObjective(objective);
-  if (label) builder.withLabel(label);
 
   if (filterDocumentType) {
     const documentFilter = new OrthogonalRestrictionsFilterBuilder()
@@ -27,7 +27,7 @@ function getScheme(type = 'DBS', objective = 'STANDARD', label = 'dbs-standard',
 
 describe('AdvancedIdentityProfileSchemeBuilder', () => {
   it('should build AdvancedIdentityProfileScheme (1 scheme)', () => {
-    const scheme = getScheme();
+    const scheme = getScheme('DBS', 'STANDARD', 'dbs-standard');
     const advancedIdentityProfile = new AdvancedIdentityProfileBuilder()
       .withTrustFramework('UK_TFIDA')
       .withScheme(scheme)
@@ -46,8 +46,8 @@ describe('AdvancedIdentityProfileSchemeBuilder', () => {
   });
 
   it('should build AdvancedIdentityProfileScheme (2 schemes)', () => {
-    const scheme1 = getScheme();
-    const scheme2 = getScheme('RTW', null, null, 'PASSPORT');
+    const scheme1 = getScheme('DBS', 'STANDARD', 'dbs-standard');
+    const scheme2 = getScheme('RTW', null, 'some-rtw', 'PASSPORT');
     const advancedIdentityProfile = new AdvancedIdentityProfileBuilder()
       .withTrustFramework('UK_TFIDA')
       .withScheme(scheme1)

@@ -2,6 +2,7 @@
 
 const Validation = require('../../../../../yoti_common/validation');
 const AdvancedIdentityProfileReportResponse = require('./advanced.identity.profile.report.response');
+const IdentityProfileFailureReasonResponse = require('../../identity.profile.failure.reason.response');
 
 class AdvancedIdentityProfileResponse {
   constructor(response) {
@@ -13,9 +14,11 @@ class AdvancedIdentityProfileResponse {
     /** @private {string} */
     this.result = response.result;
 
-    Validation.isString(response.failure_reason, 'failure_reason', true);
-    /** @private {string} */
-    this.failureReason = response.failure_reason;
+    if (response.failure_reason) {
+      Validation.isPlainObject(response.failure_reason, 'failure_reason');
+      /** @private {IdentityProfileFailureReasonResponse} */
+      this.failureReason = new IdentityProfileFailureReasonResponse(response.failure_reason);
+    }
 
     if (response.identity_profile_report) {
       Validation.isPlainObject(response.identity_profile_report, 'identity_profile_report');
