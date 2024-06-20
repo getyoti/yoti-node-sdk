@@ -1,7 +1,7 @@
 export = IdentityProfileReportSchemesComplianceResponse;
 declare class IdentityProfileReportSchemesComplianceResponse {
     constructor(schemesCompliance: any);
-    /** @private */
+    /** @private @type {IdentityProfileSchemeResponse} */
     private scheme;
     /** @private @type {boolean} */
     private requirementsMet;

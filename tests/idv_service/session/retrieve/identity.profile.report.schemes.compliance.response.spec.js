@@ -1,4 +1,5 @@
 const IdentityProfileReportSchemesComplianceResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.report.schemes.compliance.response');
+const IdentityProfileSchemeResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.scheme.response');
 
 describe('IdentityProfileReportSchemesComplianceResponse', () => {
   let identityProfileReportSchemesComplianceResponse;
@@ -17,7 +18,9 @@ describe('IdentityProfileReportSchemesComplianceResponse', () => {
 
   describe('#getScheme', () => {
     it('Should return scheme object', () => {
-      expect(identityProfileReportSchemesComplianceResponse.getScheme()).toMatchObject({
+      const scheme = identityProfileReportSchemesComplianceResponse.getScheme();
+      expect(scheme).toBeInstanceOf(IdentityProfileSchemeResponse);
+      expect(scheme).toMatchObject({
         type: 'DBS',
         objective: 'STANDARD',
       });
