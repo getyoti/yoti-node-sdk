@@ -14,6 +14,9 @@ const {
   DocumentRestrictionsFilterBuilder,
   RequestedCustomAccountWatchlistAdvancedCaConfigBuilder,
 } = require('../../../..');
+const AdvancedIdentityProfile = require('../../../../src/idv_service/session/create/identity_profile/advanced/advanced.identity.profile');
+const AdvancedIdentityProfileScheme = require('../../../../src/idv_service/session/create/identity_profile/advanced/advanced.identity.profile.scheme');
+const AdvancedIdentityProfileRequirements = require('../../../../src/idv_service/session/create/identity_profile/advanced/advanced.identity.profile.requirements');
 
 describe('SessionSpecificationBuilder', () => {
   it('should build SessionSpecification', () => {
@@ -207,6 +210,64 @@ describe('SessionSpecificationBuilder', () => {
           type: 'DBS',
           objective: 'STANDARD',
         },
+      },
+    });
+
+    expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
+  });
+
+  it('should build SessionSpecification with withAdvancedIdentityProfileRequirements', () => {
+    const advancedIdentityProfileRequirements = new AdvancedIdentityProfileRequirements([
+      new AdvancedIdentityProfile('UK_TFIDA', [
+        new AdvancedIdentityProfileScheme('DBS', 'STANDARD', 'dbs-standard'),
+        new AdvancedIdentityProfileScheme('RTW', undefined, 'some-rtw'),
+      ]),
+      new AdvancedIdentityProfile('YOTI_GLOBAL', [
+        new AdvancedIdentityProfileScheme('IDENTITY', 'AL_L1', 'identity-AL-L1'),
+        new AdvancedIdentityProfileScheme('IDENTITY', 'AL_M1', 'identity-AL-M1'),
+      ]),
+    ]);
+
+    const sessionSpec = new SessionSpecificationBuilder()
+      .withAdvancedIdentityProfileRequirements(advancedIdentityProfileRequirements)
+      .build();
+
+    const expectedJson = JSON.stringify({
+      requested_checks: [],
+      requested_tasks: [],
+      required_documents: [],
+      advanced_identity_profile_requirements: {
+        profiles: [
+          {
+            trust_framework: 'UK_TFIDA',
+            schemes: [
+              {
+                type: 'DBS',
+                objective: 'STANDARD',
+                label: 'dbs-standard',
+              },
+              {
+                type: 'RTW',
+                label: 'some-rtw',
+              },
+            ],
+          },
+          {
+            trust_framework: 'YOTI_GLOBAL',
+            schemes: [
+              {
+                type: 'IDENTITY',
+                objective: 'AL_L1',
+                label: 'identity-AL-L1',
+              },
+              {
+                type: 'IDENTITY',
+                objective: 'AL_M1',
+                label: 'identity-AL-M1',
+              },
+            ],
+          },
+        ],
       },
     });
 
