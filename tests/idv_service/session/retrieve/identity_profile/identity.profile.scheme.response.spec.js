@@ -1,4 +1,4 @@
-const IdentityProfileSchemeResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.scheme.response');
+const IdentityProfileSchemeResponse = require('../../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.scheme.response');
 
 describe('IdentityProfileSchemeResponse', () => {
   let identityProfileSchemeResponse;

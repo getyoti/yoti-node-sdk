@@ -1,6 +1,6 @@
-const IdentityProfileReportResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.report.response');
-const IdentityProfileReportSchemesComplianceResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.report.schemes.compliance.response');
-const MediaResponse = require('../../../../src/idv_service/session/retrieve/media.response');
+const IdentityProfileReportResponse = require('../../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.report.response');
+const IdentityProfileReportSchemesComplianceResponse = require('../../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.report.schemes.compliance.response');
+const MediaResponse = require('../../../../../src/idv_service/session/retrieve/media.response');
 
 describe('IdentityProfileResponseReport', () => {
   let identityProfileReportResponse;

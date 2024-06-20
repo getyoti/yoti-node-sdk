@@ -1,4 +1,4 @@
-const IdentityProfileRequirementsNotMetDetailResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.requirements.not.met.detail.response');
+const IdentityProfileRequirementsNotMetDetailResponse = require('../../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.requirements.not.met.detail.response');
 
 describe('IdentityProfileRequirementsNotMetDetailResponse', () => {
   let requirementsNotMetDetailResponse;

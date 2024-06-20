@@ -2,7 +2,7 @@
 
 const Validation = require('../../../../../yoti_common/validation');
 const AdvancedIdentityProfileReportResponse = require('./advanced.identity.profile.report.response');
-const IdentityProfileFailureReasonResponse = require('../../identity.profile.failure.reason.response');
+const IdentityProfileFailureReasonResponse = require('../identity.profile.failure.reason.response');
 
 class AdvancedIdentityProfileResponse {
   constructor(response) {

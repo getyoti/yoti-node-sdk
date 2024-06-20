@@ -21,4 +21,4 @@ declare class IdentityProfileReportResponse {
     getMedia(): MediaResponse;
 }
 import IdentityProfileReportSchemesComplianceResponse = require("./identity.profile.report.schemes.compliance.response");
-import MediaResponse = require("./media.response");
+import MediaResponse = require("../media.response");

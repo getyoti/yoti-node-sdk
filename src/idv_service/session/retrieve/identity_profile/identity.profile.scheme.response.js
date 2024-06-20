@@ -1,6 +1,6 @@
 'use strict';
 
-const Validation = require('../../../yoti_common/validation');
+const Validation = require('../../../../yoti_common/validation');
 
 class IdentityProfileSchemeResponse {
   constructor(scheme) {

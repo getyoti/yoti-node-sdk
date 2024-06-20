@@ -1,5 +1,5 @@
-const IdentityProfileReportSchemesComplianceResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.report.schemes.compliance.response');
-const IdentityProfileSchemeResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.scheme.response');
+const IdentityProfileReportSchemesComplianceResponse = require('../../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.report.schemes.compliance.response');
+const IdentityProfileSchemeResponse = require('../../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.scheme.response');
 
 describe('IdentityProfileReportSchemesComplianceResponse', () => {
   let identityProfileReportSchemesComplianceResponse;

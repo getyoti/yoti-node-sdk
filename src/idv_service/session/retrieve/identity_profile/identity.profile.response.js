@@ -1,6 +1,6 @@
 'use strict';
 
-const Validation = require('../../../yoti_common/validation');
+const Validation = require('../../../../yoti_common/validation');
 const IdentityProfileReportResponse = require('./identity.profile.report.response');
 const IdentityProfileFailureReasonResponse = require('./identity.profile.failure.reason.response');
 

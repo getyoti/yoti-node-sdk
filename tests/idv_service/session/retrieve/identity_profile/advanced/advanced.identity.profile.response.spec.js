@@ -1,5 +1,5 @@
-const IdentityProfileFailureReasonResponse = require('../../../../../../src/idv_service/session/retrieve/identity.profile.failure.reason.response');
-const IdentityProfileRequirementsNotMetDetailResponse = require('../../../../../../src/idv_service/session/retrieve/identity.profile.requirements.not.met.detail.response');
+const IdentityProfileFailureReasonResponse = require('../../../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.failure.reason.response');
+const IdentityProfileRequirementsNotMetDetailResponse = require('../../../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.requirements.not.met.detail.response');
 const AdvancedIdentityProfileReportResponse = require('../../../../../../src/idv_service/session/retrieve/identity_profile/advanced/advanced.identity.profile.report.response');
 const AdvancedIdentityProfileResponse = require('../../../../../../src/idv_service/session/retrieve/identity_profile/advanced/advanced.identity.profile.response');
 

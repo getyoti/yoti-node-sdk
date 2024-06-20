@@ -14,5 +14,5 @@ declare class AdvancedIdentityProfileResponse {
     getFailureReason(): IdentityProfileFailureReasonResponse;
     getIdentityProfileReport(): AdvancedIdentityProfileReportResponse;
 }
-import IdentityProfileFailureReasonResponse = require("../../identity.profile.failure.reason.response");
+import IdentityProfileFailureReasonResponse = require("../identity.profile.failure.reason.response");
 import AdvancedIdentityProfileReportResponse = require("./advanced.identity.profile.report.response");

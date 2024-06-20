@@ -12,7 +12,7 @@ const WatchlistScreeningCheckResponse = require('../../../../src/idv_service/ses
 const WatchlistAdvancedCaCheckResponse = require('../../../../src/idv_service/session/retrieve/watchlist.advanced.ca.check.response');
 const ThirdPartyIdentityFraud1CheckResponse = require('../../../../src/idv_service/session/retrieve/third.party.identity.fraud.1.check.response');
 const FaceComparisonCheckResponse = require('../../../../src/idv_service/session/retrieve/face.comparison.check.response');
-const IdentityProfileResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.response');
+const IdentityProfileResponse = require('../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.response');
 const AdvancedIdentityProfileResponse = require('../../../../src/idv_service/session/retrieve/identity_profile/advanced/advanced.identity.profile.response');
 const { YotiDate } = require('../../../..');
 

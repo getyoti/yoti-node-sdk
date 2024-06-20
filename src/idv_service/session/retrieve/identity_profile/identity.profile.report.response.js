@@ -1,8 +1,8 @@
 'use strict';
 
 const IdentityProfileReportSchemesComplianceResponse = require('./identity.profile.report.schemes.compliance.response');
-const Validation = require('../../../yoti_common/validation');
-const MediaResponse = require('./media.response');
+const Validation = require('../../../../yoti_common/validation');
+const MediaResponse = require('../media.response');
 
 class IdentityProfileReportResponse {
   constructor(report) {

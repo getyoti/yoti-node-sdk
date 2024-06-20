@@ -1,7 +1,7 @@
-const IdentityProfileResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.response');
-const IdentityProfileReportResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.report.response');
-const IdentityProfileFailureReasonResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.failure.reason.response');
-const IdentityProfileRequirementsNotMetDetailResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.requirements.not.met.detail.response');
+const IdentityProfileResponse = require('../../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.response');
+const IdentityProfileReportResponse = require('../../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.report.response');
+const IdentityProfileFailureReasonResponse = require('../../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.failure.reason.response');
+const IdentityProfileRequirementsNotMetDetailResponse = require('../../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.requirements.not.met.detail.response');
 
 describe('IdentityProfileResponse', () => {
   let identityProfileResponse;
