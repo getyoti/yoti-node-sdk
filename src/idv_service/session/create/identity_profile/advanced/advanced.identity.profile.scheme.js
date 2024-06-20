@@ -13,10 +13,13 @@ class AdvancedIdentityProfileScheme {
   constructor(type, objective, label, config) {
     Validation.isString(type, 'type');
     this.type = type;
+
     Validation.isString(objective, 'objective', true);
-    if (label) this.objective = objective;
+    if (objective) this.objective = objective;
+
     Validation.isString(label, 'label');
-    if (label) this.label = label;
+    this.label = label;
+
     if (config) {
       Validation.instanceOf(config, AdvancedIdentityProfileSchemeConfig, 'config');
       this.config = config;
