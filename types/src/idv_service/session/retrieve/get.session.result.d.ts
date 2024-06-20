@@ -19,6 +19,8 @@ declare class GetSessionResult {
     private biometricConsent;
     /** @private */
     private identityProfile;
+    /** @private */
+    private advancedIdentityProfile;
     /**
      * @returns {string}
      */
@@ -105,6 +107,10 @@ declare class GetSessionResult {
      * @returns {IdentityProfileResponse}
      */
     getIdentityProfile(): IdentityProfileResponse;
+    /**
+     * @returns {AdvancedIdentityProfileResponse}
+     */
+    getAdvancedIdentityProfile(): AdvancedIdentityProfileResponse;
 }
 import CheckResponse = require("./check.response");
 import AuthenticityCheckResponse = require("./authenticity.check.response");
@@ -121,3 +127,4 @@ import FaceComparisonCheckResponse = require("./face.comparison.check.response")
 import ResourceContainer = require("./resource.container");
 import { YotiDate } from "../../../data_type/date";
 import IdentityProfileResponse = require("./identity.profile.response");
+import AdvancedIdentityProfileResponse = require("./identity_profile/advanced/advanced.identity.profile.response");
