@@ -15,6 +15,7 @@ const WatchlistAdvancedCaCheckResponse = require('./watchlist.advanced.ca.check.
 const ThirdPartyIdentityFraud1CheckResponse = require('./third.party.identity.fraud.1.check.response');
 const FaceComparisonCheckResponse = require('./face.comparison.check.response');
 const IdentityProfileResponse = require('./identity.profile.response');
+const AdvancedIdentityProfileResponse = require('./identity_profile/advanced/advanced.identity.profile.response');
 const IDVConstants = require('../../idv.constants');
 const { YotiDate } = require('../../../data_type/date');
 
@@ -93,6 +94,19 @@ class GetSessionResult {
       Validation.isPlainObject(response.identity_profile, 'identity_profile');
       /** @private */
       this.identityProfile = new IdentityProfileResponse(response.identity_profile);
+    }
+
+    if (response.advanced_identity_profile) {
+      Validation.isPlainObject(response.advanced_identity_profile, 'advanced_identity_profile');
+      console.log('advanced_identity_profile:');
+      /** @private */
+      // eslint-disable-next-line max-len
+      this.advancedIdentityProfile = new AdvancedIdentityProfileResponse(response.advanced_identity_profile);
+    }
+
+    if (response.advanced_identity_profile_preview) {
+      console.log('advanced_identity_profile_preview:');
+      console.log(JSON.stringify(response.advanced_identity_profile_preview, null, 2));
     }
   }
 
@@ -250,6 +264,13 @@ class GetSessionResult {
    */
   getIdentityProfile() {
     return this.identityProfile;
+  }
+
+  /**
+   * @returns {AdvancedIdentityProfileResponse}
+   */
+  getAdvancedIdentityProfile() {
+    return this.advancedIdentityProfile;
   }
 }
 
