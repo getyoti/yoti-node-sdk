@@ -98,15 +98,9 @@ class GetSessionResult {
 
     if (response.advanced_identity_profile) {
       Validation.isPlainObject(response.advanced_identity_profile, 'advanced_identity_profile');
-      console.log('advanced_identity_profile:');
       /** @private */
       // eslint-disable-next-line max-len
       this.advancedIdentityProfile = new AdvancedIdentityProfileResponse(response.advanced_identity_profile);
-    }
-
-    if (response.advanced_identity_profile_preview) {
-      console.log('advanced_identity_profile_preview:');
-      console.log(JSON.stringify(response.advanced_identity_profile_preview, null, 2));
     }
   }
 
