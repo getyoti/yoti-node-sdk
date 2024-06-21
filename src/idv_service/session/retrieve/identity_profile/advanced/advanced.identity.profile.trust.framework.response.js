@@ -16,10 +16,16 @@ class AdvancedIdentityProfileTrustFrameworkResponse {
       .map((schemeCompliance) => new AdvancedIdentityProfileSchemeComplianceResponse(schemeCompliance));
   }
 
+  /**
+   * @returns {string}
+   */
   getTrustFramework() {
     return this.trustFramework;
   }
 
+  /**
+   * @returns {AdvancedIdentityProfileSchemeComplianceResponse[]}
+   */
   getSchemesCompliance() {
     return this.schemesCompliance;
   }

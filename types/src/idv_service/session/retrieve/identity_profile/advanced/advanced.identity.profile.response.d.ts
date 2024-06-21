@@ -9,10 +9,22 @@ declare class AdvancedIdentityProfileResponse {
     private failureReason;
     /** @private {AdvancedIdentityProfileReportResponse} */
     private identityProfileReport;
-    getSubjectId(): any;
-    getResult(): any;
-    getFailureReason(): IdentityProfileFailureReasonResponse;
-    getIdentityProfileReport(): AdvancedIdentityProfileReportResponse;
+    /**
+     * @returns {string}
+     */
+    getSubjectId(): string;
+    /**
+     * @returns {string}
+     */
+    getResult(): string;
+    /**
+     * @returns {IdentityProfileFailureReasonResponse|undefined}
+     */
+    getFailureReason(): IdentityProfileFailureReasonResponse | undefined;
+    /**
+     * @returns {AdvancedIdentityProfileReportResponse|undefined}
+     */
+    getIdentityProfileReport(): AdvancedIdentityProfileReportResponse | undefined;
 }
 import IdentityProfileFailureReasonResponse = require("../identity.profile.failure.reason.response");
 import AdvancedIdentityProfileReportResponse = require("./advanced.identity.profile.report.response");

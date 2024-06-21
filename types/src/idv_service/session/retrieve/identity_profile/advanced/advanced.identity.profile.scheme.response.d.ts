@@ -7,7 +7,16 @@ declare class AdvancedIdentityProfileSchemeResponse {
     private objective;
     /** @private {string} */
     private label;
-    getType(): any;
-    getObjective(): any;
-    getLabel(): any;
+    /**
+     * @returns {string}
+     */
+    getType(): string;
+    /**
+     * @returns {string}
+     */
+    getObjective(): string;
+    /**
+     * @returns {string}
+     */
+    getLabel(): string;
 }

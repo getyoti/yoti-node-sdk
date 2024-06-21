@@ -5,6 +5,12 @@ declare class IdentityProfileSchemeResponse {
     private type;
     /** @private {string} */
     private objective;
-    getType(): any;
-    getObjective(): any;
+    /**
+     * @returns {string}
+     */
+    getType(): string;
+    /**
+     * @returns {string|undefined}
+     */
+    getObjective(): string | undefined;
 }

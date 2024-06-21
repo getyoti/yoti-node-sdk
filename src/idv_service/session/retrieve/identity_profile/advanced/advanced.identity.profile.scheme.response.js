@@ -17,14 +17,23 @@ class AdvancedIdentityProfileSchemeResponse {
     this.label = scheme.label;
   }
 
+  /**
+   * @returns {string}
+   */
   getType() {
     return this.type;
   }
 
+  /**
+   * @returns {string}
+   */
   getObjective() {
     return this.objective;
   }
 
+  /**
+   * @returns {string}
+   */
   getLabel() {
     return this.label;
   }

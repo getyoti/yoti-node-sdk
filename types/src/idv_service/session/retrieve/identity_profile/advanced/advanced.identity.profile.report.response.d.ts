@@ -5,7 +5,14 @@ declare class AdvancedIdentityProfileReportResponse {
     private compliance;
     /** @private {MediaResponse} */
     private media;
-    getCompliance(): any;
+    /**
+     * @returns {AdvancedIdentityProfileTrustFrameworkResponse[]}
+     */
+    getCompliance(): AdvancedIdentityProfileTrustFrameworkResponse[];
+    /**
+     * @returns {MediaResponse}
+     */
     getMedia(): MediaResponse;
 }
+import AdvancedIdentityProfileTrustFrameworkResponse = require("./advanced.identity.profile.trust.framework.response");
 import MediaResponse = require("../../media.response");

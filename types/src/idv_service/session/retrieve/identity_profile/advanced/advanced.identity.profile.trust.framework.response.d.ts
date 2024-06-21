@@ -5,6 +5,13 @@ declare class AdvancedIdentityProfileTrustFrameworkResponse {
     private trustFramework;
     /** @private {AdvancedIdentityProfileSchemeComplianceResponse[]} */
     private schemesCompliance;
-    getTrustFramework(): any;
-    getSchemesCompliance(): any;
+    /**
+     * @returns {string}
+     */
+    getTrustFramework(): string;
+    /**
+     * @returns {AdvancedIdentityProfileSchemeComplianceResponse[]}
+     */
+    getSchemesCompliance(): AdvancedIdentityProfileSchemeComplianceResponse[];
 }
+import AdvancedIdentityProfileSchemeComplianceResponse = require("./advanced.identity.profile.report.scheme.compliance.response");

@@ -10,8 +10,10 @@ class AdvancedIdentityProfile {
    */
   constructor(trustFramework, schemes) {
     Validation.isString(trustFramework, 'trustFramework');
+    /** @private {string} */
     this.trustFramework = trustFramework;
     Validation.isArrayOfType(schemes, AdvancedIdentityProfileScheme, 'schemes');
+    /** @private {AdvancedIdentityProfileScheme[]} */
     this.schemes = schemes;
   }
 

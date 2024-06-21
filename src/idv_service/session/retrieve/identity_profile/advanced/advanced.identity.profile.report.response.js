@@ -16,10 +16,16 @@ class AdvancedIdentityProfileReportResponse {
     this.media = new MediaResponse(report.media);
   }
 
+  /**
+   * @returns {AdvancedIdentityProfileTrustFrameworkResponse[]}
+   */
   getCompliance() {
     return this.compliance;
   }
 
+  /**
+   * @returns {MediaResponse}
+   */
   getMedia() {
     return this.media;
   }

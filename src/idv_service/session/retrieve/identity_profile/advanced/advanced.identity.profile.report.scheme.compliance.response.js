@@ -18,14 +18,24 @@ class AdvancedIdentityProfileSchemeComplianceResponse {
     this.requirementsNotMetInfo = schemesCompliance.requirements_not_met_info;
   }
 
+  /**
+   * @returns {AdvancedIdentityProfileSchemeResponse}
+   */
   getScheme() {
     return this.scheme;
   }
 
+  /**
+   * @returns {boolean}
+   */
   getRequirementsMet() {
     return this.requirementsMet;
   }
 
+  /**
+   *
+   * @returns {string|undefined}
+   */
   getRequirementsNotMetInfo() {
     return this.requirementsNotMetInfo;
   }

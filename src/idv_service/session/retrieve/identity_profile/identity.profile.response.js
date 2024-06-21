@@ -7,22 +7,22 @@ const IdentityProfileFailureReasonResponse = require('./identity.profile.failure
 class IdentityProfileResponse {
   constructor(identityProfile) {
     Validation.isString(identityProfile.subject_id, 'subject_id', true);
-    /** @private */
+    /** @private {string|undefined} */
     this.subjectId = identityProfile.subject_id;
 
     Validation.isString(identityProfile.result, 'result');
-    /** @private */
+    /** @private {string} */
     this.result = identityProfile.result;
 
     if (identityProfile.failure_reason) {
       Validation.isPlainObject(identityProfile.failure_reason, 'failure_reason');
-      /** @private */
+      /** @private {IdentityProfileFailureReasonResponse|undefined} */
       this.failureReason = new IdentityProfileFailureReasonResponse(identityProfile.failure_reason);
     }
 
     if (identityProfile.identity_profile_report) {
       Validation.isPlainObject(identityProfile.identity_profile_report, 'identity_profile_report');
-      /** @private */
+      /** @private  {IdentityProfileReportResponse|undefined} */
       this.identityProfileReport = new IdentityProfileReportResponse(
         identityProfile.identity_profile_report
       );
@@ -44,14 +44,14 @@ class IdentityProfileResponse {
   }
 
   /**
-   * @returns {IdentityProfileFailureReasonResponse}
+   * @returns {IdentityProfileFailureReasonResponse|undefined}
    */
   getFailureReason() {
     return this.failureReason;
   }
 
   /**
-   * @returns {IdentityProfileReportResponse}
+   * @returns {IdentityProfileReportResponse|undefined}
    */
   getIdentityProfileReport() {
     return this.identityProfileReport;

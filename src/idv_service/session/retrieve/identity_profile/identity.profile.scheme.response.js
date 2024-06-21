@@ -13,10 +13,16 @@ class IdentityProfileSchemeResponse {
     this.objective = scheme.objective;
   }
 
+  /**
+   * @returns {string}
+   */
   getType() {
     return this.type;
   }
 
+  /**
+   * @returns {string|undefined}
+   */
   getObjective() {
     return this.objective;
   }

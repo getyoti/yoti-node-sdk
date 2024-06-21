@@ -28,18 +28,30 @@ class AdvancedIdentityProfileResponse {
     }
   }
 
+  /**
+   * @returns {string}
+   */
   getSubjectId() {
     return this.subjectId;
   }
 
+  /**
+   * @returns {string}
+   */
   getResult() {
     return this.result;
   }
 
+  /**
+   * @returns {IdentityProfileFailureReasonResponse|undefined}
+   */
   getFailureReason() {
     return this.failureReason;
   }
 
+  /**
+   * @returns {AdvancedIdentityProfileReportResponse|undefined}
+   */
   getIdentityProfileReport() {
     return this.identityProfileReport;
   }

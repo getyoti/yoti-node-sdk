@@ -1,11 +1,11 @@
 export = IdentityProfileReportResponse;
 declare class IdentityProfileReportResponse {
     constructor(report: any);
-    /** @private */
+    /** @private {string} */
     private trustFramework;
-    /** @private */
+    /** @private {IdentityProfileReportSchemesComplianceResponse[]} */
     private schemesCompliance;
-    /** @private */
+    /** @private {MediaResponse} */
     private media;
     /**
      * @returns {string}

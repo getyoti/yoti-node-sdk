@@ -5,8 +5,10 @@ declare class AdvancedIdentityProfile {
      * @param {AdvancedIdentityProfileScheme[]} schemes
      */
     constructor(trustFramework: string, schemes: AdvancedIdentityProfileScheme[]);
-    trustFramework: string;
-    schemes: AdvancedIdentityProfileScheme[];
+    /** @private {string} */
+    private trustFramework;
+    /** @private {AdvancedIdentityProfileScheme[]} */
+    private schemes;
     toJSON(): {
         trust_framework: string;
         schemes: AdvancedIdentityProfileScheme[];

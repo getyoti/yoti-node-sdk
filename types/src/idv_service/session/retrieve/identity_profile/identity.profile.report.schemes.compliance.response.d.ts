@@ -1,16 +1,23 @@
 export = IdentityProfileReportSchemesComplianceResponse;
 declare class IdentityProfileReportSchemesComplianceResponse {
     constructor(schemesCompliance: any);
-    /** @private @type {IdentityProfileSchemeResponse} */
+    /** @private {IdentityProfileSchemeResponse} */
     private scheme;
-    /** @private @type {boolean} */
+    /** @private {boolean} */
     private requirementsMet;
-    /** @private @type {string|undefined} */
+    /** @private {string|undefined} */
     private requirementsNotMetInfo;
     /**
-     * @returns {object}
+     * @returns {IdentityProfileSchemeResponse}
      */
-    getScheme(): object;
+    getScheme(): IdentityProfileSchemeResponse;
+    /**
+     * @returns {boolean}
+     */
     isRequirementsMet(): boolean;
-    getRequirementsNotMetInfo(): string;
+    /**
+     * @returns {string|undefined}
+     */
+    getRequirementsNotMetInfo(): string | undefined;
 }
+import IdentityProfileSchemeResponse = require("./identity.profile.scheme.response");
