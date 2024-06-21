@@ -18,6 +18,7 @@ async function createSession() {
     subject_id: 'subject_id_string',
   };
 
+  // eslint-disable-next-line no-unused-vars
   const identityProfileRequirements = {
     trust_framework: 'UK_TFIDA',
     scheme: {
