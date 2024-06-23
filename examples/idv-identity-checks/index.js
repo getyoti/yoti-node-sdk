@@ -24,6 +24,7 @@ app.use(session({
 const router = express.Router();
 
 router.get('/', controllers.indexController);
+router.post('/session', controllers.sessionController);
 router.get('/success', controllers.successController);
 router.get('/media', controllers.mediaController);
 router.get('/error', controllers.errorController);
