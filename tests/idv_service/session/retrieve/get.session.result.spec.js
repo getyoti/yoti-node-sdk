@@ -12,7 +12,8 @@ const WatchlistScreeningCheckResponse = require('../../../../src/idv_service/ses
 const WatchlistAdvancedCaCheckResponse = require('../../../../src/idv_service/session/retrieve/watchlist.advanced.ca.check.response');
 const ThirdPartyIdentityFraud1CheckResponse = require('../../../../src/idv_service/session/retrieve/third.party.identity.fraud.1.check.response');
 const FaceComparisonCheckResponse = require('../../../../src/idv_service/session/retrieve/face.comparison.check.response');
-const IdentityProfileResponse = require('../../../../src/idv_service/session/retrieve/identity.profile.response');
+const IdentityProfileResponse = require('../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.response');
+const AdvancedIdentityProfileResponse = require('../../../../src/idv_service/session/retrieve/identity_profile/advanced/advanced.identity.profile.response');
 const { YotiDate } = require('../../../..');
 
 const ID_DOCUMENT_AUTHENTICITY = 'ID_DOCUMENT_AUTHENTICITY';
@@ -103,6 +104,77 @@ describe('GetSessionResult', () => {
             created: '2022-03-29T11:39:24Z',
             last_updated: '2022-03-29T11:39:24Z',
           },
+        },
+      },
+      advanced_identity_profile: {
+        subject_id: 'some-subject',
+        result: 'DONE',
+        failure_reason: {
+          reason_code: 'MANDATORY_DOCUMENT_NOT_PROVIDED',
+          requirements_not_met_details: [
+            {
+              failure_type: 'ID_DOCUMENT_EXTRACTION',
+              document_type: 'PASSPORT',
+              document_country_iso_code: 'GBR',
+              audit_id: 'audit-123',
+              details: 'something not right',
+            },
+            {
+              failure_type: 'ID_DOCUMENT_AUTHENTICITY',
+              document_type: 'PASSPORT',
+              document_country_iso_code: 'GBR',
+              audit_id: 'audit-456',
+              details: 'something still not right',
+            },
+          ],
+        },
+        identity_profile_report: {
+          compliance: [
+            {
+              trust_framework: 'UK_TFIDA',
+              schemes_compliance: [
+                {
+                  requirements_met: true,
+                  scheme: {
+                    type: 'DBS',
+                    objective: 'STANDARD',
+                    label: 'dbs-standard',
+                  },
+                },
+                {
+                  requirements_met: false,
+                  requirements_not_met_info: 'HORRIBLE_FAILURE',
+                  scheme: {
+                    type: 'RTW',
+                    label: 'some-RTW',
+                  },
+                },
+              ],
+            },
+            {
+              trust_framework: 'YOTI_GLOBAL',
+              schemes_compliance: [
+                {
+                  requirements_met: true,
+                  scheme: {
+                    type: 'IDENTITY',
+                    objective: 'AL_M1',
+                    label: 'identity-AL-M1',
+                  },
+                },
+                {
+                  requirements_met: false,
+                  requirements_not_met_info: 'HORRIBLE_FAILURE',
+                  scheme: {
+                    type: 'IDENTITY',
+                    objective: 'AL_L1',
+                    label: 'identity-AL-L1',
+                  },
+                },
+              ],
+            },
+          ],
+          media: {},
         },
       },
     });
@@ -313,6 +385,14 @@ describe('GetSessionResult', () => {
       const identityProfile = session.getIdentityProfile();
 
       expect(identityProfile).toBeInstanceOf(IdentityProfileResponse);
+    });
+  });
+
+  describe('#getAdvancedIdentityProfile', () => {
+    it('should return instance of AdvancedIdentityProfileResponse', () => {
+      const advancedIdentityProfile = session.getAdvancedIdentityProfile();
+
+      expect(advancedIdentityProfile).toBeInstanceOf(AdvancedIdentityProfileResponse);
     });
   });
 });
