@@ -54,6 +54,11 @@ const {
   CreateFaceCaptureResourcePayloadBuilder,
   UploadFaceCaptureImagePayloadBuilder,
   IDVService,
+  AdvancedIdentityProfileSchemeConfigBuilder,
+  AdvancedIdentityProfileBuilder,
+  AdvancedIdentityProfileSchemeBuilder,
+  AdvancedIdentityProfileRequirementsBuilder,
+
 } = require('./src/idv_service');
 
 const YotiCommon = require('./src/yoti_common');
@@ -115,4 +120,8 @@ module.exports = {
   RequestedTypeListSourcesBuilder,
   CreateFaceCaptureResourcePayloadBuilder,
   UploadFaceCaptureImagePayloadBuilder,
+  AdvancedIdentityProfileSchemeConfigBuilder,
+  AdvancedIdentityProfileBuilder,
+  AdvancedIdentityProfileSchemeBuilder,
+  AdvancedIdentityProfileRequirementsBuilder,
 };

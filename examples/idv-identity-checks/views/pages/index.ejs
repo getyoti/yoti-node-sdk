@@ -1,3 +1,22 @@
 <%- include('layout/header'); -%>
-<iframe style="border:none;" width="100%" height="750" allow="camera" src="<%= iframeUrl %>" allowfullscreen></iframe>
+<main>
+    <h1 class="yoti-main-title">Identity check example</h1>
+    <form action="/session" method="post">
+        <div class="yoti-checks-section">
+            <div>
+                <label for="selectedScheme" class="yoti-checks-scheme">Select identity check scheme: </label>
+                <select name="scheme" id="selectedScheme">
+                    <option value="DBS_BASIC">DBS-BASIC</option>
+                    <option value="RTW">RTW</option>
+                    <option value="RTR">RTR</option>
+                    <option value="DBS_BASIC_RTW">DBS-BASIC & RTW</option>
+                    <option value="MTF_BASE">Advanced - UK_TFIDA(DBS-BASIC & RTW) + YOTI_GLOBAL(IDENTITY-AL_L1)</option>
+                </select>
+            </div>
+            <div>
+                <button class="yoti-submit-button" type="submit" id="submitButton">Create session</button>
+            </div>
+        </div>
+    </form>
+</main>
 <%- include('layout/footer'); -%>

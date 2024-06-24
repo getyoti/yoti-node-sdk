@@ -79,6 +79,37 @@
         </div>
     <% } %>
 
+    <% if (sessionResult.getAdvancedIdentityProfile()) { %>
+        <div class="row pt-4">
+            <div class="col">
+                <h2>Advanced identity profile</h2>
+
+                <div class="accordion mt-3" id="advanced-identity-profile">
+
+                    <div class="card">
+                        <div class="card-header" id="advanced-identity-profile">
+                            <h3 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                        data-target="#collapse-advanced-identity-profile" aria-expanded="true"
+                                        aria-controls="collapse-advanced-identity-profile">
+                                    Advanced identity Profile
+                                </button>
+                            </h3>
+                        </div>
+
+                        <div id="collapse-advanced-identity-profile" class="collapse" aria-labelledby="collapse-advanced-identity-profile">
+                            <div class="card-body">
+                                <% const advancedIdentityProfile = sessionResult.getAdvancedIdentityProfile()%>
+                                <%- include('partials/advanced-identity-profile', { advancedIdentityProfile }); %>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    <% } %>
+
     <% if (sessionResult.getChecks().length > 0) { %>
     <div class="row pt-4">
         <div class="col">

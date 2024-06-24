@@ -31,7 +31,7 @@
         </td>
     </tr>
     <% } %>
-    <% if (identityProfile.getIdentityProfileReport()) { %>>
+    <% if (identityProfile.getIdentityProfileReport()) { %>
     <tr>
         <td>Identity Profile Report</td>
         <td>
@@ -41,27 +41,48 @@
                     <td style="width: auto">Trust framework</td>
                     <td><%= identityProfile.getIdentityProfileReport().getTrustFramework(); %></td>
                 </tr>
-                <tr>
-                    <td style="width: auto">Scheme</td>
-                    <% const scheme = identityProfile.getIdentityProfileReport().getSchemesCompliance()[0].getScheme();
-                    const schemeString = scheme.type + '-' + scheme.objective %>
-                    <td><%= schemeString; %></td>
-                </tr>
-                <tr>
-                    <td style="width: auto">Requirements met</td>
-                    <td><%= identityProfile.getIdentityProfileReport().getSchemesCompliance()[0].isRequirementsMet(); %></td>
-                </tr>
-                <tr>
-                    <td style="width: auto">Requirements met info</td>
-                    <td><%= identityProfile.getIdentityProfileReport().getSchemesCompliance()[0].getRequirementsNotMetInfo(); %></td>
-                </tr>
-                <tr>
-                    <td>Identity assertion media</td>
-                    <td><a href="/media?mediaId=<%= identityProfile.getIdentityProfileReport().getMedia().getId() %>"><%= identityProfile.getIdentityProfileReport().getMedia().getId(); %></a></td>
-                </tr>
+                <% if (identityProfile.getIdentityProfileReport().getSchemesCompliance().length > 0) { %>
+                    <tr>
+                        <td style="width: auto">Compliance per scheme</td>
+                        <td>
+                            <% identityProfile.getIdentityProfileReport().getSchemesCompliance().forEach(function(compliancePerScheme) { %>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                    <% if (compliancePerScheme.getScheme().getType()) { %>
+                                        <tr>
+                                            <td>Type</td>
+                                            <td><%= compliancePerScheme.getScheme().getType() %></td>
+                                        </tr>
+                                    <% } %>
+                                    <% if (compliancePerScheme.getScheme().getObjective()) { %>
+                                        <tr>
+                                            <td>Objective</td>
+                                            <td><%= compliancePerScheme.getScheme().getObjective() %></td>
+                                        </tr>
+                                    <% } %>
+                                    <tr>
+                                        <td>Requirements met?</td>
+                                        <td><%= compliancePerScheme.isRequirementsMet() %></td>
+                                    </tr>
+                                    <% if (compliancePerScheme.getRequirementsNotMetInfo()) { %>
+                                        <tr>
+                                            <td>Requirements not met info</td>
+                                            <td><%= compliancePerScheme.getRequirementsNotMetInfo() %></td>
+                                        </tr>
+                                    <% } %>
+                                    </tbody>
+                                </table>
+                            <% }) %>
+                        </td>
+                    </tr>
+                <% } %>
                 </tbody>
             </table>
         </td>
+    </tr>
+    <tr>
+        <td>Identity Assertion Media</td>
+        <td><a href="/media?mediaId=<%= identityProfile.getIdentityProfileReport().getMedia().getId() %>"><%= identityProfile.getIdentityProfileReport().getMedia().getId(); %></a></td>
     </tr>
     <% } %>
     </tbody>

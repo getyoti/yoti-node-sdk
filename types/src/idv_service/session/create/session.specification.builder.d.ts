@@ -106,6 +106,8 @@ declare class SessionSpecificationBuilder {
     subject: any;
     withIdentityProfileRequirements(identityProfileRequirements: any): this;
     identityProfileRequirements: any;
+    withAdvancedIdentityProfileRequirements(advancedIdentityProfileRequirements: any): this;
+    advancedIdentityProfileRequirements: any;
     /**
      * Builds the {@link SessionSpecification} based on the values supplied to the builder
      *
