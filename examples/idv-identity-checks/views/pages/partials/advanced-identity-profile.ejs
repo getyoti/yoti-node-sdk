@@ -1,0 +1,107 @@
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <td>Subject ID</td>
+            <td>
+                <%= advancedIdentityProfile.getSubjectId(); %>
+            </td>
+        </tr>
+        <tr>
+            <td>Result</td>
+            <td>
+                <%= advancedIdentityProfile.getResult(); %>
+            </td>
+        </tr>
+        <% if (advancedIdentityProfile.getFailureReason()) { %>
+        <tr>
+            <td>Error details:</td>
+            <td>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td style="width: auto">Error code</td>
+                            <td><%= advancedIdentityProfile.getFailureReason().getReasonCode(); %></td>
+                        </tr>
+                        <tr>
+                            <td style="width: auto">Additional details</td>
+                            <td><pre><%= JSON.stringify(advancedIdentityProfile.getFailureReason().getRequirementsNotMetDetails(), null, 2); %></pre></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <% } %>
+        <% if (advancedIdentityProfile.getIdentityProfileReport()) { %>
+        <tr>
+            <td>Identity Profile Report</td>
+            <td>
+                <table class="table table-striped">
+                    <tbody>
+                        <% if (advancedIdentityProfile.getIdentityProfileReport().getCompliance().length > 0) { %>
+                        <tr>
+                            <td>
+                            <% advancedIdentityProfile.getIdentityProfileReport().getCompliance().forEach(function(compliance) { %>
+                                <table class="table table-bordered">
+                                    <% if (compliance.getTrustFramework()) { %>
+                                    <tr>
+                                        <td>Trust framework</td>
+                                        <td><%= compliance.getTrustFramework() %></td>
+                                    </tr>
+                                    <% } %>
+                                    <% if (compliance.getSchemesCompliance().length > 0) { %>
+                                    <tr>
+                                        <td style="width: auto">Compliance per scheme</td>
+                                        <td>
+                                        <% compliance.getSchemesCompliance().forEach(function(compliancePerScheme) { %>
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                    <% if (compliancePerScheme.getScheme().getType()) { %>
+                                                    <tr>
+                                                        <td>Type</td>
+                                                        <td><%= compliancePerScheme.getScheme().getType() %></td>
+                                                    </tr>
+                                                    <% } %>
+                                                    <% if (compliancePerScheme.getScheme().getObjective()) { %>
+                                                        <tr>
+                                                            <td>Objective</td>
+                                                            <td><%= compliancePerScheme.getScheme().getObjective() %></td>
+                                                        </tr>
+                                                    <% } %>
+                                                    <% if (compliancePerScheme.getScheme().getLabel()) { %>
+                                                        <tr>
+                                                            <td>Label</td>
+                                                            <td><%= compliancePerScheme.getScheme().getLabel() %></td>
+                                                        </tr>
+                                                    <% } %>
+                                                    <tr>
+                                                        <td>Requirements met?</td>
+                                                        <td><%= compliancePerScheme.getRequirementsMet() %></td>
+                                                    </tr>
+                                                    <% if (compliancePerScheme.getRequirementsNotMetInfo()) { %>
+                                                        <tr>
+                                                            <td>Requirements not met info</td>
+                                                            <td><%= compliancePerScheme.getRequirementsNotMetInfo() %></td>
+                                                        </tr>
+                                                    <% } %>
+                                                </tbody>
+                                            </table>
+                                        <% }) %>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                </table>
+                            <% }) %>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>Identity Assertion Media</td>
+            <td><a href="/media?mediaId=<%= advancedIdentityProfile.getIdentityProfileReport().getMedia().getId() %>"><%= advancedIdentityProfile.getIdentityProfileReport().getMedia().getId(); %></a></td>
+        </tr>
+        <% } %>
+    </tbody>
+</table>

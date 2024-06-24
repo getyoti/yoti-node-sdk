@@ -1,8 +1,67 @@
-
-body {
-    padding-top: 4.5rem;
+.yoti-body {
+  margin: 0;
 }
 
 table td:first-child {
     width: 30%;
+}
+
+.yoti-html {
+  height: 100%;
+}
+
+.yoti-top-section {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  align-items: center;
+}
+
+.yoti-logo-section {
+  margin-bottom: 10px;
+}
+
+.yoti-logo-image {
+  display: block;
+}
+
+.yoti-main-title {
+  text-align:center;
+  font-size:25px;
+  color:#2875bc;
+}
+
+.yoti-checks-section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 150px;
+  align-items: center;
+}
+
+.yoti-checks-scheme {
+  font-weight: bold;
+  font-size: large;
+}
+
+.yoti-error-container {
+  color: #664d03;
+  background-color: #fff3cd;
+  border-color: #ffecb5;
+  position: relative;
+  padding: 1rem 1rem;
+  margin: 20px;
+  border-radius: 0.25rem;
+}
+
+.yoti-submit-button {
+  margin: 30px;
+  font-family: GT Eesti Display, sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  box-sizing: border-box;
+  width: 200px;
+  height: 50px;
+  border-radius: 12px;
+  color: #fff;
+  background-color: #2875bc;
 }

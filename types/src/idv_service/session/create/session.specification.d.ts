@@ -26,11 +26,12 @@ declare class SessionSpecification {
      *   Sets whether or not to block the collection of biometric consent
      * @param {Date} sessionDeadline
      *   The deadline that the session needs to be completed by
-     * @param {object} identityProfileRequirements
-     * @param {object} subject
+     * @param {object} [identityProfileRequirements]
+     * @param {object} [subject]
      *   Information about the subject of the session
+     * @param {AdvancedIdentityProfileRequirements} [advancedIdentityProfileRequirements]
      */
-    constructor(clientSessionTokenTtl: number, resourcesTtl: number, userTrackingId: string, notifications: NotificationConfig, requestedChecks: RequestedCheck[], requestedTasks: RequestedTask[], sdkConfig: SdkConfig, requiredDocuments: RequiredDocument[], blockBiometricConsent: boolean, sessionDeadline: Date, identityProfileRequirements: object, subject: object);
+    constructor(clientSessionTokenTtl: number, resourcesTtl: number, userTrackingId: string, notifications: NotificationConfig, requestedChecks: RequestedCheck[], requestedTasks: RequestedTask[], sdkConfig: SdkConfig, requiredDocuments: RequiredDocument[], blockBiometricConsent: boolean, sessionDeadline: Date, identityProfileRequirements?: object, subject?: object, advancedIdentityProfileRequirements?: AdvancedIdentityProfileRequirements);
     /** @private */
     private clientSessionTokenTtl;
     /** @private */
@@ -45,6 +46,8 @@ declare class SessionSpecification {
     private sdkConfig;
     /** @private */
     private identityProfileRequirements;
+    /** @private */
+    private advancedIdentityProfileRequirements;
     /** @private */
     private subject;
     /** @private */
@@ -71,6 +74,7 @@ declare class SessionSpecification {
         block_biometric_consent: boolean;
         identity_profile_requirements: any;
         subject: any;
+        advanced_identity_profile_requirements: AdvancedIdentityProfileRequirements;
     };
 }
 import NotificationConfig = require("./notification.config");
@@ -78,3 +82,4 @@ import RequestedCheck = require("./check/requested.check");
 import RequestedTask = require("./task/requested.task");
 import SdkConfig = require("./sdk.config");
 import RequiredDocument = require("./filters/required.document");
+import AdvancedIdentityProfileRequirements = require("./identity_profile/advanced/advanced.identity.profile.requirements");

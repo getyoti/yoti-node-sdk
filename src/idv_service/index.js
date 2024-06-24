@@ -29,6 +29,10 @@ const RequestedTypeListSourcesBuilder = require('./session/create/check/requeste
 const RequestedSearchProfileSourcesBuilder = require('./session/create/check/requested.search.profile.sources.builder');
 const CreateFaceCaptureResourcePayloadBuilder = require('./session/create/face_capture/create.face.capture.resource.payload.builder');
 const UploadFaceCaptureImagePayloadBuilder = require('./session/create/face_capture/upload.face.capture.image.payload.builder');
+const AdvancedIdentityProfileBuilder = require('./session/create/identity_profile/advanced/advanced.identity.profile.builder');
+const AdvancedIdentityProfileRequirementsBuilder = require('./session/create/identity_profile/advanced/advanced.identity.profile.requirements.builder');
+const AdvancedIdentityProfileSchemeBuilder = require('./session/create/identity_profile/advanced/advanced.identity.profile.scheme.builder');
+const AdvancedIdentityProfileSchemeConfigBuilder = require('./session/create/identity_profile/advanced/advanced.identity.profile.scheme.config');
 
 module.exports = {
   IDVService,
@@ -60,4 +64,8 @@ module.exports = {
   RequestedTypeListSourcesBuilder,
   CreateFaceCaptureResourcePayloadBuilder,
   UploadFaceCaptureImagePayloadBuilder,
+  AdvancedIdentityProfileBuilder,
+  AdvancedIdentityProfileSchemeBuilder,
+  AdvancedIdentityProfileRequirementsBuilder,
+  AdvancedIdentityProfileSchemeConfigBuilder,
 };

@@ -6,6 +6,7 @@ const SdkConfig = require('./sdk.config');
 const RequestedTask = require('./task/requested.task');
 const RequestedCheck = require('./check/requested.check');
 const RequiredDocument = require('./filters/required.document');
+const AdvancedIdentityProfileRequirements = require('./identity_profile/advanced/advanced.identity.profile.requirements');
 
 /**
  * Definition for the IDV Session to be created
@@ -34,9 +35,10 @@ class SessionSpecification {
    *   Sets whether or not to block the collection of biometric consent
    * @param {Date} sessionDeadline
    *   The deadline that the session needs to be completed by
-   * @param {object} identityProfileRequirements
-   * @param {object} subject
+   * @param {object} [identityProfileRequirements]
+   * @param {object} [subject]
    *   Information about the subject of the session
+   * @param {AdvancedIdentityProfileRequirements} [advancedIdentityProfileRequirements]
    */
   constructor(
     clientSessionTokenTtl,
@@ -50,7 +52,8 @@ class SessionSpecification {
     blockBiometricConsent,
     sessionDeadline,
     identityProfileRequirements,
-    subject
+    subject,
+    advancedIdentityProfileRequirements
   ) {
     Validation.isInteger(clientSessionTokenTtl, 'clientSessionTokenTtl', true);
     /** @private */
@@ -86,6 +89,12 @@ class SessionSpecification {
       Validation.isPlainObject(identityProfileRequirements, 'identityProfileRequirements');
       /** @private */
       this.identityProfileRequirements = identityProfileRequirements;
+    }
+
+    if (advancedIdentityProfileRequirements) {
+      Validation.instanceOf(advancedIdentityProfileRequirements, AdvancedIdentityProfileRequirements, 'advancedIdentityProfileRequirements');
+      /** @private */
+      this.advancedIdentityProfileRequirements = advancedIdentityProfileRequirements;
     }
 
     if (subject) {
@@ -130,6 +139,7 @@ class SessionSpecification {
       block_biometric_consent: this.blockBiometricConsent,
       identity_profile_requirements: this.identityProfileRequirements,
       subject: this.subject,
+      advanced_identity_profile_requirements: this.advancedIdentityProfileRequirements,
     };
   }
 }
