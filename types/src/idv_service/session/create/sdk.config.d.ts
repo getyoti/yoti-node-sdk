@@ -25,8 +25,10 @@ declare class SdkConfig {
      *   Allows user to handoff to mobile during session
      * @param {object} attemptsConfiguration
      *   The attempts configuration
+     * @param {string} brandId
+     *   The brandID for the client
      */
-    constructor(allowedCaptureMethods: string, primaryColour: string, secondaryColour: string, fontColour: string, locale: string, presetIssuingCountry: string, successUrl: string, errorUrl: string, privacyPolicyUrl: string, biometricConsentFlow: string, allowHandoff: boolean, attemptsConfiguration: object);
+    constructor(allowedCaptureMethods: string, primaryColour: string, secondaryColour: string, fontColour: string, locale: string, presetIssuingCountry: string, successUrl: string, errorUrl: string, privacyPolicyUrl: string, biometricConsentFlow: string, allowHandoff: boolean, attemptsConfiguration: object, brandId: string);
     /** @private */
     private allowedCaptureMethods;
     /** @private */
@@ -51,6 +53,8 @@ declare class SdkConfig {
     private allowHandoff;
     /** @private */
     private attemptsConfiguration;
+    /** @private */
+    private brandId;
     /**
      * Returns serialized data for JSON.stringify()
      */
@@ -67,5 +71,6 @@ declare class SdkConfig {
         biometric_consent_flow: string;
         allow_handoff: boolean;
         attempts_configuration: any;
+        brand_id: string;
     };
 }
