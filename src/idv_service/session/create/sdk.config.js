@@ -28,6 +28,8 @@ class SdkConfig {
    *   Allows user to handoff to mobile during session
    * @param {object} attemptsConfiguration
    *   The attempts configuration
+   * @param {string} brandId
+   *   The brandID for the client
    */
   constructor(
     allowedCaptureMethods,
@@ -41,7 +43,8 @@ class SdkConfig {
     privacyPolicyUrl,
     biometricConsentFlow,
     allowHandoff,
-    attemptsConfiguration
+    attemptsConfiguration,
+    brandId
   ) {
     Validation.isString(allowedCaptureMethods, 'allowedCaptureMethods', true);
     /** @private */
@@ -92,6 +95,10 @@ class SdkConfig {
       /** @private */
       this.attemptsConfiguration = attemptsConfiguration;
     }
+
+    Validation.isString(brandId, 'brandId', true);
+    /** @private */
+    this.brandId = brandId;
   }
 
   /**
@@ -111,6 +118,7 @@ class SdkConfig {
       biometric_consent_flow: this.biometricConsentFlow,
       allow_handoff: this.allowHandoff,
       attempts_configuration: this.attemptsConfiguration,
+      brand_id: this.brandId,
     };
   }
 }

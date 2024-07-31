@@ -16,6 +16,7 @@ describe('SdkConfigBuilder', () => {
       .withPrivacyPolicyUrl('some-privacy-policy-url')
       .withBiometricConsentFlow('some-flow')
       .withAllowHandoff(true)
+      .withBrandId('some-brand-identifier')
       .build();
 
     const expectedJson = JSON.stringify({
@@ -30,6 +31,7 @@ describe('SdkConfigBuilder', () => {
       privacy_policy_url: 'some-privacy-policy-url',
       biometric_consent_flow: 'some-flow',
       allow_handoff: true,
+      brand_id: 'some-brand-identifier',
     });
 
     expect(JSON.stringify(sdkConfig)).toBe(expectedJson);

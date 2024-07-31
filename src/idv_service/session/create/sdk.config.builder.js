@@ -252,6 +252,19 @@ class SdkConfigBuilder {
   }
 
   /**
+   * Sets the brandID on the builder
+   *
+   * @param {string} brandId
+   *
+   * @returns {this}
+   */
+  withBrandId(brandId) {
+    Validation.isString(brandId, 'brandId');
+    this.brandId = brandId;
+    return this;
+  }
+
+  /**
    * Builds the {@link SdkConfig} using the values supplied to the builder
    *
    * @returns {SdkConfig}
@@ -269,7 +282,8 @@ class SdkConfigBuilder {
       this.privacyPolicyUrl,
       this.biometricConsentFlow,
       this.allowHandoff,
-      this.attemptsConfiguration
+      this.attemptsConfiguration,
+      this.brandId
     );
   }
 }

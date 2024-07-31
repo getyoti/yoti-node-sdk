@@ -164,6 +164,15 @@ declare class SdkConfigBuilder {
      */
     withIdDocumentTextExtractionGenericRetries(retries: number): this;
     /**
+     * Sets the brandID on the builder
+     *
+     * @param {string} brandId
+     *
+     * @returns {this}
+     */
+    withBrandId(brandId: string): this;
+    brandId: string;
+    /**
      * Builds the {@link SdkConfig} using the values supplied to the builder
      *
      * @returns {SdkConfig}
