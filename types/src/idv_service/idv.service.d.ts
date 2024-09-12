@@ -97,6 +97,14 @@ declare class IDVService {
      * @returns {Promise<SessionTrackedDevicesResponse>}
      */
     getSessionTrackedDevices(sessionId: string): Promise<SessionTrackedDevicesResponse>;
+    /**
+     * Deletes tracked devices for a given session
+     *
+     * @param {string} sessionId
+     *
+     * @returns {Promise}
+     */
+    deleteSessionTrackedDevices(sessionId: string): Promise<any>;
 }
 import SessionSpecification = require("./session/create/session.specification");
 import CreateSessionResult = require("./session/create/create.session.result");

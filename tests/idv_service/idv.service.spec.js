@@ -659,6 +659,54 @@ describe('IDVService', () => {
     });
   });
 
+  describe('#deleteSessionTrackedDevices', () => {
+    describe('when a valid response is returned', () => {
+      it('should have no response', (done) => {
+        nock(config.yoti.idvApi)
+          .delete(SESSION_TRACKED_DEVICES_URI)
+          .reply(204);
+
+        idvService
+          .deleteSessionTrackedDevices(SESSION_ID)
+          .then((result) => {
+            expect(result).toBeUndefined();
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response code is invalid', () => {
+      it('should reject', (done) => {
+        nock(config.yoti.idvApi)
+          .delete(SESSION_TRACKED_DEVICES_URI)
+          .reply(400);
+
+        idvService
+          .deleteSessionTrackedDevices(SESSION_ID)
+          .catch((err) => {
+            expect(err.message).toBe('Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response code is invalid with response body', () => {
+      it('should reject with response message and body', (done) => {
+        nock(config.yoti.idvApi)
+          .delete(SESSION_TRACKED_DEVICES_URI)
+          .reply(400, SOME_ERROR_RESPONSE, JSON_RESPONSE_HEADERS);
+
+        idvService
+          .deleteSessionTrackedDevices(SESSION_ID)
+          .catch((err) => {
+            expect(err.message).toBe(SOME_ERROR_MESSAGE);
+            done();
+          })
+          .catch(done);
+      });
+    });
+  });
+
   describe('#createFaceCaptureResource', () => {
     let createFaceCaptureResourcePayload;
 

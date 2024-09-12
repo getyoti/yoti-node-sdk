@@ -310,6 +310,8 @@ class IDVService {
    * @returns {Promise<SessionConfigurationResponse>}
    */
   getSessionConfiguration(sessionId) {
+    Validation.isString(sessionId, 'sessionId');
+
     const request = new RequestBuilder()
       .withPemString(this.pem.toString())
       .withBaseUrl(this.apiUrl)
@@ -331,6 +333,8 @@ class IDVService {
    * @returns {Promise<SessionTrackedDevicesResponse>}
    */
   getSessionTrackedDevices(sessionId) {
+    Validation.isString(sessionId, 'sessionId');
+
     const request = new RequestBuilder()
       .withPemString(this.pem.toString())
       .withBaseUrl(this.apiUrl)
@@ -343,6 +347,31 @@ class IDVService {
       request.execute()
         // eslint-disable-next-line max-len
         .then((response) => resolve(new SessionTrackedDevicesResponse(response.getParsedResponse())))
+        .catch((err) => reject(new IDVError(err)));
+    });
+  }
+
+  /**
+   * Deletes tracked devices for a given session
+   *
+   * @param {string} sessionId
+   *
+   * @returns {Promise}
+   */
+  deleteSessionTrackedDevices(sessionId) {
+    Validation.isString(sessionId, 'sessionId');
+
+    const request = new RequestBuilder()
+      .withPemString(this.pem.toString())
+      .withBaseUrl(this.apiUrl)
+      .withEndpoint(`/sessions/${sessionId}/tracked-devices`)
+      .withQueryParam('sdkId', this.sdkId)
+      .withMethod('DELETE')
+      .build();
+
+    return new Promise((resolve, reject) => {
+      request.execute(true)
+        .then(() => resolve())
         .catch((err) => reject(new IDVError(err)));
     });
   }

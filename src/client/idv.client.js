@@ -168,6 +168,17 @@ class IDVClient {
   getSessionTrackedDevices(sessionId) {
     return this.idvService.getSessionTrackedDevices(sessionId);
   }
+
+  /**
+   * Deletes the tracked devices for given sessionID.
+   *
+   * @param {string} sessionId
+   *
+   * @returns {Promise<void>}
+   */
+  deleteSessionTrackedDevices(sessionId) {
+    return this.idvService.deleteSessionTrackedDevices(sessionId);
+  }
 }
 
 module.exports = IDVClient;

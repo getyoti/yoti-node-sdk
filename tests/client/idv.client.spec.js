@@ -313,6 +313,28 @@ describe.each([
     });
   });
 
+  describe('#deleteSessionTrackedDevices', () => {
+    const setupResponse = (responseStatusCode = 204) => {
+      nock(apiUrlDomain)
+        .delete(sessionTrackedDevicesUriRegExp)
+        .reply(responseStatusCode);
+    };
+
+    beforeEach(() => {
+      setupResponse();
+    });
+
+    it('should have no response', (done) => {
+      idvClient
+        .deleteSessionTrackedDevices(SESSION_ID, MEDIA_ID)
+        .then((result) => {
+          expect(result).toBeUndefined();
+          done();
+        })
+        .catch(done);
+    });
+  });
+
   describe('#createFaceCaptureResource', () => {
     const createFaceCaptureResourcePayload = new CreateFaceCaptureResourcePayloadBuilder().withRequirementId('abc').build();
 
