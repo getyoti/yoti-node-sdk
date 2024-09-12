@@ -115,4 +115,14 @@ declare class IDVClient {
      * @returns {Promise<SessionConfigurationResponse>}
      */
     getSessionConfiguration(sessionId: string): Promise<import("../idv_service/session/retrieve/configuration/session.configuration.response.js")>;
+    /**
+     * Fetches the tracked devices for the given sessionID.
+     *
+     * @param {string} sessionId
+     *
+     * @typedef {import('../idv_service/session/retrieve/devices/session.tracked.devices.response')} SessionTrackedDevicesResponse
+     *
+     * @returns {Promise<SessionTrackedDevicesResponse>}
+     */
+    getSessionTrackedDevices(sessionId: string): Promise<import("../idv_service/session/retrieve/devices/session.tracked.devices.response")>;
 }

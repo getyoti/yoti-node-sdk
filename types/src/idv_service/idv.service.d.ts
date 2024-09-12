@@ -91,6 +91,12 @@ declare class IDVService {
      * @returns {Promise<SessionConfigurationResponse>}
      */
     getSessionConfiguration(sessionId: string): Promise<SessionConfigurationResponse>;
+    /**
+     * @param {string} sessionId
+     *
+     * @returns {Promise<SessionTrackedDevicesResponse>}
+     */
+    getSessionTrackedDevices(sessionId: string): Promise<SessionTrackedDevicesResponse>;
 }
 import SessionSpecification = require("./session/create/session.specification");
 import CreateSessionResult = require("./session/create/create.session.result");
@@ -101,3 +107,4 @@ import CreateFaceCaptureResourcePayload = require("./session/create/face_capture
 import CreateFaceCaptureResourceResponse = require("./session/retrieve/create.face.capture.resource.response");
 import UploadFaceCaptureImagePayload = require("./session/create/face_capture/upload.face.capture.image.payload");
 import SessionConfigurationResponse = require("./session/retrieve/configuration/session.configuration.response");
+import SessionTrackedDevicesResponse = require("./session/retrieve/devices/session.tracked.devices.response");

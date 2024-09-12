@@ -17,6 +17,7 @@ const GetSessionResult = require('../../src/idv_service/session/retrieve/get.ses
 const Media = require('../../src/data_type/media');
 const SupportedDocumentResponse = require('../../src/idv_service/support/supported.documents.response');
 const SessionConfigurationResponse = require('../../src/idv_service/session/retrieve/configuration/session.configuration.response');
+const SessionTrackedDevicesResponse = require('../../src/idv_service/session/retrieve/devices/session.tracked.devices.response');
 const CaptureResponse = require('../../src/idv_service/session/retrieve/configuration/capture/capture.response');
 const CreateFaceCaptureResourceResponse = require('../../src/idv_service/session/retrieve/create.face.capture.resource.response');
 
@@ -51,6 +52,7 @@ describe.each([
   const sessionMediaUriRegExp = new RegExp(`${apiUrlPath}/sessions/${SESSION_ID}/media/${MEDIA_ID}/content\\?sdkId=${APP_ID}`);
   const supportedDocumentsUriRegExp = new RegExp(`${apiUrlPath}/supported-documents`);
   const sessionConfigUriRegExp = new RegExp(`/sessions/${SESSION_ID}/configuration`);
+  const sessionTrackedDevicesUriRegExp = new RegExp(`/sessions/${SESSION_ID}/tracked-devices`);
   const faceCaptureCreateUri = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture`);
   const uploadFaceCaptureImageUri = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture/${RESOURCE_ID}/image`);
 
@@ -259,6 +261,52 @@ describe.each([
           expect(result.getClientSessionTokenTtl()).toBe(123);
           expect(result.getRequestedChecks()).toEqual([]);
           expect(result.getCapture()).toBeInstanceOf(CaptureResponse);
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe('#getSessionTrackedDevices', () => {
+    const setupResponse = (responseBody, responseStatusCode = 200) => {
+      nock(apiUrlDomain)
+        .get(sessionTrackedDevicesUriRegExp)
+        .reply(responseStatusCode, responseBody);
+    };
+
+    beforeEach(() => {
+      setupResponse(JSON.stringify([
+        {
+          event: 'CONFIG_FIRST_LOADED',
+          created: '2021-06-11T11:39:24Z',
+          device: {
+            client_version: '2.12.0',
+          },
+        },
+        {
+          event: 'RESOURCE_CREATED',
+          resource_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          created: '2021-06-11T11:39:24Z',
+          device: {
+            client_version: '2.12.0',
+          },
+        },
+        {
+          event: 'CLIENT_SESSION_TOKEN_DELETED',
+          created: '2021-06-11T11:39:24Z',
+          device: {
+            client_version: '2.12.0',
+          },
+        },
+      ]));
+    });
+
+    it('should return an IDV session tracked devices', (done) => {
+      idvClient
+        .getSessionTrackedDevices(SESSION_ID)
+        .then((result) => {
+          expect(result).toBeInstanceOf(SessionTrackedDevicesResponse);
+          expect(result.getDeviceEvents()).toHaveLength(3);
           done();
         })
         .catch(done);
