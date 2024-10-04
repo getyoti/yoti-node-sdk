@@ -11,10 +11,10 @@
     "lint": "node_modules/.bin/eslint *.js src/*/**.js"
   },
   "dependencies": {
-    "body-parser": "1.20.0",
+    "body-parser": "1.20.3",
     "dotenv": "16.0.2",
     "ejs": "3.1.10",
-    "express": "4.19.2",
+    "express": "4.21.0",
     "express-session": "1.17.3",
     "yoti": "file:../.."
   },
