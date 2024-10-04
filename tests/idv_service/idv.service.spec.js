@@ -15,6 +15,7 @@ const GetSessionResult = require('../../src/idv_service/session/retrieve/get.ses
 const Media = require('../../src/data_type/media');
 const SupportedDocumentResponse = require('../../src/idv_service/support/supported.documents.response');
 const SessionConfigurationResponse = require('../../src/idv_service/session/retrieve/configuration/session.configuration.response');
+const SessionTrackedDevicesResponse = require('../../src/idv_service/session/retrieve/devices/session.tracked.devices.response');
 const CaptureResponse = require('../../src/idv_service/session/retrieve/configuration/capture/capture.response');
 const CreateFaceCaptureResourceResponse = require('../../src/idv_service/session/retrieve/create.face.capture.resource.response');
 const { UploadFaceCaptureImagePayloadBuilder } = require('../..');
@@ -28,6 +29,7 @@ const APP_ID = uuid();
 const SESSION_CREATE_URI = new RegExp(`^/idverify/v1/sessions\\?sdkId=${APP_ID}`);
 const SESSION_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}\\?sdkId=${APP_ID}`);
 const SESSION_CONFIG_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/configuration`);
+const SESSION_TRACKED_DEVICES_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/tracked-devices`);
 const FACE_CAPTURE_CREATE_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture`);
 const UPLOAD_FACE_CAPTURE_IMAGE_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture/${RESOURCE_ID}/image`);
 const MEDIA_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/media/${MEDIA_ID}/content\\?sdkId=${APP_ID}`);
@@ -533,6 +535,169 @@ describe('IDVService', () => {
 
         idvService
           .getSessionConfiguration(SESSION_ID)
+          .catch((err) => {
+            expect(err.message).toBe(SOME_ERROR_MESSAGE);
+            done();
+          })
+          .catch(done);
+      });
+    });
+  });
+
+  describe('#getSessionTrackedDevices', () => {
+    describe('when a valid response is returned', () => {
+      it('should return a session tracked devices response', (done) => {
+        nock(config.yoti.idvApi)
+          .get(SESSION_TRACKED_DEVICES_URI)
+          .reply(
+            200,
+            JSON.stringify([
+              {
+                event: 'CONFIG_FIRST_LOADED',
+                created: '2021-06-11T11:39:24Z',
+                device: {
+                  ip_address: '123.123.123.123',
+                  ip_iso_country_code: 'GBR',
+                  manufacture_name: 'Apple',
+                  model_name: 'IphoneX',
+                  os_name: 'MacOs',
+                  os_version: '10.13.14',
+                  browser_name: 'Chrome',
+                  browser_version: '72.0.3626.119',
+                  locale: 'en-GB',
+                  client_version: '2.12.0',
+                },
+              },
+              {
+                event: 'RESOURCE_CREATED',
+                resource_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+                created: '2021-06-11T11:39:24Z',
+                device: {
+                  ip_address: '123.123.123.123',
+                  ip_iso_country_code: 'GBR',
+                  manufacture_name: 'Apple',
+                  model_name: 'IphoneX',
+                  os_name: 'MacOs',
+                  os_version: '10.13.14',
+                  browser_name: 'Chrome',
+                  browser_version: '72.0.3626.119',
+                  locale: 'en-GB',
+                  client_version: '2.12.0',
+                },
+              },
+              {
+                event: 'CLIENT_SESSION_TOKEN_DELETED',
+                created: '2021-06-11T11:39:24Z',
+                device: {
+                  ip_address: '123.123.123.123',
+                  ip_iso_country_code: 'GBR',
+                  manufacture_name: 'Apple',
+                  model_name: 'IphoneX',
+                  os_name: 'MacOs',
+                  os_version: '10.13.14',
+                  browser_name: 'Chrome',
+                  browser_version: '72.0.3626.119',
+                  locale: 'en-GB',
+                  client_version: '2.12.0',
+                },
+              },
+            ])
+          );
+
+        idvService
+          .getSessionTrackedDevices(SESSION_ID)
+          .then((result) => {
+            expect(result).toBeInstanceOf(SessionTrackedDevicesResponse);
+            expect(result.getDeviceEvents()).toHaveLength(3);
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response content is invalid', () => {
+      it('should reject', (done) => {
+        nock(config.yoti.idvApi)
+          .get(SESSION_TRACKED_DEVICES_URI)
+          .reply(200, { rubbish: 'garbage' });
+
+        idvService
+          .getSessionTrackedDevices(SESSION_ID)
+          .catch((err) => {
+            expect(err.message).toBe('tracked devices must be an array');
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response code is invalid', () => {
+      it('should reject', (done) => {
+        nock(config.yoti.idvApi).get(SESSION_TRACKED_DEVICES_URI).reply(400);
+
+        idvService
+          .getSessionTrackedDevices(SESSION_ID)
+          .catch((err) => {
+            expect(err.message).toBe('Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response code is invalid with body', () => {
+      it('should reject with response body and message', (done) => {
+        nock(config.yoti.idvApi)
+          .get(SESSION_TRACKED_DEVICES_URI)
+          .reply(400, SOME_ERROR_RESPONSE, JSON_RESPONSE_HEADERS);
+
+        idvService
+          .getSessionTrackedDevices(SESSION_ID)
+          .catch((err) => {
+            expect(err.message).toBe(SOME_ERROR_MESSAGE);
+            done();
+          })
+          .catch(done);
+      });
+    });
+  });
+
+  describe('#deleteSessionTrackedDevices', () => {
+    describe('when a valid response is returned', () => {
+      it('should have no response', (done) => {
+        nock(config.yoti.idvApi)
+          .delete(SESSION_TRACKED_DEVICES_URI)
+          .reply(204);
+
+        idvService
+          .deleteSessionTrackedDevices(SESSION_ID)
+          .then((result) => {
+            expect(result).toBeUndefined();
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response code is invalid', () => {
+      it('should reject', (done) => {
+        nock(config.yoti.idvApi)
+          .delete(SESSION_TRACKED_DEVICES_URI)
+          .reply(400);
+
+        idvService
+          .deleteSessionTrackedDevices(SESSION_ID)
+          .catch((err) => {
+            expect(err.message).toBe('Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('when response code is invalid with response body', () => {
+      it('should reject with response message and body', (done) => {
+        nock(config.yoti.idvApi)
+          .delete(SESSION_TRACKED_DEVICES_URI)
+          .reply(400, SOME_ERROR_RESPONSE, JSON_RESPONSE_HEADERS);
+
+        idvService
+          .deleteSessionTrackedDevices(SESSION_ID)
           .catch((err) => {
             expect(err.message).toBe(SOME_ERROR_MESSAGE);
             done();
