@@ -15,6 +15,7 @@ const CreateFaceCaptureResourceResponse = require('./session/retrieve/create.fac
 const CreateFaceCaptureResourcePayload = require('./session/create/face_capture/create.face.capture.resource.payload');
 const UploadFaceCaptureImagePayload = require('./session/create/face_capture/upload.face.capture.image.payload');
 const SessionConfigurationResponse = require('./session/retrieve/configuration/session.configuration.response');
+const SessionTrackedDevicesResponse = require('./session/retrieve/devices/session.tracked.devices.response');
 
 const DEFAULT_API_URL = config.yoti.idvApi;
 
@@ -309,6 +310,8 @@ class IDVService {
    * @returns {Promise<SessionConfigurationResponse>}
    */
   getSessionConfiguration(sessionId) {
+    Validation.isString(sessionId, 'sessionId');
+
     const request = new RequestBuilder()
       .withPemString(this.pem.toString())
       .withBaseUrl(this.apiUrl)
@@ -320,6 +323,55 @@ class IDVService {
     return new Promise((resolve, reject) => {
       request.execute()
         .then((response) => resolve(new SessionConfigurationResponse(response.getParsedResponse())))
+        .catch((err) => reject(new IDVError(err)));
+    });
+  }
+
+  /**
+   * @param {string} sessionId
+   *
+   * @returns {Promise<SessionTrackedDevicesResponse>}
+   */
+  getSessionTrackedDevices(sessionId) {
+    Validation.isString(sessionId, 'sessionId');
+
+    const request = new RequestBuilder()
+      .withPemString(this.pem.toString())
+      .withBaseUrl(this.apiUrl)
+      .withEndpoint(`/sessions/${sessionId}/tracked-devices`)
+      .withQueryParam('sdkId', this.sdkId)
+      .withGet()
+      .build();
+
+    return new Promise((resolve, reject) => {
+      request.execute()
+        // eslint-disable-next-line max-len
+        .then((response) => resolve(new SessionTrackedDevicesResponse(response.getParsedResponse())))
+        .catch((err) => reject(new IDVError(err)));
+    });
+  }
+
+  /**
+   * Deletes tracked devices for a given session
+   *
+   * @param {string} sessionId
+   *
+   * @returns {Promise}
+   */
+  deleteSessionTrackedDevices(sessionId) {
+    Validation.isString(sessionId, 'sessionId');
+
+    const request = new RequestBuilder()
+      .withPemString(this.pem.toString())
+      .withBaseUrl(this.apiUrl)
+      .withEndpoint(`/sessions/${sessionId}/tracked-devices`)
+      .withQueryParam('sdkId', this.sdkId)
+      .withMethod('DELETE')
+      .build();
+
+    return new Promise((resolve, reject) => {
+      request.execute(true)
+        .then(() => resolve())
         .catch((err) => reject(new IDVError(err)));
     });
   }
