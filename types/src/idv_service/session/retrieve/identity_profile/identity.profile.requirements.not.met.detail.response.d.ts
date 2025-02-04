@@ -9,7 +9,7 @@ declare class IdentityProfileRequirementsNotMetDetailResponse {
     private documentCountryIsoCode;
     /** @private {string|undefined} */
     private auditId;
-    /** @private {string} */
+    /** @private {string|undefined} */
     private details;
     /**
      * @returns {string}
