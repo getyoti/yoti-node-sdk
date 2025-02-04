@@ -20,8 +20,8 @@ class IdentityProfileRequirementsNotMetDetailResponse {
     /** @private {string|undefined} */
     this.auditId = requirementsNotMetDetail.audit_id;
 
-    Validation.isString(requirementsNotMetDetail.details, 'details');
-    /** @private {string} */
+    Validation.isString(requirementsNotMetDetail.details, 'details', true);
+    /** @private {string|undefined} */
     this.details = requirementsNotMetDetail.details;
   }
 

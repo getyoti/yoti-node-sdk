@@ -6,9 +6,9 @@ const IdentityProfileFailureReasonResponse = require('../identity.profile.failur
 
 class AdvancedIdentityProfileResponse {
   constructor(response) {
-    Validation.isString(response.subject_id, 'subject_id');
+    Validation.isString(response.subject_id, 'subject_id', true);
     /** @private {string} */
-    this.subjectId = response.subject_id;
+    this.subjectId = response.subject_id || '';
 
     Validation.isString(response.result, 'result');
     /** @private {string} */
