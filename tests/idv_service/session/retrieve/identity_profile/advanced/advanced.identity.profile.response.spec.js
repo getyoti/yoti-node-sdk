@@ -52,41 +52,51 @@ const reportResponse = {
   media: {},
 };
 
+const response = {
+  subject_id: 'some-subject',
+  result: 'DONE',
+  failure_reason: {
+    reason_code: 'MANDATORY_DOCUMENT_NOT_PROVIDED',
+    requirements_not_met_details: [
+      {
+        failure_type: 'ID_DOCUMENT_EXTRACTION',
+        document_type: 'PASSPORT',
+        document_country_iso_code: 'GBR',
+        audit_id: 'audit-123',
+        details: 'something not right',
+      },
+      {
+        failure_type: 'ID_DOCUMENT_AUTHENTICITY',
+        document_type: 'PASSPORT',
+        document_country_iso_code: 'GBR',
+        audit_id: 'audit-456',
+        details: 'something still not right',
+      },
+    ],
+  },
+  identity_profile_report: reportResponse,
+};
+
 describe('AdvancedIdentityProfileResponse', () => {
   let advancedIdentityProfileResponse;
 
   beforeEach(() => {
-    const response = {
-      subject_id: 'some-subject',
-      result: 'DONE',
-      failure_reason: {
-        reason_code: 'MANDATORY_DOCUMENT_NOT_PROVIDED',
-        requirements_not_met_details: [
-          {
-            failure_type: 'ID_DOCUMENT_EXTRACTION',
-            document_type: 'PASSPORT',
-            document_country_iso_code: 'GBR',
-            audit_id: 'audit-123',
-            details: 'something not right',
-          },
-          {
-            failure_type: 'ID_DOCUMENT_AUTHENTICITY',
-            document_type: 'PASSPORT',
-            document_country_iso_code: 'GBR',
-            audit_id: 'audit-456',
-            details: 'something still not right',
-          },
-        ],
-      },
-      identity_profile_report: reportResponse,
-    };
-
     advancedIdentityProfileResponse = new AdvancedIdentityProfileResponse(response);
   });
 
   describe('#getSubjectId', () => {
     it('Should return ID', () => {
       expect(advancedIdentityProfileResponse.getSubjectId()).toBe('some-subject');
+    });
+
+    describe('with a non existing "subject_id"', () => {
+      it('should still parse the response and return empty string for #getSubjectId', () => {
+        const responseWithoutSubjectId = { ...response };
+        delete responseWithoutSubjectId.subject_id;
+        // eslint-disable-next-line max-len
+        advancedIdentityProfileResponse = new AdvancedIdentityProfileResponse(responseWithoutSubjectId);
+        expect(advancedIdentityProfileResponse.getSubjectId()).toBe('');
+      });
     });
   });
 
