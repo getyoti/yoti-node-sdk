@@ -60,7 +60,8 @@ async function addFaceCaptureResourceToSession(sessionId) {
     const imageBuffer = Buffer.from(base64PngImage, 'base64');
 
     // Note: below describes how to directly get the image buffer, while the example uses a white pixel in base64 format, then converted into a buffer
-    // const imageBuffer = fs.readFileSync(`path-to-image.png`)
+    // const base64PngImage = fs.readFileSync(`path-to-image.png`).toString('base64') 
+    // const imageBuffer = Buffer.from(base64PngImage, 'base64');
 
     const uploadFaceCaptureImagePayload = new UploadFaceCaptureImagePayloadBuilder()
       .forPngImage()
