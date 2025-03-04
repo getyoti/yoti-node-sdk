@@ -26,6 +26,23 @@ declare class WantedAttributeBuilder {
     withAcceptSelfAsserted(acceptSelfAsserted?: boolean): this;
     acceptSelfAsserted: boolean;
     /**
+     * @param {string} alternativeName
+     * @returns this
+     */
+    withAlternativeName(alternativeName: string): this;
+    alternativeNames: any;
+    /**
+     * @param {string[]} alternativeNames
+     * @returns this
+     */
+    withAlternativeNames(alternativeNames: string[]): this;
+    /**
+     * @param {boolean} [optional=true]
+     * @returns this
+     */
+    withOptional(optional?: boolean): this;
+    optional: boolean;
+    /**
      * @returns {WantedAttribute}
      */
     build(): WantedAttribute;
