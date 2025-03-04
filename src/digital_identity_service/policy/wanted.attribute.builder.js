@@ -46,6 +46,33 @@ module.exports = class WantedAttributeBuilder {
   }
 
   /**
+   * @param {string} alternativeName
+   * @returns this
+   */
+  withAlternativeName(alternativeName) {
+    this.alternativeNames = [...(this.alternativeNames || []), alternativeName];
+    return this;
+  }
+
+  /**
+   * @param {string[]} alternativeNames
+   * @returns this
+   */
+  withAlternativeNames(alternativeNames) {
+    this.alternativeNames = alternativeNames;
+    return this;
+  }
+
+  /**
+   * @param {boolean} [optional=true]
+   * @returns this
+   */
+  withOptional(optional = true) {
+    this.optional = optional;
+    return this;
+  }
+
+  /**
    * @returns {WantedAttribute}
    */
   build() {
@@ -53,7 +80,9 @@ module.exports = class WantedAttributeBuilder {
       this.name,
       this.derivation,
       this.acceptSelfAsserted,
-      this.constraints
+      this.constraints,
+      this.alternativeNames,
+      this.optional
     );
   }
 };
