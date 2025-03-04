@@ -162,6 +162,22 @@ describe('WantedAttributeBuilder', () => {
     expect(JSON.stringify(wantedAttribute)).toBe(expectedJson);
   });
 
+  it('should build a wanted attribute with alternative names using both methods', () => {
+    const wantedAttribute = new WantedAttributeBuilder()
+      .withName(TEST_NAME)
+      .withAlternativeNames([`${TEST_NAME}-alt1`, `${TEST_NAME}-alt2`])
+      .withAlternativeName(`${TEST_NAME}-extra`)
+      .build();
+
+    const expectedJson = JSON.stringify({
+      name: TEST_NAME,
+      optional: false,
+      alternative_names: [`${TEST_NAME}-alt1`, `${TEST_NAME}-alt2`, `${TEST_NAME}-extra`],
+    });
+    expect(wantedAttribute).toBeInstanceOf(WantedAttribute);
+    expect(JSON.stringify(wantedAttribute)).toBe(expectedJson);
+  });
+
   it('should build a wanted attribute with optional behaviour', () => {
     const wantedAttribute = new WantedAttributeBuilder()
       .withName(TEST_NAME)
