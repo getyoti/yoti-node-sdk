@@ -71,9 +71,7 @@ class IDVClient {
    * @param {string} sessionId
    * @param {string} mediaId
    *
-   * @typedef {import('../data_type/media.js')} Media
-   *
-   * @returns {Promise<Media>}
+   * @returns {Promise<import('../data_type/media.js') | null>}
    */
   getMediaContent(sessionId, mediaId) {
     return this.idvService.getMediaContent(sessionId, mediaId);

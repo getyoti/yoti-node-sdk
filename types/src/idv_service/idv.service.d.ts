@@ -49,9 +49,9 @@ declare class IDVService {
      * @param {string} sessionId
      * @param {string} mediaId
      *
-     * @returns {Promise<Media>}
+     * @returns {Promise<Media | null>}
      */
-    getMediaContent(sessionId: string, mediaId: string): Promise<Media>;
+    getMediaContent(sessionId: string, mediaId: string): Promise<Media | null>;
     /**
      * Deletes media content for a given session and media ID
      *

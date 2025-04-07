@@ -152,7 +152,7 @@ class IDVService {
    * @param {string} sessionId
    * @param {string} mediaId
    *
-   * @returns {Promise<Media>}
+   * @returns {Promise<Media | null>}
    */
   getMediaContent(sessionId, mediaId) {
     Validation.isString(sessionId, 'sessionId');
