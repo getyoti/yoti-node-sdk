@@ -14,8 +14,11 @@ module.exports = class WantedAttribute {
    * @param {string|null} derivation
    * @param {boolean|null} acceptSelfAsserted
    * @param {Constraints|null} constraints
+   * @param {string[]|null} alternativeNames
+   * @param {boolean|null} optional
    */
-  constructor(name, derivation = null, acceptSelfAsserted = null, constraints = null) {
+  // eslint-disable-next-line max-len
+  constructor(name, derivation = null, acceptSelfAsserted = null, constraints = null, alternativeNames = null, optional = null) {
     Validation.isString(name, 'name');
     Validation.notNullOrEmpty(name, 'name');
     /** @private */
@@ -38,6 +41,18 @@ module.exports = class WantedAttribute {
     }
     /** @private */
     this.constraints = constraints;
+
+    if (alternativeNames !== null) {
+      Validation.isArrayOfStrings(alternativeNames, 'alternativeNames');
+    }
+    /** @private */
+    this.alternativeNames = alternativeNames;
+
+    if (optional !== null) {
+      Validation.isBoolean(optional, 'optional');
+    }
+    /** @private */
+    this.optional = optional;
   }
 
   /**
@@ -82,6 +97,26 @@ module.exports = class WantedAttribute {
   }
 
   /**
+   * Accept alternative names.
+   *
+   * These are names of attributes that can be used as fallback
+   *
+   * @returns {string[]}
+   */
+  getAlternativeNames() {
+    return this.alternativeNames;
+  }
+
+  /**
+   * Whether the attribute is wanted optionally
+   *
+   * @returns {boolean}
+   */
+  getOptional() {
+    return this.optional;
+  }
+
+  /**
    * @returns {Object} data for JSON.stringify()
    */
   toJSON() {
@@ -100,6 +135,14 @@ module.exports = class WantedAttribute {
 
     if ((typeof this.getAcceptSelfAsserted()) === 'boolean') {
       json.accept_self_asserted = this.getAcceptSelfAsserted();
+    }
+
+    if (this.getAlternativeNames() !== null) {
+      json.alternative_names = this.getAlternativeNames();
+    }
+
+    if (this.getOptional() !== null) {
+      json.optional = this.getOptional();
     }
 
     return json;
