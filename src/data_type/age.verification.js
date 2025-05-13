@@ -18,14 +18,16 @@ class AgeVerification {
   constructor(name, value) {
     Validation.isString(name, 'name');
     Validation.oneOf(value, ['true', 'false'], 'value');
-    Validation.matchesPattern(name, /^[^:]+:(?!.*:)[0-9]+$/, 'attribute.name');
+    Validation.matchesPattern(name, /^[^:]+:[0-9]+(?::[0-9]+)?$/, 'attribute.name');
 
-    const split = name.split(':');
+    const [type, age, ageBuffer] = name.split(':');
     /** @private */
-    this.checkType = split[0];
+    this.checkType = type;
 
     /** @private */
-    this.age = parseInt(split[1], 10);
+    this.age = parseInt(age, 10);
+    /** @private */
+    this.ageBuffer = ageBuffer ? parseInt(ageBuffer, 10) : undefined;
     /** @private */
     this.result = value === 'true';
   }
@@ -48,6 +50,15 @@ class AgeVerification {
    */
   getAge() {
     return this.age;
+  }
+
+  /**
+   * The age buffer allowed
+   *
+   * @returns {number}
+   */
+  getAgeBuffer() {
+    return this.ageBuffer;
   }
 
   /**
