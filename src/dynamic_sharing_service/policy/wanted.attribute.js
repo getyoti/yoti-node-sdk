@@ -101,7 +101,7 @@ module.exports = class WantedAttribute {
    *
    * These are names of attributes that can be used as fallback
    *
-   * @returns {string[]}
+   * @returns {string[]|null}
    */
   getAlternativeNames() {
     return this.alternativeNames;
