@@ -12,6 +12,8 @@ export class AgeVerification {
     /** @private */
     private age;
     /** @private */
+    private ageBuffer;
+    /** @private */
     private result;
     /**
      * The type of age check performed, as specified on Yoti Hub.
@@ -27,6 +29,12 @@ export class AgeVerification {
      * @returns {number}
      */
     getAge(): number;
+    /**
+     * The age buffer allowed
+     *
+     * @returns {number}
+     */
+    getAgeBuffer(): number;
     /**
      * Whether the profile passed the age check.
      *
