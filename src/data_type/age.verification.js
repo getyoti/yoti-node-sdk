@@ -55,7 +55,7 @@ class AgeVerification {
   /**
    * The age buffer allowed
    *
-   * @returns {number}
+   * @returns {number|undefined}
    */
   getAgeBuffer() {
     return this.ageBuffer;
