@@ -55,9 +55,9 @@ declare class WantedAttribute {
      *
      * These are names of attributes that can be used as fallback
      *
-     * @returns {string[]}
+     * @returns {string[]|null}
      */
-    getAlternativeNames(): string[];
+    getAlternativeNames(): string[] | null;
     /**
      * Whether the attribute is wanted optionally
      *
