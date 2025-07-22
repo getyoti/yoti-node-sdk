@@ -32,9 +32,9 @@ export class AgeVerification {
     /**
      * The age buffer allowed
      *
-     * @returns {number}
+     * @returns {number|undefined}
      */
-    getAgeBuffer(): number;
+    getAgeBuffer(): number | undefined;
     /**
      * Whether the profile passed the age check.
      *
