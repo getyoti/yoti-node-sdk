@@ -15,7 +15,7 @@
     "dotenv": "16.0.2",
     "ejs": "3.1.10",
     "express": "4.21.2",
-    "express-session": "1.18.1",
+    "express-session": "1.18.2",
     "yoti": "file:../.."
   },
   "devDependencies": {
