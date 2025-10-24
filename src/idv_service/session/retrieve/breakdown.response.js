@@ -13,6 +13,10 @@ class BreakdownResponse {
     /** @private */
     this.result = breakdown.result;
 
+    Validation.isString(breakdown.process, 'process', true);
+    /** @private */
+    this.process = breakdown.process;
+
     if (breakdown.details) {
       Validation.isArrayOfType(breakdown.details, Object, 'details');
       /** @private */
@@ -35,6 +39,13 @@ class BreakdownResponse {
    */
   getResult() {
     return this.result;
+  }
+
+  /**
+   * @returns {string} Likely 'AUTOMATED' or 'EXPERT_REVIEW'
+   */
+  getProcess() {
+    return this.process;
   }
 
   /**
