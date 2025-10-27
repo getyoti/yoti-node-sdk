@@ -6,6 +6,8 @@ declare class BreakdownResponse {
     /** @private */
     private result;
     /** @private */
+    private process;
+    /** @private */
     private details;
     /**
      * @returns {string}
@@ -15,6 +17,10 @@ declare class BreakdownResponse {
      * @returns {string}
      */
     getResult(): string;
+    /**
+     * @returns {string} Likely 'AUTOMATED' or 'EXPERT_REVIEW'
+     */
+    getProcess(): string;
     /**
      * @returns {DetailsResponse[]}
      */

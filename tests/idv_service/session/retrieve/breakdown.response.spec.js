@@ -9,6 +9,7 @@ describe('BreakdownResponse', () => {
       sub_check: 'some-sub-check',
       result: 'some-result',
       details: [{}],
+      process: 'AUTOMATED',
     });
   });
 
@@ -21,6 +22,12 @@ describe('BreakdownResponse', () => {
   describe('#getResult', () => {
     it('should return result', () => {
       expect(breakdownResponse.getResult()).toBe('some-result');
+    });
+  });
+
+  describe('#getProcess', () => {
+    it('should return result', () => {
+      expect(breakdownResponse.getProcess()).toBe('AUTOMATED');
     });
   });
 
