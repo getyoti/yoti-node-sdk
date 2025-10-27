@@ -42,7 +42,7 @@ class BreakdownResponse {
   }
 
   /**
-   * @returns {string} Likely 'AUTOMATED' or 'EXPERT_REVIEW'
+   * @returns {string|undefined} Likely 'AUTOMATED' or 'EXPERT_REVIEW'
    */
   getProcess() {
     return this.process;
