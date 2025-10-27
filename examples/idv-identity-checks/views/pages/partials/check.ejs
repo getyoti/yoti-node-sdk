@@ -114,6 +114,12 @@ formatString = function (value) {
                             <td><%= breakdown.getResult(); %></td>
                             <% } %>
                         </tr>
+                        <tr>
+                            <% if (breakdown.getProcess()) { %>
+                            <td>Process</td>
+                            <td><%= breakdown.getProcess(); %></td>
+                            <% } %>
+                        </tr>
                         <% if (breakdown.getDetails() && breakdown.getDetails().length > 0) { %>
                         <tr>
                             <td>Details</td>
