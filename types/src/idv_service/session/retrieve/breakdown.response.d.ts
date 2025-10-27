@@ -18,9 +18,9 @@ declare class BreakdownResponse {
      */
     getResult(): string;
     /**
-     * @returns {string} Likely 'AUTOMATED' or 'EXPERT_REVIEW'
+     * @returns {string|undefined} Likely 'AUTOMATED' or 'EXPERT_REVIEW'
      */
-    getProcess(): string;
+    getProcess(): string | undefined;
     /**
      * @returns {DetailsResponse[]}
      */

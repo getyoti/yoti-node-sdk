@@ -173,6 +173,15 @@ declare class SdkConfigBuilder {
     withBrandId(brandId: string): this;
     brandId: string;
     /**
+     * Sets the brandID on the builder
+     *
+     * @param {string[]} screens
+     *
+     * @returns {this}
+     */
+    withSuppressedScreens(screens: string[]): this;
+    suppressedScreens: string[];
+    /**
      * Builds the {@link SdkConfig} using the values supplied to the builder
      *
      * @returns {SdkConfig}

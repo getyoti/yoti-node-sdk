@@ -265,6 +265,20 @@ class SdkConfigBuilder {
   }
 
   /**
+   * Sets the brandID on the builder
+   *
+   * @param {string[]} screens
+   *
+   * @returns {this}
+   */
+  withSuppressedScreens(screens) {
+    Validation.notNullOrEmpty(screens, 'suppressedScreens');
+    Validation.isArrayOfStrings(screens, 'suppressedScreens');
+    this.suppressedScreens = screens;
+    return this;
+  }
+
+  /**
    * Builds the {@link SdkConfig} using the values supplied to the builder
    *
    * @returns {SdkConfig}
@@ -283,7 +297,8 @@ class SdkConfigBuilder {
       this.biometricConsentFlow,
       this.allowHandoff,
       this.attemptsConfiguration,
-      this.brandId
+      this.brandId,
+      this.suppressedScreens
     );
   }
 }
