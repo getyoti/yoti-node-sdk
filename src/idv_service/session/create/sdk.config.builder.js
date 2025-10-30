@@ -265,7 +265,7 @@ class SdkConfigBuilder {
   }
 
   /**
-   * Sets the brandID on the builder
+   * Sets the suppressed screens on the builder
    *
    * @param {string[]} screens
    *
