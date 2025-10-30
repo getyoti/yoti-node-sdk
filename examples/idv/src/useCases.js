@@ -6,6 +6,7 @@ const Cases = {
   FACE_COMPARISON: 'faceComparison',
   FACE_MATCH: 'faceMatch',
   WATCHLIST: 'watchlist',
+  SUPPRESSED_SCREENS: 'suppressedScreens',
 };
 
 const CasesMap = new Map([
@@ -36,6 +37,10 @@ const CasesMap = new Map([
   [Cases.WATCHLIST, {
     name: 'Watchlist check',
     path: '/watchlist-check',
+  }],
+  [Cases.SUPPRESSED_SCREENS, {
+    name: 'Suppressed screens check',
+    path: '/suppressed-screens-check',
   }],
 ]);
 

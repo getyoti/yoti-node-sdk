@@ -27,8 +27,10 @@ declare class SdkConfig {
      *   The attempts configuration
      * @param {string} brandId
      *   The brandID for the client
+     * @param {string[]} suppressedScreens
+     *   The list of suppressed screens
      */
-    constructor(allowedCaptureMethods: string, primaryColour: string, secondaryColour: string, fontColour: string, locale: string, presetIssuingCountry: string, successUrl: string, errorUrl: string, privacyPolicyUrl: string, biometricConsentFlow: string, allowHandoff: boolean, attemptsConfiguration: object, brandId: string);
+    constructor(allowedCaptureMethods: string, primaryColour: string, secondaryColour: string, fontColour: string, locale: string, presetIssuingCountry: string, successUrl: string, errorUrl: string, privacyPolicyUrl: string, biometricConsentFlow: string, allowHandoff: boolean, attemptsConfiguration: object, brandId: string, suppressedScreens: string[]);
     /** @private */
     private allowedCaptureMethods;
     /** @private */
@@ -55,6 +57,8 @@ declare class SdkConfig {
     private attemptsConfiguration;
     /** @private */
     private brandId;
+    /** @private */
+    private suppressedScreens;
     /**
      * Returns serialized data for JSON.stringify()
      */
@@ -72,5 +76,6 @@ declare class SdkConfig {
         allow_handoff: boolean;
         attempts_configuration: any;
         brand_id: string;
+        suppressed_screens: string[];
     };
 }
