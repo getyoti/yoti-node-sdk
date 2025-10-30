@@ -5,6 +5,7 @@ const allowExpiredDocumentCheckController = require('./allow.expired.document.ch
 const faceComparisonCheckController = require('./face.comparison.check.controller');
 const faceMatchCheckController = require('./face.match.check.controller');
 const watchlistCheckController = require('./watchlist.check.controller');
+const suppressedScreensCheckController = require('./suppressed.screens.check.controller');
 
 module.exports = {
   authenticityAndIdentityCheckController,
@@ -14,4 +15,5 @@ module.exports = {
   faceComparisonCheckController,
   faceMatchCheckController,
   watchlistCheckController,
+  suppressedScreensCheckController,
 };
