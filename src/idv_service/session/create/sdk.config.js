@@ -30,6 +30,8 @@ class SdkConfig {
    *   The attempts configuration
    * @param {string} brandId
    *   The brandID for the client
+   * @param {string[]} suppressedScreens
+   *   The list of suppressed screens
    */
   constructor(
     allowedCaptureMethods,
@@ -44,7 +46,8 @@ class SdkConfig {
     biometricConsentFlow,
     allowHandoff,
     attemptsConfiguration,
-    brandId
+    brandId,
+    suppressedScreens
   ) {
     Validation.isString(allowedCaptureMethods, 'allowedCaptureMethods', true);
     /** @private */
@@ -99,6 +102,13 @@ class SdkConfig {
     Validation.isString(brandId, 'brandId', true);
     /** @private */
     this.brandId = brandId;
+
+    if (suppressedScreens) {
+      Validation.notNullOrEmpty(suppressedScreens, 'suppressedScreens');
+      Validation.isArrayOfStrings(suppressedScreens, 'suppressedScreens');
+      /** @private */
+      this.suppressedScreens = suppressedScreens;
+    }
   }
 
   /**
@@ -119,6 +129,7 @@ class SdkConfig {
       allow_handoff: this.allowHandoff,
       attempts_configuration: this.attemptsConfiguration,
       brand_id: this.brandId,
+      suppressed_screens: this.suppressedScreens,
     };
   }
 }

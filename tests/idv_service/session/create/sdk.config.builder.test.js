@@ -17,6 +17,7 @@ describe('SdkConfigBuilder', () => {
       .withBiometricConsentFlow('some-flow')
       .withAllowHandoff(true)
       .withBrandId('some-brand-identifier')
+      .withSuppressedScreens(['SCREEN_1', 'SCREEN_3'])
       .build();
 
     const expectedJson = JSON.stringify({
@@ -32,6 +33,7 @@ describe('SdkConfigBuilder', () => {
       biometric_consent_flow: 'some-flow',
       allow_handoff: true,
       brand_id: 'some-brand-identifier',
+      suppressed_screens: ['SCREEN_1', 'SCREEN_3'],
     });
 
     expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
