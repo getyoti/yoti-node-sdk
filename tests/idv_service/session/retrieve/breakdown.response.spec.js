@@ -26,7 +26,7 @@ describe('BreakdownResponse', () => {
   });
 
   describe('#getProcess', () => {
-    it('should return result', () => {
+    it('should return process', () => {
       expect(breakdownResponse.getProcess()).toBe('AUTOMATED');
     });
   });
