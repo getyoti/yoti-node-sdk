@@ -91,7 +91,7 @@ describe('DeviceDescriptionResponse', () => {
       ['browser_name', 123, 'browser_name must be a string'],
       ['browser_version', 123, 'browser_version must be a string'],
       ['locale', 123, 'locale must be a string'],
-      ['client_version', undefined, 'client_version must be a string'],
+      ['client_version', 123, 'client_version must be a string'],
     ])('Should error when invalid %s', (propertyName, invalidValue, expectedError) => {
       const invalidPayloadResponse = {
         ...payloadResponse,
