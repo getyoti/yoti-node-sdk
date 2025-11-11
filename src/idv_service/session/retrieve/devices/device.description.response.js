@@ -40,7 +40,7 @@ class DeviceDescriptionResponse {
     /** @private */
     this.locale = payload.locale;
 
-    Validation.isString(payload.client_version, 'client_version');
+    Validation.isString(payload.client_version, 'client_version', true);
     /** @private */
     this.clientVersion = payload.client_version;
   }
@@ -129,7 +129,7 @@ class DeviceDescriptionResponse {
   /**
    * Returns the client version.
    *
-   * @returns {string}
+   * @returns {string | undefined}
    */
   getClientVersion() {
     return this.clientVersion;
