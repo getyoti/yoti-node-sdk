@@ -50,7 +50,7 @@ describe('TrackedDeviceEventResponse', () => {
       ['event', 123, 'event must be a string'],
       ['created', '2021-06-11B11:39.24.000Z', 'created must be a date like string'],
       ['device', 'device-info', 'device must be a plain object'],
-      ['device', { missing: 'properties' }, 'client_version must be a string'],
+      ['device', { client_version: 123 }, 'client_version must be a string'],
     ])('Should error when invalid %s', (propertyName, invalidValue, expectedError) => {
       const invalidPayloadResponse = {
         ...payloadResponse,
