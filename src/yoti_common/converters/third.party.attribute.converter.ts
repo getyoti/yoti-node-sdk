@@ -38,4 +38,4 @@ class ThirdPartyAttributeConverter {
   }
 }
 
-export default ThirdPartyAttributeConverter;
+export = ThirdPartyAttributeConverter;

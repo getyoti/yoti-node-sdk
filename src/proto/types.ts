@@ -16,16 +16,17 @@ const DATA_ENTRY_PATH = `${SHARE_PUB}.DataEntry`;
 const EXTRA_DATA_PATH = `${SHARE_PUB}.ExtraData`;
 const THIRD_PARTY_ATTRIBUTE_PATH = `${SHARE_PUB}.ThirdPartyAttribute`;
 
+const rootProto = root as any;
 const types = {
-  Anchor: root.lookupType(ANCHOR_PATH),
-  Attribute: root.lookupType(ATTRIBUTE_PATH),
-  AttributeList: root.lookupType(ATTRIBUTE_LIST_PATH),
-  MultiValue: root.lookupType(MULTI_VALUE_PATH),
-  EncryptedData: root.lookupType(ENCRYPTED_DATA_PATH),
-  DataEntry: root.lookupType(DATA_ENTRY_PATH),
-  ExtraData: root.lookupType(EXTRA_DATA_PATH),
-  ThirdPartyAttribute: root.lookupType(THIRD_PARTY_ATTRIBUTE_PATH),
-  SignedTimestamp: root.lookupType(SIGNED_TIMESTAMP_PATH),
+  Anchor: rootProto.lookupType(ANCHOR_PATH),
+  Attribute: rootProto.lookupType(ATTRIBUTE_PATH),
+  AttributeList: rootProto.lookupType(ATTRIBUTE_LIST_PATH),
+  MultiValue: rootProto.lookupType(MULTI_VALUE_PATH),
+  EncryptedData: rootProto.lookupType(ENCRYPTED_DATA_PATH),
+  DataEntry: rootProto.lookupType(DATA_ENTRY_PATH),
+  ExtraData: rootProto.lookupType(EXTRA_DATA_PATH),
+  ThirdPartyAttribute: rootProto.lookupType(THIRD_PARTY_ATTRIBUTE_PATH),
+  SignedTimestamp: rootProto.lookupType(SIGNED_TIMESTAMP_PATH),
 };
 
 Object.entries(types).forEach(([typeName, typeValue]) => {
@@ -33,5 +34,17 @@ Object.entries(types).forEach(([typeName, typeValue]) => {
     console.warn(`Proto definition for '${typeName}' not found!`);
   }
 });
+
+export const { 
+  Anchor,
+  Attribute,
+  AttributeList,
+  MultiValue,
+  EncryptedData,
+  DataEntry,
+  ExtraData,
+  ThirdPartyAttribute,
+  SignedTimestamp,
+} = types;
 
 export default types;

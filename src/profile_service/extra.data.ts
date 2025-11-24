@@ -13,11 +13,12 @@ function getAttributeIssuanceDetails(dataEntries) {
 }
 
 class ExtraData {
+  private attributeIssuanceDetails: any;
+
   /**
    * @param {Object[]} dataEntries
    */
-  constructor(dataEntries = []) {
-    /** @private */
+  constructor(dataEntries: any[] = []) {
     this.attributeIssuanceDetails = getAttributeIssuanceDetails(dataEntries);
   }
 
@@ -29,4 +30,4 @@ class ExtraData {
   }
 }
 
-export default ExtraData;
+export = ExtraData;

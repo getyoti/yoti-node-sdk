@@ -1,4 +1,4 @@
-export default Object.freeze({
+const constants = Object.freeze({
   API_BASE_URL: 'https://api.yoti.com',
   ON_PEP_LIST_ATTR: 'on_pep_list',
   ON_FRAUD_LIST_ATTR: 'on_fraud_list',
@@ -30,3 +30,5 @@ export default Object.freeze({
   ATTR_APPLICATION_URL: 'application_url',
   ATTR_APPLICATION_RECEIPT_BGCOLOR: 'application_receipt_bgcolor',
 });
+
+export = constants;

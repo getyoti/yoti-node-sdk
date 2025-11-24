@@ -10,13 +10,14 @@ import Validation = require('../yoti_common/validation');
  * @class Profile
  */
 class Profile extends BaseProfile {
-  constructor(attributes = []) {
+  private ageVerifications: { [key: string]: Attribute };
+
+  constructor(attributes: Attribute[] = []) {
     super(attributes);
 
-    /** @private */
-    this.ageVerifications = this.attributes
-      .filter((attribute) => attribute.getValue() instanceof AgeVerification)
-      .reduce((acc, attribute) => ({
+    this.ageVerifications = (this as any).attributes
+      .filter((attribute: Attribute) => attribute.getValue() instanceof AgeVerification)
+      .reduce((acc: any, attribute: Attribute) => ({
         ...acc,
         [attribute.getName()]: attribute,
       }), {});

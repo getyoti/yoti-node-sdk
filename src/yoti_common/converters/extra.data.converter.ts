@@ -26,4 +26,4 @@ class ExtraDataConverter {
   }
 }
 
-export default ExtraDataConverter;
+export = ExtraDataConverter;

@@ -1,17 +1,18 @@
 import { Attribute } from '../data_type/attribute';
 
 class BaseProfile {
+  protected attributes: Attribute[];
+  private attributesMap: { [key: string]: Attribute[] };
+
   /**
    * @param {Array} attributes
    */
-  constructor(attributes = []) {
-    /** @protected */
+  constructor(attributes: any[] = []) {
     this.attributes = attributes
-      .filter((attribute) => !!attribute)
-      .map((attribute) => new Attribute(attribute));
+      .filter((attribute: any) => !!attribute)
+      .map((attribute: any) => new Attribute(attribute));
 
-    /** @private */
-    this.attributesMap = this.attributes.reduce((acc, current) => {
+    this.attributesMap = this.attributes.reduce((acc: any, current: Attribute) => {
       const name = current.getName();
       acc[name] = acc[name] || [];
       acc[name].push(current);

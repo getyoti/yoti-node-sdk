@@ -85,7 +85,7 @@ class AnchorProcessor {
         if (extension !== null) {
           return new YotiAnchor(
             this.getAnchorTypeByOid(oid),
-            extension.value[0].value,
+            (extension as any).value[0].value,
             subType,
             signedTimestamp,
             originServerCerts
@@ -210,7 +210,7 @@ class AnchorProcessor {
 
     const extension = this.getExtensionByOid(extensionsData, oid);
     if (extension) {
-      anchorValue = extension.value[0].value;
+      anchorValue = (extension as any).value[0].value;
     }
 
     return anchorValue;

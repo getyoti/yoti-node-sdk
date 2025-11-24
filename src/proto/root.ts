@@ -2,9 +2,9 @@ import fs = require('fs');
 import path = require('path');
 import ProtoBuf = require('protobufjs');
 
-function getFilesPathsRecursively(directory, origin) {
+function getFilesPathsRecursively(directory: string, origin?: string): string[] {
   return fs.readdirSync(directory)
-    .reduce((files, file) => {
+    .reduce((files: string[], file: string) => {
       const absolute = path.join(directory, file);
       return [
         ...files,

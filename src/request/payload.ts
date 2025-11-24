@@ -2,7 +2,10 @@ import FormData = require('form-data');
 import { ContentType } from './constants';
 
 class Payload {
-  constructor(data, type = ContentType.JSON) {
+  private contentType: string;
+  private data: any;
+
+  constructor(data: any, type: string = ContentType.JSON) {
     const supportedContentTypes = [ContentType.JSON, ContentType.FORM_DATA];
     if (!supportedContentTypes.includes(type)) {
       throw new Error(`Payload content type must be specified and one of [${supportedContentTypes.join(',')}]`);
@@ -12,18 +15,14 @@ class Payload {
       const formData = new FormData();
 
       const fields = data.getFormDataFields();
-      fields.forEach(({ name, value, options }) => {
+      fields.forEach(({ name, value, options }: any) => {
         formData.append(name, value, options);
       });
 
-      /** @private */
       this.contentType = ContentType.FORM_DATA;
-      /** @private */
       this.data = formData;
     } else {
-      /** @private */
       this.contentType = ContentType.JSON;
-      /** @private */
       this.data = data;
     }
   }

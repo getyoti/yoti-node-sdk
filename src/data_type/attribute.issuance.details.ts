@@ -36,4 +36,4 @@ class AttributeIssuanceDetails {
   }
 }
 
-export default AttributeIssuanceDetails;
+export = AttributeIssuanceDetails;

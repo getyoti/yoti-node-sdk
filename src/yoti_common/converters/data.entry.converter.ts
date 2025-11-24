@@ -29,4 +29,4 @@ class DataEntryConverter {
   }
 }
 
-export default DataEntryConverter;
+export = DataEntryConverter;

@@ -26,13 +26,19 @@ const buildQueryString = (queryParams) => Object.keys(queryParams)
  * @class RequestBuilder
  */
 class RequestBuilder {
+  private headers: { [key: string]: string } = {};
+  private queryParams: { [key: string]: string | number | boolean } = {};
+  private baseUrl?: string;
+  private endpoint?: string;
+  private pem?: string;
+  private method?: string;
+  private payload?: import('./payload').Payload;
+
   /**
    * Set initial properties.
    */
   constructor() {
-    /** @private */
     this.headers = {};
-    /** @private */
     this.queryParams = {};
   }
 

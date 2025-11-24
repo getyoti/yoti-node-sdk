@@ -1,4 +1,4 @@
-export default class Validation {
+class Validation {
   /**
    * @param {*} value
    * @param {*} type
@@ -279,4 +279,6 @@ export default class Validation {
       throw Error(`${name} is not an accepted value`);
     }
   }
-};
+}
+
+export = Validation;

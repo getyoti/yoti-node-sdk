@@ -19,4 +19,4 @@ class AttributeDefinition {
   }
 }
 
-export default AttributeDefinition;
+export = AttributeDefinition;

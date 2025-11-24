@@ -103,4 +103,4 @@ class MultiValue {
   }
 }
 
-export default MultiValue;
+export = MultiValue;

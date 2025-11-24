@@ -27,7 +27,7 @@ function unwrapKey(wrappedKey, pem) {
     .from(wrappedKey, 'base64')
     .toString('binary');
 
-  return privateKey.decrypt(wrappedKeyBinary).toString('binary');
+  return (privateKey as any).decrypt(wrappedKeyBinary).toString('binary');
 }
 
 /**
@@ -225,7 +225,7 @@ export const decryptAsymmetric = (cipherText, pem) => {
     .toString('binary');
 
   return Buffer.from(
-    privateKey.decrypt(cipherTextBinary).toString('binary'),
+    (privateKey as any).decrypt(cipherTextBinary).toString('binary'),
     'binary'
   );
 };

@@ -10,26 +10,27 @@ const SUPPORTED_METHODS = ['POST', 'PUT', 'PATCH', 'GET', 'DELETE'];
  * @class YotiRequest
  */
 class YotiRequest {
-  constructor(method, url, headers, payload = null) {
+  private method: string;
+  private url: string;
+  private headers: { [key: string]: string };
+  private payload: Payload | null;
+
+  constructor(method: string, url: string, headers: { [key: string]: string }, payload: Payload | null = null) {
     // Check if request method is supported
     if (SUPPORTED_METHODS.indexOf(method) === -1) {
       throw new Error(`HTTP method ${method} is not supported`);
     }
-    /** @private */
     this.method = method;
 
     if (payload !== null) {
       Validation.instanceOf(payload, Payload, 'payload');
     }
-    /** @private */
     this.payload = payload;
 
     Validation.isString(url, 'url');
-    /** @private */
     this.url = url;
 
     Validation.hasOnlyStringValues(headers, 'headers');
-    /** @private */
     this.headers = headers;
   }
 
