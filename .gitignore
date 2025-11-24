@@ -6,3 +6,5 @@ idea
 .idea
 .scannerwork
 .vscode
+dist
+*.tsbuildinfo
