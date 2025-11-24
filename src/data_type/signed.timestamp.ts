@@ -7,18 +7,19 @@ import { YotiDate } from './date';
  * @class YotiSignedTimeStamp
  */
 class YotiSignedTimeStamp {
+  private version: number;
+  private timestamp: YotiDate;
+
   /**
    * @param {number} version
    * @param {YotiDate} timestamp
    */
-  constructor(version, timestamp) {
-    /** @private */
+  constructor(version: number, timestamp: YotiDate) {
     this.version = version;
 
     if (!(timestamp instanceof YotiDate)) {
       throw new TypeError('timestamp must be instance of YotiDate');
     }
-    /** @private */
     this.timestamp = timestamp;
   }
 

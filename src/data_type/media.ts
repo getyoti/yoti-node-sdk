@@ -1,20 +1,21 @@
 import Validation = require('../yoti_common/validation');
 
 class Media {
+  private content: Buffer;
+  private mimeType: string;
+
   /**
    * @param {Buffer} content
    * @param {string} mimeType
    */
-  constructor(content, mimeType) {
+  constructor(content: Buffer, mimeType: string) {
     if (Buffer.isBuffer(content)) {
-      /** @private */
       this.content = content;
     } else {
       throw new TypeError('content must be of type Buffer');
     }
 
     Validation.isString(mimeType, 'mimeType');
-    /** @private */
     this.mimeType = mimeType;
   }
 

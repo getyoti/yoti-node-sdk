@@ -1,17 +1,18 @@
 class MultiValue {
+  private originalItems: any[];
+  private items: any[];
+  private allowedInstances: any[];
+  private allowedTypes: string[];
+
   /**
    * MultiValue constructor.
    *
    * @param {array} items
    */
-  constructor(items) {
-    /** @private */
+  constructor(items: any[]) {
     this.originalItems = items;
-    /** @private */
     this.items = items;
-    /** @private */
     this.allowedInstances = [];
-    /** @private */
     this.allowedTypes = [];
   }
 

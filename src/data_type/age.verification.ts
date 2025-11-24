@@ -8,25 +8,25 @@ import constants = require('../yoti_common/constants');
  * @class AgeVerification
  */
 class AgeVerification {
-  static isAttributeNameMatchingAgeVerification(name) {
+  private checkType: string;
+  private age: number;
+  private ageBuffer?: number;
+  private result: boolean;
+
+  static isAttributeNameMatchingAgeVerification(name: string) {
     return name.startsWith(constants.ATTR_AGE_OVER)
       || name.startsWith(constants.ATTR_AGE_UNDER);
   }
 
-  constructor(name, value) {
+  constructor(name: string, value: string) {
     Validation.isString(name, 'name');
     Validation.oneOf(value, ['true', 'false'], 'value');
     Validation.matchesPattern(name, /^[^:]+:[0-9]+(?::[0-9]+)?$/, 'attribute.name');
 
     const [type, age, ageBuffer] = name.split(':');
-    /** @private */
     this.checkType = type;
-
-    /** @private */
     this.age = parseInt(age, 10);
-    /** @private */
     this.ageBuffer = ageBuffer ? parseInt(ageBuffer, 10) : undefined;
-    /** @private */
     this.result = value === 'true';
   }
 

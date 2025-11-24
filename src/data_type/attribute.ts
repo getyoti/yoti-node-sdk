@@ -12,23 +12,23 @@
  * and how it has been verified within the Yoti platform.
  */
 class Attribute {
-  constructor(attrObj) {
-    /** @private */
+  private value: any;
+  private name: string;
+  private sources: any;
+  private verifiers: any;
+  private id: any;
+  private anchors: any[];
+
+  constructor(attrObj: any) {
     this.value = attrObj.value;
-    /** @private */
     this.name = attrObj.name;
-    /** @private */
     this.sources = attrObj.sources;
-    /** @private */
     this.verifiers = attrObj.verifiers;
-    /** @private */
     this.id = attrObj.id;
 
-    /** @private */
     this.anchors = [];
     if (attrObj.anchors) {
       Object.keys(attrObj.anchors).forEach((key) => {
-        /** @private */
         this.anchors = this.anchors.concat(attrObj.anchors[key]);
       });
     }

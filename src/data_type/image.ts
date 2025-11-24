@@ -8,7 +8,7 @@ class Image extends Media {
    * @param {Buffer} content
    * @param {string} mimeType
    */
-  constructor(content, mimeType) {
+  constructor(content: Buffer, mimeType: string) {
     if (new.target === Image) {
       throw TypeError('Image is an abstract class, so cannot be instantiated');
     }

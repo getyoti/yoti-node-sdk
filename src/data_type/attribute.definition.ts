@@ -1,10 +1,10 @@
 import Validation = require('../yoti_common/validation');
 
 class AttributeDefinition {
-  constructor(name) {
-    Validation.isString(name, 'name');
+  private name: string;
 
-    /** @private */
+  constructor(name: string) {
+    Validation.isString(name, 'name');
     this.name = name;
   }
 

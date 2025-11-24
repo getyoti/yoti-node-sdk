@@ -2,24 +2,25 @@ import Validation = require('../yoti_common/validation');
 import AttributeDefinition = require('./attribute.definition');
 
 class AttributeIssuanceDetails {
+  private token: string;
+  private expiryDate?: Date;
+  private issuingAttributes: any[];
+
   /**
    * @param {string} token
    * @param {Date} [expiryDate]
    * @param {AttributeDefinition[]} [issuingAttributes]
    */
-  constructor(token, expiryDate, issuingAttributes = []) {
+  constructor(token: string, expiryDate?: Date, issuingAttributes: any[] = []) {
     Validation.isString(token, 'token');
-    /** @private */
     this.token = token;
 
     if (expiryDate !== undefined) {
       Validation.instanceOf(expiryDate, Date, 'expiryDate');
     }
-    /** @private */
     this.expiryDate = expiryDate;
 
     Validation.isArrayOfType(issuingAttributes, AttributeDefinition, 'issuingAttributes');
-    /** @private */
     this.issuingAttributes = issuingAttributes;
   }
 

@@ -15,6 +15,12 @@
  */
 
 class YotiAnchor {
+  private type: string;
+  private value: string;
+  private subType: string;
+  private signedTimeStamp: any;
+  private originServerCerts: any[];
+
   /**
    * @param {string} type
    * @param {string} value
@@ -22,16 +28,11 @@ class YotiAnchor {
    * @param {YotiSignedTimeStamp} signedTimeStamp
    * @param {Object[]} originServerCerts
    */
-  constructor(type, value, subType, signedTimeStamp, originServerCerts) {
-    /** @private */
+  constructor(type: string, value: string, subType: string, signedTimeStamp: any, originServerCerts: any[]) {
     this.type = type;
-    /** @private */
     this.value = value;
-    /** @private */
     this.subType = subType;
-    /** @private */
     this.signedTimeStamp = signedTimeStamp;
-    /** @private */
     this.originServerCerts = originServerCerts;
   }
 

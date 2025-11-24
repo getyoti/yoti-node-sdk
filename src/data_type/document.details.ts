@@ -5,8 +5,14 @@ const NUMBER_INDEX = 2;
 const EXPIRATION_INDEX = 3;
 const AUTHORITY_INDEX = 4;
 
-export const DocumentDetails = class DocumentDetails {
-  constructor(value) {
+export class DocumentDetails {
+  type?: string;
+  issuingCountry?: string;
+  documentNumber?: string;
+  expirationDate?: Date | null;
+  issuingAuthority?: string;
+
+  constructor(value: string) {
     this.parseFromValue(value);
   }
 
@@ -15,14 +21,14 @@ export const DocumentDetails = class DocumentDetails {
    *
    * @deprecated value is no longer validated using pattern.
    */
-  validateData(value) {
+  validateData(value: string) {
     const regex = new RegExp(VALIDATION_PATTERN);
     if (!regex.test(value)) {
       throw new Error(`Invalid value for ${this.constructor.name}`);
     }
   }
 
-  parseFromValue(value) {
+  parseFromValue(value: string) {
     const parsedValues = value.split(' ');
 
     if (parsedValues.length < 3 || parsedValues.includes('')) {

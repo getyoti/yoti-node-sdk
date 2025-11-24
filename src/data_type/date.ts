@@ -71,15 +71,16 @@ function extractMicrosecondsFromTimestamp(timestamp) {
  * @class YotiDate
  */
 class YotiDate extends Date {
+  private readonly microseconds: number;
+  private readonly microsecondUnixTimestamp: number;
+
   /**
    * @param {number} timestamp
    */
-  constructor(timestamp) {
+  constructor(timestamp: number) {
     Validation.isNumber(timestamp, 'timestamp');
     super(Math.floor(timestamp / 1000));
-    /** @private */
     this.microseconds = extractMicrosecondsFromTimestamp(timestamp);
-    /** @private */
     this.microsecondUnixTimestamp = timestamp;
   }
 
