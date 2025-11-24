@@ -1,13 +1,13 @@
 import SupportedCountry = require('./supported.country');
 
 class SupportedDocumentsResponse {
-  constructor(response) {
+  private supportedCountries: any[];
+
+  constructor(response: any) {
     if (response.supported_countries) {
-      /** @private */
       this.supportedCountries = response.supported_countries
-        .map((country) => new SupportedCountry(country));
+        .map((country: any) => new (SupportedCountry as any)(country));
     } else {
-      /** @private */
       this.supportedCountries = [];
     }
   }

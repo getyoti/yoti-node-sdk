@@ -38,6 +38,12 @@ function transformRequirementsNotMetDetail(rawDetail) {
  * @class ActivityDetails
  */
 class ActivityDetails {
+  private parsedResponse: any;
+  private receipt: any;
+  private userProfile: Profile;
+  private applicationProfile: ApplicationProfile;
+  private extraData: ExtraData;
+
   /**
    * @param {object} parsedResponse
    *   Parsed JSON response.
@@ -48,19 +54,14 @@ class ActivityDetails {
    * @param {*[]} extraData
    *   Decrypted and converted extra data.
    */
-  constructor(parsedResponse, userProfile, applicationProfile, extraData) {
-    /** @private */
+  constructor(parsedResponse: any, userProfile: any, applicationProfile: any, extraData: any[]) {
     this.parsedResponse = parsedResponse;
-    /** @private */
     this.receipt = parsedResponse.receipt;
 
     const { attributes: userProfileAttributes } = userProfile || {};
     const { attributes: applicationProfileAttributes } = applicationProfile || {};
-    /** @private */
     this.userProfile = new Profile(userProfileAttributes);
-    /** @private */
     this.applicationProfile = new ApplicationProfile(applicationProfileAttributes);
-    /** @private */
     this.extraData = new ExtraData(extraData);
   }
 

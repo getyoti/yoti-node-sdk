@@ -2,17 +2,17 @@ import Validation = require('../../yoti_common/validation');
 import SupportedDocument = require('./supported.document');
 
 class SupportedCountry {
-  constructor(country) {
+  private code?: string;
+  private supportedDocuments: any[];
+
+  constructor(country: any) {
     Validation.isString(country.code, 'code', true);
-    /** @private */
     this.code = country.code;
 
     if (country.supported_documents) {
-      /** @private */
       this.supportedDocuments = country.supported_documents
-        .map((document) => new SupportedDocument(document));
+        .map((document: any) => new (SupportedDocument as any)(document));
     } else {
-      /** @private */
       this.supportedDocuments = [];
     }
   }

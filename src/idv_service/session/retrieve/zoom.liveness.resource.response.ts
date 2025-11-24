@@ -4,20 +4,20 @@ import FaceMapResponse = require('./face.map.response');
 import Validation = require('../../../yoti_common/validation');
 
 class ZoomLivenessResourceResponse extends LivenessResourceResponse {
-  constructor(resource) {
+  private faceMap?: any;
+  private frames: any[];
+
+  constructor(resource: any) {
     super(resource);
 
     if (resource.facemap) {
-      /** @private */
-      this.faceMap = new FaceMapResponse(resource.facemap);
+      this.faceMap = new (FaceMapResponse as any)(resource.facemap);
     }
 
     if (resource.frames) {
       Validation.isArray(resource.frames, 'frames');
-      /** @private */
-      this.frames = resource.frames.map((frame) => new FrameResponse(frame));
+      this.frames = resource.frames.map((frame: any) => new (FrameResponse as any)(frame));
     } else {
-      /** @private */
       this.frames = [];
     }
   }

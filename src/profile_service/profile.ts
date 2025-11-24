@@ -169,7 +169,7 @@ class Profile extends BaseProfile {
       return new Attribute({
         ...structuredPostalAddress,
         name: constants.ATTR_POSTAL_ADDRESS,
-        value: structuredPostalAddress.value.formatted_address,
+        value: (structuredPostalAddress as any).value.formatted_address,
       });
     }
 
