@@ -2,18 +2,19 @@ import config = require('../../config');
 import { DigitalIdentityService } from '../digital_identity_service';
 
 class DigitalIdentityClient {
+  private digitalIdentityService: any;
+
   /**
    * @param {string} sdkId
    * @param {string|Buffer} pem
    * @param {{apiUrl?: string}} options
    */
-  constructor(sdkId, pem, { apiUrl } = {}) {
+  constructor(sdkId: string, pem: string | Buffer, { apiUrl = undefined }: { apiUrl?: string } = {}) {
     const options = {
       apiUrl: apiUrl || config.yoti.digitalIdentityApi,
     };
 
-    /** @private */
-    this.digitalIdentityService = new DigitalIdentityService(sdkId, pem, options);
+    this.digitalIdentityService = new (DigitalIdentityService as any)(sdkId, pem, options);
   }
 
   /**

@@ -27,26 +27,27 @@ function decryptToken(encryptedConnectToken, pem) {
  * @class YotiClient
  */
 class YotiClient {
+  private sdkId: string;
+  private pem: string;
+  private amlService: AmlService;
+  private profileService: ProfileService;
+  private dynamicShareService: DynamicShareService;
+
   /**
    * @param {string} sdkId
    * @param {string} pem
    * @param {{apiUrl?: string}} options
    */
-  constructor(sdkId, pem, { apiUrl } = {}) {
-    /** @private */
+  constructor(sdkId: string, pem: string, { apiUrl = undefined }: { apiUrl?: string } = {}) {
     this.sdkId = sdkId;
-    /** @private */
     this.pem = pem;
 
     const options = {
       apiUrl: apiUrl || config.yoti.connectApi,
     };
 
-    /** @private */
     this.amlService = new AmlService(sdkId, pem, options);
-    /** @private */
     this.profileService = new ProfileService(sdkId, pem, options);
-    /** @private */
     this.dynamicShareService = new DynamicShareService(sdkId, pem, options);
 
     /** @deprecated replaced by this.sdkId */

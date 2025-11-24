@@ -1,7 +1,12 @@
 import constants = require('../yoti_common/constants');
 
-export const AmlProfile = class AmlProfile {
-  constructor(givenNames, familyName, amlAddress, ssn) {
+export class AmlProfile {
+  private givenNames?: string;
+  private familyName?: string;
+  private amlAddress?: any;
+  private ssn?: string;
+
+  constructor(givenNames: string, familyName: string, amlAddress: any, ssn?: string) {
     this.setGivenNames(givenNames);
     this.setFamilyName(familyName);
     this.setAmlAddress(amlAddress);
@@ -13,7 +18,7 @@ export const AmlProfile = class AmlProfile {
   /**
    * @param givenNames
    */
-  setGivenNames(givenNames) {
+  setGivenNames(givenNames: string) {
     this.givenNames = givenNames;
   }
 
@@ -27,7 +32,7 @@ export const AmlProfile = class AmlProfile {
   /**
    * @param familyName
    */
-  setFamilyName(familyName) {
+  setFamilyName(familyName: string) {
     this.familyName = familyName;
   }
 
@@ -41,7 +46,7 @@ export const AmlProfile = class AmlProfile {
   /**
    * @param amlAddress
    */
-  setAmlAddress(amlAddress) {
+  setAmlAddress(amlAddress: any) {
     AmlProfile.validateAmlAddress(amlAddress);
     this.amlAddress = amlAddress;
   }
@@ -56,7 +61,7 @@ export const AmlProfile = class AmlProfile {
   /**
    * @param ssn
    */
-  setSsn(ssn) {
+  setSsn(ssn: string) {
     this.ssn = ssn;
   }
 

@@ -9,17 +9,18 @@ import { IDVService } from '../idv_service';
  * @class IDVClient
  */
 class IDVClient {
+  private idvService: any;
+
   /**
    * @param {string} sdkId
    * @param {string|Buffer} pem
    * @param {{apiUrl?: string}} options
    */
-  constructor(sdkId, pem, { apiUrl } = {}) {
+  constructor(sdkId: string, pem: string | Buffer, { apiUrl = undefined }: { apiUrl?: string } = {}) {
     const options = {
       apiUrl: apiUrl || config.yoti.idvApi,
     };
-    /** @private */
-    this.idvService = new IDVService(sdkId, pem, options);
+    this.idvService = new (IDVService as any)(sdkId, pem, options);
   }
 
   /**

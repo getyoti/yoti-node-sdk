@@ -1,8 +1,11 @@
 import constants = require('../yoti_common/constants');
 import Validation = require('../yoti_common/validation');
 
-export const AmlAddress = class AmlAddress {
-  constructor(countryCode, postcode) {
+export class AmlAddress {
+  private countryCode?: string;
+  private postcode?: string;
+
+  constructor(countryCode: string, postcode?: string) {
     this.setCountryCode(countryCode);
     if (typeof postcode !== 'undefined') {
       this.setPostcode(postcode);
@@ -12,7 +15,7 @@ export const AmlAddress = class AmlAddress {
   /**
    * @param countryCode
    */
-  setCountryCode(countryCode) {
+  setCountryCode(countryCode: string) {
     Validation.notNullOrEmpty(countryCode, 'countryCode');
     this.countryCode = countryCode;
   }
@@ -27,7 +30,7 @@ export const AmlAddress = class AmlAddress {
   /**
    * @param postcode
    */
-  setPostcode(postcode) {
+  setPostcode(postcode: string) {
     this.postcode = postcode;
   }
 

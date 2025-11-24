@@ -39,20 +39,21 @@ AmlResult.prototype = {
  * @class AmlService
  */
 class AmlService {
+  private sdkId: string;
+  private pem: string | Buffer;
+  private apiUrl: string;
+
   /**
    * @param {string} sdkId
    * @param {string|Buffer} pem
    * @param {{apiUrl?: string}} options
    */
-  constructor(sdkId, pem, { apiUrl = DEFAULT_API_URL } = {}) {
+  constructor(sdkId: string, pem: string | Buffer, { apiUrl = DEFAULT_API_URL } = {}) {
     Validation.isString(sdkId, 'sdkId');
     Validation.notNullOrEmpty(pem, 'pem');
 
-    /** @private */
     this.sdkId = sdkId;
-    /** @private */
     this.pem = pem;
-    /** @private */
     this.apiUrl = apiUrl;
   }
 
@@ -75,7 +76,7 @@ class AmlService {
 
     return new Promise((resolve, reject) => {
       request.execute()
-        .then((response) => {
+        .then((response: any) => {
           try {
             const parsedResponse = response.getParsedResponse();
             AmlResultClass.checkAttributes(parsedResponse);
