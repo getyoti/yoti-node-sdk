@@ -1,0 +1,56 @@
+import Validation = require('../../../../../../yoti_common/validation');
+import ObjectiveResponse = require('./objective.response');
+import RequiredDocumentResourceResponse = require('./required.document.resource.response');
+
+class RequiredSupplementaryDocumentResourceResponse extends RequiredDocumentResourceResponse {
+  /**
+   * @param {object} requiredResource
+   */
+  constructor(requiredResource) {
+    super(requiredResource);
+
+    Validation.isArrayOfStrings(requiredResource.document_types, 'document_types');
+    /** @private */
+    this.documentTypes = requiredResource.document_types;
+
+    Validation.isArrayOfStrings(requiredResource.country_codes, 'country_codes');
+    /** @private */
+    this.countryCodes = requiredResource.country_codes;
+
+    if (requiredResource.objective) {
+      Validation.isPlainObject(requiredResource.objective, 'objective');
+      /** @private */
+      this.objective = new ObjectiveResponse(requiredResource.objective);
+    }
+  }
+
+  /**
+   * Returns a list of document types that can be used to satisfy the requirement
+   *
+   * @return {string[] | null}
+   */
+  getDocumentTypes() {
+    return this.documentTypes;
+  }
+
+  /**
+   * Returns a list of country codes that can be used to satisfy the requirement
+   *
+   * @return {string[] | null}
+   */
+  getCountryCodes() {
+    return this.countryCodes;
+  }
+
+  /**
+   * Returns the objective that the
+   * {@link RequiredSupplementaryDocumentResourceResponse} will satisfy
+   *
+   * @return {ObjectiveResponse | null}
+   */
+  getObjective() {
+    return this.objective;
+  }
+}
+
+export default RequiredSupplementaryDocumentResourceResponse;

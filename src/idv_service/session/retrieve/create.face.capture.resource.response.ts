@@ -1,0 +1,36 @@
+import Validation = require('../../../yoti_common/validation');
+
+class CreateFaceCaptureResourceResponse {
+  /**
+   * @param {{id: string, frames: number}} resourceData
+   */
+  constructor(resourceData) {
+    Validation.isPlainObject(resourceData, 'resourceData');
+    Validation.isString(resourceData.id, 'resourceData.id');
+    Validation.isNumber(resourceData.frames, 'resourceData.frames');
+    /** @private */
+    this.id = resourceData.id;
+    /** @private */
+    this.frames = resourceData.frames;
+  }
+
+  /**
+   * Returns the ID of the newly created Face Capture resource
+   *
+   * @return string
+   */
+  getId() {
+    return this.id;
+  }
+
+  /**
+   * Returns the number of image frames required
+   *
+   * @return int
+   */
+  getFrames() {
+    return this.frames;
+  }
+}
+
+export default CreateFaceCaptureResourceResponse;

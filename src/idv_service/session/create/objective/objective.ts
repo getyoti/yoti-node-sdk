@@ -1,0 +1,24 @@
+import Validation = require('../../../../yoti_common/validation');
+
+class Objective {
+  /**
+   * @param {string} type
+   */
+  constructor(type) {
+    if (new.target === Objective) {
+      throw TypeError('Objective cannot be instantiated');
+    }
+
+    Validation.isString(type, 'type');
+    /** @private */
+    this.type = type;
+  }
+
+  toJSON() {
+    return {
+      type: this.type,
+    };
+  }
+}
+
+export default Objective;
