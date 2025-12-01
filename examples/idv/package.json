@@ -11,7 +11,7 @@
     "lint": "node_modules/.bin/eslint *.js src/*/**.js"
   },
   "dependencies": {
-    "body-parser": "1.20.3",
+    "body-parser": "1.20.4",
     "dotenv": "16.0.2",
     "ejs": "3.1.10",
     "express": "4.21.2",
