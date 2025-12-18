@@ -185,6 +185,29 @@
                 </div>
                 <% } %>
 
+                <% if (sessionResult.getFaceComparisonChecks().length > 0) { %>
+                <div class="card">
+                    <div class="card-header" id="face-comparison-checks">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-face-comparison-checks" aria-expanded="true"
+                                aria-controls="collapse-face-comparison-checks">
+                                FaceComparison Checks
+                            </button>
+                        </h3>
+
+                    </div>
+
+                    <div id="collapse-face-comparison-checks" class="collapse" aria-labelledby="face-comparison-checks">
+                        <div class="card-body">
+                            <% sessionResult.getFaceComparisonChecks().forEach(function(check){ %>
+                            <%- include('partials/check', { check }); %>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
                 <% if (sessionResult.getLivenessChecks().length > 0) { %>
                 <div class="card">
                     <div class="card-header" id="liveness-checks">
@@ -482,6 +505,169 @@
                     </div>
 
                     <% }); %>
+                <% } %>
+
+            </div>
+
+        </div>
+    </div>
+
+    <% }); %>
+    <% } %>
+
+    <% if (sessionResult.getResources().getShareCodeResources().length > 0) { %>
+    <div class="row pt-4">
+        <div class="col">
+            <h2>Share Codes</h2>
+        </div>
+    </div>
+
+    <%
+    let shareCodeNum = 0;
+    sessionResult.getResources().getShareCodeResources().forEach(function(shareCode) {
+        shareCodeNum++;
+        %>
+    <div class="row pt-4">
+        <div class="col">
+
+            <h3>Share Code<%= shareCodeNum; %> (<small>Task state: <span class="badge badge-info"><%= shareCode.getTasks()[0].getState(); %></span></small>)</h3>
+
+            <div class="accordion mt-3">
+
+                <% if (shareCode.getLookupProfile()) { %>
+                <div class="card">
+                    <div class="card-header" id="share-code-lookup-profile-<%= shareCodeNum %>">
+                        <h4 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-share-code-lookup-profile-<%= shareCodeNum %>" aria-expanded="true"
+                                aria-controls="collapse-share-code-lookup-profile-<%= shareCodeNum %>">
+                                Lookup profile
+                            </button>
+                        </h4>
+                    </div>
+                    <div id="collapse-share-code-lookup-profile-<%= shareCodeNum %>" class="collapse" aria-labelledby="share-code-lookup-profile-<%= shareCodeNum %>">
+                        <div class="card-body">
+                            <% if (shareCode.getLookupProfile().getMedia()) { %>
+                            <h5>Media</h5>
+                            <table class="table table-striped table-light">
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>
+                                            <a
+                                                href="/media?mediaId=<%= shareCode.getLookupProfile().getMedia().getId() %>">
+                                                <%= shareCode.getLookupProfile().getMedia().getId() %>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (shareCode.getReturnedProfile()) { %>
+                <div class="card">
+                    <div class="card-header" id="share-code-returned-profile-<%= shareCodeNum %>">
+                        <h4 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-share-code-returned-profile-<%= shareCodeNum %>" aria-expanded="true"
+                                aria-controls="collapse-share-code-returned-profile-<%= shareCodeNum %>">
+                                Returned profile
+                            </button>
+                        </h4>
+                    </div>
+                    <div id="collapse-share-code-returned-profile-<%= shareCodeNum %>" class="collapse" aria-labelledby="share-code-returned-profile-<%= shareCodeNum %>">
+                        <div class="card-body">
+                            <% if (shareCode.getReturnedProfile().getMedia()) { %>
+                            <h5>Media</h5>
+                            <table class="table table-striped table-light">
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>
+                                            <a
+                                                href="/media?mediaId=<%= shareCode.getReturnedProfile().getMedia().getId() %>">
+                                                <%= shareCode.getReturnedProfile().getMedia().getId() %>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (shareCode.getIdPhoto()) { %>
+                <div class="card">
+                    <div class="card-header" id="share-code-id-photo-<%= shareCodeNum %>">
+                        <h4 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-share-code-id-photo-<%= shareCodeNum %>" aria-expanded="true"
+                                aria-controls="collapse-share-code-id-photo-<%= shareCodeNum %>">
+                                ID Photo
+                            </button>
+                        </h4>
+                    </div>
+                    <div id="collapse-share-code-id-photo-<%= shareCodeNum %>" class="collapse" aria-labelledby="share-code-id-photo-<%= shareCodeNum %>">
+                        <div class="card-body">
+                            <% if (shareCode.getIdPhoto().getMedia()) { %>
+                            <h5>Media</h5>
+                            <table class="table table-striped table-light">
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>
+                                            <a
+                                                href="/media?mediaId=<%= shareCode.getIdPhoto().getMedia().getId() %>">
+                                                <%= shareCode.getIdPhoto().getMedia().getId() %>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (shareCode.getFile()) { %>
+                <div class="card">
+                    <div class="card-header" id="share-code-file-<%= shareCodeNum %>">
+                        <h4 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse-share-code-file-<%= shareCodeNum %>" aria-expanded="true"
+                                aria-controls="collapse-share-code-file-<%= shareCodeNum %>">
+                                File
+                            </button>
+                        </h4>
+                    </div>
+                    <div id="collapse-share-code-file-<%= shareCodeNum %>" class="collapse" aria-labelledby="share-code-file-<%= shareCodeNum %>">
+                        <div class="card-body">
+                            <% if (shareCode.getFile().getMedia()) { %>
+                            <h5>Media</h5>
+                            <table class="table table-striped table-light">
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>
+                                            <a
+                                                href="/media?mediaId=<%= shareCode.getFile().getMedia().getId() %>">
+                                                <%= shareCode.getFile().getMedia().getId() %>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
                 <% } %>
 
             </div>
