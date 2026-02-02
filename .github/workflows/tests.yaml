@@ -45,7 +45,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: '16'
 
       - run: npm install
 
@@ -75,7 +75,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [14, 16, 18, 20]
+        node-version: [14, 16, 18, 20, 22]
 
     steps:
       - uses: actions/checkout@v4
