@@ -78,7 +78,7 @@ declare class DeviceDescriptionResponse {
     /**
      * Returns the client version.
      *
-     * @returns {string}
+     * @returns {string | undefined}
      */
-    getClientVersion(): string;
+    getClientVersion(): string | undefined;
 }
