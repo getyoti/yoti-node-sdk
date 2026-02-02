@@ -19,7 +19,7 @@ jobs:
 
       - run: npm update
 
-      - run: npm install --no-audit
+      - run: npm install --ignore-scripts --no-audit
 
       - run: npm run audit
 
@@ -45,24 +45,24 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: '16'
 
-      - run: npm install
+      - run: npm install --ignore-scripts
 
       - run: npm update
 
       - name: print versions
         run: echo npm $(npm -v), node $(node -v)
 
-      - run: pushd ./examples/aml-check && npm install && npm update && npm run lint && popd
+      - run: pushd ./examples/aml-check && npm install --ignore-scripts && npm update && npm run lint && popd
 
-      - run: pushd ./examples/idv && npm install && npm update && npm run lint && popd
+      - run: pushd ./examples/idv && npm install --ignore-scripts && npm update && npm run lint && popd
 
-      - run: pushd ./examples/idv-identity-checks && npm install && npm update && npm run lint && popd
+      - run: pushd ./examples/idv-identity-checks && npm install --ignore-scripts && npm update && npm run lint && popd
 
-      - run: pushd ./examples/profile && npm install && npm update && npm run lint && popd
+      - run: pushd ./examples/profile && npm install --ignore-scripts && npm update && npm run lint && popd
 
-      - run: pushd ./examples/profile-identity-checks && npm install && npm update && npm run lint && popd
+      - run: pushd ./examples/profile-identity-checks && npm install --ignore-scripts && npm update && npm run lint && popd
 
   node-compatibility:
     name: Node ${{ matrix.node-version }}
@@ -75,7 +75,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [14, 16, 18, 20]
+        node-version: [14, 16, 18, 20, 22]
 
     steps:
       - uses: actions/checkout@v4
@@ -84,7 +84,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: npm install
+      - run: npm install --ignore-scripts
 
       - run: npm update
 
@@ -108,7 +108,7 @@ jobs:
 
       - uses: actions/setup-node@v4
 
-      - run: npm install
+      - run: npm install --ignore-scripts
 
       - run: npm update
 
