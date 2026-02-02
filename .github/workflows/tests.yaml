@@ -19,7 +19,7 @@ jobs:
 
       - run: npm update
 
-      - run: npm install --no-audit
+      - run: npm install --ignore-scripts --no-audit
 
       - run: npm run audit
 
