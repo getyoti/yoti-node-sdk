@@ -6,19 +6,30 @@ export = IDVService;
  */
 declare class IDVService {
     /**
-     * @param {string} sdkId
-     * @param {string|Buffer} pem
-     * @param {{apiUrl?: string}} options
+     * @param {?string} sdkId
+     * @param {?(string|Buffer)} pem
+     * @param {{apiUrl?: string, authStrategy?: Object}} options
      */
-    constructor(sdkId: string, pem: string | Buffer, { apiUrl }?: {
+    constructor(sdkId: string | null, pem: (string | Buffer) | null, { apiUrl, authStrategy }?: {
         apiUrl?: string;
+        authStrategy?: any;
     });
-    /** @protected */
-    protected sdkId: string;
-    /** @protected */
-    protected pem: string | Buffer;
-    /** @protected */
-    protected apiUrl: string;
+    /** @private */
+    private authStrategy;
+    /** @private */
+    private sdkId;
+    /** @private */
+    private pem;
+    /** @private */
+    private apiUrl;
+    /**
+     * Applies authentication to a request builder.
+     *
+     * @param {RequestBuilder} builder
+     * @returns {RequestBuilder}
+     * @private
+     */
+    private applyAuthToBuilder;
     /**
      * Uses the supplied session specification to create a session
      *
