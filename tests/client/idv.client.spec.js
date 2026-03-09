@@ -383,3 +383,31 @@ describe.each([
     });
   });
 });
+
+describe('IDVClient constructor', () => {
+  describe('mutual exclusivity', () => {
+    it('should throw when authToken and sdkId are both provided', () => {
+      expect(() => new IDVClient(
+        'some-sdk-id',
+        null,
+        { authToken: 'some-token' }
+      )).toThrow('Must not supply sdkId or PEM when using an authentication token');
+    });
+
+    it('should throw when authToken and pem are both provided', () => {
+      expect(() => new IDVClient(
+        null,
+        PEM_STRING,
+        { authToken: 'some-token' }
+      )).toThrow('Must not supply sdkId or PEM when using an authentication token');
+    });
+
+    it('should accept authToken without sdkId or pem', () => {
+      expect(() => new IDVClient(
+        null,
+        null,
+        { authToken: 'some-token' }
+      )).not.toThrow();
+    });
+  });
+});
