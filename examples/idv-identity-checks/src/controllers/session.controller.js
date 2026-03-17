@@ -49,34 +49,52 @@ async function createSession(scheme) {
     subject_id: 'some_subject_id_string',
   };
 
-  if (scheme === 'MTF_BASE') {
-    const advancedIdentityProfileSchemeDBS = new AdvancedIdentityProfileSchemeBuilder()
-      .withType('DBS')
-      .withObjective('BASIC')
-      .withLabel('label-for-DBS-BASIC')
-      .build();
+  if (scheme.startsWith('MTF')) {
+    // Building the requirements for UK_TFIDA
+    const advancedIdentityProfileUKTFIDABuilder = new AdvancedIdentityProfileBuilder().withTrustFramework('UK_TFIDA');
+
+    if (scheme === 'MTF_FULL') {
+      const advancedIdentityProfileSchemeDBS = new AdvancedIdentityProfileSchemeBuilder()
+        .withType('DBS')
+        .withObjective('BASIC')
+        .withLabel('label-for-DBS-BASIC')
+        .build();
+
+      advancedIdentityProfileUKTFIDABuilder.withScheme(advancedIdentityProfileSchemeDBS);
+    }
 
     const advancedIdentityProfileSchemeRTW = new AdvancedIdentityProfileSchemeBuilder()
       .withType('RTW')
       .withLabel('label-for-RTW')
       .build();
 
-    const advancedIdentityProfileUKTFIDA = new AdvancedIdentityProfileBuilder()
-      .withTrustFramework('UK_TFIDA')
-      .withScheme(advancedIdentityProfileSchemeDBS)
-      .withScheme(advancedIdentityProfileSchemeRTW)
+    advancedIdentityProfileUKTFIDABuilder.withScheme(advancedIdentityProfileSchemeRTW);
+
+    const advancedIdentityProfileUKTFIDA = advancedIdentityProfileUKTFIDABuilder.build();
+
+    // Building the requirements for YOTI_GLOBAL
+    const advancedIdentityProfileYotiGlobalBuilder = new AdvancedIdentityProfileBuilder()
+      .withTrustFramework('YOTI_GLOBAL');
+
+    if (scheme === 'MTF_FULL') {
+      const advancedIdentityProfileSchemeAL1 = new AdvancedIdentityProfileSchemeBuilder()
+        .withType('IDENTITY')
+        .withObjective('AL_L1')
+        .withLabel('label-for-IDENTITY-AL-L1')
+        .build();
+
+      advancedIdentityProfileYotiGlobalBuilder.withScheme(advancedIdentityProfileSchemeAL1);
+    }
+
+    const advancedIdentityProfileSchemeGbrRtwSharecode = new AdvancedIdentityProfileSchemeBuilder()
+      .withType('GBR_RTW_SHARECODE')
+      .withLabel('label-for-GBR-RTW-SHARECODE')
       .build();
 
-    const advancedIdentityProfileSchemeAL1 = new AdvancedIdentityProfileSchemeBuilder()
-      .withType('IDENTITY')
-      .withObjective('AL_L1')
-      .withLabel('label-for-IDENTITY-AL-L1')
-      .build();
+    // eslint-disable-next-line max-len
+    advancedIdentityProfileYotiGlobalBuilder.withScheme(advancedIdentityProfileSchemeGbrRtwSharecode);
 
-    const advancedIdentityProfileYotiGlobal = new AdvancedIdentityProfileBuilder()
-      .withTrustFramework('YOTI_GLOBAL')
-      .withScheme(advancedIdentityProfileSchemeAL1)
-      .build();
+    const advancedIdentityProfileYotiGlobal = advancedIdentityProfileYotiGlobalBuilder.build();
 
     const advancedIdentityProfileRequirements = new AdvancedIdentityProfileRequirementsBuilder()
       .withProfile(advancedIdentityProfileUKTFIDA)
@@ -104,7 +122,7 @@ async function createSession(scheme) {
         .withSuccessUrl(`${config.YOTI_APP_BASE_URL}/success`)
         .withErrorUrl(`${config.YOTI_APP_BASE_URL}/error`)
         .withAllowHandoff(true)
-        .withAllowsCameraAndUpload()
+        // .withAllowsCameraAndUpload()
         .build()
     )
     .build();
