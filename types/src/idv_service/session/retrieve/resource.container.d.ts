@@ -9,6 +9,8 @@ declare class ResourceContainer {
     private livenessCapture;
     /** @private */
     private faceCapture;
+    /** @private */
+    private shareCodes;
     /**
      * Returns ID documents that were uploaded by the user
      *
@@ -47,6 +49,13 @@ declare class ResourceContainer {
      *   The list of face resources
      */
     getFaceCaptureResources(): FaceCaptureResourceResponse[];
+    /**
+     * Returns share-code resources
+     *
+     * @returns {ShareCodeResourceResponse[]}
+     *   The list of share-code resources
+     */
+    getShareCodeResources(): ShareCodeResourceResponse[];
 }
 import IdDocumentResourceResponse = require("./id.document.resource.response");
 import SupplementaryDocumentResourceResponse = require("./supplementary.document.resource.response");
@@ -54,3 +63,4 @@ import LivenessResourceResponse = require("./liveness.resource.response");
 import ZoomLivenessResourceResponse = require("./zoom.liveness.resource.response");
 import StaticLivenessResourceResponse = require("./static.liveness.resource.response");
 import FaceCaptureResourceResponse = require("./face.capture.resource.response");
+import ShareCodeResourceResponse = require("./share.code.resource.response");
