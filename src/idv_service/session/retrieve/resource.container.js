@@ -5,6 +5,7 @@ const ZoomLivenessResourceResponse = require('./zoom.liveness.resource.response'
 const StaticLivenessResourceResponse = require('./static.liveness.resource.response');
 const LivenessResourceResponse = require('./liveness.resource.response');
 const FaceCaptureResourceResponse = require('./face.capture.resource.response');
+const ShareCodeResourceResponse = require('./share.code.resource.response');
 const IDVConstants = require('../../idv.constants');
 const Validation = require('../../../yoti_common/validation');
 const SupplementaryDocumentResourceResponse = require('./supplementary.document.resource.response');
@@ -63,6 +64,18 @@ class ResourceContainer {
     } else {
       /** @private */
       this.faceCapture = [];
+    }
+
+    if (resources.share_codes) {
+      Validation.isArray(resources.share_codes, 'share_codes');
+
+      /** @private */
+      this.shareCodes = resources.share_codes.map(
+        (resource) => new ShareCodeResourceResponse(resource)
+      );
+    } else {
+      /** @private */
+      this.shareCodes = [];
     }
   }
 
@@ -124,6 +137,16 @@ class ResourceContainer {
    */
   getFaceCaptureResources() {
     return this.faceCapture;
+  }
+
+  /**
+   * Returns share-code resources
+   *
+   * @returns {ShareCodeResourceResponse[]}
+   *   The list of share-code resources
+   */
+  getShareCodeResources() {
+    return this.shareCodes;
   }
 }
 
