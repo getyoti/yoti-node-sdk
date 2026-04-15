@@ -11,7 +11,7 @@ describe('CreateFaceCaptureResourcePayload', () => {
         .withImageContents([1, 2, 3])
         .forJpegImage()
         .build();
-    }).toThrowError(TypeError);
+    }).toThrow(TypeError);
   });
 
   it('should return the content type and content of the image', () => {

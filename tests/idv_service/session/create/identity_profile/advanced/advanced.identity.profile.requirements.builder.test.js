@@ -51,7 +51,7 @@ describe('AdvancedIdentityProfileSchemeBuilder', () => {
       expect(() => {
         new AdvancedIdentityProfileRequirementsBuilder()
           .withProfile({ not: 'a-profile' });
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
   });
 });

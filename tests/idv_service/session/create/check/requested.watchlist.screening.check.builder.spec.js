@@ -59,7 +59,7 @@ describe('RequestedWatchlistScreeningCheckBuilder', () => {
           new RequestedWatchlistScreeningCheckBuilder()
             .withCategory(false)
             .build();
-        }).toThrowError(TypeError);
+        }).toThrow(TypeError);
       });
     });
     describe('when adding combination of category', () => {

@@ -69,7 +69,7 @@ describe('AdvancedIdentityProfileSchemeBuilder', () => {
       expect(() => {
         new AdvancedIdentityProfileSchemeBuilder()
           .withType(123);
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
   });
   describe('#withLabel', () => {
@@ -77,7 +77,7 @@ describe('AdvancedIdentityProfileSchemeBuilder', () => {
       expect(() => {
         new AdvancedIdentityProfileSchemeBuilder()
           .withLabel(123);
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
   });
   describe('#withObjective', () => {
@@ -85,7 +85,7 @@ describe('AdvancedIdentityProfileSchemeBuilder', () => {
       expect(() => {
         new AdvancedIdentityProfileSchemeBuilder()
           .withObjective(123);
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
   });
   describe('#withConfig', () => {
@@ -93,7 +93,7 @@ describe('AdvancedIdentityProfileSchemeBuilder', () => {
       expect(() => {
         new AdvancedIdentityProfileSchemeBuilder()
           .withConfig(123);
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
   });
 });

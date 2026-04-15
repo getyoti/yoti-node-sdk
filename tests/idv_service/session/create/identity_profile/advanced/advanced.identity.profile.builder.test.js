@@ -72,7 +72,7 @@ describe('AdvancedIdentityProfileSchemeBuilder', () => {
       expect(() => {
         new AdvancedIdentityProfileBuilder()
           .withTrustFramework(123);
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
   });
 
@@ -81,7 +81,7 @@ describe('AdvancedIdentityProfileSchemeBuilder', () => {
       expect(() => {
         new AdvancedIdentityProfileBuilder()
           .withScheme({ not: 'a-scheme' });
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
   });
 });

@@ -39,7 +39,7 @@ describe('AdvancedIdentityProfileSchemeConfigBuilder', () => {
         new AdvancedIdentityProfileSchemeConfigBuilder()
           .withFilter({ fake: 'filter' })
           .build();
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
   });
 });
