@@ -22,7 +22,7 @@ describe('Decryption utils', () => {
       cipher.update(forge.util.createBuffer(receiptKey));
       cipher.finish();
       const encrypted = cipher.output;
-      const tag = cipher.mode.tag;
+      const { tag } = cipher.mode;
 
       // And the resulting encrypted key and tag concatenated
       const wrappedReceiptKey = Buffer.concat([

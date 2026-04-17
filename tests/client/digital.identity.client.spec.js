@@ -5,7 +5,7 @@ const fs = require('fs');
 const { v4: uuid } = require('uuid');
 
 const config = require('../../config');
-const yoti = require('../../index');
+const yoti = require('../..');
 const DecryptionUtils = require('../../src/digital_identity_service/receipts/decryption.utils');
 const ContentFactory = require('../../src/digital_identity_service/receipts/content.factory');
 const CreateShareSessionResult = require('../../src/digital_identity_service/create.share.session.result');

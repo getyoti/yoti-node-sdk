@@ -60,13 +60,11 @@ describe('AdvancedIdentityProfileReportSchemeComplianceResponse', () => {
 
     describe('#getRequirementsMet', () => {
       it('should return requirements_met', () => {
-        // eslint-disable-next-line max-len
         expect(advancedIdentityProfileReportSchemeComplianceResponse.getRequirementsMet()).toBe(false);
       });
     });
-    describe('#getRequirementsMet', () => {
-      it('should return requirements_met', () => {
-        // eslint-disable-next-line max-len
+    describe('#getRequiremengetRequirementsNotMetInfotsMet', () => {
+      it('should return requirements_met_info', () => {
         expect(advancedIdentityProfileReportSchemeComplianceResponse.getRequirementsNotMetInfo()).toBe('SOMETHING_FAILED');
       });
     });

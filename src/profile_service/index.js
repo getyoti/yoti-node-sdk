@@ -4,7 +4,7 @@ const config = require('../../config');
 const Validation = require('../yoti_common/validation');
 const { RequestBuilder } = require('../request/request.builder');
 const yotiCommon = require('../yoti_common');
-const ActivityDetails = require('./activity.details').ActivityDetails;
+const { ActivityDetails } = require('./activity.details');
 
 const DEFAULT_API_URL = config.yoti.connectApi;
 
@@ -50,7 +50,7 @@ class ProfileService {
             const receipt = response.getReceipt();
             const parsedResponse = response.getParsedResponse();
             const userProfile = yotiCommon.decryptUserProfile(receipt, this.pem.toString());
-            // eslint-disable-next-line max-len
+
             const applicationProfile = yotiCommon.decryptApplicationProfile(receipt, this.pem.toString());
             const extraData = yotiCommon.parseExtraData(receipt, this.pem.toString());
             return resolve(new ActivityDetails(

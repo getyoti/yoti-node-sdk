@@ -1,5 +1,3 @@
-import AmlAddress_1 = require("./aml.address");
-import AmlAddress = AmlAddress_1.AmlAddress;
-import AmlProfile_1 = require("./aml.profile");
-import AmlProfile = AmlProfile_1.AmlProfile;
+import { AmlAddress } from "./aml.address";
+import { AmlProfile } from "./aml.profile";
 export { AmlAddress, AmlProfile };

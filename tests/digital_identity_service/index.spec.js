@@ -37,7 +37,7 @@ describe('DigitalIdentityService', () => {
       it('should get the correct response', async () => {
         const receiptId = 'test_receipt_id';
         nock(apiUrl)
-          .get(new RegExp('/v2/receipts'))
+          .get(/\/v2\/receipts/)
           .reply(200, {
             id: 'test_receipt_id',
             sessionId: 'test_receipt_session_id',
@@ -83,7 +83,7 @@ describe('DigitalIdentityService', () => {
         it('promise should reject', async () => {
           const receiptId = 'test_receipt_id';
           nock(apiUrl)
-            .get(new RegExp('/v2/receipts'))
+            .get(/\/v2\/receipts/)
             .reply(invalidResponse.status, invalidResponse.json);
 
           try {
@@ -102,7 +102,7 @@ describe('DigitalIdentityService', () => {
       it('should get the correct response', async () => {
         const receiptItemKeyId = 'test_receipt_item_key_id';
         nock(apiUrl)
-          .get(new RegExp('/v2/wrapped-item-keys'))
+          .get(/\/v2\/wrapped-item-keys/)
           .reply(200, {
             id: 'test_receipt_item_key_id',
             iv: 'test_receipt_item_key_iv',
@@ -148,7 +148,7 @@ describe('DigitalIdentityService', () => {
         it('promise should reject', async () => {
           const receiptItemKeyId = 'test_receipt_item_key_id';
           nock(apiUrl)
-            .get(new RegExp('/v2/wrapped-item-keys'))
+            .get(/\/v2\/wrapped-item-keys/)
             .reply(invalidResponse.status, invalidResponse.json);
 
           try {
@@ -173,7 +173,7 @@ describe('DigitalIdentityService', () => {
         extraData: 'some-other-party-content-extra-data',
       };
       nock(apiUrl)
-        .get(new RegExp('/v2/receipts'))
+        .get(/\/v2\/receipts/)
         .reply(200, {
           id: 'test_receipt_id',
           sessionId: 'test_receipt_session_id',
@@ -184,7 +184,7 @@ describe('DigitalIdentityService', () => {
         });
 
       nock(apiUrl)
-        .get(new RegExp('/v2/wrapped-item-keys/some_wrapped_item_key'))
+        .get(/\/v2\/wrapped-item-keys\/some_wrapped_item_key/)
         .reply(200, {
           id: 'some_wrapped_item_key',
           iv: 'some_iv',
@@ -221,7 +221,7 @@ describe('DigitalIdentityService', () => {
   describe('#createShareSession', () => {
     const setupResponse = (responseBody, responseStatusCode = 200) => {
       nock(apiUrlDomain)
-        .post(new RegExp('/v2/sessions[^/]'))
+        .post(/\/v2\/sessions[^/]/)
         .reply(responseStatusCode, responseBody);
     };
 

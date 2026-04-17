@@ -99,7 +99,6 @@ class GetSessionResult {
     if (response.advanced_identity_profile) {
       Validation.isPlainObject(response.advanced_identity_profile, 'advanced_identity_profile');
       /** @private */
-      // eslint-disable-next-line max-len
       this.advancedIdentityProfile = new AdvancedIdentityProfileResponse(response.advanced_identity_profile);
     }
   }

@@ -33,7 +33,7 @@ const SESSION_TRACKED_DEVICES_URI = new RegExp(`^/idverify/v1/sessions/${SESSION
 const FACE_CAPTURE_CREATE_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture`);
 const UPLOAD_FACE_CAPTURE_IMAGE_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture/${RESOURCE_ID}/image`);
 const MEDIA_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/media/${MEDIA_ID}/content\\?sdkId=${APP_ID}`);
-const SUPPORTED_DOCUMENTS_URI = new RegExp('^/idverify/v1/supported-documents');
+const SUPPORTED_DOCUMENTS_URI = /^\/idverify\/v1\/supported-documents/;
 const SOME_CODE = 'SOME_CODE';
 const SOME_MESSAGE = 'SOME_MESSAGE';
 const SOME_ERROR_RESPONSE = JSON.stringify({ code: SOME_CODE, message: SOME_MESSAGE });

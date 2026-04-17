@@ -8,7 +8,6 @@ const RequestedWatchlistAdvancedCaConfigBuilder = require('./requested.watchlist
  *
  * @class RequestedYotiAccountWatchlistAdvancedCaConfigBuilder
  */
-// eslint-disable-next-line max-len
 class RequestedYotiAccountWatchlistAdvancedCaConfigBuilder extends RequestedWatchlistAdvancedCaConfigBuilder {
   /**
    *

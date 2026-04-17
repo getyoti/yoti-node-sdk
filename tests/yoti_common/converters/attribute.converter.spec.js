@@ -265,7 +265,7 @@ describe('AttributeConverter', () => {
       });
     });
   });
-  describe('#convertValueBasedOnAttributeName', () => {
+  describe('#convertValueBasedOnAttributeName (failure case)', () => {
     it('should fail when list of images could not be decoded', () => {
       let exceptionMessage = null;
       let documentImages = null;

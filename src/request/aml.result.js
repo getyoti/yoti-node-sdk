@@ -3,6 +3,8 @@
 const constants = require('../yoti_common/constants');
 
 function hasProperty(obj, prop) {
+  // TODO Use Object.hasOwn when Node 18+
+  // eslint-disable-next-line prefer-object-has-own
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
