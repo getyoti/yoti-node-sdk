@@ -1,13 +1,13 @@
 'use strict';
 
 const fs = require('fs');
-const { v4: uuid } = require('uuid');
 
 const yotiCommon = require('../yoti_common');
 const { YotiRequest } = require('./request');
 const Validation = require('../yoti_common/validation');
 const yotiPackage = require('../../package.json');
 const { ContentType } = require('./constants');
+const SignedRequestStrategy = require('../auth/signed.request.strategy');
 
 const SDK_IDENTIFIER = 'Node';
 
@@ -78,6 +78,16 @@ class RequestBuilder {
   }
 
   /**
+   * @param {Object} authStrategy
+   *
+   * @returns {RequestBuilder}
+   */
+  withAuthStrategy(authStrategy) {
+    this.authStrategy = authStrategy;
+    return this;
+  }
+
+  /**
    * @param {string} name
    * @param {string} value
    *
@@ -144,49 +154,27 @@ class RequestBuilder {
   }
 
   /**
-   * Default request headers.
-   *
-   * @param {string} messageSignature
-   */
-  getDefaultHeaders(messageSignature) {
-    const defaultHeaders = {
-      'X-Yoti-Auth-Digest': messageSignature,
-      'X-Yoti-SDK': SDK_IDENTIFIER,
-      'X-Yoti-SDK-Version': `${SDK_IDENTIFIER}-${yotiPackage.version}`,
-      Accept: ContentType.JSON,
-    };
-
-    if (this.payload) {
-      if (this.payload.getContentType() === ContentType.FORM_DATA) {
-        defaultHeaders['Content-Type'] = `${ContentType.FORM_DATA}; boundary=${this.payload.getRawData().getBoundary()}`;
-      } else {
-        defaultHeaders['Content-Type'] = this.payload.getContentType();
-      }
-    }
-
-    return defaultHeaders;
-  }
-
-  /**
    * @returns {YotiRequest}
    */
   build() {
     if (!this.baseUrl) {
       throw new Error('Base URL must be specified');
     }
-    if (!this.pem) {
-      throw new Error('PEM file path or string must be provided');
+
+    let strategy;
+    if (this.authStrategy) {
+      strategy = this.authStrategy;
+    } else if (this.pem) {
+      strategy = new SignedRequestStrategy(this.pem);
+    } else {
+      throw new Error('PEM or auth strategy must be provided');
     }
 
-    // Merge provided query params with nonce and timestamp.
     const queryString = buildQueryString(Object.assign(
+      {},
       this.queryParams,
-      {
-        nonce: uuid(),
-        timestamp: Date.now(),
-      }
+      strategy.createQueryParams()
     ));
-
     // Build endpoint and url.
     const endpointPath = `${this.endpoint}?${queryString}`;
 
@@ -196,19 +184,27 @@ class RequestBuilder {
       payloadBase64 = `&${this.payload.getBase64Payload()}`;
     }
 
-    // Get message signature.
-    const messageSignature = yotiCommon.getRSASignatureForMessage(
-      `${this.method}&${endpointPath}${payloadBase64}`,
-      this.pem
+    const authHeaders = strategy.createAuthHeaders(
+      this.method,
+      endpointPath,
+      payloadBase64
     );
 
-    // Merge custom headers with default headers.
-    const headers = Object.assign(
-      this.getDefaultHeaders(messageSignature),
-      this.headers
-    );
+    const sdkHeaders = {
+      'X-Yoti-SDK': SDK_IDENTIFIER,
+      'X-Yoti-SDK-Version': `${SDK_IDENTIFIER}-${yotiPackage.version}`,
+      Accept: ContentType.JSON,
+    };
 
-    // Build full url.
+    if (this.payload) {
+      if (this.payload.getContentType() === ContentType.FORM_DATA) {
+        sdkHeaders['Content-Type'] = `${ContentType.FORM_DATA}; boundary=${this.payload.getRawData().getBoundary()}`;
+      } else {
+        sdkHeaders['Content-Type'] = this.payload.getContentType();
+      }
+    }
+
+    const headers = Object.assign(sdkHeaders, authHeaders, this.headers);
     const url = `${this.baseUrl}${endpointPath}`;
 
     return new YotiRequest(this.method, url, headers, this.payload);
