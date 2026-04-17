@@ -345,7 +345,6 @@ class IDVService {
 
     return new Promise((resolve, reject) => {
       request.execute()
-        // eslint-disable-next-line max-len
         .then((response) => resolve(new SessionTrackedDevicesResponse(response.getParsedResponse())))
         .catch((err) => reject(new IDVError(err)));
     });

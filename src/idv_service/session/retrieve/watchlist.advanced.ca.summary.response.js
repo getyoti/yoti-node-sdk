@@ -6,9 +6,7 @@ const YotiAccountWatchlistCaSearchConfigResponse = require('./yoti.account.watch
 const CustomAccountWatchlistCaSearchConfigResponse = require('./custom.account.watchlist.ca.search.config.response');
 
 const WatchlistAdvancedCaSearchConfigResponseClassesByType = {
-  // eslint-disable-next-line max-len
   [WatchlistAdvancedCaSearchConfigResponse.types.WITH_YOTI_ACCOUNT]: YotiAccountWatchlistCaSearchConfigResponse,
-  // eslint-disable-next-line max-len
   [WatchlistAdvancedCaSearchConfigResponse.types.WITH_CUSTOM_ACCOUNT]: CustomAccountWatchlistCaSearchConfigResponse,
 };
 
@@ -17,7 +15,6 @@ class WatchlistAdvancedCaSummaryResponse extends WatchlistSummaryResponse {
     super(summary);
 
     if (summary.search_config) {
-      // eslint-disable-next-line max-len
       const WatchlistAdvancedCaSearchConfigResponseClass = WatchlistAdvancedCaSearchConfigResponseClassesByType[summary.search_config.type];
       if (WatchlistAdvancedCaSearchConfigResponseClass) {
         /** @private */

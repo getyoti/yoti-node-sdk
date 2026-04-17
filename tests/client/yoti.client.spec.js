@@ -4,9 +4,9 @@ const { v4: uuid } = require('uuid');
 
 const config = require('../../config');
 const yoti = require('../..');
-const AmlAddress = require('../../src/aml_type').AmlAddress;
-const AmlProfile = require('../../src/aml_type').AmlProfile;
-const Payload = require('../../src/request/payload').Payload;
+const { AmlAddress } = require('../../src/aml_type');
+const { AmlProfile } = require('../../src/aml_type');
+const { Payload } = require('../../src/request/payload');
 const ShareUrlResult = require('../../src/dynamic_sharing_service/share.url.result');
 
 const GENERIC_API_PATH = '/api/v1';

@@ -213,7 +213,7 @@ describe.each([
       const deserializedConfig = JSON.parse(JSON.stringify(config));
       expect(deserializedConfig).toEqual(expect.objectContaining(expectedDeserializedConfig));
     });
-    it.only('should throw an error if removeDeceased provided is not expected type', () => {
+    it('should throw an error if removeDeceased provided is not expected type', () => {
       expect(() => {
         configBuilder.withRemoveDeceased(123).build();
       }).toThrow(TypeError);

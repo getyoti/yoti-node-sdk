@@ -76,7 +76,7 @@ describe('AdvancedIdentityProfileSchemeBuilder', () => {
     });
   });
 
-  describe('#withTrustFramework', () => {
+  describe('#withScheme (invalid)', () => {
     it('should error when called with incorrect argument type', () => {
       expect(() => {
         new AdvancedIdentityProfileBuilder()

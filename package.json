@@ -13,7 +13,7 @@
   },
   "types": "./types/index.d.ts",
   "scripts": {
-    "lint": "npx eslint *.js './src/**/*.js' './tests/**/*.spec.js' config/*.js",
+    "lint": "eslint .",
     "test": "jest",
     "audit": "audit-ci --config ./audit-ci.jsonc",
     "types:generate": "tsc index.js --declaration --allowJs --checkJs --resolveJsonModule --emitDeclarationOnly --skipLibCheck --outDir types",
@@ -40,13 +40,13 @@
     "uuid": "9.0.1"
   },
   "devDependencies": {
+    "@eslint/compat": "2.0.5",
+    "@eslint/js": "9.39.4",
     "@types/jest": "30.0.0",
     "audit-ci": "7.1.0",
-    "eslint": "8.57.1",
-    "eslint-config-airbnb-base": "15.0.0",
-    "eslint-plugin-import": "2.32.0",
+    "eslint": "9.39.4",
+    "eslint-config-airbnb-extended": "3.1.0",
     "eslint-plugin-jest": "29.15.2",
-    "eslint-plugin-node": "11.1.0",
     "husky": "9.0.11",
     "jest": "30.3.0",
     "nock": "13.5.6",

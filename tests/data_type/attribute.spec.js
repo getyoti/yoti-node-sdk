@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { types } = require('../../src/proto');
-const AnchorProcessor = require('../../src/yoti_common/anchor.processor').AnchorProcessor;
+const { AnchorProcessor } = require('../../src/yoti_common/anchor.processor');
 
 const { Attribute } = require('../../src/data_type/attribute');
 const { DocumentDetails } = require('../../src/data_type/document.details');
@@ -15,8 +15,8 @@ describe('Attribute', () => {
   const dlSourceAnchor = fs.readFileSync('./tests/sample-data/yoti-common/dl-source-anchor.txt', 'utf8');
   const verifierAnchor = fs.readFileSync('./tests/sample-data/yoti-common/verifier-anchor.txt', 'utf8');
   const unknownAnchor = fs.readFileSync('./tests/sample-data/yoti-common/unknown-anchor.txt', 'utf8');
-  const sources = parseAnchorData(dlSourceAnchor).sources;
-  const verifiers = parseAnchorData(verifierAnchor).verifiers;
+  const { sources } = parseAnchorData(dlSourceAnchor);
+  const { verifiers } = parseAnchorData(verifierAnchor);
   const anchors = {
     sources,
     verifiers,

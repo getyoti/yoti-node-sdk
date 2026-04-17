@@ -1,8 +1,5 @@
 {
     "moderate": true,
     "skip-dev": false,
-    "allowlist": [
-        "GHSA-p5wg-g6qr-c7cg|eslint",
-        "GHSA-p5wg-g6qr-c7cg|eslint-config-airbnb-base>eslint"
-    ]
+    "allowlist": []
 }

@@ -23,7 +23,7 @@ describe('ExactMatchingStrategyResponse', () => {
       expect(exactMatchingStrategyResponse.isExactMatch()).toBe(true);
     });
   });
-  describe('given an instance of the class (exact match is true)', () => {
+  describe('given an instance of the class (exact match is false)', () => {
     let exactMatchingStrategyResponse;
 
     beforeEach(() => {

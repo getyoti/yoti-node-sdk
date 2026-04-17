@@ -9,7 +9,6 @@ const RequestedWatchlistAdvancedCaConfigBuilder = require('./requested.watchlist
  *
  * @class RequestedWatchlistScreeningConfig
  */
-// eslint-disable-next-line max-len
 class RequestedCustomAccountWatchlistAdvancedCaConfigBuilder extends RequestedWatchlistAdvancedCaConfigBuilder {
   /**
    * Sets monitoring used for custom account watchlist advanced ca

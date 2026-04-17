@@ -1,5 +1,5 @@
 const fs = require('fs');
-const AnchorProcessor = require('../../src/yoti_common/anchor.processor').AnchorProcessor;
+const { AnchorProcessor } = require('../../src/yoti_common/anchor.processor');
 const { types } = require('../../src/proto');
 
 function parseAnchorData(anchorString) {

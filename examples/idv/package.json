@@ -7,8 +7,7 @@
     "node": ">=14"
   },
   "scripts": {
-    "start": "node index.js",
-    "lint": "node_modules/.bin/eslint *.js src/*/**.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "body-parser": "1.20.4",
@@ -17,11 +16,5 @@
     "express": "4.22.1",
     "express-session": "1.18.2",
     "yoti": "file:../.."
-  },
-  "devDependencies": {
-    "eslint": "8.57.1",
-    "eslint-config-airbnb-base": "15.0.0",
-    "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-node": "11.1.0"
   }
 }

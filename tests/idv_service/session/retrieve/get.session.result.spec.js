@@ -248,7 +248,7 @@ describe('GetSessionResult', () => {
     });
   });
 
-  describe('#getAuthenticityChecks', () => {
+  describe('#getIdDocumentComparisonChecks', () => {
     it('should return array of AuthenticityCheckResponse', () => {
       const checks = session.getIdDocumentComparisonChecks();
       expect(checks.length).toBe(1);
