@@ -23,6 +23,15 @@ class PageResponse {
       /** @private */
       this.frames = [];
     }
+
+    if (page.extraction_image_ids) {
+      Validation.isArray(page.extraction_image_ids, 'extraction_image_ids');
+      /** @private */
+      this.extractionImageIds = page.extraction_image_ids;
+    } else {
+      /** @private */
+      this.extractionImageIds = [];
+    }
   }
 
   /**
@@ -44,6 +53,13 @@ class PageResponse {
    */
   getFrames() {
     return this.frames;
+  }
+
+  /**
+   * @returns {string[]}
+   */
+  getExtractionImageIds() {
+    return this.extractionImageIds;
   }
 }
 
