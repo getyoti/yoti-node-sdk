@@ -44,4 +44,28 @@ describe('PageResponse', () => {
       });
     });
   });
+
+  describe('#getExtractionImageIds', () => {
+    describe('when extraction image IDs are available', () => {
+      it('should return array of extraction image IDs', () => {
+        const extractionImageIds = [
+          '066a9372-0a52-4fe4-a026-866f8aee6fcb',
+          '9b0c9c0a-ff30-41ed-815b-d95d63271d45',
+        ];
+        pageResponse = new PageResponse({
+          extraction_image_ids: extractionImageIds,
+        });
+        expect(pageResponse.getExtractionImageIds().length).toBe(2);
+        expect(pageResponse.getExtractionImageIds()).toEqual(extractionImageIds);
+      });
+    });
+    describe('when extraction image IDs are not available', () => {
+      it('should return empty array', () => {
+        pageResponse = new PageResponse({});
+        const extractionImageIds = pageResponse.getExtractionImageIds();
+        expect(extractionImageIds).toBeInstanceOf(Array);
+        expect(extractionImageIds.length).toBe(0);
+      });
+    });
+  });
 });
