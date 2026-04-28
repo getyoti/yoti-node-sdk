@@ -1,6 +1,7 @@
 const fs = require('fs');
 const nock = require('nock');
-const { v4: uuid } = require('uuid');
+// eslint-disable-next-line n/no-unsupported-features/node-builtins
+const { randomUUID } = require('crypto');
 
 const config = require('../../config');
 
@@ -24,7 +25,7 @@ const PEM_STRING = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem',
 const SESSION_ID = 'some-session-id';
 const RESOURCE_ID = 'some-resource-id';
 const MEDIA_ID = 'some-media-id';
-const APP_ID = uuid();
+const APP_ID = randomUUID();
 
 const SESSION_CREATE_URI = new RegExp(`^/idverify/v1/sessions\\?sdkId=${APP_ID}`);
 const SESSION_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}\\?sdkId=${APP_ID}`);

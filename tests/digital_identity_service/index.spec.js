@@ -1,6 +1,7 @@
 const fs = require('fs');
 const nock = require('nock');
-const { v4: uuid } = require('uuid');
+// eslint-disable-next-line n/no-unsupported-features/node-builtins
+const { randomUUID } = require('crypto');
 
 jest.mock('../../src/digital_identity_service/receipts/decryption.utils');
 jest.mock('../../src/digital_identity_service/receipts/content.factory');
@@ -19,7 +20,7 @@ const ContentFactory = require('../../src/digital_identity_service/receipts/cont
 
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 
-const APP_ID = uuid();
+const APP_ID = randomUUID();
 
 describe('DigitalIdentityService', () => {
   const apiUrlDomain = 'https://some.api.com';

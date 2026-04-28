@@ -1,6 +1,7 @@
 const fs = require('fs');
 const nock = require('nock');
-const { v4: uuid } = require('uuid');
+// eslint-disable-next-line n/no-unsupported-features/node-builtins
+const { randomUUID } = require('crypto');
 
 const config = require('../../config');
 
@@ -24,7 +25,7 @@ const CreateFaceCaptureResourceResponse = require('../../src/idv_service/session
 const GENERIC_API_PATH = '/idverify/v1';
 
 const PEM_STRING = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
-const APP_ID = uuid();
+const APP_ID = randomUUID();
 const SESSION_ID = 'some-session-id';
 const RESOURCE_ID = 'some-resource-id';
 const MEDIA_ID = 'some-media-id';

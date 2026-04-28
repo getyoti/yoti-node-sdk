@@ -1,6 +1,7 @@
 const nock = require('nock');
 const fs = require('fs');
-const { v4: uuid } = require('uuid');
+// eslint-disable-next-line n/no-unsupported-features/node-builtins
+const { randomUUID } = require('crypto');
 
 const config = require('../../config');
 const yoti = require('../..');
@@ -11,7 +12,7 @@ const ShareUrlResult = require('../../src/dynamic_sharing_service/share.url.resu
 
 const GENERIC_API_PATH = '/api/v1';
 
-const APP_ID = uuid();
+const APP_ID = randomUUID();
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 
 const CONTENT_TYPE_HEADER_NAME = 'Content-Type';

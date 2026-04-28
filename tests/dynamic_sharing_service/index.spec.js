@@ -1,6 +1,7 @@
 const fs = require('fs');
 const nock = require('nock');
-const { v4: uuid } = require('uuid');
+// eslint-disable-next-line n/no-unsupported-features/node-builtins
+const { randomUUID } = require('crypto');
 
 const config = require('../../config');
 const {
@@ -14,7 +15,7 @@ const {
 
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 
-const APP_ID = uuid();
+const APP_ID = randomUUID();
 
 describe('dynamicSharingService', () => {
   describe('#createShareUrl', () => {
