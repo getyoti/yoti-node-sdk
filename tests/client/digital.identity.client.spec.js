@@ -2,10 +2,11 @@ jest.mock('../../src/digital_identity_service/receipts/decryption.utils');
 jest.mock('../../src/digital_identity_service/receipts/content.factory');
 const nock = require('nock');
 const fs = require('fs');
-const { v4: uuid } = require('uuid');
+// eslint-disable-next-line n/no-unsupported-features/node-builtins
+const { randomUUID } = require('crypto');
 
 const config = require('../../config');
-const yoti = require('../../index');
+const yoti = require('../..');
 const DecryptionUtils = require('../../src/digital_identity_service/receipts/decryption.utils');
 const ContentFactory = require('../../src/digital_identity_service/receipts/content.factory');
 const CreateShareSessionResult = require('../../src/digital_identity_service/create.share.session.result');
@@ -16,7 +17,7 @@ const ApplicationContent = require('../../src/digital_identity_service/receipts/
 const UserContent = require('../../src/digital_identity_service/receipts/user.content');
 
 const GENERIC_API_PATH = '/share';
-const APP_ID = uuid();
+const APP_ID = randomUUID();
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 
 const CONTENT_TYPE_HEADER_NAME = 'Content-Type';

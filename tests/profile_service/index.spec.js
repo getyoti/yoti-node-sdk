@@ -25,7 +25,7 @@ describe('profileService', () => {
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .get(new RegExp('^/api/v1/profile/'))
+          .get(/^\/api\/v1\/profile\//)
           .reply(200, response);
         done();
       });
@@ -57,7 +57,7 @@ describe('profileService', () => {
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .get(new RegExp('^/api/v1/profile/'))
+          .get(/^\/api\/v1\/profile\//)
           .reply(200, responseContentNull);
         done();
       });
@@ -87,7 +87,7 @@ describe('profileService', () => {
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .get(new RegExp('^/api/v1/profile/'))
+          .get(/^\/api\/v1\/profile\//)
           .reply(200, responseContentEmptyObj);
         done();
       });
@@ -117,7 +117,7 @@ describe('profileService', () => {
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .get(new RegExp('^/api/v1/profile/'))
+          .get(/^\/api\/v1\/profile\//)
           .reply(200, responseContentNonExistent);
         done();
       });

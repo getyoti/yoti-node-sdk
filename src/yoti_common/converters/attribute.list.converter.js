@@ -1,7 +1,7 @@
 'use strict';
 
 const { AttributeConverter } = require('./attribute.converter');
-const AnchorProcessor = require('../anchor.processor').AnchorProcessor;
+const { AnchorProcessor } = require('../anchor.processor');
 
 module.exports.AttributeListConverter = class AttributeListConverter {
   static convertAttributeList(attributes = []) {

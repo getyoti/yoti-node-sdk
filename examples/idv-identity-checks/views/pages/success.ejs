@@ -501,6 +501,19 @@
                             </div>
                             <% } %>
 
+                            <% if (page.getExtractionImageIds().length > 0) { %>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Extraction Image IDs</h5>
+                                    <ul class="list-group">
+                                        <% page.getExtractionImageIds().forEach(function(imageId) { %>
+                                        <li class="list-group-item"><%= imageId %></li>
+                                        <% }); %>
+                                    </ul>
+                                </div>
+                            </div>
+                            <% } %>
+
                         </div>
                     </div>
 
@@ -842,6 +855,19 @@
                                     </div>
                                     <% } %>
                                 <% }); %>
+                            </div>
+                            <% } %>
+
+                            <% if (page.getExtractionImageIds().length > 0) { %>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Extraction Image IDs</h5>
+                                    <ul class="list-group">
+                                        <% page.getExtractionImageIds().forEach(function(imageId) { %>
+                                        <li class="list-group-item"><%= imageId %></li>
+                                        <% }); %>
+                                    </ul>
+                                </div>
                             </div>
                             <% } %>
 

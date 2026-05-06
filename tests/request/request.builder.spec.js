@@ -14,7 +14,7 @@ const DEFAULT_HEADERS = {
   'X-Yoti-SDK': 'Node',
   'X-Yoti-SDK-Version': `Node-${yotiPackage.version}`,
   Accept: CONTENT_TYPE_JSON,
-  'X-Yoti-Auth-Digest': new RegExp('^[a-zA-Z0-9/+=]{344}$'),
+  'X-Yoti-Auth-Digest': /^[a-zA-Z0-9/+=]{344}$/,
 };
 const SOME_PAYLOAD = new Payload({ some: 'data' });
 

@@ -48,7 +48,7 @@ class AnchorProcessor {
       const certificatesList = anchors[i].originServerCerts;
       const signedTimestamp = this.processSignedTimeStamp(anchors[i].signedTimeStamp);
       const originServerCerts = AnchorProcessor.convertCertsListToX509(certificatesList);
-      const subType = anchors[i].subType;
+      const { subType } = anchors[i];
 
       const yotiAnchor = this.getAnchorFromCerts(
         certificatesList,
@@ -118,7 +118,7 @@ class AnchorProcessor {
     const certificatesList = anchorObj.originServerCerts;
     const yotiSignedTimestamp = this.processSignedTimeStamp(anchorObj.signedTimeStamp);
     const serverX509Certs = AnchorProcessor.convertCertsListToX509(anchorObj.originServerCerts);
-    const subType = anchorObj.subType;
+    const { subType } = anchorObj;
 
     for (let j = 0; j < certificatesList.length; j += 1) {
       const certAnchors = this.getAnchorsByCertificate(
@@ -249,7 +249,6 @@ class AnchorProcessor {
     let timestamp = new YotiDate(0);
 
     if (signedTimestampBuffer) {
-      // eslint-disable-next-line max-len
       const signedTimestamp = messages.decodeSignedTimeStamp(signedTimestampBuffer);
       version = signedTimestamp.version;
       timestamp = new YotiDate(Number(signedTimestamp.timestamp.toString()));

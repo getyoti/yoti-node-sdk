@@ -2,7 +2,7 @@
  * Reloads yoti config module with current environment variables.
  */
 function getYotiConfig() {
-  // eslint-disable-next-line global-require
+  // eslint-disable-next-line n/global-require
   return require('../../config').yoti;
 }
 

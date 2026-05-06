@@ -13,7 +13,6 @@ class IdentityProfileReportResponse {
     Validation.isArray(report.schemes_compliance, 'schemes_compliance');
     /** @private {IdentityProfileReportSchemesComplianceResponse[]} */
     this.schemesCompliance = report.schemes_compliance
-      // eslint-disable-next-line max-len
       .map((schemeCompliance) => new IdentityProfileReportSchemesComplianceResponse(schemeCompliance));
 
     Validation.isPlainObject(report.media, 'media');

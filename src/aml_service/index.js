@@ -1,7 +1,7 @@
 'use strict';
 
 const AmlResultClass = require('../request/aml.result').AmlResult;
-const Payload = require('../request/payload').Payload;
+const { Payload } = require('../request/payload');
 const constants = require('../yoti_common/constants');
 const config = require('../../config');
 const Validation = require('../yoti_common/validation');

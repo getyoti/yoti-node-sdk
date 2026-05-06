@@ -54,7 +54,6 @@ class WatchlistAdvancedCaSearchConfigResponse extends WatchlistSearchConfigRespo
     }
 
     if (searchConfig.matching_strategy) {
-      // eslint-disable-next-line max-len
       const CaMatchingStrategyResponseClass = CaMatchingStrategyResponseClassesByType[searchConfig.matching_strategy.type];
       if (CaMatchingStrategyResponseClass) {
         /** @private */

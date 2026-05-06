@@ -33,8 +33,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  examples:
-    name: Lint Examples
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'push' ||
@@ -45,7 +45,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '20'
 
       - run: npm install --ignore-scripts
 
@@ -54,15 +54,22 @@ jobs:
       - name: print versions
         run: echo npm $(npm -v), node $(node -v)
 
-      - run: pushd ./examples/aml-check && npm install --ignore-scripts && npm update && npm run lint && popd
+      - run: npm install --ignore-scripts -p ./examples/aml-check
+      - run: npm install --ignore-scripts -p ./examples/digital-identity
+      - run: npm install --ignore-scripts -p ./examples/idv
+      - run: npm install --ignore-scripts -p ./examples/idv-identity-checks
+      - run: npm install --ignore-scripts -p ./examples/profile
+      - run: npm install --ignore-scripts -p ./examples/profile-identity-checks
 
-      - run: pushd ./examples/idv && npm install --ignore-scripts && npm update && npm run lint && popd
+      - run: npm run lint
 
-      - run: pushd ./examples/idv-identity-checks && npm install --ignore-scripts && npm update && npm run lint && popd
-
-      - run: pushd ./examples/profile && npm install --ignore-scripts && npm update && npm run lint && popd
-
-      - run: pushd ./examples/profile-identity-checks && npm install --ignore-scripts && npm update && npm run lint && popd
+#      - run: pushd ./examples/idv && npm install --ignore-scripts && npm update && npm run lint && popd
+#
+#      - run: pushd ./examples/idv-identity-checks && npm install --ignore-scripts && npm update && npm run lint && popd
+#
+#      - run: pushd ./examples/profile && npm install --ignore-scripts && npm update && npm run lint && popd
+#
+#      - run: pushd ./examples/profile-identity-checks && npm install --ignore-scripts && npm update && npm run lint && popd
 
   node-compatibility:
     name: Node ${{ matrix.node-version }}
@@ -87,6 +94,9 @@ jobs:
       - run: npm install --ignore-scripts
 
       - run: npm update
+
+      # Jest 30 does not support Node 14/16
+      - run: npm install --ignore-scripts jest@29
 
       - run: npm run test
 

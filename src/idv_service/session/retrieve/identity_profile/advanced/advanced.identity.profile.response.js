@@ -23,7 +23,6 @@ class AdvancedIdentityProfileResponse {
     if (response.identity_profile_report) {
       Validation.isPlainObject(response.identity_profile_report, 'identity_profile_report');
       /** @private {AdvancedIdentityProfileReportResponse} */
-      // eslint-disable-next-line max-len
       this.identityProfileReport = new AdvancedIdentityProfileReportResponse(response.identity_profile_report);
     }
   }

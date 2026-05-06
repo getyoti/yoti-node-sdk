@@ -3,9 +3,9 @@ const fs = require('fs');
 
 const config = require('../../config');
 const { AmlService, performAmlCheck } = require('../../src/aml_service');
-const AmlAddress = require('../../src/aml_type').AmlAddress;
-const AmlProfile = require('../../src/aml_type').AmlProfile;
-const Payload = require('../../src/request/payload').Payload;
+const { AmlAddress } = require('../../src/aml_type');
+const { AmlProfile } = require('../../src/aml_type');
+const { Payload } = require('../../src/request/payload');
 
 const privateKeyFile = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem', 'utf8');
 
@@ -25,7 +25,7 @@ describe('amlService', () => {
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadData())
+          .post(/^\/api\/v1\/aml-check?/, amlPayload.getPayloadData())
           .reply(200, amlCheckResult);
         done();
       });
@@ -63,7 +63,7 @@ describe('amlService', () => {
 
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadData())
+          .post(/^\/api\/v1\/aml-check?/, amlPayload.getPayloadData())
           .reply(400, amlCheckError);
 
         done();
@@ -82,7 +82,7 @@ describe('amlService', () => {
     describe('with an invalid JSON response', () => {
       beforeEach((done) => {
         nock(`${config.yoti.connectApi}`)
-          .post(new RegExp('^/api/v1/aml-check?'), amlPayload.getPayloadData())
+          .post(/^\/api\/v1\/aml-check?/, amlPayload.getPayloadData())
           .reply(200, '');
 
         done();

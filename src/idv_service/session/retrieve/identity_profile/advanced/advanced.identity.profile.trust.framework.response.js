@@ -12,7 +12,6 @@ class AdvancedIdentityProfileTrustFrameworkResponse {
     Validation.isArray(trustFrameworkCompliance.schemes_compliance, 'schemes_compliance');
     /** @private {AdvancedIdentityProfileSchemeComplianceResponse[]} */
     this.schemesCompliance = trustFrameworkCompliance.schemes_compliance
-    // eslint-disable-next-line max-len
       .map((schemeCompliance) => new AdvancedIdentityProfileSchemeComplianceResponse(schemeCompliance));
   }
 

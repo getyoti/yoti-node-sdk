@@ -87,7 +87,6 @@ function decryptProfileContent(profileContent, wrappedReceiptKey, pem) {
  *
  * @returns {boolean}
  */
-// eslint-disable-next-line max-len
 module.exports.requestCanSendPayload = (httpMethod) => methodsThatIncludePayload.indexOf(httpMethod) !== -1;
 
 /**

@@ -72,16 +72,16 @@ describe('AdvancedIdentityProfileSchemeBuilder', () => {
       expect(() => {
         new AdvancedIdentityProfileBuilder()
           .withTrustFramework(123);
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
   });
 
-  describe('#withTrustFramework', () => {
+  describe('#withScheme (invalid)', () => {
     it('should error when called with incorrect argument type', () => {
       expect(() => {
         new AdvancedIdentityProfileBuilder()
           .withScheme({ not: 'a-scheme' });
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
   });
 });

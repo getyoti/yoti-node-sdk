@@ -1,7 +1,9 @@
 'use strict';
 
 const fs = require('fs');
-const { v4: uuid } = require('uuid');
+// Minimum supported version is Node 14.17.0, which has the "randomUUID" method in the crypto module
+// eslint-disable-next-line n/no-unsupported-features/node-builtins
+const { randomUUID } = require('crypto');
 
 const yotiCommon = require('../yoti_common');
 const { YotiRequest } = require('./request');
@@ -182,7 +184,7 @@ class RequestBuilder {
     const queryString = buildQueryString(Object.assign(
       this.queryParams,
       {
-        nonce: uuid(),
+        nonce: randomUUID(),
         timestamp: Date.now(),
       }
     ));

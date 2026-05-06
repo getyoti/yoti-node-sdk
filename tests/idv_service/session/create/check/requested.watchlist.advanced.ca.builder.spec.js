@@ -44,21 +44,21 @@ describe('RequestedFuzzyMatchingStrategyBuilder', () => {
       new RequestedFuzzyMatchingStrategyBuilder()
         .withFuzziness('abc')
         .build();
-    }).toThrowError(TypeError);
+    }).toThrow(TypeError);
   });
   it('should throw an RangeError when the fuzziness is not in range, too high', () => {
     expect(() => {
       new RequestedFuzzyMatchingStrategyBuilder()
         .withFuzziness(5)
         .build();
-    }).toThrowError(RangeError);
+    }).toThrow(RangeError);
   });
   it('should throw an RangeError when the fuzziness is not in range, too low', () => {
     expect(() => {
       new RequestedFuzzyMatchingStrategyBuilder()
         .withFuzziness(-1)
         .build();
-    }).toThrowError(RangeError);
+    }).toThrow(RangeError);
   });
 });
 
@@ -87,21 +87,21 @@ describe('RequestedTypeListSourcesBuilder', () => {
       new RequestedTypeListSourcesBuilder()
         .withTypes([12, 'thing'])
         .build();
-    }).toThrowError(TypeError);
+    }).toThrow(TypeError);
   });
   it('should throw an TypeError when the types is not an array', () => {
     expect(() => {
       new RequestedTypeListSourcesBuilder()
         .withTypes('thing')
         .build();
-    }).toThrowError(TypeError);
+    }).toThrow(TypeError);
   });
   it('should throw an TypeError when the types null', () => {
     expect(() => {
       new RequestedTypeListSourcesBuilder()
         .withTypes(null)
         .build();
-    }).toThrowError(TypeError);
+    }).toThrow(TypeError);
   });
 });
 
@@ -121,20 +121,20 @@ describe('RequestedSearchProfileSourcesBuilder', () => {
       new RequestedSearchProfileSourcesBuilder()
         .withSearchProfile(12)
         .build();
-    }).toThrowError(TypeError);
+    }).toThrow(TypeError);
   });
   it('should throw an TypeError when the searchProfile is an empty string', () => {
     expect(() => {
       new RequestedSearchProfileSourcesBuilder('')
         .withSearchProfile()
         .build();
-    }).toThrowError(TypeError);
+    }).toThrow(TypeError);
   });
   it('should throw an TypeError when the searchProfile is not defined', () => {
     expect(() => {
       new RequestedSearchProfileSourcesBuilder()
         .build();
-    }).toThrowError(TypeError);
+    }).toThrow(TypeError);
   });
 });
 
@@ -216,7 +216,7 @@ describe.each([
     it('should throw an error if removeDeceased provided is not expected type', () => {
       expect(() => {
         configBuilder.withRemoveDeceased(123).build();
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
     it('should build with specific shareUrl provided, and serialize correctly', () => {
       const expectedDeserializedConfig = {
@@ -239,7 +239,7 @@ describe.each([
     it('should throw an error if shareUrl provided is not expected type', () => {
       expect(() => {
         configBuilder.withShareUrl(123).build();
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
     it('should build with search profile sources, and serialize correctly', () => {
       const expectedDeserializedConfig = {
@@ -264,7 +264,7 @@ describe.each([
     it('should throw an error if sources provided are not expected type', () => {
       expect(() => {
         configBuilder.withSources({ name: 'bad source' }).build();
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
     it('should build with specific exact match strategy provided, and serialize correctly', () => {
       const expectedDeserializedConfig = {
@@ -309,7 +309,7 @@ describe.each([
     it('should throw an error if match strategy provided is not expected type', () => {
       expect(() => {
         configBuilder.withMatchingStrategy('super strategy').build();
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
     it('should build with specific multiple modifications, and serialize correctly', () => {
       const expectedDeserializedConfig = {
@@ -355,14 +355,14 @@ describe('The config builder', () => {
           configBuilder
             .withClientRef('some-ref')
             .build();
-        }).toThrowError(TypeError);
+        }).toThrow(TypeError);
       });
       it('should throw an Error when clientRef is missing', () => {
         expect(() => {
           configBuilder
             .withApiKey('some-key')
             .build();
-        }).toThrowError(TypeError);
+        }).toThrow(TypeError);
       });
       it('should builds when both apiKey and clientRef are set', () => {
         expect(() => {
@@ -370,7 +370,7 @@ describe('The config builder', () => {
             .withApiKey('some-key')
             .withClientRef('some-ref')
             .build();
-        }).not.toThrowError(TypeError);
+        }).not.toThrow(TypeError);
       });
     });
     describe('when specifying properties', () => {
@@ -403,7 +403,7 @@ describe('The config builder', () => {
       it('should throw an Error when apiKey is not a string', () => {
         expect(() => {
           configBuilder.withApiKey(132).build();
-        }).toThrowError(TypeError);
+        }).toThrow(TypeError);
       });
       it('should throw an Error when apiKey is an empty string', () => {
         expect(() => {
@@ -428,7 +428,7 @@ describe('The config builder', () => {
       it('should throw an Error when monitoring is not a boolean', () => {
         expect(() => {
           configBuilder.withMonitoring('something').build();
-        }).toThrowError(TypeError);
+        }).toThrow(TypeError);
       });
 
       it('should build with specified withTags, and serialize correctly', () => {
@@ -452,12 +452,12 @@ describe('The config builder', () => {
       it('should throw an Error tags is not a plain object', () => {
         expect(() => {
           configBuilder.withTags(132).build();
-        }).toThrowError(TypeError);
+        }).toThrow(TypeError);
       });
       it('should throw an Error tags has nil values', () => {
         expect(() => {
           configBuilder.withTags({ tagA: null, tagB: 'something' }).build();
-        }).toThrowError(TypeError);
+        }).toThrow(TypeError);
       });
 
       it('should build with specified withClientRef, and serialize correctly', () => {
@@ -477,7 +477,7 @@ describe('The config builder', () => {
       it('should throw an Error when clientRef is not a string', () => {
         expect(() => {
           configBuilder.withClientRef(132).build();
-        }).toThrowError(TypeError);
+        }).toThrow(TypeError);
       });
       it('should throw an Error when clientRef is an empty string', () => {
         expect(() => {
@@ -559,7 +559,7 @@ describe('RequestedWatchlistAdvancedCaCheckBuilder', () => {
         new RequestedWatchlistAdvancedCaCheckBuilder()
           .withConfig(config)
           .build();
-      }).toThrowError(TypeError);
+      }).toThrow(TypeError);
     });
   });
 });

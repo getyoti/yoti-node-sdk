@@ -1,6 +1,7 @@
 const fs = require('fs');
 const nock = require('nock');
-const { v4: uuid } = require('uuid');
+// eslint-disable-next-line n/no-unsupported-features/node-builtins
+const { randomUUID } = require('crypto');
 
 const config = require('../../config');
 
@@ -24,7 +25,7 @@ const PEM_STRING = fs.readFileSync('./tests/sample-data/keys/node-sdk-test.pem',
 const SESSION_ID = 'some-session-id';
 const RESOURCE_ID = 'some-resource-id';
 const MEDIA_ID = 'some-media-id';
-const APP_ID = uuid();
+const APP_ID = randomUUID();
 
 const SESSION_CREATE_URI = new RegExp(`^/idverify/v1/sessions\\?sdkId=${APP_ID}`);
 const SESSION_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}\\?sdkId=${APP_ID}`);
@@ -33,7 +34,7 @@ const SESSION_TRACKED_DEVICES_URI = new RegExp(`^/idverify/v1/sessions/${SESSION
 const FACE_CAPTURE_CREATE_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture`);
 const UPLOAD_FACE_CAPTURE_IMAGE_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture/${RESOURCE_ID}/image`);
 const MEDIA_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/media/${MEDIA_ID}/content\\?sdkId=${APP_ID}`);
-const SUPPORTED_DOCUMENTS_URI = new RegExp('^/idverify/v1/supported-documents');
+const SUPPORTED_DOCUMENTS_URI = /^\/idverify\/v1\/supported-documents/;
 const SOME_CODE = 'SOME_CODE';
 const SOME_MESSAGE = 'SOME_MESSAGE';
 const SOME_ERROR_RESPONSE = JSON.stringify({ code: SOME_CODE, message: SOME_MESSAGE });

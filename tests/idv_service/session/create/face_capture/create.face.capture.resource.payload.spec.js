@@ -7,7 +7,7 @@ describe('CreateFaceCaptureResourcePayload', () => {
     expect(() => {
       // eslint-disable-next-line no-unused-vars
       const payload = new CreateFaceCaptureResourcePayload();
-    }).toThrowError(TypeError);
+    }).toThrow(TypeError);
   });
 
   it('should throw an TypeError when the requirementId parameter is not a string', () => {
@@ -16,7 +16,7 @@ describe('CreateFaceCaptureResourcePayload', () => {
       const payload = new CreateFaceCaptureResourcePayload(
         123
       );
-    }).toThrowError(TypeError);
+    }).toThrow(TypeError);
   });
 
   it('should serialize to JSON without optional parameters', () => {
