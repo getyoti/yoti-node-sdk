@@ -35,7 +35,7 @@
   "dependencies": {
     "form-data": "4.0.4",
     "node-forge": "1.4.0",
-    "protobufjs": "8.0.1",
+    "protobufjs": "8.0.2",
     "superagent": "10.3.0"
   },
   "devDependencies": {
