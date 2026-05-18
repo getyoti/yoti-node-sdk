@@ -1,7 +1,9 @@
 'use strict';
 
 const jwt = require('jsonwebtoken');
-const { v4: uuid } = require('uuid');
+// Minimum supported version is Node 14.17.0, which has the "randomUUID" method in the crypto module
+// eslint-disable-next-line n/no-unsupported-features/node-builtins
+const { randomUUID } = require('crypto');
 const superagent = require('superagent');
 const Validation = require('../yoti_common/validation');
 const config = require('../../config');
@@ -71,7 +73,7 @@ class AuthTokenGenerator {
         aud: this.authUrl,
         iat: now,
         exp: now + 300,
-        jti: uuid(),
+        jti: randomUUID(),
       },
       this.pem.toString(),
       { algorithm: 'PS384' }

@@ -1,6 +1,8 @@
 'use strict';
 
-const { v4: uuid } = require('uuid');
+// Minimum supported version is Node 14.17.0, which has the "randomUUID" method in the crypto module
+// eslint-disable-next-line n/no-unsupported-features/node-builtins
+const { randomUUID } = require('crypto');
 const yotiCommon = require('../yoti_common');
 const Validation = require('../yoti_common/validation');
 
@@ -40,7 +42,7 @@ class SignedRequestStrategy {
   // eslint-disable-next-line class-methods-use-this
   createQueryParams() {
     return {
-      nonce: uuid(),
+      nonce: randomUUID(),
       timestamp: Date.now(),
     };
   }
