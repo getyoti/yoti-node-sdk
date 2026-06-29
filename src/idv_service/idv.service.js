@@ -112,6 +112,7 @@ class IDVService {
       request.execute()
         .then((response) => {
           try {
+            console.log(JSON.stringify(response.getParsedResponse()));
             return resolve(new GetSessionResult(response.getParsedResponse()));
           } catch (err) {
             return reject(new IDVError(err));
