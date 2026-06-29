@@ -33,7 +33,7 @@
     "coverageDirectory": "./coverage"
   },
   "dependencies": {
-    "form-data": "4.0.5",
+    "form-data": "4.0.6",
     "node-forge": "1.4.0",
     "protobufjs": "8.6.5",
     "superagent": "10.3.0"
