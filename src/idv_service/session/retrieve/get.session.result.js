@@ -18,6 +18,7 @@ const IdentityProfileResponse = require('./identity_profile/identity.profile.res
 const AdvancedIdentityProfileResponse = require('./identity_profile/advanced/advanced.identity.profile.response');
 const IDVConstants = require('../../idv.constants');
 const { YotiDate } = require('../../../data_type/date');
+const DigitalIdShareResponse = require('./digital.id.share.response');
 
 class GetSessionResult {
   constructor(response) {
@@ -100,6 +101,12 @@ class GetSessionResult {
       Validation.isPlainObject(response.advanced_identity_profile, 'advanced_identity_profile');
       /** @private */
       this.advancedIdentityProfile = new AdvancedIdentityProfileResponse(response.advanced_identity_profile);
+    }
+
+    if (response.digital_id_shares) {
+      Validation.isArray(response.digital_id_shares, 'digital_id_shares');
+      /** @private */
+      this.digitalIdShares = response.digital_id_shares.map((didShareResponseData) => new DigitalIdShareResponse(didShareResponseData));
     }
   }
 
@@ -264,6 +271,13 @@ class GetSessionResult {
    */
   getAdvancedIdentityProfile() {
     return this.advancedIdentityProfile;
+  }
+
+  /**
+   * @returns {DigitalIdShareResponse}
+   */
+  getDigitalIdShares() {
+    return this.digitalIdShares;
   }
 }
 
