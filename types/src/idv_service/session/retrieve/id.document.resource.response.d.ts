@@ -5,6 +5,8 @@ declare class IdDocumentResourceResponse extends ResourceResponse {
     /** @private */
     private issuingCountry;
     /** @private */
+    private provider;
+    /** @private */
     private pages;
     /** @private */
     private documentFields;
@@ -20,6 +22,10 @@ declare class IdDocumentResourceResponse extends ResourceResponse {
      * @returns {string}
      */
     getIssuingCountry(): string;
+    /**
+     * @returns {string}
+     */
+    getProvider(): string;
     /**
      * @returns {PageResponse[]}
      */

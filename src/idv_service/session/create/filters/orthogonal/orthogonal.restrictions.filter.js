@@ -6,6 +6,10 @@ const IDVConstants = require('../../../../idv.constants');
 const TypeRestriction = require('./type.restriction');
 const CountryRestriction = require('./country.restriction');
 
+/**
+ * @typedef {import('./../allowed.provider')} AllowedProvider
+ */
+
 class OrthogonalRestrictionsFilter extends DocumentFilter {
   /**
    * @param {CountryRestriction} countryRestriction

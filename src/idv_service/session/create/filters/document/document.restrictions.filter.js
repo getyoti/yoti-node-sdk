@@ -5,6 +5,10 @@ const DocumentFilter = require('../document.filter');
 const DocumentRestriction = require('./document.restriction');
 const IDVConstants = require('../../../../idv.constants');
 
+/**
+ * @typedef {import('./../allowed.provider')} AllowedProvider
+ */
+
 class DocumentRestrictionsFilter extends DocumentFilter {
   /**
    * @param {string} inclusion
