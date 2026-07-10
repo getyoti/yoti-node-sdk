@@ -14,6 +14,7 @@ const ThirdPartyIdentityFraud1CheckResponse = require('../../../../src/idv_servi
 const FaceComparisonCheckResponse = require('../../../../src/idv_service/session/retrieve/face.comparison.check.response');
 const IdentityProfileResponse = require('../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.response');
 const AdvancedIdentityProfileResponse = require('../../../../src/idv_service/session/retrieve/identity_profile/advanced/advanced.identity.profile.response');
+const DigitalIdShareResponse = require('../../../../src/idv_service/session/retrieve/digital.id.share.response');
 const { YotiDate } = require('../../../..');
 
 const ID_DOCUMENT_AUTHENTICITY = 'ID_DOCUMENT_AUTHENTICITY';
@@ -177,6 +178,17 @@ describe('GetSessionResult', () => {
           media: {},
         },
       },
+      digital_id_shares: [
+        {
+          id: 'fffe3bcf-ccd4-4704-ac85-3cdae5bd9eaf',
+          document_type: 'EPHIL_ID',
+          issuing_country: 'PHL',
+          provider: 'EPHIL_ID_QR',
+          created_at: '2026-06-29T10:00:50Z',
+          last_updated: '2026-06-29T10:01:01Z',
+          resource_id: 'a159072f-22b9-4fb0-8098-aa5bc8eb7615',
+        },
+      ],
     });
   });
 
@@ -393,6 +405,15 @@ describe('GetSessionResult', () => {
       const advancedIdentityProfile = session.getAdvancedIdentityProfile();
 
       expect(advancedIdentityProfile).toBeInstanceOf(AdvancedIdentityProfileResponse);
+    });
+  });
+
+  describe('#getDigitalIdShares', () => {
+    it('should return list of DigitalIdShareResponse', () => {
+      const digitalIdShares = session.getDigitalIdShares();
+
+      expect(digitalIdShares).toHaveLength(1);
+      expect(digitalIdShares[0]).toBeInstanceOf(DigitalIdShareResponse);
     });
   });
 });

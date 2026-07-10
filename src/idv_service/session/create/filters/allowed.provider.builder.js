@@ -7,6 +7,7 @@ class AllowedProviderBuilder {
   withName(provider) {
     Validation.isString(provider, 'provider');
     this.name = provider;
+    return this;
   }
 
   /**

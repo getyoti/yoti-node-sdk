@@ -27,6 +27,7 @@ describe('IdDocumentResourceResponse', () => {
           type: 'SOME_UNKNOWN_TYPE',
         },
       ],
+      provider: 'some_provider',
     });
   });
 
@@ -45,7 +46,7 @@ describe('IdDocumentResourceResponse', () => {
   describe('#getPages', () => {
     it('should return array of page info', () => {
       const pages = documentResourceResponse.getPages();
-      expect(pages.length).toBe(1);
+      expect(pages).toHaveLength(1);
       expect(pages[0]).toBeInstanceOf(PageResponse);
     });
   });
@@ -86,6 +87,13 @@ describe('IdDocumentResourceResponse', () => {
       tasks.forEach((task) => {
         expect(task).toBeInstanceOf(TextExtractionTaskResponse);
       });
+    });
+  });
+
+  describe('#getProvider', () => {
+    it('should return the provider', () => {
+      const provider = documentResourceResponse.getProvider();
+      expect(provider).toBe('some_provider');
     });
   });
 });

@@ -16,13 +16,38 @@ declare class DigitalIdShareResponse {
     /** @private */
     private resourceId;
     error: DigitalIdShareErrorResponse;
-    getId(): any;
-    getDocumentType(): any;
-    getIssuingCountry(): any;
-    getProvider(): any;
-    getCreatedAt(): any;
-    getLastUpdated(): any;
-    getResourceId(): any;
-    getError(): DigitalIdShareErrorResponse;
+    /**
+     * @returns {string}
+     */
+    getId(): string;
+    /**
+     * @returns {string}
+     */
+    getDocumentType(): string;
+    /**
+     * @returns {string}
+     */
+    getIssuingCountry(): string;
+    /**
+     * @returns {string}
+     */
+    getProvider(): string;
+    /**
+     * @returns {YotiDate}
+     */
+    getCreatedAt(): YotiDate;
+    /**
+     * @returns {YotiDate}
+     */
+    getLastUpdated(): YotiDate;
+    /**
+     * @returns {string}
+     */
+    getResourceId(): string;
+    /**
+     * @returns {DigitalIdShareErrorResponse|undefined}
+     */
+    getError(): DigitalIdShareErrorResponse | undefined;
 }
 import DigitalIdShareErrorResponse = require("./digital.id.share.error.response");
+import { YotiDate } from "../../../data_type/date";
