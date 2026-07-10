@@ -65,14 +65,6 @@ jobs:
 
       - run: npm run lint
 
-#      - run: pushd ./examples/idv && npm install --ignore-scripts && npm update && npm run lint && popd
-#
-#      - run: pushd ./examples/idv-identity-checks && npm install --ignore-scripts && npm update && npm run lint && popd
-#
-#      - run: pushd ./examples/profile && npm install --ignore-scripts && npm update && npm run lint && popd
-#
-#      - run: pushd ./examples/profile-identity-checks && npm install --ignore-scripts && npm update && npm run lint && popd
-
   node-compatibility:
     name: Node ${{ matrix.node-version }}
     runs-on: ubuntu-latest
