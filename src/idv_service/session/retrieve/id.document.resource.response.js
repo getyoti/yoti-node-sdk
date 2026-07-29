@@ -20,6 +20,10 @@ class IdDocumentResourceResponse extends ResourceResponse {
     /** @private */
     this.issuingCountry = resource.issuing_country;
 
+    Validation.isString(resource.provider, 'provider', true);
+    /** @private */
+    this.provider = resource.provider;
+
     if (resource.pages) {
       Validation.isArray(resource.pages, 'pages');
       /** @private */
@@ -59,6 +63,13 @@ class IdDocumentResourceResponse extends ResourceResponse {
    */
   getIssuingCountry() {
     return this.issuingCountry;
+  }
+
+  /**
+   * @returns {string}
+   */
+  getProvider() {
+    return this.provider;
   }
 
   /**

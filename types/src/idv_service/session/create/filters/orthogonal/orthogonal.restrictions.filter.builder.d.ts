@@ -1,4 +1,7 @@
 export = OrthogonalRestrictionsFilterBuilder;
+/**
+ * @typedef {import('./../allowed.provider')} AllowedProvider
+ */
 declare class OrthogonalRestrictionsFilterBuilder {
     /**
      * @param {string[]} countryCodes
@@ -41,10 +44,28 @@ declare class OrthogonalRestrictionsFilterBuilder {
     withAllowNonLatinDocuments(allowNonLatinDocuments: boolean): this;
     allowNonLatinDocuments: boolean;
     /**
+     * @param {Boolean} allowDigitalIds
+     *
+     * @returns {this}
+     */
+    withAllowDigitalIds(allowDigitalIds: boolean): this;
+    allowDigitalIds: boolean;
+    /**
+     * @param {AllowedProvider[]} allowedProviders
+     *
+     * @returns {this}
+     */
+    withAllowedProviders(allowedProviders: AllowedProvider[]): this;
+    allowedProviders: import("./../allowed.provider")[];
+    /**
      * @returns {OrthogonalRestrictionsFilter}
      */
     build(): OrthogonalRestrictionsFilter;
 }
+declare namespace OrthogonalRestrictionsFilterBuilder {
+    export { AllowedProvider };
+}
 import CountryRestriction = require("./country.restriction");
 import TypeRestriction = require("./type.restriction");
 import OrthogonalRestrictionsFilter = require("./orthogonal.restrictions.filter");
+type AllowedProvider = import('./../allowed.provider');

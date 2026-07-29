@@ -5,6 +5,10 @@ const DocumentRestriction = require('./document.restriction');
 const Validation = require('../../../../../yoti_common/validation');
 const IDVConstants = require('../../../../idv.constants');
 
+/**
+ * @typedef {import('./../allowed.provider')} AllowedProvider
+ */
+
 class DocumentRestrictionsFilterBuilder {
   constructor() {
     /** @private */
@@ -60,6 +64,26 @@ class DocumentRestrictionsFilterBuilder {
   }
 
   /**
+   * @param {Boolean} allowDigitalIds
+   *
+   * @returns {this}
+   */
+  withAllowDigitalIds(allowDigitalIds) {
+    this.allowDigitalIds = allowDigitalIds;
+    return this;
+  }
+
+  /**
+   * @param {AllowedProvider[]} allowedProviders
+   *
+   * @returns {this}
+   */
+  withAllowedProviders(allowedProviders) {
+    this.allowedProviders = allowedProviders;
+    return this;
+  }
+
+  /**
    * @returns {DocumentRestrictionsFilter}
    */
   build() {
@@ -67,7 +91,9 @@ class DocumentRestrictionsFilterBuilder {
       this.inclusion,
       this.documents,
       this.allowExpiredDocuments,
-      this.allowNonLatinDocuments
+      this.allowNonLatinDocuments,
+      this.allowDigitalIds,
+      this.allowedProviders
     );
   }
 }

@@ -1,6 +1,7 @@
 const {
   DocumentRestrictionsFilterBuilder,
   DocumentRestrictionBuilder,
+  AllowedProviderBuilder,
 } = require('../../../../../..');
 
 const SOME_DOCUMENT_TYPE = 'some-document-type';
@@ -128,6 +129,39 @@ describe('DocumentRestrictionsFilterBuilder', () => {
         inclusion: 'WHITELIST',
         documents: [],
         allow_non_latin_documents: true,
+      }));
+  });
+
+  it('should build DocumentRestrictionsFilter with allowed Digital IDs', () => {
+    const documentRestrictionsFilter = new DocumentRestrictionsFilterBuilder()
+      .forWhitelist()
+      .withAllowDigitalIds(true)
+      .build();
+
+    expect(JSON.stringify(documentRestrictionsFilter))
+      .toBe(JSON.stringify({
+        type: 'DOCUMENT_RESTRICTIONS',
+        inclusion: 'WHITELIST',
+        documents: [],
+        allow_digital_ids: true,
+      }));
+  });
+
+  it('should build DocumentRestrictionsFilter with allowed providers', () => {
+    const documentRestrictionsFilter = new DocumentRestrictionsFilterBuilder()
+      .forWhitelist()
+      .withAllowedProviders([
+        new AllowedProviderBuilder().withName('provider1').build(),
+        new AllowedProviderBuilder().withName('provider2').build(),
+      ])
+      .build();
+
+    expect(JSON.stringify(documentRestrictionsFilter))
+      .toBe(JSON.stringify({
+        type: 'DOCUMENT_RESTRICTIONS',
+        inclusion: 'WHITELIST',
+        documents: [],
+        allowed_providers: [{ name: 'provider1' }, { name: 'provider2' }],
       }));
   });
 });

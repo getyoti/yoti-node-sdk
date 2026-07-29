@@ -5,6 +5,10 @@ const TypeRestriction = require('./type.restriction');
 const CountryRestriction = require('./country.restriction');
 const IDVConstants = require('../../../../idv.constants');
 
+/**
+ * @typedef {import('./../allowed.provider')} AllowedProvider
+ */
+
 class OrthogonalRestrictionsFilterBuilder {
   /**
    * @param {string[]} countryCodes
@@ -79,6 +83,26 @@ class OrthogonalRestrictionsFilterBuilder {
   }
 
   /**
+   * @param {Boolean} allowDigitalIds
+   *
+   * @returns {this}
+   */
+  withAllowDigitalIds(allowDigitalIds) {
+    this.allowDigitalIds = allowDigitalIds;
+    return this;
+  }
+
+  /**
+   * @param {AllowedProvider[]} allowedProviders
+   *
+   * @returns {this}
+   */
+  withAllowedProviders(allowedProviders) {
+    this.allowedProviders = allowedProviders;
+    return this;
+  }
+
+  /**
    * @returns {OrthogonalRestrictionsFilter}
    */
   build() {
@@ -86,7 +110,9 @@ class OrthogonalRestrictionsFilterBuilder {
       this.countryRestriction,
       this.typeRestriction,
       this.allowExpiredDocuments,
-      this.allowNonLatinDocuments
+      this.allowNonLatinDocuments,
+      this.allowDigitalIds,
+      this.allowedProviders
     );
   }
 }

@@ -14,6 +14,7 @@ const ThirdPartyIdentityFraud1CheckResponse = require('../../../../src/idv_servi
 const FaceComparisonCheckResponse = require('../../../../src/idv_service/session/retrieve/face.comparison.check.response');
 const IdentityProfileResponse = require('../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.response');
 const AdvancedIdentityProfileResponse = require('../../../../src/idv_service/session/retrieve/identity_profile/advanced/advanced.identity.profile.response');
+const DigitalIdShareResponse = require('../../../../src/idv_service/session/retrieve/digital.id.share.response');
 const { YotiDate } = require('../../../..');
 
 const ID_DOCUMENT_AUTHENTICITY = 'ID_DOCUMENT_AUTHENTICITY';
@@ -177,6 +178,17 @@ describe('GetSessionResult', () => {
           media: {},
         },
       },
+      digital_id_shares: [
+        {
+          id: 'fffe3bcf-ccd4-4704-ac85-3cdae5bd9eaf',
+          document_type: 'EPHIL_ID',
+          issuing_country: 'PHL',
+          provider: 'EPHIL_ID_QR',
+          created_at: '2026-06-29T10:00:50Z',
+          last_updated: '2026-06-29T10:01:01Z',
+          resource_id: 'a159072f-22b9-4fb0-8098-aa5bc8eb7615',
+        },
+      ],
     });
   });
 
@@ -214,7 +226,7 @@ describe('GetSessionResult', () => {
     describe('when checks are available', () => {
       it('should return array of checks', () => {
         const checks = session.getChecks();
-        expect(checks.length).toBe(11);
+        expect(checks).toHaveLength(11);
         expect(checks[0]).toBeInstanceOf(AuthenticityCheckResponse);
         expect(checks[1]).toBeInstanceOf(LivenessCheckResponse);
         expect(checks[2]).toBeInstanceOf(FaceMatchCheckResponse);
@@ -234,7 +246,7 @@ describe('GetSessionResult', () => {
         session = new GetSessionResult({});
         const checks = session.getChecks();
         expect(checks).toBeInstanceOf(Array);
-        expect(checks.length).toBe(0);
+        expect(checks).toHaveLength(0);
       });
     });
   });
@@ -242,7 +254,7 @@ describe('GetSessionResult', () => {
   describe('#getAuthenticityChecks', () => {
     it('should return array of AuthenticityCheckResponse', () => {
       const checks = session.getAuthenticityChecks();
-      expect(checks.length).toBe(1);
+      expect(checks).toHaveLength(1);
       expect(checks[0]).toBeInstanceOf(AuthenticityCheckResponse);
       expect(checks[0].getType()).toBe(ID_DOCUMENT_AUTHENTICITY);
     });
@@ -251,7 +263,7 @@ describe('GetSessionResult', () => {
   describe('#getIdDocumentComparisonChecks', () => {
     it('should return array of AuthenticityCheckResponse', () => {
       const checks = session.getIdDocumentComparisonChecks();
-      expect(checks.length).toBe(1);
+      expect(checks).toHaveLength(1);
       expect(checks[0]).toBeInstanceOf(IdDocumentComparisonCheckResponse);
       expect(checks[0].getType()).toBe(ID_DOCUMENT_COMPARISON);
     });
@@ -260,7 +272,7 @@ describe('GetSessionResult', () => {
   describe('#getLivenessChecks', () => {
     it('should return array of ZoomLivenessCheckResponse', () => {
       const checks = session.getLivenessChecks();
-      expect(checks.length).toBe(1);
+      expect(checks).toHaveLength(1);
       expect(checks[0]).toBeInstanceOf(LivenessCheckResponse);
       expect(checks[0].getType()).toBe(LIVENESS);
     });
@@ -269,7 +281,7 @@ describe('GetSessionResult', () => {
   describe('#getTextDataChecks', () => {
     it('should return array of TextDataCheckResponse', () => {
       const checks = session.getTextDataChecks();
-      expect(checks.length).toBe(1);
+      expect(checks).toHaveLength(1);
       expect(checks[0]).toBeInstanceOf(TextDataCheckResponse);
       expect(checks[0].getType()).toBe(ID_DOCUMENT_TEXT_DATA_CHECK);
     });
@@ -278,7 +290,7 @@ describe('GetSessionResult', () => {
   describe('#getIdDocumentTextDataChecks', () => {
     it('should return array of TextDataCheckResponse', () => {
       const checks = session.getIdDocumentTextDataChecks();
-      expect(checks.length).toBe(1);
+      expect(checks).toHaveLength(1);
       expect(checks[0]).toBeInstanceOf(TextDataCheckResponse);
       expect(checks[0].getType()).toBe(ID_DOCUMENT_TEXT_DATA_CHECK);
     });
@@ -287,7 +299,7 @@ describe('GetSessionResult', () => {
   describe('#getSupplementaryDocumentTextDataChecks', () => {
     it('should return array of SupplementaryDocumentTextDataCheckResponse', () => {
       const checks = session.getSupplementaryDocumentTextDataChecks();
-      expect(checks.length).toBe(1);
+      expect(checks).toHaveLength(1);
       expect(checks[0]).toBeInstanceOf(SupplementaryDocumentTextDataCheckResponse);
       expect(checks[0].getType()).toBe(SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK);
     });
@@ -296,7 +308,7 @@ describe('GetSessionResult', () => {
   describe('#getThirdPartyIdentityChecks', () => {
     it('should return array of ThirdPartyIdentityCheckResponse', () => {
       const checks = session.getThirdPartyIdentityChecks();
-      expect(checks.length).toBe(1);
+      expect(checks).toHaveLength(1);
       expect(checks[0]).toBeInstanceOf(ThirdPartyIdentityCheckResponse);
       expect(checks[0].getType()).toBe(THIRD_PARTY_IDENTITY);
     });
@@ -305,7 +317,7 @@ describe('GetSessionResult', () => {
   describe('#getWatchlistScreeningChecks', () => {
     it('should return array of WatchlistScreeningCheckResponse', () => {
       const checks = session.getWatchlistScreeningChecks();
-      expect(checks.length).toBe(1);
+      expect(checks).toHaveLength(1);
       expect(checks[0]).toBeInstanceOf(WatchlistScreeningCheckResponse);
       expect(checks[0].getType()).toBe(WATCHLIST_SCREENING);
     });
@@ -314,7 +326,7 @@ describe('GetSessionResult', () => {
   describe('#getWatchlistAdvancedCaChecks', () => {
     it('should return array of WatchlistAdvancedCaCheckResponse', () => {
       const checks = session.getWatchlistAdvancedCaChecks();
-      expect(checks.length).toBe(1);
+      expect(checks).toHaveLength(1);
       expect(checks[0]).toBeInstanceOf(WatchlistAdvancedCaCheckResponse);
       expect(checks[0].getType()).toBe(WATCHLIST_ADVANCED_CA);
     });
@@ -323,7 +335,7 @@ describe('GetSessionResult', () => {
   describe('#getFaceMatchChecks', () => {
     it('should return array of FaceMatchCheckResponse', () => {
       const checks = session.getFaceMatchChecks();
-      expect(checks.length).toBe(1);
+      expect(checks).toHaveLength(1);
       expect(checks[0]).toBeInstanceOf(FaceMatchCheckResponse);
       expect(checks[0].getType()).toBe(ID_DOCUMENT_FACE_MATCH);
     });
@@ -332,7 +344,7 @@ describe('GetSessionResult', () => {
   describe('#getThirdPartyIdentityFraud1Checks', () => {
     it('should return array of ThirdPartyIdentityFraud1Checks', () => {
       const checks = session.getThirdPartyIdentityFraud1Checks();
-      expect(checks.length).toBe(1);
+      expect(checks).toHaveLength(1);
       expect(checks[0]).toBeInstanceOf(ThirdPartyIdentityFraud1CheckResponse);
       expect(checks[0].getType()).toBe(THIRD_PARTY_IDENTITY_FRAUD_1);
     });
@@ -341,7 +353,7 @@ describe('GetSessionResult', () => {
   describe('#getFaceComparisonChecks', () => {
     it('should return array of FaceComparisonCheckResponse', () => {
       const checks = session.getFaceComparisonChecks();
-      expect(checks.length).toBe(1);
+      expect(checks).toHaveLength(1);
       expect(checks[0]).toBeInstanceOf(FaceComparisonCheckResponse);
       expect(checks[0].getType()).toBe(FACE_COMPARISON);
     });
@@ -365,7 +377,7 @@ describe('GetSessionResult', () => {
       });
 
       const checks = session.getChecks();
-      expect(checks.length).toBe(1);
+      expect(checks).toHaveLength(1);
       expect(checks[0]).toBeInstanceOf(CheckResponse);
       expect(checks[0].getType()).toBe(SOME_UNKNOWN_CHECK);
     });
@@ -393,6 +405,15 @@ describe('GetSessionResult', () => {
       const advancedIdentityProfile = session.getAdvancedIdentityProfile();
 
       expect(advancedIdentityProfile).toBeInstanceOf(AdvancedIdentityProfileResponse);
+    });
+  });
+
+  describe('#getDigitalIdShares', () => {
+    it('should return list of DigitalIdShareResponse', () => {
+      const digitalIdShares = session.getDigitalIdShares();
+
+      expect(digitalIdShares).toHaveLength(1);
+      expect(digitalIdShares[0]).toBeInstanceOf(DigitalIdShareResponse);
     });
   });
 });

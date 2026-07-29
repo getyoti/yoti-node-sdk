@@ -5,15 +5,21 @@ const DocumentFilter = require('../document.filter');
 const DocumentRestriction = require('./document.restriction');
 const IDVConstants = require('../../../../idv.constants');
 
+/**
+ * @typedef {import('./../allowed.provider')} AllowedProvider
+ */
+
 class DocumentRestrictionsFilter extends DocumentFilter {
   /**
    * @param {string} inclusion
    * @param {DocumentRestriction[]} documents
    * @param {Boolean} allowExpiredDocuments
    * @param {Boolean} allowNonLatinDocuments
+   * @param {boolean} allowDigitalIds
+   * @param {AllowedProvider[]} allowedProviders
    */
-  constructor(inclusion, documents, allowExpiredDocuments, allowNonLatinDocuments) {
-    super(IDVConstants.DOCUMENT_RESTRICTIONS);
+  constructor(inclusion, documents, allowExpiredDocuments, allowNonLatinDocuments, allowDigitalIds, allowedProviders) {
+    super(IDVConstants.DOCUMENT_RESTRICTIONS, allowExpiredDocuments, allowNonLatinDocuments, allowDigitalIds, allowedProviders);
 
     Validation.isString(inclusion, 'inclusion');
     /** @private */
@@ -22,14 +28,6 @@ class DocumentRestrictionsFilter extends DocumentFilter {
     Validation.isArrayOfType(documents, DocumentRestriction, 'documents');
     /** @private */
     this.documents = documents;
-
-    Validation.isBoolean(allowExpiredDocuments, 'allowExpiredDocuments', true);
-    /** @private */
-    this.allowExpiredDocuments = allowExpiredDocuments;
-
-    Validation.isBoolean(allowNonLatinDocuments, 'allowNonLatinDocuments', true);
-    /** @private */
-    this.allowNonLatinDocuments = allowNonLatinDocuments;
   }
 
   toJSON() {
@@ -37,8 +35,10 @@ class DocumentRestrictionsFilter extends DocumentFilter {
 
     json.inclusion = this.inclusion;
     json.documents = this.documents;
-    json.allow_expired_documents = this.allowExpiredDocuments;
-    json.allow_non_latin_documents = this.allowNonLatinDocuments;
+    json.allow_expired_documents = this.getAllowExpiredDocuments();
+    json.allow_non_latin_documents = this.getAllowNonLatinDocuments();
+    json.allow_digital_ids = this.getAllowDigitalIds();
+    json.allowed_providers = this.getAllowedProviders();
 
     return json;
   }
