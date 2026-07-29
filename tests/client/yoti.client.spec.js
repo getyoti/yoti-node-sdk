@@ -5,9 +5,6 @@ const { randomUUID } = require('crypto');
 
 const config = require('../../config');
 const yoti = require('../..');
-const { AmlAddress } = require('../../src/aml_type');
-const { AmlProfile } = require('../../src/aml_type');
-const { Payload } = require('../../src/request/payload');
 const ShareUrlResult = require('../../src/dynamic_sharing_service/share.url.result');
 
 const GENERIC_API_PATH = '/api/v1';
@@ -181,35 +178,6 @@ describe.each([
           })
           .catch(done);
       });
-    });
-  });
-
-  describe('#performAmlCheck', () => {
-    const amlAddress = new AmlAddress('GBR');
-    const amlProfile = new AmlProfile('Edward Richard George', 'Heath', amlAddress);
-    const amlPayload = new Payload(amlProfile.getData());
-    const amlCheckResult = fs.readFileSync('./tests/sample-data/responses/aml-check-result.json', 'utf8');
-
-    beforeEach((done) => {
-      nock(apiUrlDomain)
-        .post(new RegExp(`${apiUrlPath}/aml-check?.*appId=${APP_ID}&nonce=.*?&timestamp=.*?`), amlPayload.getPayloadData())
-        .matchHeader(DIGEST_KEY_HEADER_NAME, DIGEST_KEY_PATTERN)
-        .matchHeader(CONTENT_TYPE_HEADER_NAME, CONTENT_TYPE_JSON)
-        .reply(200, amlCheckResult);
-
-      done();
-    });
-
-    it('should return a successful result', (done) => {
-      yotiClient.performAmlCheck(amlProfile)
-        .then((amlResult) => {
-          expect(amlResult.isOnPepList).toBe(true);
-          expect(amlResult.isOnFraudList).toBe(false);
-          expect(amlResult.isOnWatchList).toBe(false);
-
-          done();
-        })
-        .catch(done);
     });
   });
 

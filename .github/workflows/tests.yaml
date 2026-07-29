@@ -56,7 +56,6 @@ jobs:
       - name: print versions
         run: echo npm $(npm -v), node $(node -v)
 
-      - run: npm install --ignore-scripts -p ./examples/aml-check
       - run: npm install --ignore-scripts -p ./examples/digital-identity
       - run: npm install --ignore-scripts -p ./examples/idv
       - run: npm install --ignore-scripts -p ./examples/idv-identity-checks
