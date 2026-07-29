@@ -12,7 +12,7 @@ describe('yotiCommon', () => {
   describe('#getRSASignatureForMessage', () => {
     it('should return the signed message', () => {
       const signedMessage = yotiCommon.getRSASignatureForMessage('blah blah blah', privateKeyFile);
-      const expectedSignedMessage = fs.readFileSync('./tests/sample-data/fixtures/aml-signed-message.txt', 'utf8');
+      const expectedSignedMessage = fs.readFileSync('./tests/sample-data/fixtures/signed-message.txt', 'utf8');
       expect(signedMessage).toBe(expectedSignedMessage);
     });
   });

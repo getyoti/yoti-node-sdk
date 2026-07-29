@@ -16,8 +16,6 @@ declare class YotiClient {
     /** @private */
     private pem;
     /** @private */
-    private amlService;
-    /** @private */
     private profileService;
     /** @private */
     private dynamicShareService;
@@ -35,15 +33,6 @@ declare class YotiClient {
      * @returns {Promise} Resolving ActivityDetails instance holding the user's attributes
      */
     getActivityDetails(encryptedConnectToken: string): Promise<any>;
-    /**
-     * Request an AML check for the given profile.
-     *
-     * @param amlProfile
-     *   Details of the profile to search for when performing the AML check
-     *
-     * @returns {Promise} resolving AmlResult with the results of the check
-     */
-    performAmlCheck(amlProfile: any): Promise<any>;
     /**
      * Given a dynamic scenario, get a custom QR code denoted by the dynamic policy
      * provided in the request.
