@@ -21,6 +21,8 @@ declare class GetSessionResult {
     private identityProfile;
     /** @private */
     private advancedIdentityProfile;
+    /** @private */
+    private digitalIdShares;
     /**
      * @returns {string}
      */
@@ -111,6 +113,10 @@ declare class GetSessionResult {
      * @returns {AdvancedIdentityProfileResponse}
      */
     getAdvancedIdentityProfile(): AdvancedIdentityProfileResponse;
+    /**
+     * @returns {DigitalIdShareResponse}
+     */
+    getDigitalIdShares(): DigitalIdShareResponse;
 }
 import CheckResponse = require("./check.response");
 import AuthenticityCheckResponse = require("./authenticity.check.response");
@@ -128,3 +134,4 @@ import ResourceContainer = require("./resource.container");
 import { YotiDate } from "../../../data_type/date";
 import IdentityProfileResponse = require("./identity_profile/identity.profile.response");
 import AdvancedIdentityProfileResponse = require("./identity_profile/advanced/advanced.identity.profile.response");
+import DigitalIdShareResponse = require("./digital.id.share.response");

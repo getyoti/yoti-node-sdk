@@ -10,6 +10,12 @@ class SupportedDocumentResponse {
     Validation.isString(supportedDocument.type, 'type');
     /** @private */
     this.type = supportedDocument.type;
+
+    if (supportedDocument.providers) {
+      Validation.isArrayOfStrings(supportedDocument.providers, 'providers');
+      /** @private */
+      this.providers = supportedDocument.providers;
+    }
   }
 
   /**
@@ -19,6 +25,15 @@ class SupportedDocumentResponse {
    */
   getType() {
     return this.type;
+  }
+
+  /**
+   * Returns the digital ID providers supported for this document type.
+   *
+   * @return {string[] | null}
+   */
+  getProviders() {
+    return this.providers;
   }
 }
 

@@ -1,5 +1,6 @@
 const {
   OrthogonalRestrictionsFilterBuilder,
+  AllowedProviderBuilder,
 } = require('../../../../../..');
 
 const SOME_DOCUMENT_TYPE = 'some-document-type';
@@ -144,6 +145,33 @@ describe('OrthogonalRestrictionsFilterBuilder', () => {
       .toBe(JSON.stringify({
         type: 'ORTHOGONAL_RESTRICTIONS',
         allow_non_latin_documents: true,
+      }));
+  });
+
+  it('should build OrthogonalRestrictionsFilter with allowed Digital IDs', () => {
+    const orthogonalRestrictionsFilter = new OrthogonalRestrictionsFilterBuilder()
+      .withAllowDigitalIds(true)
+      .build();
+
+    expect(JSON.stringify(orthogonalRestrictionsFilter))
+      .toBe(JSON.stringify({
+        type: 'ORTHOGONAL_RESTRICTIONS',
+        allow_digital_ids: true,
+      }));
+  });
+
+  it('should build OrthogonalRestrictionsFilter with allowed providers', () => {
+    const orthogonalRestrictionsFilter = new OrthogonalRestrictionsFilterBuilder()
+      .withAllowedProviders([
+        new AllowedProviderBuilder().withName('provider1').build(),
+        new AllowedProviderBuilder().withName('provider2').build(),
+      ])
+      .build();
+
+    expect(JSON.stringify(orthogonalRestrictionsFilter))
+      .toBe(JSON.stringify({
+        type: 'ORTHOGONAL_RESTRICTIONS',
+        allowed_providers: [{ name: 'provider1' }, { name: 'provider2' }],
       }));
   });
 });
