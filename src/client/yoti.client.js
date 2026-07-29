@@ -1,7 +1,6 @@
 'use strict';
 
 const forge = require('node-forge');
-const { AmlService } = require('../aml_service');
 const { DynamicShareService } = require('../dynamic_sharing_service');
 const { ProfileService } = require('../profile_service');
 const config = require('../../config');
@@ -45,8 +44,6 @@ class YotiClient {
     };
 
     /** @private */
-    this.amlService = new AmlService(sdkId, pem, options);
-    /** @private */
     this.profileService = new ProfileService(sdkId, pem, options);
     /** @private */
     this.dynamicShareService = new DynamicShareService(sdkId, pem, options);
@@ -76,18 +73,6 @@ class YotiClient {
       return Promise.reject(err);
     }
     return this.profileService.getReceipt(decryptedToken);
-  }
-
-  /**
-   * Request an AML check for the given profile.
-   *
-   * @param amlProfile
-   *   Details of the profile to search for when performing the AML check
-   *
-   * @returns {Promise} resolving AmlResult with the results of the check
-   */
-  performAmlCheck(amlProfile) {
-    return this.amlService.performAmlCheck(amlProfile);
   }
 
   /**
