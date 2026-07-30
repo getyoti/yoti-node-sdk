@@ -7,6 +7,7 @@ const Cases = {
   FACE_MATCH: 'faceMatch',
   WATCHLIST: 'watchlist',
   SUPPRESSED_SCREENS: 'suppressedScreens',
+  WITH_DID_DOCUMENTS: 'withDigitalIdDocuments',
 };
 
 const CasesMap = new Map([
@@ -41,6 +42,10 @@ const CasesMap = new Map([
   [Cases.SUPPRESSED_SCREENS, {
     name: 'Suppressed screens check',
     path: '/suppressed-screens-check',
+  }],
+  [Cases.WITH_DID_DOCUMENTS, {
+    name: 'Accept Digital ID',
+    path: '/with-accepted-digital-id',
   }],
 ]);
 
