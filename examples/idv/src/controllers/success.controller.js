@@ -6,6 +6,9 @@ const config = require('../../config');
 module.exports = async (req, res) => {
   const sessionIdFromQuery = req.query && req.query.sessionID;
   const sessionId = sessionIdFromQuery || req.session.IDV_SESSION_ID;
+
+  req.session.IDV_SESSION_ID = sessionId;
+
   const idvClient = new IDVClient(
     config.YOTI_CLIENT_SDK_ID,
     config.YOTI_PEM
