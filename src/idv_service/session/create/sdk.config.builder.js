@@ -279,6 +279,61 @@ class SdkConfigBuilder {
   }
 
   /**
+   * Sets the dark mode to "ON"
+   *
+   * @returns {this}
+   */
+  withDarkModeOn() {
+    return this.withDarkMode(IDVConstants.ON);
+  }
+
+  /**
+   * Sets the dark mode to "OFF"
+   *
+   * @returns {this}
+   */
+  withDarkModeOff() {
+    return this.withDarkMode(IDVConstants.OFF);
+  }
+
+  /**
+   * Sets the dark mode to "AUTO"
+   *
+   * @returns {this}
+   */
+  withDarkModeAuto() {
+    return this.withDarkMode(IDVConstants.AUTO);
+  }
+
+  /**
+   * Sets the dark mode on the builder
+   *
+   * @param {string} darkMode
+   *   The dark mode, e.g. "ON", "OFF" or "AUTO"
+   *
+   * @returns {this}
+   */
+  withDarkMode(darkMode) {
+    Validation.isString(darkMode, 'darkMode');
+    this.darkMode = darkMode;
+    return this;
+  }
+
+  /**
+   * Sets the primary colour to be used by the web/native client for dark mode
+   *
+   * @param {string} primaryColourDarkMode
+   *   The primary colour for dark mode, hexadecimal value e.g. #ff0000
+   *
+   * @returns {this}
+   */
+  withPrimaryColourDarkMode(primaryColourDarkMode) {
+    Validation.isString(primaryColourDarkMode, 'primaryColourDarkMode');
+    this.primaryColourDarkMode = primaryColourDarkMode;
+    return this;
+  }
+
+  /**
    * Builds the {@link SdkConfig} using the values supplied to the builder
    *
    * @returns {SdkConfig}
@@ -298,7 +353,9 @@ class SdkConfigBuilder {
       this.allowHandoff,
       this.attemptsConfiguration,
       this.brandId,
-      this.suppressedScreens
+      this.suppressedScreens,
+      this.darkMode,
+      this.primaryColourDarkMode
     );
   }
 }
