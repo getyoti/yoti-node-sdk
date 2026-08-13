@@ -8,6 +8,7 @@ describe('StaticLivenessResourceResponse', () => {
     staticLivenessResourceResponse = new StaticLivenessResourceResponse({
       liveness_type: 'some-liveness-type',
       id: 'some-id',
+      capture_type: 'some-capture-type',
       image: {
         media: {},
       },
@@ -23,6 +24,12 @@ describe('StaticLivenessResourceResponse', () => {
   describe('#getLivenessType', () => {
     it('should return liveness type', () => {
       expect(staticLivenessResourceResponse.getLivenessType()).toBe('some-liveness-type');
+    });
+  });
+
+  describe('#getCaptureType', () => {
+    it('should return capture type', () => {
+      expect(staticLivenessResourceResponse.getCaptureType()).toBe('some-capture-type');
     });
   });
 
