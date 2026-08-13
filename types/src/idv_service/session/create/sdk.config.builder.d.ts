@@ -182,6 +182,44 @@ declare class SdkConfigBuilder {
     withSuppressedScreens(screens: string[]): this;
     suppressedScreens: string[];
     /**
+     * Sets the dark mode to "ON"
+     *
+     * @returns {this}
+     */
+    withDarkModeOn(): this;
+    /**
+     * Sets the dark mode to "OFF"
+     *
+     * @returns {this}
+     */
+    withDarkModeOff(): this;
+    /**
+     * Sets the dark mode to "AUTO"
+     *
+     * @returns {this}
+     */
+    withDarkModeAuto(): this;
+    /**
+     * Sets the dark mode on the builder
+     *
+     * @param {string} darkMode
+     *   The dark mode, e.g. "ON", "OFF" or "AUTO"
+     *
+     * @returns {this}
+     */
+    withDarkMode(darkMode: string): this;
+    darkMode: string;
+    /**
+     * Sets the primary colour to be used by the web/native client for dark mode
+     *
+     * @param {string} primaryColourDarkMode
+     *   The primary colour for dark mode, hexadecimal value e.g. #ff0000
+     *
+     * @returns {this}
+     */
+    withPrimaryColourDarkMode(primaryColourDarkMode: string): this;
+    primaryColourDarkMode: string;
+    /**
      * Builds the {@link SdkConfig} using the values supplied to the builder
      *
      * @returns {SdkConfig}

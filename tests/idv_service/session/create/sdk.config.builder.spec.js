@@ -18,6 +18,8 @@ describe('SdkConfigBuilder', () => {
       .withAllowHandoff(true)
       .withBrandId('some-brand-identifier')
       .withSuppressedScreens(['SCREEN_1', 'SCREEN_3'])
+      .withDarkMode('some-dark-mode')
+      .withPrimaryColourDarkMode('some-dark-mode-colour')
       .build();
 
     const expectedJson = JSON.stringify({
@@ -34,6 +36,8 @@ describe('SdkConfigBuilder', () => {
       allow_handoff: true,
       brand_id: 'some-brand-identifier',
       suppressed_screens: ['SCREEN_1', 'SCREEN_3'],
+      dark_mode: 'some-dark-mode',
+      primary_colour_dark_mode: 'some-dark-mode-colour',
     });
 
     expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
@@ -82,6 +86,54 @@ describe('SdkConfigBuilder', () => {
 
     const expectedJson = JSON.stringify({
       biometric_consent_flow: 'JUST_IN_TIME',
+    });
+
+    expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
+  });
+
+  it('should build SdkConfig with dark mode on', () => {
+    const sdkConfig = new SdkConfigBuilder()
+      .withDarkModeOn()
+      .build();
+
+    const expectedJson = JSON.stringify({
+      dark_mode: 'ON',
+    });
+
+    expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
+  });
+
+  it('should build SdkConfig with dark mode off', () => {
+    const sdkConfig = new SdkConfigBuilder()
+      .withDarkModeOff()
+      .build();
+
+    const expectedJson = JSON.stringify({
+      dark_mode: 'OFF',
+    });
+
+    expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
+  });
+
+  it('should build SdkConfig with dark mode auto', () => {
+    const sdkConfig = new SdkConfigBuilder()
+      .withDarkModeAuto()
+      .build();
+
+    const expectedJson = JSON.stringify({
+      dark_mode: 'AUTO',
+    });
+
+    expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
+  });
+
+  it('should build SdkConfig with primary colour dark mode', () => {
+    const sdkConfig = new SdkConfigBuilder()
+      .withPrimaryColourDarkMode('#ff0000')
+      .build();
+
+    const expectedJson = JSON.stringify({
+      primary_colour_dark_mode: '#ff0000',
     });
 
     expect(JSON.stringify(sdkConfig)).toBe(expectedJson);

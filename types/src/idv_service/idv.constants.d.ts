@@ -47,6 +47,9 @@ declare const _exports: Readonly<{
     RECLASSIFICATION: "RECLASSIFICATION";
     EARLY: "EARLY";
     JUST_IN_TIME: "JUST_IN_TIME";
+    ON: "ON";
+    OFF: "OFF";
+    AUTO: "AUTO";
     END_USER: "END_USER";
     RELYING_BUSINESS: "RELYING_BUSINESS";
     IBV: "IBV";
