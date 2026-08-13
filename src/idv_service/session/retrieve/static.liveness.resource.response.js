@@ -8,6 +8,10 @@ class StaticLivenessResourceResponse extends LivenessResourceResponse {
   constructor(resource) {
     super(resource);
 
+    Validation.isString(resource.capture_type, 'capture_type', true);
+    /** @private */
+    this.captureType = resource.capture_type;
+
     const { image } = resource;
 
     if (image) {
@@ -18,6 +22,13 @@ class StaticLivenessResourceResponse extends LivenessResourceResponse {
       /** @private */
       this.image = new MediaResponse(media);
     }
+  }
+
+  /**
+   * @returns {string}
+   */
+  getCaptureType() {
+    return this.captureType;
   }
 
   /**
