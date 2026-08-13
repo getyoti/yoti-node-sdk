@@ -29,8 +29,12 @@ declare class SdkConfig {
      *   The brandID for the client
      * @param {string[]} suppressedScreens
      *   The list of suppressed screens
+     * @param {string} darkMode
+     *   Specifies if dark mode should be used ("ON", "OFF" or "AUTO")
+     * @param {string} primaryColourDarkMode
+     *   The primary colour for dark mode
      */
-    constructor(allowedCaptureMethods: string, primaryColour: string, secondaryColour: string, fontColour: string, locale: string, presetIssuingCountry: string, successUrl: string, errorUrl: string, privacyPolicyUrl: string, biometricConsentFlow: string, allowHandoff: boolean, attemptsConfiguration: object, brandId: string, suppressedScreens: string[]);
+    constructor(allowedCaptureMethods: string, primaryColour: string, secondaryColour: string, fontColour: string, locale: string, presetIssuingCountry: string, successUrl: string, errorUrl: string, privacyPolicyUrl: string, biometricConsentFlow: string, allowHandoff: boolean, attemptsConfiguration: object, brandId: string, suppressedScreens: string[], darkMode: string, primaryColourDarkMode: string);
     /** @private */
     private allowedCaptureMethods;
     /** @private */
@@ -59,6 +63,10 @@ declare class SdkConfig {
     private brandId;
     /** @private */
     private suppressedScreens;
+    /** @private */
+    private darkMode;
+    /** @private */
+    private primaryColourDarkMode;
     /**
      * Returns serialized data for JSON.stringify()
      */
@@ -77,5 +85,7 @@ declare class SdkConfig {
         attempts_configuration: any;
         brand_id: string;
         suppressed_screens: string[];
+        dark_mode: string;
+        primary_colour_dark_mode: string;
     };
 }

@@ -32,6 +32,10 @@ class SdkConfig {
    *   The brandID for the client
    * @param {string[]} suppressedScreens
    *   The list of suppressed screens
+   * @param {string} darkMode
+   *   Specifies if dark mode should be used ("ON", "OFF" or "AUTO")
+   * @param {string} primaryColourDarkMode
+   *   The primary colour for dark mode
    */
   constructor(
     allowedCaptureMethods,
@@ -47,7 +51,9 @@ class SdkConfig {
     allowHandoff,
     attemptsConfiguration,
     brandId,
-    suppressedScreens
+    suppressedScreens,
+    darkMode,
+    primaryColourDarkMode
   ) {
     Validation.isString(allowedCaptureMethods, 'allowedCaptureMethods', true);
     /** @private */
@@ -109,6 +115,14 @@ class SdkConfig {
       /** @private */
       this.suppressedScreens = suppressedScreens;
     }
+
+    Validation.isString(darkMode, 'darkMode', true);
+    /** @private */
+    this.darkMode = darkMode;
+
+    Validation.isString(primaryColourDarkMode, 'primaryColourDarkMode', true);
+    /** @private */
+    this.primaryColourDarkMode = primaryColourDarkMode;
   }
 
   /**
@@ -130,6 +144,8 @@ class SdkConfig {
       attempts_configuration: this.attemptsConfiguration,
       brand_id: this.brandId,
       suppressed_screens: this.suppressedScreens,
+      dark_mode: this.darkMode,
+      primary_colour_dark_mode: this.primaryColourDarkMode,
     };
   }
 }
