@@ -136,6 +136,15 @@ declare class SdkConfigBuilder {
     withAllowHandoff(allowHandoff: boolean): this;
     allowHandoff: boolean;
     /**
+     * Sets whether mobile handoff is enforced
+     *
+     * @param {boolean} enforceHandoff enforce mobile handoff
+     *
+     * @returns {this}
+     */
+    withEnforceHandoff(enforceHandoff: boolean): this;
+    enforceHandoff: boolean;
+    /**
      * Allows configuring the number of attempts permitted for text extraction on an ID document
      *
      * @param {string} category the category of retries

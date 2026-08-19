@@ -36,6 +36,8 @@ class SdkConfig {
    *   Specifies if dark mode should be used ("ON", "OFF" or "AUTO")
    * @param {string} primaryColourDarkMode
    *   The primary colour for dark mode
+   * @param {boolean} enforceHandoff
+   *   Enforces user to handoff to mobile during session
    */
   constructor(
     allowedCaptureMethods,
@@ -53,7 +55,8 @@ class SdkConfig {
     brandId,
     suppressedScreens,
     darkMode,
-    primaryColourDarkMode
+    primaryColourDarkMode,
+    enforceHandoff
   ) {
     Validation.isString(allowedCaptureMethods, 'allowedCaptureMethods', true);
     /** @private */
@@ -123,6 +126,10 @@ class SdkConfig {
     Validation.isString(primaryColourDarkMode, 'primaryColourDarkMode', true);
     /** @private */
     this.primaryColourDarkMode = primaryColourDarkMode;
+
+    Validation.isBoolean(enforceHandoff, 'enforceHandoff', true);
+    /** @private */
+    this.enforceHandoff = enforceHandoff;
   }
 
   /**
@@ -146,6 +153,7 @@ class SdkConfig {
       suppressed_screens: this.suppressedScreens,
       dark_mode: this.darkMode,
       primary_colour_dark_mode: this.primaryColourDarkMode,
+      enforce_handoff: this.enforceHandoff,
     };
   }
 }
