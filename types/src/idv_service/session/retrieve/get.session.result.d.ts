@@ -2,6 +2,8 @@ export = GetSessionResult;
 declare class GetSessionResult {
     constructor(response: any);
     /** @private */
+    private rawResponse;
+    /** @private */
     private clientSessionTokenTtl;
     /** @private */
     private sessionId;
@@ -23,6 +25,10 @@ declare class GetSessionResult {
     private advancedIdentityProfile;
     /** @private */
     private digitalIdShares;
+    /**
+     * @returns {object}
+     */
+    getRawResponse(): object;
     /**
      * @returns {string}
      */

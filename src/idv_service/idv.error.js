@@ -63,6 +63,8 @@ class IDVError extends Error {
     this.name = this.constructor.name;
     /** @private */
     this.response = error.response || null;
+    /** @private */
+    this.originalError = error;
   }
 
   /**
@@ -83,6 +85,13 @@ class IDVError extends Error {
       return this.response.body;
     }
     return null;
+  }
+
+  /**
+   * @returns {APIError|Error}
+   */
+  getOriginalError() {
+    return this.originalError;
   }
 }
 
