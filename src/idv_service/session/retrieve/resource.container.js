@@ -10,6 +10,17 @@ const IDVConstants = require('../../idv.constants');
 const Validation = require('../../../yoti_common/validation');
 const SupplementaryDocumentResourceResponse = require('./supplementary.document.resource.response');
 
+/**
+ * @typedef {import('./check.response')} CheckResponse
+ */
+
+function filterResources(resources, resourceIds) {
+  if (!Array.isArray(resources)) {
+    return [];
+  }
+  return resources.filter((resource) => resourceIds.includes(resource.getId()));
+}
+
 class ResourceContainer {
   constructor(resources) {
     if (resources.id_documents) {
@@ -147,6 +158,22 @@ class ResourceContainer {
    */
   getShareCodeResources() {
     return this.shareCodes;
+  }
+
+  /**
+   * Returns a new resourceContainer with only the resources related to the check
+   * @param checkResponse {CheckResponse}
+   * @returns {ResourceContainer}
+   */
+  filterForCheck(checkResponse) {
+    const newResourceContainer = new ResourceContainer({});
+    const resourcesUsed = checkResponse.getResourcesUsed();
+    newResourceContainer.idDocuments = filterResources(this.idDocuments, resourcesUsed);
+    newResourceContainer.supplementaryDocuments = filterResources(this.supplementaryDocuments, resourcesUsed);
+    newResourceContainer.livenessCapture = filterResources(this.livenessCapture, resourcesUsed);
+    newResourceContainer.faceCapture = filterResources(this.faceCapture, resourcesUsed);
+    newResourceContainer.shareCodes = filterResources(this.shareCodes, resourcesUsed);
+    return newResourceContainer;
   }
 }
 

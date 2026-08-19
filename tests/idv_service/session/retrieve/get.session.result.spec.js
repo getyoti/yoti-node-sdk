@@ -48,6 +48,7 @@ describe('GetSessionResult', () => {
       checks: [
         {
           type: ID_DOCUMENT_AUTHENTICITY,
+          id: 'check-1',
         },
         {
           type: LIVENESS,
@@ -414,6 +415,22 @@ describe('GetSessionResult', () => {
 
       expect(digitalIdShares).toHaveLength(1);
       expect(digitalIdShares[0]).toBeInstanceOf(DigitalIdShareResponse);
+    });
+  });
+
+  describe('#getResourcesForCheck', () => {
+    it('should throw if there are no checks corresponding to the checkId', () => {
+      expect(() => session.getResourcesForCheck('check-2')).toThrow('Check not found');
+    });
+
+    it('should call and return the session.resources.filterForCheck() method', () => {
+      const mockedResult = 'mocked-result';
+      const spySessionResourcesFilterForCheck = jest.spyOn(session.resources, 'filterForCheck').mockImplementationOnce(() => mockedResult);
+      const result = session.getResourcesForCheck('check-1');
+      expect(spySessionResourcesFilterForCheck).toHaveBeenCalledTimes(1);
+      expect(spySessionResourcesFilterForCheck).toHaveBeenCalledWith(expect.objectContaining({ id: 'check-1', type: 'ID_DOCUMENT_AUTHENTICITY' }));
+
+      expect(result).toBe(mockedResult);
     });
   });
 });

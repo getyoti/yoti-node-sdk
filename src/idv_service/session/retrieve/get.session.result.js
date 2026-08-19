@@ -279,6 +279,19 @@ class GetSessionResult {
   getDigitalIdShares() {
     return this.digitalIdShares;
   }
+
+  /**
+   * @param checkId {string}
+   * @returns {ResourceContainer}
+   */
+  getResourcesForCheck(checkId) {
+    const checkResponse = this.checks.find((check) => check.getId() === checkId);
+    if (!checkResponse) {
+      throw new Error('Check not found');
+    }
+
+    return this.resources.filterForCheck(checkResponse);
+  }
 }
 
 module.exports = GetSessionResult;
