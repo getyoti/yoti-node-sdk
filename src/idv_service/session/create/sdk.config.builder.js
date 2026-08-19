@@ -197,6 +197,19 @@ class SdkConfigBuilder {
   }
 
   /**
+   * Sets whether mobile handoff is enforced
+   *
+   * @param {boolean} enforceHandoff enforce mobile handoff
+   *
+   * @returns {this}
+   */
+  withEnforceHandoff(enforceHandoff) {
+    Validation.isBoolean(enforceHandoff, 'enforceHandoff');
+    this.enforceHandoff = enforceHandoff;
+    return this;
+  }
+
+  /**
    * Allows configuring the number of attempts permitted for text extraction on an ID document
    *
    * @param {string} category the category of retries
@@ -355,7 +368,8 @@ class SdkConfigBuilder {
       this.brandId,
       this.suppressedScreens,
       this.darkMode,
-      this.primaryColourDarkMode
+      this.primaryColourDarkMode,
+      this.enforceHandoff
     );
   }
 }

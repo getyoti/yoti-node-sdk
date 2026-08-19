@@ -3,7 +3,7 @@ const {
 } = require('../../../../src/idv_service');
 
 describe('SdkConfigBuilder', () => {
-  it('should build SdkConfig', () => {
+  it('should build SdkConfig (with options)', () => {
     const sdkConfig = new SdkConfigBuilder()
       .withAllowedCaptureMethods('some-method')
       .withPrimaryColour('some-colour')
@@ -20,6 +20,7 @@ describe('SdkConfigBuilder', () => {
       .withSuppressedScreens(['SCREEN_1', 'SCREEN_3'])
       .withDarkMode('some-dark-mode')
       .withPrimaryColourDarkMode('some-dark-mode-colour')
+      .withEnforceHandoff(true)
       .build();
 
     const expectedJson = JSON.stringify({
@@ -38,6 +39,35 @@ describe('SdkConfigBuilder', () => {
       suppressed_screens: ['SCREEN_1', 'SCREEN_3'],
       dark_mode: 'some-dark-mode',
       primary_colour_dark_mode: 'some-dark-mode-colour',
+      enforce_handoff: true,
+    });
+
+    expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
+  });
+
+  it('should build SdkConfig (without some options)', () => {
+    const sdkConfig = new SdkConfigBuilder()
+      .withAllowedCaptureMethods('some-method')
+      .withPrimaryColour('some-colour')
+      .withSecondaryColour('some-secondary-colour')
+      .withFontColour('some-font-colour')
+      .withErrorUrl('some-error-url')
+      .withSuccessUrl('some-success-url')
+      .withLocale('some-url')
+      .withPresetIssuingCountry('some-country')
+      .withPrivacyPolicyUrl('some-privacy-policy-url')
+      .build();
+
+    const expectedJson = JSON.stringify({
+      allowed_capture_methods: 'some-method',
+      primary_colour: 'some-colour',
+      secondary_colour: 'some-secondary-colour',
+      font_colour: 'some-font-colour',
+      locale: 'some-url',
+      preset_issuing_country: 'some-country',
+      success_url: 'some-success-url',
+      error_url: 'some-error-url',
+      privacy_policy_url: 'some-privacy-policy-url',
     });
 
     expect(JSON.stringify(sdkConfig)).toBe(expectedJson);
