@@ -117,6 +117,11 @@ declare class GetSessionResult {
      * @returns {DigitalIdShareResponse}
      */
     getDigitalIdShares(): DigitalIdShareResponse;
+    /**
+     * @param checkId {string}
+     * @returns {ResourceContainer}
+     */
+    getResourcesForCheck(checkId: string): ResourceContainer;
 }
 import CheckResponse = require("./check.response");
 import AuthenticityCheckResponse = require("./authenticity.check.response");

@@ -56,6 +56,15 @@ declare class ResourceContainer {
      *   The list of share-code resources
      */
     getShareCodeResources(): ShareCodeResourceResponse[];
+    /**
+     * Returns a new resourceContainer with only the resources related to the check
+     * @param checkResponse {CheckResponse}
+     * @returns {ResourceContainer}
+     */
+    filterForCheck(checkResponse: CheckResponse): ResourceContainer;
+}
+declare namespace ResourceContainer {
+    export { CheckResponse };
 }
 import IdDocumentResourceResponse = require("./id.document.resource.response");
 import SupplementaryDocumentResourceResponse = require("./supplementary.document.resource.response");
@@ -64,3 +73,4 @@ import ZoomLivenessResourceResponse = require("./zoom.liveness.resource.response
 import StaticLivenessResourceResponse = require("./static.liveness.resource.response");
 import FaceCaptureResourceResponse = require("./face.capture.resource.response");
 import ShareCodeResourceResponse = require("./share.code.resource.response");
+type CheckResponse = import('./check.response');
