@@ -33,8 +33,10 @@ declare class SdkConfig {
      *   Specifies if dark mode should be used ("ON", "OFF" or "AUTO")
      * @param {string} primaryColourDarkMode
      *   The primary colour for dark mode
+     * @param {boolean} enforceHandoff
+     *   Enforces user to handoff to mobile during session
      */
-    constructor(allowedCaptureMethods: string, primaryColour: string, secondaryColour: string, fontColour: string, locale: string, presetIssuingCountry: string, successUrl: string, errorUrl: string, privacyPolicyUrl: string, biometricConsentFlow: string, allowHandoff: boolean, attemptsConfiguration: object, brandId: string, suppressedScreens: string[], darkMode: string, primaryColourDarkMode: string);
+    constructor(allowedCaptureMethods: string, primaryColour: string, secondaryColour: string, fontColour: string, locale: string, presetIssuingCountry: string, successUrl: string, errorUrl: string, privacyPolicyUrl: string, biometricConsentFlow: string, allowHandoff: boolean, attemptsConfiguration: object, brandId: string, suppressedScreens: string[], darkMode: string, primaryColourDarkMode: string, enforceHandoff: boolean);
     /** @private */
     private allowedCaptureMethods;
     /** @private */
@@ -67,6 +69,8 @@ declare class SdkConfig {
     private darkMode;
     /** @private */
     private primaryColourDarkMode;
+    /** @private */
+    private enforceHandoff;
     /**
      * Returns serialized data for JSON.stringify()
      */
@@ -87,5 +91,6 @@ declare class SdkConfig {
         suppressed_screens: string[];
         dark_mode: string;
         primary_colour_dark_mode: string;
+        enforce_handoff: boolean;
     };
 }
