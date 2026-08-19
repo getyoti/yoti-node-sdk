@@ -22,6 +22,9 @@ const DigitalIdShareResponse = require('./digital.id.share.response');
 
 class GetSessionResult {
   constructor(response) {
+    /** @private */
+    this.rawResponse = response;
+
     Validation.isInteger(response.client_session_token_ttl, 'client_session_token_ttl', true);
     /** @private */
     this.clientSessionTokenTtl = response.client_session_token_ttl;
@@ -108,6 +111,13 @@ class GetSessionResult {
       /** @private */
       this.digitalIdShares = response.digital_id_shares.map((didShareResponseData) => new DigitalIdShareResponse(didShareResponseData));
     }
+  }
+
+  /**
+   * @returns {object}
+   */
+  getRawResponse() {
+    return this.rawResponse;
   }
 
   /**

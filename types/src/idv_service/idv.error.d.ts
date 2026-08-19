@@ -8,6 +8,8 @@ declare class IDVError extends Error {
     constructor(error: any);
     /** @private */
     private response;
+    /** @private */
+    private originalError;
     /**
      * @returns {number|null}
      */
@@ -16,6 +18,10 @@ declare class IDVError extends Error {
      * @returns {string|object|null} The parsed response body.
      */
     getResponseBody(): string | object | null;
+    /**
+     * @returns {APIError|Error}
+     */
+    getOriginalError(): APIError | Error;
 }
 declare namespace IDVError {
     export { ResponseBody, Response, APIError };
