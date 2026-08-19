@@ -287,7 +287,10 @@ class GetSessionResult {
   getResourcesForCheck(checkId) {
     const checkResponse = this.checks.find((check) => check.getId() === checkId);
     if (!checkResponse) {
-      throw new Error('Check not found');
+      throw new Error(`Check not found (${checkId})`);
+    }
+    if (!this.resources) {
+      throw new Error('No resources available');
     }
 
     return this.resources.filterForCheck(checkResponse);

@@ -168,11 +168,9 @@ class ResourceContainer {
   filterForCheck(checkResponse) {
     const newResourceContainer = new ResourceContainer({});
     const resourcesUsed = checkResponse.getResourcesUsed();
-    newResourceContainer.idDocuments = filterResources(this.idDocuments, resourcesUsed);
-    newResourceContainer.supplementaryDocuments = filterResources(this.supplementaryDocuments, resourcesUsed);
-    newResourceContainer.livenessCapture = filterResources(this.livenessCapture, resourcesUsed);
-    newResourceContainer.faceCapture = filterResources(this.faceCapture, resourcesUsed);
-    newResourceContainer.shareCodes = filterResources(this.shareCodes, resourcesUsed);
+    Object.keys(newResourceContainer).forEach((key) => {
+      newResourceContainer[key] = filterResources(this[key], resourcesUsed);
+    });
     return newResourceContainer;
   }
 }

@@ -420,7 +420,7 @@ describe('GetSessionResult', () => {
 
   describe('#getResourcesForCheck', () => {
     it('should throw if there are no checks corresponding to the checkId', () => {
-      expect(() => session.getResourcesForCheck('check-2')).toThrow('Check not found');
+      expect(() => session.getResourcesForCheck('check-2')).toThrow('Check not found (check-2)');
     });
 
     it('should call and return the session.resources.filterForCheck() method', () => {
