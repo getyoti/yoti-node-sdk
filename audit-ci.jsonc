@@ -1,9 +1,5 @@
 {
     "moderate": true,
     "skip-dev": false,
-    "allowlist": [
-      // Affect only dev-dependencies - flagging the vulnerabilities instead of turning skip-dev to true
-      "GHSA-mh99-v99m-4gvg",
-      "GHSA-3jxr-9vmj-r5cp"
-    ]
+    "allowlist": []
 }
