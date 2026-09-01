@@ -120,9 +120,9 @@ declare class GetSessionResult {
      */
     getAdvancedIdentityProfile(): AdvancedIdentityProfileResponse;
     /**
-     * @returns {DigitalIdShareResponse}
+     * @returns {DigitalIdShareResponse[]}
      */
-    getDigitalIdShares(): DigitalIdShareResponse;
+    getDigitalIdShares(): DigitalIdShareResponse[];
     /**
      * @param checkId {string}
      * @returns {ResourceContainer}

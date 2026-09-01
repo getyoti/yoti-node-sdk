@@ -284,10 +284,10 @@ class GetSessionResult {
   }
 
   /**
-   * @returns {DigitalIdShareResponse}
+   * @returns {DigitalIdShareResponse[]}
    */
   getDigitalIdShares() {
-    return this.digitalIdShares;
+    return this.digitalIdShares || [];
   }
 
   /**
