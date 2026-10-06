@@ -1,5 +1,9 @@
 {
     "moderate": true,
     "skip-dev": false,
-    "allowlist": []
+    "allowlist": [
+      "GHSA-hp3w-g68c-fv3c", // from jest - no fix available at time of writing
+      "GHSA-86w9-cpqp-85rv", // from node-forge - no fix available at time of writing
+      "GHSA-vfj7-8cjw-p6xm" // from eslint-config-airbnb-extended - no fix available at time of writing
+    ]
 }
