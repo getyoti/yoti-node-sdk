@@ -34,6 +34,7 @@ const AdvancedIdentityProfileRequirementsBuilder = require('./session/create/ide
 const AdvancedIdentityProfileSchemeBuilder = require('./session/create/identity_profile/advanced/advanced.identity.profile.scheme.builder');
 const AdvancedIdentityProfileSchemeConfigBuilder = require('./session/create/identity_profile/advanced/advanced.identity.profile.scheme.config');
 const AllowedProviderBuilder = require('./session/create/filters/allowed.provider.builder');
+const CompanyProfileBuilder = require('./session/create/company.profile.builder');
 
 module.exports = {
   IDVService,
@@ -70,4 +71,5 @@ module.exports = {
   AdvancedIdentityProfileRequirementsBuilder,
   AdvancedIdentityProfileSchemeConfigBuilder,
   AllowedProviderBuilder,
+  CompanyProfileBuilder,
 };

@@ -10,6 +10,7 @@ const {
   RequestedWatchlistAdvancedCaCheckBuilder,
   NotificationConfigBuilder,
   SdkConfigBuilder,
+  CompanyProfileBuilder,
   RequiredIdDocumentBuilder,
   DocumentRestrictionsFilterBuilder,
   RequestedCustomAccountWatchlistAdvancedCaConfigBuilder,
@@ -289,6 +290,25 @@ describe('SessionSpecificationBuilder', () => {
       required_documents: [],
       subject: {
         subject_id: 'some_subject_id_string',
+      },
+    });
+
+    expect(JSON.stringify(sessionSpec)).toBe(expectedJson);
+  });
+
+  it('should build SessionSpecification with company profile', () => {
+    const companyProfile = new CompanyProfileBuilder().withCompanyName('My Company').build();
+
+    const sessionSpec = new SessionSpecificationBuilder()
+      .withCompanyProfile(companyProfile)
+      .build();
+
+    const expectedJson = JSON.stringify({
+      requested_checks: [],
+      requested_tasks: [],
+      required_documents: [],
+      company_profile: {
+        company_name: 'My Company',
       },
     });
 
