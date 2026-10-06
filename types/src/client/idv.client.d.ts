@@ -8,12 +8,13 @@ export = IDVClient;
  */
 declare class IDVClient {
     /**
-     * @param {string} sdkId
-     * @param {string|Buffer} pem
-     * @param {{apiUrl?: string}} options
+     * @param {?string} sdkId
+     * @param {?(string|Buffer)} pem
+     * @param {{apiUrl?: string, authToken?: string}} options
      */
-    constructor(sdkId: string, pem: string | Buffer, { apiUrl }?: {
+    constructor(sdkId: string | null, pem: (string | Buffer) | null, { apiUrl, authToken }?: {
         apiUrl?: string;
+        authToken?: string;
     });
     /** @private */
     private idvService;

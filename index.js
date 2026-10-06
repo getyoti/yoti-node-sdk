@@ -63,6 +63,11 @@ const {
 const YotiCommon = require('./src/yoti_common');
 const { YotiRequest } = require('./src/request/request');
 const IDVError = require('./src/idv_service/idv.error');
+const {
+  AuthTokenStrategy,
+  AuthTokenGenerator,
+  CreateAuthenticationTokenResponse,
+} = require('./src/auth');
 
 module.exports = {
   internals: {
@@ -122,4 +127,7 @@ module.exports = {
   AdvancedIdentityProfileSchemeBuilder,
   AdvancedIdentityProfileRequirementsBuilder,
   AllowedProviderBuilder,
+  AuthTokenStrategy,
+  AuthTokenGenerator,
+  CreateAuthenticationTokenResponse,
 };

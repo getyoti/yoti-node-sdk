@@ -1,7 +1,7 @@
 const nock = require('nock');
 const fs = require('fs');
 
-const { RequestBuilder, Payload } = require('../..');
+const { RequestBuilder, Payload, AuthTokenStrategy } = require('../..');
 const yotiPackage = require('../../package.json');
 
 const PEM_FILE_PATH = './tests/sample-data/keys/node-sdk-test.pem';
@@ -51,12 +51,14 @@ describe('RequestBuilder', () => {
       expect(request).toHaveHeaders(DEFAULT_HEADERS);
     });
 
-    it('should require a PEM string or file', () => {
+    it('should require a PEM or auth strategy', () => {
       expect(() => {
         new RequestBuilder()
           .withBaseUrl(API_BASE_URL)
+          .withEndpoint(API_ENDPOINT)
+          .withGet()
           .build();
-      }).toThrow(new Error('PEM file path or string must be provided'));
+      }).toThrow(new Error('PEM or auth strategy must be provided'));
     });
 
     it('should require a base url', () => {
@@ -175,6 +177,37 @@ describe('RequestBuilder', () => {
           .withHeader(['Invalid-Name'], 'value')
           .build();
       }).toThrow(new TypeError('Header name must be a string'));
+    });
+  });
+  describe('#withAuthStrategy', () => {
+    it('should build request with token auth strategy', () => {
+      const strategy = new AuthTokenStrategy('my-token');
+      const request = new RequestBuilder()
+        .withBaseUrl(API_BASE_URL)
+        .withEndpoint(API_ENDPOINT)
+        .withAuthStrategy(strategy)
+        .withGet()
+        .build();
+
+      expect(request.getHeaders().Authorization).toBe('Bearer my-token');
+      expect(request.getHeaders()['X-Yoti-SDK']).toBe('Node');
+      expect(request.getHeaders()['X-Yoti-Auth-Digest']).toBeUndefined();
+      expect(request.getUrl()).not.toContain('nonce=');
+      expect(request.getUrl()).not.toContain('timestamp=');
+    });
+
+    it('should prioritize explicit authStrategy over PEM', () => {
+      const strategy = new AuthTokenStrategy('my-token');
+      const request = new RequestBuilder()
+        .withBaseUrl(API_BASE_URL)
+        .withEndpoint(API_ENDPOINT)
+        .withPemString(PEM_STRING)
+        .withAuthStrategy(strategy)
+        .withGet()
+        .build();
+
+      expect(request.getHeaders().Authorization).toBe('Bearer my-token');
+      expect(request.getHeaders()['X-Yoti-Auth-Digest']).toBeUndefined();
     });
   });
 });
