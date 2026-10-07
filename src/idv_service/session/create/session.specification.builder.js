@@ -8,6 +8,7 @@ const SdkConfig = require('./sdk.config');
 const RequiredDocument = require('./filters/required.document');
 const Validation = require('../../../yoti_common/validation');
 const AdvancedIdentityProfileRequirements = require('./identity_profile/advanced/advanced.identity.profile.requirements');
+const CompanyProfile = require('./company.profile');
 
 /**
  * Builder to assist the creation of {@link SessionSpecification}.
@@ -176,6 +177,12 @@ class SessionSpecificationBuilder {
     return this;
   }
 
+  withCompanyProfile(companyProfile) {
+    Validation.instanceOf(companyProfile, CompanyProfile, 'companyProfile');
+    this.companyProfile = companyProfile;
+    return this;
+  }
+
   /**
    * Builds the {@link SessionSpecification} based on the values supplied to the builder
    *
@@ -195,7 +202,8 @@ class SessionSpecificationBuilder {
       this.sessionDeadline,
       this.identityProfileRequirements,
       this.subject,
-      this.advancedIdentityProfileRequirements
+      this.advancedIdentityProfileRequirements,
+      this.companyProfile
     );
   }
 }
