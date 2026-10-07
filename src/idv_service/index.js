@@ -32,7 +32,7 @@ const UploadFaceCaptureImagePayloadBuilder = require('./session/create/face_capt
 const AdvancedIdentityProfileBuilder = require('./session/create/identity_profile/advanced/advanced.identity.profile.builder');
 const AdvancedIdentityProfileRequirementsBuilder = require('./session/create/identity_profile/advanced/advanced.identity.profile.requirements.builder');
 const AdvancedIdentityProfileSchemeBuilder = require('./session/create/identity_profile/advanced/advanced.identity.profile.scheme.builder');
-const AdvancedIdentityProfileSchemeConfigBuilder = require('./session/create/identity_profile/advanced/advanced.identity.profile.scheme.config');
+const AdvancedIdentityProfileSchemeConfigBuilder = require('./session/create/identity_profile/advanced/advanced.identity.profile.scheme.config.builder');
 const AllowedProviderBuilder = require('./session/create/filters/allowed.provider.builder');
 
 module.exports = {
