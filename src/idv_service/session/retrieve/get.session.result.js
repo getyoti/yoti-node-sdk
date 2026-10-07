@@ -114,7 +114,7 @@ class GetSessionResult {
     }
 
     if (response.organisation_name) {
-      Validation.isString(response.state, 'organisation_name');
+      Validation.isString(response.organisation_name, 'organisation_name');
       /** @private */
       this.organisationName = response.organisation_name;
     }
