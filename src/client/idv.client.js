@@ -2,6 +2,7 @@
 
 const config = require('../../config');
 const { IDVService } = require('../idv_service');
+const AuthTokenStrategy = require('../auth/auth.token.strategy');
 
 /**
  * Client used for communication with the Yoti IDV service
@@ -12,16 +13,28 @@ const { IDVService } = require('../idv_service');
  */
 class IDVClient {
   /**
-   * @param {string} sdkId
-   * @param {string|Buffer} pem
-   * @param {{apiUrl?: string}} options
+   * @param {?string} sdkId
+   * @param {?(string|Buffer)} pem
+   * @param {{apiUrl?: string, authToken?: string}} options
    */
-  constructor(sdkId, pem, { apiUrl } = {}) {
-    const options = {
-      apiUrl: apiUrl || config.yoti.idvApi,
-    };
-    /** @private */
-    this.idvService = new IDVService(sdkId, pem, options);
+  constructor(sdkId, pem, { apiUrl, authToken } = {}) {
+    if (authToken) {
+      if (sdkId || pem) {
+        throw new Error(
+          'Must not supply sdkId or PEM when using an authentication token'
+        );
+      }
+      /** @private */
+      this.idvService = new IDVService(null, null, {
+        apiUrl: apiUrl || config.yoti.idvApi,
+        authStrategy: new AuthTokenStrategy(authToken),
+      });
+    } else {
+      /** @private */
+      this.idvService = new IDVService(sdkId, pem, {
+        apiUrl: apiUrl || config.yoti.idvApi,
+      });
+    }
   }
 
   /**
