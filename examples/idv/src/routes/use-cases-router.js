@@ -16,6 +16,7 @@ const {
   watchlistCheckController,
   suppressedScreensCheckController,
   didDocumentsCheckController,
+  companyNameDemoController,
 } = controllers.useCasesControllers;
 
 const caseIdToControllerMapping = {
@@ -28,6 +29,7 @@ const caseIdToControllerMapping = {
   [Cases.WATCHLIST]: watchlistCheckController,
   [Cases.SUPPRESSED_SCREENS]: suppressedScreensCheckController,
   [Cases.WITH_DID_DOCUMENTS]: didDocumentsCheckController,
+  [Cases.WITH_COMPANY_NAME]: companyNameDemoController,
 };
 
 const casesEntries = [...CasesMap.entries()];

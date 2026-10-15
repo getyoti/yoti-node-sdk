@@ -177,6 +177,12 @@ class SessionSpecificationBuilder {
     return this;
   }
 
+  /**
+   *
+   * @param {CompanyProfile} companyProfile
+   *
+   * @returns {this}
+   */
   withCompanyProfile(companyProfile) {
     Validation.instanceOf(companyProfile, CompanyProfile, 'companyProfile');
     this.companyProfile = companyProfile;

@@ -8,6 +8,7 @@ const Cases = {
   WATCHLIST: 'watchlist',
   SUPPRESSED_SCREENS: 'suppressedScreens',
   WITH_DID_DOCUMENTS: 'withDigitalIdDocuments',
+  WITH_COMPANY_NAME: 'withCompanyName',
 };
 
 const CasesMap = new Map([
@@ -46,6 +47,10 @@ const CasesMap = new Map([
   [Cases.WITH_DID_DOCUMENTS, {
     name: 'Accept Digital ID',
     path: '/with-accepted-digital-id',
+  }],
+  [Cases.WITH_COMPANY_NAME, {
+    name: 'Add company name',
+    path: '/with-company-name',
   }],
 ]);
 
