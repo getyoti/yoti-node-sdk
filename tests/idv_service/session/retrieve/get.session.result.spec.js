@@ -15,6 +15,7 @@ const FaceComparisonCheckResponse = require('../../../../src/idv_service/session
 const IdentityProfileResponse = require('../../../../src/idv_service/session/retrieve/identity_profile/identity.profile.response');
 const AdvancedIdentityProfileResponse = require('../../../../src/idv_service/session/retrieve/identity_profile/advanced/advanced.identity.profile.response');
 const DigitalIdShareResponse = require('../../../../src/idv_service/session/retrieve/digital.id.share.response');
+const CompanyProfileResponse = require('../../../../src/idv_service/session/retrieve/company.profile.response');
 const { YotiDate } = require('../../../..');
 
 const ID_DOCUMENT_AUTHENTICITY = 'ID_DOCUMENT_AUTHENTICITY';
@@ -190,6 +191,10 @@ describe('GetSessionResult', () => {
           resource_id: 'a159072f-22b9-4fb0-8098-aa5bc8eb7615',
         },
       ],
+      organisation_name: 'Org One',
+      company_profile: {
+        company_name: 'My Company',
+      },
     });
   });
 
@@ -431,6 +436,23 @@ describe('GetSessionResult', () => {
       expect(spySessionResourcesFilterForCheck).toHaveBeenCalledWith(expect.objectContaining({ id: 'check-1', type: 'ID_DOCUMENT_AUTHENTICITY' }));
 
       expect(result).toBe(mockedResult);
+    });
+  });
+
+  describe('#getOrganisationName', () => {
+    it('should return the organisation name', () => {
+      const organisationName = session.getOrganisationName();
+
+      expect(organisationName).toBe('Org One');
+    });
+  });
+
+  describe('#getCompanyProfile', () => {
+    it('should return the company profile', () => {
+      const companyProfile = session.getCompanyProfile();
+
+      expect(companyProfile).toBeInstanceOf(CompanyProfileResponse);
+      expect(companyProfile.getCompanyName()).toBe('My Company');
     });
   });
 });

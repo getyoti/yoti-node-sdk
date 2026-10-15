@@ -25,6 +25,10 @@ declare class GetSessionResult {
     private advancedIdentityProfile;
     /** @private */
     private digitalIdShares;
+    /** @private */
+    private organisationName;
+    /** @private */
+    private companyProfile;
     /**
      * @returns {object}
      */
@@ -128,6 +132,14 @@ declare class GetSessionResult {
      * @returns {ResourceContainer}
      */
     getResourcesForCheck(checkId: string): ResourceContainer;
+    /**
+     * @returns {string|undefined}
+     */
+    getOrganisationName(): string | undefined;
+    /**
+     * @returns {CompanyProfileResponse|undefined}
+     */
+    getCompanyProfile(): CompanyProfileResponse | undefined;
 }
 import CheckResponse = require("./check.response");
 import AuthenticityCheckResponse = require("./authenticity.check.response");
@@ -146,3 +158,4 @@ import { YotiDate } from "../../../data_type/date";
 import IdentityProfileResponse = require("./identity_profile/identity.profile.response");
 import AdvancedIdentityProfileResponse = require("./identity_profile/advanced/advanced.identity.profile.response");
 import DigitalIdShareResponse = require("./digital.id.share.response");
+import CompanyProfileResponse = require("./company.profile.response");
