@@ -33,9 +33,11 @@ describe('CreateSessionOverviewPdfPayload', () => {
     let payload = new CreateSessionOverviewPdfPayload();
 
     let expectedJson = JSON.stringify({
-      include_images: false,
-      include_extracted_text: false,
-      include_device_tracking: false,
+      options: {
+        include_images: undefined,
+        include_extracted_text: undefined,
+        include_device_tracking: undefined,
+      },
     });
 
     expect(JSON.stringify(payload)).toBe(expectedJson);
@@ -43,9 +45,11 @@ describe('CreateSessionOverviewPdfPayload', () => {
     payload = new CreateSessionOverviewPdfPayload(true, true, false);
 
     expectedJson = JSON.stringify({
-      include_images: true,
-      include_extracted_text: true,
-      include_device_tracking: false,
+      options: {
+        include_images: true,
+        include_extracted_text: true,
+        include_device_tracking: false,
+      },
     });
 
     expect(JSON.stringify(payload)).toBe(expectedJson);

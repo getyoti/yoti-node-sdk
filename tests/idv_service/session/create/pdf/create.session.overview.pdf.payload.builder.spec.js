@@ -33,25 +33,30 @@ describe('CreateFaceCaptureResourcePayload', () => {
     expect(payload).toBeInstanceOf(CreateSessionOverviewPdfPayload);
 
     let expectedJson = JSON.stringify({
-      include_images: false,
-      include_extracted_text: false,
-      include_device_tracking: false,
+      options: {
+        include_images: undefined,
+        include_extracted_text: undefined,
+        include_device_tracking: undefined,
+      },
     });
 
+    console.log(`>>>>`, JSON.stringify(payload), `<<<< JSON.stringify(payload)`)
     expect(JSON.stringify(payload)).toBe(expectedJson);
 
     payload = new CreateSessionOverviewPdfPayloadBuilder()
       .withIncludeImages(true)
       .withIncludeExtractedText(true)
-      .withIncludeDeviceTracking(true)
+      .withIncludeDeviceTracking(false)
       .build();
 
     expect(payload).toBeInstanceOf(CreateSessionOverviewPdfPayload);
 
     expectedJson = JSON.stringify({
-      include_images: true,
-      include_extracted_text: true,
-      include_device_tracking: true,
+      options: {
+        include_images: true,
+        include_extracted_text: true,
+        include_device_tracking: false,
+      },
     });
 
     expect(JSON.stringify(payload)).toBe(expectedJson);

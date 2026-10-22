@@ -16,9 +16,9 @@ async function main() {
   );
 
   const payload = new CreateSessionOverviewPdfPayloadBuilder()
-    .withIncludeImages(false)
-    .withIncludeExtractedText(false)
-    .withIncludeDeviceTracking(false)
+    .withIncludeImages(true)
+    .withIncludeExtractedText(true)
+    .withIncludeDeviceTracking(true)
     .build();
 
   const media = await idvClient.createSessionOverviewPdf(sessionId, payload);

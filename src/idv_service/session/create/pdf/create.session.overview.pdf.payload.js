@@ -12,16 +12,16 @@ class CreateSessionOverviewPdfPayload {
    * @param {boolean} [includeExtractedText]
    * @param {boolean} [includeDeviceTracking]
    */
-  constructor(includeImages = false, includeExtractedText = false, includeDeviceTracking = false) {
-    Validation.isBoolean(includeImages, 'includeImages');
+  constructor(includeImages, includeExtractedText, includeDeviceTracking) {
+    Validation.isBoolean(includeImages, 'includeImages', true);
     /** @private */
     this.includeImages = includeImages;
 
-    Validation.isBoolean(includeExtractedText, 'includeExtractedText');
+    Validation.isBoolean(includeExtractedText, 'includeExtractedText', true);
     /** @private */
     this.includeExtractedText = includeExtractedText;
 
-    Validation.isBoolean(includeDeviceTracking, 'includeDeviceTracking');
+    Validation.isBoolean(includeDeviceTracking, 'includeDeviceTracking', true);
     /** @private */
     this.includeDeviceTracking = includeDeviceTracking;
   }
@@ -31,9 +31,11 @@ class CreateSessionOverviewPdfPayload {
    */
   toJSON() {
     return {
-      include_images: this.includeImages,
-      include_extracted_text: this.includeExtractedText,
-      include_device_tracking: this.includeDeviceTracking,
+      options: {
+        include_images: this.includeImages,
+        include_extracted_text: this.includeExtractedText,
+        include_device_tracking: this.includeDeviceTracking,
+      },
     };
   }
 }

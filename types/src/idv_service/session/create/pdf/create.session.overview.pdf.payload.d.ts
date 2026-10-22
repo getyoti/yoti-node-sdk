@@ -20,8 +20,10 @@ declare class CreateSessionOverviewPdfPayload {
      * Returns serialized data for JSON.stringify()
      */
     toJSON(): {
-        include_images: boolean;
-        include_extracted_text: boolean;
-        include_device_tracking: boolean;
+        options: {
+            include_images: boolean;
+            include_extracted_text: boolean;
+            include_device_tracking: boolean;
+        };
     };
 }
