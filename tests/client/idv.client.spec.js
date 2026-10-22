@@ -10,6 +10,7 @@ const {
   SessionSpecificationBuilder,
   CreateFaceCaptureResourcePayloadBuilder,
   UploadFaceCaptureImagePayloadBuilder,
+  CreateSessionOverviewPdfPayloadBuilder,
 } = require('../..');
 
 const { IDVService } = require('../../src/idv_service');
@@ -55,6 +56,7 @@ describe.each([
   const sessionConfigUriRegExp = new RegExp(`/sessions/${SESSION_ID}/configuration`);
   const sessionTrackedDevicesUriRegExp = new RegExp(`/sessions/${SESSION_ID}/tracked-devices`);
   const faceCaptureCreateUri = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture`);
+  const createSessionOverviewPdfUri = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/pdf`);
   const uploadFaceCaptureImageUri = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture/${RESOURCE_ID}/image`);
 
   let idvClient;
@@ -378,6 +380,32 @@ describe.each([
         .uploadFaceCaptureImage(SESSION_ID, RESOURCE_ID, uploadFaceCaptureImagePayload)
         .then((result) => {
           expect(result).toBeDefined();
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe('#createSessionOverviewPdf', () => {
+    const createSessionOverviewPdfPayloadPayload = new CreateSessionOverviewPdfPayloadBuilder().build();
+
+    const setupResponse = () => {
+      nock(apiUrlDomain)
+        .post(createSessionOverviewPdfUri)
+        .reply(200, Buffer.from('a-pdf'), {
+          'Content-Type': 'application/pdf',
+        });
+    };
+
+    beforeEach(() => {
+      setupResponse();
+    });
+
+    it('should return media', (done) => {
+      idvClient
+        .createSessionOverviewPdf(SESSION_ID, createSessionOverviewPdfPayloadPayload)
+        .then((result) => {
+          expect(result).toBeInstanceOf(Media);
           done();
         })
         .catch(done);

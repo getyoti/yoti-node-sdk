@@ -16,6 +16,7 @@ const CreateFaceCaptureResourcePayload = require('./session/create/face_capture/
 const UploadFaceCaptureImagePayload = require('./session/create/face_capture/upload.face.capture.image.payload');
 const SessionConfigurationResponse = require('./session/retrieve/configuration/session.configuration.response');
 const SessionTrackedDevicesResponse = require('./session/retrieve/devices/session.tracked.devices.response');
+const CreateSessionOverviewPdfPayload = require('./session/create/pdf/create.session.overview.pdf.payload');
 
 const DEFAULT_API_URL = config.yoti.idvApi;
 
@@ -371,6 +372,43 @@ class IDVService {
     return new Promise((resolve, reject) => {
       request.execute(true)
         .then(() => resolve())
+        .catch((err) => reject(new IDVError(err)));
+    });
+  }
+
+  /**
+   * Creates a session PDF overview
+   * @param {string} sessionId
+   * @param {CreateSessionOverviewPdfPayload} createSessionOverviewPdfPayload
+   *
+   * @returns {Promise<Media>}
+   */
+  createSessionOverviewPdf(sessionId, createSessionOverviewPdfPayload) {
+    Validation.isString(sessionId, 'sessionId');
+    Validation.instanceOf(createSessionOverviewPdfPayload, CreateSessionOverviewPdfPayload, 'createSessionOverviewPdfPayload');
+
+    const request = new RequestBuilder()
+      .withPemString(this.pem.toString())
+      .withBaseUrl(this.apiUrl)
+      .withEndpoint(`sessions/${sessionId}/pdf`)
+      .withQueryParam('sdkId', this.sdkId)
+      .withPost()
+      .withPayload(new Payload(createSessionOverviewPdfPayload))
+      .build();
+
+    return new Promise((resolve, reject) => {
+      request.execute(true)
+        .then((response) => {
+          const contentType = response.getHeaders()['content-type'];
+          const mimeType = contentType ? contentType.split(';')[0] : '';
+
+          let content = response.getBody();
+          if (!Buffer.isBuffer(content)) {
+            content = Buffer.from(content || '');
+          }
+
+          return resolve(new Media(content, mimeType));
+        })
         .catch((err) => reject(new IDVError(err)));
     });
   }
