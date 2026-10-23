@@ -7,7 +7,8 @@
     "node": ">=14"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "start:pdf": "node index.pdf.js"
   },
   "dependencies": {
     "body-parser": "1.20.6",
