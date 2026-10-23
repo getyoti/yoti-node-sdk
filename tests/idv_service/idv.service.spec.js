@@ -878,7 +878,7 @@ describe('IDVService', () => {
     describe('when a valid response is returned', () => {
       test('should return correct media', (done) => {
         nock(config.yoti.idvApi)
-          .post(OVERVIEW_PDF_URI)
+          .post(OVERVIEW_PDF_URI, JSON.stringify(payload))
           .reply(200, Buffer.from('a string instead of a PDF, for the test'), {
             'Content-Type': 'application/pdf',
           });
@@ -902,7 +902,7 @@ describe('IDVService', () => {
     describe('when response is invalid', () => {
       it('should reject', (done) => {
         nock(config.yoti.idvApi)
-          .post(OVERVIEW_PDF_URI)
+          .post(OVERVIEW_PDF_URI, JSON.stringify(payload))
           .reply(400);
 
         idvService
@@ -918,7 +918,7 @@ describe('IDVService', () => {
     describe('when response code is invalid with response body', () => {
       it('should reject with response message and body', (done) => {
         nock(config.yoti.idvApi)
-          .post(OVERVIEW_PDF_URI)
+          .post(OVERVIEW_PDF_URI, JSON.stringify(payload))
           .reply(400, SOME_ERROR_RESPONSE, JSON_RESPONSE_HEADERS);
 
         idvService

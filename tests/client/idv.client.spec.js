@@ -391,7 +391,7 @@ describe.each([
 
     const setupResponse = () => {
       nock(apiUrlDomain)
-        .post(createSessionOverviewPdfUri)
+        .post(createSessionOverviewPdfUri, JSON.stringify(createSessionOverviewPdfPayloadPayload))
         .reply(200, Buffer.from('a-pdf'), {
           'Content-Type': 'application/pdf',
         });
