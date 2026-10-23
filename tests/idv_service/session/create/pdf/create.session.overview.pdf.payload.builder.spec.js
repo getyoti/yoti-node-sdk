@@ -40,7 +40,6 @@ describe('CreateFaceCaptureResourcePayload', () => {
       },
     });
 
-    console.log(`>>>>`, JSON.stringify(payload), `<<<< JSON.stringify(payload)`)
     expect(JSON.stringify(payload)).toBe(expectedJson);
 
     payload = new CreateSessionOverviewPdfPayloadBuilder()
