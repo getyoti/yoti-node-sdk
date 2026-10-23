@@ -873,7 +873,10 @@ describe('IDVService', () => {
   });
 
   describe('#createSessionOverviewPdf', () => {
-    const payload = new CreateSessionOverviewPdfPayloadBuilder().build();
+    const payload = new CreateSessionOverviewPdfPayloadBuilder()
+      .withIncludeImages(true)
+      .withIncludeExtractedText(false)
+      .build();
 
     describe('when a valid response is returned', () => {
       test('should return correct media', (done) => {

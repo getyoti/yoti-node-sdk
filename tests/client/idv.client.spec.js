@@ -387,7 +387,10 @@ describe.each([
   });
 
   describe('#createSessionOverviewPdf', () => {
-    const createSessionOverviewPdfPayload = new CreateSessionOverviewPdfPayloadBuilder().build();
+    const createSessionOverviewPdfPayload = new CreateSessionOverviewPdfPayloadBuilder()
+      .withIncludeImages(true)
+      .withIncludeExtractedText(false)
+      .build();
 
     const setupResponse = () => {
       nock(apiUrlDomain)
