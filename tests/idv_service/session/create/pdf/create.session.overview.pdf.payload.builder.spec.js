@@ -1,7 +1,7 @@
 const CreateSessionOverviewPdfPayload = require('../../../../../src/idv_service/session/create/pdf/create.session.overview.pdf.payload');
 const CreateSessionOverviewPdfPayloadBuilder = require('../../../../../src/idv_service/session/create/pdf/create.session.overview.pdf.payload.builder');
 
-describe('CreateFaceCaptureResourcePayload', () => {
+describe('CreateSessionOverviewPdfPayloadBuilder', () => {
   it('should throw an TypeError when the includeImages parameter is not a boolean', () => {
     expect(() => {
       new CreateSessionOverviewPdfPayloadBuilder()

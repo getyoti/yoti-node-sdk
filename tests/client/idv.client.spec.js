@@ -387,11 +387,11 @@ describe.each([
   });
 
   describe('#createSessionOverviewPdf', () => {
-    const createSessionOverviewPdfPayloadPayload = new CreateSessionOverviewPdfPayloadBuilder().build();
+    const createSessionOverviewPdfPayload = new CreateSessionOverviewPdfPayloadBuilder().build();
 
     const setupResponse = () => {
       nock(apiUrlDomain)
-        .post(createSessionOverviewPdfUri, JSON.stringify(createSessionOverviewPdfPayloadPayload))
+        .post(createSessionOverviewPdfUri, JSON.stringify(createSessionOverviewPdfPayload))
         .reply(200, Buffer.from('a-pdf'), {
           'Content-Type': 'application/pdf',
         });
@@ -403,7 +403,7 @@ describe.each([
 
     it('should return media', (done) => {
       idvClient
-        .createSessionOverviewPdf(SESSION_ID, createSessionOverviewPdfPayloadPayload)
+        .createSessionOverviewPdf(SESSION_ID, createSessionOverviewPdfPayload)
         .then((result) => {
           expect(result).toBeInstanceOf(Media);
           done();
