@@ -43,6 +43,14 @@
                         </td>
                     </tr>
                     <% } %>
+                    <% if (sessionResult.getCompanyProfile()) { %>
+                    <tr>
+                        <td>Company name</td>
+                        <td>
+                            <%= sessionResult.getCompanyProfile().getCompanyName() %>
+                        </td>
+                    </tr>
+                    <% } %>
                 </tbody>
             </table>
         </div>

@@ -27,6 +27,7 @@ const {
   SessionSpecificationBuilder,
   NotificationConfigBuilder,
   SdkConfigBuilder,
+  CompanyProfileBuilder,
   RequestedDocumentAuthenticityCheckBuilder,
   RequestedIdDocumentComparisonCheckBuilder,
   RequestedThirdPartyIdentityCheckBuilder,
@@ -58,6 +59,7 @@ const {
   AdvancedIdentityProfileSchemeBuilder,
   AdvancedIdentityProfileRequirementsBuilder,
   AllowedProviderBuilder,
+  CreateSessionOverviewPdfPayloadBuilder,
 } = require('./src/idv_service');
 
 const YotiCommon = require('./src/yoti_common');
@@ -93,6 +95,7 @@ module.exports = {
   SessionSpecificationBuilder,
   NotificationConfigBuilder,
   SdkConfigBuilder,
+  CompanyProfileBuilder,
   RequestedDocumentAuthenticityCheckBuilder,
   RequestedIdDocumentComparisonCheckBuilder,
   RequestedThirdPartyIdentityCheckBuilder,
@@ -122,4 +125,5 @@ module.exports = {
   AdvancedIdentityProfileSchemeBuilder,
   AdvancedIdentityProfileRequirementsBuilder,
   AllowedProviderBuilder,
+  CreateSessionOverviewPdfPayloadBuilder,
 };

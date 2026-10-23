@@ -177,6 +177,20 @@ class IDVClient {
   deleteSessionTrackedDevices(sessionId) {
     return this.idvService.deleteSessionTrackedDevices(sessionId);
   }
+
+  /**
+   * Creates a session PDF overview
+   *
+   * @typedef {import('../idv_service/session/create/pdf/create.session.overview.pdf.payload')} CreateSessionOverviewPdfPayload
+   *
+   * @param {string} sessionId
+   * @param {CreateSessionOverviewPdfPayload} createSessionOverviewPdfPayload
+   *
+   * @returns {Promise<import('../data_type/media.js') | null>}
+   */
+  createSessionOverviewPdf(sessionId, createSessionOverviewPdfPayload) {
+    return this.idvService.createSessionOverviewPdf(sessionId, createSessionOverviewPdfPayload);
+  }
 }
 
 module.exports = IDVClient;

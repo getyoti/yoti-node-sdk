@@ -109,6 +109,14 @@ declare class SessionSpecificationBuilder {
     withAdvancedIdentityProfileRequirements(advancedIdentityProfileRequirements: any): this;
     advancedIdentityProfileRequirements: any;
     /**
+     *
+     * @param {CompanyProfile} companyProfile
+     *
+     * @returns {this}
+     */
+    withCompanyProfile(companyProfile: CompanyProfile): this;
+    companyProfile: CompanyProfile;
+    /**
      * Builds the {@link SessionSpecification} based on the values supplied to the builder
      *
      * @returns {SessionSpecification}
@@ -120,4 +128,5 @@ import RequestedCheck = require("./check/requested.check");
 import RequestedTask = require("./task/requested.task");
 import SdkConfig = require("./sdk.config");
 import RequiredDocument = require("./filters/required.document");
+import CompanyProfile = require("./company.profile");
 import SessionSpecification = require("./session.specification");
