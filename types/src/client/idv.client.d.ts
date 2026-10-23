@@ -131,4 +131,15 @@ declare class IDVClient {
      * @returns {Promise<void>}
      */
     deleteSessionTrackedDevices(sessionId: string): Promise<void>;
+    /**
+     * Creates a session PDF overview
+     *
+     * @typedef {import('../idv_service/session/create/pdf/create.session.overview.pdf.payload')} CreateSessionOverviewPdfPayload
+     *
+     * @param {string} sessionId
+     * @param {CreateSessionOverviewPdfPayload} createSessionOverviewPdfPayload
+     *
+     * @returns {Promise<import('../data_type/media.js') | null>}
+     */
+    createSessionOverviewPdf(sessionId: string, createSessionOverviewPdfPayload: import("../idv_service/session/create/pdf/create.session.overview.pdf.payload")): Promise<import('../data_type/media.js') | null>;
 }

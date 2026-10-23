@@ -59,6 +59,7 @@ const {
   AdvancedIdentityProfileSchemeBuilder,
   AdvancedIdentityProfileRequirementsBuilder,
   AllowedProviderBuilder,
+  CreateSessionOverviewPdfPayloadBuilder,
 } = require('./src/idv_service');
 
 const YotiCommon = require('./src/yoti_common');
@@ -124,4 +125,5 @@ module.exports = {
   AdvancedIdentityProfileSchemeBuilder,
   AdvancedIdentityProfileRequirementsBuilder,
   AllowedProviderBuilder,
+  CreateSessionOverviewPdfPayloadBuilder,
 };
