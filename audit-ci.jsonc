@@ -1,5 +1,10 @@
 {
     "moderate": true,
     "skip-dev": false,
-    "allowlist": []
+    "allowlist": [
+        // node-forge 1.4.0 is the latest published release. GHSA-86w9-cpqp-85rv
+        // affects RSA PKCS#1 v1.5 signature verification; this SDK does not call
+        // Forge's verification API. Remove this entry when an upstream fix ships.
+        "GHSA-86w9-cpqp-85rv"
+    ]
 }
