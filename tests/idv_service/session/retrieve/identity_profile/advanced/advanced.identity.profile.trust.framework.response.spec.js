@@ -27,13 +27,11 @@ describe('AdvancedIdentityProfileTrustFrameworkResponse', () => {
       ],
     };
 
-    // eslint-disable-next-line max-len
     advancedIdentityProfileTrustFrameworkResponse = new AdvancedIdentityProfileTrustFrameworkResponse(response);
   });
 
   describe('#getTrustFramework', () => {
     it('should return trust_framework', () => {
-      // eslint-disable-next-line max-len
       const trustFramework = advancedIdentityProfileTrustFrameworkResponse.getTrustFramework();
       expect(trustFramework).toBe('UK_TFIDA');
     });
@@ -41,7 +39,6 @@ describe('AdvancedIdentityProfileTrustFrameworkResponse', () => {
 
   describe('#getSchemesCompliance', () => {
     it('should return schemes_compliance', () => {
-      // eslint-disable-next-line max-len
       const schemesCompliance = advancedIdentityProfileTrustFrameworkResponse.getSchemesCompliance();
       expect(schemesCompliance).toHaveLength(2);
       expect(schemesCompliance[0]).toBeInstanceOf(AdvancedIdentityProfileSchemeComplianceResponse);

@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('node:fs');
 const {
   ATTR_SELFIE,
   ATTR_GENDER,
@@ -208,7 +208,7 @@ describe('UserProfile', () => {
         it('should return all attributes as an array', () => {
           const attributes = profile.getAttributesList();
           expect(attributes).toBeInstanceOf(Array);
-          expect(attributes.length).toBe(profileContent.length);
+          expect(attributes).toHaveLength(profileContent.length);
           attributes.forEach((attribute) => {
             expect(attribute).toBeInstanceOf(Attribute);
           });
@@ -222,11 +222,11 @@ describe('UserProfile', () => {
           const allGenderAttributes = profile.getAttributesByName(ATTR_GENDER);
 
           if (!hasMultipleAttributeByName) {
-            expect(allGenderAttributes.length).toBe(1);
+            expect(allGenderAttributes).toHaveLength(1);
             const [onlyAttribute] = allGenderAttributes;
             expect(onlyAttribute.getValue()).toBe(matchingAttribute.value);
           } else {
-            expect(allGenderAttributes.length).toBe(2);
+            expect(allGenderAttributes).toHaveLength(2);
             const [firstAttribute, secondAttribute] = allGenderAttributes;
             expect(firstAttribute.getValue()).toBe(matchingAttribute.value);
             expect(secondAttribute.getValue()).toBe(matchingAttribute.value);
@@ -349,13 +349,13 @@ describe('UserProfile', () => {
         it('should return corresponding attributes', () => {
           if (hasMultipleAttributeByName) {
             const selfies = profile.getAttributesByName('selfie');
-            expect(selfies.length).toBe(2);
+            expect(selfies).toHaveLength(2);
             expect(selfies[0].getId()).not.toBe(selfies[1].getId());
             expect(profile.getAttributeById(selfies[0].getId())).toBe(selfies[0]);
             expect(profile.getAttributeById(selfies[1].getId())).toBe(selfies[1]);
 
             const documentImages = profile.getAttributesByName(ATTR_DOCUMENT_IMAGES);
-            expect(documentImages.length).toBe(2);
+            expect(documentImages).toHaveLength(2);
             expect(documentImages[0].getId()).not.toBe(documentImages[1].getId());
             expect(profile.getAttributeById(documentImages[0].getId())).toBe(documentImages[0]);
             expect(profile.getAttributeById(documentImages[1].getId())).toBe(documentImages[1]);

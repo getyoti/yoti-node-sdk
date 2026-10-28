@@ -75,7 +75,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [14, 16, 18, 20, 22, 24]
+        node-version: [22, 24, 26]
 
     steps:
       - uses: actions/checkout@v4
@@ -87,9 +87,6 @@ jobs:
       - run: npm install --ignore-scripts
 
       - run: npm update
-
-      # Jest 30 does not support Node 14/16
-      - run: npm install --ignore-scripts jest@29
 
       - run: npm run test
 

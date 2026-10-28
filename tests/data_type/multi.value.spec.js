@@ -34,7 +34,7 @@ describe('MultiValue', () => {
   describe('#applyFilters', () => {
     it('should apply filters to all multi values', () => {
       const multiValue = new MultiValue(getTestValues());
-      expect(multiValue.getItems().length).toBe(6);
+      expect(multiValue.getItems()).toHaveLength(6);
 
       // Apply filters.
       multiValue
@@ -42,17 +42,17 @@ describe('MultiValue', () => {
         .allowInstance(MultiValue);
 
       // First level.
-      expect(multiValue.getItems().length).toBe(2);
+      expect(multiValue.getItems()).toHaveLength(2);
 
       // Second level.
       const secondLevelMultiValue = multiValue.getItems()[1];
-      expect(secondLevelMultiValue.getItems().length).toBe(2);
+      expect(secondLevelMultiValue.getItems()).toHaveLength(2);
       expect(secondLevelMultiValue.getItems()[0]).toBeInstanceOf(ImageJpeg);
       expect(secondLevelMultiValue.getItems()[1]).toBeInstanceOf(MultiValue);
 
       // Third level.
       const thirdLevelMultiValue = secondLevelMultiValue.getItems()[1];
-      expect(thirdLevelMultiValue.getItems().length).toBe(1);
+      expect(thirdLevelMultiValue.getItems()).toHaveLength(1);
       expect(thirdLevelMultiValue.getItems()[0]).toBeInstanceOf(ImageJpeg);
     });
     it('should allow combination of instance and type filters', () => {
@@ -63,14 +63,14 @@ describe('MultiValue', () => {
         .allowInstance(ImageJpeg)
         .allowType('Array')
         .allowType('MultiValue');
-      expect(multiValue.getItems().length).toBe(3);
+      expect(multiValue.getItems()).toHaveLength(3);
       expect(multiValue.getItems()[0]).toBeInstanceOf(ImageJpeg);
       expect(multiValue.getItems()[1]).toEqual(['test', 'array']);
       expect(multiValue.getItems()[2]).toBeInstanceOf(MultiValue);
 
       // Check filters applied to second level.
       const secondLevelMultiValue = multiValue.getItems()[2];
-      expect(secondLevelMultiValue.getItems().length).toBe(3);
+      expect(secondLevelMultiValue.getItems()).toHaveLength(3);
       expect(secondLevelMultiValue.getItems()[0]).toBeInstanceOf(ImageJpeg);
       expect(secondLevelMultiValue.getItems()[1]).toEqual(['test', 'array 2']);
       expect(secondLevelMultiValue.getItems()[2]).toBeInstanceOf(MultiValue);
@@ -82,11 +82,11 @@ describe('MultiValue', () => {
       expect(multiValue.getItems()).toEqual(getTestValues());
 
       multiValue.allowInstance(ImageJpeg);
-      expect(multiValue.getItems().length).toBe(1);
+      expect(multiValue.getItems()).toHaveLength(1);
       expect(multiValue.getItems()[0]).toBeInstanceOf(ImageJpeg);
 
       multiValue.allowInstance(ImagePng);
-      expect(multiValue.getItems().length).toBe(2);
+      expect(multiValue.getItems()).toHaveLength(2);
       expect(multiValue.getItems()[0]).toBeInstanceOf(ImageJpeg);
       expect(multiValue.getItems()[1]).toBeInstanceOf(ImagePng);
     });
@@ -99,12 +99,12 @@ describe('MultiValue', () => {
       multiValue
         .allowType('String')
         .allowType('Object');
-      expect(multiValue.getItems().length).toBe(2);
+      expect(multiValue.getItems()).toHaveLength(2);
       expect(multiValue.getItems()[0]).toBe('test string');
       expect(multiValue.getItems()[1]).toEqual({ name: 'test object' });
 
       multiValue.allowType('Array');
-      expect(multiValue.getItems().length).toBe(3);
+      expect(multiValue.getItems()).toHaveLength(3);
     });
   });
 });

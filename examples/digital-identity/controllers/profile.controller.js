@@ -194,7 +194,7 @@ function renderProfileWithIdentity(profile, res) {
 
     // Document images (if any)
     documentImagesAttributes = documents
-    // eslint-disable-next-line max-len
+
       .map(({ document_images_attribute_id: documentImagesAttributeId }) => (documentImagesAttributeId
         ? (profile && profile.getAttributeById(documentImagesAttributeId))
         : null))
@@ -212,7 +212,7 @@ function renderProfileWithIdentity(profile, res) {
       const { documents } = evidence;
 
       return documents
-      // eslint-disable-next-line max-len
+
         .map(({ document_images_attribute_id: documentImagesAttributeId }) => (documentImagesAttributeId
           ? (profile && profile.getAttributeById(documentImagesAttributeId)) : null))
         .filter((documentImagesAttribute) => documentImagesAttribute);

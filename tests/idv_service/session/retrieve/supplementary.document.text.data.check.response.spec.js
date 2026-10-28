@@ -57,7 +57,7 @@ describe('SupplementaryDocumentTextDataCheckResponse', () => {
   describe('#getResourcesUsed', () => {
     it('should return list of resources', () => {
       const resources = checkResponse.getResourcesUsed();
-      expect(resources.length).toBe(2);
+      expect(resources).toHaveLength(2);
       expect(resources[0]).toBe('some-resource');
       expect(resources[1]).toBe('some-other-resource');
     });
@@ -66,7 +66,7 @@ describe('SupplementaryDocumentTextDataCheckResponse', () => {
   describe('#getGeneratedMedia', () => {
     it('should return list of generated media', () => {
       const media = checkResponse.getGeneratedMedia();
-      expect(media.length).toBe(2);
+      expect(media).toHaveLength(2);
       media.forEach((mediaItem) => {
         expect(mediaItem).toBeInstanceOf(GeneratedMedia);
       });

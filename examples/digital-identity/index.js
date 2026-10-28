@@ -1,10 +1,10 @@
 require('dotenv').config();
 
 const express = require('express');
-const https = require('https');
+const https = require('node:https');
 const bodyParser = require('body-parser');
-const path = require('path');
-const fs = require('fs');
+const path = require('node:path');
+const fs = require('node:fs');
 
 const defaultController = require('./controllers/index.controller');
 const shareController = require('./controllers/share.controller');

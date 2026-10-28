@@ -17,7 +17,7 @@ module.exports = class WantedAttribute {
    * @param {string[]|null} alternativeNames
    * @param {boolean|null} optional
    */
-  // eslint-disable-next-line max-len
+
   constructor(name, derivation = null, acceptSelfAsserted = null, constraints = null, alternativeNames = null, optional = null) {
     Validation.isString(name, 'name');
     Validation.notNullOrEmpty(name, 'name');

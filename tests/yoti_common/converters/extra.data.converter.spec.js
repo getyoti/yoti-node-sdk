@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('fs');
+const fs = require('node:fs');
 const ExtraDataConverter = require('../../../src/yoti_common/converters/extra.data.converter');
 const { YotiDate } = require('../../../src/data_type/date');
 
@@ -20,7 +20,7 @@ describe('ExtraDataConverter', () => {
       expect(attributeIssuanceDetails).not.toBe(undefined);
       expect(attributeIssuanceDetails.getToken()).toEqual('c29tZUlzc3VhbmNlVG9rZW4=');
       expect(attributeIssuanceDetails.getExpiryDate()).toBeInstanceOf(YotiDate);
-      expect(attributeIssuanceDetails.getIssuingAttributes().length).toEqual(2);
+      expect(attributeIssuanceDetails.getIssuingAttributes()).toHaveLength(2);
       expect(attributeIssuanceDetails.getIssuingAttributes()[0].getName()).toEqual('com.thirdparty.id');
       expect(attributeIssuanceDetails.getIssuingAttributes()[1].getName()).toEqual('com.thirdparty.other_id');
 

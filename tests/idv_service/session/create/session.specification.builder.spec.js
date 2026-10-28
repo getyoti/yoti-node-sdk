@@ -50,7 +50,6 @@ describe('SessionSpecificationBuilder', () => {
       .withSanctionsCategory()
       .build();
 
-    // eslint-disable-next-line max-len
     const customAccountWatchlistAdvancedCaConfigBuilder = new RequestedCustomAccountWatchlistAdvancedCaConfigBuilder();
     const customAccountWatchlistAdvancedCaConfig = customAccountWatchlistAdvancedCaConfigBuilder
       .withApiKey('api-key')

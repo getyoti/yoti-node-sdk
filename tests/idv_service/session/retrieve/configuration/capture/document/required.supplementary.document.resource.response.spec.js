@@ -4,7 +4,6 @@ describe('RequiredSupplementaryDocumentResourceResponse', () => {
   let requiredSupplementaryDocumentResourceResponse;
 
   beforeEach(() => {
-    // eslint-disable-next-line max-len
     requiredSupplementaryDocumentResourceResponse = new RequiredSupplementaryDocumentResourceResponse({
       type: 'SUPPLEMENTARY_DOCUMENT',
       id: '',

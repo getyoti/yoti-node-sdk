@@ -29,7 +29,7 @@ describe('PageResponse', () => {
     describe('when frames are available', () => {
       it('should return array of frames', () => {
         const frames = pageResponse.getFrames();
-        expect(frames.length).toBe(2);
+        expect(frames).toHaveLength(2);
         frames.forEach((frame) => {
           expect(frame).toBeInstanceOf(FrameResponse);
         });
@@ -40,7 +40,7 @@ describe('PageResponse', () => {
         pageResponse = new PageResponse({});
         const frames = pageResponse.getFrames();
         expect(frames).toBeInstanceOf(Array);
-        expect(frames.length).toBe(0);
+        expect(frames).toHaveLength(0);
       });
     });
   });
@@ -55,7 +55,7 @@ describe('PageResponse', () => {
         pageResponse = new PageResponse({
           extraction_image_ids: extractionImageIds,
         });
-        expect(pageResponse.getExtractionImageIds().length).toBe(2);
+        expect(pageResponse.getExtractionImageIds()).toHaveLength(2);
         expect(pageResponse.getExtractionImageIds()).toEqual(extractionImageIds);
       });
     });
@@ -64,7 +64,7 @@ describe('PageResponse', () => {
         pageResponse = new PageResponse({});
         const extractionImageIds = pageResponse.getExtractionImageIds();
         expect(extractionImageIds).toBeInstanceOf(Array);
-        expect(extractionImageIds.length).toBe(0);
+        expect(extractionImageIds).toHaveLength(0);
       });
     });
   });

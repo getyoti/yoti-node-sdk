@@ -43,7 +43,7 @@ describe('SupplementaryDocumentResourceResponse', () => {
   describe('#getPages', () => {
     it('should return array of page info', () => {
       const pages = documentResourceResponse.getPages();
-      expect(pages.length).toBe(1);
+      expect(pages).toHaveLength(1);
       expect(pages[0]).toBeInstanceOf(PageResponse);
     });
   });

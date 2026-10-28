@@ -1,9 +1,9 @@
 require('dotenv').config();
 
 const express = require('express');
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
+const https = require('node:https');
+const fs = require('node:fs');
+const path = require('node:path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const controllers = require('./src/controllers');

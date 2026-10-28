@@ -75,7 +75,7 @@ describe('TaskResponse', () => {
       it('should return list of generated checks', () => {
         const checks = taskResponse.getGeneratedChecks();
 
-        expect(checks.length).toBe(3);
+        expect(checks).toHaveLength(3);
 
         expect(checks[0]).toBeInstanceOf(GeneratedTextDataCheckResponse);
         expect(checks[0].getType()).toBe(ID_DOCUMENT_TEXT_DATA_CHECK);
@@ -92,7 +92,7 @@ describe('TaskResponse', () => {
         taskResponse = new TaskResponse({});
         const checks = taskResponse.getGeneratedChecks();
         expect(checks).toBeInstanceOf(Array);
-        expect(checks.length).toBe(0);
+        expect(checks).toHaveLength(0);
       });
     });
   });
@@ -110,7 +110,7 @@ describe('TaskResponse', () => {
     describe('when generated media is available', () => {
       it('should return generated media', () => {
         const media = taskResponse.getGeneratedMedia();
-        expect(media.length).toBe(2);
+        expect(media).toHaveLength(2);
         media.forEach((mediaItem) => {
           expect(mediaItem).toBeInstanceOf(GeneratedMedia);
         });
@@ -121,7 +121,7 @@ describe('TaskResponse', () => {
         taskResponse = new TaskResponse({});
         const media = taskResponse.getGeneratedMedia();
         expect(media).toBeInstanceOf(Array);
-        expect(media.length).toBe(0);
+        expect(media).toHaveLength(0);
       });
     });
   });

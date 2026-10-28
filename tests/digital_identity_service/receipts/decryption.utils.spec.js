@@ -1,5 +1,5 @@
 const forge = require('node-forge');
-const { promisify } = require('util');
+const { promisify } = require('node:util');
 const { messages } = require('../../../src/proto');
 const { unwrapReceiptKey, decryptReceiptContent } = require('../../../src/digital_identity_service/receipts/decryption.utils');
 

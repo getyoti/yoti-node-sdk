@@ -62,7 +62,6 @@ class ReceiptResponse {
 
       const { requirements_not_met_details: rawRequirementsNotMetDetails } = response.errorReason;
       if (Array.isArray(rawRequirementsNotMetDetails)) {
-        // eslint-disable-next-line max-len
         this.errorReason.requirementsNotMetDetails = rawRequirementsNotMetDetails.map(parseRequirementsNotMetDetail);
         delete this.errorReason.requirements_not_met_details;
       }

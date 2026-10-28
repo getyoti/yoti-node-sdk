@@ -15,7 +15,6 @@ module.exports = {
    * @returns {{issuanceToken: Buffer, issuingAttributes:IssuingAttributes }}
    */
   decodeThirdPartyAttribute(binaryData) {
-    // eslint-disable-next-line max-len
     const { issuanceToken, issuingAttributes } = /** @type {{issuanceToken: Buffer, issuingAttributes:IssuingAttributes }} */(
       /** @type {*} */(ThirdPartyAttribute.decode(Buffer.from(binaryData, 'base64'))));
     return { issuanceToken, issuingAttributes };

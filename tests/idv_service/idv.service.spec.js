@@ -1,7 +1,7 @@
-const fs = require('fs');
+const fs = require('node:fs');
 const nock = require('nock');
-// eslint-disable-next-line n/no-unsupported-features/node-builtins
-const { randomUUID } = require('crypto');
+
+const { randomUUID } = require('node:crypto');
 
 const config = require('../../config');
 

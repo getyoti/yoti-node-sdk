@@ -91,7 +91,6 @@ async function createSession(scheme) {
       .withLabel('label-for-GBR-RTW-SHARECODE')
       .build();
 
-    // eslint-disable-next-line max-len
     advancedIdentityProfileYotiGlobalBuilder.withScheme(advancedIdentityProfileSchemeGbrRtwSharecode);
 
     const advancedIdentityProfileYotiGlobal = advancedIdentityProfileYotiGlobalBuilder.build();

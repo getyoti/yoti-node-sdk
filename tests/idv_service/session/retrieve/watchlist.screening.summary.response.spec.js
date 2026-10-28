@@ -38,7 +38,6 @@ describe('WatchlistScreeningSummaryResponse', () => {
 
     describe('#getRawResults', () => {
       it('should return the raw results response', () => {
-        // eslint-disable-next-line max-len
         expect(watchlistScreeningSummaryResponse.getRawResults()).toBeInstanceOf(RawResultsResponse);
       });
     });

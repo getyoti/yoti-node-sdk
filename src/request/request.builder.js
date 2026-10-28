@@ -1,9 +1,9 @@
 'use strict';
 
-const fs = require('fs');
+const fs = require('node:fs');
 // Minimum supported version is Node 14.17.0, which has the "randomUUID" method in the crypto module
-// eslint-disable-next-line n/no-unsupported-features/node-builtins
-const { randomUUID } = require('crypto');
+
+const { randomUUID } = require('node:crypto');
 
 const yotiCommon = require('../yoti_common');
 const { YotiRequest } = require('./request');

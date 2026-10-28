@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('fs');
+const fs = require('node:fs');
 const { types } = require('../../../src/proto');
 const ThirdPartyAttributeConverter = require('../../../src/yoti_common/converters/third.party.attribute.converter');
 const AttributeIssuanceDetails = require('../../../src/data_type/attribute.issuance.details');
@@ -26,7 +26,7 @@ describe('ThirdPartyAttributeConverter', () => {
       expect(thirdPartyAttribute.getExpiryDate()
         .getMicrosecondTimestamp()).toBe('2019-10-15T22:04:05.123000Z');
 
-      expect(thirdPartyAttribute.getIssuingAttributes().length).toEqual(1);
+      expect(thirdPartyAttribute.getIssuingAttributes()).toHaveLength(1);
       expect(thirdPartyAttribute.getIssuingAttributes()[0].getName()).toEqual('com.thirdparty.id');
     });
 
@@ -58,7 +58,7 @@ describe('ThirdPartyAttributeConverter', () => {
       expect(thirdPartyAttribute).toBeInstanceOf(AttributeIssuanceDetails);
       expect(thirdPartyAttribute.getToken()).toEqual('c29tZVRva2Vu');
       expect(thirdPartyAttribute.getExpiryDate()).toBe(undefined);
-      expect(thirdPartyAttribute.getIssuingAttributes().length).toEqual(0);
+      expect(thirdPartyAttribute.getIssuingAttributes()).toHaveLength(0);
     });
 
     it('should parse with invalid date', () => {
@@ -76,7 +76,7 @@ describe('ThirdPartyAttributeConverter', () => {
       expect(thirdPartyAttribute).not.toBe(undefined);
       expect(thirdPartyAttribute).toBeInstanceOf(AttributeIssuanceDetails);
       expect(thirdPartyAttribute.getExpiryDate()).toBe(undefined);
-      expect(thirdPartyAttribute.getIssuingAttributes().length).toEqual(1);
+      expect(thirdPartyAttribute.getIssuingAttributes()).toHaveLength(1);
       expect(thirdPartyAttribute.getIssuingAttributes()[0].getName()).toEqual('com.thirdparty.id');
     });
 
@@ -99,7 +99,7 @@ describe('ThirdPartyAttributeConverter', () => {
       expect(thirdPartyAttribute).toBeInstanceOf(AttributeIssuanceDetails);
 
       const definitions = thirdPartyAttribute.getIssuingAttributes();
-      expect(definitions.length).toEqual(2);
+      expect(definitions).toHaveLength(2);
       expect(definitions[0].getName()).toEqual('com.thirdparty.id');
       expect(definitions[1].getName()).toEqual('com.otherthirdparty.id');
     });

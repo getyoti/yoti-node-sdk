@@ -60,7 +60,7 @@ describe('CheckResponse', () => {
     describe('when resources used are available', () => {
       it('should return list of resources', () => {
         const resources = checkResponse.getResourcesUsed();
-        expect(resources.length).toBe(2);
+        expect(resources).toHaveLength(2);
         expect(resources[0]).toBe('some-resource');
         expect(resources[1]).toBe('some-other-resource');
       });
@@ -70,7 +70,7 @@ describe('CheckResponse', () => {
         checkResponse = new CheckResponse({});
         const resources = checkResponse.getResourcesUsed();
         expect(resources).toBeInstanceOf(Array);
-        expect(resources.length).toBe(0);
+        expect(resources).toHaveLength(0);
       });
     });
   });
@@ -79,7 +79,7 @@ describe('CheckResponse', () => {
     describe('when generated media is available', () => {
       it('should return list of generated media', () => {
         const media = checkResponse.getGeneratedMedia();
-        expect(media.length).toBe(2);
+        expect(media).toHaveLength(2);
         media.forEach((mediaItem) => {
           expect(mediaItem).toBeInstanceOf(GeneratedMedia);
         });
@@ -90,7 +90,7 @@ describe('CheckResponse', () => {
         checkResponse = new CheckResponse({});
         const media = checkResponse.getGeneratedMedia();
         expect(media).toBeInstanceOf(Array);
-        expect(media.length).toBe(0);
+        expect(media).toHaveLength(0);
       });
     });
   });

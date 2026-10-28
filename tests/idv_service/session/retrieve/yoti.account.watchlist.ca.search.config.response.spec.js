@@ -7,7 +7,6 @@ const FuzzyMatchingStrategyResponse = require('../../../../src/idv_service/sessi
 
 describe('YotiAccountWatchlistCaSearchConfigResponse', () => {
   it('is a class that extends WatchlistAdvancedCaSearchConfigResponse', () => {
-    // eslint-disable-next-line max-len
     expect(YotiAccountWatchlistCaSearchConfigResponse.prototype).toBeInstanceOf(WatchlistAdvancedCaSearchConfigResponse);
   });
   describe('given an instance of the class', () => {
@@ -21,7 +20,6 @@ describe('YotiAccountWatchlistCaSearchConfigResponse', () => {
 
     describe('with the minimum response body', () => {
       beforeEach(() => {
-        // eslint-disable-next-line max-len
         yotiAccountWatchlistCaSearchConfigResponse = new YotiAccountWatchlistCaSearchConfigResponse(minimumResponseBody);
       });
 
@@ -46,7 +44,7 @@ describe('YotiAccountWatchlistCaSearchConfigResponse', () => {
               search_profile: 'the-profile-being-search-for',
             },
           });
-          // eslint-disable-next-line max-len
+
           yotiAccountWatchlistCaSearchConfigResponse = new YotiAccountWatchlistCaSearchConfigResponse(response);
         });
 
@@ -65,7 +63,7 @@ describe('YotiAccountWatchlistCaSearchConfigResponse', () => {
               types: ['type1', 'type2'],
             },
           });
-          // eslint-disable-next-line max-len
+
           yotiAccountWatchlistCaSearchConfigResponse = new YotiAccountWatchlistCaSearchConfigResponse(response);
         });
 
@@ -86,7 +84,7 @@ describe('YotiAccountWatchlistCaSearchConfigResponse', () => {
               exact_match: true,
             },
           });
-          // eslint-disable-next-line max-len
+
           yotiAccountWatchlistCaSearchConfigResponse = new YotiAccountWatchlistCaSearchConfigResponse(response);
         });
 
@@ -105,7 +103,7 @@ describe('YotiAccountWatchlistCaSearchConfigResponse', () => {
               fuzziness: 0.88,
             },
           });
-          // eslint-disable-next-line max-len
+
           yotiAccountWatchlistCaSearchConfigResponse = new YotiAccountWatchlistCaSearchConfigResponse(response);
         });
 

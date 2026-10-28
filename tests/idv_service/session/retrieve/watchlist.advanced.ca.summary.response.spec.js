@@ -21,7 +21,6 @@ describe('WatchlistAdvancedCaSummaryResponse', () => {
 
     describe('with no searchConfig', () => {
       beforeEach(() => {
-        // eslint-disable-next-line max-len
         watchlistAdvancedCaSummaryResponse = new WatchlistAdvancedCaSummaryResponse(baseSummaryBody);
       });
 
@@ -39,7 +38,6 @@ describe('WatchlistAdvancedCaSummaryResponse', () => {
 
       describe('#getRawResults', () => {
         it('should return the raw results response', () => {
-          // eslint-disable-next-line max-len
           expect(watchlistAdvancedCaSummaryResponse.getRawResults()).toBeInstanceOf(RawResultsResponse);
         });
       });
@@ -54,7 +52,7 @@ describe('WatchlistAdvancedCaSummaryResponse', () => {
             share_url: true,
           },
         });
-        // eslint-disable-next-line max-len
+
         watchlistAdvancedCaSummaryResponse = new WatchlistAdvancedCaSummaryResponse(summaryBody);
       });
 
@@ -79,7 +77,7 @@ describe('WatchlistAdvancedCaSummaryResponse', () => {
             client_ref: 'a-ref',
           },
         });
-        // eslint-disable-next-line max-len
+
         watchlistAdvancedCaSummaryResponse = new WatchlistAdvancedCaSummaryResponse(summaryBody);
       });
 

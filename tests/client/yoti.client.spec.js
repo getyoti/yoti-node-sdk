@@ -1,7 +1,7 @@
 const nock = require('nock');
-const fs = require('fs');
-// eslint-disable-next-line n/no-unsupported-features/node-builtins
-const { randomUUID } = require('crypto');
+const fs = require('node:fs');
+
+const { randomUUID } = require('node:crypto');
 
 const config = require('../../config');
 const yoti = require('../..');

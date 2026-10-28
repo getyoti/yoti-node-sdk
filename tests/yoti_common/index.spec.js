@@ -1,5 +1,5 @@
-const fs = require('fs');
-const crypto = require('crypto');
+const fs = require('node:fs');
+const crypto = require('node:crypto');
 
 const yotiCommon = require('../../src/yoti_common');
 const AESGCMEncryptedMessage = require('../sample-data/yoti-common/AESGCM-encrypted-message.json');

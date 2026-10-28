@@ -3,7 +3,6 @@ const WatchlistAdvancedCaSearchConfigResponse = require('../../../../src/idv_ser
 
 describe('WatchlistAdvancedCaSearchConfigResponse', () => {
   it('is a class that extends WatchlistSearchConfigResponse', () => {
-    // eslint-disable-next-line max-len
     expect(WatchlistAdvancedCaSearchConfigResponse.prototype).toBeInstanceOf(WatchlistSearchConfigResponse);
   });
   describe('is an abstract class', () => {

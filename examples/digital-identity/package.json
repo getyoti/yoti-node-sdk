@@ -6,7 +6,7 @@
   "author": "Yoti LTD <tech@yoti.com> (https://www.yoti.com/developers)",
   "license": "MIT",
   "engines": {
-    "node": ">=14"
+    "node": ">=22.23.4"
   },
   "scripts": {
     "start": "node index.js"

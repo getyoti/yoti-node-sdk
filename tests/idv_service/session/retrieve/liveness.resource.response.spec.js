@@ -36,7 +36,7 @@ describe('LivenessResourceResponse', () => {
     it('should return a list of tasks', () => {
       const tasks = resourceResponse.getTasks();
 
-      expect(tasks.length).toBe(2);
+      expect(tasks).toHaveLength(2);
 
       tasks.forEach((task) => {
         expect(task).toBeInstanceOf(TaskResponse);

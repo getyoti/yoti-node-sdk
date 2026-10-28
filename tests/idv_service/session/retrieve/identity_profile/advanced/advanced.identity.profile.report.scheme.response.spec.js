@@ -16,7 +16,7 @@ describe('AdvancedIdentityProfileReportSchemeComplianceResponse', () => {
         requirements_met: true,
         scheme: schemeResponse,
       };
-      // eslint-disable-next-line max-len
+
       advancedIdentityProfileReportSchemeComplianceResponse = new AdvancedIdentityProfileReportSchemeComplianceResponse(responseWithMetRequirements);
     });
 
@@ -32,7 +32,6 @@ describe('AdvancedIdentityProfileReportSchemeComplianceResponse', () => {
 
     describe('#getRequirementsMet', () => {
       it('should return requirements_met', () => {
-        // eslint-disable-next-line max-len
         expect(advancedIdentityProfileReportSchemeComplianceResponse.getRequirementsMet()).toBe(true);
       });
     });
@@ -44,7 +43,7 @@ describe('AdvancedIdentityProfileReportSchemeComplianceResponse', () => {
         requirements_not_met_info: 'SOMETHING_FAILED',
         scheme: schemeResponse,
       };
-      // eslint-disable-next-line max-len
+
       advancedIdentityProfileReportSchemeComplianceResponse = new AdvancedIdentityProfileReportSchemeComplianceResponse(responseWithNotMetRequirements);
     });
 

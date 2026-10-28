@@ -132,7 +132,6 @@ class ActivityDetails {
    * @returns {ErrorDetails|undefined}
    */
   getErrorDetails() {
-    // eslint-disable-next-line camelcase
     const { error_details: responseErrorDetails } = this.parsedResponse;
 
     let errorDetails;

@@ -1,5 +1,5 @@
 const nock = require('nock');
-const fs = require('fs');
+const fs = require('node:fs');
 
 const config = require('../../config');
 const { ProfileService, getReceipt } = require('../../src/profile_service');

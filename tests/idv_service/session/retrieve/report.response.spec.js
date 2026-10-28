@@ -24,7 +24,7 @@ describe('ReportResponse', () => {
   describe('#getBreakdown', () => {
     it('should return list of breakdown items', () => {
       const breakdownItems = reportResponse.getBreakdown();
-      expect(breakdownItems.length).toBe(2);
+      expect(breakdownItems).toHaveLength(2);
       breakdownItems.forEach((breakdownItem) => {
         expect(breakdownItem).toBeInstanceOf(BreakdownResponse);
       });

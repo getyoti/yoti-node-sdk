@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('node:fs');
 const { AnchorProcessor } = require('../../src/yoti_common/anchor.processor');
 const { types } = require('../../src/proto');
 

@@ -55,7 +55,6 @@ describe('AdvancedIdentityProfileTrustFrameworkComplianceResponse', () => {
       media: {},
     };
 
-    // eslint-disable-next-line max-len
     advancedIdentityProfileReportResponse = new AdvancedIdentityProfileReportResponse(response);
   });
 

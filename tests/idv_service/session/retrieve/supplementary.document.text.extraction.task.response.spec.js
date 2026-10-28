@@ -75,7 +75,7 @@ describe('SupplementaryDocumentTextExtractionTaskResponse', () => {
   describe('#getGeneratedTextDataChecks', () => {
     it('should return generated text data checks', () => {
       const checks = taskResponse.getGeneratedTextDataChecks();
-      expect(checks.length).toBe(1);
+      expect(checks).toHaveLength(1);
       checks.forEach((check) => {
         expect(check).toBeInstanceOf(GeneratedSupplementaryDocumentTextDataCheckResponse);
       });
@@ -85,7 +85,7 @@ describe('SupplementaryDocumentTextExtractionTaskResponse', () => {
   describe('#getGeneratedMedia', () => {
     it('should return generated media', () => {
       const media = taskResponse.getGeneratedMedia();
-      expect(media.length).toBe(2);
+      expect(media).toHaveLength(2);
       media.forEach((mediaItem) => {
         expect(mediaItem).toBeInstanceOf(GeneratedMedia);
       });

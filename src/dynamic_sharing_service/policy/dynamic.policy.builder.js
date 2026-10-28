@@ -1,6 +1,6 @@
 'use strict';
 
-const crypto = require('crypto');
+const crypto = require('node:crypto');
 
 const DynamicPolicy = require('./dynamic.policy');
 const WantedAttributeBuilder = require('./wanted.attribute.builder');

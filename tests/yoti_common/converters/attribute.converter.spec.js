@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('node:fs');
 
 const { AttributeConverter } = require('../../../src/yoti_common/converters/attribute.converter');
 const { types } = require('../../../src/proto');
@@ -111,7 +111,7 @@ describe('AttributeConverter', () => {
   describe('#convertValueBasedOnContentType', () => {
     it('should return multi value object', () => {
       const multiValue = convertSampleMultiValue();
-      expect(multiValue.getItems().length).toBe(2);
+      expect(multiValue.getItems()).toHaveLength(2);
       expect(multiValue).toBeInstanceOf(MultiValue);
       assertIsExpectedImage(multiValue.getItems()[0], 'image/jpeg', 'vWgD//2Q==');
       assertIsExpectedImage(multiValue.getItems()[1], 'image/jpeg', '38TVEH/9k=');
@@ -258,7 +258,7 @@ describe('AttributeConverter', () => {
           constants.ATTR_DOCUMENT_IMAGES
         );
 
-      expect(documentImages.length).toBe(2);
+      expect(documentImages).toHaveLength(2);
       documentImages.forEach((item) => {
         expect(item).toBeInstanceOf(ImageJpeg);
         expect(item.getMimeType()).toBe('image/jpeg');
@@ -294,7 +294,7 @@ describe('AttributeConverter', () => {
       // Attempt to change a document image.
       documentImages[0] = 'not allowed';
 
-      expect(documentImages.length).toBe(2);
+      expect(documentImages).toHaveLength(2);
       expect(documentImages[0]).toBeInstanceOf(ImageJpeg);
       expect(documentImages[0].getMimeType()).toBe('image/jpeg');
     });

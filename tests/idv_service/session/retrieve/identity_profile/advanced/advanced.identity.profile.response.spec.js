@@ -93,7 +93,7 @@ describe('AdvancedIdentityProfileResponse', () => {
       it('should still parse the response and return empty string for #getSubjectId', () => {
         const responseWithoutSubjectId = { ...response };
         delete responseWithoutSubjectId.subject_id;
-        // eslint-disable-next-line max-len
+
         advancedIdentityProfileResponse = new AdvancedIdentityProfileResponse(responseWithoutSubjectId);
         expect(advancedIdentityProfileResponse.getSubjectId()).toBe('');
       });

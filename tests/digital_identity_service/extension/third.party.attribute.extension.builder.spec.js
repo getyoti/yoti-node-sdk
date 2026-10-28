@@ -42,7 +42,7 @@ describe('ThirdPartyAttributeExtensionBuilder', () => {
         .withDefinition('new_definition')
         .build();
 
-      expect(thirdPartyAttributeExtension.content.getDefinitions().length).toEqual(2);
+      expect(thirdPartyAttributeExtension.content.getDefinitions()).toHaveLength(2);
       expect(thirdPartyAttributeExtension.content.getDefinitions()[0])
         .toBeInstanceOf(AttributeDefinition);
       expect(thirdPartyAttributeExtension.content.getDefinitions()[1])
@@ -60,7 +60,7 @@ describe('ThirdPartyAttributeExtensionBuilder', () => {
         .withDefinitions(['definition_already_there'])
         .build();
 
-      expect(thirdPartyAttributeExtension.content.getDefinitions().length).toEqual(1);
+      expect(thirdPartyAttributeExtension.content.getDefinitions()).toHaveLength(1);
       expect(thirdPartyAttributeExtension.content.getDefinitions()[0].getName()).toEqual('definition_already_there');
     });
   });
@@ -84,7 +84,7 @@ describe('ThirdPartyAttributeExtensionBuilder', () => {
     expect(date.toISOString())
       .toEqual(thirdPartyAttributeExtension.content.getExpiryDate().toISOString());
 
-    expect(thirdPartyAttributeExtension.content.getDefinitions().length).toEqual(2);
+    expect(thirdPartyAttributeExtension.content.getDefinitions()).toHaveLength(2);
     expect(thirdPartyAttributeExtension.content.getDefinitions()[0].getName()).toEqual('some_definition');
     expect(thirdPartyAttributeExtension.content.getDefinitions()[1].getName()).toEqual('some_other_definition');
   });

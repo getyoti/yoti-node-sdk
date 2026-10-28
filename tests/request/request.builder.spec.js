@@ -1,5 +1,5 @@
 const nock = require('nock');
-const fs = require('fs');
+const fs = require('node:fs');
 
 const { RequestBuilder, Payload } = require('../..');
 const yotiPackage = require('../../package.json');

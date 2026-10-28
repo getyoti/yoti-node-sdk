@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('node:fs');
 const ApplicationProfile = require('../../../src/digital_identity_service/receipts/application.profile');
 const { Attribute } = require('../../../src/data_type/attribute');
 

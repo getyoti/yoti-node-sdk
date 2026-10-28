@@ -35,7 +35,7 @@ describe('BreakdownResponse', () => {
     describe('when details are available', () => {
       it('should return array of details', () => {
         const details = breakdownResponse.getDetails();
-        expect(details.length).toBe(1);
+        expect(details).toHaveLength(1);
         expect(details[0]).toBeInstanceOf(DetailsResponse);
       });
     });
@@ -44,7 +44,7 @@ describe('BreakdownResponse', () => {
         breakdownResponse = new BreakdownResponse({});
         const details = breakdownResponse.getDetails();
         expect(details).toBeInstanceOf(Array);
-        expect(details.length).toBe(0);
+        expect(details).toHaveLength(0);
       });
     });
   });

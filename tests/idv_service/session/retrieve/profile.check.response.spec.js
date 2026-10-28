@@ -62,7 +62,7 @@ describe('ProfileCheckResponse', () => {
     describe('when resources used are available', () => {
       it('should return list of resources', () => {
         const resources = profileCheckResponse.getResourcesUsed();
-        expect(resources.length).toBe(2);
+        expect(resources).toHaveLength(2);
         expect(resources[0]).toBe('some-resource');
         expect(resources[1]).toBe('some-other-resource');
       });
@@ -72,7 +72,7 @@ describe('ProfileCheckResponse', () => {
         profileCheckResponse = new ProfileCheckResponse({});
         const resources = profileCheckResponse.getResourcesUsed();
         expect(resources).toBeInstanceOf(Array);
-        expect(resources.length).toBe(0);
+        expect(resources).toHaveLength(0);
       });
     });
   });
@@ -81,7 +81,7 @@ describe('ProfileCheckResponse', () => {
     describe('when generated media is available', () => {
       it('should return list of generated media', () => {
         const media = profileCheckResponse.getGeneratedMedia();
-        expect(media.length).toBe(2);
+        expect(media).toHaveLength(2);
         media.forEach((mediaItem) => {
           expect(mediaItem).toBeInstanceOf(GeneratedMedia);
         });
@@ -92,7 +92,7 @@ describe('ProfileCheckResponse', () => {
         profileCheckResponse = new ProfileCheckResponse({});
         const media = profileCheckResponse.getGeneratedMedia();
         expect(media).toBeInstanceOf(Array);
-        expect(media.length).toBe(0);
+        expect(media).toHaveLength(0);
       });
     });
   });

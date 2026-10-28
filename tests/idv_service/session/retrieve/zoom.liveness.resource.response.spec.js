@@ -39,7 +39,7 @@ describe('ZoomLivenessResourceResponse', () => {
     describe('when frames are available', () => {
       it('should return array of frames', () => {
         const frames = zoomLivenessResourceResponse.getFrames();
-        expect(frames.length).toBe(2);
+        expect(frames).toHaveLength(2);
         frames.forEach((frame) => {
           expect(frame).toBeInstanceOf(FrameResponse);
         });
@@ -50,7 +50,7 @@ describe('ZoomLivenessResourceResponse', () => {
         zoomLivenessResourceResponse = new ZoomLivenessResourceResponse({});
         const frames = zoomLivenessResourceResponse.getFrames();
         expect(frames).toBeInstanceOf(Array);
-        expect(frames.length).toBe(0);
+        expect(frames).toHaveLength(0);
       });
     });
   });

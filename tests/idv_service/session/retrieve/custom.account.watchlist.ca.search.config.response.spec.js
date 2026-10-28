@@ -25,7 +25,6 @@ describe('CustomAccountWatchlistCaSearchConfigResponse', () => {
 
     describe('with the minimum response body', () => {
       beforeEach(() => {
-        // eslint-disable-next-line max-len
         customAccountWatchlistCaSearchConfigResponse = new CustomAccountWatchlistCaSearchConfigResponse(minimumResponseBody);
       });
 
@@ -65,7 +64,7 @@ describe('CustomAccountWatchlistCaSearchConfigResponse', () => {
             classification: 'dangerous',
           },
         });
-        // eslint-disable-next-line max-len
+
         customAccountWatchlistCaSearchConfigResponse = new CustomAccountWatchlistCaSearchConfigResponse(response);
       });
 
@@ -80,7 +79,7 @@ describe('CustomAccountWatchlistCaSearchConfigResponse', () => {
       beforeEach(() => {
         const response = Object.assign({}, minimumResponseBody);
         delete response.tags;
-        // eslint-disable-next-line max-len
+
         customAccountWatchlistCaSearchConfigResponse = new CustomAccountWatchlistCaSearchConfigResponse(response);
       });
 
@@ -97,7 +96,7 @@ describe('CustomAccountWatchlistCaSearchConfigResponse', () => {
               search_profile: 'the-profile-being-search-for',
             },
           });
-          // eslint-disable-next-line max-len
+
           customAccountWatchlistCaSearchConfigResponse = new CustomAccountWatchlistCaSearchConfigResponse(response);
         });
 
@@ -116,7 +115,7 @@ describe('CustomAccountWatchlistCaSearchConfigResponse', () => {
               types: ['type1', 'type2'],
             },
           });
-          // eslint-disable-next-line max-len
+
           customAccountWatchlistCaSearchConfigResponse = new CustomAccountWatchlistCaSearchConfigResponse(response);
         });
 
@@ -137,12 +136,11 @@ describe('CustomAccountWatchlistCaSearchConfigResponse', () => {
               exact_match: true,
             },
           });
-          // eslint-disable-next-line max-len
+
           customAccountWatchlistCaSearchConfigResponse = new CustomAccountWatchlistCaSearchConfigResponse(response);
         });
 
         it('#getSources', () => {
-          // eslint-disable-next-line max-len
           const matchingStrategy = customAccountWatchlistCaSearchConfigResponse.getMatchingStrategy();
           expect(matchingStrategy).toBeInstanceOf(ExactMatchingStrategyResponse);
           expect(matchingStrategy.getType()).toBe('EXACT');
@@ -157,12 +155,11 @@ describe('CustomAccountWatchlistCaSearchConfigResponse', () => {
               fuzziness: 0.88,
             },
           });
-          // eslint-disable-next-line max-len
+
           customAccountWatchlistCaSearchConfigResponse = new CustomAccountWatchlistCaSearchConfigResponse(response);
         });
 
         it('#getSources', () => {
-          // eslint-disable-next-line max-len
           const matchingStrategy = customAccountWatchlistCaSearchConfigResponse.getMatchingStrategy();
           expect(matchingStrategy).toBeInstanceOf(FuzzyMatchingStrategyResponse);
           expect(matchingStrategy.getType()).toBe('FUZZY');
