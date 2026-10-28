@@ -15,10 +15,7 @@ describe('Decryption utils', () => {
       const itemKey = forge.random.getBytesSync(16);
       const itemKeyIv = forge.random.getBytesSync(16);
       const cipher = forge.cipher.createCipher('AES-GCM', itemKey);
-      cipher.start({
-        iv: itemKeyIv,
-        tagLength: 16,
-      });
+      cipher.start({ iv: itemKeyIv });
       cipher.update(forge.util.createBuffer(receiptKey));
       cipher.finish();
       const encrypted = cipher.output;
