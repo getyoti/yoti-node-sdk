@@ -42,20 +42,40 @@ const mediaContentPath = (sessionId, mediaId) => `${sessionPath(sessionId)}/medi
  */
 class IDVService {
   /**
-   * @param {string} sdkId
-   * @param {string|Buffer} pem
-   * @param {{apiUrl?: string}} options
+   * @param {?string} sdkId
+   * @param {?(string|Buffer)} pem
+   * @param {{apiUrl?: string, authStrategy?: Object}} options
    */
-  constructor(sdkId, pem, { apiUrl = DEFAULT_API_URL } = {}) {
-    Validation.isString(sdkId, 'sdkId');
-    Validation.notNullOrEmpty(pem, 'pem');
-
-    /** @protected */
-    this.sdkId = sdkId;
-    /** @protected */
-    this.pem = pem;
-    /** @protected */
+  constructor(sdkId, pem, { apiUrl = DEFAULT_API_URL, authStrategy } = {}) {
+    if (authStrategy) {
+      /** @private */
+      this.authStrategy = authStrategy;
+    } else {
+      Validation.isString(sdkId, 'sdkId');
+      Validation.notNullOrEmpty(pem, 'pem');
+      /** @private */
+      this.sdkId = sdkId;
+      /** @private */
+      this.pem = pem;
+    }
+    /** @private */
     this.apiUrl = apiUrl;
+  }
+
+  /**
+   * Applies authentication to a request builder.
+   *
+   * @param {RequestBuilder} builder
+   * @returns {RequestBuilder}
+   * @private
+   */
+  applyAuthToBuilder(builder) {
+    if (this.authStrategy) {
+      return builder.withAuthStrategy(this.authStrategy);
+    }
+    return builder
+      .withPemString(this.pem.toString())
+      .withQueryParam('sdkId', this.sdkId);
   }
 
   /**
@@ -68,15 +88,14 @@ class IDVService {
   createSession(sessionSpecification) {
     Validation.instanceOf(sessionSpecification, SessionSpecification, 'sessionSpecification');
 
-    const request = new RequestBuilder()
-      .withPemString(this.pem.toString())
+    const builder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withEndpoint('/sessions')
-      .withQueryParam('sdkId', this.sdkId)
       .withPost()
       .withPayload(new Payload(sessionSpecification))
-      .withHeader('Content-Type', 'application/json')
-      .build();
+      .withHeader('Content-Type', 'application/json');
+
+    const request = this.applyAuthToBuilder(builder).build();
 
     return new Promise((resolve, reject) => {
       request.execute()
@@ -101,13 +120,12 @@ class IDVService {
   getSession(sessionId) {
     Validation.isString(sessionId, 'sessionId');
 
-    const request = new RequestBuilder()
-      .withPemString(this.pem.toString())
+    const builder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withEndpoint(sessionPath(sessionId))
-      .withQueryParam('sdkId', this.sdkId)
-      .withGet()
-      .build();
+      .withGet();
+
+    const request = this.applyAuthToBuilder(builder).build();
 
     return new Promise((resolve, reject) => {
       request.execute()
@@ -132,13 +150,12 @@ class IDVService {
   deleteSession(sessionId) {
     Validation.isString(sessionId, 'sessionId');
 
-    const request = new RequestBuilder()
-      .withPemString(this.pem.toString())
+    const builder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withEndpoint(sessionPath(sessionId))
-      .withQueryParam('sdkId', this.sdkId)
-      .withMethod('DELETE')
-      .build();
+      .withMethod('DELETE');
+
+    const request = this.applyAuthToBuilder(builder).build();
 
     return new Promise((resolve, reject) => {
       request.execute()
@@ -159,13 +176,12 @@ class IDVService {
     Validation.isString(sessionId, 'sessionId');
     Validation.isString(mediaId, 'mediaId');
 
-    const request = new RequestBuilder()
-      .withPemString(this.pem.toString())
+    const builder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withEndpoint(mediaContentPath(sessionId, mediaId))
-      .withQueryParam('sdkId', this.sdkId)
-      .withGet()
-      .build();
+      .withGet();
+
+    const request = this.applyAuthToBuilder(builder).build();
 
     return new Promise((resolve, reject) => {
       request.execute(true)
@@ -202,13 +218,12 @@ class IDVService {
     Validation.isString(sessionId, 'sessionId');
     Validation.isString(mediaId, 'mediaId');
 
-    const request = new RequestBuilder()
-      .withPemString(this.pem.toString())
+    const builder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withEndpoint(mediaContentPath(sessionId, mediaId))
-      .withQueryParam('sdkId', this.sdkId)
-      .withMethod('DELETE')
-      .build();
+      .withMethod('DELETE');
+
+    const request = this.applyAuthToBuilder(builder).build();
 
     return new Promise((resolve, reject) => {
       request.execute(true)
@@ -225,17 +240,16 @@ class IDVService {
    * @returns {Promise<SupportedDocumentsResponse>}
    */
   getSupportedDocuments(includeNonLatin) {
-    const requestBuilder = new RequestBuilder()
-      .withPemString(this.pem.toString())
+    const builder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withEndpoint('/supported-documents')
       .withGet();
 
     if (includeNonLatin) {
-      requestBuilder.withQueryParam('includeNonLatin', true);
+      builder.withQueryParam('includeNonLatin', true);
     }
 
-    const request = requestBuilder.build();
+    const request = this.applyAuthToBuilder(builder).build();
 
     return new Promise((resolve, reject) => {
       request.execute()
@@ -255,14 +269,13 @@ class IDVService {
     Validation.isString(sessionId, 'sessionId');
     Validation.instanceOf(createFaceCaptureResourcePayload, CreateFaceCaptureResourcePayload, 'createFaceCaptureResourcePayload');
 
-    const request = new RequestBuilder()
-      .withPemString(this.pem.toString())
+    const builder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withEndpoint(`sessions/${sessionId}/resources/face-capture`)
-      .withQueryParam('sdkId', this.sdkId)
       .withPost()
-      .withPayload(new Payload(createFaceCaptureResourcePayload))
-      .build();
+      .withPayload(new Payload(createFaceCaptureResourcePayload));
+
+    const request = this.applyAuthToBuilder(builder).build();
 
     return new Promise((resolve, reject) => {
       request.execute()
@@ -289,14 +302,13 @@ class IDVService {
     Validation.isString(resourceId, 'resourceId');
     Validation.instanceOf(uploadFaceCaptureImagePayload, UploadFaceCaptureImagePayload, 'uploadFaceCaptureImagePayload');
 
-    const request = new RequestBuilder()
-      .withPemString(this.pem.toString())
+    const builder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withEndpoint(`/sessions/${sessionId}/resources/face-capture/${resourceId}/image`)
-      .withQueryParam('sdkId', this.sdkId)
       .withPut()
-      .withPayload(new Payload(uploadFaceCaptureImagePayload, ContentType.FORM_DATA))
-      .build();
+      .withPayload(new Payload(uploadFaceCaptureImagePayload, ContentType.FORM_DATA));
+
+    const request = this.applyAuthToBuilder(builder).build();
 
     return new Promise((resolve, reject) => {
       request.execute()
@@ -313,13 +325,12 @@ class IDVService {
   getSessionConfiguration(sessionId) {
     Validation.isString(sessionId, 'sessionId');
 
-    const request = new RequestBuilder()
-      .withPemString(this.pem.toString())
+    const builder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withEndpoint(`/sessions/${sessionId}/configuration`)
-      .withQueryParam('sdkId', this.sdkId)
-      .withGet()
-      .build();
+      .withGet();
+
+    const request = this.applyAuthToBuilder(builder).build();
 
     return new Promise((resolve, reject) => {
       request.execute()
@@ -336,13 +347,12 @@ class IDVService {
   getSessionTrackedDevices(sessionId) {
     Validation.isString(sessionId, 'sessionId');
 
-    const request = new RequestBuilder()
-      .withPemString(this.pem.toString())
+    const builder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withEndpoint(`/sessions/${sessionId}/tracked-devices`)
-      .withQueryParam('sdkId', this.sdkId)
-      .withGet()
-      .build();
+      .withGet();
+
+    const request = this.applyAuthToBuilder(builder).build();
 
     return new Promise((resolve, reject) => {
       request.execute()
@@ -361,13 +371,12 @@ class IDVService {
   deleteSessionTrackedDevices(sessionId) {
     Validation.isString(sessionId, 'sessionId');
 
-    const request = new RequestBuilder()
-      .withPemString(this.pem.toString())
+    const builder = new RequestBuilder()
       .withBaseUrl(this.apiUrl)
       .withEndpoint(`/sessions/${sessionId}/tracked-devices`)
-      .withQueryParam('sdkId', this.sdkId)
-      .withMethod('DELETE')
-      .build();
+      .withMethod('DELETE');
+
+    const request = this.applyAuthToBuilder(builder).build();
 
     return new Promise((resolve, reject) => {
       request.execute(true)
@@ -387,14 +396,15 @@ class IDVService {
     Validation.isString(sessionId, 'sessionId');
     Validation.instanceOf(createSessionOverviewPdfPayload, CreateSessionOverviewPdfPayload, 'createSessionOverviewPdfPayload');
 
-    const request = new RequestBuilder()
+    const builder = new RequestBuilder()
       .withPemString(this.pem.toString())
       .withBaseUrl(this.apiUrl)
       .withEndpoint(`sessions/${sessionId}/pdf`)
       .withQueryParam('sdkId', this.sdkId)
       .withPost()
-      .withPayload(new Payload(createSessionOverviewPdfPayload))
-      .build();
+      .withPayload(new Payload(createSessionOverviewPdfPayload));
+
+    const request = this.applyAuthToBuilder(builder).build();
 
     return new Promise((resolve, reject) => {
       request.execute(true)

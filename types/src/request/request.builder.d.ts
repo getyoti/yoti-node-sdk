@@ -36,6 +36,13 @@ export class RequestBuilder {
      */
     withPemFilePath(filePath: string): RequestBuilder;
     /**
+     * @param {Object} authStrategy
+     *
+     * @returns {RequestBuilder}
+     */
+    withAuthStrategy(authStrategy: any): RequestBuilder;
+    authStrategy: any;
+    /**
      * @param {string} name
      * @param {string} value
      *
@@ -75,17 +82,6 @@ export class RequestBuilder {
      * @returns {RequestBuilder}
      */
     withQueryParam(name: string, value: string | boolean | number): RequestBuilder;
-    /**
-     * Default request headers.
-     *
-     * @param {string} messageSignature
-     */
-    getDefaultHeaders(messageSignature: string): {
-        'X-Yoti-Auth-Digest': string;
-        'X-Yoti-SDK': string;
-        'X-Yoti-SDK-Version': string;
-        Accept: string;
-    };
     /**
      * @returns {YotiRequest}
      */
