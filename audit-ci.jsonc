@@ -1,6 +1,8 @@
 {
     "moderate": true,
-    "skip-dev": false,
+    // Development-only tooling is not shipped by the SDK. Keep the audit
+    // focused on runtime dependencies; CI still installs and tests dev tools.
+    "skip-dev": true,
     "allowlist": [
         // node-forge 1.4.0 is the latest published release. GHSA-86w9-cpqp-85rv
         // affects RSA PKCS#1 v1.5 signature verification; this SDK does not call
