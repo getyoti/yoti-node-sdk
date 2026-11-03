@@ -1,27 +1,26 @@
 name: Tests
-on: [push, pull_request_target]
+on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: read
 
 jobs:
   tests:
     name: Unit Tests
     runs-on: ubuntu-latest
-    if: >
-      github.event_name == 'push' ||
-      github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository
 
     steps:
       - uses: actions/checkout@v4
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting for sonarcloud
           fetch-depth: 0
+          persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      - run: npm update
-
-      - run: npm install --ignore-scripts --no-audit
+      - run: npm ci --ignore-scripts --no-audit
 
       - run: npm run audit
 
@@ -31,6 +30,7 @@ jobs:
         run: sed -i 's/\/home\/runner\/work\/yoti-node-sdk\/yoti-node-sdk\//\/github\/workspace\//g' ./coverage/lcov.info
 
       - uses: sonarsource/sonarcloud-github-action@master
+        if: github.event_name == 'push' && github.repository == 'getyoti/yoti-node-sdk'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -38,20 +38,17 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
-    if: >
-      github.event_name == 'push' ||
-      github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      - run: npm install --ignore-scripts
-
-      - run: npm update
+      - run: npm ci --ignore-scripts --no-audit
 
       - name: print versions
         run: echo npm $(npm -v), node $(node -v)
@@ -67,11 +64,6 @@ jobs:
   node-compatibility:
     name: Node ${{ matrix.node-version }}
     runs-on: ubuntu-latest
-    # always run on push events
-    # only run on pull_request_target event when pull request pulls from fork repository
-    if: >
-      github.event_name == 'push' ||
-      github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository
     strategy:
       fail-fast: false
       matrix:
@@ -79,14 +71,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: npm install --ignore-scripts
-
-      - run: npm update
+      - run: npm ci --ignore-scripts --no-audit
 
       # Jest 30 does not support Node 14/16
       - run: npm install --ignore-scripts jest@29
@@ -96,11 +88,6 @@ jobs:
   os-compatibility:
     name: Running in ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    # always run on push events
-    # only run on pull_request_target event when pull request pulls from fork repository
-    if: >
-      github.event_name == 'push' ||
-      github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository
     strategy:
       fail-fast: false
       matrix:
@@ -108,13 +95,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      - run: npm install --ignore-scripts
-
-      - run: npm update
+      - run: npm ci --ignore-scripts --no-audit
 
       - run: npm run test

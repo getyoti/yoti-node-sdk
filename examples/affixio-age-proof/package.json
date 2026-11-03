@@ -1,0 +1,15 @@
+{
+  "name": "yoti-node-sdk-affixio-age-proof-demo",
+  "description": "Turn a Yoti Age Verification sandbox result into an AffixIO yes/no over-18 proof",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "16.0.2"
+  }
+}
