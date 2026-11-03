@@ -7,6 +7,7 @@ const RequestedTask = require('./task/requested.task');
 const RequestedCheck = require('./check/requested.check');
 const RequiredDocument = require('./filters/required.document');
 const AdvancedIdentityProfileRequirements = require('./identity_profile/advanced/advanced.identity.profile.requirements');
+const CompanyProfile = require('./company.profile');
 
 /**
  * Definition for the IDV Session to be created
@@ -39,6 +40,7 @@ class SessionSpecification {
    * @param {object} [subject]
    *   Information about the subject of the session
    * @param {AdvancedIdentityProfileRequirements} [advancedIdentityProfileRequirements]
+   * @param {CompanyProfile} [companyProfile]
    */
   constructor(
     clientSessionTokenTtl,
@@ -53,7 +55,8 @@ class SessionSpecification {
     sessionDeadline,
     identityProfileRequirements,
     subject,
-    advancedIdentityProfileRequirements
+    advancedIdentityProfileRequirements,
+    companyProfile
   ) {
     Validation.isInteger(clientSessionTokenTtl, 'clientSessionTokenTtl', true);
     /** @private */
@@ -95,6 +98,12 @@ class SessionSpecification {
       Validation.instanceOf(advancedIdentityProfileRequirements, AdvancedIdentityProfileRequirements, 'advancedIdentityProfileRequirements');
       /** @private */
       this.advancedIdentityProfileRequirements = advancedIdentityProfileRequirements;
+    }
+
+    if (companyProfile) {
+      Validation.instanceOf(companyProfile, CompanyProfile, 'companyProfile');
+      /** @private */
+      this.companyProfile = companyProfile;
     }
 
     if (subject) {
@@ -140,6 +149,7 @@ class SessionSpecification {
       identity_profile_requirements: this.identityProfileRequirements,
       subject: this.subject,
       advanced_identity_profile_requirements: this.advancedIdentityProfileRequirements,
+      company_profile: this.companyProfile,
     };
   }
 }

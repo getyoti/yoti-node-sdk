@@ -9,6 +9,7 @@ const {
   SessionSpecificationBuilder,
   IDVService,
   CreateFaceCaptureResourcePayloadBuilder,
+  CreateSessionOverviewPdfPayloadBuilder,
 } = require('../../src/idv_service');
 
 const CreateSessionResult = require('../../src/idv_service/session/create/create.session.result');
@@ -34,6 +35,7 @@ const SESSION_TRACKED_DEVICES_URI = new RegExp(`^/idverify/v1/sessions/${SESSION
 const FACE_CAPTURE_CREATE_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture`);
 const UPLOAD_FACE_CAPTURE_IMAGE_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/resources/face-capture/${RESOURCE_ID}/image`);
 const MEDIA_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/media/${MEDIA_ID}/content\\?sdkId=${APP_ID}`);
+const OVERVIEW_PDF_URI = new RegExp(`^/idverify/v1/sessions/${SESSION_ID}/pdf\\?sdkId=${APP_ID}`);
 const SUPPORTED_DOCUMENTS_URI = /^\/idverify\/v1\/supported-documents/;
 const SOME_CODE = 'SOME_CODE';
 const SOME_MESSAGE = 'SOME_MESSAGE';
@@ -863,6 +865,69 @@ describe('IDVService', () => {
             expect(err.message).toBe(SOME_ERROR_MESSAGE);
             expect(consoleLog)
               .toHaveBeenCalledWith('Error getting data from Yoti API: Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
+  });
+
+  describe('#createSessionOverviewPdf', () => {
+    const payload = new CreateSessionOverviewPdfPayloadBuilder()
+      .withIncludeImages(true)
+      .withIncludeExtractedText(false)
+      .build();
+
+    describe('when a valid response is returned', () => {
+      test('should return correct media', (done) => {
+        nock(config.yoti.idvApi)
+          .post(OVERVIEW_PDF_URI, JSON.stringify(payload))
+          .reply(200, Buffer.from('a string instead of a PDF, for the test'), {
+            'Content-Type': 'application/pdf',
+          });
+
+        idvService
+          .createSessionOverviewPdf(SESSION_ID, payload)
+          .then((result) => {
+            expect(result).toBeInstanceOf(Media);
+
+            expect(result.getMimeType()).toEqual('application/pdf');
+
+            const contentConverted = result.getContent().toString();
+            expect(contentConverted).toEqual('a string instead of a PDF, for the test');
+
+            done();
+          })
+          .catch(done);
+      });
+    });
+
+    describe('when response is invalid', () => {
+      it('should reject', (done) => {
+        nock(config.yoti.idvApi)
+          .post(OVERVIEW_PDF_URI, JSON.stringify(payload))
+          .reply(400);
+
+        idvService
+          .createSessionOverviewPdf(SESSION_ID, payload)
+          .catch((err) => {
+            expect(err.message).toBe('Bad Request');
+            done();
+          })
+          .catch(done);
+      });
+    });
+
+    describe('when response code is invalid with response body', () => {
+      it('should reject with response message and body', (done) => {
+        nock(config.yoti.idvApi)
+          .post(OVERVIEW_PDF_URI, JSON.stringify(payload))
+          .reply(400, SOME_ERROR_RESPONSE, JSON_RESPONSE_HEADERS);
+
+        idvService
+          .createSessionOverviewPdf(SESSION_ID, payload)
+          .catch((err) => {
+            expect(err.message).toBe(SOME_ERROR_MESSAGE);
             done();
           })
           .catch(done);

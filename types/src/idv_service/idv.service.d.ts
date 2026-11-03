@@ -105,6 +105,14 @@ declare class IDVService {
      * @returns {Promise}
      */
     deleteSessionTrackedDevices(sessionId: string): Promise<any>;
+    /**
+     * Creates a session PDF overview
+     * @param {string} sessionId
+     * @param {CreateSessionOverviewPdfPayload} createSessionOverviewPdfPayload
+     *
+     * @returns {Promise<Media>}
+     */
+    createSessionOverviewPdf(sessionId: string, createSessionOverviewPdfPayload: CreateSessionOverviewPdfPayload): Promise<Media>;
 }
 import SessionSpecification = require("./session/create/session.specification");
 import CreateSessionResult = require("./session/create/create.session.result");
@@ -116,3 +124,4 @@ import CreateFaceCaptureResourceResponse = require("./session/retrieve/create.fa
 import UploadFaceCaptureImagePayload = require("./session/create/face_capture/upload.face.capture.image.payload");
 import SessionConfigurationResponse = require("./session/retrieve/configuration/session.configuration.response");
 import SessionTrackedDevicesResponse = require("./session/retrieve/devices/session.tracked.devices.response");
+import CreateSessionOverviewPdfPayload = require("./session/create/pdf/create.session.overview.pdf.payload");

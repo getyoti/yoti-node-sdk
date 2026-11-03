@@ -30,8 +30,9 @@ declare class SessionSpecification {
      * @param {object} [subject]
      *   Information about the subject of the session
      * @param {AdvancedIdentityProfileRequirements} [advancedIdentityProfileRequirements]
+     * @param {CompanyProfile} [companyProfile]
      */
-    constructor(clientSessionTokenTtl: number, resourcesTtl: number, userTrackingId: string, notifications: NotificationConfig, requestedChecks: RequestedCheck[], requestedTasks: RequestedTask[], sdkConfig: SdkConfig, requiredDocuments: RequiredDocument[], blockBiometricConsent: boolean, sessionDeadline: Date, identityProfileRequirements?: object, subject?: object, advancedIdentityProfileRequirements?: AdvancedIdentityProfileRequirements);
+    constructor(clientSessionTokenTtl: number, resourcesTtl: number, userTrackingId: string, notifications: NotificationConfig, requestedChecks: RequestedCheck[], requestedTasks: RequestedTask[], sdkConfig: SdkConfig, requiredDocuments: RequiredDocument[], blockBiometricConsent: boolean, sessionDeadline: Date, identityProfileRequirements?: object, subject?: object, advancedIdentityProfileRequirements?: AdvancedIdentityProfileRequirements, companyProfile?: CompanyProfile);
     /** @private */
     private clientSessionTokenTtl;
     /** @private */
@@ -48,6 +49,8 @@ declare class SessionSpecification {
     private identityProfileRequirements;
     /** @private */
     private advancedIdentityProfileRequirements;
+    /** @private */
+    private companyProfile;
     /** @private */
     private subject;
     /** @private */
@@ -75,6 +78,7 @@ declare class SessionSpecification {
         identity_profile_requirements: any;
         subject: any;
         advanced_identity_profile_requirements: AdvancedIdentityProfileRequirements;
+        company_profile: CompanyProfile;
     };
 }
 import NotificationConfig = require("./notification.config");
@@ -83,3 +87,4 @@ import RequestedTask = require("./task/requested.task");
 import SdkConfig = require("./sdk.config");
 import RequiredDocument = require("./filters/required.document");
 import AdvancedIdentityProfileRequirements = require("./identity_profile/advanced/advanced.identity.profile.requirements");
+import CompanyProfile = require("./company.profile");

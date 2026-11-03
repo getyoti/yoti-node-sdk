@@ -16,6 +16,7 @@ const ThirdPartyIdentityFraud1CheckResponse = require('./third.party.identity.fr
 const FaceComparisonCheckResponse = require('./face.comparison.check.response');
 const IdentityProfileResponse = require('./identity_profile/identity.profile.response');
 const AdvancedIdentityProfileResponse = require('./identity_profile/advanced/advanced.identity.profile.response');
+const CompanyProfileResponse = require('./company.profile.response');
 const IDVConstants = require('../../idv.constants');
 const { YotiDate } = require('../../../data_type/date');
 const DigitalIdShareResponse = require('./digital.id.share.response');
@@ -110,6 +111,18 @@ class GetSessionResult {
       Validation.isArray(response.digital_id_shares, 'digital_id_shares');
       /** @private */
       this.digitalIdShares = response.digital_id_shares.map((didShareResponseData) => new DigitalIdShareResponse(didShareResponseData));
+    }
+
+    if (response.organisation_name) {
+      Validation.isString(response.organisation_name, 'organisation_name');
+      /** @private */
+      this.organisationName = response.organisation_name;
+    }
+
+    if (response.company_profile) {
+      Validation.isPlainObject(response.company_profile, 'company_profile');
+      /** @private */
+      this.companyProfile = new CompanyProfileResponse(response.company_profile);
     }
   }
 
@@ -304,6 +317,20 @@ class GetSessionResult {
     }
 
     return this.resources.filterForCheck(checkResponse);
+  }
+
+  /**
+   * @returns {string|undefined}
+   */
+  getOrganisationName() {
+    return this.organisationName;
+  }
+
+  /**
+   * @returns {CompanyProfileResponse|undefined}
+   */
+  getCompanyProfile() {
+    return this.companyProfile;
   }
 }
 

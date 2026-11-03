@@ -7,6 +7,7 @@ const faceMatchCheckController = require('./face.match.check.controller');
 const watchlistCheckController = require('./watchlist.check.controller');
 const suppressedScreensCheckController = require('./suppressed.screens.check.controller');
 const didDocumentsCheckController = require('./did.documents.check.controller');
+const companyNameDemoController = require('./company.name.demo.controller');
 
 module.exports = {
   authenticityAndIdentityCheckController,
@@ -18,4 +19,5 @@ module.exports = {
   watchlistCheckController,
   suppressedScreensCheckController,
   didDocumentsCheckController,
+  companyNameDemoController,
 };
