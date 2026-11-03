@@ -1,14 +1,7 @@
 {
+    // Optional full dependency audit: npx audit-ci --config ./audit-ci.jsonc
+    // npm run audit uses npm directly for the production dependency graph.
     "moderate": true,
-    // The production dependency graph is the security boundary for the SDK.
-    // Development-only Jest/ESLint advisories currently require major upgrades
-    // that would drop the repository's supported Node 14 range.
-    "skip-dev": true, // Keep CI focused on shipped dependencies.
-    "allowlist": [
-      "GHSA-hp3w-g68c-fv3c", // from jest - no fix available at time of writing
-      "GHSA-vfj7-8cjw-p6xm", // from eslint-config-airbnb-extended - no fix available at time of writing
-      "GHSA-3g3m-2fjr-6pw4", // glob in the skipped development toolchain
-      "GHSA-g3hv-75wg-m249" // minimatch in the skipped development toolchain
-    ]
+    "skip-dev": false,
+    "allowlist": []
 }
-
