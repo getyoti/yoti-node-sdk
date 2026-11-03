@@ -1,8 +1,7 @@
 {
+    // Optional full dependency audit: npx audit-ci --config ./audit-ci.jsonc
+    // npm run audit uses npm directly for the production dependency graph.
     "moderate": true,
     "skip-dev": false,
-    "allowlist": [
-      "GHSA-hp3w-g68c-fv3c", // from jest - no fix available at time of writing
-      "GHSA-vfj7-8cjw-p6xm" // from eslint-config-airbnb-extended - no fix available at time of writing
-    ]
+    "allowlist": []
 }
