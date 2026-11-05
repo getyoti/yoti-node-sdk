@@ -1,0 +1,117 @@
+name: Publish
+
+# Publishes `yoti` to npmjs using npm Trusted Publishing (OIDC).
+# No npm token anywhere: npm trusts this exact repo + workflow file + environment.
+#
+# Release flow:
+#   1. Bump version in package.json (as today), merge to master.
+#   2. Create a GitHub release with tag v<version> (e.g. v4.16.2) targeting master.
+#   3. This workflow builds, tests, packs, then publishes after approval in the `npm` environment.
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build and pack
+    runs-on: ubuntu-latest
+    outputs:
+      tarball: ${{ steps.pack.outputs.tarball }}
+      dist-tag: ${{ steps.version.outputs.dist-tag }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '26.13.0'
+
+      - run: npm install --global npm@12.2.2
+
+      - name: Check tag matches package.json
+        id: version
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+          PRERELEASE: ${{ github.event.release.prerelease }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if [ "$TAG" != "v$version" ]; then
+            echo "::error::Release tag $TAG does not match package.json version v$version"
+            exit 1
+          fi
+          case "$version" in
+            *-*) dist_tag=next ;;
+            *)   dist_tag=latest ;;
+          esac
+          if [ "$PRERELEASE" = "true" ] && [ "$dist_tag" = "latest" ]; then
+            echo "::error::Release is marked prerelease but $version has no prerelease suffix"
+            exit 1
+          fi
+          if npm view "yoti@$version" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+            echo "::error::yoti@$version is already published"
+            exit 1
+          fi
+          echo "dist-tag=$dist_tag" >> "$GITHUB_OUTPUT"
+
+      - run: npm ci --ignore-scripts --no-audit
+
+      - run: npm run audit
+
+      - run: npm test
+
+      - name: Pack
+        id: pack
+        run: |
+          tarball=$(npm pack --ignore-scripts --json | node -p "JSON.parse(require('fs').readFileSync(0))[0].filename")
+          echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
+          sha256sum "$tarball"
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: package
+          path: ${{ steps.pack.outputs.tarball }}
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    name: Publish to npmjs
+    needs: build
+    runs-on: ubuntu-latest
+    # Must match the environment configured as the trusted publisher on npmjs.
+    # Protect it with required reviewers and restrict it to v* tags.
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/yoti
+    permissions:
+      contents: read
+      id-token: write # OIDC token for npm trusted publishing + provenance
+    steps:
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '26.13.0'
+          registry-url: https://registry.npmjs.org
+
+      - run: npm install --global npm@12.2.2
+
+      - run: echo "node $(node --version), npm $(npm --version)"
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: package
+
+      - name: Publish
+        env:
+          TARBALL: ${{ needs.build.outputs.tarball }}
+          DIST_TAG: ${{ needs.build.outputs.dist-tag }}
+        run: |
+          sha256sum "$TARBALL"
+          npm publish "$TARBALL" --access public --tag "$DIST_TAG" --provenance --ignore-scripts
